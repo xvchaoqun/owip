@@ -86,41 +86,6 @@ public class AttachFileService extends BaseMapper {
     @Transactional
 	public void changeOrder(int id, int addNum) {
 
-		if(addNum == 0) return ;
-		byte orderBy = ORDER_BY_DESC;
-		AttachFile entity = attachFileMapper.selectByPrimaryKey(id);
-		Integer baseSortOrder = entity.getSortOrder();
-
-		String tableName = "sys_attach_file";
-        String whereSql = null;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-		AttachFileExample example = new AttachFileExample();
-		if (addNum*orderBy > 0) {
-
-			example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-			example.setOrderByClause("sort_order asc");
-		}else {
-
-			example.createCriteria().andSortOrderLessThan(baseSortOrder);
-			example.setOrderByClause("sort_order desc");
-		}
-
-		List<AttachFile> overEntities = attachFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-		if(overEntities.size()>0) {
-
-			AttachFile targetEntity = overEntities.get(overEntities.size()-1);
-
-			if (addNum*orderBy > 0)
-				commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-			else
-				commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-			AttachFile record = new AttachFile();
-			record.setId(id);
-			record.setSortOrder(targetEntity.getSortOrder());
-			attachFileMapper.updateByPrimaryKeySelective(record);
-		}
+        changeOrder("sys_attach_file", null, ORDER_BY_DESC, id, addNum);
 	}
 }

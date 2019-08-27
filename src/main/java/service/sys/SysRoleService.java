@@ -6,7 +6,6 @@ import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -138,43 +137,7 @@ public class SysRoleService extends BaseMapper {
 	@Transactional
 	public void changeOrder(int id, int addNum) {
 
-		if(addNum == 0) return ;
-		byte orderBy = ORDER_BY_DESC;
-		SysRole entity = sysRoleMapper.selectByPrimaryKey(id);
-		Integer baseSortOrder = entity.getSortOrder();
-
-		String tableName = "sys_role";
-        String whereSql = null;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-		SysRoleExample example = new SysRoleExample();
-		if (addNum*orderBy > 0) {
-
-			example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-			example.setOrderByClause("sort_order asc");
-		}else {
-
-			example.createCriteria().andSortOrderLessThan(baseSortOrder);
-			example.setOrderByClause("sort_order desc");
-		}
-
-		List<SysRole> overEntities = sysRoleMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-		if(overEntities.size()>0) {
-
-			SysRole targetEntity = overEntities.get(overEntities.size()-1);
-
-			if (addNum*orderBy > 0)
-				commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-			else
-				commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-			SysRole record = new SysRole();
-			record.setId(id);
-			record.setSortOrder(targetEntity.getSortOrder());
-			sysRoleMapper.updateByPrimaryKeySelective(record);
-		}
-
+		changeOrder("sys_role", null, ORDER_BY_DESC, id, addNum);
 		cacheHelper.clearRoleCache();
 	}
 

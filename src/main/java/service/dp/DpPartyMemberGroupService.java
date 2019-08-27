@@ -269,38 +269,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     @CacheEvict(value = "DpPartyMemberGroup:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        changeOrder("dp_party_member_group", null, ORDER_BY_DESC, id, addNum);
 
-        byte orderBy = ORDER_BY_DESC;
-
-        DpPartyMemberGroup entity = dpPartyMemberGroupMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<DpPartyMemberGroup> overEntities = dpPartyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            DpPartyMemberGroup targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("dp_party_member_group", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("dp_party_member_group", null, baseSortOrder, targetEntity.getSortOrder());
-
-            DpPartyMemberGroup record = new DpPartyMemberGroup();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            dpPartyMemberGroupMapper.updateByPrimaryKeySelective(record);
-        }
     }
 }

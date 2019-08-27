@@ -2,7 +2,6 @@ package service.base;
 
 import domain.base.AnnualType;
 import domain.base.AnnualTypeExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -74,44 +73,7 @@ public class AnnualTypeService extends BaseMapper {
     @CacheEvict(value = "AnnualTypes", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
         AnnualType entity = annualTypeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        byte module = entity.getModule();
-
-        String tableName = "base_annual_type";
-        String whereSql = "module="+ module;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-        AnnualTypeExample example = new AnnualTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andModuleEqualTo(module).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andModuleEqualTo(module).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<AnnualType> overEntities = annualTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            AnnualType targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            AnnualType record = new AnnualType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            annualTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("base_annual_type", "module="+ entity.getModule(), ORDER_BY_DESC, id, addNum);
     }
 }

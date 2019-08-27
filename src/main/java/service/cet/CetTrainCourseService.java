@@ -126,40 +126,8 @@ public class CetTrainCourseService extends CetBaseMapper {
     @CacheEvict(value = "CetTrainCourses", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         CetTrainCourse entity = cetTrainCourseMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer trainId = entity.getTrainId();
-
-        CetTrainCourseExample example = new CetTrainCourseExample();
-        if (addNum * orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder)
-                    .andTrainIdEqualTo(trainId);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder)
-                    .andTrainIdEqualTo(trainId);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CetTrainCourse> overEntities = cetTrainCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            CetTrainCourse targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum * orderBy > 0)
-                commonMapper.downOrder("cet_train_course", "train_id=" + trainId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_train_course", "train_id=" + trainId, baseSortOrder, targetEntity.getSortOrder());
-
-            CetTrainCourse record = new CetTrainCourse();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetTrainCourseMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_train_course", "train_id=" + entity.getTrainId(), ORDER_BY_ASC, id, addNum);
     }
 
     // 添加课程

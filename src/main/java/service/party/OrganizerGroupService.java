@@ -5,7 +5,6 @@ import domain.party.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -59,39 +58,7 @@ public class OrganizerGroupService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
-        OrganizerGroup entity = organizerGroupMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        OrganizerGroupExample example = new OrganizerGroupExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<OrganizerGroup> overEntities = organizerGroupMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            OrganizerGroup targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("ow_organizer_group", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_organizer_group", null, baseSortOrder, targetEntity.getSortOrder());
-
-            OrganizerGroup record = new OrganizerGroup();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            organizerGroupMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ow_organizer_group", null, ORDER_BY_DESC, id, addNum);
     }
 
     public List<OrganizerGroupUnit> getUnits(int groupId){
@@ -157,44 +124,10 @@ public class OrganizerGroupService extends BaseMapper {
     @Transactional
     public void unitChangeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         OrganizerGroupUnit entity = organizerGroupUnitMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
+        changeOrder("ow_organizer_group_unit", "group_id="+ entity.getGroupId(), ORDER_BY_ASC, id, addNum);
+
         int groupId = entity.getGroupId();
-
-        OrganizerGroupUnitExample example = new OrganizerGroupUnitExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<OrganizerGroupUnit> overEntities = organizerGroupUnitMapper
-                .selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            OrganizerGroupUnit targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("ow_organizer_group_unit",
-                        "group_id="+ entity.getGroupId(), baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_organizer_group_unit",
-                        "group_id="+ entity.getGroupId(), baseSortOrder, targetEntity.getSortOrder());
-
-            OrganizerGroupUnit record = new OrganizerGroupUnit();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            organizerGroupUnitMapper.updateByPrimaryKeySelective(record);
-        }
-
         updateUnits(groupId);
     }
 
@@ -261,44 +194,9 @@ public class OrganizerGroupService extends BaseMapper {
     @Transactional
     public void userChangeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         OrganizerGroupUser entity = organizerGroupUserMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        int groupId = entity.getGroupId();
-
-        OrganizerGroupUserExample example = new OrganizerGroupUserExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<OrganizerGroupUser> overEntities = organizerGroupUserMapper
-                .selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            OrganizerGroupUser targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("ow_organizer_group_user",
-                        "group_id="+ entity.getGroupId(), baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_organizer_group_user",
-                        "group_id="+ entity.getGroupId(), baseSortOrder, targetEntity.getSortOrder());
-
-            OrganizerGroupUser record = new OrganizerGroupUser();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            organizerGroupUserMapper.updateByPrimaryKeySelective(record);
-        }
-
+        changeOrder("ow_organizer_group_user", "group_id="+ entity.getGroupId(), ORDER_BY_ASC, id, addNum);
+        Integer groupId = entity.getGroupId();
         updateOrganizers(groupId);
     }
 }

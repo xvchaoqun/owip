@@ -2,7 +2,6 @@ package service.dr;
 
 import domain.dr.DrVoterType;
 import domain.dr.DrVoterTypeExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -84,40 +83,7 @@ public class DrVoterTypeService extends DrBaseMapper {
     @CacheEvict(value = "DrVoterType:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         DrVoterType entity = drVoterTypeMapper.selectByPrimaryKey(id);
-        Integer tplId = entity.getTplId();
-        Integer baseSortOrder = entity.getSortOrder();
-
-        DrVoterTypeExample example = new DrVoterTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andTplIdEqualTo(tplId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andTplIdEqualTo(tplId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<DrVoterType> overEntities = drVoterTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            DrVoterType targetEntity = overEntities.get(overEntities.size()-1);
-
-            String whereSql = "tpl_id=" + tplId;
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("dr_voter_type", whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("dr_voter_type", whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            DrVoterType record = new DrVoterType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            drVoterTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("dr_voter_type", "tpl_id=" + entity.getTplId(), ORDER_BY_ASC, id, addNum);
     }
 }

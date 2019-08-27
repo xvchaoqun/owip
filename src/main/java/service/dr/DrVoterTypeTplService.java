@@ -2,7 +2,6 @@ package service.dr;
 
 import domain.dr.DrVoterTypeTpl;
 import domain.dr.DrVoterTypeTplExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -82,38 +81,6 @@ public class DrVoterTypeTplService extends DrBaseMapper {
     @CacheEvict(value = "DrVoterTypeTpl:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
-        DrVoterTypeTpl entity = drVoterTypeTplMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        DrVoterTypeTplExample example = new DrVoterTypeTplExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<DrVoterTypeTpl> overEntities = drVoterTypeTplMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            DrVoterTypeTpl targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("dr_voter_type_tpl", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("dr_voter_type_tpl", null, baseSortOrder, targetEntity.getSortOrder());
-
-            DrVoterTypeTpl record = new DrVoterTypeTpl();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            drVoterTypeTplMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("dr_voter_type_tpl", null, ORDER_BY_DESC, id, addNum);
     }
 }

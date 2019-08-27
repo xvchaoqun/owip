@@ -3,7 +3,6 @@ package service.crs;
 import controller.global.OpException;
 import domain.crs.CrsApplyUser;
 import domain.crs.CrsApplyUserExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -11,7 +10,6 @@ import sys.constants.CrsConstants;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class CrsApplyUserService extends CrsBaseMapper {
@@ -71,38 +69,7 @@ public class CrsApplyUserService extends CrsBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         CrsApplyUser entity = crsApplyUserMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer postId = entity.getPostId();
-        CrsApplyUserExample example = new CrsApplyUserExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andPostIdEqualTo(postId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andPostIdEqualTo(postId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CrsApplyUser> overEntities = crsApplyUserMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CrsApplyUser targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("crs_apply_user", "post_id=" + postId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("crs_apply_user", "post_id=" + postId, baseSortOrder, targetEntity.getSortOrder());
-
-            CrsApplyUser record = new CrsApplyUser();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            crsApplyUserMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("crs_apply_user", "post_id=" + entity.getPostId(), ORDER_BY_ASC, id, addNum);
     }
 }

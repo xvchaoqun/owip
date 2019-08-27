@@ -144,44 +144,7 @@ public class CmMemberService extends CmBaseMapper {
     @CacheEvict(value = "CmMembers", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
         CmMember entity = cmMemberMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Byte type = entity.getType();
-        Boolean isQuit = entity.getIsQuit();
-
-        CmMemberExample example = new CmMemberExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andTypeEqualTo(type)
-                    .andIsQuitEqualTo(isQuit).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andTypeEqualTo(type)
-                    .andIsQuitEqualTo(isQuit).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CmMember> overEntities = cmMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CmMember targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cm_member", "type="+type + " and is_quit="+ isQuit,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cm_member", "type="+type + " and is_quit="+ isQuit,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            CmMember record = new CmMember();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cmMemberMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cm_member", "type="+entity.getType() + " and is_quit="+ entity.getIsQuit(), ORDER_BY_DESC, id, addNum);
     }
 }

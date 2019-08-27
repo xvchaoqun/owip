@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.member.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class ApplySnRangeService extends MemberBaseMapper {
@@ -157,42 +155,7 @@ public class ApplySnRangeService extends MemberBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
         ApplySnRange entity = applySnRangeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer year = entity.getYear();
-
-        ApplySnRangeExample example = new ApplySnRangeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andYearEqualTo(year).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andYearEqualTo(year).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<ApplySnRange> overEntities = applySnRangeMapper.selectByExampleWithRowbounds(example,
-                new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            ApplySnRange targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("ow_apply_sn_range", "year="+year,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_apply_sn_range", "year="+year,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            ApplySnRange record = new ApplySnRange();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            applySnRangeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ow_apply_sn_range", "year="+entity.getYear(), ORDER_BY_DESC, id, addNum);
     }
 }

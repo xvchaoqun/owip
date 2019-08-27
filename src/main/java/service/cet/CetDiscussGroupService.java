@@ -1,7 +1,6 @@
 package service.cet;
 
 import domain.cet.*;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +8,6 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class CetDiscussGroupService extends CetBaseMapper {
@@ -60,43 +58,8 @@ public class CetDiscussGroupService extends CetBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         CetDiscussGroup entity = cetDiscussGroupMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer discussId = entity.getDiscussId();
-
-        CetDiscussGroupExample example = new CetDiscussGroupExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andDiscussIdEqualTo(discussId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andDiscussIdEqualTo(discussId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CetDiscussGroup> overEntities = cetDiscussGroupMapper.selectByExampleWithRowbounds(example,
-                new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CetDiscussGroup targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_discuss_group", "discuss_id="+discussId,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_discuss_group", "discuss_id="+discussId,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            CetDiscussGroup record = new CetDiscussGroup();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetDiscussGroupMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_discuss_group", "discuss_id="+entity.getDiscussId(), ORDER_BY_ASC, id, addNum);
     }
 
     @Transactional

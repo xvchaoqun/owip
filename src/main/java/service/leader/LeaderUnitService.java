@@ -2,14 +2,12 @@ package service.leader;
 
 import domain.leader.LeaderUnit;
 import domain.leader.LeaderUnitExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class LeaderUnitService extends BaseMapper {
@@ -81,39 +79,7 @@ public class LeaderUnitService extends BaseMapper {
     @CacheEvict(value = "LeaderUnit:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         LeaderUnit entity = leaderUnitMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer userId = entity.getUserId();
-
-        LeaderUnitExample example = new LeaderUnitExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<LeaderUnit> overEntities = leaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            LeaderUnit targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("leader_unit", "user_id="+userId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("leader_unit", "user_id="+userId, baseSortOrder, targetEntity.getSortOrder());
-
-            LeaderUnit record = new LeaderUnit();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            leaderUnitMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("leader_unit", "user_id="+entity.getUserId(), ORDER_BY_ASC, id, addNum);
     }
 }

@@ -22,43 +22,9 @@ public class PcsProposalOwService extends PcsBaseMapper {
     @Transactional
     public void changeOrder(int candidateId, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         PcsPrCandidate entity = pcsPrCandidateMapper.selectByPrimaryKey(candidateId);
-        Integer baseSortOrder = entity.getProposalSortOrder();
         Assert.isTrue(entity.getIsProposal(), "不在党代表名单中");
-
-        PcsPrCandidateExample example = new PcsPrCandidateExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andIsProposalEqualTo(true)
-                    .andProposalSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("proposal_sort_order asc");
-        } else {
-
-            example.createCriteria().andIsProposalEqualTo(true)
-                    .andProposalSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("proposal_sort_order desc");
-        }
-
-        List<PcsPrCandidate> overEntities =
-                pcsPrCandidateMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PcsPrCandidate targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder2(TABLE_NAME, "proposal_sort_order",
-                        "is_proposal=1", baseSortOrder, targetEntity.getProposalSortOrder());
-            else
-                commonMapper.upOrder2(TABLE_NAME, "proposal_sort_order",
-                        "is_proposal=1", baseSortOrder, targetEntity.getProposalSortOrder());
-
-            PcsPrCandidate record = new PcsPrCandidate();
-            record.setId(candidateId);
-            record.setProposalSortOrder(targetEntity.getProposalSortOrder());
-            pcsPrCandidateMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "is_proposal=1", ORDER_BY_ASC, candidateId, addNum);
     }
 
     // 审核通过之后，自动给这个提案赋予一个编号，规则是“TA2017001”,按照顺序往下排。
