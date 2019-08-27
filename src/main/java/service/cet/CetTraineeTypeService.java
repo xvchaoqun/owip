@@ -3,7 +3,6 @@ package service.cet;
 import domain.cet.CetTraineeType;
 import domain.cet.CetTraineeTypeExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -85,38 +84,6 @@ public class CetTraineeTypeService extends CetBaseMapper {
     @CacheEvict(value="CetTraineeType:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
-        CetTraineeType entity = cetTraineeTypeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        CetTraineeTypeExample example = new CetTraineeTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CetTraineeType> overEntities = cetTraineeTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CetTraineeType targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_trainee_type", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_trainee_type", null, baseSortOrder, targetEntity.getSortOrder());
-
-            CetTraineeType record = new CetTraineeType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetTraineeTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_trainee_type", null, ORDER_BY_ASC, id, addNum);
     }
 }

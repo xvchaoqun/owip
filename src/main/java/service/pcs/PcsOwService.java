@@ -81,49 +81,10 @@ public class PcsOwService extends PcsBaseMapper {
     @Transactional
     public void changeOrder(int chosenId, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         PcsCandidateChosen entity = pcsCandidateChosenMapper.selectByPrimaryKey(chosenId);
-        Integer baseSortOrder = entity.getSortOrder();
-        int configId = entity.getConfigId();
-        byte stage = entity.getStage();
-        byte type = entity.getType();
-
-        PcsCandidateChosenExample example = new PcsCandidateChosenExample();
-        if (addNum*orderBy > 0){ // 升序
-
-            example.createCriteria().andConfigIdEqualTo(configId)
-                    .andStageEqualTo(stage)
-                    .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andConfigIdEqualTo(configId)
-                    .andStageEqualTo(stage)
-                    .andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PcsCandidateChosen> overEntities =
-                pcsCandidateChosenMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PcsCandidateChosen targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(TABLE_NAME,  "config_id=" + configId +
-                        " and stage=" + stage +
-                        " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME,  "config_id=" + configId +
-                        " and stage=" + stage +
-                        " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-
-            PcsCandidateChosen record = new PcsCandidateChosen();
-            record.setId(chosenId);
-            record.setSortOrder(targetEntity.getSortOrder());
-            pcsCandidateChosenMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "config_id=" + entity.getConfigId() +
+                " and stage=" + entity.getStage() +
+                " and type=" + entity.getType(), ORDER_BY_ASC, chosenId, addNum);
     }
 
     // 下发名单

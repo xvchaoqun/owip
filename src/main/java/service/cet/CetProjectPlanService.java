@@ -2,7 +2,6 @@ package service.cet;
 
 import domain.cet.CetProjectPlan;
 import domain.cet.CetProjectPlanExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -86,39 +85,7 @@ public class CetProjectPlanService extends CetBaseMapper {
     @CacheEvict(value="CetProjectPlans", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_ASC;
-
         CetProjectPlan entity = cetProjectPlanMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer projectId = entity.getProjectId();
-
-        CetProjectPlanExample example = new CetProjectPlanExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andProjectIdEqualTo(projectId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andProjectIdEqualTo(projectId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CetProjectPlan> overEntities = cetProjectPlanMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CetProjectPlan targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_project_plan", "project_id=" + projectId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_project_plan", "project_id=" + projectId, baseSortOrder, targetEntity.getSortOrder());
-
-            CetProjectPlan record = new CetProjectPlan();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetProjectPlanMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_project_plan", "project_id=" + entity.getProjectId(), ORDER_BY_ASC, id, addNum);
     }
 }

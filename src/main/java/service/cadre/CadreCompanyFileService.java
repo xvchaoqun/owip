@@ -2,7 +2,6 @@ package service.cadre;
 
 import domain.cadre.CadreCompanyFile;
 import domain.cadre.CadreCompanyFileExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -69,39 +68,6 @@ public class CadreCompanyFileService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
-        CadreCompanyFile entity = cadreCompanyFileMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        //boolean type = entity.getType();
-
-        CadreCompanyFileExample example = new CadreCompanyFileExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CadreCompanyFile> overEntities = cadreCompanyFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CadreCompanyFile targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cadre_company_file", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cadre_company_file", null, baseSortOrder, targetEntity.getSortOrder());
-
-            CadreCompanyFile record = new CadreCompanyFile();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadreCompanyFileMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cadre_company_file", null, ORDER_BY_DESC, id, addNum);
     }
 }

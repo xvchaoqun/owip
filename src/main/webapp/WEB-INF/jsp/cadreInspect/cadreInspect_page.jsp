@@ -163,7 +163,19 @@ pageEncoding="UTF-8" %>
             }, frozen: true
             },
             <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
-            {label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true},
+            {label: '排序', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                    var op = {grid: ''}
+                    if (options != undefined && options.colModel != undefined) {
+                        op = $.extend(op, options.colModel.formatoptions);
+                    }
+
+                    return _.template($("#common_sort_tpl").html().NoMultiSpace())({
+                        grid: op.grid,
+                        id: rowObject.inspectId,
+                        url: op.url
+                    })
+                }, frozen: true},
             </c:if>
             {label: '现所在单位', name: 'unit.name', width: 200, align:'left'},
             {label: '现任职务', name: 'post', width: 200, align:'left'},

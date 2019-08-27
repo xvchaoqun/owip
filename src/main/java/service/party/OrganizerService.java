@@ -212,44 +212,8 @@ public class OrganizerService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        byte orderBy = ORDER_BY_DESC;
-
         Organizer entity = organizerMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        byte type = entity.getType();
-        byte status = entity.getStatus();
-
-        OrganizerExample example = new OrganizerExample();
-        if (addNum * orderBy > 0) {
-
-            example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(status)
-                    .andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(status)
-                    .andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Organizer> overEntities = organizerMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            Organizer targetEntity = overEntities.get(overEntities.size() - 1);
-
-            String whereSql = String.format("type=%s and status=%s", type, status);
-            if (addNum * orderBy > 0)
-                commonMapper.downOrder("ow_organizer", whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_organizer", whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            Organizer record = new Organizer();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            organizerMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("ow_organizer", String.format("type=%s and status=%s", entity.getType(), entity.getStatus()), ORDER_BY_DESC, id, addNum);
     }
 
     // 离任

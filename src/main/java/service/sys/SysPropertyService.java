@@ -3,7 +3,6 @@ package service.sys;
 import domain.sys.SysProperty;
 import domain.sys.SysPropertyExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -89,43 +88,6 @@ public class SysPropertyService extends BaseMapper {
     @CacheEvict(value = "SysProperty:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
-        SysProperty entity = sysPropertyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        String tableName = "sys_property";
-        String whereSql = null;
-        adjustSortOrder(tableName, whereSql);
-        if(baseSortOrder==null) return;
-
-        SysPropertyExample example = new SysPropertyExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<SysProperty> overEntities = sysPropertyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            SysProperty targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(tableName, whereSql, baseSortOrder, targetEntity.getSortOrder());
-
-            SysProperty record = new SysProperty();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            sysPropertyMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("sys_property", null, ORDER_BY_DESC, id, addNum);
     }
 }

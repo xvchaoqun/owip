@@ -7,8 +7,6 @@ import domain.crs.*;
 import domain.modify.ModifyCadreAuth;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -445,47 +443,7 @@ public class CrsApplicantService extends CrsBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-
-        byte orderBy = ORDER_BY_DESC;
-
         CrsApplicant entity = crsApplicantMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer postId = entity.getPostId();
-        if((BooleanUtils.isTrue(entity.getSpecialStatus())
-                ||entity.getRequireCheckStatus()==1)&&entity.getIsQuit()==false) {
-            CrsApplicantViewExample example = new CrsApplicantViewExample();
-            if (addNum * orderBy > 0) {
-
-                example.createCriteria().andPostIdEqualTo(postId)
-                        .andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
-                example.setOrderByClause("sort_order asc");
-            } else {
-
-                example.createCriteria().andPostIdEqualTo(postId)
-                        .andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false).andSortOrderLessThan(baseSortOrder);
-                example.setOrderByClause("sort_order desc");
-            }
-
-            List<CrsApplicantView> overEntities = crsApplicantViewMapper.selectByExampleWithRowbounds(example,
-                    new RowBounds(0, Math.abs(addNum)));
-            if (overEntities.size() > 0) {
-
-                CrsApplicantView targetEntity = overEntities.get(overEntities.size() - 1);
-
-                String whereSql = "post_id=" + postId + " and (special_status=1 or require_check_status=1) and is_quit=0";
-                if (addNum * orderBy > 0)
-                    commonMapper.downOrder("crs_applicant", whereSql,
-                            baseSortOrder, targetEntity.getSortOrder());
-                else
-                    commonMapper.upOrder("crs_applicant", whereSql,
-                            baseSortOrder, targetEntity.getSortOrder());
-
-                CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
-                record.setId(id);
-                record.setSortOrder(targetEntity.getSortOrder());
-                crsApplicantMapper.updateByPrimaryKeySelective(record);
-            }
-        }
+        changeOrder("crs_applicant", "post_id=" + entity.getPostId() + " and (special_status=1 or require_check_status=1) and is_quit=0", ORDER_BY_DESC, id, addNum);
     }
 }

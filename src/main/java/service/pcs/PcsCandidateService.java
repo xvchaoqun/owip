@@ -4,7 +4,6 @@ import domain.pcs.PcsCandidate;
 import domain.pcs.PcsCandidateExample;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsCandidateViewExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,40 +69,8 @@ public class PcsCandidateService extends PcsBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         PcsCandidate entity = pcsCandidateMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        int recommendId = entity.getRecommendId();
-        byte type = entity.getType();
-
-        PcsCandidateExample example = new PcsCandidateExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andRecommendIdEqualTo(recommendId).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andRecommendIdEqualTo(recommendId).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PcsCandidate> overEntities = pcsCandidateMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PcsCandidate targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(TABLE_NAME,  "recommend_id=" + recommendId
-                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME,  "recommend_id=" + recommendId
-                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-
-            PcsCandidate record = new PcsCandidate();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            pcsCandidateMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "recommend_id=" + entity.getRecommendId()
+                + " and type=" + entity.getType(), ORDER_BY_ASC, id, addNum);
     }
 }

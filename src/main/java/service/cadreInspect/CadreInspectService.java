@@ -8,13 +8,11 @@ import domain.cadreInspect.CadreInspectExample;
 import domain.cadreReserve.CadreReserve;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
@@ -350,50 +348,11 @@ public class CadreInspectService extends BaseMapper {
 
     }
 
-
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         CadreInspect entity = cadreInspectMapper.selectByPrimaryKey(id);
-        byte type = entity.getType();
-        // 只对正常状态进行排序
-        Assert.isTrue(entity.getStatus() == CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+        changeOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + entity.getType(), ORDER_BY_ASC, id, addNum);
 
-        Integer baseSortOrder = entity.getSortOrder();
-
-        CadreInspectExample example = new CadreInspectExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL)
-                    .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL)
-                    .andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CadreInspect> overEntities = cadreInspectMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            CadreInspect targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(TABLE_NAME,
-                        "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME,
-                        "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            CadreInspect record = new CadreInspect();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadreInspectMapper.updateByPrimaryKeySelective(record);
-        }
     }
 }

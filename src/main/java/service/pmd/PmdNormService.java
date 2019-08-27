@@ -3,7 +3,6 @@ package service.pmd;
 import controller.global.OpException;
 import domain.pmd.PmdNorm;
 import domain.pmd.PmdNormExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
@@ -103,38 +102,7 @@ public class PmdNormService extends PmdBaseMapper {
     @Transactional
     public void changeOrder(int chosenId, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
         PmdNorm entity = pmdNormMapper.selectByPrimaryKey(chosenId);
-        Integer baseSortOrder = entity.getSortOrder();
-        byte type = entity.getType();
-
-        PmdNormExample example = new PmdNormExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PmdNorm> overEntities =
-                pmdNormMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PmdNorm targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(TABLE_NAME,  "type=" + type, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME,  "type=" + type, baseSortOrder, targetEntity.getSortOrder());
-
-            PmdNorm record = new PmdNorm();
-            record.setId(chosenId);
-            record.setSortOrder(targetEntity.getSortOrder());
-            pmdNormMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "type=" + entity.getType(), ORDER_BY_ASC, chosenId, addNum);
     }
 }

@@ -7,7 +7,6 @@ import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,44 +83,9 @@ public class CadreCourseService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
-        byte orderBy = ORDER_BY_ASC;
-
         CadreCourse entity = cadreCourseMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Integer cadreId = entity.getCadreId();
-        Byte type = entity.getType();
-
-        CadreCourseExample example = new CadreCourseExample();
-        if (addNum*orderBy > 0) { // 下降
-
-            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CadreCourse> overEntities = cadreCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            CadreCourse targetEntity = overEntities.get(overEntities.size() - 1);
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
-                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
-                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-
-            CadreCourse record = new CadreCourse();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadreCourseMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cadre_course", "cadre_id=" + entity.getCadreId() + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
+                + " and type=" + entity.getType(), ORDER_BY_ASC, id, addNum);
     }
 
     // 更新修改申请的内容（仅允许管理员和本人更新自己的申请）

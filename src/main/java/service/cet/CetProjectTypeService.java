@@ -3,7 +3,6 @@ package service.cet;
 import domain.cet.CetProjectType;
 import domain.cet.CetProjectTypeExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -83,36 +82,6 @@ public class CetProjectTypeService extends CetBaseMapper {
     @CacheEvict(value = "CetProjectType:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
-        byte orderBy = ORDER_BY_ASC;
-        CetProjectType entity = cetProjectTypeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        CetProjectTypeExample example = new CetProjectTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CetProjectType> overEntities = cetProjectTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            CetProjectType targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_project_type", null, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_project_type", null, baseSortOrder, targetEntity.getSortOrder());
-
-            CetProjectType record = new CetProjectType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetProjectTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_project_type", null, ORDER_BY_ASC, id, addNum);
     }
 }

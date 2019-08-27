@@ -3,7 +3,6 @@ package service.pmd;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdConfigMemberTypeExample;
 import domain.pmd.PmdNorm;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,14 +10,9 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import sys.constants.PmdConstants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PmdConfigMemberTypeService extends PmdBaseMapper {
@@ -156,36 +150,6 @@ public class PmdConfigMemberTypeService extends PmdBaseMapper {
     })
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-        byte orderBy = ORDER_BY_ASC;
-        PmdConfigMemberType entity = pmdConfigMemberTypeMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();
-        if (addNum*orderBy > 0) {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PmdConfigMemberType> overEntities = pmdConfigMemberTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PmdConfigMemberType targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder(TABLE_NAME, "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME, "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
-
-            PmdConfigMemberType record = new PmdConfigMemberType();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            pmdConfigMemberTypeMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "is_deleted=0", ORDER_BY_ASC, id, addNum);
     }
 }

@@ -5,7 +5,6 @@ import domain.cadre.CadreView;
 import domain.cet.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -261,41 +260,9 @@ public class CetAnnualObjService extends CetBaseMapper {
      */
     @Transactional
     public void changeOrder(int id, int addNum) {
-        
-        if (addNum == 0) return;
-        
-        byte orderBy = ORDER_BY_DESC;
-        
+
         CetAnnualObj entity = cetAnnualObjMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        int annualId = entity.getAnnualId();
-        
-        CetAnnualObjExample example = new CetAnnualObjExample();
-        if (addNum * orderBy > 0) {
-            
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder).andAnnualIdEqualTo(annualId);
-            example.setOrderByClause("sort_order asc");
-        } else {
-            
-            example.createCriteria().andSortOrderLessThan(baseSortOrder).andAnnualIdEqualTo(annualId);
-            example.setOrderByClause("sort_order desc");
-        }
-        
-        List<CetAnnualObj> overEntities = cetAnnualObjMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-            
-            CetAnnualObj targetEntity = overEntities.get(overEntities.size() - 1);
-            
-            if (addNum * orderBy > 0)
-                commonMapper.downOrder("cet_annual_obj", "annual_id=" + annualId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cet_annual_obj", "annual_id=" + annualId, baseSortOrder, targetEntity.getSortOrder());
-            
-            CetAnnualObj record = new CetAnnualObj();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cetAnnualObjMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("cet_annual_obj", "annual_id=" + entity.getAnnualId(), ORDER_BY_DESC, id, addNum);
     }
     
     // 设定年度学习任务（批量设定）
