@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="form-group groupTopic" style="display: none">
-            <label class="col-xs-3 control-label"><span class="star">*</span>动议记xxx11录</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>动议记录</label>
             <div class="col-xs-6">
                 <select required name="groupTopicId" data-rel="select2-ajax"
                         data-ajax-url="${ctx}/sc/scGroupTopic_selects?type=${cm:getMetaTypeByCode("mt_sgt_motion").id}"
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="form-group committeeTopic" style="display: none">
-            <label class="col-xs-3 control-label"><span class="star">*</span>动议22222记录</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>动议记录</label>
             <div class="col-xs-6 committeeTopic">
                 <select required name="committeeTopicId" data-rel="select2-ajax"
                         data-ajax-url="${ctx}/sc/scCommitteeTopic_selects"

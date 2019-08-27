@@ -160,15 +160,17 @@ public class DrExportService extends DrBaseMapper {
 
                     DrVoterType drVoterType = drVoterTypeList.get(j);
 
-                    int count = candidateVoterMap.get(drVoterType.getId());
+                    Integer count = candidateVoterMap.get(drVoterType.getId());
                     Integer totalCount = voterMap.get(drVoterType.getId());
 
                     cell = row.getCell(column++);
-                    cell.setCellValue(count);
+                    if(count!=null) {
+                        cell.setCellValue(count);
+                    }
                     cell = row.getCell(column++);
                     if(totalCount==null || totalCount==0)
                         cell.setCellValue("0.0%");
-                    else
+                    else if(count!=null)
                         cell.setCellValue(NumberUtils.formatDoubleFixed(count * 100.0 / totalCount, 1) + "%");
                 }
             }

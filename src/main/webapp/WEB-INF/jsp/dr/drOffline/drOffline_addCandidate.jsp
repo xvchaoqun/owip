@@ -63,7 +63,10 @@
             </c:if>
             <td class="bg-center">
                 <c:if test="${empty candidate}">
-                    <button id="voteBtn" type="button" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
+                    <button id="voteBtn" type="button"
+                            ${drOffline.needVoterType && voterMap.get(entity.key)<=0?'disabled':''}
+                            ${!drOffline.needVoterType && (drOffline.ballot-drOffline.invalid)<=0?'disabled':''}
+                            data-loading-text="<i class='fa fa-spinner fa-spin '></i>"
                             class="btn btn-success btn-sm">
                         <i class="fa fa-plus"></i> 添加
                     </button>
