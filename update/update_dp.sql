@@ -1,5 +1,64 @@
 
 
+-- 20190829 李阳
+-- 建表 无党派人士、其他统战人员、党外代表
+DROP TABLE IF EXISTS `dp_member_extra`;
+CREATE TABLE IF NOT EXISTS `dp_member_extra` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL COMMENT '用户id',
+  `identify_time` date DEFAULT NULL COMMENT '认证时间',
+  `present_post` varchar(50) DEFAULT NULL COMMENT '现任职务',
+  `education` varchar(50) DEFAULT NULL COMMENT '最高学历',
+  `degree` varchar(50) DEFAULT NULL COMMENT '最高学位',
+  `authorized_type` varchar(50) DEFAULT NULL COMMENT '编制类别',
+  `pro_post` varchar(50) DEFAULT NULL COMMENT '专业技术职务',
+  `mobile` int(11) DEFAULT NULL COMMENT '联系方式',
+  `unit_id` int(10) DEFAULT NULL COMMENT '所在单位',
+  `status` varchar(50) DEFAULT NULL COMMENT '状态：1无党派人士，2退出人士，3转出人士',
+  `sort_order` int(10) DEFAULT NULL COMMENT '排序',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='无党派和退出人士，无党派人士可加入中共或其他任一民主党派，故增加一个转出功能，选择党派后，自动转至相关库';
+
+DROP TABLE IF EXISTS `dp_member_other`;
+CREATE TABLE IF NOT EXISTS `dp_member_other` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL COMMENT '用户id',
+  `type` int(10) DEFAULT NULL COMMENT '所属类别（元数据）：1、华侨、归侨及侨眷；2、欧美同学会会员；3、知联会员',
+  `party_id` int(10) DEFAULT NULL COMMENT '党派id',
+  `group_id` int(10) DEFAULT NULL COMMENT '委员会id',
+  `grow_time` date DEFAULT NULL COMMENT '党派加入时间',
+  `have_job_time` date DEFAULT NULL COMMENT '参加工作时间',
+  `education` varchar(50) DEFAULT NULL COMMENT '最高学历',
+  `degree` varchar(50) DEFAULT NULL COMMENT '最高学位',
+  `school` varchar(200) DEFAULT NULL COMMENT '毕业学校',
+  `major` varchar(50) DEFAULT NULL COMMENT '所学专业',
+  `mobile` int(11) DEFAULT NULL COMMENT '联系方式',
+  `sort_order` int(10) DEFAULT NULL COMMENT '排序',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='其他统战人员。华侨、归侨及侨眷、欧美同学会会员、知联会员';
+
+DROP TABLE IF EXISTS `dp_represent`;
+CREATE TABLE IF NOT EXISTS `dp_represent` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL COMMENT '用户id',
+  `dp_party_id` int(10) unsigned DEFAULT NULL COMMENT '党派id',
+  `dp_group_id` int(10) unsigned DEFAULT NULL COMMENT '委员会id',
+  `have_job_time` date DEFAULT NULL COMMENT '参加工作时间',
+  `type` int(10) DEFAULT NULL COMMENT '所属类别(元数据)：1各级党外人大代表、政协委员、政府参事等；2党外中层干部；3党派基层组织和统战团体负责人；4党外高层次人才',
+  `level` int(10) DEFAULT NULL COMMENT '所属级别(元数据)：1党派中央、2省级、3支委',
+  `status` int(10) NOT NULL COMMENT '是否是党外代表人士：1是，2不是',
+  `education` varchar(50) DEFAULT NULL COMMENT '最高学历',
+  `degree` varchar(50) DEFAULT NULL COMMENT '最高学位',
+  `school` varchar(200) DEFAULT NULL COMMENT '毕业学校',
+  `major` varchar(50) DEFAULT NULL COMMENT '所学专业',
+  `mobile` int(11) DEFAULT NULL COMMENT '联系方式',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='党外代表人士，来自于三个方面：处级干部库提取、民主党派成员库提取、管理员录入';
+
 
 -- 20190826 李阳
 -- 视图更新 dp_party_member_view
