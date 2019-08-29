@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `dp_npm` (
   `phone` varchar(30) DEFAULT NULL COMMENT '办公电话',
   `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
   `unit_id` int(10) unsigned DEFAULT NULL COMMENT '所在单位',
-  `status` tinyint(3) DEFAULT NULL COMMENT '状态：1无党派人士，2退出人士，3转出人士',
+  `status` tinyint(3) unsigned DEFAULT NULL COMMENT '状态：1无党派人士，2退出人士，3转出人士',
   `transfer_time` date DEFAULT NULL COMMENT '退出/退出时间',
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `dp_om` (
   `phone` varchar(30) DEFAULT NULL COMMENT '办公电话',
   `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
   `is_deleted` tinyint(1) unsigned DEFAULT NULL COMMENT '是否撤销',
+  `transfer_time` date DEFAULT NULL COMMENT '撤销时间',
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
