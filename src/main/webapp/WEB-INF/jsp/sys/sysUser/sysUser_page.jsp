@@ -21,6 +21,8 @@
                         <button class="jqEditBtn btn btn-primary btn-sm">
                             <i class="fa fa-edit"></i> 修改账号
                         </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="sysUser:editInfo">
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/sysUserInfo_au"
                                 data-open-by="page" data-id-name="userId">

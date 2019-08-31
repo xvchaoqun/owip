@@ -355,21 +355,31 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_au";
     }
 
-    @RequiresPermissions("sysUser:edit")
+    @RequiresPermissions("sysUser:editInfo")
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
+    public Map do_sysUserInfo_au(int userId,
+                                 SysUserInfo record,
+                                 String proPost,
+                                 MultipartFile _avatar) throws IOException {
 
         record.setUserId(userId);
         //SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         String avatar = avatarService.uploadAvatar(_avatar);
         record.setAvatar(avatar);
 
-        sysUserService.insertOrUpdateUserInfoSelective(record);
+        TeacherInfo teacherInfo = null;
+        if(proPost!=null){
+            teacherInfo = new TeacherInfo();
+            teacherInfo.setUserId(userId);
+            teacherInfo.setProPost(proPost);
+        }
+
+        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysUser:edit")
+    @RequiresPermissions("sysUser:editInfo")
     @RequestMapping("/sysUserInfo_au")
     public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
 
@@ -379,6 +389,11 @@ public class SysUserController extends BaseController {
 
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
             modelMap.put("sysUser", sysUser);
+
+            if(sysUser.getType()==SystemConstants.USER_TYPE_JZG){
+                TeacherInfo teacherInfo = teacherInfoService.get(userId);
+                modelMap.put("teacherInfo", teacherInfo);
+            }
         }
 
         return "sys/sysUser/sysUserInfo_au";

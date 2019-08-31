@@ -263,7 +263,7 @@
                     </c:if>
                 }
             },
-            {label: '所任职务', name: 'post', width: 150, align: 'left'},
+            {label: '${param.type==CRP_RECORD_TYPE_OUT?"所任职务":"所任单位及职务"}', name: 'post', width: 150, align: 'left'},
             {
                 label: '挂职开始时间',
                 name: 'startDate',

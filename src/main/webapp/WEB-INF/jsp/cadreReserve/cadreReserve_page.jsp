@@ -10,12 +10,14 @@
 
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/cadreReserve"
-
              data-url-co="${ctx}/cadreReserve_changeOrder"
              data-url-export="${ctx}/cadreReserve_data?reserveType=${reserveType}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.adminLevel
-            ||not empty param.postType ||not empty param.title || not empty param.hasCrp|| not empty param.code }"/>
+            ||not empty param.postType ||not empty param.title || not empty param.hasCrp|| not empty param.code
+            || not empty param.unitTypes || not empty param.proPosts
+            || not empty param.startAge|| not empty param.endAge|| not empty param._birth
+             || not empty param.staffStatus|| not empty param.isTemp }"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 
@@ -87,8 +89,8 @@
                                        data-rel="tooltip" data-placement="top" title="批量导入"><i
                                             class="fa fa-upload"></i> 批量导入</a>
 
-                                    <button type="button" class="jqOpenViewBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cadreReserve_transfer"><i class="fa fa-recycle"></i> 转移
+                                    <button type="button" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/cadreReserve_transfer?reserveType=${reserveType}"><i class="fa fa-recycle"></i> 批量转移
                                     </button>
                                     </shiro:hasPermission>
                                 </c:if>
@@ -186,6 +188,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label>单位及职务</label>
+                                            <input class="form-control search-query" name="title" type="text"
+                                                   value="${param.title}"
+                                                   placeholder="请输入单位及职务">
+                                        </div>
+                                        <div class="form-group">
                                             <label>行政级别</label>
                                             <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
                                                 <option></option>
@@ -206,11 +214,65 @@
                                             </script>
                                         </div>
                                         <div class="form-group">
-                                            <label>单位及职务</label>
-                                            <input class="form-control search-query" name="title" type="text"
-                                                   value="${param.title}"
-                                                   placeholder="请输入单位及职务">
+                                            <label>部门属性</label>
+                                            <select class="multiselect" multiple="" name="unitTypes">
+                                                            <c:import url="/metaTypes?__code=mc_unit_type"/>
+                                                        </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>出生日期</label>
+                                           <div class="input-group tooltip-success" data-rel="tooltip"
+                                                             title="出生日期范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                            <input placeholder="请选择出生日期范围" data-rel="date-range-picker"
+                                                                   class="form-control date-range-picker"
+                                                                   type="text" name="_birth" value="${param._birth}"/>
+                                                        </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>年龄</label>
+                                           <input class="num" type="text" name="startAge"
+                                                               value="${param.startAge}"> 至 <input class="num"
+                                                                                                   type="text"
+                                                                                                   name="endAge"
+                                                                                                   value="${param.endAge}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>专业技术职务</label>
+                                            <select class="multiselect" multiple="" name="proPosts">
+                                                            <c:forEach items="${proPosts}" var="proPost">
+                                                                <option value="${proPost}">${proPost}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>是否在职</label>
+                                            <select data-width="100" data-rel="select2" data-placeholder="请选择" name="staffStatus">
+                                                <option></option>
+                                                <c:forEach items="${staffStatuses}" var="staffStatus">
+                                                    <option value="${staffStatus}">${staffStatus}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=staffStatus]").val('${param.staffStatus}');
+                                            </script>
+                                        </div>
+                                        <c:if test="${fn:length(isTemps)>0}">
+                                        <div class="form-group">
+                                            <label>是否临时人员</label>
+                                            <select data-width="100" data-rel="select2" data-placeholder="请选择" name="isTemp">
+                                                <option></option>
+                                                <c:forEach items="${isTemps}" var="isTemp">
+                                                    <option value="${isTemp}">${isTemp}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=isTemp]").val('${param.isTemp}');
+                                            </script>
+                                        </div>
+                                            </c:if>
                                         <div class="form-group">
                                             <label>是否有挂职经历</label>
                                             <select name="hasCrp" data-width="100" data-rel="select2"
@@ -250,6 +312,11 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<style>
+    #searchForm .num {
+        width: 50px;
+    }
+</style>
 <script type="text/template" id="sort_tpl">
     <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i
             class="fa fa-arrow-up"></i></a>
@@ -258,7 +325,10 @@
     <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i
             class="fa fa-arrow-down"></i></a>
 </script>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,

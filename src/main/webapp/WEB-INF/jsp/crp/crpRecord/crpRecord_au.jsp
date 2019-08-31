@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>所任职务</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>${type==CRP_RECORD_TYPE_OUT?'所任职务':'所任单位及职务'}</label>
                     <div class="col-xs-7">
                         <input required class="form-control" type="text" name="post" value="${crpRecord.post}">
                     </div>

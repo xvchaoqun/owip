@@ -53,6 +53,14 @@ public interface IPropertyMapper {
     @Select("select distinct pro_post from cadre_view where pro_post is not null and pro_post!='' order by pro_post asc")
     List<String> teacherProPosts();
 
+    // 是否在职（人员状态）
+    @Select("select distinct staff_status from cadre_view where staff_status is not null and staff_status!='' order by staff_status asc")
+    List<String> staffStatuses();
+
+    // 是否临时人员
+    @Select("select distinct is_temp from cadre_view where is_temp is not null and is_temp!='' order by is_temp asc")
+    List<String> isTemps();
+
     // 干部职称级别
     @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
     List<String> teacherProPostLevels();

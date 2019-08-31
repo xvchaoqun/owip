@@ -2871,6 +2871,76 @@ public class TeacherInfoExample {
             addCriterion("is_honor_retire not between", value1, value2, "isHonorRetire");
             return (Criteria) this;
         }
+
+        public Criteria andIsTempIsNull() {
+            addCriterion("is_temp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempIsNotNull() {
+            addCriterion("is_temp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempEqualTo(String value) {
+            addCriterion("is_temp =", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempNotEqualTo(String value) {
+            addCriterion("is_temp <>", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempGreaterThan(String value) {
+            addCriterion("is_temp >", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempGreaterThanOrEqualTo(String value) {
+            addCriterion("is_temp >=", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempLessThan(String value) {
+            addCriterion("is_temp <", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempLessThanOrEqualTo(String value) {
+            addCriterion("is_temp <=", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempLike(String value) {
+            addCriterion("is_temp like", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempNotLike(String value) {
+            addCriterion("is_temp not like", value, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempIn(List<String> values) {
+            addCriterion("is_temp in", values, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempNotIn(List<String> values) {
+            addCriterion("is_temp not in", values, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempBetween(String value1, String value2) {
+            addCriterion("is_temp between", value1, value2, "isTemp");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsTempNotBetween(String value1, String value2) {
+            addCriterion("is_temp not between", value1, value2, "isTemp");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

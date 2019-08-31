@@ -47,6 +47,8 @@ SELECT c.*,
 	,`t`.`manage_level` AS `manage_level`
 	,`t`.`manage_level_time` AS `manage_level_time`
 	,`t`.`arrive_time` AS `arrive_time`
+    , t.staff_status
+    , t.is_temp
 	,if(isnull(_vwt.verify_work_time), t.work_time, _vwt.verify_work_time) as work_time
 	,`t`.`work_start_time` AS `work_start_time`
 	,t.talent_title

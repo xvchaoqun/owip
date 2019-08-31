@@ -154,6 +154,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected CadreRewardMapper cadreRewardMapper;
     @Autowired(required = false)
+    protected CadrePunishMapper cadrePunishMapper;
+    @Autowired(required = false)
     protected CadrePaperMapper cadrePaperMapper;
     @Autowired(required = false)
     protected CadreResearchMapper cadreResearchMapper;

@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.CadreReserveCount;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -87,13 +89,13 @@ public class CadreReserveController extends BaseController {
     // 转移
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping("/cadreReserve_transfer")
-    public String cadreReserve_transfer(int id, ModelMap modelMap) {
+    public String cadreReserve_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
-        modelMap.put("cadreReserve", cadreReserve);
-
-        if(cadreReserve!=null){
-            modelMap.put("cadre", CmTag.getCadreById(cadreReserve.getCadreId()));
+        if (ids != null && ids.length == 1) {
+            CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(ids[0]);
+            if (cadreReserve != null) {
+                modelMap.put("cadre", CmTag.getCadreById(cadreReserve.getCadreId()));
+            }
         }
 
         return "cadreReserve/cadreReserve_transfer";
@@ -102,20 +104,25 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReserve_transfer(int cadreId, int type) {
+    public Map do_cadreReserve_transfer(@RequestParam(value = "ids[]") Integer[] ids, int type) {
 
         Map<Integer, MetaType> reserveTypeMap = CmTag.getMetaTypes("mc_cadre_reserve_type");
-        if(!reserveTypeMap.containsKey(type)){
-            return failed("转移至不存在。");
+        if (!reserveTypeMap.containsKey(type)) {
+            return failed("转移库不存在。");
         }
 
-        CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadreId);
-        if(cadreReserve!=null) {
-            if (cadreReserve.getType() == type) {
-                return failed("不允许转移至相同的库。");
-            }
+        if (ids != null) {
+            for (Integer id : ids) {
 
-            cadreReserveService.updateType(cadreReserve.getId(), type);
+                CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+                if (cadreReserve != null) {
+                    if (cadreReserve.getType() == type) {
+                        return failed("不允许转移至相同的库。");
+                    }
+
+                    cadreReserveService.updateType(cadreReserve.getId(), type);
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -124,6 +131,8 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve(Byte status, Integer reserveType,
+                               @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                               @RequestParam(required = false, value = "proPosts") String[] proPosts,
                                Integer cadreId, ModelMap modelMap) {
 
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
@@ -143,6 +152,17 @@ public class CadreReserveController extends BaseController {
 
         modelMap.put("status", status);
         modelMap.put("reserveType", reserveType);
+        if (unitTypes != null) {
+            modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+        }
+
+        modelMap.put("staffStatuses", iPropertyMapper.staffStatuses());
+        modelMap.put("isTemps", iPropertyMapper.isTemps());
+
+        modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
+        if (proPosts != null) {
+            modelMap.put("selectProPosts", Arrays.asList(proPosts));
+        }
 
         if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
@@ -180,10 +200,17 @@ public class CadreReserveController extends BaseController {
     @RequestMapping("/cadreReserve_data")
     public void cadreReserve_data(HttpServletResponse response, Byte status, Integer reserveType,
                                   Integer cadreId,
+                                  Integer startAge,
+                                  Integer endAge,
+                                  @RequestDateRange DateRange _birth,
+                                  @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+                                  @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                                   Integer adminLevel,
                                   Integer postType,
                                   String title,
                                   Boolean hasCrp, // 是否有干部挂职经历
+                                  String staffStatus,
+                                  String isTemp,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -237,6 +264,33 @@ public class CadreReserveController extends BaseController {
         }
         if (hasCrp != null) {
             criteria.andHasCrpEqualTo(hasCrp);
+        }
+        if (_birth.getStart() != null) {
+            criteria.andBirthGreaterThanOrEqualTo(_birth.getStart());
+        }
+
+        if (_birth.getEnd() != null) {
+            criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
+        }
+        if (endAge != null) {
+            //  >= 不含（减一）
+            criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1)));
+        }
+        if (startAge != null) {
+            // <= 包含
+            criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));
+        }
+        if (unitTypes != null) {
+            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
+        }
+        if (proPosts != null) {
+            criteria.andProPostIn(Arrays.asList(proPosts));
+        }
+        if(StringUtils.isNotBlank(staffStatus)){
+            criteria.andStaffStatusEqualTo(staffStatus);
+        }
+        if(StringUtils.isNotBlank(isTemp)){
+            criteria.andIsTempEqualTo(isTemp);
         }
 
         if (export == 1) {
@@ -399,6 +453,7 @@ public class CadreReserveController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("cadreReserve:abolish")
     @RequestMapping(value = "/cadreReserve_unAbolish", method = RequestMethod.POST)
     @ResponseBody
@@ -485,11 +540,11 @@ public class CadreReserveController extends BaseController {
             Cadre record = new Cadre();
 
             String userCode = StringUtils.trim(xlsRow.get(0));
-            if(StringUtils.isBlank(userCode)){
+            if (StringUtils.isBlank(userCode)) {
                 throw new OpException("第{0}行工作证号为空", row);
             }
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null){
+            if (uv == null) {
                 throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
             }
             int userId = uv.getId();

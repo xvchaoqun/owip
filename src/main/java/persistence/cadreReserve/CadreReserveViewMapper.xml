@@ -69,6 +69,8 @@
     <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
     <result column="manage_level_time" jdbcType="DATE" property="manageLevelTime" />
     <result column="arrive_time" jdbcType="DATE" property="arriveTime" />
+    <result column="staff_status" jdbcType="VARCHAR" property="staffStatus" />
+    <result column="is_temp" jdbcType="VARCHAR" property="isTemp" />
     <result column="work_time" jdbcType="DATE" property="workTime" />
     <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
     <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
@@ -138,12 +140,12 @@
     dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, ow_grow_time, 
     ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, major, degree, 
     post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
-    pro_post, manage_level, manage_level_time, arrive_time, work_time, work_start_time, 
-    main_cadre_post_id, is_principal, lp_dispatch_id, lp_work_time, np_dispatch_id, np_work_time, 
-    leader_type, cadre_post_year, admin_level_year, s_dispatch_id, s_work_time, e_dispatch_id, 
-    e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, 
-    max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_group, 
-    verify_birth, verify_work_time
+    pro_post, manage_level, manage_level_time, arrive_time, staff_status, is_temp, work_time, 
+    work_start_time, main_cadre_post_id, is_principal, lp_dispatch_id, lp_work_time, 
+    np_dispatch_id, np_work_time, leader_type, cadre_post_year, admin_level_year, s_dispatch_id, 
+    s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, max_ce_edu_attr, 
+    max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, 
+    unit_type_group, verify_birth, verify_work_time
   </sql>
   <sql id="Blob_Column_List">
     talent_title

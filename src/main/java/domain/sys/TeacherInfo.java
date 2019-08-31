@@ -86,6 +86,8 @@ public class TeacherInfo implements Serializable {
 
     private Boolean isHonorRetire;
 
+    private String isTemp;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -414,5 +416,13 @@ public class TeacherInfo implements Serializable {
 
     public void setIsHonorRetire(Boolean isHonorRetire) {
         this.isHonorRetire = isHonorRetire;
+    }
+
+    public String getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(String isTemp) {
+        this.isTemp = isTemp == null ? null : isTemp.trim();
     }
 }

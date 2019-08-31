@@ -99,7 +99,11 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    public void insertOrUpdateUserInfoSelective(SysUserInfo record) {
+    public void insertOrUpdateUserInfoSelective(SysUserInfo record){
+        insertOrUpdateUserInfoSelective(record, null);
+    }
+    @Transactional
+    public void insertOrUpdateUserInfoSelective(SysUserInfo record, TeacherInfo teacherInfo) {
 
         SysUser _sysUser = dbFindById(record.getUserId());
         SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
@@ -110,6 +114,11 @@ public class SysUserService extends BaseMapper {
                 record.setRealname(StringUtils.trimToEmpty(sysUserInfo.getRealname()));
             }
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
+        }
+
+        if(teacherInfo!=null){
+            teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
+            cacheHelper.clearUserCache(_sysUser);
         }
 
         cacheHelper.clearUserCache(_sysUser);
@@ -583,7 +592,7 @@ public class SysUserService extends BaseMapper {
 
         for (SysUserInfo record : records) {
 
-            insertOrUpdateUserInfoSelective(record);
+            insertOrUpdateUserInfoSelective(record, null);
         }
 
         cacheHelper.clearCadreCache();

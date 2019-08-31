@@ -92,7 +92,7 @@
                 <shiro:hasPermission name="cadreReward:*">
                     <li class="${to=='cadreReward_page'?'active':''}">
                         <a href="javascript:;"
-                           data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&_auth=${param._auth}">其他奖励情况</a>
+                           data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&_auth=${param._auth}">其他奖惩情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreFamily:*">

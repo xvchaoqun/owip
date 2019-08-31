@@ -125,10 +125,10 @@ public class CadreController extends BaseController {
         }
 
         modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
-        modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
         if (proPosts != null) {
             modelMap.put("selectProPosts", Arrays.asList(proPosts));
         }
+        modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
         if (proPostLevels != null) {
             modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
         }

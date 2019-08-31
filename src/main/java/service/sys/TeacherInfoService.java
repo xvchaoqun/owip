@@ -5,7 +5,6 @@ import domain.sys.TeacherInfoExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
@@ -37,12 +36,6 @@ public class TeacherInfoService extends BaseMapper {
         return teacherInfoMapper.countByExample(example) > 0;
     }
 
-    @Transactional
-    public void insertSelective(TeacherInfo record){
-
-        Assert.isTrue(!idDuplicate(record.getUserId()), "duplicate");
-        teacherInfoMapper.insertSelective(record);
-    }
     @Transactional
     public void del(Integer userId){
 

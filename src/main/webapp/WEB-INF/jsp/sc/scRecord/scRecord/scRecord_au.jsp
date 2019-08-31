@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
                     <select required data-rel="select2" name="motionId" data-width="273" data-placeholder="请选择动议">
                         <option></option>
                         <c:forEach var="scMotion" items="${scMotions}">
-                            <option value="${scMotion.id}">${scMotion.code}</option>
+                            <option value="${scMotion.id}">${scMotion.postName}-${scMotion.code}</option>
                         </c:forEach>
                     </select>
                     <script type="text/javascript">

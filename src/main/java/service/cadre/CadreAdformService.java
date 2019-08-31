@@ -82,6 +82,8 @@ public class CadreAdformService extends BaseMapper {
     @Autowired
     protected CadreRewardService cadreRewardService;
     @Autowired
+    protected CadrePunishService cadrePunishService;
+    @Autowired
     protected CadreFamilyService cadreFamilyService;
     @Autowired
     private CacheHelper cacheHelper;
@@ -435,9 +437,15 @@ public class CadreAdformService extends BaseMapper {
         // 奖惩情况
         String _reward = cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
         if (StringUtils.isBlank(_reward)) {
-            _reward = freemarkerService.freemarker(cadreRewardService.list(cadreId),
-                    "cadreRewards", "/cadre/cadreReward.ftl");
+
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("cadreRewards", cadreRewardService.list(cadreId));
+            dataMap.put("cadrePunishes", cadrePunishService.list(cadreId));
+
+            _reward = freemarkerService.freemarker(dataMap, "/cadre/cadreReward.ftl");
         }
+
+
         bean.setReward(StringUtils.defaultIfBlank(_reward, "无"));
 
         // 工作经历

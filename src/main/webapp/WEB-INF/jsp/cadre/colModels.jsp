@@ -472,6 +472,23 @@
         }},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
+    colModels.cadrePunish = [
+        <c:if test="${_p_rewardOnlyYear}">
+        {label: '受处分年份', name: 'punishTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y'}, frozen: true},
+        </c:if>
+        <c:if test="${!_p_rewardOnlyYear}">
+        {label: '受处分年月', name: 'punishTime', formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m'}, frozen: true},
+        </c:if>
+        {label: '受何种处分', name: 'name', width: 350, align:'left', frozen: true},
+        {label: '处分单位', name: 'unit', width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.trim(val)=='')
+                return "class='danger'";
+        }},
+        {label: '是否列入干部任免审批表', name: 'listInAd', width: 190, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
+    ];
 
     colModels.cadreResearch = [
         {

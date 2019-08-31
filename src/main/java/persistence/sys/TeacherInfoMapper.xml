@@ -43,6 +43,7 @@
     <result column="is_retire" jdbcType="BIT" property="isRetire" />
     <result column="retire_time" jdbcType="DATE" property="retireTime" />
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
+    <result column="is_temp" jdbcType="VARCHAR" property="isTemp" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,7 +110,7 @@
     on_job, personnel_status, pro_post, pro_post_time, pro_post_level, pro_post_level_time, 
     title_level, manage_level, manage_level_time, office_level, office_level_time, post, 
     post_level, talent_type, talent_title, address, marital_status, is_retire, retire_time, 
-    is_honor_retire
+    is_honor_retire, is_temp
   </sql>
   <select id="selectByExample" parameterType="domain.sys.TeacherInfoExample" resultMap="BaseResultMap">
     select
@@ -155,7 +156,8 @@
       office_level, office_level_time, post, 
       post_level, talent_type, talent_title, 
       address, marital_status, is_retire, 
-      retire_time, is_honor_retire)
+      retire_time, is_honor_retire, is_temp
+      )
     values (#{userId,jdbcType=INTEGER}, #{extPhone,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, 
       #{school,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, #{degreeSchool,jdbcType=VARCHAR}, 
@@ -169,7 +171,8 @@
       #{officeLevel,jdbcType=VARCHAR}, #{officeLevelTime,jdbcType=DATE}, #{post,jdbcType=VARCHAR}, 
       #{postLevel,jdbcType=VARCHAR}, #{talentType,jdbcType=VARCHAR}, #{talentTitle,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, 
-      #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT})
+      #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, #{isTemp,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.TeacherInfo">
     insert into sys_teacher_info
@@ -297,6 +300,9 @@
       <if test="isHonorRetire != null">
         is_honor_retire,
       </if>
+      <if test="isTemp != null">
+        is_temp,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -421,6 +427,9 @@
       </if>
       <if test="isHonorRetire != null">
         #{isHonorRetire,jdbcType=BIT},
+      </if>
+      <if test="isTemp != null">
+        #{isTemp,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -556,6 +565,9 @@
       <if test="record.isHonorRetire != null">
         is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
       </if>
+      <if test="record.isTemp != null">
+        is_temp = #{record.isTemp,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -603,7 +615,8 @@
       marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
       is_retire = #{record.isRetire,jdbcType=BIT},
       retire_time = #{record.retireTime,jdbcType=DATE},
-      is_honor_retire = #{record.isHonorRetire,jdbcType=BIT}
+      is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
+      is_temp = #{record.isTemp,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -731,6 +744,9 @@
       <if test="isHonorRetire != null">
         is_honor_retire = #{isHonorRetire,jdbcType=BIT},
       </if>
+      <if test="isTemp != null">
+        is_temp = #{isTemp,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -775,7 +791,8 @@
       marital_status = #{maritalStatus,jdbcType=VARCHAR},
       is_retire = #{isRetire,jdbcType=BIT},
       retire_time = #{retireTime,jdbcType=DATE},
-      is_honor_retire = #{isHonorRetire,jdbcType=BIT}
+      is_honor_retire = #{isHonorRetire,jdbcType=BIT},
+      is_temp = #{isTemp,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.TeacherInfoExample" resultMap="BaseResultMap">

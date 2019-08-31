@@ -1,8 +1,8 @@
 package controller.sc.scRecord;
 
 import controller.sc.ScBaseController;
-import domain.sc.scMotion.ScMotion;
-import domain.sc.scMotion.ScMotionExample;
+import domain.sc.scMotion.ScMotionView;
+import domain.sc.scMotion.ScMotionViewExample;
 import domain.sc.scRecord.ScRecord;
 import domain.sc.scRecord.ScRecordView;
 import domain.sc.scRecord.ScRecordViewExample;
@@ -147,9 +147,9 @@ public class ScRecordController extends ScBaseController {
     @RequestMapping("/scRecord_au")
     public String scRecord_au(Integer id, ModelMap modelMap) {
 
-        ScMotionExample example = new ScMotionExample();
+        ScMotionViewExample example = new ScMotionViewExample();
         example.setOrderByClause("hold_date desc");
-        List<ScMotion> scMotions = scMotionMapper.selectByExample(example);
+        List<ScMotionView> scMotions = scMotionViewMapper.selectByExample(example);
         modelMap.put("scMotions", scMotions);
 
         if (id != null) {

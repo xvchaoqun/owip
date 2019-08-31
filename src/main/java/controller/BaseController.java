@@ -80,6 +80,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected CadreRewardService cadreRewardService;
     @Autowired
+    protected CadrePunishService cadrePunishService;
+    @Autowired
     protected CadreBookService cadreBookService;
     @Autowired
     protected CadreResearchService cadreResearchService;

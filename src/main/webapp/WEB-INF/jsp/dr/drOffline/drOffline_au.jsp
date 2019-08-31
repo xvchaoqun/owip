@@ -102,7 +102,7 @@
         .popover({
             container:'body',
             placement: "bottom",
-            title: '请选择岗位 <a href="javascript:;" onclick="_closePopover()" class="pull-right">关闭</a>',
+            title: '请选择岗位（从干部选任纪实-单个岗位调整（选拔方式为“民主推荐”）中选择岗位）<a href="javascript:;" onclick="_closePopover()" class="pull-right">关闭</a>',
             html:true,
             content: '<div id="popoverContent" style="width:850px;text-align: center;"><i class="fa fa-spinner fa-spin"></i> 加载中...</div>',
             trigger: "manual"});

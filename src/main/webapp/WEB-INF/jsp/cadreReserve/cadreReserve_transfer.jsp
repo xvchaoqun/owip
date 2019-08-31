@@ -3,11 +3,30 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>转移</h3>
+  <h3>批量转移</h3>
 </div>
 <div class="modal-body">
   <form autocomplete="off" disableautocomplete id="modalForm" class="form-horizontal" method="post" action="${ctx}/cadreReserve_transfer">
-  <div class="form-group">
+    <input type="hidden" name="ids[]" value="${param['ids[]']}">
+    <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+    <c:if test="${count>1}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">转移对象</label>
+            <div class="col-xs-6 label-text">
+                    已选 ${count} 人
+            </div>
+        </div>
+    </c:if>
+    <c:if test="${count==1}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">转移对象</label>
+            <div class="col-xs-6 label-text">
+                   ${cadre.realname}
+            </div>
+        </div>
+    </c:if>
+
+  <%--<div class="form-group">
       <label class="col-xs-3 control-label"><span class="star">*</span>选择转移对象</label>
       <div class="col-xs-6">
         <select required data-rel="select2-ajax"
@@ -17,7 +36,7 @@
           <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
         </select>
       </div>
-    </div>
+    </div>--%>
   <div class="form-group">
       <label class="col-xs-3 control-label"><span class="star">*</span>转移至</label>
       <div class="col-xs-6">
@@ -26,7 +45,9 @@
                 data-placeholder="请选择">
           <option></option>
          <c:forEach var="_type" items="${cm:getMetaTypes('mc_cadre_reserve_type')}">
+             <c:if test="${_type.key!=param.reserveType}">
             <option value="${_type.key}"> ${_type.value.name}</option>
+             </c:if>
          </c:forEach>
         </select>
       </div>

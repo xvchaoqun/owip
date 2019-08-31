@@ -164,6 +164,10 @@ public class CadreReserveView implements Serializable {
 
     private Date arriveTime;
 
+    private String staffStatus;
+
+    private String isTemp;
+
     private Date workTime;
 
     private Date workStartTime;
@@ -756,6 +760,22 @@ public class CadreReserveView implements Serializable {
 
     public void setArriveTime(Date arriveTime) {
         this.arriveTime = arriveTime;
+    }
+
+    public String getStaffStatus() {
+        return staffStatus;
+    }
+
+    public void setStaffStatus(String staffStatus) {
+        this.staffStatus = staffStatus == null ? null : staffStatus.trim();
+    }
+
+    public String getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(String isTemp) {
+        this.isTemp = isTemp == null ? null : isTemp.trim();
     }
 
     public Date getWorkTime() {
