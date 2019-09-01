@@ -30,7 +30,7 @@
             专业技术职务分级时间
         </td>
         <td>
-            ${cm:formatDate(teacherInfo.proPostLevelTime, "yyyy.MM")}
+            ${cm:formatDate(teacherInfo.proPostLevelTime, _p_proPostTimeFormat)}
         </td>
 
     </tr>
