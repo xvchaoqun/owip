@@ -114,7 +114,7 @@
         <div class="profile-info-row">
             <div class="profile-info-name td"> 专技职务分级时间</div>
             <div class="profile-info-value td">
-                <span class="editable">${cm:formatDate(teacherInfo.proPostLevelTime, "yyyy.MM")}</span>
+                <span class="editable">${cm:formatDate(teacherInfo.proPostLevelTime, _p_proPostTimeFormat)}</span>
             </div>
         </div>
         <div class="profile-info-row">
