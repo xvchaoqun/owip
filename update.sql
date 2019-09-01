@@ -1,4 +1,5 @@
 
+20190901
 
 ALTER TABLE `dr_offline`
 	ADD COLUMN `supervice_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '监督人员，针对会议推荐' AFTER `chief_member_id`;
@@ -13,7 +14,7 @@ left join unit_post up on up.id = sm.unit_post_id
 left join unit u on u.id = up.unit_id ;
 
 20190831
-西交  -- 北师大
+西交
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,

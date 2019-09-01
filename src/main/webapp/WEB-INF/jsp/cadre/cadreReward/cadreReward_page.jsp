@@ -11,11 +11,13 @@
             <li class="${type==1?"active":""}">
                 <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-list"></i> 奖励情况</a>
             </li>
+            <shiro:hasPermission name="cadrePunish:list">
             <li class="${type==4?"active":""}">
                 <a href="javascript:;" class="loadPage" data-load-el="#view-box .tab-content"
                    data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&type=4"><i class="fa fa-list"></i>
                     受处分情况</a>
             </li>
+            </shiro:hasPermission>
             <li class="${type==2?"active":""}">
                 <a href="javascript:;" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
             </li>
