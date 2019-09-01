@@ -13,7 +13,7 @@
   </div>
   <div class="widget-body">
     <div class="widget-main">
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped table-center">
         <thead>
         <tr>
           <th width="30">序号</th>
@@ -45,7 +45,7 @@
                  class="changeOrderBtn" data-id="${record.id}" data-direction="-1" title="下降"><i
                       class="fa fa-arrow-down"></i></a>
             </td>
-            <td>
+            <td nowrap="">
               <a class="popupBtn btn btn-primary btn-xs"
                  data-url="${ctx}/metaClass_type_au?id=${record.id}&cls=${metaClass.code}"><i class="fa fa-edit"></i>
                 修改</a>

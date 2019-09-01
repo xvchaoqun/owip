@@ -135,6 +135,7 @@ pageEncoding="UTF-8" %>
                         return names.join("，")
                     }, width: 250
                 },
+                {label: '监督人员', name: 'superviceUser.realname'},
                 { label: '推荐票样',name: 'ballotSample', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                         var hasUpload = $.trim(rowObject.ballotSample)!='';

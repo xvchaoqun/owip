@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="domain.dr.DrOffline">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="SMALLINT" property="year" />
+    <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="chief_member_id" jdbcType="INTEGER" property="chiefMemberId" />
+    <result column="supervice_user_id" jdbcType="INTEGER" property="superviceUserId" />
     <result column="members" jdbcType="VARCHAR" property="members" />
     <result column="ballot_sample" jdbcType="VARCHAR" property="ballotSample" />
     <result column="headcount" jdbcType="INTEGER" property="headcount" />
@@ -83,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, seq, type, recommend_date, record_id, chief_member_id, members, ballot_sample, 
-    headcount, scope, expect_voter_num, actual_voter_num, ballot, abstain, invalid, title, 
-    need_voter_type, voter_type_tpl_id, voters, remark
+    id, year, recommend_date, seq, type, record_id, chief_member_id, supervice_user_id, 
+    members, ballot_sample, headcount, scope, expect_voter_num, actual_voter_num, ballot, 
+    abstain, invalid, title, need_voter_type, voter_type_tpl_id, voters, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOfflineExample" resultMap="BaseResultMap">
     select
@@ -118,22 +119,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dr.DrOffline">
-    insert into dr_offline (id, year, seq, 
-      type, recommend_date, record_id, 
-      chief_member_id, members, ballot_sample, 
-      headcount, scope, expect_voter_num, 
-      actual_voter_num, ballot, abstain, 
-      invalid, title, need_voter_type, 
-      voter_type_tpl_id, voters, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{seq,jdbcType=INTEGER}, 
-      #{type,jdbcType=INTEGER}, #{recommendDate,jdbcType=DATE}, #{recordId,jdbcType=INTEGER}, 
-      #{chiefMemberId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, #{ballotSample,jdbcType=VARCHAR}, 
-      #{headcount,jdbcType=INTEGER}, #{scope,jdbcType=VARCHAR}, #{expectVoterNum,jdbcType=INTEGER}, 
-      #{actualVoterNum,jdbcType=INTEGER}, #{ballot,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, 
-      #{invalid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{needVoterType,jdbcType=BIT}, 
-      #{voterTypeTplId,jdbcType=INTEGER}, #{voters,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+    insert into dr_offline (id, year, recommend_date, 
+      seq, type, record_id, 
+      chief_member_id, supervice_user_id, members, 
+      ballot_sample, headcount, scope, 
+      expect_voter_num, actual_voter_num, ballot, 
+      abstain, invalid, title, 
+      need_voter_type, voter_type_tpl_id, voters, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, #{recommendDate,jdbcType=DATE}, 
+      #{seq,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, 
+      #{chiefMemberId,jdbcType=INTEGER}, #{superviceUserId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, 
+      #{ballotSample,jdbcType=VARCHAR}, #{headcount,jdbcType=INTEGER}, #{scope,jdbcType=VARCHAR}, 
+      #{expectVoterNum,jdbcType=INTEGER}, #{actualVoterNum,jdbcType=INTEGER}, #{ballot,jdbcType=INTEGER}, 
+      #{abstain,jdbcType=INTEGER}, #{invalid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{needVoterType,jdbcType=BIT}, #{voterTypeTplId,jdbcType=INTEGER}, #{voters,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOffline">
     insert into dr_offline
@@ -144,20 +145,23 @@
       <if test="year != null">
         year,
       </if>
+      <if test="recommendDate != null">
+        recommend_date,
+      </if>
       <if test="seq != null">
         seq,
       </if>
       <if test="type != null">
         type,
       </if>
-      <if test="recommendDate != null">
-        recommend_date,
-      </if>
       <if test="recordId != null">
         record_id,
       </if>
       <if test="chiefMemberId != null">
         chief_member_id,
+      </if>
+      <if test="superviceUserId != null">
+        supervice_user_id,
       </if>
       <if test="members != null">
         members,
@@ -209,20 +213,23 @@
       <if test="year != null">
         #{year,jdbcType=SMALLINT},
       </if>
+      <if test="recommendDate != null">
+        #{recommendDate,jdbcType=DATE},
+      </if>
       <if test="seq != null">
         #{seq,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="recommendDate != null">
-        #{recommendDate,jdbcType=DATE},
-      </if>
       <if test="recordId != null">
         #{recordId,jdbcType=INTEGER},
       </if>
       <if test="chiefMemberId != null">
         #{chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="superviceUserId != null">
+        #{superviceUserId,jdbcType=INTEGER},
       </if>
       <if test="members != null">
         #{members,jdbcType=VARCHAR},
@@ -283,20 +290,23 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=SMALLINT},
       </if>
+      <if test="record.recommendDate != null">
+        recommend_date = #{record.recommendDate,jdbcType=DATE},
+      </if>
       <if test="record.seq != null">
         seq = #{record.seq,jdbcType=INTEGER},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.recommendDate != null">
-        recommend_date = #{record.recommendDate,jdbcType=DATE},
-      </if>
       <if test="record.recordId != null">
         record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
       <if test="record.chiefMemberId != null">
         chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.superviceUserId != null">
+        supervice_user_id = #{record.superviceUserId,jdbcType=INTEGER},
       </if>
       <if test="record.members != null">
         members = #{record.members,jdbcType=VARCHAR},
@@ -349,11 +359,12 @@
     update dr_offline
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=SMALLINT},
+      recommend_date = #{record.recommendDate,jdbcType=DATE},
       seq = #{record.seq,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      recommend_date = #{record.recommendDate,jdbcType=DATE},
       record_id = #{record.recordId,jdbcType=INTEGER},
       chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
+      supervice_user_id = #{record.superviceUserId,jdbcType=INTEGER},
       members = #{record.members,jdbcType=VARCHAR},
       ballot_sample = #{record.ballotSample,jdbcType=VARCHAR},
       headcount = #{record.headcount,jdbcType=INTEGER},
@@ -378,20 +389,23 @@
       <if test="year != null">
         year = #{year,jdbcType=SMALLINT},
       </if>
+      <if test="recommendDate != null">
+        recommend_date = #{recommendDate,jdbcType=DATE},
+      </if>
       <if test="seq != null">
         seq = #{seq,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="recommendDate != null">
-        recommend_date = #{recommendDate,jdbcType=DATE},
-      </if>
       <if test="recordId != null">
         record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="chiefMemberId != null">
         chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="superviceUserId != null">
+        supervice_user_id = #{superviceUserId,jdbcType=INTEGER},
       </if>
       <if test="members != null">
         members = #{members,jdbcType=VARCHAR},
@@ -441,11 +455,12 @@
   <update id="updateByPrimaryKey" parameterType="domain.dr.DrOffline">
     update dr_offline
     set year = #{year,jdbcType=SMALLINT},
+      recommend_date = #{recommendDate,jdbcType=DATE},
       seq = #{seq,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-      recommend_date = #{recommendDate,jdbcType=DATE},
       record_id = #{recordId,jdbcType=INTEGER},
       chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
+      supervice_user_id = #{superviceUserId,jdbcType=INTEGER},
       members = #{members,jdbcType=VARCHAR},
       ballot_sample = #{ballotSample,jdbcType=VARCHAR},
       headcount = #{headcount,jdbcType=INTEGER},

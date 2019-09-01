@@ -1,18 +1,26 @@
 package controller.cet;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
 import domain.cet.CetUpperTrainExample.Criteria;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,19 +30,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -53,12 +60,12 @@ public class CetUpperTrainController extends CetBaseController {
                                 Integer userId,
                                 ModelMap modelMap) {
 
-        if(!ShiroHelper.isPermitted("cetUpperTrain:list")
-        && !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN_UPPER,
-                RoleConstants.ROLE_CET_ADMIN_UNIT)){
+        if (!ShiroHelper.isPermitted("cetUpperTrain:list")
+                && !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN_UPPER,
+                RoleConstants.ROLE_CET_ADMIN_UNIT)) {
             throw new UnauthorizedException();
         }
-        
+
         modelMap.put("cls", cls);
         modelMap.put("type", type);
         modelMap.put("upperType", upperType);
@@ -113,20 +120,20 @@ public class CetUpperTrainController extends CetBaseController {
             criteria.andTypeEqualTo(type);
             checkCriteria.andTypeEqualTo(type);
 
-            if(type){
+            if (type) {
                 // 其他部门派出，单位审核后，组织部待审核
                 checkCriteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_PASS).andIsValidIsNull();
-            }else{
+            } else {
                 // 组织部派出，组织部待审核
                 checkCriteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
             }
 
-        }else{
+        } else {
             checkCriteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
         }
-        if(cls==4){
+        if (cls == 4) {
             criteria.andIsDeletedEqualTo(true);
-        }else {
+        } else {
             criteria.andIsDeletedEqualTo(false);
             if (cls == 1) {
                 if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
@@ -148,7 +155,7 @@ public class CetUpperTrainController extends CetBaseController {
                 }
             } else if (cls == 3) {
                 criteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
-            }else{
+            } else {
                 criteria.andIdIsNull();
             }
         }
@@ -185,11 +192,11 @@ public class CetUpperTrainController extends CetBaseController {
                 throw new UnauthorizedException();
             }
 
-            SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
+            SecurityUtils.getSubject().checkRole(upperType == CetConstants.CET_UPPER_TRAIN_UPPER
+                    ? RoleConstants.ROLE_CET_ADMIN_UPPER : RoleConstants.ROLE_CET_ADMIN_UNIT);
             criteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
             checkCriteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
-        }else {
+        } else {
             criteria.andIdIsNull();
         }
 
@@ -249,14 +256,14 @@ public class CetUpperTrainController extends CetBaseController {
             record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
             if (id == null) {
                 record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
-            }else{
-                if(BooleanUtils.isFalse(check)){
+            } else {
+                if (BooleanUtils.isFalse(check)) {
                     record.setStatus(null);
                 }
             }
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
-            if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
+            if (!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
                 Integer currentUserId = ShiroHelper.getCurrentUserId();
                 Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
                 Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
@@ -264,102 +271,102 @@ public class CetUpperTrainController extends CetBaseController {
                 if (id != null) {
                     Integer oldUnitId = oldRecord.getUnitId();
                     Integer oldLeaderUserId = oldRecord.getUserId();
-                    if ((oldUnitId==null || !adminUnitIdSet.contains(oldUnitId))
-                            && (oldLeaderUserId==null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
+                    if ((oldUnitId == null || !adminUnitIdSet.contains(oldUnitId))
+                            && (oldLeaderUserId == null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
                         throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
                     }
-                }else{
+                } else {
                     Integer unitId = record.getUnitId();
-                    List<Integer> leaderUserIds = userIds==null?new ArrayList<>():Arrays.asList(userIds);
-                    if ((unitId != null || leaderUserIds.size()>0) && (unitId == null || !adminUnitIdSet.contains(unitId))
+                    List<Integer> leaderUserIds = userIds == null ? new ArrayList<>() : Arrays.asList(userIds);
+                    if ((unitId != null || leaderUserIds.size() > 0) && (unitId == null || !adminUnitIdSet.contains(unitId))
                             && (leaderUserIds.size() == 0 || !adminLeaderUserIdSet.containsAll(leaderUserIds))) {
                         throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
                     }
                 }
 
-                SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
+                SecurityUtils.getSubject().checkRole(upperType == CetConstants.CET_UPPER_TRAIN_UPPER
+                        ? RoleConstants.ROLE_CET_ADMIN_UPPER : RoleConstants.ROLE_CET_ADMIN_UNIT);
 
                 record.setIsValid(null);
                 if (id == null) {
                     record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
-                } else{
+                } else {
                     if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                         throw new OpException("党委组织部已确认，不允许修改。");
                     }
 
-                    if(BooleanUtils.isFalse(check)){
+                    if (BooleanUtils.isFalse(check)) {
                         record.setStatus(null);
                     }
                 }
             }
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF){
+        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF) {
 
-            if(oldRecord!=null && oldRecord.getStatus()!=null
-                    && oldRecord.getStatus()==CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS){
+            if (oldRecord != null && oldRecord.getStatus() != null
+                    && oldRecord.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS) {
                 // 打回后重新提交
                 record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
-            }else {
+            } else {
                 record.setStatus(null);
             }
 
             //if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
 
-                int currentUserId = ShiroHelper.getCurrentUserId();
+            int currentUserId = ShiroHelper.getCurrentUserId();
 
-                boolean isUnitAdmin = true;
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-                Integer unitId = record.getUnitId(); // 派出单位
-                Integer leaderUserId = record.getUserId(); // 干部
-                if ((unitId==null || !adminUnitIdSet.contains(unitId))
-                        && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))) {
+            boolean isUnitAdmin = true;
+            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
+            Integer unitId = record.getUnitId(); // 派出单位
+            Integer leaderUserId = record.getUserId(); // 干部
+            if ((unitId == null || !adminUnitIdSet.contains(unitId))
+                    && (leaderUserId == null || !adminLeaderUserIdSet.contains(leaderUserId))) {
+                isUnitAdmin = false;
+            }
+            if (id != null) {
+                Integer oldUnitId = oldRecord.getUnitId();
+                Integer oldLeaderUserId = oldRecord.getUserId();
+                if ((oldUnitId == null || !adminUnitIdSet.contains(oldUnitId))
+                        && (oldLeaderUserId == null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
                     isUnitAdmin = false;
                 }
-                if (id != null) {
-                    Integer oldUnitId = oldRecord.getUnitId();
-                    Integer oldLeaderUserId = oldRecord.getUserId();
-                    if ((oldUnitId==null || !adminUnitIdSet.contains(oldUnitId))
-                            && (oldLeaderUserId==null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
-                        isUnitAdmin = false;
+            }
+
+            record.setIsValid(null);
+            record.setWordNote(upload(_word, "cetUpperTrain_note"));
+            record.setPdfNote(uploadPdf(_pdf, "cetUpperTrain_note"));
+            if (isUnitAdmin) {
+                SecurityUtils.getSubject().checkRole(upperType == CetConstants.CET_UPPER_TRAIN_UPPER
+                        ? RoleConstants.ROLE_CET_ADMIN_UPPER : RoleConstants.ROLE_CET_ADMIN_UNIT);
+                if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
+                    throw new OpException("党委组织部已确认，不允许修改。");
+                }
+            } else {
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
+
+                if (id == null) {
+                    userIds = new Integer[]{currentUserId};
+                    record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
+                } else {
+                    if (currentUserId != oldRecord.getUserId()) {
+                        throw new UnauthorizedException();
+                    }
+                    record.setUserId(null);
+                    if (oldRecord.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_PASS) {// 审核通过后，不允许本人修改
+                        throw new OpException("审核已通过，不允许修改。");
                     }
                 }
-
-                record.setIsValid(null);
-                record.setWordNote(upload(_word, "cetUpperTrain_note"));
-                record.setPdfNote(uploadPdf(_pdf, "cetUpperTrain_note"));
-                if(isUnitAdmin){
-                    SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
-                    if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
-                        throw new OpException("党委组织部已确认，不允许修改。");
-                    }
-                }else {
-                    SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
-
-                    if (id == null) {
-                        userIds = new Integer[]{currentUserId};
-                        record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
-                    } else {
-                        if (currentUserId != oldRecord.getUserId()) {
-                            throw new UnauthorizedException();
-                        }
-                        record.setUserId(null);
-                        if (oldRecord.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_PASS) {// 审核通过后，不允许本人修改
-                            throw new OpException("审核已通过，不允许修改。");
-                        }
-                    }
-                }
+            }
             //}
 
-        }else{
+        } else {
             throw new UnauthorizedException();
         }
 
-        if (id == null){
+        if (id == null) {
             cetUpperTrainService.insertSelective(record, userIds);
             logger.info(log(LogConstants.LOG_CET, "添加上级调训或单位培训：{0}", id));
-        } else{
+        } else {
             cetUpperTrainService.updateByPrimaryKeySelective(record, BooleanUtils.isTrue(check));
             logger.info(addLog(LogConstants.LOG_CET, "更新上级调训或单位培训：%s", id));
         }
@@ -387,28 +394,28 @@ public class CetUpperTrainController extends CetBaseController {
             int currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
             Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if(adminLeaderUserIdSet.size()>0){
+            if (adminLeaderUserIdSet.size() > 0) {
                 // 如果是校领导管理员，从所有的单位中选
                 List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
                 modelMap.put("upperUnits", upperUnits);
-            }else if(adminUnitIdSet.size()>0){
+            } else if (adminUnitIdSet.size() > 0) {
                 List<Unit> upperUnits = new ArrayList<>();
                 for (Integer adminUintId : adminUnitIdSet) {
                     Unit unit = CmTag.getUnit(adminUintId);
-                    if(unit!=null){
+                    if (unit != null) {
                         upperUnits.add(unit);
                     }
                 }
                 modelMap.put("upperUnits", upperUnits);
-            }else{
+            } else {
                 throw new UnauthorizedException();
             }
 
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW
-                        ||addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF) {
+                || addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF) {
             List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
             modelMap.put("upperUnits", upperUnits);
-        }else {
+        } else {
             throw new UnauthorizedException();
         }
 
@@ -454,8 +461,8 @@ public class CetUpperTrainController extends CetBaseController {
 
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
             Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if ((unitId==null || !adminUnitIdSet.contains(unitId))
-                    && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
+            if ((unitId == null || !adminUnitIdSet.contains(unitId))
+                    && (leaderUserId == null || !adminLeaderUserIdSet.contains(leaderUserId))) {
                 throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
             }
 
@@ -463,7 +470,7 @@ public class CetUpperTrainController extends CetBaseController {
                 throw new OpException("党委组织部已确认，不允许修改。");
             }
 
-        }else{
+        } else {
             throw new UnauthorizedException();
         }
 
@@ -515,21 +522,21 @@ public class CetUpperTrainController extends CetBaseController {
             cadreViews = new LinkedHashSet<CadreView>(cadreService.findAll().values());
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
-            SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
+            SecurityUtils.getSubject().checkRole(upperType == CetConstants.CET_UPPER_TRAIN_UPPER
+                    ? RoleConstants.ROLE_CET_ADMIN_UPPER : RoleConstants.ROLE_CET_ADMIN_UNIT);
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
             Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             CadreViewExample example = new CadreViewExample();
-            if(adminUnitIdSet.size()>0 && adminLeaderUserIdSet.size()>0) {
+            if (adminUnitIdSet.size() > 0 && adminLeaderUserIdSet.size() > 0) {
                 example.createCriteria().andUnitIdIn(new ArrayList<>(adminUnitIdSet));
                 example.or().andUserIdIn(new ArrayList<>(adminLeaderUserIdSet));
-            }else if(adminUnitIdSet.size()>0) {
+            } else if (adminUnitIdSet.size() > 0) {
                 example.createCriteria().andUnitIdIn(new ArrayList<>(adminUnitIdSet));
-            }else if(adminLeaderUserIdSet.size()>0) {
+            } else if (adminLeaderUserIdSet.size() > 0) {
                 example.createCriteria().andUserIdIn(new ArrayList<>(adminLeaderUserIdSet));
-            }else{
+            } else {
                 example.createCriteria().andIdIsNull();
             }
             List<CadreView> cadres = cadreViewMapper.selectByExample(example);
@@ -539,10 +546,164 @@ public class CetUpperTrainController extends CetBaseController {
 
         TreeNode tree = cadreCommonService.getTree(cadreViews,
                 new HashSet<>(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
-                        CadreConstants.CADRE_STATUS_LEADER)), null, null, false, true, cadreViews.size()<=20);
+                        CadreConstants.CADRE_STATUS_LEADER)), null, null, false, true, cadreViews.size() <= 20);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetUpperTrain:import")
+    @RequestMapping("/cetUpperTrain_import")
+    public String cetUpperTrain_import() {
+
+        return "cet/cetUpperTrain/cetUpperTrain_import";
+    }
+
+    @RequiresPermissions("cetUpperTrain:import")
+    @RequestMapping(value = "/cetUpperTrain_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUpperTrain_import(byte upperType,
+                                       HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        if(!CetConstants.CET_UPPER_TRAIN_MAP.containsKey(upperType)){
+            return failed("参数有误。");
+        }
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CetUpperTrain> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            CetUpperTrain record = new CetUpperTrain();
+            record.setUpperType(upperType);
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            String title = StringUtils.trimToNull(xlsRow.get(2));
+            record.setTitle(title);
+            String _postType = StringUtils.trimToNull(xlsRow.get(3));
+            MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
+            if (StringUtils.isNotBlank(_postType) && postType == null) {
+                throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
+            }
+            if (postType != null) {
+                record.setPostId(postType.getId());
+            }
+
+            CadreView cadre = cadreService.dbFindByUserId(uv.getId());
+            if (cadre != null) {
+                if (record.getTitle() == null) {
+                    record.setTitle(cadre.getTitle());
+                }
+                if (record.getPostId() == null) {
+                    record.setPostId(cadre.getPostType());
+                }
+            }
+            String _year = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isBlank(_year) || !NumberUtils.isDigits(_year)) {
+                throw new OpException("第{0}行年度有误", row);
+            }
+            record.setYear(Integer.valueOf(_year));
+
+            String _organizerType = StringUtils.trimToNull(xlsRow.get(5));
+            if (StringUtils.isBlank(_organizerType)) {
+                throw new OpException("第{0}行培训班主办方为空", row);
+            }
+            MetaType organizerType = CmTag.getMetaTypeByName(
+                    "mc_cet_upper_train_organizer" + (upperType == CetConstants.CET_UPPER_TRAIN_UPPER ? "" : "2"), _organizerType);
+            if (organizerType == null) {
+                record.setOrganizer(0);
+                record.setOtherOrganizer(_organizerType);
+            }
+
+            String _trainType = StringUtils.trimToNull(xlsRow.get(6));
+            if (StringUtils.isBlank(_trainType)) {
+                throw new OpException("第{0}行培训班类型为空", row);
+            }
+            MetaType trainType = CmTag.getMetaTypeByName(
+                    "mc_cet_upper_train_type" + (upperType == CetConstants.CET_UPPER_TRAIN_UPPER ? "" : "2"), _trainType);
+            if (trainType == null) {
+                throw new OpException("第{0}行培训班类型不存在", row);
+            }
+            record.setTrainType(trainType.getId());
+
+            String _specialType = StringUtils.trimToNull(xlsRow.get(7));
+            if (StringUtils.isBlank(_specialType)) {
+                throw new OpException("第{0}行专项培训班为空", row);
+            }
+            if (StringUtils.equals(_specialType, "无")) {
+                record.setSpecialType(0);
+            } else {
+                MetaType specialType = CmTag.getMetaTypeByName(
+                        "mc_cet_upper_train_special" + (upperType == CetConstants.CET_UPPER_TRAIN_UPPER ? "" : "2"), _specialType);
+                if (specialType == null) {
+                    throw new OpException("第{0}行专项培训班不存在", row);
+                }
+                record.setSpecialType(specialType.getId());
+            }
+
+            String trainName = StringUtils.trimToNull(xlsRow.get(8));
+            if (StringUtils.isBlank(trainName)) {
+                throw new OpException("第{0}行培训班名称为空", row);
+            }
+            record.setTrainName(trainName);
+
+            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
+            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
+
+            String period = StringUtils.trimToNull(xlsRow.get(11));
+            if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
+                throw new OpException("第{0}行培训学时有误", row);
+            }
+            record.setPeriod(new BigDecimal(period));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(12)));
+
+            String _type = StringUtils.trimToNull(xlsRow.get(13));
+            record.setType(!StringUtils.equals(_type, "党委组织部"));
+            if (record.getType()) {
+                String unitCode = StringUtils.trimToNull(xlsRow.get(14));
+                if (StringUtils.isBlank(unitCode)) {
+                    throw new OpException("第{0}行单位编码为空", row);
+                }
+                Unit unit = unitService.findUnitByCode(unitCode);
+                if (unit == null) {
+                    throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                }
+                record.setUnitId(unit.getId());
+            }
+
+            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(15)), "是"));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(16)));
+
+            records.add(record);
+        }
+
+        int addCount = cetUpperTrainService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入上级调训成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
         return resultMap;
     }
 

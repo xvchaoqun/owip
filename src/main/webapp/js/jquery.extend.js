@@ -1624,7 +1624,7 @@ $.extend($.register, {
             selectAllText: '全选/取消全选',
             allSelectedText: '全部已选择',
             maxHeight: 300,
-            buttonWidth: '200px'
+            buttonWidth: '200px',
             /* templates: {
              button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
              ul: '<ul class="multiselect-container dropdown-menu"></ul>',

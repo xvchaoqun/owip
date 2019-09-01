@@ -11,12 +11,6 @@
     </div>
 </div>
 <div class="footer-margin"/>
-<style>
-    .table tr th, .table tr td {
-        white-space: nowrap;
-        text-align: center;
-    }
-</style>
 <script>
 
     function _reload(btn) {

@@ -156,7 +156,7 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
 
         byte upperType = oldRecord.getUpperType();
         int userId = oldRecord.getUserId();
-        if(record.getUserId()!=null && userId!=record.getUserId()){
+        //if(record.getUserId()!=null && userId!=record.getUserId()){
 
             CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
             example.createCriteria().andUserIdEqualTo(userId);
@@ -171,7 +171,6 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
 
             int newUserId = record.getUserId();
             SysUserView uv = sysUserService.findById(newUserId);
-            
             if(upperType== CetConstants.CET_UPPER_TRAIN_UPPER) {
                 if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UPPER)) {
                     sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
@@ -181,6 +180,6 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
                     sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
                 }
             }
-        }
+        //}
     }
 }

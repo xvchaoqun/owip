@@ -1,4 +1,88 @@
 
+
+ALTER TABLE `dr_offline`
+	ADD COLUMN `supervice_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '监督人员，针对会议推荐' AFTER `chief_member_id`;
+DROP VIEW IF EXISTS `dr_offline_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dr_offline_view` AS
+select do.*, sr.seq as sr_seq, sm.hold_date, sm.sc_type, sm.unit_post_id, up.name as post_name,
+up.job, up.admin_level, up.post_type, up.unit_id,
+u.type_id as unit_type from dr_offline do
+left join sc_record sr on sr.id=do.record_id
+left join sc_motion sm on sm.id= sr.motion_id
+left join unit_post up on up.id = sm.unit_post_id
+left join unit u on u.id = up.unit_id ;
+
+20190831
+西交  -- 北师大
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (230, 0, '受处分情况', '',
+'function', '', NULL, 90, '0/1/88/90/', 1, 'cadrePunish:*', NULL, NULL, NULL, 1, NULL);
+
+CREATE TABLE `sc_group_topic_user` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`topic_id` INT(10) UNSIGNED NOT NULL COMMENT '议题',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '考察对象',
+	`title` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '所在单位及职务，优先从干部库中读取，否则人事库的单位',
+	PRIMARY KEY (`id`)
+)
+COMMENT='确定考察对象，干部小组会议题'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=482
+;
+
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`,
+                               `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`)
+VALUES (91, NULL, '议题类型', '干部小组会议题', '参数设置', 'mc_sc_group_topic_type', '', '', '', 2593, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (91, '干部选任-动议', 'mt_sgt_motion', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (91, '干部选任-确定考察对象', 'mt_sgt_candidate', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (91, '干部选任-推荐拟任人选', 'mt_sgt_recommend', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (91, '其他', 'mt_sgt_other', NULL, '', '', 4, 1);
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `is_temp` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否临时工' AFTER `is_honor_retire`;
+-- 西安交大要重新同步 staff_status和is_temp字段， 只给管理员开放校领导权限
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `is_temp` `is_temp` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否临时工' AFTER `is_honor_retire`;
+update sys_teacher_info set  is_temp = 0;
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `is_temp` `is_temp` VARCHAR(20) NULL DEFAULT NULL COMMENT '是否临时人员' AFTER `is_honor_retire`;
+
+-- 更新 cadre_view 等
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (23, 0, '修改基本信息', '', 'function',
+ '', NULL, 22, '0/1/21/22/', 1, 'sysUser:editInfo', NULL, NULL, NULL, 1, NULL);
+
+CREATE TABLE `cadre_punish` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`cadre_id` INT(10) UNSIGNED NOT NULL COMMENT '所属干部',
+	`punish_time` DATE NULL DEFAULT NULL COMMENT '日期',
+	`name` VARCHAR(200) NULL DEFAULT NULL COMMENT '受何种处分',
+	`unit` VARCHAR(300) NULL DEFAULT NULL COMMENT '处分单位',
+	`list_in_ad` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否列入干部任免审批表',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	`status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录',
+	`remark` TEXT NULL COMMENT '备注',
+	PRIMARY KEY (`id`),
+	INDEX `FK_cadre_punish_cadre` (`cadre_id`),
+	CONSTRAINT `FK_cadre_punish_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE
+)
+COMMENT='干部受处分情况'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=3
+;
+
+
+20190827
+南航
+
+
 20190826
 北邮
 

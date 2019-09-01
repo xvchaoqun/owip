@@ -282,20 +282,6 @@ public class CetTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("cetTrain:del")
-    @RequestMapping(value = "/cetTrain_fakeDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map cetTrain_fakeDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length>0){
-            cetTrainService.fakeDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
     @RequiresPermissions("cetTrain:del")
     @RequestMapping(value = "/cetTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -309,30 +295,6 @@ public class CetTrainController extends CetBaseController {
 
         return success(FormUtils.SUCCESS);
     }
-
-    /*public void cetTrain_export(CetTrainViewExample example, HttpServletResponse response) {
-
-        List<CetTrainView> records = cetTrainViewMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"年度|100","编号|100","培训班名称|100","内容简介|100","开课日期|100","结课日期|100","选课状态|100","备注|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CetTrainView record = records.get(i);
-            String[] values = {
-                record.getYear()+"",
-                            record.getNum()+"",
-                            record.getName(),
-                            record.getSummary(),
-                            DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
-                            record.getEnrollStatus() + "",
-                            record.getRemark()
-            };
-            valuesList.add(values);
-        }
-        String fileName = "培训班_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }*/
 
     public void cetTrain_export(CetTrainViewExample example, HttpServletResponse response) {
 

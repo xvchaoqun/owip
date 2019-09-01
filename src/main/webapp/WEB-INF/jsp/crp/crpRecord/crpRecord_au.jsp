@@ -161,7 +161,7 @@
                         <c:if test="${type!=CRP_RECORD_TYPE_OUT}">
                         <select required name="unitId" data-rel="select2-ajax"
                                 data-width="222"
-                                data-ajax-url="${ctx}/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>"
+                                data-ajax-url="${ctx}/unit_selects"
                                 data-placeholder="请选择">
                             <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>

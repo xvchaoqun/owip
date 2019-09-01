@@ -56,6 +56,11 @@
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改
                     </button>
+                    <shiro:hasPermission name="cetUpperTrain:import">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-success"
+                        data-url="${ctx}/cet/cetUpperTrain_import?upperType=${upperType}"
+                        data-rel="tooltip" data-placement="top" title="从Excel导入"><i class="fa fa-upload"></i> 批量导入</button>
+                    </shiro:hasPermission>
                     </c:if>
                     <c:if test="${cls==2}">
                     <button class="jqOpenViewBtn btn btn-success btn-sm"

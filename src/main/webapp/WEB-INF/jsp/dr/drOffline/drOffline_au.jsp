@@ -69,6 +69,29 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">推荐组成员</label>
+            <div class="col-xs-8">
+                <select class="multiselect" multiple="" name="memberIds">
+                    <c:forEach var="ms" items="<%=DrConstants.DR_MEMBER_STATUS_MAP%>">
+                        <optgroup label="${ms.value}" value="-1">
+                            <c:forEach items="${drMemberListMap.get(ms.key)}" var="drMember">
+                                <option value="${drMember.id}">${drMember.user.realname}(${drMember.user.code})</option>
+                            </c:forEach>
+                        </optgroup>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">监督人员</label>
+            <div class="col-xs-6">
+            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                    name="superviceUserId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
+                <option value="${superviceUser.id}">${superviceUser.realname}-${superviceUser.code}</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control" name="remark">${drOffline.remark}</textarea>
@@ -88,8 +111,15 @@
         width:auto;
         max-width:900px;
     }
+    .modal .modal-body{
+        overflow: visible;
+    }
 </style>
 <script>
+    $.register.multiselect($('#modalForm select[name=memberIds]'), ${cm:toJSONArray(selectMemberIds)}, {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+    });
     $("#modal .closeBtn").click(function () {
         $('#modalForm #postName').popover('hide');
         $("#modal").modal('hide');
@@ -148,6 +178,7 @@
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
     $.register.del_select($('select[name=chiefMemberId]'));
+    $.register.user_select($('select[name=superviceUserId]'));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();

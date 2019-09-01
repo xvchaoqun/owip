@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.ScConstants;
 import sys.tags.CmTag;
@@ -400,9 +401,12 @@ public class DrOfflineController extends DrBaseController {
     @RequiresPermissions("drOffline:edit")
     @RequestMapping(value = "/drOffline_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOffline_au(DrOffline record, HttpServletRequest request) {
+    public Map do_drOffline_au(DrOffline record,
+                               @RequestParam(value = "memberIds", required = false) Integer[] memberIds,
+                               HttpServletRequest request) {
 
         Integer id = record.getId();
+        record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
 
         if (id == null) {
 
@@ -428,9 +432,27 @@ public class DrOfflineController extends DrBaseController {
             Integer recordId = drOffline.getRecordId();
             ScRecordView scRecordView = iScMapper.getScRecordView(recordId);
             modelMap.put("scRecord", scRecordView);
-
             modelMap.put("chiefMember", drMemberMapper.selectByPrimaryKey(drOffline.getChiefMemberId()));
+            modelMap.put("superviceUser", CmTag.getUserById(drOffline.getSuperviceUserId()));
+
+            Set<Integer> selectMemberIds = new HashSet<>();
+            String members = drOffline.getMembers();
+            if (StringUtils.isNotBlank(members)) {
+                for (String memberIdStr : members.split(",")) {
+                    selectMemberIds.add(Integer.valueOf(memberIdStr));
+                }
+            }
+            modelMap.put("selectMemberIds", new ArrayList<>(selectMemberIds));
         }
+
+        Map<Byte, List<DrMember>> drMemberListMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : DrConstants.DR_MEMBER_STATUS_MAP.entrySet()) {
+            List<DrMember> drMembers = drMemberService.getMembers(entry.getKey());
+            if(drMembers.size()>0) {
+                drMemberListMap.put(entry.getKey(), drMembers);
+            }
+        }
+        modelMap.put("drMemberListMap", drMemberListMap);
 
         return "dr/drOffline/drOffline_au";
     }

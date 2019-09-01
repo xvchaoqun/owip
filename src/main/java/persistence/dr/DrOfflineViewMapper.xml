@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="domain.dr.DrOfflineView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="SMALLINT" property="year" />
+    <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="chief_member_id" jdbcType="INTEGER" property="chiefMemberId" />
+    <result column="supervice_user_id" jdbcType="INTEGER" property="superviceUserId" />
     <result column="members" jdbcType="VARCHAR" property="members" />
     <result column="ballot_sample" jdbcType="VARCHAR" property="ballotSample" />
     <result column="headcount" jdbcType="INTEGER" property="headcount" />
@@ -64,10 +65,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, seq, type, recommend_date, record_id, chief_member_id, members, ballot_sample, 
-    headcount, scope, expect_voter_num, actual_voter_num, ballot, abstain, invalid, title, 
-    need_voter_type, voter_type_tpl_id, voters, remark, sr_seq, hold_date, sc_type, unit_post_id, 
-    post_name, job, admin_level, post_type, unit_id, unit_type
+    id, year, recommend_date, seq, type, record_id, chief_member_id, supervice_user_id, 
+    members, ballot_sample, headcount, scope, expect_voter_num, actual_voter_num, ballot, 
+    abstain, invalid, title, need_voter_type, voter_type_tpl_id, voters, remark, sr_seq, 
+    hold_date, sc_type, unit_post_id, post_name, job, admin_level, post_type, unit_id, 
+    unit_type
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOfflineViewExample" resultMap="BaseResultMap">
     select

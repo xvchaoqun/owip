@@ -1,5 +1,6 @@
 package domain.dr;
 
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrMemberMapper;
 import sys.tags.CmTag;
@@ -27,6 +28,10 @@ public class DrOfflineView implements Serializable {
         return drMemberMapper.selectByPrimaryKey(chiefMemberId);
     }
 
+    public SysUserView getSuperviceUser(){
+        return CmTag.getUserById(superviceUserId);
+    }
+
     public List<DrMember> getDrMembers(){
         List<DrMember> memberList = new ArrayList<>();
         if(StringUtils.isNotBlank(members)) {
@@ -42,15 +47,17 @@ public class DrOfflineView implements Serializable {
 
     private Short year;
 
+    private Date recommendDate;
+
     private Integer seq;
 
     private Integer type;
 
-    private Date recommendDate;
-
     private Integer recordId;
 
     private Integer chiefMemberId;
+
+    private Integer superviceUserId;
 
     private String members;
 
@@ -118,6 +125,14 @@ public class DrOfflineView implements Serializable {
         this.year = year;
     }
 
+    public Date getRecommendDate() {
+        return recommendDate;
+    }
+
+    public void setRecommendDate(Date recommendDate) {
+        this.recommendDate = recommendDate;
+    }
+
     public Integer getSeq() {
         return seq;
     }
@@ -134,14 +149,6 @@ public class DrOfflineView implements Serializable {
         this.type = type;
     }
 
-    public Date getRecommendDate() {
-        return recommendDate;
-    }
-
-    public void setRecommendDate(Date recommendDate) {
-        this.recommendDate = recommendDate;
-    }
-
     public Integer getRecordId() {
         return recordId;
     }
@@ -156,6 +163,14 @@ public class DrOfflineView implements Serializable {
 
     public void setChiefMemberId(Integer chiefMemberId) {
         this.chiefMemberId = chiefMemberId;
+    }
+
+    public Integer getSuperviceUserId() {
+        return superviceUserId;
+    }
+
+    public void setSuperviceUserId(Integer superviceUserId) {
+        this.superviceUserId = superviceUserId;
     }
 
     public String getMembers() {

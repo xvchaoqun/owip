@@ -252,6 +252,66 @@ public class DrOfflineExample {
             return (Criteria) this;
         }
 
+        public Criteria andRecommendDateIsNull() {
+            addCriterion("recommend_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateIsNotNull() {
+            addCriterion("recommend_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateEqualTo(Date value) {
+            addCriterionForJDBCDate("recommend_date =", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("recommend_date <>", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("recommend_date >", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("recommend_date >=", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateLessThan(Date value) {
+            addCriterionForJDBCDate("recommend_date <", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("recommend_date <=", value, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateIn(List<Date> values) {
+            addCriterionForJDBCDate("recommend_date in", values, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("recommend_date not in", values, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("recommend_date between", value1, value2, "recommendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("recommend_date not between", value1, value2, "recommendDate");
+            return (Criteria) this;
+        }
+
         public Criteria andSeqIsNull() {
             addCriterion("seq is null");
             return (Criteria) this;
@@ -372,66 +432,6 @@ public class DrOfflineExample {
             return (Criteria) this;
         }
 
-        public Criteria andRecommendDateIsNull() {
-            addCriterion("recommend_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateIsNotNull() {
-            addCriterion("recommend_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateEqualTo(Date value) {
-            addCriterionForJDBCDate("recommend_date =", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("recommend_date <>", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("recommend_date >", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("recommend_date >=", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateLessThan(Date value) {
-            addCriterionForJDBCDate("recommend_date <", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("recommend_date <=", value, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateIn(List<Date> values) {
-            addCriterionForJDBCDate("recommend_date in", values, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("recommend_date not in", values, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("recommend_date between", value1, value2, "recommendDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andRecommendDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("recommend_date not between", value1, value2, "recommendDate");
-            return (Criteria) this;
-        }
-
         public Criteria andRecordIdIsNull() {
             addCriterion("record_id is null");
             return (Criteria) this;
@@ -549,6 +549,66 @@ public class DrOfflineExample {
 
         public Criteria andChiefMemberIdNotBetween(Integer value1, Integer value2) {
             addCriterion("chief_member_id not between", value1, value2, "chiefMemberId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdIsNull() {
+            addCriterion("supervice_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdIsNotNull() {
+            addCriterion("supervice_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdEqualTo(Integer value) {
+            addCriterion("supervice_user_id =", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdNotEqualTo(Integer value) {
+            addCriterion("supervice_user_id <>", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdGreaterThan(Integer value) {
+            addCriterion("supervice_user_id >", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("supervice_user_id >=", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdLessThan(Integer value) {
+            addCriterion("supervice_user_id <", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("supervice_user_id <=", value, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdIn(List<Integer> values) {
+            addCriterion("supervice_user_id in", values, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdNotIn(List<Integer> values) {
+            addCriterion("supervice_user_id not in", values, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("supervice_user_id between", value1, value2, "superviceUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperviceUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("supervice_user_id not between", value1, value2, "superviceUserId");
             return (Criteria) this;
         }
 

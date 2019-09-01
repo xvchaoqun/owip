@@ -13,6 +13,7 @@ import service.sys.SysApprovalLogService;
 import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
+import service.unit.UnitService;
 import sys.HttpResponseMethod;
 
 public class CetBaseController extends CetBaseMapper implements HttpResponseMethod {
@@ -21,6 +22,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected SysUserService sysUserService;
+    @Autowired
+    protected UnitService unitService;
     @Autowired
     protected CadreService cadreService;
     @Autowired

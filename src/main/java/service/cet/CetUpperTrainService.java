@@ -5,6 +5,7 @@ import domain.cadre.CadreView;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CetUpperTrainService extends CetBaseMapper {
@@ -200,5 +198,49 @@ public class CetUpperTrainService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN,
                     "更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, JSONUtils.toString(oldRecord, false));
         }
+    }
+
+    // 供导入去重使用
+    public CetUpperTrain get(CetUpperTrain record){
+
+        CetUpperTrainExample example = new CetUpperTrainExample();
+        example.createCriteria().andUserIdEqualTo(record.getUserId())
+                .andYearEqualTo(record.getYear())
+                .andOrganizerEqualTo(record.getOrganizer())
+                .andTrainTypeEqualTo(record.getTrainType())
+                .andSpecialTypeEqualTo(record.getSpecialType())
+                .andIsDeletedEqualTo(false)
+                .andStatusNotEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
+
+        List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cetUpperTrains.size()==1?cetUpperTrains.get(0):null;
+    }
+
+    @Transactional
+    public int batchImport(List<CetUpperTrain> records) {
+
+        int addCount = 0;
+        int addUserId = ShiroHelper.getCurrentUserId();
+        Date now = new Date();
+        for (CetUpperTrain record : records) {
+
+            CetUpperTrain cetUpperTrain = get(record);
+            if(cetUpperTrain==null) {
+                record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
+                record.setAddUserId(addUserId);
+                record.setAddTime(now);
+                record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
+
+                cetUpperTrainMapper.insertSelective(record);
+                addCount++;
+            }else{
+
+                record.setId(cetUpperTrain.getId());
+                cetUpperTrainMapper.updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 }

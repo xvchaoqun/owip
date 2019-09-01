@@ -11,16 +11,18 @@ public class DrOffline implements Serializable {
 
     private Short year;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    private Date recommendDate;
+
     private Integer seq;
 
     private Integer type;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
-    private Date recommendDate;
-
     private Integer recordId;
 
     private Integer chiefMemberId;
+
+    private Integer superviceUserId;
 
     private String members;
 
@@ -68,6 +70,14 @@ public class DrOffline implements Serializable {
         this.year = year;
     }
 
+    public Date getRecommendDate() {
+        return recommendDate;
+    }
+
+    public void setRecommendDate(Date recommendDate) {
+        this.recommendDate = recommendDate;
+    }
+
     public Integer getSeq() {
         return seq;
     }
@@ -84,14 +94,6 @@ public class DrOffline implements Serializable {
         this.type = type;
     }
 
-    public Date getRecommendDate() {
-        return recommendDate;
-    }
-
-    public void setRecommendDate(Date recommendDate) {
-        this.recommendDate = recommendDate;
-    }
-
     public Integer getRecordId() {
         return recordId;
     }
@@ -106,6 +108,14 @@ public class DrOffline implements Serializable {
 
     public void setChiefMemberId(Integer chiefMemberId) {
         this.chiefMemberId = chiefMemberId;
+    }
+
+    public Integer getSuperviceUserId() {
+        return superviceUserId;
+    }
+
+    public void setSuperviceUserId(Integer superviceUserId) {
+        this.superviceUserId = superviceUserId;
     }
 
     public String getMembers() {
