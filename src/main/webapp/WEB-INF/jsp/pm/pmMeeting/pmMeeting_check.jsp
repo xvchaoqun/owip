@@ -7,14 +7,8 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmMeeting_check?check=${param.check}" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="id" value="${param.id}">
+        <input type="hidden" name="ids[]" value="${param['ids[]']}">
 
-        <div class="form-group">
-            <label class="col-xs-4 control-label">会议</label>
-            <div class="col-xs-6 label-text">
-                ${pmMeeting.name}
-            </div>
-        </div>
         <c:if test="${param.check}">
             <div class="form-group">
                 <label class="col-xs-4 control-label"style="padding: 10px">是否通过</label>
@@ -34,7 +28,7 @@
                 <label class="col-xs-4 control-label">退回原因</label>
                 <div class="col-xs-6">
                     <textarea class="form-control limited" type="text"
-                              name="reason" maxlength="200">${pmMeeting.reason}</textarea>
+                              name="reason" maxlength="200"></textarea>
                 </div>
             </div>
         </c:if>

@@ -1,22 +1,18 @@
 package controller.pm;
 
 import controller.global.OpException;
-
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
-
 import domain.party.*;
 import domain.pm.PmMeeting;
 import domain.pm.PmMeetingExample;
 import domain.pm.PmMeetingFile;
-
 import domain.pm.PmMeetingFileExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -38,7 +34,6 @@ import persistence.party.PartyViewMapper;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
-
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
@@ -65,7 +60,7 @@ public class PmMeetingController extends PmBaseController {
 
     @RequiresPermissions("pmMeeting:list")
     @RequestMapping("/pmMeeting")
-    public String partyMeeting(@RequestParam(defaultValue = "1") Integer cls,Byte type ,
+    public String pmMeeting(@RequestParam(defaultValue = "1") Integer cls,Byte type ,
                                Integer partyId,
                                Integer branchId,ModelMap modelMap) {
 
@@ -92,7 +87,14 @@ public class PmMeetingController extends PmBaseController {
 
         return "pm/pmMeeting/pmMeeting_page";
     }
+    @RequiresPermissions("pmMeeting:list")
+    @RequestMapping("/pmMeeting_user")
+    public String pmMeeting_user(Integer id,Byte type,ModelMap modelMap) {
 
+        PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(id);
+        modelMap.put("pmMeeting",pmMeeting);
+        return "pm/pmMeeting/pmMeeting_user";
+    }
     @RequiresPermissions("pmMeeting:list")
     @RequestMapping("/pmMeeting_data")
     public void partyMeeting_data(Byte type,
@@ -104,6 +106,8 @@ public class PmMeetingController extends PmBaseController {
                                   Integer year,
                                   Byte quarter,
                                   @RequestDateRange DateRange _meetingDate,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   HttpServletResponse response, Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -163,6 +167,13 @@ public class PmMeetingController extends PmBaseController {
                 break;
         }
         example.setOrderByClause("id desc");
+
+        if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
+            pmMeeting_export(example, response);
+            return;
+        }
 
         long count = pmMeetingMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -316,34 +327,28 @@ public class PmMeetingController extends PmBaseController {
 
     @RequiresPermissions("pmMeeting:approve")
     @RequestMapping( "/pmMeeting_check")
-    public String pmMeeting_check(Integer id,Boolean check,HttpServletRequest request, ModelMap modelMap) {
-        PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(id);
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
-                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
-            throw new UnauthorizedException();
-        }
+    public String pmMeeting_check(Boolean check,HttpServletRequest request, ModelMap modelMap) {
 
-        modelMap.put("pmMeeting",pmMeeting);
         return "pm/pmMeeting/pmMeeting_check";
     }
 
     @RequiresPermissions("pmMeeting:approve")
     @RequestMapping(value = "/pmMeeting_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmMeeting_check(PmMeeting record,Boolean check,Boolean hasPass,HttpServletRequest request, ModelMap modelMap) {
-        PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(record.getId());
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
-                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
-            throw new UnauthorizedException();
-        }
+    public Map do_pmMeeting_check(@RequestParam(value = "ids[]") Integer[] ids,Boolean check,Boolean hasPass,String reason,HttpServletRequest request) {
+
+        Byte status=PM_MEETING_STATUS_INIT;
+        Boolean isBack=false;
 
         if(BooleanUtils.isTrue(check)){
-           record.setStatus(hasPass==null?PM_MEETING_STATUS_DENY:PM_MEETING_STATUS_PASS);
-       }else{
-        record.setIsBack(true);
-       }
-        pmMeetingMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", record.getId()));
+            status=hasPass==null?PM_MEETING_STATUS_DENY:PM_MEETING_STATUS_PASS;
+        }else{
+            isBack=true;
+        }
+
+        pmMeetingService.check(ids,status,isBack,reason);
+
+        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", ids));
 
         return success(FormUtils.SUCCESS);
     }
@@ -499,5 +504,37 @@ public class PmMeetingController extends PmBaseController {
         resultMap.put("total", records.size());
 
         return resultMap;
+    }
+
+    public void pmMeeting_export(PmMeetingExample example, HttpServletResponse response) {
+
+        List<PmMeeting> records = pmMeetingMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"年度","季度","会议名称|150|left","会议议题|250|left","会议时间|100","所属分党委|250|left","所属党支部|250|left","会议地点|100","审核情况|100",
+                "主持人","记录人","应到人数","实到人数","请假人数"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            PmMeeting record = records.get(i);
+            String[] values = {
+                    String.valueOf(record.getYear()),
+                    String.valueOf(record.getQuarter()),
+                    record.getName(),
+                    record.getIssue(),
+                    DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                    CmTag.getParty(record.getPartyId()).getName(),
+                    record.getBranchId()==null?"":CmTag.getBranch(record.getBranchId()).getName(),
+                    record.getAddress(),
+                    PM_MEETING_STATUS_MAP.get(record.getStatus()),
+                    CmTag.getUserById(record.getPresenter()).getRealname(),
+                    CmTag.getUserById(record.getRecorder()).getRealname(),
+                    String.valueOf(record.getDueNum()),
+                    String.valueOf(record.getAttendNum()),
+                    String.valueOf(record.getAbsentNum()),
+                  //  DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
+            };
+            valuesList.add(values);
+        }
+        String fileName = "会议列表(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

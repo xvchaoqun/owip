@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
 
-        <form class="form-horizontal" action="${ctx}pmMeetingFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <form class="form-horizontal" action="${ctx}/pmMeetingFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <input type="hidden" name="id" value="${pmMeeting.id}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>上传附件(批量)</label>
@@ -23,7 +23,7 @@
         <div class="space-10"></div>
 
     <div class="popTableDiv"
-         data-url-page="${ctx}pmMeetingFile?id=${pmMeeting.id}">
+         data-url-page="${ctx}/pmMeetingFile?id=${pmMeeting.id}">
         <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>
@@ -41,7 +41,7 @@
 
             <c:forEach items="${pmMeetingFiles}" var="pmMeetingFile" varStatus="st">
                 <tr>
-                    <td nowrap>${pmMeetingFile.fileName}</td>
+                    <td nowrap >${pmMeetingFile.fileName}</td>
                     <td nowrap>
                         <div class="hidden-sm hidden-xs action-buttons">
                                 <button class="confirm btn btn-danger btn-xs"

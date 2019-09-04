@@ -95,6 +95,31 @@ public class PmMeetingService extends PmBaseMapper {
         pmMeetingMapper.deleteByExample(example);
 
     }
+
+    @Transactional
+    public void check(Integer[] ids,Byte status,Boolean isBack,String reason){
+
+        PmMeetingExample example = new PmMeetingExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<PmMeeting> pmMeetings=pmMeetingMapper.selectByExample(example);
+
+        for(PmMeeting pmMeeting:pmMeetings){
+
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
+                    !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
+                continue;
+            }
+
+            pmMeeting.setStatus(status);
+            pmMeeting.setIsBack(isBack);
+            if(status==PM_MEETING_STATUS_PASS||isBack==true){
+                pmMeeting.setReason(reason);
+            }
+            pmMeetingMapper.updateByPrimaryKeySelective(pmMeeting);
+        }
+
+    }
+
     // 获取所有参会人
     public List<MemberView> getMemberList(String attendId) {
        if(StringUtils.isNotBlank(attendId)){

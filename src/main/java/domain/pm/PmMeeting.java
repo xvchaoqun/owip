@@ -1,11 +1,10 @@
 package domain.pm;
 
 import domain.member.MemberView;
-import domain.party.*;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
-import persistence.party.BranchViewMapper;
-import persistence.party.PartyViewMapper;
 import persistence.pm.PmMeetingFileMapper;
 import service.pm.PmMeetingService;
 import sys.tags.CmTag;
@@ -32,28 +31,7 @@ public class PmMeeting implements Serializable {
         return CmTag.getBranch(branchId);
 
     }
-//    public int getPartyMemberCount(){
-//        if(partyId==null) return 0;
-//
-//        PartyViewMapper partyViewMapper = CmTag.getBean(PartyViewMapper.class);
-//        PartyViewExample example = new PartyViewExample();
-//
-//        example.createCriteria().andIdEqualTo(partyId);
-//        List<PartyView> partyViews= partyViewMapper.selectByExample(example);
-//
-//        return partyViews.get(0).getMemberCount();
-//    }
-//    public long getBranchMemberCount(){
-//        if(branchId==null) return 0;
-//
-//        BranchViewMapper branchViewMapper = CmTag.getBean(BranchViewMapper.class);
-//        BranchViewExample example = new BranchViewExample();
-//
-//        example.createCriteria().andIdEqualTo(branchId).andPartyIdEqualTo(partyId);
-//        List<BranchView> branchViews= branchViewMapper.selectByExample(example);
-//
-//        return branchViews.get(0).getMemberCount();
-//    }
+
     public SysUserView getPresenterName(){
         return CmTag.getUserById(presenter);
     }

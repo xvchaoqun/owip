@@ -6,7 +6,7 @@
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/pmMeeting_au"
              data-url-page="${ctx}/pmMeeting"
-             data-url-export="${ctx}/pmMeeting"
+             data-url-export="${ctx}/pmMeeting_data?type=${type}&cls=${cls}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="tabbable">
                 <shiro:hasPermission name="pmMeeting:list">
@@ -46,10 +46,21 @@
                         <c:set var="_query"
                                value="${not empty param.partyId||not empty param.branchId||not empty param.name||not empty param.issue||not empty param.year||not empty param.quarter||not empty param._meetingDate}"/>
                         <div class="jqgrid-vertical-offset buttons">
-
+                            <shiro:hasPermission name="pmMeeting:approve">
+                                <c:if test="${cls==1}">
+                                    <button id="checkBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                            data-url="${ctx}/pmMeeting_check?check=true"
+                                            data-grid-id="#jqGrid">
+                                        <i class="fa fa-check"></i> 审核</button>
+                                    <button id="backBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                                            data-url="${ctx}/pmMeeting_check"
+                                            data-grid-id="#jqGrid">
+                                        <i class="fa fa-reply"></i> 退回</button>
+                                </c:if>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="pmMeeting:edit">
                                 <c:if test="${cls==2||cls==4}">
-                                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                    <a class="jqOpenViewBtn btn btn-info btn-sm"
                                        data-url="${ctx}/pmMeeting_au?edit=true&reedit=1"
                                        data-grid-id="#jqGrid"
                                        data-open-by="page"><i class="fa fa-edit"></i>
@@ -63,6 +74,9 @@
                                                data-open-by="page"><i class="fa fa-edit"></i>
                                         修改</a>
                               </c:if>
+                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-rel="tooltip" data-placement="top"
+                                   title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls!=3}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
@@ -88,6 +102,27 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
+
+                                            <div class="form-group">
+                                                <label>年度</label>
+                                                <select class="form-control" data-rel="select2" data-width="110" id="year" name="year" data-placeholder="请选择">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group"id="quarterDiv" style="${(empty param.year)?'display: none':''}">
+                                                <label>季度</label>
+                                                <select class="form-control"
+                                                        data-width="110" data-rel="select2"
+                                                        id="quarter"  name="quarter" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">第1季度</option>
+                                                    <option value="2">第2季度</option>
+                                                    <option value="3">第3季度</option>
+                                                    <option value="4">第4季度</option>
+
+                                                </select>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label>${_p_partyName}</label>
                                                 <select class="form-control" data-width="250" data-rel="select2-ajax"
@@ -106,25 +141,6 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>年度</label>
-                                                <select class="form-control" data-rel="select2" data-width="200" id="year" name="year" data-placeholder="请选择">
-                                                    <option></option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group"id="quarterDiv" style="${(empty param.year)?'display: none':''}">
-                                                <label>季度</label>
-                                                <select class="form-control"
-                                                        data-width="200" data-rel="select2"
-                                                        id="quarter"  name="quarter" data-placeholder="请选择">
-                                                    <option></option>
-                                                    <option value="1">第1季度</option>
-                                                    <option value="2">第2季度</option>
-                                                    <option value="3">第3季度</option>
-                                                    <option value="4">第4季度</option>
-
-                                                </select>
-                                            </div>
                                             <label>会议名称</label>
                                             <input class="form-control search-query" name="name" type="text"
                                                    value="${param.name}"
@@ -184,19 +200,40 @@
         rownumbers:true,
         url: '${ctx}/pmMeeting_data?branch=${param.branchId}&type=${type}&cls=${cls}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-
-            {label: '会议名称', name: 'name', align:'left'},
+            {
+                label: '年份', name: 'year', width:80,align: 'left', frozen:true
+            },
+            {
+                label: '季度', name: 'quarter',width:80, align: 'left',frozen:true, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined)
+                        return '--'
+                    return '第'+cellvalue+'季度'
+                }
+            },
+            {label: '会议名称', name: 'name', align:'left',frozen:true},
             {label: '会议议题', name: 'issue', width:250, align:'left', formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined) return '--';
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,cellvalue);
                 }
             },
-            {label: '会议时间', name: 'date', width:180, frozen: true, align:'left'},
-            {
-                label: '季度', name: 'quarter', align: 'left', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined)
-                        return '--'
-                    return '第'+cellvalue+'季度'
+            {label: '会议时间', name: 'date', width:150, align:'left'},
+            {label: '所属组织机构', name: 'branch.name', width:400, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
+                    return $.party(rowObject.partyId, rowObject.branchId);
+                }
+            },
+            {label: '应到人数', name: 'dueNum', align:'left'},
+            {label: '实到人数', name: 'attendNum', align:'left',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==0) return '--'
+                    return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                        'data-url="${ctx}/pmMeeting_user?id={0}&type=1"><u>{1}</u></a>')
+                        .format(rowObject.id, cellvalue);
+                }
+            },
+            {label: '请假人数', name: 'absentNum', align:'left',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==0) return '--'
+                    return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                        'data-url="${ctx}/pmMeeting_user?id={0}&type=2"><u>{1}</u></a>')
+                        .format(rowObject.id, cellvalue);
                 }
             },
             {label: '主持人', name: 'presenterName.realname', align:'left'},
@@ -210,7 +247,7 @@
                 }},
             {label: '附件', name: 'file', formatter: function (cellvalue, options, rowObject) {
 
-                    return '<button class="popupBtn btn btn-info btn-xs" data-width="600" data-callback="_reload"' +
+                    return '<button class="popupBtn btn btn-info btn-xs" data-width="700" data-callback="_reload"' +
                         'data-url="${ctx}/pmMeetingFile?id={0}"><i class="fa fa-search"></i> 附件{1}</button>'
                             .format(rowObject.id, rowObject.fileCount>=0?"("+rowObject.fileCount+")":"")
                 }},
@@ -218,52 +255,55 @@
                 var adminParty=$.inArray(rowObject.partyId,${cm:toJSONArray(adminPartyIdList)});
 
                     if(rowObject.isBack) return '已退回'
-                    <shiro:hasPermission name="pmMeeting:approve">
-                    if (cellvalue == 0){
-                        if(adminParty<0&&${addPermits==true})
-                            return '<button class="popupBtn btn btn-success btn-xs" disabled="disabled" data-url="${ctx}/pmMeeting_check?id={0}&check=true"><i class="fa fa-check"></i> {1}</button>'.format(rowObject.id, '审核');
-                        else
-                            return '<button class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pmMeeting_check?id={0}&check=true"><i class="fa fa-check"></i> {1}</button>'.format(rowObject.id, '审核');
-                    }
-                    </shiro:hasPermission>
-                    return _cMap.PM_MEETING_STATUS_MAP[cellvalue];
-                }
-                ,frozen:true },
-            <c:if test="${cls==1}">
-            <shiro:hasPermission name="pmMeeting:approve">
-            { label: '退回', name: 'isBack', width: 80, formatter:function(cellvalue, options, rowObject){
-                    var adminParty=$.inArray(rowObject.partyId,${cm:toJSONArray(adminPartyIdList)});
 
-                    if (cellvalue) return '已退回'
-                    if (rowObject.status != 0)  return '--';
-                    if(adminParty<0&&${addPermits==true})
-                         return '<button class="popupBtn btn btn-danger btn-xs" disabled="disabled" data-url="${ctx}/pmMeeting_check?id={0}&check=false"><i class="fa fa-reply"></i> {1}</button>'
-                             .format(rowObject.id, '退回');
-                    else
-                        return '<button class="popupBtn btn btn-danger btn-xs" data-url="${ctx}/pmMeeting_check?id={0}&check=false"><i class="fa fa-reply"></i> {1}</button>'
-                            .format(rowObject.id, '退回');
-                },frozen:true
-            },
-            </shiro:hasPermission>
-            </c:if>
-            <c:if test="${cls==2}">
-            { label: '重新编辑', name: 'reedit', width: 100, formatter:function(cellvalue, options, rowObject){
-                    if (rowObject.isBack)
-                    return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/pmMeeting_au?edit=true&id={0}&reedit=1"><i class="fa fa-edit"></i> {1}</button>'
-                        .format(rowObject.id, '重新编辑');
-                    return '--';
-                },frozen:true
-            },
-            </c:if>
+                    return _cMap.PM_MEETING_STATUS_MAP[cellvalue];
+                },frozen:true },
+
             <c:if test="${cls==2||cls==4}">
             {label: '原因', name: 'reason', align:'left'},
             </c:if>
-            {label: '所属组织机构', name: 'branch.name', width:550, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }
-            },
-        ]
+            {hidden: true, name: 'partyId'}
+        ],
+        onSelectRow: function(id,status){
+            _selectRows(this,status)
+        },
+        onSelectAll: function(aRowids,status){
+            _selectRows(this,status)
+        }
     }).jqGrid("setFrozenColumns");
+
+    function _selectRows(grid,status){
+        if(status){
+            var ids = $(grid).getGridParam("selarrrow");
+            var canCheck = false;
+            for(var i=0;i<ids.length;i++){
+
+                var rowData = $(grid).getRowData(ids[i]);
+                var partyId = parseInt(rowData.partyId);
+
+                var arr= ${cm:toJSONArray(adminPartyIdList)};
+                var adminParty=$.inArray(partyId,arr);
+
+                console.log(partyId);
+                console.log(arr);
+                console.log(adminParty);
+                if(adminParty>=0){
+                    canCheck = true;
+                    break;
+                }
+            }
+
+            if(!canCheck&&${addPermits==true}){
+                $("#checkBtn").prop("disabled",true);
+                $("#backBtn").prop("disabled",true);
+            }
+        }
+        else{
+
+            $("#checkBtn").removeAttr("disabled");
+            $("#backBtn").removeAttr("disabled");
+        }
+    }
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();

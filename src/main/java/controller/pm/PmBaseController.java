@@ -1,11 +1,10 @@
 package controller.pm;
 
-import ext.service.ShortMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
+import service.base.MetaTypeService;
 import service.party.*;
 import service.pm.*;
-import service.pmd.*;
 import service.sys.SysUserService;
 import sys.HttpResponseMethod;
 
@@ -35,4 +34,6 @@ public class PmBaseController extends PmBaseMapper implements HttpResponseMethod
     protected PartyService partyService;
     @Autowired
     protected PmMeetingFileService pmMeetingFileService;
+    @Autowired
+    protected MetaTypeService metaTypeService;
 }

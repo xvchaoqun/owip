@@ -151,7 +151,7 @@
                         </c:if>
                     </td>
                     <td colspan="3">
-                        <div style="height:200px; overflow:auto;">
+                        <div style="max-height:200px; overflow:auto;">
                         <table id="attendTable"  class="table table-bordered table-condensed"
                         data-pagination="true" data-side-pagination="client" data-page-size="5">
                             <thead>
@@ -184,7 +184,7 @@
                         </c:if>
                     </td>
                     <td colspan="3">
-                        <div style="height:135px; overflow:auto;">
+                        <div style="max-height:135px; overflow:auto;">
                             <table id="absentTable"  class="table table-bordered table-condensed"
                                    data-pagination="true" data-side-pagination="client" data-page-size="5">
                                 <thead>
@@ -317,13 +317,17 @@
                             </div>
                         </c:forEach>
                         <c:if test="${edit}">
+                        <div id="fileDiv">
                             <div class="files">
                                 <input class="form-control" type="file" name="_files[]"/>
                             </div>
-                            <div style="padding-left: 50px">
-                            <button type="button" onclick="addFile()"
+                            <div id="fileButton"style="padding-left: 50px">
+                                <div style="padding-left: 50px">
+                                     <button type="button" onclick="addFile()"
                                     class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
                             </div>
+                            </div>
+                        </div>
                         </c:if>
                     </td>
                 </tr>
@@ -465,8 +469,7 @@
 
         var partyId=partySelect.val();
         var branchId=branchSelect.val();
-        //console.log(branchSelect.select2("data"));
-        //console.log("branchSelect："+branchId);
+
         if ($.isBlank(branchId)){
             $("#modalForm input[name=dueNum]").val('');
             presenterSelect.attr("disabled",true);
@@ -491,14 +494,12 @@
         $('#absent').removeAttr("disabled");
 
         var data = branchSelect.select2("data")[0];
-        //console.log(branchSelect.select2("data"));
         if(data['branch']) {
             console.log('--------')
             $("#modalForm input[name=dueNum]").val(data['branch'].memberCount);
         }else{
             console.log(data)
         }
-      // console.log(data['branch'].memberCount);
        });
 
     $(document).on("click", "#attendTable button", function () {
@@ -543,15 +544,24 @@
         // allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif','doc', 'docx'],
         // allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
     });
+    var i = 1;
     function addFile() {
-        var _file = $('<input class="form-control" type="file" name="_files[]" />');
-        $(".files").append(_file);
-        $.fileInput(_file, {
+        i++;
+       var _file = $('<div id="file'+i+'"><input  class="form-control" type="file" name="_files[]" /></div>');
+      $(".files").append(_file);
+       var _fileButton = $('<div id="btn'+i+'" style="padding-top: 35px"><button type="button" data-i="'+i+'" onclick="delfileInput(this)"class="addFileBtn btn btn-default btn-xs"><i class="fa fa-trash"></i></button></div>');
+      $("#fileButton").append(_fileButton);
+        $.fileInput($('input[type=file]', $(_file)), {
             no_file: '请上传附件...',
           //  allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
            // allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
         });
         return false;
+    }
+    function delfileInput(btn) {
+        var i = $(btn).data("i");
+        $("#file"+i).remove();
+        $("#btn"+i).remove();
     }
     function _delFile(id, name) {
         bootbox.confirm("确定删除该材料？", function (result) {
