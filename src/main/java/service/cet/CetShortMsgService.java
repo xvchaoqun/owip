@@ -86,10 +86,11 @@ public class CetShortMsgService extends CetBaseMapper {
         if (StringUtils.isBlank(msg)) return false;
 
         ShortMsgBean bean = new ShortMsgBean();
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setSender(null);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
         bean.setRelateId(tpl.getId());
-        bean.setType(tpl.getName());
+        bean.setTypeStr(tpl.getName());
         bean.setContent(msg);
 
         CetShortMsg csm = new CetShortMsg();
@@ -165,6 +166,7 @@ public class CetShortMsgService extends CetBaseMapper {
         if (StringUtils.isBlank(msg)) return false;
 
         ShortMsgBean bean = new ShortMsgBean();
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setSender(null);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
         bean.setRelateId(tpl.getId());
@@ -226,10 +228,11 @@ public class CetShortMsgService extends CetBaseMapper {
         if (StringUtils.isBlank(msg)) return 0;
 
         ShortMsgBean bean = new ShortMsgBean();
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setSender(null);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
         bean.setRelateId(tpl.getId());
-        bean.setType(tpl.getName());
+        bean.setTypeStr(tpl.getName());
         bean.setContent(msg);
 
         CetShortMsg csm = new CetShortMsg();
@@ -364,9 +367,10 @@ public class CetShortMsgService extends CetBaseMapper {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-            bean.setType("补选课报名");
+            bean.setTypeStr("补选课报名");
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -387,10 +391,11 @@ public class CetShortMsgService extends CetBaseMapper {
                     if (StringUtils.isNotBlank(mobile)) {
 
                         ShortMsgBean bean = new ShortMsgBean();
+                        bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
                         bean.setReceiver(userId);
                         bean.setSender(sendUserId);
                         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-                        bean.setType("补选课报名");
+                        bean.setTypeStr("补选课报名");
                         bean.setMobile(mobile);
                         bean.setContent(msg);
 
@@ -426,9 +431,10 @@ public class CetShortMsgService extends CetBaseMapper {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-            bean.setType("撰写心得体会");
+            bean.setTypeStr("撰写心得体会");
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -449,10 +455,11 @@ public class CetShortMsgService extends CetBaseMapper {
                     if (StringUtils.isNotBlank(mobile)) {
 
                         ShortMsgBean bean = new ShortMsgBean();
+                        bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
                         bean.setReceiver(userId);
                         bean.setSender(sendUserId);
                         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-                        bean.setType("撰写心得体会");
+                        bean.setTypeStr("撰写心得体会");
                         bean.setMobile(mobile);
                         bean.setContent(msg);
 

@@ -235,76 +235,6 @@ public class ContentTplExample {
             return (Criteria) this;
         }
 
-        public Criteria andRemarkIsNull() {
-            addCriterion("remark is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIsNotNull() {
-            addCriterion("remark is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkEqualTo(String value) {
-            addCriterion("remark =", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotEqualTo(String value) {
-            addCriterion("remark <>", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThan(String value) {
-            addCriterion("remark >", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
-            addCriterion("remark >=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThan(String value) {
-            addCriterion("remark <", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThanOrEqualTo(String value) {
-            addCriterion("remark <=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLike(String value) {
-            addCriterion("remark like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotLike(String value) {
-            addCriterion("remark not like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIn(List<String> values) {
-            addCriterion("remark in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotIn(List<String> values) {
-            addCriterion("remark not in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkBetween(String value1, String value2) {
-            addCriterion("remark between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotBetween(String value1, String value2) {
-            addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
         public Criteria andRoleIdIsNull() {
             addCriterion("role_id is null");
             return (Criteria) this;
@@ -492,6 +422,276 @@ public class ContentTplExample {
 
         public Criteria andCodeNotBetween(String value1, String value2) {
             addCriterion("code not between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIsNull() {
+            addCriterion("wx_msg_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIsNotNull() {
+            addCriterion("wx_msg_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeEqualTo(Byte value) {
+            addCriterion("wx_msg_type =", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotEqualTo(Byte value) {
+            addCriterion("wx_msg_type <>", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeGreaterThan(Byte value) {
+            addCriterion("wx_msg_type >", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("wx_msg_type >=", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeLessThan(Byte value) {
+            addCriterion("wx_msg_type <", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("wx_msg_type <=", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIn(List<Byte> values) {
+            addCriterion("wx_msg_type in", values, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotIn(List<Byte> values) {
+            addCriterion("wx_msg_type not in", values, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeBetween(Byte value1, Byte value2) {
+            addCriterion("wx_msg_type between", value1, value2, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("wx_msg_type not between", value1, value2, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIsNull() {
+            addCriterion("wx_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIsNotNull() {
+            addCriterion("wx_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleEqualTo(String value) {
+            addCriterion("wx_title =", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotEqualTo(String value) {
+            addCriterion("wx_title <>", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleGreaterThan(String value) {
+            addCriterion("wx_title >", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_title >=", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLessThan(String value) {
+            addCriterion("wx_title <", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLessThanOrEqualTo(String value) {
+            addCriterion("wx_title <=", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLike(String value) {
+            addCriterion("wx_title like", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotLike(String value) {
+            addCriterion("wx_title not like", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIn(List<String> values) {
+            addCriterion("wx_title in", values, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotIn(List<String> values) {
+            addCriterion("wx_title not in", values, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleBetween(String value1, String value2) {
+            addCriterion("wx_title between", value1, value2, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotBetween(String value1, String value2) {
+            addCriterion("wx_title not between", value1, value2, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIsNull() {
+            addCriterion("wx_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIsNotNull() {
+            addCriterion("wx_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlEqualTo(String value) {
+            addCriterion("wx_url =", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotEqualTo(String value) {
+            addCriterion("wx_url <>", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlGreaterThan(String value) {
+            addCriterion("wx_url >", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_url >=", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLessThan(String value) {
+            addCriterion("wx_url <", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLessThanOrEqualTo(String value) {
+            addCriterion("wx_url <=", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLike(String value) {
+            addCriterion("wx_url like", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotLike(String value) {
+            addCriterion("wx_url not like", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIn(List<String> values) {
+            addCriterion("wx_url in", values, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotIn(List<String> values) {
+            addCriterion("wx_url not in", values, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlBetween(String value1, String value2) {
+            addCriterion("wx_url between", value1, value2, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotBetween(String value1, String value2) {
+            addCriterion("wx_url not between", value1, value2, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIsNull() {
+            addCriterion("wx_pic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIsNotNull() {
+            addCriterion("wx_pic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicEqualTo(String value) {
+            addCriterion("wx_pic =", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotEqualTo(String value) {
+            addCriterion("wx_pic <>", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicGreaterThan(String value) {
+            addCriterion("wx_pic >", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_pic >=", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLessThan(String value) {
+            addCriterion("wx_pic <", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLessThanOrEqualTo(String value) {
+            addCriterion("wx_pic <=", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLike(String value) {
+            addCriterion("wx_pic like", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotLike(String value) {
+            addCriterion("wx_pic not like", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIn(List<String> values) {
+            addCriterion("wx_pic in", values, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotIn(List<String> values) {
+            addCriterion("wx_pic not in", values, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicBetween(String value1, String value2) {
+            addCriterion("wx_pic between", value1, value2, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotBetween(String value1, String value2) {
+            addCriterion("wx_pic not between", value1, value2, "wxPic");
             return (Criteria) this;
         }
 
@@ -1062,6 +1262,76 @@ public class ContentTplExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
     }

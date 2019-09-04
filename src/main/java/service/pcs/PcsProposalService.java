@@ -61,13 +61,14 @@ public class PcsProposalService extends PcsBaseMapper {
                         pcsProposal.getName());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -98,13 +99,14 @@ public class PcsProposalService extends PcsBaseMapper {
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle, realname, date, pcsProposal.getName());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setSender(ShiroHelper.getCurrentUserId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, "127.0.0.1");
             } catch (Exception ex) {

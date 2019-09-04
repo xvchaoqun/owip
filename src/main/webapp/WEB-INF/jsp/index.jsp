@@ -73,7 +73,7 @@
             <shiro:hasPermission name="shortMsgTpl:*">
                 <li>
                     <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i>
-                        定向短信</a>
+                        定向消息</a>
                 </li>
             </shiro:hasPermission>
             <li>
@@ -102,7 +102,7 @@
                     <shiro:hasPermission name="shortMsgTpl:*">
                         <li>
                             <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i
-                                    class="fa fa-send"></i> 定向短信</a>
+                                    class="fa fa-send"></i> 定向消息</a>
                         </li>
                     </shiro:hasPermission>
                     <li>

@@ -170,13 +170,14 @@ public class UserOaTaskUserController extends OaBaseController {
         String msg = MessageFormat.format(tpl.getContent(), assignMsgTitle, msgTitle, oaTask.getName());
 
         ShortMsgBean bean = new ShortMsgBean();
+        bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
         bean.setSender(userId);
         bean.setReceiver(oaTaskUser.getAssignUserId());
         bean.setMobile(oaTaskUser.getAssignUserMobile());
         bean.setContent(msg);
         bean.setRelateId(tpl.getId());
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-        bean.setType(tpl.getName());
+        bean.setTypeStr(tpl.getName());
 
         shortMsgService.send(bean, ContextHelper.getRealIp());
         logger.info(addLog(LogConstants.LOG_OA, "短信通知指定负责人：%s, %s", taskId, userId));

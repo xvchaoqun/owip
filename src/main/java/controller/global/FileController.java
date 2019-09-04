@@ -164,8 +164,6 @@ public class FileController extends BaseController {
     public void pic(String path, Integer w, Integer h,
                     HttpServletResponse response, HttpServletRequest request) throws IOException {
 
-        String imagepath = springProps.uploadPath + path;
-
         if(w==null && h==null){
             w = 800;
             h = 800;
@@ -175,7 +173,8 @@ public class FileController extends BaseController {
             h = Integer.MAX_VALUE;
         }
 
-        if(FileUtils.exists(springProps.uploadPath, path)) {
+        String imagepath = springProps.uploadPath + path;
+        if(FileUtils.exists(imagepath)) {
             BufferedImage bi = ImageIO.read(new File(imagepath));
             if(bi!=null) { // 不是图片则返回空
                 int srcWidth = bi.getWidth();      // 源图宽度

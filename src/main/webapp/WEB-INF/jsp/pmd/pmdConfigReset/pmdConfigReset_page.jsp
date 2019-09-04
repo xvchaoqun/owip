@@ -13,10 +13,11 @@
                 <select required data-rel="select2"
                         name="salaryMonth" data-placeholder="请选择">
                     <option></option>
-                    <c:forEach items="${salaryMonthList}" var="salaryMonth">
-                        <option value="${salaryMonth}">${salaryMonth}</option>
+                    <c:forEach items="${jzgSalaryMonthList}" var="salaryMonth">
+                        <option value="${salaryMonth}" title="${!salaryMonthSet.contains(salaryMonth)}">${salaryMonth}</option>
                     </c:forEach>
                 </select>
+                <span class="help-block">*标红的月份缺少离退休人员的相关数据</span>
             </div>
         </div>
         <div class="form-group">

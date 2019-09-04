@@ -195,13 +195,14 @@ public class ScPublicService extends ScBaseMapper {
                     String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                             scPublic.getCode(), endDate);
                     ShortMsgBean bean = new ShortMsgBean();
+                    shortMsgService.initShortMsgBeanParams(bean, tpl);
                     bean.setSender(null);
                     bean.setReceiver(userId);
                     bean.setMobile(mobile);
                     bean.setContent(msg);
                     bean.setRelateId(tpl.getId());
                     bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                    bean.setType(tpl.getName());
+                    bean.setTypeStr(tpl.getName());
 
                     shortMsgService.send(bean, null);
                 }catch (Exception ex){

@@ -15,6 +15,16 @@ public class ShortMsg implements Serializable {
     }
     private Integer id;
 
+    private Byte type;
+
+    private Byte wxMsgType;
+
+    private String wxTitle;
+
+    private String wxUrl;
+
+    private String wxPic;
+
     private Integer senderId;
 
     private Integer receiverId;
@@ -25,13 +35,15 @@ public class ShortMsg implements Serializable {
 
     private Byte relateType;
 
-    private String type;
+    private String typeStr;
 
     private String mobile;
 
     private String content;
 
     private Date createTime;
+
+    private String repeatTimes;
 
     private String ip;
 
@@ -49,6 +61,46 @@ public class ShortMsg implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Byte getWxMsgType() {
+        return wxMsgType;
+    }
+
+    public void setWxMsgType(Byte wxMsgType) {
+        this.wxMsgType = wxMsgType;
+    }
+
+    public String getWxTitle() {
+        return wxTitle;
+    }
+
+    public void setWxTitle(String wxTitle) {
+        this.wxTitle = wxTitle == null ? null : wxTitle.trim();
+    }
+
+    public String getWxUrl() {
+        return wxUrl;
+    }
+
+    public void setWxUrl(String wxUrl) {
+        this.wxUrl = wxUrl == null ? null : wxUrl.trim();
+    }
+
+    public String getWxPic() {
+        return wxPic;
+    }
+
+    public void setWxPic(String wxPic) {
+        this.wxPic = wxPic == null ? null : wxPic.trim();
     }
 
     public Integer getSenderId() {
@@ -91,12 +143,12 @@ public class ShortMsg implements Serializable {
         this.relateType = relateType;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeStr() {
+        return typeStr;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setTypeStr(String typeStr) {
+        this.typeStr = typeStr == null ? null : typeStr.trim();
     }
 
     public String getMobile() {
@@ -121,6 +173,14 @@ public class ShortMsg implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getRepeatTimes() {
+        return repeatTimes;
+    }
+
+    public void setRepeatTimes(String repeatTimes) {
+        this.repeatTimes = repeatTimes == null ? null : repeatTimes.trim();
     }
 
     public String getIp() {

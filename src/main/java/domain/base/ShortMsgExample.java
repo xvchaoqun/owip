@@ -165,6 +165,336 @@ public class ShortMsgExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Byte value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Byte value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Byte value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Byte> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Byte> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIsNull() {
+            addCriterion("wx_msg_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIsNotNull() {
+            addCriterion("wx_msg_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeEqualTo(Byte value) {
+            addCriterion("wx_msg_type =", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotEqualTo(Byte value) {
+            addCriterion("wx_msg_type <>", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeGreaterThan(Byte value) {
+            addCriterion("wx_msg_type >", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("wx_msg_type >=", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeLessThan(Byte value) {
+            addCriterion("wx_msg_type <", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("wx_msg_type <=", value, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeIn(List<Byte> values) {
+            addCriterion("wx_msg_type in", values, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotIn(List<Byte> values) {
+            addCriterion("wx_msg_type not in", values, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeBetween(Byte value1, Byte value2) {
+            addCriterion("wx_msg_type between", value1, value2, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxMsgTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("wx_msg_type not between", value1, value2, "wxMsgType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIsNull() {
+            addCriterion("wx_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIsNotNull() {
+            addCriterion("wx_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleEqualTo(String value) {
+            addCriterion("wx_title =", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotEqualTo(String value) {
+            addCriterion("wx_title <>", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleGreaterThan(String value) {
+            addCriterion("wx_title >", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_title >=", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLessThan(String value) {
+            addCriterion("wx_title <", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLessThanOrEqualTo(String value) {
+            addCriterion("wx_title <=", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleLike(String value) {
+            addCriterion("wx_title like", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotLike(String value) {
+            addCriterion("wx_title not like", value, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleIn(List<String> values) {
+            addCriterion("wx_title in", values, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotIn(List<String> values) {
+            addCriterion("wx_title not in", values, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleBetween(String value1, String value2) {
+            addCriterion("wx_title between", value1, value2, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTitleNotBetween(String value1, String value2) {
+            addCriterion("wx_title not between", value1, value2, "wxTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIsNull() {
+            addCriterion("wx_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIsNotNull() {
+            addCriterion("wx_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlEqualTo(String value) {
+            addCriterion("wx_url =", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotEqualTo(String value) {
+            addCriterion("wx_url <>", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlGreaterThan(String value) {
+            addCriterion("wx_url >", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_url >=", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLessThan(String value) {
+            addCriterion("wx_url <", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLessThanOrEqualTo(String value) {
+            addCriterion("wx_url <=", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlLike(String value) {
+            addCriterion("wx_url like", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotLike(String value) {
+            addCriterion("wx_url not like", value, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlIn(List<String> values) {
+            addCriterion("wx_url in", values, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotIn(List<String> values) {
+            addCriterion("wx_url not in", values, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlBetween(String value1, String value2) {
+            addCriterion("wx_url between", value1, value2, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxUrlNotBetween(String value1, String value2) {
+            addCriterion("wx_url not between", value1, value2, "wxUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIsNull() {
+            addCriterion("wx_pic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIsNotNull() {
+            addCriterion("wx_pic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicEqualTo(String value) {
+            addCriterion("wx_pic =", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotEqualTo(String value) {
+            addCriterion("wx_pic <>", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicGreaterThan(String value) {
+            addCriterion("wx_pic >", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_pic >=", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLessThan(String value) {
+            addCriterion("wx_pic <", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLessThanOrEqualTo(String value) {
+            addCriterion("wx_pic <=", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicLike(String value) {
+            addCriterion("wx_pic like", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotLike(String value) {
+            addCriterion("wx_pic not like", value, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicIn(List<String> values) {
+            addCriterion("wx_pic in", values, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotIn(List<String> values) {
+            addCriterion("wx_pic not in", values, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicBetween(String value1, String value2) {
+            addCriterion("wx_pic between", value1, value2, "wxPic");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxPicNotBetween(String value1, String value2) {
+            addCriterion("wx_pic not between", value1, value2, "wxPic");
+            return (Criteria) this;
+        }
+
         public Criteria andSenderIdIsNull() {
             addCriterion("sender_id is null");
             return (Criteria) this;
@@ -475,73 +805,73 @@ public class ShortMsgExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andTypeStrIsNull() {
+            addCriterion("type_str is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andTypeStrIsNotNull() {
+            addCriterion("type_str is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(String value) {
-            addCriterion("type =", value, "type");
+        public Criteria andTypeStrEqualTo(String value) {
+            addCriterion("type_str =", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(String value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andTypeStrNotEqualTo(String value) {
+            addCriterion("type_str <>", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(String value) {
-            addCriterion("type >", value, "type");
+        public Criteria andTypeStrGreaterThan(String value) {
+            addCriterion("type_str >", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andTypeStrGreaterThanOrEqualTo(String value) {
+            addCriterion("type_str >=", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(String value) {
-            addCriterion("type <", value, "type");
+        public Criteria andTypeStrLessThan(String value) {
+            addCriterion("type_str <", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(String value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andTypeStrLessThanOrEqualTo(String value) {
+            addCriterion("type_str <=", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLike(String value) {
-            addCriterion("type like", value, "type");
+        public Criteria andTypeStrLike(String value) {
+            addCriterion("type_str like", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotLike(String value) {
-            addCriterion("type not like", value, "type");
+        public Criteria andTypeStrNotLike(String value) {
+            addCriterion("type_str not like", value, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<String> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andTypeStrIn(List<String> values) {
+            addCriterion("type_str in", values, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<String> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andTypeStrNotIn(List<String> values) {
+            addCriterion("type_str not in", values, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(String value1, String value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andTypeStrBetween(String value1, String value2) {
+            addCriterion("type_str between", value1, value2, "typeStr");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(String value1, String value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andTypeStrNotBetween(String value1, String value2) {
+            addCriterion("type_str not between", value1, value2, "typeStr");
             return (Criteria) this;
         }
 
@@ -742,6 +1072,76 @@ public class ShortMsgExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesIsNull() {
+            addCriterion("repeat_times is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesIsNotNull() {
+            addCriterion("repeat_times is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesEqualTo(String value) {
+            addCriterion("repeat_times =", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesNotEqualTo(String value) {
+            addCriterion("repeat_times <>", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesGreaterThan(String value) {
+            addCriterion("repeat_times >", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesGreaterThanOrEqualTo(String value) {
+            addCriterion("repeat_times >=", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesLessThan(String value) {
+            addCriterion("repeat_times <", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesLessThanOrEqualTo(String value) {
+            addCriterion("repeat_times <=", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesLike(String value) {
+            addCriterion("repeat_times like", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesNotLike(String value) {
+            addCriterion("repeat_times not like", value, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesIn(List<String> values) {
+            addCriterion("repeat_times in", values, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesNotIn(List<String> values) {
+            addCriterion("repeat_times not in", values, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesBetween(String value1, String value2) {
+            addCriterion("repeat_times between", value1, value2, "repeatTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepeatTimesNotBetween(String value1, String value2) {
+            addCriterion("repeat_times not between", value1, value2, "repeatTimes");
             return (Criteria) this;
         }
 

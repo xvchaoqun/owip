@@ -49,7 +49,7 @@
                                             </div>
                                     </shiro:hasRole>
                                 <div class="form-group">
-                                    <label>短信内容</label>
+                                    <label>发送内容</label>
                                     <input class="form-control search-query" name="content" type="text" value="${param.content}"
                                            placeholder="请输入">
                                 </div>
@@ -92,9 +92,12 @@
                 if(rowObject.user==undefined) return '--'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },
-            { label: '类别',  name: 'type', width: 220,frozen:true, align:"left" },
+            { label: '类型', name: 'type', width: 80,  formatter: function (cellvalue, options, rowObject) {
+                return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
+            }},
+            { label: '所属模块',  name: 'typeStr', width: 220,frozen:true, align:"left" },
             { label: '手机号码',  name: 'mobile',frozen:true, width: 120 },
-            { label: '短信内容',  name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
+            { label: '发送内容',  name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
             { label: '发送时间',  name: 'createTime', width: 150},
             { label: 'IP',  name: 'ip', width: 150},
             { label: '是否成功',  name: 'status', formatter:function(cellvalue, options, rowObject){

@@ -17,8 +17,10 @@ import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/pmd")
@@ -56,8 +58,11 @@ public class PmdConfigResetController extends PmdBaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        List<String> salaryMonthList = iPmdMapper.extSalaryMonthList();
-        modelMap.put("salaryMonthList", salaryMonthList);
+        Set<String> salaryMonthSet = new HashSet<>(iPmdMapper.extSalaryMonthList());
+        modelMap.put("salaryMonthSet", salaryMonthSet); // 同时有教职工和离退休人员的数据的月份
+
+        List<String> jzgSalaryMonthList = iPmdMapper.extJzgSalaryMonthList();
+        modelMap.put("jzgSalaryMonthList", jzgSalaryMonthList);
 
         return "pmd/pmdConfigReset/pmdConfigReset_page";
     }

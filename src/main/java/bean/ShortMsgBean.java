@@ -5,13 +5,59 @@ package bean;
  */
 public class ShortMsgBean {
 
+    private byte type; // 类型，1 短信 2 微信 3 短信+微信
+    private Byte wxMsgType;
+    private String wxTitle;
+    private String wxUrl;
+    private String wxPic;
+
     private Integer relateId;
     private Byte relateType;
     private Integer sender;
     private Integer receiver;
     private String mobile;
     private String content;
-    private String type;
+    private String typeStr;
+
+    public byte getType() {
+        return type;
+    }
+
+    public void setType(byte type) {
+        this.type = type;
+    }
+
+    public Byte getWxMsgType() {
+        return wxMsgType;
+    }
+
+    public void setWxMsgType(Byte wxMsgType) {
+        this.wxMsgType = wxMsgType;
+    }
+
+    public String getWxTitle() {
+        return wxTitle;
+    }
+
+    public void setWxTitle(String wxTitle) {
+        this.wxTitle = wxTitle;
+    }
+
+    public String getWxUrl() {
+        return wxUrl;
+    }
+
+    public void setWxUrl(String wxUrl) {
+        this.wxUrl = wxUrl;
+    }
+
+    public String getWxPic() {
+        return wxPic;
+    }
+
+    public void setWxPic(String wxPic) {
+        this.wxPic = wxPic;
+    }
 
     public Integer getRelateId() {
         return relateId;
@@ -61,11 +107,11 @@ public class ShortMsgBean {
         this.content = content;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeStr() {
+        return typeStr;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeStr(String typeStr) {
+        this.typeStr = typeStr;
     }
 }

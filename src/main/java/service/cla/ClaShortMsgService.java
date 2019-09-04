@@ -111,13 +111,15 @@ public class ClaShortMsgService extends ClaBaseMapper {
                         cadreTitle, applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -154,13 +156,15 @@ public class ClaShortMsgService extends ClaBaseMapper {
                         cadreTitle,applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -254,19 +258,21 @@ public class ClaShortMsgService extends ClaBaseMapper {
             }
         }
         if (key != null) {
+            ContentTpl tpl = shortMsgService.getTpl(key);
             for (SysUserView approver : approvers) {
 
                 int userId = approver.getId();
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setSender(null);
                 bean.setReceiver(userId);
-                ContentTpl tpl = shortMsgService.getTpl(key);
+
                 String msgTpl = tpl.getContent();
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = null;
                 switch (key) {
                     case ContentTplConstants.CONTENT_TPL_CLA_APPLY_APPROVAL_UNIT_1:
@@ -322,15 +328,17 @@ public class ClaShortMsgService extends ClaBaseMapper {
             boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
             if(status) {
                 ContentTpl tpl = shortMsgService.getTpl(key);
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setRelateId(tpl.getId());
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle);
                 bean.setContent(msg);
             }else{
                 key = ContentTplConstants.CONTENT_TPL_CLA_APPLY_UNPASS;
                 ContentTpl tpl = shortMsgService.getTpl(key);
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setRelateId(tpl.getId());
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         StringUtils.defaultIfBlank(claApply.getApprovalRemark(), "无"));
                 bean.setContent(msg);
@@ -370,13 +378,14 @@ public class ClaShortMsgService extends ClaBaseMapper {
             String msgTitle = userBeanService.getMsgTitle(userId);
 
             ShortMsgBean bean = new ShortMsgBean();
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setSender(null);
             bean.setReceiver(userId);
 
             String msgTpl = tpl.getContent();
             bean.setRelateId(tpl.getId());
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
             String msg = MessageFormat.format(msgTpl, msgTitle);
 
             bean.setContent(msg);

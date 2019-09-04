@@ -60,7 +60,7 @@
                 <tr>
                     <td data-code="proof">获奖证书</td>
                     <td class="bg-left">
-                        <a class="various" data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(modify.proof)}">${modify.proofFilename}</a>
+                        <t:preview filePath="${modify.proof}" fileName="${modify.proofFilename}" label="${modify.proofFilename}"/>
                     </td>
                     <td data-code="unit">是否独立获奖</td>
                     <td class="bg-left">${modify.isIndependent?"是":"否"}</td>
@@ -201,7 +201,7 @@
     $(window).triggerHandler('resize.jqGrid4');
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'));
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'), this.title);
     });
 </script>

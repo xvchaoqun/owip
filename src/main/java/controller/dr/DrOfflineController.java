@@ -415,6 +415,9 @@ public class DrOfflineController extends DrBaseController {
         } else {
 
             drOfflineService.updateByPrimaryKeySelective(record);
+            if(CmTag.getMetaTypeByCode("mt_dr_type_meeting").getId().intValue()!=record.getType()){
+                commonMapper.excuteSql("update dr_offline set supervice_user_id=null where id="+ record.getId());
+            }
             logger.info(addLog(LogConstants.LOG_DR, "更新线下民主推荐：%s", record.getId()));
         }
 

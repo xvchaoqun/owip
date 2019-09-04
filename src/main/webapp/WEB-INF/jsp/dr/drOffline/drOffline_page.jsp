@@ -14,6 +14,11 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/drOffline_au"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
+                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                       data-url="${ctx}/dfOffline_uploadBallotSample"
+                            data-id-name="offlineId"
+                       data-grid-id="#jqGrid"><i class="fa fa-upload"></i>
+                        上传推荐票样</button>
                     <button id="inspectorEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/drOffline_selectMembers"
                             data-grid-id="#jqGrid"
@@ -136,15 +141,12 @@ pageEncoding="UTF-8" %>
                     }, width: 250
                 },
                 {label: '监督人员', name: 'superviceUser.realname'},
-                { label: '推荐票样',name: 'ballotSample', width: 150, formatter: function (cellvalue, options, rowObject) {
+                { label: '推荐票样',name: 'ballotSample', formatter: function (cellvalue, options, rowObject) {
 
                         var hasUpload = $.trim(rowObject.ballotSample)!='';
-                        var str= ('<button class="popupBtn btn btn-primary btn-xs" '
-                            + 'data-url="${ctx}/dfOffline_uploadBallotSample?offlineId={0}">'
-                            + '<i class="fa fa-upload"></i> {1}</button>')
-                            .format(rowObject.id, hasUpload?"更新":"上传");
+                        var str= '--'
                         if(hasUpload){
-                            str += ('&nbsp;&nbsp;<button class="downloadBtn btn btn-xs btn-success" ' +
+                            str = ('<button class="downloadBtn btn btn-xs btn-success" ' +
                              'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
                                 .format(rowObject.ballotSample, "推荐票样")
                         }

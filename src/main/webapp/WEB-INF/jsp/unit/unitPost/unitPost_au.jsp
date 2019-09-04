@@ -52,14 +52,14 @@ pageEncoding="UTF-8"%>
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 							<input required type="radio" name="isPrincipal" id="isPrincipal1" value="1">
 							<label for="isPrincipal1">
-								正职
+								是
 							</label>
 						</div>
 						&nbsp;&nbsp;
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 							<input required type="radio" name="isPrincipal" id="isPrincipal0" value="0">
 							<label for="isPrincipal0">
-								副职
+								否
 							</label>
 						</div>
 					</div>

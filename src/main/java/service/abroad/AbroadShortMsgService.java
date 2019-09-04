@@ -156,13 +156,15 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                         cadreTitle, applyUser.getRealname(), passportClass.getName());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -206,13 +208,15 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                         cadreTitle, applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -249,13 +253,15 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                         cadreTitle,applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -300,13 +306,15 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                         AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()));
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             }catch (Exception ex){
@@ -405,19 +413,21 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             }
         }
         if(key != null){
+
+            ContentTpl tpl = shortMsgService.getTpl(key);
             for (SysUserView approver : approvers) {
 
                 int userId = approver.getId();
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setSender(null);
                 bean.setReceiver(userId);
-                ContentTpl tpl = shortMsgService.getTpl(key);
                 String msgTpl = tpl.getContent();
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = null;
                 switch (key){
                     case ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
@@ -552,13 +562,15 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
                                     cadreTitle, applyUser.getRealname(), drawTime, returnDate);
 
                             ShortMsgBean bean = new ShortMsgBean();
+                            shortMsgService.initShortMsgBeanParams(bean, tpl);
+
                             bean.setSender(null);
                             bean.setReceiver(userId);
                             bean.setMobile(mobile);
                             bean.setContent(msg);
                             bean.setRelateId(tpl.getId());
                             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                            bean.setType(tpl.getName());
+                            bean.setTypeStr(tpl.getName());
 
                             shortMsgService.send(bean, "127.0.0.1");
                         }catch (Exception ex){
@@ -589,8 +601,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             String key = ContentTplConstants.CONTENT_TPL_PASSPORT_INFO;
 
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passport.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -616,8 +629,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             }
 
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passport.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -638,8 +652,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             }
 
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passport.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -671,15 +686,17 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
             if(status) {
                 ContentTpl tpl = shortMsgService.getTpl(key);
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setRelateId(tpl.getId());
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle);
                 bean.setContent(msg);
             }else{
                 key = ContentTplConstants.CONTENT_TPL_APPLYSELF_UNPASS;
                 ContentTpl tpl = shortMsgService.getTpl(key);
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setRelateId(tpl.getId());
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         StringUtils.defaultIfBlank(applySelf.getApprovalRemark(), "无"));
                 bean.setContent(msg);
@@ -691,8 +708,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_PASS;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -709,8 +727,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_UNPASS;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -725,8 +744,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_DRAW;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -743,8 +763,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_TAIWANRECORD_HANDLE;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = taiwanRecord.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -759,8 +780,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT; // 发给干部
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -776,8 +798,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -794,8 +817,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_RETURN;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -814,8 +838,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS;
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
@@ -848,8 +873,9 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             }
 
             ContentTpl tpl = shortMsgService.getTpl(key);
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setRelateId(tpl.getId());
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖

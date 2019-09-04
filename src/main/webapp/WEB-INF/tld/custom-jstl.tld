@@ -443,4 +443,9 @@
 		<function-class>sys.utils.Base64Utils</function-class>
 		<function-signature>java.lang.String decodeStr(java.lang.String)</function-signature>
 	</function>
+	<function>
+		<name>isImage</name>
+		<function-class>sys.utils.ImageUtils</function-class>
+		<function-signature>boolean isImage(java.lang.String,java.lang.String)</function-signature>
+	</function>
 </taglib>

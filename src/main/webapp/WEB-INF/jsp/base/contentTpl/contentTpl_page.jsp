@@ -12,21 +12,21 @@
 
             <div class="jqgrid-vertical-offset  buttons">
                 <shiro:hasPermission name="contentTpl:edit">
-                    <a class="popupBtn btn btn-success btn-sm"
+                    <a class="openView btn btn-success btn-sm"
                        data-url="${ctx}/contentTpl_au?contentType=<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>">
                         <i class="fa fa-plus"></i> 添加普通文本
                     </a>
-                    <a class="popupBtn btn btn-info btn-sm"
-                       data-width="900"
+                    <a class="openView btn btn-info btn-sm"
                        data-url="${ctx}/contentTpl_au?contentType=<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>">
                         <i class="fa fa-plus"></i> 添加HTML文本
                     </a>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-open-by="page"
                             data-url="${ctx}/contentTpl_au">
                         <i class="fa fa-edit"></i> 修改
                     </button>
                     <button data-url="${ctx}/contentTpl_receivers" class="jqOpenViewBtn btn btn-warning btn-sm">
-                        <i class="fa fa-user"></i> 设置短信接收人
+                        <i class="fa fa-user"></i> 设置消息接收人
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_ADMIN}">
@@ -104,11 +104,20 @@
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/contentTpl_changeOrder'}, frozen:true },
             </c:if>
-            { label: '类型', name: 'type',  formatter: function (cellvalue, options, rowObject) {
+            { label: '类型', name: 'type', width: 80,  formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
             }},
+            { label: '标题（微信）', name: 'wxTitle', width: 150, align:'left', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.type=='<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>') return '--'
+                var str = "";
+                if(rowObject.wxPic!=undefined){
+                    str += '<a href="{0}" target="_blank"><img src="{0}" width="40"/></a> '.format(rowObject.wxPic)
+                }
+                str += $.trim(cellvalue) + "，" + $.trim(rowObject.wxUrl);
+                return str;
+            }},
             { label: '内容', name: 'content', width: 450, align:'left', formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
-            { label: '指定短信接收人', name: '_receivers', width: 180, formatter: function (cellvalue, options, rowObject) {
+            { label: '指定消息接收人', name: '_receivers', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.receivers==undefined || rowObject.receivers.length==0) return '--'
                 //console.log(rowObject.receivers)
                 return $.map(rowObject.receivers,function(val, i){

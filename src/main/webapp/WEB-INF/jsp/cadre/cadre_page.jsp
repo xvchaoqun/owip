@@ -10,7 +10,7 @@
                  data-url-page="${ctx}/cadre"
                  data-url-co="${ctx}/cadre_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender ||not empty param.nation
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
@@ -357,6 +357,24 @@
                                                     </c:if>
                                                 </tr>
                                                 <tr>
+                                                    <td class="name">民族</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="nation">
+                                                            <c:forEach items="${nations}" var="nation">
+                                                                <option value="${nation}">${nation}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
+                                                    <td class="name">职务</td>
+                                                    <td class="input">
+                                                        <input type="text" style="width: 200px" name="post" value="${param.post}">
+                                                    </td>
+                                                    <td class="name">所在单位及职务</td>
+                                                    <td class="input">
+                                                        <input type="text" style="width: 200px" name="title" value="${param.title}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="name">部门属性</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitTypes">
@@ -557,16 +575,7 @@
                                                             $("#searchForm select[name=isDep]").val('${param.isDep}');
                                                         </script>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="name">职务</td>
-                                                    <td class="input">
-                                                        <input type="text" style="width: 200px" name="post" value="${param.post}">
-                                                    </td>
-                                                    <td class="name">所在单位及职务</td>
-                                                    <td class="input">
-                                                        <input type="text" style="width: 200px" name="title" value="${param.title}">
-                                                    </td>
+
                                                     <td class="name">是否有挂职经历</td>
                                                     <td class="input">
                                                         <select name="hasCrp" data-width="100" data-rel="select2"
@@ -663,7 +672,7 @@
          });
          $("#searchForm input[name=cols]").val(cols.join(','));
      }
-
+    $.register.multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNations)});
     $.register.multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     $.register.multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {
         enableClickableOptGroups: true,

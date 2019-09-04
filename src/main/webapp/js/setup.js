@@ -1054,9 +1054,9 @@ $(window).bind("hashchange", function () {
 
     NProgress.start();
 
-    var hash = location.hash;
+    var hash = $.trim(location.hash);
     //console.log("hash=" + hash)
-    if (hash == '' || hash == '#') {
+    if (hash == '' || hash == '#' || hash == '#/') {
         $("#page-content").renderUrl({
             url: ctx + '/index', fn: function () {
                 _refreshMenu('#');

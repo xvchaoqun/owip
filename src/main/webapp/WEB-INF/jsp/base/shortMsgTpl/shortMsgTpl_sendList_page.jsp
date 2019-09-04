@@ -14,7 +14,15 @@
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
-                        <div class="col-sm-12">
+                        <div class="jqgrid-vertical-offset buttons">
+                                <button data-url="${ctx}/shortMsg_repeat"
+                                        data-title="重复发送一次"
+                                        data-msg="确定重复发送这{0}条消息？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-send-o"></i> 重复发送
+                                </button>
+                        </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
@@ -52,7 +60,7 @@
                                                 </div>
                                             </shiro:hasRole>
                                             <div class="form-group">
-                                                <label>短信内容</label>
+                                                <label>发送内容</label>
                                                 <input class="form-control search-query" name="content" type="text"
                                                        value="${param.content}"
                                                        placeholder="请输入">
@@ -92,7 +100,6 @@
                             <%--<div class="space-4"></div>--%>
                             <table id="jqGrid" class="jqGrid table-striped"></table>
                             <div id="jqGridPager"></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -101,18 +108,68 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script type="text/template" id="itemListTpl">
+    <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+        <h3>重复发送记录</h3>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
+            <thead>
+            <tr>
+                <td width="150">重复发送时间</td>
+            </tr>
+            </thead>
+            <tbody>
+            {{_.each(repeatTimes, function(repeatTime, idx){ }}
+            <tr>
+                <td>{{=repeatTime}}</td>
+            </tr>
+            {{});}}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    </div>
+</script>
 <script>
+    function _showModal(_repeatTimes){
+        var repeatTimes = $.map(_repeatTimes.split(","), function (repeatTime) {
+            return $.date(parseInt(repeatTime), 'yyyy-MM-dd HH:mm:ss')
+        })
+        //console.log(repeatTimes)
+        $.showModal(_.template($("#itemListTpl").html())({repeatTimes: repeatTimes}), 300)
+    }
     $("#jqGrid").jqGrid({
-        multiselect: false,
         url: '${ctx}/shortMsgTpl_sendList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '重复发送', name: 'repeatTimes', width: 90, formatter:function (cellvalue) {
+                if($.isBlank(cellvalue)) return '--'
+                return ('<button class="btn btn-xs btn-primary" ' +
+                    'onclick="_showModal(\'{0}\')"><i class="fa fa-search"></i> 查看({1})</button>')
+                        .format(cellvalue, cellvalue.split(",").length);
+            },frozen:true},
+            { label: '类型', name: 'type', width: 80,  formatter: function (cellvalue, options, rowObject) {
+                return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
+            }},
             {label: '接收人', name: 'user.realname', width: 120, frozen: true},
             {label: '学工号', name: 'user.code', width: 120, frozen: true},
-            {label: '类别', name: 'type', width: 250, frozen: true},
-            {label: '手机号码', name: 'mobile', width: 120, frozen: true},
-            {label: '短信内容', name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '所属模块', name: 'typeStr', width: 250},
+            {label: '手机号码', name: 'mobile', width: 120},
+            { label: '标题（微信）', name: 'wxTitle', width: 150, align:'left', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.type=='<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>') return '--'
+                var str = "";
+                if(rowObject.wxPic!=undefined){
+                    str += '<a href="{0}" target="_blank"><img src="{0}" width="40"/></a> '.format(rowObject.wxPic)
+                }
+                str += $.trim(cellvalue) + "，" + $.trim(rowObject.wxUrl);
+                return str;
+            }},
+            {label: '发送内容', name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '发送人', name: 'sender.realname', width: 120},
             {label: '发送时间', name: 'createTime', width: 200},
+
             {label: 'IP', name: 'ip', width: 150},
             {
                 label: '是否成功', name: 'status', width: 80, formatter: function (cellvalue, options, rowObject) {

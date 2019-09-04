@@ -31,7 +31,7 @@
 
         <!--<table tableName="base_country" domainObjectName="base.Country">
         </table>-->
-           <!--<table tableName="base_content_tpl" domainObjectName="base.ContentTpl" mapperName="base.ContentTplMapper">
+          <!-- <table tableName="base_content_tpl" domainObjectName="base.ContentTpl" mapperName="base.ContentTplMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                  <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
                  <ignoreColumn column="update_time"/>
@@ -50,13 +50,14 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
+        <table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="repeat_times" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="ret" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 
@@ -96,9 +97,9 @@
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
-        <table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
+        <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo" mapperName="sys.TeacherInfoMapper">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

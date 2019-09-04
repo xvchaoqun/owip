@@ -9,13 +9,24 @@ import java.util.Map;
 public class ContentTplConstants {
 
     // 内容模板类别  1 短信
-    public final static byte CONTENT_TPL_TYPE_SHORTMSG = 1;
-    public final static byte CONTENT_TPL_TYPE_NORMAL = 2;
+    public final static byte CONTENT_TPL_TYPE_MSG = 1;
+    public final static byte CONTENT_TPL_TYPE_WX = 2;
+    public final static byte CONTENT_TPL_TYPE_MSG_AND_WX = 3;
     public final static Map<Byte, String> CONTENT_TPL_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_SHORTMSG, "短信");
-        CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_NORMAL, "文本");
+        CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_MSG, "短信");
+        CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_WX, "微信");
+        //CONTENT_TPL_TYPE_MAP.put(CONTENT_TPL_TYPE_MSG_AND_WX, "短信+微信");
+    }
+    // 微信消息类别
+    public final static byte CONTENT_TPL_WX_TYPE_TEXT = 1;
+    public final static byte CONTENT_TPL_WX_TYPE_NEWS = 2;
+    public final static Map<Byte, String> CONTENT_TPL_WX_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CONTENT_TPL_WX_TYPE_MAP.put(CONTENT_TPL_WX_TYPE_TEXT, "文本");
+        CONTENT_TPL_WX_TYPE_MAP.put(CONTENT_TPL_WX_TYPE_NEWS, "图文");
     }
 
     // 内容模板内容类型  1 普通文本

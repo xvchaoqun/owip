@@ -29,10 +29,10 @@
                 <select required data-rel="select2" data-width="273"
                         name="type" data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_dr_recommend_type"/>
+                    <c:import url="/metaTypes?__code=mc_dr_type"/>
                 </select>
                 <script type="text/javascript">
-                    $("#modal form select[name=type]").val(${drOffline.type});
+                    $("#modalForm select[name=type]").val(${drOffline.type});
                 </script>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group superviceDiv">
             <label class="col-xs-3 control-label">监督人员</label>
             <div class="col-xs-6">
             <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
@@ -116,6 +116,19 @@
     }
 </style>
 <script>
+   function typeChange() {
+        var $type = $("#modalForm select[name=type]");
+        if ($type.val() == '${cm:getMetaTypeByCode('mt_dr_type_meeting').id}') {
+            $(".superviceDiv").show();
+        } else {
+            $(".superviceDiv").hide();
+        }
+    }
+    $("#modalForm select[name=type]").change(function () {
+        typeChange();
+    });
+    typeChange();
+
     $.register.multiselect($('#modalForm select[name=memberIds]'), ${cm:toJSONArray(selectMemberIds)}, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false

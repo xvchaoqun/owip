@@ -34,12 +34,13 @@
     String msg = MessageFormat.format(tpl.getContent(), username, code, seq);
 
     ShortMsgBean bean = new ShortMsgBean();
+    shortMsgService.initShortMsgBeanParams(bean, tpl);
     bean.setReceiver(uv.getId());
     bean.setMobile(uv.getMobile());
     bean.setContent(msg);
     bean.setRelateId(tpl.getId());
     bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-    bean.setType(tpl.getName());
+    bean.setTypeStr(tpl.getName());
 
     boolean send = shortMsgService.send(bean, request.getRemoteAddr());
 

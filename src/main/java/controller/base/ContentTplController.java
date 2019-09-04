@@ -1,7 +1,6 @@
 package controller.base;
 
 import controller.BaseController;
-import controller.global.OpException;
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
 import domain.base.ContentTplExample.Criteria;
@@ -135,7 +134,9 @@ public class ContentTplController extends BaseController {
 
     @RequiresPermissions("contentTpl:edit")
     @RequestMapping("/contentTpl_au")
-    public String contentTpl_au(Integer id,  Byte contentType, ModelMap modelMap) {
+    public String contentTpl_au(Integer id,  @RequestParam(required = false,
+            defaultValue = ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING+"") Byte contentType,
+                                ModelMap modelMap) {
 
         if (id != null) {
             ContentTpl contentTpl = contentTplMapper.selectByPrimaryKey(id);
@@ -143,14 +144,9 @@ public class ContentTplController extends BaseController {
             modelMap.put("contentTpl", contentTpl);
         }
 
-        if(contentType==null) contentType = ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING;
         modelMap.put("contentType", contentType);
 
-        if(contentType==ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING)
-            return "base/contentTpl/contentTpl_string_au";
-        if(contentType==ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML)
-            return "base/contentTpl/contentTpl_html_au";
-        throw new OpException("模板类型错误");
+        return "base/contentTpl/contentTpl_au";
     }
 
     @RequiresPermissions("contentTpl:del")
