@@ -8,7 +8,6 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cg/cgTeam_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cgTeam.id}">
-		<input type="hidden" name="isCurrent" value="${isCurrent}">
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 委员会和领导小组名称</label>
 			<div class="col-xs-6">
@@ -18,15 +17,17 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 类型</label>
 			<div class="col-xs-6">
-				<select required id="typeSelect" name="type" data-placeholder="请选择管理员类型"
+				<select required id="typeSelect1" name="type" data-placeholder="请选择管理员类型"
 						data-rel="select2" data-width="270">
 					<option></option>
+					<%--<option value="1">委员会</option>
+					<option value="2">领导小组</option>--%>
 					<c:forEach items="<%=CgConstants.CG_TEAM_TYPE_MAP%>" var="cgTeamType">
 						<option value="${cgTeamType.key}">${cgTeamType.value}</option>
 					</c:forEach>
 				</select>
 				<script>
-					$("#typeSelect").val('${cgTeam.type}');
+					$("#typeSelect1").val('${cgTeam.type}');
 				</script>
 			</div>
 		</div>
@@ -73,10 +74,5 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
 </script>

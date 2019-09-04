@@ -4,7 +4,6 @@ import domain.cg.CgLeader;
 import domain.cg.CgLeaderExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -14,10 +13,9 @@ import java.util.Map;
 @Service
 public class CgLeaderService extends CgBaseMapper {
 
-    public boolean idDuplicate(Integer id, int teamId, boolean isCurrent){
+    public boolean idDuplicate(Integer id, Integer teamId,Boolean isCurrent){
 
-        if(!isCurrent) return false;
-
+        if (!isCurrent) return false;
         CgLeaderExample example = new CgLeaderExample();
         CgLeaderExample.Criteria criteria = example.createCriteria()
                 .andTeamIdEqualTo(teamId)
@@ -30,7 +28,6 @@ public class CgLeaderService extends CgBaseMapper {
     @Transactional
     public void insertSelective(CgLeader record){
 
-        Assert.isTrue(!idDuplicate(null, record.getTeamId(), record.getIsCurrent()), "duplicate");
         cgLeaderMapper.insertSelective(record);
     }
 
@@ -51,10 +48,9 @@ public class CgLeaderService extends CgBaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(CgLeader record){
+    public void updateByPrimaryKey(CgLeader record){
 
-        Assert.isTrue(!idDuplicate(record.getId(), record.getTeamId(), record.getIsCurrent()), "duplicate");
-        cgLeaderMapper.updateByPrimaryKeySelective(record);
+        cgLeaderMapper.updateByPrimaryKey(record);
     }
 
     public Map<Integer, CgLeader> findAll() {
@@ -68,5 +64,19 @@ public class CgLeaderService extends CgBaseMapper {
         }
 
         return map;
+    }
+
+    @Transactional
+    public void updatecgLeaderStatus(Integer[] ids, boolean isCurrent){
+
+        if(ids==null || ids.length==0) return;
+
+        for (Integer id : ids){
+
+            CgLeader cgLeader = new CgLeader();
+            cgLeader.setId(id);
+            cgLeader.setIsCurrent(isCurrent);
+            cgLeaderMapper.updateByPrimaryKeySelective(cgLeader);
+        }
     }
 }

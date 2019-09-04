@@ -252,63 +252,63 @@ public class CgLeaderExample {
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostIsNull() {
-            addCriterion("relate_post is null");
+        public Criteria andIsPostIsNull() {
+            addCriterion("is_post is null");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostIsNotNull() {
-            addCriterion("relate_post is not null");
+        public Criteria andIsPostIsNotNull() {
+            addCriterion("is_post is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostEqualTo(Integer value) {
-            addCriterion("relate_post =", value, "relatePost");
+        public Criteria andIsPostEqualTo(Boolean value) {
+            addCriterion("is_post =", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostNotEqualTo(Integer value) {
-            addCriterion("relate_post <>", value, "relatePost");
+        public Criteria andIsPostNotEqualTo(Boolean value) {
+            addCriterion("is_post <>", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostGreaterThan(Integer value) {
-            addCriterion("relate_post >", value, "relatePost");
+        public Criteria andIsPostGreaterThan(Boolean value) {
+            addCriterion("is_post >", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostGreaterThanOrEqualTo(Integer value) {
-            addCriterion("relate_post >=", value, "relatePost");
+        public Criteria andIsPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_post >=", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostLessThan(Integer value) {
-            addCriterion("relate_post <", value, "relatePost");
+        public Criteria andIsPostLessThan(Boolean value) {
+            addCriterion("is_post <", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostLessThanOrEqualTo(Integer value) {
-            addCriterion("relate_post <=", value, "relatePost");
+        public Criteria andIsPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_post <=", value, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostIn(List<Integer> values) {
-            addCriterion("relate_post in", values, "relatePost");
+        public Criteria andIsPostIn(List<Boolean> values) {
+            addCriterion("is_post in", values, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostNotIn(List<Integer> values) {
-            addCriterion("relate_post not in", values, "relatePost");
+        public Criteria andIsPostNotIn(List<Boolean> values) {
+            addCriterion("is_post not in", values, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostBetween(Integer value1, Integer value2) {
-            addCriterion("relate_post between", value1, value2, "relatePost");
+        public Criteria andIsPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_post between", value1, value2, "isPost");
             return (Criteria) this;
         }
 
-        public Criteria andRelatePostNotBetween(Integer value1, Integer value2) {
-            addCriterion("relate_post not between", value1, value2, "relatePost");
+        public Criteria andIsPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_post not between", value1, value2, "isPost");
             return (Criteria) this;
         }
 

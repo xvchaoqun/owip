@@ -1,12 +1,20 @@
 package domain.ps;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import service.ps.PsInfoService;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class PsInfo implements Serializable {
+
+    public Long getCountNumber(){
+        PsInfoService psInfoService = CmTag.getBean(PsInfoService.class);
+        return psInfoService.getAllCountNumberById(id);
+    }
+
     private Integer id;
 
     private String seq;

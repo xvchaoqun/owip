@@ -3,7 +3,6 @@ package domain.cg;
 import domain.sys.SysUserView;
 import domain.unit.UnitPost;
 import persistence.cg.CgTeamMapper;
-import persistence.ps.common.IPsMapper;
 import persistence.unit.UnitPostMapper;
 import sys.tags.CmTag;
 
@@ -20,11 +19,8 @@ public class CgMember implements Serializable {
         return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
     }
 
-    public CgTeam getcgTeam(){
+    public CgTeam getCgTeam(){return CmTag.getBean(CgTeamMapper.class).selectByPrimaryKey(teamId);}
 
-        CgTeamMapper cgTeamMapper = CmTag.getBean(CgTeamMapper.class);
-        return cgTeamMapper.selectByPrimaryKey(teamId);
-    }
     private Integer id;
 
     private Integer teamId;
@@ -38,8 +34,6 @@ public class CgMember implements Serializable {
     private Integer userId;
 
     private String tag;
-
-    private String userIds;
 
     private Date startDate;
 
@@ -107,14 +101,6 @@ public class CgMember implements Serializable {
 
     public void setTag(String tag) {
         this.tag = tag == null ? null : tag.trim();
-    }
-
-    public String getUserIds() {
-        return userIds;
-    }
-
-    public void setUserIds(String userIds) {
-        this.userIds = userIds == null ? null : userIds.trim();
     }
 
     public Date getStartDate() {

@@ -1,10 +1,7 @@
 package controller.ps;
 
 import controller.global.OpException;
-import domain.ps.PsInfo;
-import domain.ps.PsInfoExample;
-import domain.ps.PsMember;
-import domain.ps.PsParty;
+import domain.ps.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -119,8 +116,8 @@ public class PsInfoController extends PsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PsInfoExample example = new PsInfoExample();
-        PsInfoExample.Criteria criteria =
+        PsInfoViewExample example = new PsInfoViewExample();
+        PsInfoViewExample.Criteria criteria =
                 example.createCriteria().andIsHistoryEqualTo(isHistory)
                 .andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
@@ -148,12 +145,12 @@ public class PsInfoController extends PsBaseController {
             return;
         }
 
-        long count = psInfoMapper.countByExample(example);
+        long count = psInfoViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PsInfo> records= psInfoMapper.selectByExampleWithRowbounds(example,
+        List<PsInfoView> records= psInfoViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -251,21 +248,33 @@ public class PsInfoController extends PsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void psInfo_export(PsInfoExample example, HttpServletResponse response) {
+    public void psInfo_export(PsInfoViewExample example, HttpServletResponse response) {
 
-        List<PsInfo> records = psInfoMapper.selectByExample(example);
+        List<PsInfoView> records = psInfoViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"二级党校名称|100","设立日期|100"};
+        String[] titles = {"二级党校名称|200","主建单位|350", "联合建设单位|500","批次|100","设立日期|100",
+                "师生党员总人数|150","校长|100","校长所在单位及职务|200","校长联系方式|150",
+                "管理员|100","管理员联系方式|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            PsInfo record = records.get(i);
+            PsInfoView record = records.get(i);
+
             String[] values = {
-                record.getName(),
-                            DateUtils.formatDate(record.getFoundDate(), DateUtils.YYYY_MM_DD)
+                    record.getName(),
+                    psInfoService.getPartyNameById(record.getHostId()==null?null:record.getHostId().toString()),
+                    psInfoService.getPartyNameById(record.getJointIds()),
+                    record.getSeq(),
+                    DateUtils.formatDate(record.getFoundDate(), DateUtils.YYYYMMDD_DOT),
+                    record.getCountNumber()==null?"":record.getCountNumber().toString(),
+                    record.getRectorUser()==null?"":record.getRectorUser().getRealname(),
+                    record.getRectorTitle(),
+                    record.getRectorMobile(),
+                    record.getAdminUser()==null?"":record.getAdminUser().getRealname(),
+                    record.getAdminMobile()
             };
             valuesList.add(values);
-        }
-        String fileName = "二级党校_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+    }
+        String fileName = "二级党校(" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

@@ -25,22 +25,26 @@
         </javaClientGenerator>
 
         <!--委员会和领导小组-->
-        <table tableName="cg_team" domainObjectName="cg.CgTeam" mapperName="cg.CgTeamMapper">
+<!--        <table tableName="cg_team" domainObjectName="cg.CgTeam" mapperName="cg.CgTeamMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+        -->
 
         <table tableName="cg_member" domainObjectName="cg.CgMember" mapperName="cg.CgMemberMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="cg_rule" domainObjectName="cg.CgRule" mapperName="cg.CgRuleMapper">
+        <!--<table tableName="cg_rule" domainObjectName="cg.CgRule" mapperName="cg.CgRuleMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="cg_leader" domainObjectName="cg.CgLeader" mapperName="cg.CgLeaderMapper">
+        </table>-->
+        <!--<table tableName="cg_leader" domainObjectName="cg.CgLeader" mapperName="cg.CgLeaderMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="cg_unit" domainObjectName="cg.CgUnit" mapperName="cg.CgUnitMapper">
+        </table>-->
+       <!-- <table tableName="cg_team_view" domainObjectName="cg.CgTeamView" mapperName="cg.CgTeamViewMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
+       <!-- <table tableName="cg_unit" domainObjectName="cg.CgUnit" mapperName="cg.CgUnitMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
     </context>
 </generatorConfiguration>

@@ -15,8 +15,9 @@ pageEncoding="UTF-8"%>
 				<select required id="typeSelect" name="type" data-placeholder="请选择管理员类型"
 						data-rel="select2" data-width="270">
 					<option></option>
-					<option value="1">二级党校管理员</option>
-					<option value="2">院系级党委管理员</option>
+					<c:forEach items="<%=PsConstants.PS_ADMIN_TYPE_MAP%>" var="PS_ADMIN_TYPE_MAP">
+						<option value="${PS_ADMIN_TYPE_MAP.key}">${PS_ADMIN_TYPE_MAP.value}</option>
+					</c:forEach>
 				</select>
 				<script>
 					$("#typeSelect").val('${psAdmin.type}');

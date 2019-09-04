@@ -10,12 +10,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.unit.UnitMapper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -31,6 +33,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/cg")
 public class CgUnitController extends CgBaseController {
+
+    @Autowired
+    private UnitMapper unitMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -63,7 +68,7 @@ public class CgUnitController extends CgBaseController {
 
         CgUnitExample example = new CgUnitExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("is_current desc,confirm_date desc");
 
         if (teamId!=null) {
             criteria.andTeamIdEqualTo(teamId);
@@ -111,11 +116,11 @@ public class CgUnitController extends CgBaseController {
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
 
-        if (cgUnitService.idDuplicate(id, record.getUnitId(), record.getIsCurrent())) {
+        if (cgUnitService.idDuplicate(id, record.getTeamId(), record.getIsCurrent())) {
             return failed("添加重复");
         }
         if (id == null) {
-            
+
             cgUnitService.insertSelective(record);
             logger.info(log( LogConstants.LOG_CG, "添加挂靠单位：{0}", record.getId()));
         } else {
@@ -129,12 +134,20 @@ public class CgUnitController extends CgBaseController {
 
     @RequiresPermissions("cgUnit:edit")
     @RequestMapping("/cgUnit_au")
-    public String cgUnit_au(Integer id, ModelMap modelMap) {
+    public String cgUnit_au(Integer id,Integer teamId, ModelMap modelMap) {
 
+        Boolean isCurrent = true;
         if (id != null) {
+
             CgUnit cgUnit = cgUnitMapper.selectByPrimaryKey(id);
+            isCurrent = cgUnit.getIsCurrent();
+            teamId = cgUnit.getTeamId();
+            modelMap.put("unit",unitMapper.selectByPrimaryKey(cgUnit.getUnitId()));
             modelMap.put("cgUnit", cgUnit);
         }
+
+        modelMap.put("teamId",teamId);
+        modelMap.put("isCurrent",isCurrent);
         return "cg/cgUnit/cgUnit_au";
     }
 
@@ -181,5 +194,19 @@ public class CgUnitController extends CgBaseController {
         }
         String fileName = String.format("挂靠单位(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    //批量撤销挂靠单位
+    @RequiresPermissions("cgUnit:plan")
+    @RequestMapping(value = "/cgUnit_plan", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cgUnit_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+
+        if (null != ids && ids.length>0){
+            cgUnitService.updateCgRuleStatus(ids, isCurrent);
+            logger.info(addLog(LogConstants.LOG_PS, "批量撤销委员会和小组挂靠单位：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

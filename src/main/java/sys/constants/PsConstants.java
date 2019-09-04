@@ -23,4 +23,9 @@ public class PsConstants {
     public final static String ROLE_PS_UNIT = "role_ps_unit";//二级党校管理员（院系）
     public final static String ROLE_PS_ADMIN = "role_ps_admin"; //二级党校管理员（组织部）
 
+    public final static String TEACHERNUMBER = "teacherNumber";//二级党校教师总人数
+    public final static String STUDENTNUMBER = "studentNumber";//二级党校学生总人数
+    public final static String COUNTNUMBER = "countNumber";//二级党校总人数
+    public final static String RETIRENUMBER = "retireNumber";//二级党校离退休总人数
+
 }

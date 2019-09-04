@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -33,7 +35,7 @@ public class CgRuleController extends CgBaseController {
 
     @RequiresPermissions("cgRule:list")
     @RequestMapping("/cgRule")
-    public String cgRule() {
+    public String cgRule(ModelMap modelMap) {
 
         return "cg/cgRule/cgRule_page";
     }
@@ -47,7 +49,7 @@ public class CgRuleController extends CgBaseController {
                                     Date confirmDate,
                                     String content,
                                     String filePath,
-                                
+                                    Boolean isCurrent,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -78,6 +80,9 @@ public class CgRuleController extends CgBaseController {
         }
         if (StringUtils.isNotBlank(filePath)) {
             criteria.andFilePathLike(SqlUtils.like(filePath));
+        }
+        if (isCurrent!=null) {
+            criteria.andIsCurrentEqualTo(isCurrent);
         }
 
         if (export == 1) {
@@ -110,16 +115,22 @@ public class CgRuleController extends CgBaseController {
     @RequiresPermissions("cgRule:edit")
     @RequestMapping(value = "/cgRule_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgRule_au(CgRule record, HttpServletRequest request) {
+    public Map do_cgRule_au(CgRule record, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
-        if (cgRuleService.idDuplicate(id, record.getType(), record.getIsCurrent())) {
+
+        if (_file != null) {
+            record.setFilePath(upload(_file,"cg_rule"));
+        }
+
+        if (cgRuleService.idDuplicate(id, record.getType(), record.getIsCurrent(), record.getTeamId())) {
             return failed("添加重复");
         }
         if (id == null) {
-            
+
+            record.setIsCurrent(true);
             cgRuleService.insertSelective(record);
             logger.info(log( LogConstants.LOG_CG, "添加委员会或领导小组相关规程：{0}", record.getId()));
         } else {
@@ -133,12 +144,15 @@ public class CgRuleController extends CgBaseController {
 
     @RequiresPermissions("cgRule:edit")
     @RequestMapping("/cgRule_au")
-    public String cgRule_au(Integer id, ModelMap modelMap) {
+    public String cgRule_au(Integer id,Integer teamId, ModelMap modelMap) {
 
         if (id != null) {
             CgRule cgRule = cgRuleMapper.selectByPrimaryKey(id);
             modelMap.put("cgRule", cgRule);
+            teamId = cgRule.getTeamId();
         }
+
+        modelMap.put("teamId",teamId);
         return "cg/cgRule/cgRule_au";
     }
 
@@ -159,7 +173,6 @@ public class CgRuleController extends CgBaseController {
     @RequestMapping(value = "/cgRule_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cgRule_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
 
         if (null != ids && ids.length>0){
             cgRuleService.batchDel(ids);
@@ -198,5 +211,63 @@ public class CgRuleController extends CgBaseController {
         }
         String fileName = String.format("委员会或领导小组相关规程(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    //批量撤销参数设置
+    @RequiresPermissions("cgRule:plan")
+    @RequestMapping(value = "/cgRule_plan", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_psInfo_history(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
+
+        //
+        CgRuleExample cgRuleExample = new CgRuleExample();
+        cgRuleExample.createCriteria().andIdIn(Arrays.asList(ids));
+        List<CgRule> cgRules = cgRuleMapper.selectByExample(cgRuleExample);
+        List<Byte> cgRuleTypes = new ArrayList<>();
+        Integer teamId = -1;
+
+        for (CgRule cgRule : cgRules){
+            cgRuleTypes.add(cgRule.getType());
+            teamId = cgRule.getTeamId();
+        }
+
+
+        cgRuleTypes.retainAll(cgRuleService.getTypebyTeamId(teamId));
+
+        if (cgRuleTypes.size()>0 && isCurrent){
+
+            return failed("添加重复！");
+        }
+
+        if (null != ids && ids.length>0){
+
+            cgRuleService.updateCgRuleStatus(ids, isCurrent);
+            logger.info(addLog(LogConstants.LOG_PS, "批量撤销委员会和小组领导规程：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cgRule:edit")
+    @RequestMapping("/cgRule_content")
+    public String cgRule_content(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CgRule cgRule = cgRuleMapper.selectByPrimaryKey(id);
+            modelMap.put("cgRule", cgRule);
+        }
+        return "cg/cgRule/cgRule_content";
+    }
+
+    @RequiresPermissions("cgRule:edit")
+    @RequestMapping(value = "/cgRule_content", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cgRule_content(String content, Integer id) {
+
+        CgRule cgRule = new CgRule();
+        cgRule.setContent(HtmlUtils.htmlUnescape(content));
+        cgRule.setId(id);
+        cgRuleService.updateByPrimaryKeySelective(cgRule);
+        return success(FormUtils.SUCCESS);
     }
 }

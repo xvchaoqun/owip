@@ -4,64 +4,55 @@ import domain.cg.CgMember;
 import domain.cg.CgMemberExample;
 import domain.cg.CgMemberExample.Criteria;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.unit.UnitPostMapper;
-import service.sys.SysUserService;
-import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cg")
-public class CgMemberController extends CgBaseController {
-    @Autowired
-    private UnitPostMapper unitPostMapper;
-    @Autowired
-    private SysUserService sysUserService;
+public class CgCountController extends CgBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cgMember:list")
-    @RequestMapping("/cgMember")
+    @RequiresPermissions("cgCount:list")
+    @RequestMapping("/cgCount")
     public String cgMember(@RequestParam(required = false, defaultValue = "1")boolean isCurrent,
+                           Integer userId,
+                           Integer teamId,
                            ModelMap modelMap) {
 
+        modelMap.put("cgTeam",cgTeamMapper.selectByPrimaryKey(teamId));
+        modelMap.put("sysUser", CmTag.getUserById(userId));
         modelMap.put("isCurrent",isCurrent);
-        return "cg/cgMember/cgMember_page";
+        return "cg/cgCount/cgCount_page";
     }
 
-    @RequiresPermissions("cgMember:list")
-    @RequestMapping("/cgMember_data")
+    @RequiresPermissions("cgCount:list")
+    @RequestMapping("/cgCount_data")
     @ResponseBody
     public void cgMember_data(HttpServletResponse response,
-                                    Integer teamId,
-                                    Integer post,
-                                    Byte type,
-                                    Integer unitPostId,
-                                    Integer userId,
-                                    @RequestParam(required = false, defaultValue = "1")Boolean isCurrent,
-                                    @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                    Integer pageSize, Integer pageNo)  throws IOException{
+                              Integer teamId,
+                              Integer post,
+                              Byte type,
+                              Integer unitPostId,
+                              Integer userId,
+                              @RequestParam(required = false, defaultValue = "1")Boolean isCurrent,
+                              Integer pageSize, Integer pageNo) throws IOException, IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -94,13 +85,6 @@ public class CgMemberController extends CgBaseController {
             criteria.andIsCurrentEqualTo(isCurrent);
         }
 
-        if (export == 1) {
-            if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
-            cgMember_export(example, response);
-            return;
-        }
-
         long count = cgMemberMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -120,7 +104,7 @@ public class CgMemberController extends CgBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-
+/*
     @RequiresPermissions("cgMember:edit")
     @RequestMapping(value = "/cgMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -249,5 +233,51 @@ public class CgMemberController extends CgBaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
+
+    /*@RequestMapping("/cgMember_selects")
+    @ResponseBody
+    public Map cgMember_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CgMemberExample example = new CgMemberExample();
+        Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike(SqlUtils.like(searchStr));
+        }
+
+        long count = cgMemberMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CgMember> records = cgMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(CgMember record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getName());
+                option.put("id", record.getId() + "");
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }*/
 }

@@ -15,16 +15,16 @@
             <div class="widget-toolbar no-border">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="javascript:;" data-url="${ctx}/cg/cgMember?teamId=${param.id}">人员组成</a>
+                        <a href="javascript:;" data-url="${ctx}/cg/cgMember?teamId=${param.teamId}">人员组成</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-url="${ctx}/cg/cgRule?teamId=${param.id}">参数设置</a>
+                        <a href="javascript:;" data-url="${ctx}/cg/cgRule?teamId=${param.teamId}">参数设置</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-url="${ctx}/cg/cgUnit?teamId=${param.id}">挂靠单位</a>
+                        <a href="javascript:;" data-url="${ctx}/cg/cgUnit?teamId=${param.teamId}">挂靠单位</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-url="${ctx}/cg/cgLeader?teamId=${param.id}">办公室主任</a>
+                        <a href="javascript:;" data-url="${ctx}/cg/cgLeader?teamId=${param.teamId}">办公室主任</a>
                     </li>
                 </ul>
             </div>
@@ -32,7 +32,7 @@
         <div class="widget-body">
             <div class="widget-main padding-4">
                 <div class="tab-content padding-8" id="tab-content">
-                    <c:import url="${ctx}/cg/cgMember?teamId=${param.id}"/>
+                    <c:import url="${ctx}/cg/cgMember?teamId=${param.teamId}"/>
                 </div>
             </div>
         </div>

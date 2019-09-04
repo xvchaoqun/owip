@@ -1,9 +1,18 @@
 package domain.cg;
 
+import domain.unit.Unit;
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CgUnit implements Serializable {
+
+    public Unit getUnit(){
+        return CmTag.getUnitById(unitId);
+    }
     private Integer id;
 
     private Integer teamId;
@@ -12,6 +21,7 @@ public class CgUnit implements Serializable {
 
     private Boolean isCurrent;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date confirmDate;
 
     private String remark;

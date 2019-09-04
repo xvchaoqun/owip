@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=PsConstants.COUNTNUMBER%>" var="COUNTNUMBER"/>
+<c:set value="<%=PsConstants.TEACHERNUMBER%>" var="TEACHERNUMBER"/>
+<c:set value="<%=PsConstants.STUDENTNUMBER%>" var="STUDENTNUMBER"/>
+<c:set value="<%=PsConstants.RETIRENUMBER%>" var="RETIRENUMBER"/>
 <div class="widget-box transparent">
     <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter" style="margin-right: 20px;">
@@ -93,61 +97,61 @@
                     <tr>
                         <td rowspan="2" valign="middle" style="line-height: 4">党员总人数</td>
                         <td rowspan="2" style="min-width: 80px; line-height: 4" class="countNumber">
-                            ${allPartyNubmerCount.get('countNumber')}
+                            ${allPartyNubmerCount.get(COUNTNUMBER)}
                         </td>
                         <td>在职教职工党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                            ${allPartyNubmerCount.get('teacherNumber')}
+                            ${allPartyNubmerCount.get(TEACHERNUMBER)}
                         </td>
                         <td>学生党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                           ${allPartyNubmerCount.get('studentNumber')}
+                           ${allPartyNubmerCount.get(STUDENTNUMBER)}
                         </td>
                     </tr>
                     <tr>
                         <td>离退休党员数</td>
                         <td colspan="3" class="countNumber">
-                            ${allPartyNubmerCount.get('retireNumber')}
+                            ${allPartyNubmerCount.get(RETIRENUMBER)}
                         </td>
                     </tr>
                     <tr>
                         <td rowspan="2" style="line-height: 4">主建单位党员总人数</td>
                         <td rowspan="2" style="line-height: 4" class="countNumber">
-                            ${hostPartyNumberCount.get('countNumber')}
+                            ${hostPartyNumberCount.get(COUNTNUMBER)}
                         </td>
                         <td>在职教职工党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                            ${hostPartyNumberCount.get('teacherNumber')}
+                            ${hostPartyNumberCount.get(TEACHERNUMBER)}
                         </td>
                         <td>学生党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                            ${hostPartyNumberCount.get('studentNumber')}
+                            ${hostPartyNumberCount.get(STUDENTNUMBER)}
                         </td>
                     </tr>
                     <tr>
                         <td>离退休党员数</td>
                         <td colspan="3" class="countNumber">
-                            ${hostPartyNumberCount.get('retireNumber')}
+                            ${hostPartyNumberCount.get(RETIRENUMBER)}
                         </td>
                     </tr>
                     <tr>
                         <td rowspan="2" style="line-height: 4">联合建设单位党员总人数</td>
                         <td rowspan="2" style="line-height: 4" class="countNumber">
-                            ${notHostPartyNumberCount.get('countNumber')}
+                            ${notHostPartyNumberCount.get(COUNTNUMBER)}
                         </td>
                         <td>在职教职工党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                            ${notHostPartyNumberCount.get('teacherNumber')}
+                            ${notHostPartyNumberCount.get(TEACHERNUMBER)}
                         </td>
                         <td>学生党员数</td>
                         <td style="min-width: 80px" class="countNumber">
-                            ${notHostPartyNumberCount.get('studentNumber')}
+                            ${notHostPartyNumberCount.get(STUDENTNUMBER)}
                         </td>
                     </tr>
                     <tr>
                         <td>离退休党员数</td>
                         <td colspan="3" class="countNumber">
-                            ${notHostPartyNumberCount.get('retireNumber')}
+                            ${notHostPartyNumberCount.get(RETIRENUMBER)}
                         </td>
                     </tr>
                 </tbody>

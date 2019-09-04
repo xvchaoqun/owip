@@ -1,14 +1,29 @@
 package domain.cg;
 
+import domain.sys.SysUserView;
+import domain.unit.UnitPost;
+import org.springframework.format.annotation.DateTimeFormat;
+import persistence.unit.UnitPostMapper;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CgLeader implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+
+    public UnitPost getUnitPost(){
+        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
+    }
     private Integer id;
 
     private Integer teamId;
 
-    private Integer relatePost;
+    private Boolean isPost;
 
     private Integer unitPostId;
 
@@ -18,6 +33,7 @@ public class CgLeader implements Serializable {
 
     private Boolean isCurrent;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date confirmDate;
 
     private String remark;
@@ -40,12 +56,12 @@ public class CgLeader implements Serializable {
         this.teamId = teamId;
     }
 
-    public Integer getRelatePost() {
-        return relatePost;
+    public Boolean getIsPost() {
+        return isPost;
     }
 
-    public void setRelatePost(Integer relatePost) {
-        this.relatePost = relatePost;
+    public void setIsPost(Boolean isPost) {
+        this.isPost = isPost;
     }
 
     public Integer getUnitPostId() {

@@ -65,7 +65,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '党校职务',name: 'type',formatter: $.jgrid.formatter.MetaType},
                 { label: '姓名',name: 'user.realname'},
-                {label: '学工号', name: 'user.code'},
+                {label: '学工号', name: 'user.code',width:140},
                 <shiro:hasPermission name="psMember:edit">
                 { label:'排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/ps/psMember_changeOrder'},frozen:true },

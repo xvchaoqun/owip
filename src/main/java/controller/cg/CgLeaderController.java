@@ -43,7 +43,7 @@ public class CgLeaderController extends CgBaseController {
     @ResponseBody
     public void cgLeader_data(HttpServletResponse response,
                                     Integer teamId,
-                                    Integer relatePost,
+                                    Boolean relatePost,
                                     Integer unitPostId,
                                     Integer userId,
                                     String phone,
@@ -63,13 +63,13 @@ public class CgLeaderController extends CgBaseController {
 
         CgLeaderExample example = new CgLeaderExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("is_current desc");
 
         if (teamId!=null) {
             criteria.andTeamIdEqualTo(teamId);
         }
         if (relatePost!=null) {
-            criteria.andRelatePostEqualTo(relatePost);
+            criteria.andIsPostEqualTo(relatePost);
         }
         if (unitPostId!=null) {
             criteria.andUnitPostIdEqualTo(unitPostId);
@@ -119,16 +119,18 @@ public class CgLeaderController extends CgBaseController {
         Integer id = record.getId();
 
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
-        if (cgLeaderService.idDuplicate(id, record.getTeamId(), record.getIsCurrent())) {
+        record.setIsPost(BooleanUtils.isTrue(record.getIsPost()));
+
+        if (cgLeaderService.idDuplicate(id, record.getTeamId(),record.getIsCurrent())) {
             return failed("添加重复");
         }
         if (id == null) {
-            
+
             cgLeaderService.insertSelective(record);
             logger.info(log( LogConstants.LOG_CG, "添加办公室主任：{0}", record.getId()));
         } else {
 
-            cgLeaderService.updateByPrimaryKeySelective(record);
+            cgLeaderService.updateByPrimaryKey(record);
             logger.info(log( LogConstants.LOG_CG, "更新办公室主任：{0}", record.getId()));
         }
 
@@ -137,12 +139,28 @@ public class CgLeaderController extends CgBaseController {
 
     @RequiresPermissions("cgLeader:edit")
     @RequestMapping("/cgLeader_au")
-    public String cgLeader_au(Integer id, ModelMap modelMap) {
+    public String cgLeader_au(Integer id,Integer teamId, ModelMap modelMap) {
 
+        Boolean isCurrent = true;
         if (id != null) {
+
             CgLeader cgLeader = cgLeaderMapper.selectByPrimaryKey(id);
+            isCurrent = cgLeader.getIsCurrent();
+            teamId = cgLeader.getTeamId();
             modelMap.put("cgLeader", cgLeader);
+
+            if (cgLeader.getUnitPostId() != null){
+
+                modelMap.put("unitPost",unitPostMapper.selectByPrimaryKey(cgLeader.getUnitPostId()));
+            }
+            if (cgLeader.getUserId() != null){
+
+                modelMap.put("sysUser",sysUserService.findById(cgLeader.getUserId()));
+            }
         }
+
+        modelMap.put("teamId",teamId);
+        modelMap.put("isCurrent",isCurrent);
         return "cg/cgLeader/cgLeader_au";
     }
 
@@ -164,7 +182,6 @@ public class CgLeaderController extends CgBaseController {
     @ResponseBody
     public Map cgLeader_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             cgLeaderService.batchDel(ids);
             logger.info(log( LogConstants.LOG_CG, "批量删除办公室主任：{0}", StringUtils.join(ids, ",")));
@@ -182,7 +199,7 @@ public class CgLeaderController extends CgBaseController {
             CgLeader record = records.get(i);
             String[] values = {
                 record.getTeamId()+"",
-                            record.getRelatePost()+"",
+                            record.getIsPost()+"",
                             record.getUnitPostId()+"",
                             record.getUserId()+"",
                             record.getPhone(),
@@ -193,6 +210,17 @@ public class CgLeaderController extends CgBaseController {
         }
         String fileName = String.format("办公室主任(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequestMapping(value = "/cgLeader_plan", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cgLeader_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent){
+
+        if (null != ids && ids.length>0){
+            cgLeaderService.updatecgLeaderStatus(ids, BooleanUtils.isTrue(isCurrent));
+            logger.info(addLog(LogConstants.LOG_CG, "批量撤销办公室主任：%s", StringUtils.join(ids, ",")));
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     /*@RequestMapping("/cgLeader_selects")

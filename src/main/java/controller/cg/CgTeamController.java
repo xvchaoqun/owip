@@ -1,23 +1,36 @@
 package controller.cg;
 
+import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cg.CgTeam;
-import domain.cg.CgTeamExample;
-import domain.cg.CgTeamExample.Criteria;
-import domain.ps.PsInfo;
+import domain.cg.CgTeamView;
+import domain.cg.CgTeamViewExample;
+import domain.cg.CgTeamViewExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.base.MetaTypeService;
+import service.ps.PsInfoService;
+import sys.constants.CgConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -30,20 +43,54 @@ import java.util.*;
 @RequestMapping("/cg")
 public class CgTeamController extends CgBaseController {
 
+    @Autowired
+    private PsInfoService psInfoService;
+    @Autowired
+    private MetaTypeService metaTypeService;
+
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    //二级党校概况
+    @RequiresPermissions("cgTeam:view")
+    @RequestMapping("/cgTeam_base")
+    public String cgTeam_base(Integer id, ModelMap modelMap){
+
+        //委员会和领导小组组成规则
+        modelMap.put("cgRuleContentMap",cgTeamService.getRuleContent(id));
+
+        //现任委员会和领导小组成员
+        modelMap.put("cgMemberTypeMap",cgTeamService.getMember(id));
+
+        //办公室主任
+        modelMap.put("cgLeader",cgTeamService.getCgLeader(id));
+
+        //委员会和领导小组基本信息
+        modelMap.put("cgTeam",cgTeamMapper.selectByPrimaryKey(id));
+
+        return "cg/cgTeam/cgTeam_base";
+    }
 
     @RequiresPermissions("cgTeam:list")
     @RequestMapping("/cgTeam")
     public String cgTeam(@RequestParam(required = false, defaultValue = "1") boolean isCurrent,
+                         Integer unitId,
+                         Integer userId,
                          ModelMap modelMap) {
 
+        if (unitId!=null){
+
+            modelMap.put("unit",CmTag.getUnitById(unitId));
+        }
+        if (userId!=null){
+            modelMap.put("user",CmTag.getUserById(userId));
+        }
         modelMap.put("isCurrent",isCurrent);
         return "cg/cgTeam/cgTeam_page";
     }
 
     @RequiresPermissions("cgTeam:view")
     @RequestMapping("/cgTeam_view")
-    public String cgTeam_view(int id, ModelMap modelMap) {
+    public String cgTeam_view(Integer id, ModelMap modelMap) {
 
         CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
         modelMap.put("cgTeam", cgTeam);
@@ -58,6 +105,8 @@ public class CgTeamController extends CgBaseController {
                             String name,
                             Byte type,
                             Integer category,
+                            Integer unitId,
+                            Integer userId,
                             @RequestParam(required = false, defaultValue = "1") Boolean isCurrent,
                             @RequestParam(required = false, defaultValue = "0") int export,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -71,7 +120,7 @@ public class CgTeamController extends CgBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CgTeamExample example = new CgTeamExample();
+        CgTeamViewExample example = new CgTeamViewExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
@@ -87,6 +136,12 @@ public class CgTeamController extends CgBaseController {
         if (isCurrent!=null){
             criteria.andIsCurrentEqualTo(isCurrent);
         }
+        if (unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (userId!=null){
+            criteria.andUserIdEqualTo(userId);
+        }
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -94,12 +149,12 @@ public class CgTeamController extends CgBaseController {
             return;
         }
 
-        long count = cgTeamMapper.countByExample(example);
+        long count = cgTeamViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CgTeam> records= cgTeamMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CgTeamView> records= cgTeamViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -121,11 +176,10 @@ public class CgTeamController extends CgBaseController {
 
         Integer id = record.getId();
 
-        record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
-        record.setNeedAdjust(false);
-
         if (id == null) {
-            
+
+            record.setIsCurrent(true);
+            record.setNeedAdjust(BooleanUtils.isTrue(record.getNeedAdjust()));
             cgTeamService.insertSelective(record);
             logger.info(log( LogConstants.LOG_CG, "添加委员会和领导小组：{0}", record.getId()));
         } else {
@@ -141,13 +195,10 @@ public class CgTeamController extends CgBaseController {
     @RequestMapping("/cgTeam_au")
     public String cgTeam_au(Integer id, ModelMap modelMap) {
 
-        boolean isCurrent = true;
         if (id != null) {
             CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
-            isCurrent = cgTeam.getIsCurrent();
             modelMap.put("cgTeam", cgTeam);
         }
-        modelMap.put("isCurrent",isCurrent);
         return "cg/cgTeam/cgTeam_au";
     }
 
@@ -169,7 +220,6 @@ public class CgTeamController extends CgBaseController {
     @ResponseBody
     public Map cgTeam_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             cgTeamService.batchDel(ids);
             logger.info(log( LogConstants.LOG_CG, "批量删除委员会和领导小组：{0}", StringUtils.join(ids, ",")));
@@ -186,20 +236,23 @@ public class CgTeamController extends CgBaseController {
         logger.info(log( LogConstants.LOG_CG, "委员会和领导小组调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
-    public void cgTeam_export(CgTeamExample example, HttpServletResponse response) {
 
-        List<CgTeam> records = cgTeamMapper.selectByExample(example);
+    public void cgTeam_export(CgTeamViewExample example, HttpServletResponse response) {
+
+        List<CgTeamView> records = cgTeamViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|100","类型|100","类别|100","是否需要调整|100","排序|100","备注|100"};
+        String[] titles = {"名称|200","类型|100","类别|100","挂靠单位|250","办公室主任|100","联系电话|150","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CgTeam record = records.get(i);
+            CgTeamView record = records.get(i);
+            MetaType metaType = CmTag.getMetaType(record.getCategory());
             String[] values = {
-                record.getName(),
-                            record.getType()+"",
-                            record.getCategory()+"",
-                            record.getNeedAdjust()+"",
-                            record.getSortOrder()+"",
+                            record.getName(),
+                            CgConstants.CG_TEAM_TYPE_MAP.get(record.getType()),
+                            metaType == null?"":metaType.getName(),
+                            record.getUnit()==null?"":record.getUnit().getName(),
+                            record.getUser()==null?"":record.getUser().getRealname(),
+                            record.getPhone(),
                             record.getRemark()
             };
             valuesList.add(values);
@@ -220,7 +273,7 @@ public class CgTeamController extends CgBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CgTeamExample example = new CgTeamExample();
+        CgTeamViewExample example = new CgTeamViewExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
@@ -228,17 +281,17 @@ public class CgTeamController extends CgBaseController {
             criteria.andNameLike(SqlUtils.like(searchStr));
         }
 
-        long count = cgTeamMapper.countByExample(example);
+        long count = cgTeamViewMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<CgTeam> records = cgTeamMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<CgTeamView> records = cgTeamViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
         if(null != records && records.size()>0){
 
-            for(CgTeam record:records){
+            for(CgTeamView record:records){
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
@@ -257,13 +310,83 @@ public class CgTeamController extends CgBaseController {
     @RequiresPermissions("cgTeam:plan")
     @RequestMapping(value = "/cgTeam_plan", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgTeam_plan(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map cgTeam_plan(@RequestParam(value = "ids[]") Integer[] ids, Boolean isCurrent) {
 
         if (null != ids && ids.length>0){
-            cgTeamService.updateTeamState(ids);
-            logger.info(addLog(LogConstants.LOG_CG, "批量撤销委员会和领导小组：%s", StringUtils.join(ids, ",")));
+            cgTeamService.updateTeamStatus(ids,isCurrent);
+            logger.info(addLog(LogConstants.LOG_CG, "批量%s委员会和领导小组：%s",isCurrent?"返回":"撤销", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+   @RequestMapping("/cgTeam_import")
+    public String cgTeam_import(ModelMap modelMap) {
+
+        return "cg/cgTeam/cgTeam_import";
+    }
+
+    @RequestMapping(value = "/cgTeam_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CgTeam> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            CgTeam record = new CgTeam();
+            row++;
+
+            String name = StringUtils.trimToNull(xlsRow.get(0));
+            if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行委员会和领导小组名称为空", row);
+            }
+            record.setName(name);
+
+            String _type = StringUtils.trimToNull(xlsRow.get(1));
+            Byte type = cgTeamService.findByType(_type);
+            if (type==null){
+                throw new OpException("第{0}行类型不存在", row, _type);
+            }
+            record.setType(type);
+
+            String category = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType dpType = metaTypeService.findByName("mc_cg_type", category);
+            if (dpType==null){
+                throw new OpException("第{0}行类别不存在",row, category);
+            }
+            record.setCategory(dpType.getId());
+
+            String iscurrent = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(iscurrent)){
+                throw new OpException("第{0}行是否当前委员会和领导小组为空", row);
+            }
+            record.setIsCurrent(StringUtils.equalsIgnoreCase(iscurrent, "是"));
+            record.setNeedAdjust(false);
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = cgTeamService.batchImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入委员会和领导小组成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
     }
 }

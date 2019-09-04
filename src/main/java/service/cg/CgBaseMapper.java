@@ -19,4 +19,6 @@ public class CgBaseMapper extends CoreBaseMapper {
     protected CgMemberMapper cgMemberMapper;
     @Autowired(required = false)
     protected CgUnitMapper cgUnitMapper;
+    @Autowired(required = false)
+    protected CgTeamViewMapper cgTeamViewMapper;
 }

@@ -25,4 +25,6 @@ public class PsBaseMapper extends CoreBaseMapper {
 
     @Autowired(required = false)
     protected IPsMapper iPsMapper;
+    @Autowired(required = false)
+    protected PsInfoViewMapper psInfoViewMapper;
 }

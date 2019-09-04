@@ -107,14 +107,13 @@ public class PsPartyService extends PsBaseMapper {
         for (Integer id : ids){
 
             PsParty psParty = psPartyMapper.selectByPrimaryKey(id);
-            isFinish = psParty.getIsFinish();
             Boolean isHost = psParty.getIsHost();
             PsParty record = new PsParty();
             record.setId(id);
             record.setEndDate(endDate);
             record.setIsFinish(isFinish);
             record.setSortOrder(getNextSortOrder("ps_party",
-                    "is_finish="+ isFinish +" and is_host="+ isHost));
+                    "is_finish="+ isFinish +" and is_host="+ isHost+" and ps_id="+psParty.getPsId()));
 
             psPartyMapper.updateByPrimaryKeySelective(record);
         }

@@ -11,13 +11,14 @@ import java.util.Arrays;
 @Service
 public class CgUnitService extends CgBaseMapper {
 
-    public boolean idDuplicate(Integer id, int unitId, boolean isCurrent){
+    public boolean idDuplicate(Integer id, Integer teamId, boolean isCurrent){
 
         if(!isCurrent) return false;
 
         CgUnitExample example = new CgUnitExample();
         CgUnitExample.Criteria criteria = example.createCriteria()
-                .andUnitIdEqualTo(unitId).andIsCurrentEqualTo(isCurrent);
+                .andTeamIdEqualTo(teamId)
+                .andIsCurrentEqualTo(isCurrent);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return cgUnitMapper.countByExample(example) > 0;
@@ -50,5 +51,18 @@ public class CgUnitService extends CgBaseMapper {
     public void updateByPrimaryKeySelective(CgUnit record){
         Assert.isTrue(!idDuplicate(record.getId(), record.getUnitId(), record.getIsCurrent()), "duplicate");
         cgUnitMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void updateCgRuleStatus(Integer[] ids, boolean isCurrent){
+
+        if(ids==null || ids.length==0) return;
+
+        for (Integer id : ids){
+            CgUnit record = new CgUnit();
+            record.setId(id);
+            record.setIsCurrent(isCurrent);
+            cgUnitMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

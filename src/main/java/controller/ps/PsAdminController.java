@@ -120,7 +120,7 @@ public class PsAdminController extends PsBaseController {
             record.setStartDate(DateUtils.parseDate(_startDate,DateUtils.YYYYMMDD_DOT));
         }
 
-        if (psAdminService.idDuplicate(id, record.getPsId(), record.getUserId())) {
+        if (psAdminService.idDuplicate(id, record.getPsId(), record.getType())) {
             return failed("添加重复");
         }
 

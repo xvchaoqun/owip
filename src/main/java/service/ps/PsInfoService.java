@@ -2,6 +2,7 @@ package service.ps;
 
 import domain.base.MetaType;
 import domain.ps.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -198,5 +199,31 @@ public class PsInfoService extends PsBaseMapper {
             }
         }
         return psParties;
+    }
+
+    public Long getAllCountNumberById(Integer id){
+
+        Map<String, Long> countMap = iPsMapper.count(getPartyIdList(null,id));
+
+        if (countMap == null) {
+            return null;
+        }
+
+        return countMap.get(PsConstants.COUNTNUMBER);
+    }
+
+    public String getPartyNameById(String partyIdsString){
+
+        if (partyIdsString == null) return null;
+
+        String[] partyIdArray = partyIdsString.split(",");
+        StringBuffer partyName = new StringBuffer("");
+        for (String partyIdString : partyIdArray){
+            if (!StringUtils.equals(partyName,"")) partyName.append("、");
+
+            Integer partyId = Integer.valueOf(partyIdString);
+            partyName.append(partyMapper.selectByPrimaryKey(partyId).getName());
+        }
+        return partyName.toString();
     }
 }

@@ -8,42 +8,55 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cg/cgRule_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cgRule.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属委员会或领导小组</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="teamId" value="${cgRule.teamId}">
+		<input type="hidden" name="teamId" value="${teamId}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label">是否当前规程</label>
+			<div class="col-xs-6">
+				<input type="checkbox" name="isCurrent" ${(cgRule.isCurrent)?"checked":""}/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"><span class="star">*</span> 规程类型</label>
+			<div class="col-xs-6">
+				<select required id="typeSelect1" name="type" data-placeholder="请选择规程类型"
+						data-rel="select2">
+					<option></option>
+					<c:forEach items="<%=CgConstants.CG_RULE_TYPE_MAP%>" var="cgRuleType">
+						<option value="${cgRuleType.key}">${cgRuleType.value}</option>
+					</c:forEach>
+				</select>
+				<script>
+					$("#typeSelect1").val('${cgRule.type}');
+				</script>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">规程确定时间</label>
+			<div class="col-xs-6">
+				<div class="input-group" style="width: 200px">
+					<input class="form-control date-picker"
+						   name="confirmDate"
+						   type="text"
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(cgRule.confirmDate,'yyyy.MM.dd')}"/>
+					<span class="input-group-addon">
+						<i class="fa fa-calendar bigger-110"></i>
+					</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 类型</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="type" value="${cgRule.type}">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">相关文件</label>
+			<div class="col-xs-6">
+				<input class="form-control" type="file" name="_file" multiple="multiple"/>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 规程确定时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="confirmDate" value="${cgRule.confirmDate}">
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">备注</label>
+			<div class="col-xs-6">
+				<textarea class="form-control noEnter" name="remark">${cgRule.remark}</textarea>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 规程内容</label>
-				<div class="col-xs-6">
-                        <textarea class="form-control" name="content">${cgRule.content}</textarea>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 相关文件</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="filePath" value="${cgRule.filePath}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${cgRule.remark}">
-				</div>
-			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">
@@ -53,6 +66,13 @@ pageEncoding="UTF-8"%>
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty cgRule?'确定':'添加'}</button>
 </div>
 <script>
+
+	$.fileInput($("#modalForm input[type=file]"),{
+		no_file:'请上传pdf文件',
+		allowExt: ['pdf'],
+		allowMime: ['application/pdf']
+	});
+
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
@@ -61,17 +81,16 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+                        $("#jqGrid_current").trigger("reloadGrid");
+                        $("#jqGrid_history").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
+    $("#modalForm :checkbox").bootstrapSwitch();
+    $('#modalForm [data-rel="select2"]').select2();
+    $.register.date($('.date-picker'));
+
 </script>

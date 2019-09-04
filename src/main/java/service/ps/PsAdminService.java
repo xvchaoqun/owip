@@ -17,13 +17,15 @@ public class PsAdminService extends PsBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-    public boolean idDuplicate(Integer id, int psId, int userId){
+    public boolean idDuplicate(Integer id, int psId, Byte type){
+
+        // 只判断二级党校管理员是否重复
+        if (type == PsConstants.PS_ADMIN_TYPE_UNIT) return false;
 
         PsAdminExample example = new PsAdminExample();
         PsAdminExample.Criteria criteria = example.createCriteria()
                 .andPsIdEqualTo(psId)
-                .andUserIdEqualTo(userId)
-                .andTypeEqualTo(PsConstants.PS_ADMIN_TYPE_PARTY) // 只判断二级党校管理员是否重复
+                .andTypeEqualTo(PsConstants.PS_ADMIN_TYPE_PARTY)
                 .andIsHistoryEqualTo(false);
 
         if(id!=null) criteria.andIdNotEqualTo(id);

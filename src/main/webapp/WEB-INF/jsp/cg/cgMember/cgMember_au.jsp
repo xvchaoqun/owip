@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cg/cgMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cgMember.id}">
 		<input type="hidden" name="teamId" value="${param.teamId}">
+		<input type="hidden" name="isCurrent" value="${cgMember.isCurrent}">
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 职务</label>
 			<div class="col-xs-6">
@@ -25,7 +26,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 人员类型</label>
 			<div class="col-xs-6">
-				<select required id="typeSelect" name="type" data-placeholder="请选择人员类型"
+				<select required id="typeSelect1" name="type" data-placeholder="请选择人员类型"
 						data-rel="select2" data-width="270">
 					<option></option>
 					<c:forEach items="<%=CgConstants.CG_MEMBER_TYPE_MAY%>" var="cgMemberType">
@@ -33,11 +34,11 @@ pageEncoding="UTF-8"%>
 					</c:forEach>
 				</select>
 				<script>
-					$("#typeSelect").val('${cgMember.type}');
+					$("#typeSelect1").val('${cgMember.type}');
 				</script>
 			</div>
 		</div>
-		<div class="form-group hiddenUnitPost" hidden>
+		<div class="form-group unitPostAndUser" hidden>
 			<label class="col-xs-4 control-label"> 岗位名称</label>
 			<div class="col-xs-6">
 				<select name="unitPostId" class="form-control" data-width="272"
@@ -48,8 +49,8 @@ pageEncoding="UTF-8"%>
 				</select>
 			</div>
 		</div>
-		<div class="form-group hiddenUnitPost" hidden>
-			<label class="col-xs-4 control-label"> 现任干部</label>
+		<div class="form-group unitPostAndUser" hidden>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 现任干部</label>
 			<div class="col-xs-6">
 				<select name="userId" class="form-control" data-width="272"
 						data-rel="select2-ajax"
@@ -57,26 +58,30 @@ pageEncoding="UTF-8"%>
 						data-placeholder="请选择">
 					<option value="${cgMember.userId}">${sysUser.realname}</option>
 				</select>
+				<label hidden name="remind" style="color: red">该岗位没有干部。</label>
 			</div>
 		</div>
-		<div class="form-group hiddenUser" hidden>
-			<label class="col-xs-4 control-label"> 代表类型</label>
+		<div class="form-group delegateAndUser" hidden>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 代表类型</label>
 			<div class="col-xs-6">
-				<input name="tag" type="text" class="form-control">
+				<input name="tag" type="text" class="form-control" value="${cgMember.tag}">
 			</div>
 		</div>
-		<div class="form-group hiddenUser" hidden>
-			<label class="col-xs-4 control-label"> 代表姓名</label>
+		<div class="form-group delegateAndUser" hidden>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 代表姓名</label>
 			<div class="col-xs-6">
 				<select name="userIds"
+						class="form-control"
 						data-rel="select2-ajax"
 						data-ajax-url="${ctx}/sysUser_selects"
 						data-placeholder="请输入账号或姓名或学工号">
-					<option></option>
+					<option value="${cgMember.userId}">${sysUser.realname}</option>
 				</select>
+				<c:if test="${empty cgMember}">
 				<button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i
 						class="fa fa-plus"></i> 选择
 				</button>
+				</c:if>
 				<div style="padding-top: 10px;">
 					<div id="itemList" class="itemList" style="max-height: 152px;overflow-y: auto;">
 
@@ -118,62 +123,122 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-	if ($("#typeSelect").val().trim()!=''){
+	var userTypeSelect = $("select[id=typeSelect1]");//人员类型
+	var unitPostSelect = $(".unitPostAndUser select[name=unitPostId]");//岗位名称
+	var userSelect = $(".unitPostAndUser select[name=userId]");//现任干部
+	var tag = $(".delegateAndUser input[name=tag]");//代表类型
+	var usersSelect = $(".delegateAndUser select[name=userIds]");//代表姓名
+	var remind = $("label[name=remind]");//提醒
 
-		typeChange();
-	}
-	$("select[name=type]").on("change",function () {
+	//改变人员类型
+	userTypeSelect.on("change",function () {
 		typeChange();
 	});
-	function typeChange() {
 
-		if ($("select[name=type]").val()==<%=CgConstants.CG_MEMBER_TYPE_CADRE%>){
-			$(".hiddenUnitPost").show();
-			$(".hiddenUser").hide();
-			$(".hiddenUser input").val(null);
-			$(".hiddenUser select").val(null).trigger("change");
-		}else {
-			$(".hiddenUser").show();
-			$(".hiddenUnitPost").hide();
-			$(".hiddenUnitPost select").val(null).trigger("change");
+	if (unitPostSelect.val() != "") userSelect.prop("disabled",true);
+
+	function typeChange() {//根据人员类型改变数据的约束
+
+		if (userTypeSelect.val()==<%=CgConstants.CG_MEMBER_TYPE_CADRE%>){//人员类型为现任干部
+
+			$(".unitPostAndUser").show();
+			$(".delegateAndUser").hide();
+
+			//清空各类代表中的值
+			tag.val(null);
+			usersSelect.val(null).trigger("change");
+
+			//删除各类代表中“必选”属性
+			tag.removeAttr("required");
+			usersSelect.removeAttr("required");
+
+			//现任干部添加“必选属性”
+			userSelect.attr("required","required");
+
+		}else if (userTypeSelect.val()==<%=CgConstants.CG_MEMBER_TYPE_USER%>) {//人员类型为各类代表
+
+			$(".unitPostAndUser").hide();
+			$(".delegateAndUser").show();
+
+			//清空岗位及现任干部的值
+			unitPostSelect.val(null).trigger("change");
+			userSelect.val(null).trigger("change");
+
+			//删除现任干部的“必选”属性
+			userSelect.removeAttr("required");
+
+			//各类代表添加“必选”属性
+			tag.attr("required","required");
+			usersSelect.attr("required","required");
+		}else {//人员类型为空
+
+			$(".unitPostAndUser").hide();
+			$(".delegateAndUser").hide();
 		}
 	}
 
-	$("select[name=unitPostId]").change(function () {
-
-		if ($("select[name=unitPostId]").val() == null) return;
+	unitPostSelect.on("change",function () {
 
 		var data = $(this).select2("data")[0];
-		if (data['up']==undefined) return;
-		var up = data['up'];
-		var selectUser = $("select[name=userId]");
-		if (up != undefined && up.cadre !=undefined && up.cadre.user !=undefined){
+
+		var up = undefined;
+		if (data != undefined) up = data['up'];
+
+		if (up != undefined && up.cadre !=undefined && up.cadre.user !=undefined){//岗位的现任干部信息不为空
+
 			var option = new Option(up.cadre.user.realname, up.cadre.user.id, true, true);
-			selectUser.append(option).trigger('change');
-		}else {
-			selectUser.val(null).trigger('change');
-			$.tip({
-				$target: selectUser.closest("div").find(".select2-container"),
-				at: 'top right', my: 'bottom right', type: 'success',
-				msg: "该岗位还未设置干部。"
-			});
-			return;
+			userSelect.append(option).trigger('change');
+			userSelect.prop("disabled",true);
+			remind.hide();
+		}else if (unitPostSelect.val() != "" && unitPostSelect.val() != null) {//岗位的现任干部信息为空
+
+			userSelect.val(null).trigger('change');
+			userSelect.prop("disabled",true);
+			userSelect.attr("required","required");
+			remind.show();
+		}else if (unitPostSelect.val() == "" || unitPostSelect.val() == null){//没有选择岗位
+
+			userSelect.val(null).trigger('change');
+			userSelect.prop("disabled",false);
+			userSelect.attr("required","required");
+			remind.hide();
 		}
 	});
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#submitBtn").click(function(){
+
+		userSelect.prop("disabled",false);
+		$("#modalForm").submit();
+
+		if (unitPostSelect.val() != "") userSelect.prop("disabled",true);
+
+    	return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-			var userIds = $.map(selectedItems, function (user) {
-				return user.userId;
-			});
+        	var userIds;
+        	if (userTypeSelect.val() == <%=CgConstants.CG_MEMBER_TYPE_USER%>){
+
+				if (${not empty cgMember}) {
+
+					var user = {userId: usersSelect.val()};
+					selectedItems.push(user);
+				}
+
+				userIds = $.map(selectedItems, function (user) {
+
+					return user.userId;
+				});
+			}
+
+			userSelect.prop("disabled",false);
 
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
 				data: {userIdsList: userIds},
                 success:function(ret){
                     if(ret.success){
+
                         $("#modal").modal('hide');
                         $("#jqGrid2").trigger("reloadGrid");
                     }
@@ -183,7 +248,7 @@ pageEncoding="UTF-8"%>
         }
     });
 
-
+	var selectedItems = [];
 
     function _selectUser() {
 
@@ -203,7 +268,7 @@ pageEncoding="UTF-8"%>
                 hasSelected = true;
                 return false;
             }
-        })
+        });
         if (hasSelected) {
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
@@ -237,6 +302,6 @@ pageEncoding="UTF-8"%>
 
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
-	var selectedItems = ${cm:toJSONArrayWithFilter(cetDiscussGroup.userIds, "userId,code,realname")};
-	$("#userIds").append(_.template($("#itemListTpl").html())({users: selectedItems}));
+
+    typeChange();
 </script>

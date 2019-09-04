@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPsMapper {
-    Map count(@Param("partyIdList") List partyIdList);
+    Map<String, Long> count(@Param("partyIdList") List partyIdList);
 
     /**
      * 获取用户（当前的二级党校管理员或院系级管理员）管理的当前的二级党校ID

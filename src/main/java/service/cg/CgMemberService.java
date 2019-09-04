@@ -4,7 +4,6 @@ import domain.cg.CgMember;
 import domain.cg.CgMemberExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 
@@ -28,7 +27,8 @@ public class CgMemberService extends CgBaseMapper {
     public void insertSelective(CgMember record){
 
         //Assert.isTrue(!idDuplicate(null, record.getTeamId(), record.getUserId(), record.getIsCurrent()), "duplicate");
-        record.setSortOrder(getNextSortOrder("cg_member", null));
+        record.setSortOrder(getNextSortOrder("cg_member",
+                String.format("is_current=%s and team_id=%s",record.getIsCurrent(),record.getTeamId())));
         cgMemberMapper.insertSelective(record);
     }
 
@@ -63,6 +63,21 @@ public class CgMemberService extends CgBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("cg_member", null, ORDER_BY_ASC, id, addNum);
+        changeOrder("cg_member", null, ORDER_BY_DESC, id, addNum);
+    }
+
+    @Transactional
+    public void updateMemberState(Integer[] ids, boolean isCurrent) {
+        for (Integer id : ids){
+
+            CgMember cgMember = cgMemberMapper.selectByPrimaryKey(id);
+
+            CgMember record = new CgMember();
+            record.setId(id);
+            record.setIsCurrent(isCurrent);
+            record.setSortOrder(getNextSortOrder("cg_member",
+                    String.format("is_current=%s and team_id=%s",record.getIsCurrent(),cgMember.getTeamId())));
+            cgMemberMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }
