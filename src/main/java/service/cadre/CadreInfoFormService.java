@@ -246,7 +246,7 @@ public class CadreInfoFormService extends BaseMapper {
         }*/
         String _parttime = freemarkerService.freemarker(cadreParttimeService.list(cadreId),
                 "cadreParttimes", "/cadre/cadreParttime.ftl");
-        bean.setParttime(_parttime == null ? "无" : _parttime);
+        bean.setParttime(StringUtils.defaultIfBlank(_parttime, "无"));
 
         // 培训情况
         /*CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
@@ -260,7 +260,7 @@ public class CadreInfoFormService extends BaseMapper {
         }*/
         String _train = freemarkerService.freemarker(cadreTrainService.list(cadreId),
                 "cadreTrains", "/cadre/cadreTrain.ftl");
-        bean.setTrainDesc(_train == null ? "无" : _train);
+        bean.setTrainDesc(StringUtils.defaultIfBlank(_train, "无"));
 
         // 教学情况
         /*CadreInfo teach = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TEACH);
@@ -287,7 +287,7 @@ public class CadreInfoFormService extends BaseMapper {
 
             _teach = freemarkerService.freemarker(dataMap, "/cadre/cadreCourse.ftl");
         }
-        bean.setTeachDesc(_teach == null ? "无" : _teach);
+        bean.setTeachDesc(StringUtils.defaultIfBlank(_teach, "无"));
 
 
         // 科研情况
@@ -318,21 +318,15 @@ public class CadreInfoFormService extends BaseMapper {
 
             _research = freemarkerService.freemarker(dataMap, "/cadre/cadreResearch.ftl");
         }
-        bean.setResearchDesc(_research == null ? "无" : _research);
+        bean.setResearchDesc(StringUtils.defaultIfBlank(_research, "无"));
 
         // 其他奖励情况
-        /*CadreInfo otherReward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
-        String _otherReward = null;
-        if (otherReward == null || StringUtils.isBlank(otherReward.getContent())) {
-
-            _otherReward = freemarkerService.freemarker(cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_OTHER),
-                    "cadreRewards", "/cadre/cadreReward.ftl");
-        } else {
-            _otherReward = StringUtils.trim(otherReward.getContent());
-        }*/
-        String _otherReward = freemarkerService.freemarker(cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_OTHER),
-                "cadreRewards", "/cadre/cadreReward.ftl");
-        bean.setOtherRewardDesc(_otherReward == null ? "无" : _otherReward);
+        {
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("cadreRewards", cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_OTHER));
+            String _otherReward = freemarkerService.freemarker(dataMap, "/cadre/cadreReward.ftl");
+            bean.setOtherRewardDesc(StringUtils.defaultIfBlank(_otherReward, "无"));
+        }
 
         {
             // 企业兼职情况

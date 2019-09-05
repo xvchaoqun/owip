@@ -144,6 +144,8 @@ public class CasController extends BaseController {
                                HttpServletRequest request, HttpServletResponse response,
                                String _switchUser){
 
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute("_loginType", loginType); // 此次登录类型
         if (StringUtils.isNotBlank(username)) {
 
             SysUserView uv = sysUserService.findByUsername(username);
@@ -161,8 +163,6 @@ public class CasController extends BaseController {
 
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
-                Session session = SecurityUtils.getSubject().getSession();
-                session.setAttribute("_loginType", loginType); // 此次登录类型
                 if(loginType != SystemConstants.LOGIN_TYPE_SWITCH) {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             loginType, true, "登录成功"));

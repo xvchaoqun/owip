@@ -70,6 +70,8 @@ public class ApplySelfService extends AbroadBaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    protected ApprovalLogService approvalLogService;
 
     // 查找审批人
     public List<SysUserView> findApprovers(int cadreId/*被审批干部*/, int approverTypeId) {
@@ -893,13 +895,20 @@ public class ApplySelfService extends AbroadBaseMapper {
 
     public void applySelf_export(ApplySelfExample example, HttpServletResponse response) {
 
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         List<ApplySelf> records = applySelfMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|100", "申请日期|100", "工作证号|100", "姓名|50",
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"编号|100", "申请日期|100", "工作证号|100", "姓名|50",
                 "所在单位及职务|300|left", "出行时间|100", "回国时间|100", /*"出行时间范围",*/
                 "出行天数|80", "前往国家或地区|200|left", "因私出国（境）事由|200|left",
-                "同行人员|100", "费用来源|100", "所需证件|150", "申请时间|150"};
-        List<String[]> valuesList = new ArrayList<>();
+                "同行人员|100", "费用来源|100", "所需证件|150", "申请时间|150"}));
+        titles.add("组织部初审|150");
+        for (ApproverType approverType : approverTypeMap.values()) {
+            titles.add(approverType.getName() + "审批|150");
+        }
+        titles.add("组织部终审|150");
+
+        List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApplySelf record = records.get(i);
             SysUserView uv = record.getUser();
@@ -916,7 +925,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 }
             }
 
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     "S" + record.getId(),
                     DateUtils.formatDate(record.getApplyDate(), DateUtils.YYYY_MM_DD),
                     uv.getCode(),
@@ -932,7 +941,41 @@ public class ApplySelfService extends AbroadBaseMapper {
                     record.getCostSource(),
                     StringUtils.join(passportList, ","),
                     DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-            };
+            }));
+
+            ApprovalLog firstApprovalLog = approvalLogService.getApprovalLog(record.getId(), -1);
+            String firstApprovalRealname = "--";
+            if(firstApprovalLog!=null){
+                SysUserView approvalUser = CmTag.getUserById(firstApprovalLog.getUserId());
+                if(approvalUser!=null){
+                    firstApprovalRealname = approvalUser.getRealname();
+                }
+            }
+            values.add(firstApprovalRealname);
+
+            for (ApproverType approverType : approverTypeMap.values()) {
+
+                String approvalRealname = "--";
+                ApprovalLog approvalLog = approvalLogService.getApprovalLog(record.getId(), approverType.getId());
+                if (approvalLog != null) { // 如果已审批，显示审批人
+                    SysUserView approvalUser = CmTag.getUserById(approvalLog.getUserId());
+                    if(approvalUser!=null){
+                        approvalRealname = approvalUser.getRealname();
+                    }
+                }
+                values.add(approvalRealname);
+            }
+
+            ApprovalLog lastApprovalLog = approvalLogService.getApprovalLog(record.getId(), 0);
+            String lastApprovalRealname = "--";
+            if(lastApprovalLog!=null){
+                SysUserView approvalUser = CmTag.getUserById(lastApprovalLog.getUserId());
+                if(approvalUser!=null){
+                    lastApprovalRealname = approvalUser.getRealname();
+                }
+            }
+            values.add(lastApprovalRealname);
+
             valuesList.add(values);
         }
         String fileName = "因私出国申请_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");

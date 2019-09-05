@@ -1,4 +1,7 @@
 
+
+20190904
+南航
 20190904
 ALTER TABLE `sc_subsidy_cadre`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所在单位' AFTER `cadre_id`;
