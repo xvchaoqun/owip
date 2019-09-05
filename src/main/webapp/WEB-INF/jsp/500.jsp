@@ -36,26 +36,28 @@
                 </div>
                 <hr/>
                 <div class="space"></div>
-                <div class="center">
+                <div class="text-center">
                     <%--<a href="javascript:history.go(-1)" class="btn btn-primary">
                         <i class="ace-icon fa fa-reply"></i>
                         返回
                     </a>--%>
-                    <%--<a href="${ctx}/" class="btn btn-primary">
-                      <i class="ace-icon fa fa-home"></i>
-                      回到首页
-                    </a>--%>
-                    <fmt:message key="logout.redirectUrl" bundle="${spring}" var="_logout_redirectUrl"/>
-                    <c:if test="${empty _logout_redirectUrl || _logout_redirectUrl=='/'}">
-                        <c:set var="logoutUrl" value="${ctx}/logout"/>
-                    </c:if>
-                    <c:if test="${not empty _logout_redirectUrl && _logout_redirectUrl!='/'}">
-                        <c:set var="logoutUrl" value="${_logout_redirectUrl}"/>
-                    </c:if>
-                    <a href="${logoutUrl}" class="btn btn-success">
+                    <a href="${ctx}/" class="btn btn-primary">
                         <i class="ace-icon fa fa-home"></i>
-                        回到系统首页
+                        回到首页
                     </a>
+                    <shiro:user>
+                        <fmt:message key="logout.redirectUrl" bundle="${spring}" var="_logout_redirectUrl"/>
+                        <c:if test="${empty _logout_redirectUrl || _logout_redirectUrl=='/'}">
+                            <c:set var="logoutUrl" value="${ctx}/logout"/>
+                        </c:if>
+                        <c:if test="${not empty _logout_redirectUrl && _logout_redirectUrl!='/'}">
+                            <c:set var="logoutUrl" value="${_logout_redirectUrl}"/>
+                        </c:if>
+                        <a href="${logoutUrl}" class="btn btn-success">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            安全退出
+                        </a>
+                    </shiro:user>
                 </div>
             </div>
         </div>
