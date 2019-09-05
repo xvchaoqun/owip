@@ -2,6 +2,9 @@
 -- 打包commit文件
 git diff-tree -r --no-commit-id --name-only cfb63f6db4354a7768b6144d456eea577e3cebef | xargs tar -rf /cygdriver/d/tmp/1.tar
 
+-- 忽略文件
+git update-index --assume-unchanged pom.xml
+
 -- 撤销commit 
 git reset --soft HEAD~1
 (如果进行了2次commit，想都撤回，可以使用HEAD~2)
