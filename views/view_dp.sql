@@ -1,6 +1,37 @@
 
 
 
+-- 20190905 李阳 创建视图（4）无党派人士，其他统战人员，党外代表，人大代表、政协委员
+DROP VIEW IF EXISTS `dp_pr_cm_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_pr_cm_view` AS
+SELECT dpc.*,m.party_id,m.grow_time,p.unit_id,
+sui.gender,sui.birth,sui.nation
+from dp_pr_cm dpc left join dp_member m on m.user_id=dpc.user_id
+left join dp_party p on p.id=m.party_id
+left join sys_user_info sui on sui.user_id=dpc.user_id
+
+DROP VIEW IF EXISTS `dp_om_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_om_view` AS
+SELECT om.*,m.party_id,m.grow_time,p.unit_id,
+sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
+from dp_om om left join dp_member m on m.user_id=om.user_id
+left join dp_party p on p.id=m.party_id
+left join sys_user_info sui on sui.user_id=om.user_id
+
+DROP VIEW IF EXISTS `dp_npr_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_npr_view` AS
+SELECT npr.*,m.party_id,m.grow_time,p.unit_id,
+sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
+from dp_npr npr left join dp_member m on m.user_id=npr.user_id
+left join dp_party p on p.id=m.party_id
+left join sys_user_info sui on sui.user_id=npr.user_id
+
+DROP VIEW IF EXISTS `dp_npm_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `dp_npm_view` AS
+SELECT npm.*,
+sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
+from dp_npm npm left join sys_user_info sui on sui.user_id=npm.user_id
+
 -- 20190826 李阳 更新dp_party_member_view视图
 DROP VIEW IF EXISTS `dp_party_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
