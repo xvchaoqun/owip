@@ -1,5 +1,30 @@
 
 
+-- 20190905 李阳
+-- 建表（1） 人大代表、政协委员
+-- 创建视图（4） 无党派人士，其他统战人员，党外代表，人大代表、政协委员
+DROP TABLE IF EXISTS `dp_pr_cm`;
+CREATE TABLE IF NOT EXISTS `dp_pr_cm` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `unit_post` varchar(50) DEFAULT NULL COMMENT '所在单位及职务',
+  `executive_level` varchar(50) DEFAULT NULL COMMENT '行政级别',
+  `work_time` date DEFAULT NULL COMMENT '参加工作时间',
+  `education` varchar(50) DEFAULT NULL COMMENT '最高学历',
+  `degree` varchar(50) DEFAULT NULL COMMENT '最高学位',
+  `school` varchar(50) DEFAULT NULL COMMENT '毕业学校',
+  `major` varchar(50) DEFAULT NULL COMMENT '所学专业',
+  `elect_post` varchar(50) DEFAULT NULL COMMENT '当选时职务',
+  `elect_session` varchar(50) DEFAULT NULL COMMENT '当选届次',
+  `elect_time` date DEFAULT NULL COMMENT '当选时间',
+  `end_time` date DEFAULT NULL COMMENT '到届时间',
+  `status` tinyint(1) unsigned DEFAULT NULL COMMENT '状态',
+  `type` int(10) unsigned DEFAULT NULL COMMENT '类别',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几届代表';
+
 -- 20190829 李阳
 -- 建表 无党派人士、其他统战人员、党外代表
 DROP TABLE IF EXISTS `dp_npm`;
