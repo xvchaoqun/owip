@@ -26,14 +26,14 @@
                         回到首页
                     </a>
                     <shiro:user>
-                         <fmt:message key="logout.redirectUrl" bundle="${spring}" var="_logout_redirectUrl"/>
-                          <c:if test="${empty _logout_redirectUrl || _logout_redirectUrl=='/'}">
+                        <fmt:message key="logout.redirectUrl" bundle="${spring}" var="_logout_redirectUrl"/>
+                        <c:if test="${empty _logout_redirectUrl || _logout_redirectUrl=='/'}">
                             <c:set var="logoutUrl" value="${ctx}/logout"/>
-                          </c:if>
-                          <c:if test="${not empty _logout_redirectUrl && _logout_redirectUrl!='/'}">
+                        </c:if>
+                        <c:if test="${not empty _logout_redirectUrl && _logout_redirectUrl!='/'}">
                             <c:set var="logoutUrl" value="${_logout_redirectUrl}"/>
-                          </c:if>
-                          <a href="${logoutUrl}" class="btn btn-danger">
+                        </c:if>
+                        <a href="${logoutUrl}" class="btn btn-danger">
                             <i class="ace-icon fa fa-power-off"></i>
                             安全退出
                         </a>
@@ -45,7 +45,6 @@
         <!-- PAGE CONTENT ENDS -->
     </div><!-- /.col -->
 </div>
-
 <c:if test="${!param.__includePage}">
     </div>
     </body>
