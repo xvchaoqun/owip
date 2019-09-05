@@ -54,6 +54,7 @@
                     <option value="${scGroupTopic.id}">
                         [${cm:formatDate(scGroupTopic.holdDate, "yyyy.MM.dd")}]${scGroupTopic.name}</option>
                 </select>
+                <span class="help-block">* 此处关联干部小组会议题</span>
                 <script>
                     $.register.ajax_select($("#modalForm select[name=groupTopicId]"))
                 </script>
@@ -69,6 +70,7 @@
                     <option value="${scCommitteeTopic.id}">
                         [${cm:formatDate(scCommitteeTopic.holdDate, "yyyy.MM.dd")}]${scCommitteeTopic.name}</option>
                 </select>
+                <span class="help-block">* 此处关联党委常委会会议题</span>
                 <script>
                     $.register.ajax_select($("#modalForm select[name=committeeTopicId]"))
                 </script>

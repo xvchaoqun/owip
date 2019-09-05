@@ -2,6 +2,9 @@
 -- 打包commit文件
 git diff-tree -r --no-commit-id --name-only cfb63f6db4354a7768b6144d456eea577e3cebef | xargs tar -rf /cygdriver/d/tmp/1.tar
 
+-- 撤销commit 
+git reset --soft HEAD~1
+(如果进行了2次commit，想都撤回，可以使用HEAD~2)
 
 select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
 

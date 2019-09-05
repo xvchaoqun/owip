@@ -11,6 +11,15 @@
                       propertySeparator="," />
        </defaultCache>-->
 
+       <cache name="wxAccessToken"
+           eternal="false"
+           maxElementsInMemory="10"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="590"
+           memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="schoolUnits"
            eternal="false"
            maxElementsInMemory="2000"

@@ -13,13 +13,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.SqlUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,6 +35,20 @@ import java.util.Map;
 public class ShortMsgController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("shortMsg:repeat")
+    @RequestMapping(value = "/shortMsg_repeat", method = RequestMethod.POST)
+    @ResponseBody
+    public Map shortMsg_repeat(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            shortMsgService.repeat(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "重复发送短信：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg")

@@ -16,6 +16,16 @@ public class ShortMsgTpl implements Serializable {
 
     private Integer roleId;
 
+    private Byte type;
+
+    private Byte wxMsgType;
+
+    private String wxTitle;
+
+    private String wxUrl;
+
+    private String wxPic;
+
     private String name;
 
     private String content;
@@ -50,6 +60,46 @@ public class ShortMsgTpl implements Serializable {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public Byte getWxMsgType() {
+        return wxMsgType;
+    }
+
+    public void setWxMsgType(Byte wxMsgType) {
+        this.wxMsgType = wxMsgType;
+    }
+
+    public String getWxTitle() {
+        return wxTitle;
+    }
+
+    public void setWxTitle(String wxTitle) {
+        this.wxTitle = wxTitle == null ? null : wxTitle.trim();
+    }
+
+    public String getWxUrl() {
+        return wxUrl;
+    }
+
+    public void setWxUrl(String wxUrl) {
+        this.wxUrl = wxUrl == null ? null : wxUrl.trim();
+    }
+
+    public String getWxPic() {
+        return wxPic;
+    }
+
+    public void setWxPic(String wxPic) {
+        this.wxPic = wxPic == null ? null : wxPic.trim();
     }
 
     public String getName() {

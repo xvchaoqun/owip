@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="LOGIN_TYPE_WX" value="<%=SystemConstants.LOGIN_TYPE_WX%>"/>
 <c:set var="_requestPath" value="${_path}"/>
 <c:set var="_queryString" value="${fn:escapeXml(requestScope['javax.servlet.forward.query_string'])}"/>
 <c:if test="${not empty _queryString}">
@@ -55,6 +56,7 @@
 										账号信息
 									</a>
 								</li>
+								<c:if test="${sessionScope._loginType!=LOGIN_TYPE_WX}">
 								<li class="divider"></li>
 								<li>
 									<a href="${ctx}/m/logout">
@@ -62,6 +64,7 @@
 										安全退出
 									</a>
 								</li>
+								</c:if>
 							</ul>
 						</li>
 					</ul>

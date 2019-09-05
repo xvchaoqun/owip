@@ -3,15 +3,21 @@
 <mapper namespace="persistence.base.ShortMsgMapper">
   <resultMap id="BaseResultMap" type="domain.base.ShortMsg">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="wx_msg_type" jdbcType="TINYINT" property="wxMsgType" />
+    <result column="wx_title" jdbcType="VARCHAR" property="wxTitle" />
+    <result column="wx_url" jdbcType="VARCHAR" property="wxUrl" />
+    <result column="wx_pic" jdbcType="VARCHAR" property="wxPic" />
     <result column="sender_id" jdbcType="INTEGER" property="senderId" />
     <result column="receiver_id" jdbcType="INTEGER" property="receiverId" />
     <result column="relate_id" jdbcType="INTEGER" property="relateId" />
     <result column="relate_sn" jdbcType="VARCHAR" property="relateSn" />
     <result column="relate_type" jdbcType="TINYINT" property="relateType" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type_str" jdbcType="VARCHAR" property="typeStr" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="repeat_times" jdbcType="VARCHAR" property="repeatTimes" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="BIT" property="status" />
@@ -76,8 +82,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sender_id, receiver_id, relate_id, relate_sn, relate_type, type, mobile, content, 
-    create_time, ip, remark, status, ret
+    id, type, wx_msg_type, wx_title, wx_url, wx_pic, sender_id, receiver_id, relate_id, 
+    relate_sn, relate_type, type_str, mobile, content, create_time, repeat_times, ip, 
+    remark, status, ret
   </sql>
   <select id="selectByExample" parameterType="domain.base.ShortMsgExample" resultMap="BaseResultMap">
     select
@@ -110,15 +117,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.base.ShortMsg">
-    insert into base_short_msg (id, sender_id, receiver_id, 
-      relate_id, relate_sn, relate_type, 
-      type, mobile, content, 
-      create_time, ip, remark, 
+    insert into base_short_msg (id, type, wx_msg_type, 
+      wx_title, wx_url, wx_pic, 
+      sender_id, receiver_id, relate_id, 
+      relate_sn, relate_type, type_str, 
+      mobile, content, create_time, 
+      repeat_times, ip, remark, 
       status, ret)
-    values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, 
-      #{relateId,jdbcType=INTEGER}, #{relateSn,jdbcType=VARCHAR}, #{relateType,jdbcType=TINYINT}, 
-      #{type,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{wxMsgType,jdbcType=TINYINT}, 
+      #{wxTitle,jdbcType=VARCHAR}, #{wxUrl,jdbcType=VARCHAR}, #{wxPic,jdbcType=VARCHAR}, 
+      #{senderId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, #{relateId,jdbcType=INTEGER}, 
+      #{relateSn,jdbcType=VARCHAR}, #{relateType,jdbcType=TINYINT}, #{typeStr,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{repeatTimes,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{status,jdbcType=BIT}, #{ret,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ShortMsg">
@@ -126,6 +137,21 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type,
+      </if>
+      <if test="wxTitle != null">
+        wx_title,
+      </if>
+      <if test="wxUrl != null">
+        wx_url,
+      </if>
+      <if test="wxPic != null">
+        wx_pic,
       </if>
       <if test="senderId != null">
         sender_id,
@@ -142,8 +168,8 @@
       <if test="relateType != null">
         relate_type,
       </if>
-      <if test="type != null">
-        type,
+      <if test="typeStr != null">
+        type_str,
       </if>
       <if test="mobile != null">
         mobile,
@@ -153,6 +179,9 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="repeatTimes != null">
+        repeat_times,
       </if>
       <if test="ip != null">
         ip,
@@ -171,6 +200,21 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="wxMsgType != null">
+        #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        #{wxPic,jdbcType=VARCHAR},
+      </if>
       <if test="senderId != null">
         #{senderId,jdbcType=INTEGER},
       </if>
@@ -186,8 +230,8 @@
       <if test="relateType != null">
         #{relateType,jdbcType=TINYINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+      <if test="typeStr != null">
+        #{typeStr,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
@@ -197,6 +241,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repeatTimes != null">
+        #{repeatTimes,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -224,6 +271,21 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.wxMsgType != null">
+        wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="record.wxTitle != null">
+        wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxUrl != null">
+        wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxPic != null">
+        wx_pic = #{record.wxPic,jdbcType=VARCHAR},
+      </if>
       <if test="record.senderId != null">
         sender_id = #{record.senderId,jdbcType=INTEGER},
       </if>
@@ -239,8 +301,8 @@
       <if test="record.relateType != null">
         relate_type = #{record.relateType,jdbcType=TINYINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=VARCHAR},
+      <if test="record.typeStr != null">
+        type_str = #{record.typeStr,jdbcType=VARCHAR},
       </if>
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -250,6 +312,9 @@
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repeatTimes != null">
+        repeat_times = #{record.repeatTimes,jdbcType=VARCHAR},
       </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
@@ -271,15 +336,21 @@
   <update id="updateByExample" parameterType="map">
     update base_short_msg
     set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{record.wxPic,jdbcType=VARCHAR},
       sender_id = #{record.senderId,jdbcType=INTEGER},
       receiver_id = #{record.receiverId,jdbcType=INTEGER},
       relate_id = #{record.relateId,jdbcType=INTEGER},
       relate_sn = #{record.relateSn,jdbcType=VARCHAR},
       relate_type = #{record.relateType,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=VARCHAR},
+      type_str = #{record.typeStr,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      repeat_times = #{record.repeatTimes,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=BIT},
@@ -291,6 +362,21 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.base.ShortMsg">
     update base_short_msg
     <set>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        wx_title = #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        wx_url = #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        wx_pic = #{wxPic,jdbcType=VARCHAR},
+      </if>
       <if test="senderId != null">
         sender_id = #{senderId,jdbcType=INTEGER},
       </if>
@@ -306,8 +392,8 @@
       <if test="relateType != null">
         relate_type = #{relateType,jdbcType=TINYINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+      <if test="typeStr != null">
+        type_str = #{typeStr,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -317,6 +403,9 @@
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repeatTimes != null">
+        repeat_times = #{repeatTimes,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
@@ -335,15 +424,21 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.base.ShortMsg">
     update base_short_msg
-    set sender_id = #{senderId,jdbcType=INTEGER},
+    set type = #{type,jdbcType=TINYINT},
+      wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      wx_title = #{wxTitle,jdbcType=VARCHAR},
+      wx_url = #{wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{wxPic,jdbcType=VARCHAR},
+      sender_id = #{senderId,jdbcType=INTEGER},
       receiver_id = #{receiverId,jdbcType=INTEGER},
       relate_id = #{relateId,jdbcType=INTEGER},
       relate_sn = #{relateSn,jdbcType=VARCHAR},
       relate_type = #{relateType,jdbcType=TINYINT},
-      type = #{type,jdbcType=VARCHAR},
+      type_str = #{typeStr,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      repeat_times = #{repeatTimes,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT},

@@ -179,12 +179,13 @@ public class CrsShortMsgService extends CrsBaseMapper {
                     meetingTime, meetingAddress, pptDeadline);
 
             ShortMsgBean bean = new ShortMsgBean();
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setReceiver(userId);
             bean.setMobile(mobile);
             bean.setContent(msg);
             bean.setRelateId(tpl.getId());
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {
@@ -215,12 +216,13 @@ public class CrsShortMsgService extends CrsBaseMapper {
             String msg = MessageFormat.format(tpl.getContent(), postName, meetingTime, meetingAddress);
 
             ShortMsgBean bean = new ShortMsgBean();
+            shortMsgService.initShortMsgBeanParams(bean, tpl);
             bean.setReceiver(userId);
             bean.setMobile(mobile);
             bean.setContent(msg);
             bean.setRelateId(tpl.getId());
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-            bean.setType(tpl.getName());
+            bean.setTypeStr(tpl.getName());
 
             shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {
@@ -260,13 +262,14 @@ public class CrsShortMsgService extends CrsBaseMapper {
                         post.getName());
 
                 ShortMsgBean bean = new ShortMsgBean();
+                shortMsgService.initShortMsgBeanParams(bean, tpl);
                 bean.setSender(applyUser.getId());
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                bean.setType(tpl.getName());
+                bean.setTypeStr(tpl.getName());
 
                 shortMsgService.send(bean, ip);
             } catch (Exception ex) {
@@ -328,13 +331,14 @@ public class CrsShortMsgService extends CrsBaseMapper {
                             applicantCount);
 
                     ShortMsgBean bean = new ShortMsgBean();
+                    shortMsgService.initShortMsgBeanParams(bean, tpl);
                     bean.setSender(null);
                     bean.setReceiver(userId);
                     bean.setMobile(mobile);
                     bean.setContent(msg);
                     bean.setRelateId(tpl.getId());
                     bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
-                    bean.setType(tpl.getName());
+                    bean.setTypeStr(tpl.getName());
 
                     shortMsgService.send(bean, "127.0.0.1");
                 } catch (Exception ex) {
@@ -393,10 +397,11 @@ public class CrsShortMsgService extends CrsBaseMapper {
         if (StringUtils.isBlank(msg)) return 0;
 
         ShortMsgBean bean = new ShortMsgBean();
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setSender(null);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
         bean.setRelateId(tpl.getId());
-        bean.setType(tpl.getName());
+        bean.setTypeStr(tpl.getName());
         bean.setContent(msg);
 
         CrsShortMsg csm = new CrsShortMsg();

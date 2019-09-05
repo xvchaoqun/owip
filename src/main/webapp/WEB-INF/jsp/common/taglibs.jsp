@@ -27,6 +27,7 @@
 
 <fmt:setBundle basename="spring" var="spring"/>
 <fmt:message key="site.hasLoginPage" bundle="${spring}" var="_hasLoginPage"/>
+<fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
 <fmt:message key="global.session.timeout" bundle="${spring}" var="_global_session_timeout"/>
 

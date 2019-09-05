@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="LOGIN_TYPE_WX" value="<%=SystemConstants.LOGIN_TYPE_WX%>"/>
 <c:if test="${!param.__includePage}">
     <html>
     <head>
@@ -77,11 +78,12 @@
                 <hr/>
                 <div class="space"></div>
                 <div class="center">
-
+                    <c:if test="${sessionScope._loginType!=LOGIN_TYPE_WX}">
                     <a href="javascript:history.go(-1)" class="btn btn-success">
                         <i class="ace-icon fa fa-reply"></i>
                         返回
                     </a>
+                    </c:if>
 
                     <a href="${ctx}/" class="btn btn-primary">
                         <i class="ace-icon fa fa-home"></i>

@@ -4,10 +4,13 @@
   <resultMap id="BaseResultMap" type="domain.base.ContentTpl">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="wx_msg_type" jdbcType="TINYINT" property="wxMsgType" />
+    <result column="wx_title" jdbcType="VARCHAR" property="wxTitle" />
+    <result column="wx_url" jdbcType="VARCHAR" property="wxUrl" />
+    <result column="wx_pic" jdbcType="VARCHAR" property="wxPic" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="content_type" jdbcType="TINYINT" property="contentType" />
     <result column="engine" jdbcType="TINYINT" property="engine" />
@@ -17,6 +20,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, remark, role_id, type, code, content, content_type, engine, param_count, 
-    param_names, param_def_values, sort_order, user_id, create_time
+    id, name, role_id, type, code, wx_msg_type, wx_title, wx_url, wx_pic, content, content_type, 
+    engine, param_count, param_names, param_def_values, sort_order, user_id, create_time, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.base.ContentTplExample" resultMap="BaseResultMap">
     select
@@ -114,16 +119,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into base_content_tpl (name, remark, role_id, 
-      type, code, content, 
+    insert into base_content_tpl (name, role_id, type, 
+      code, wx_msg_type, wx_title, 
+      wx_url, wx_pic, content, 
       content_type, engine, param_count, 
       param_names, param_def_values, sort_order, 
-      user_id, create_time)
-    values (#{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      user_id, create_time, remark
+      )
+    values (#{name,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{code,jdbcType=VARCHAR}, #{wxMsgType,jdbcType=TINYINT}, #{wxTitle,jdbcType=VARCHAR}, 
+      #{wxUrl,jdbcType=VARCHAR}, #{wxPic,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{contentType,jdbcType=TINYINT}, #{engine,jdbcType=TINYINT}, #{paramCount,jdbcType=INTEGER}, 
       #{paramNames,jdbcType=VARCHAR}, #{paramDefValues,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ContentTpl">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -134,9 +143,6 @@
       <if test="name != null">
         name,
       </if>
-      <if test="remark != null">
-        remark,
-      </if>
       <if test="roleId != null">
         role_id,
       </if>
@@ -145,6 +151,18 @@
       </if>
       <if test="code != null">
         code,
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type,
+      </if>
+      <if test="wxTitle != null">
+        wx_title,
+      </if>
+      <if test="wxUrl != null">
+        wx_url,
+      </if>
+      <if test="wxPic != null">
+        wx_pic,
       </if>
       <if test="content != null">
         content,
@@ -173,13 +191,13 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
@@ -189,6 +207,18 @@
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="wxMsgType != null">
+        #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        #{wxPic,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -217,6 +247,9 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.base.ContentTplExample" resultType="java.lang.Long">
@@ -234,9 +267,6 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
       <if test="record.roleId != null">
         role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
@@ -245,6 +275,18 @@
       </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxMsgType != null">
+        wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="record.wxTitle != null">
+        wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxUrl != null">
+        wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxPic != null">
+        wx_pic = #{record.wxPic,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -273,6 +315,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -282,10 +327,13 @@
     update base_content_tpl
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
       role_id = #{record.roleId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
+      wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{record.wxPic,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       content_type = #{record.contentType,jdbcType=TINYINT},
       engine = #{record.engine,jdbcType=TINYINT},
@@ -294,7 +342,8 @@
       param_def_values = #{record.paramDefValues,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -305,9 +354,6 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
@@ -316,6 +362,18 @@
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        wx_title = #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        wx_url = #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        wx_pic = #{wxPic,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -344,16 +402,22 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.base.ContentTpl">
     update base_content_tpl
     set name = #{name,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
       role_id = #{roleId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
+      wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      wx_title = #{wxTitle,jdbcType=VARCHAR},
+      wx_url = #{wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{wxPic,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       content_type = #{contentType,jdbcType=TINYINT},
       engine = #{engine,jdbcType=TINYINT},
@@ -362,7 +426,8 @@
       param_def_values = #{paramDefValues,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.base.ContentTplExample" resultMap="BaseResultMap">

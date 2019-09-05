@@ -4,14 +4,15 @@ import bean.ShortMsgBean;
 import domain.cadre.CadreView;
 import domain.sc.scPassport.ScPassportHand;
 import domain.sc.scPassport.ScPassportMsg;
+import ext.service.ShortMsgService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ext.service.ShortMsgService;
 import service.sc.ScBaseMapper;
 import service.sys.UserBeanService;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
@@ -38,12 +39,13 @@ public class ScPassportMsgService extends ScBaseMapper {
             String mobile = userBeanService.getMsgMobile(userId);
 
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setReceiver(userId);
             bean.setMobile(mobile);
             bean.setContent(msg);
             bean.setRelateId(null);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT);
-            bean.setType("新任干部提交证件");
+            bean.setTypeStr("新任干部提交证件");
 
             success = shortMsgService.send(bean, "127.0.0.1");
         } catch (Exception ex) {

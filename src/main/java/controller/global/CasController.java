@@ -3,6 +3,7 @@ package controller.global;
 import controller.BaseController;
 import domain.party.OrgAdmin;
 import domain.sys.SysUserView;
+import ext.utils.CasUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -21,11 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import service.base.WeixinService;
 import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import ext.utils.CasUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.utils.HttpRequestDeviceUtils;
@@ -49,6 +50,8 @@ public class CasController extends BaseController {
     private SysLoginLogService sysLoginLogService;
     @Autowired
     private EnterpriseCacheSessionDAO sessionDAO;
+    @Autowired
+    private WeixinService weixinService;
 
     //@RequiresPermissions("sysLogin:switch")
     @RequestMapping("/login_switch")
@@ -74,7 +77,7 @@ public class CasController extends BaseController {
 
         logoutAndRemoveSessionCache(request);
 
-        return directLogin(username, false, request, response, _switchUser);
+        return directLogin(username, SystemConstants.LOGIN_TYPE_SWITCH, request, response, _switchUser);
     }
 
     // 登出当前账号并清除session cache
@@ -102,7 +105,7 @@ public class CasController extends BaseController {
 
         logoutAndRemoveSessionCache(request);
 
-        return directLogin(switchUser, false, request, response, null);
+        return directLogin(switchUser, SystemConstants.LOGIN_TYPE_SWITCH, request, response, null);
     }
 
     @RequestMapping("/cas")
@@ -112,8 +115,18 @@ public class CasController extends BaseController {
             // 已登录的情况下，跳转到原账号
             return loginRedirect(request, response);
         }
+        String username = null;
+        byte loginType;
+        String code = request.getParameter("code");
+        if(StringUtils.isNotBlank(code)){
+            username = weixinService.getUserId(code);
+            loginType = SystemConstants.LOGIN_TYPE_WX;
+        }else {
+            username = CasUtils.getName(request);
+            loginType = SystemConstants.LOGIN_TYPE_CAS;
+        }
 
-        return directLogin(CasUtils.getName(request), true,
+        return directLogin(username, loginType,
                 request, response, null);
     }
 
@@ -121,13 +134,13 @@ public class CasController extends BaseController {
      * 使用账号直接登录
      *
      * @param username
-     * @param isSelfLogin 是否本人CAS登录
+     * @param loginType 登录方式
      * @param request
      * @param response
      * @param _switchUser  切换登录的账号
      * @return
      */
-    private String directLogin(String username, boolean isSelfLogin,
+    private String directLogin(String username, byte loginType,
                                HttpServletRequest request, HttpServletResponse response,
                                String _switchUser){
 
@@ -149,11 +162,10 @@ public class CasController extends BaseController {
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
                 Session session = SecurityUtils.getSubject().getSession();
-                if(isSelfLogin) {
-                    session.setAttribute("_ssoLogin", true); // 标记此次登录为单点登录（还未使用）
-
+                session.setAttribute("_loginType", loginType); // 此次登录类型
+                if(loginType != SystemConstants.LOGIN_TYPE_SWITCH) {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
-                            SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
+                            loginType, true, "登录成功"));
                 }
                 if(StringUtils.isNotBlank(_switchUser)){
                     session.setAttribute("_switchUser", _switchUser);
@@ -164,7 +176,7 @@ public class CasController extends BaseController {
                 return loginRedirect(request, response);
             } else {
                 logger.info(sysLoginLogService.log(null, username,
-                        isSelfLogin? SystemConstants.LOGIN_TYPE_CAS: SystemConstants.LOGIN_TYPE_NET,
+                        loginType,
                         false, "登录失败"));
             }
 
@@ -177,9 +189,11 @@ public class CasController extends BaseController {
 
     private String loginRedirect(HttpServletRequest request, HttpServletResponse response){
 
-        String url = request.getParameter("url");
-        return redirect(StringUtils.isBlank(url)?"/":
-                ((HttpRequestDeviceUtils.isMobileDevice(request)?"/":"/#")+url), response);
+        String url = StringUtils.trimToEmpty(request.getParameter("url"));
+        if(!url.startsWith("/")){
+            url = "/" + url;
+        }
+        return redirect((HttpRequestDeviceUtils.isMobileDevice(request)?"":"/#")+url, response);
     }
 
     private String redirect(String url, HttpServletResponse response){

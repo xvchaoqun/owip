@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>设置短信接收人</h3>
+    <h3>设置消息接收人</h3>
 </div>
 <div class="modal-body">
         <div class="widget-box">

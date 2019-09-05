@@ -4,6 +4,11 @@
   <resultMap id="BaseResultMap" type="domain.base.ShortMsgTpl">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="wx_msg_type" jdbcType="TINYINT" property="wxMsgType" />
+    <result column="wx_title" jdbcType="VARCHAR" property="wxTitle" />
+    <result column="wx_url" jdbcType="VARCHAR" property="wxUrl" />
+    <result column="wx_pic" jdbcType="VARCHAR" property="wxPic" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -73,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role_id, name, content, remark, sort_order, send_count, send_user_count, create_time, 
-    ip, add_user_id
+    id, role_id, type, wx_msg_type, wx_title, wx_url, wx_pic, name, content, remark, 
+    sort_order, send_count, send_user_count, create_time, ip, add_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.base.ShortMsgTplExample" resultMap="BaseResultMap">
     select
@@ -107,14 +112,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.base.ShortMsgTpl">
-    insert into base_short_msg_tpl (id, role_id, name, 
-      content, remark, sort_order, 
-      send_count, send_user_count, create_time, 
-      ip, add_user_id)
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{sendCount,jdbcType=INTEGER}, #{sendUserCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER})
+    insert into base_short_msg_tpl (id, role_id, type, 
+      wx_msg_type, wx_title, wx_url, 
+      wx_pic, name, content, 
+      remark, sort_order, send_count, 
+      send_user_count, create_time, ip, 
+      add_user_id)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{wxMsgType,jdbcType=TINYINT}, #{wxTitle,jdbcType=VARCHAR}, #{wxUrl,jdbcType=VARCHAR}, 
+      #{wxPic,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{sendCount,jdbcType=INTEGER}, 
+      #{sendUserCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{addUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ShortMsgTpl">
     insert into base_short_msg_tpl
@@ -124,6 +133,21 @@
       </if>
       <if test="roleId != null">
         role_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type,
+      </if>
+      <if test="wxTitle != null">
+        wx_title,
+      </if>
+      <if test="wxUrl != null">
+        wx_url,
+      </if>
+      <if test="wxPic != null">
+        wx_pic,
       </if>
       <if test="name != null">
         name,
@@ -159,6 +183,21 @@
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="wxMsgType != null">
+        #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        #{wxPic,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -204,6 +243,21 @@
       <if test="record.roleId != null">
         role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.wxMsgType != null">
+        wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="record.wxTitle != null">
+        wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxUrl != null">
+        wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxPic != null">
+        wx_pic = #{record.wxPic,jdbcType=VARCHAR},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -240,6 +294,11 @@
     update base_short_msg_tpl
     set id = #{record.id,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      wx_msg_type = #{record.wxMsgType,jdbcType=TINYINT},
+      wx_title = #{record.wxTitle,jdbcType=VARCHAR},
+      wx_url = #{record.wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{record.wxPic,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -258,6 +317,21 @@
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="wxMsgType != null">
+        wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      </if>
+      <if test="wxTitle != null">
+        wx_title = #{wxTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wxUrl != null">
+        wx_url = #{wxUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPic != null">
+        wx_pic = #{wxPic,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -292,6 +366,11 @@
   <update id="updateByPrimaryKey" parameterType="domain.base.ShortMsgTpl">
     update base_short_msg_tpl
     set role_id = #{roleId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      wx_msg_type = #{wxMsgType,jdbcType=TINYINT},
+      wx_title = #{wxTitle,jdbcType=VARCHAR},
+      wx_url = #{wxUrl,jdbcType=VARCHAR},
+      wx_pic = #{wxPic,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.AbroadConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -50,7 +47,7 @@ public class ShortMsgTplController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 定向短信发送记录
+    // 定向消息发送记录
     @RequiresPermissions("shortMsgTpl:list")
     @RequestMapping("/shortMsgTpl_sendList_data")
     @ResponseBody
@@ -203,11 +200,11 @@ public class ShortMsgTplController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             shortMsgTplService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加定向短信模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加定向消息模板：%s", record.getId()));
         } else {
 
             shortMsgTplService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新定向短信模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新定向消息模板：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -244,42 +241,48 @@ public class ShortMsgTplController extends BaseController {
         return "base/shortMsgTpl/shortMsgTpl_au";
     }
 
-    // 发送短信
+    // 发送消息
     @RequiresPermissions("shortMsgTpl:send")
     @RequestMapping(value = "/shortMsgTpl_send", method = RequestMethod.POST)
     @ResponseBody
     public Map do_shortMsgTpl_send(int tplId,
                                    Integer receiverId,
                                    String mobile,
+                                   String wxTitle,
                                    String content,
                                    String type,
                                    @RequestParam(value="userIds[]", required = false) List<Integer> userIds,
                                    HttpServletRequest request) {
 
-        if(!StringUtils.equals(type, "batch")) {
+        ShortMsgTpl tpl = shortMsgTplMapper.selectByPrimaryKey(tplId);
+
+        if(tpl.getType()== ContentTplConstants.CONTENT_TPL_TYPE_MSG
+                && !StringUtils.equals(type, "batch")) {
             if (!CmTag.validMobile(mobile)) {
                 return failed("手机号码有误");
             }
         }
         content = HtmlUtils.htmlUnescape(content);
         if(StringUtils.isBlank(content)){
-            return failed("短信内容不能为空");
+            return failed("发送内容不能为空");
         }
 
-        ShortMsgTpl shortMsgTpl = shortMsgTplMapper.selectByPrimaryKey(tplId);
-        Integer roleId = shortMsgTpl.getRoleId();
+        Integer roleId = tpl.getRoleId();
         SysRole sysRole = null;
         if (roleId != null) {
             sysRole = sysRoleService.findAll().get(roleId);
         }
         ShortMsgBean bean = new ShortMsgBean();
-        bean.setRelateId(shortMsgTpl.getId());
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
+        bean.setWxTitle(wxTitle);
+
+        bean.setRelateId(tpl.getId());
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
         bean.setReceiver(receiverId);
         bean.setSender(ShiroHelper.getCurrentUserId());
         bean.setContent(content);
         bean.setMobile(mobile);
-        bean.setType((sysRole != null ? (sysRole.getName() + "-") : "") + shortMsgTpl.getName());
+        bean.setTypeStr((sysRole != null ? (sysRole.getName() + "-") : "") + tpl.getName());
 
         if(!StringUtils.equals(type, "batch")) {
             shortMsgService.send(bean, ContextHelper.getRealIp());
@@ -331,7 +334,7 @@ public class ShortMsgTplController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             shortMsgTplService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除定向短信模板：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除定向消息模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -343,7 +346,7 @@ public class ShortMsgTplController extends BaseController {
 	public Map do_shortMsgTpl_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
 		shortMsgTplService.changeOrder(id, addNum);
-		logger.info(addLog(LogConstants.LOG_ADMIN, "短信模板调序：%s,%s", id, addNum));
+		logger.info(addLog(LogConstants.LOG_ADMIN, "消息模板调序：%s,%s", id, addNum));
 		return success(FormUtils.SUCCESS);
 	}
 

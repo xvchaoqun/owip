@@ -79,13 +79,13 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td colspan=2 height=23 class=xl70>正处</td>
+                        <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="2"/>
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td colspan=2 height=23 class=xl70>副处</td>
+                        <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="3"/>
                         </jsp:include>

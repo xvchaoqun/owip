@@ -90,6 +90,8 @@ public class SystemConstants {
     public static final byte LOGIN_TYPE_CAS = 3;
     public static final byte LOGIN_TYPE_MOBILE = 4;
     public static final byte LOGIN_TYPE_TRAIN_INSPECTOR = 5;
+    public static final byte LOGIN_TYPE_WX = 10;
+    public static final byte LOGIN_TYPE_SWITCH = 20;
     public final static Map<Byte, String> LOGIN_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -98,6 +100,8 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_CAS, "单点登录");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_TRAIN_INSPECTOR, "评课账号登录");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_WX, "微信");
+        LOGIN_TYPE_MAP.put(LOGIN_TYPE_SWITCH, "切换账号");
     }
 
     // 系统附件类别
@@ -277,8 +281,8 @@ public class SystemConstants {
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_CONTENT_TPL, "短信模板");
-        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向短信");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_CONTENT_TPL, "消息模板");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向消息");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_PCS, "党代会");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CET, "干部教育培训");

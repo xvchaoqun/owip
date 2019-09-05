@@ -4,16 +4,17 @@ import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.oa.*;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ext.service.ShortMsgService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
+import sys.constants.ContentTplConstants;
 import sys.constants.OaConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -266,10 +267,11 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
             String mobile = uv.getMobile();
 
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setReceiver(userId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_OA);
-            bean.setType("协同办公-下发任务短信通知");
+            bean.setTypeStr("协同办公-下发任务短信通知");
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -322,10 +324,11 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
             String mobile = uv.getMobile();
 
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setReceiver(userId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_OA);
-            bean.setType("协同办公-短信催促未报送对象");
+            bean.setTypeStr("协同办公-短信催促未报送对象");
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -376,10 +379,11 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
         String mobile = uv.getMobile();
 
         ShortMsgBean bean = new ShortMsgBean();
+        bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
         bean.setSender(sendUserId);
         bean.setReceiver(userId);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_OA);
-        bean.setType("协同办公-审核未通过短信提醒");
+        bean.setTypeStr("协同办公-审核未通过短信提醒");
         bean.setMobile(mobile);
         bean.setContent(msg);
 

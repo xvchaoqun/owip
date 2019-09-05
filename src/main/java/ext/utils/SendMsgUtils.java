@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
-import sys.SendMsgResult;
+import sys.entity.SendMsgResult;
 import sys.gson.GsonUtils;
 import sys.utils.PropertiesUtils;
 

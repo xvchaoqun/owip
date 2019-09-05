@@ -15,9 +15,10 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="shortMsgTpl:edit">
-                                <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/shortMsgTpl_au"><i
+                                <a class="openView btn btn-info btn-sm" data-url="${ctx}/shortMsgTpl_au"><i
                                         class="fa fa-plus"></i> 添加</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                   data-open-by="page"
                                    data-url="${ctx}/shortMsgTpl_au"
                                    data-grid-id="#jqGrid"
                                    ><i class="fa fa-edit"></i>
@@ -50,9 +51,9 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                     <div class="form-group">
-                                        <label>短信内容</label>
+                                        <label>发送内容</label>
                                         <input class="form-control search-query" name="content" type="text" value="${param.content}"
-                                               placeholder="请输入短信内容">
+                                               placeholder="请输入发送内容">
                                     </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -81,6 +82,18 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/shortMsgTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '类型', name: 'type', width: 80,  formatter: function (cellvalue, options, rowObject) {
+                return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
+            }},
+            { label: '标题（微信）', name: 'wxTitle', width: 150, align:'left', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.type=='<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>') return '--'
+                var str = "";
+                if(rowObject.wxPic!=undefined){
+                    str += '<a href="{0}" target="_blank"><img src="{0}" width="40"/></a> '.format(rowObject.wxPic)
+                }
+                str += $.trim(cellvalue) + "，" + $.trim(rowObject.wxUrl);
+                return str;
+            }},
             {label: '模板名称', name: 'name', width: 350, align:'left',frozen:true},
             {
                 label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
@@ -95,7 +108,7 @@
                     'data-url="${ctx}/shortMsgTpl_send?id={0}&type=batch"><i class="fa fa-users"></i> 批量(干部)</button>')
                         .format(rowObject.id);
             }},
-            {label: '短信内容', name: 'content', width: 850, formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '发送内容', name: 'content', width: 850, formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '发送次数', name: 'sendCount', width: 90},
             {label: '发送人次', name: 'sendUserCount', width: 90},
             {label: '创建时间', name: 'createTime', width: 150},

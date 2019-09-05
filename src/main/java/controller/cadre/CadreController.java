@@ -66,6 +66,7 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
+                             @RequestParam(required = false, value = "nation") String[] nation,
                              @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                              @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
                              @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
@@ -136,6 +137,12 @@ public class CadreController extends BaseController {
             modelMap.put("selectLeaderTypes", Arrays.asList(leaderTypes));
         }
 
+        modelMap.put("nations", iPropertyMapper.teacherNations());
+        if (nation != null) {
+            List<String> selectNations = Arrays.asList(nation);
+            modelMap.put("selectNations", selectNations);
+        }
+
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
         boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
@@ -172,6 +179,7 @@ public class CadreController extends BaseController {
                            Integer endNowPostAge,
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
+                           @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
                            @RequestDateRange DateRange _cadreGrowTime,
@@ -282,6 +290,10 @@ public class CadreController extends BaseController {
         }
         if (proPostLevels != null) {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+        }
+        if (nation != null) {
+            List<String> selectNations = Arrays.asList(nation);
+            criteria.andNationIn(selectNations);
         }
         if (dpTypes != null) {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
@@ -519,10 +531,10 @@ public class CadreController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("cadre:view")
+    //@RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_view")
     public String cadre_view(HttpServletResponse response,
-                             Integer cadreId,
+                             int cadreId,
                              String to, // 默认跳转到基本信息
                              ModelMap modelMap) {
 
@@ -537,14 +549,23 @@ public class CadreController extends BaseController {
         modelMap.put("to", to);
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
+        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            SecurityUtils.getSubject().checkPermission("cadre:archive");
+        }
+
         modelMap.put("cadre", cadre);
         return "cadre/cadre_view";
     }
 
     // 基本信息
-    @RequiresPermissions("cadre:view")
+    //@RequiresPermissions("cadre:archive")
     @RequestMapping("/cadre_base")
     public String cadre_base(int cadreId, ModelMap modelMap) {
+
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            SecurityUtils.getSubject().checkPermission("cadre:archive");
+        }
 
         cadreCommonService.cadreBase(cadreId, modelMap);
 

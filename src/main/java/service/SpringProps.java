@@ -44,4 +44,7 @@ public class SpringProps {
 
 	@Value("${shortMsg.send}")
 	public Boolean shortMsgSend;
+
+	@Value("${wx.send}")
+	public Boolean wxSend;
 }

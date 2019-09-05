@@ -310,8 +310,11 @@ $.fn.extend({
                 .prepend('<span class="star">*</span>');
         } else {
             $(this).prop("disabled", disabled)
-                .val('').removeAttr("required")
+                .removeAttr("required")
                 .closest(".form-group").find(".control-label span.star").remove();
+            if(!$(this).is(":checkbox") && !$(this).is(":radio")){
+                $(this).val('');
+            }
             //console.log($(this).closest(".form-group").find(".control-label span.star").html())
         }
         return $(this);
@@ -665,7 +668,12 @@ var _modal_width;
                 } else if ($target.is(":radio")) {
                     $target = $target.closest("div,td")
                 }
-                $container = $form;
+                var tipContainer = $.trim($form.data("tip-container"));
+                if(tipContainer!='')
+                    $container = $(tipContainer);
+                else
+                    $container = $form;
+
                 if ($form.closest("#modal").length > 0) {
                     $container = $form.closest("#modal");
                     adjustY = $.isIE()?$("#modal").scrollTop():0
@@ -738,7 +746,7 @@ var _modal_width;
                 return $.trim(realname);
             }
             //console.log("==="+$.inArray("cadre:archive", _permissions))
-            if ($.trim(realname) != '' && $.inArray("cadre:view", _permissions) >= 0) {
+            if ($.trim(realname) != '' && $.inArray("cadre:archive", _permissions) >= 0) {
 
                 if (params == '_blank') {
                     return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')

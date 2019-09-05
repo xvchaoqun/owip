@@ -10,6 +10,7 @@ import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsConfig;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.MetaTypeService;
-import ext.service.ShortMsgService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.ContentTplConstants;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -248,9 +249,10 @@ public class PcsAdminService extends PcsBaseMapper {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-            bean.setType(typeName);
+            bean.setTypeStr(typeName);
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -277,10 +279,11 @@ public class PcsAdminService extends PcsBaseMapper {
                     if (StringUtils.isNotBlank(mobile)) {
 
                         ShortMsgBean bean = new ShortMsgBean();
+                        bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
                         bean.setReceiver(userId);
                         bean.setSender(sendUserId);
                         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-                        bean.setType(typeName);
+                        bean.setTypeStr(typeName);
                         bean.setMobile(mobile);
                         bean.setContent(msg);
 
@@ -313,9 +316,10 @@ public class PcsAdminService extends PcsBaseMapper {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-            bean.setType(typeName);
+            bean.setTypeStr(typeName);
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -334,10 +338,11 @@ public class PcsAdminService extends PcsBaseMapper {
                 if (StringUtils.isNotBlank(mobile)) {
 
                     ShortMsgBean bean = new ShortMsgBean();
+                    bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
                     bean.setReceiver(userId);
                     bean.setSender(sendUserId);
                     bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-                    bean.setType(typeName);
+                    bean.setTypeStr(typeName);
                     bean.setMobile(mobile);
                     bean.setContent(msg);
 
@@ -369,9 +374,10 @@ public class PcsAdminService extends PcsBaseMapper {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
+            bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
             bean.setSender(sendUserId);
             bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-            bean.setType(typeName);
+            bean.setTypeStr(typeName);
             bean.setMobile(mobile);
             bean.setContent(msg);
 
@@ -391,10 +397,11 @@ public class PcsAdminService extends PcsBaseMapper {
                 if (StringUtils.isNotBlank(mobile)) {
 
                     ShortMsgBean bean = new ShortMsgBean();
+                    bean.setType(ContentTplConstants.CONTENT_TPL_TYPE_MSG);
                     bean.setReceiver(userId);
                     bean.setSender(sendUserId);
                     bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
-                    bean.setType(typeName);
+                    bean.setTypeStr(typeName);
                     bean.setMobile(mobile);
                     bean.setContent(msg);
 

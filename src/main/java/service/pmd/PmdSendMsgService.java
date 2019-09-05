@@ -4,20 +4,12 @@ import domain.base.ContentTpl;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
-import domain.pmd.PmdBranchAdmin;
-import domain.pmd.PmdBranchAdminExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdPartyAdmin;
-import domain.pmd.PmdPartyView;
-import domain.pmd.PmdPartyViewExample;
+import domain.pmd.*;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.BaseMapper;
 import service.base.OneSendService;
-import ext.service.ShortMsgService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
@@ -306,12 +298,13 @@ public class PmdSendMsgService extends PmdBaseMapper {
             Party party = partyService.findAll().get(partyId);
             branchName = (party != null) ? party.getName() : null;
         }
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
         ShortMsgBean bean = new ShortMsgBean();
+        shortMsgService.initShortMsgBeanParams(bean, tpl);
         bean.setSender(ShiroHelper.getCurrentUserId());
         bean.setReceiver(userId);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
 
-        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
         bean.setRelateId(tpl.getId());
         bean.setType(tpl.getName());
         String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(),
