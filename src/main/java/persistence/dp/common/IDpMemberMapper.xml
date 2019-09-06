@@ -19,6 +19,34 @@
         </if>
     </sql>
 
+    <sql id="typesSearchSql">
+        <if test="types != null and types.length>0">
+            and type IN
+            <foreach collection="types" item="type" separator="," open="(" close=")">
+                #{type}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="userSearchSql">
+        select * from sys_user_view
+        <if test="query != null">
+            <where>
+                and username like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and realname like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and code like '${query}%'
+            </where>
+        </if>
+    </sql>
+
     <sql id="selectDpMemberList_where">
         <if test="isRetire!=null">
             , sys_teacher_info ti
@@ -68,35 +96,16 @@
         <include refid="dp_member_selects_permits"/>
     </select>
 
-    <sql id="userSearchSql">
-        select * from sys_user_view
-        <if test="query != null">
-            <where>
-                and username like '${query}%'
-            </where>
-            union
-            select * from sys_user_view
-            <where>
-                and realname like '${query}%'
-            </where>
-            union
-            select * from sys_user_view
-            <where>
-                and code like '${query}%'
-            </where>
-        </if>
-    </sql>
-
     <select id="countNotDpMemberList" parameterType="map" resultType="java.lang.Integer">
         select count(id) from (<include refid="userSearchSql" />) u
-        where not exists(select 1 from dp_member where user_id=u.id and status=1)
-        and role_ids not like "%${regRoleStr}%"
+        where not exists(select 1 from ow_member where user_id=u.id and status=1)
+        and role_ids not like "%${regRoleStr}%" and u.type=1
     </select>
     <select id="selectNotDpMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
         select * from (<include refid="userSearchSql" />) u
         where not exists(select 1 from dp_member where user_id=u.id and status=1)
         and role_ids not like "%${regRoleStr}%"
-        and type in(1,2,3)
+        and type in(1)
         order by create_time desc
     </select>
 
@@ -118,6 +127,14 @@
         select m.* from dp_member m, sys_user_view u
         <include refid="selectDpMemberList_where"/>
         order by m.grow_time desc
+    </select>
+
+    <select id="selectUserList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
+        select * from (<include refid="userSearchSql" />) u
+        where u.type=1 order by id desc
+    </select>
+    <select id="countUserList" parameterType="map" resultType="java.lang.Integer">
+        select count(id) from (<include refid="userSearchSql"/>) u where u.type = 1
     </select>
 
 </mapper>

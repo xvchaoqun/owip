@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dp.DpNprMapper">
+  <resultMap id="BaseResultMap" type="domain.dp.DpNpr">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="unit_post" jdbcType="VARCHAR" property="unitPost" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="transfer_time" jdbcType="DATE" property="transferTime" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, work_time, unit_post, type, level, is_deleted, transfer_time, education, 
+    degree, school, major, sort_order, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.dp.DpNprExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_npr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dp_npr
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dp_npr
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dp.DpNprExample">
+    delete from dp_npr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dp.DpNpr">
+    insert into dp_npr (id, user_id, work_time, 
+      unit_post, type, level, 
+      is_deleted, transfer_time, education, 
+      degree, school, major, 
+      sort_order, remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{workTime,jdbcType=DATE}, 
+      #{unitPost,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=BIT}, #{transferTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dp.DpNpr">
+    insert into dp_npr
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="unitPost != null">
+        unit_post,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="transferTime != null">
+        transfer_time,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=DATE},
+      </if>
+      <if test="unitPost != null">
+        #{unitPost,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="transferTime != null">
+        #{transferTime,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dp.DpNprExample" resultType="java.lang.Long">
+    select count(*) from dp_npr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dp_npr
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=DATE},
+      </if>
+      <if test="record.unitPost != null">
+        unit_post = #{record.unitPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.transferTime != null">
+        transfer_time = #{record.transferTime,jdbcType=DATE},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dp_npr
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      work_time = #{record.workTime,jdbcType=DATE},
+      unit_post = #{record.unitPost,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      transfer_time = #{record.transferTime,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dp.DpNpr">
+    update dp_npr
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=DATE},
+      </if>
+      <if test="unitPost != null">
+        unit_post = #{unitPost,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="transferTime != null">
+        transfer_time = #{transferTime,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dp.DpNpr">
+    update dp_npr
+    set user_id = #{userId,jdbcType=INTEGER},
+      work_time = #{workTime,jdbcType=DATE},
+      unit_post = #{unitPost,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      transfer_time = #{transferTime,jdbcType=DATE},
+      education = #{education,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpNprExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_npr
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dp.DpPrCmViewMapper">
+  <resultMap id="BaseResultMap" type="domain.dp.DpPrCmView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="unit_post" jdbcType="VARCHAR" property="unitPost" />
+    <result column="executive_level" jdbcType="VARCHAR" property="executiveLevel" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="elect_post" jdbcType="VARCHAR" property="electPost" />
+    <result column="elect_session" jdbcType="INTEGER" property="electSession" />
+    <result column="elect_time" jdbcType="DATE" property="electTime" />
+    <result column="end_time" jdbcType="DATE" property="endTime" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, unit_post, executive_level, work_time, education, degree, school, major, 
+    elect_post, elect_session, elect_time, end_time, status, type, sort_order, remark, 
+    party_id, grow_time, unit_id, gender, birth, nation
+  </sql>
+  <select id="selectByExample" parameterType="domain.dp.DpPrCmViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_pr_cm_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="domain.dp.DpPrCmViewExample">
+    delete from dp_pr_cm_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dp.DpPrCmView">
+    insert into dp_pr_cm_view (id, user_id, unit_post, 
+      executive_level, work_time, education, 
+      degree, school, major, 
+      elect_post, elect_session, elect_time, 
+      end_time, status, type, sort_order, 
+      remark, party_id, grow_time, 
+      unit_id, gender, birth, 
+      nation)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{unitPost,jdbcType=VARCHAR}, 
+      #{executiveLevel,jdbcType=VARCHAR}, #{workTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=INTEGER}, #{electTime,jdbcType=DATE}, 
+      #{endTime,jdbcType=DATE}, #{status,jdbcType=BIT}, #{type,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
+      #{unitId,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{nation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dp.DpPrCmView">
+    insert into dp_pr_cm_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="unitPost != null">
+        unit_post,
+      </if>
+      <if test="executiveLevel != null">
+        executive_level,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="electPost != null">
+        elect_post,
+      </if>
+      <if test="electSession != null">
+        elect_session,
+      </if>
+      <if test="electTime != null">
+        elect_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPost != null">
+        #{unitPost,jdbcType=VARCHAR},
+      </if>
+      <if test="executiveLevel != null">
+        #{executiveLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="electPost != null">
+        #{electPost,jdbcType=VARCHAR},
+      </if>
+      <if test="electSession != null">
+        #{electSession,jdbcType=INTEGER},
+      </if>
+      <if test="electTime != null">
+        #{electTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dp.DpPrCmViewExample" resultType="java.lang.Long">
+    select count(*) from dp_pr_cm_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dp_pr_cm_view
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitPost != null">
+        unit_post = #{record.unitPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executiveLevel != null">
+        executive_level = #{record.executiveLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=DATE},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.electPost != null">
+        elect_post = #{record.electPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.electSession != null">
+        elect_session = #{record.electSession,jdbcType=INTEGER},
+      </if>
+      <if test="record.electTime != null">
+        elect_time = #{record.electTime,jdbcType=DATE},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dp_pr_cm_view
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      unit_post = #{record.unitPost,jdbcType=VARCHAR},
+      executive_level = #{record.executiveLevel,jdbcType=VARCHAR},
+      work_time = #{record.workTime,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      elect_post = #{record.electPost,jdbcType=VARCHAR},
+      elect_session = #{record.electSession,jdbcType=INTEGER},
+      elect_time = #{record.electTime,jdbcType=DATE},
+      end_time = #{record.endTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=BIT},
+      type = #{record.type,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      gender = #{record.gender,jdbcType=TINYINT},
+      birth = #{record.birth,jdbcType=DATE},
+      nation = #{record.nation,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpPrCmViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_pr_cm_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

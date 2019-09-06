@@ -4,9 +4,6 @@
 <c:set var="ROLE_DP_PARTY" value="<%=RoleConstants.ROLE_DP_PARTY%>"/>
 <c:set var="ROLE_DP_ADMIN" value="<%=RoleConstants.ROLE_DP_ADMIN%>"/>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-  <li class="${cls==1?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=1"}><i class="fa fa-th${cls==1?'-large':''}"></i> 学生党派成员(${cm:trimToZero(student_normalCount)})</a>
-  </li>
   <li class="${cls==2?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 在职党派成员(${cm:trimToZero(teacher_normalCount)})</a>
   </li>
@@ -23,9 +20,9 @@
       <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px"  role="menu">
-      <li>
+      <%--<li>
         <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=6"><i class="fa fa-hand-o-right"></i>  学生（${cm:trimToZero(student_transferCount)}）</a>
-      </li>
+      </li>--%>
       <li>
         <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=7"><i class="fa fa-hand-o-right"></i>  教职工（${cm:trimToZero(teacher_transferCount)}）</a>
       </li>

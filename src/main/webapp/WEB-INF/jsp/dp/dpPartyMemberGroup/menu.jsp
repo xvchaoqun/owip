@@ -5,12 +5,12 @@
   <li  class="<c:if test="${status==1}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=1"><i class="fa fa-list"></i> 当届委员会</a>
   </li>
+  <li  class="<c:if test="${status==-1}">active</c:if>">
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=-1"><i class="fa fa-history"></i> 往届委员会</a>
+  </li>
   <shiro:hasPermission name="dpParty:list">
-    <li  class="<c:if test="${status==-1}">active</c:if>">
-      <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=-1"><i class="fa fa-history"></i> 往届委员会</a>
-    </li>
-  </shiro:hasPermission>
   <li  class="<c:if test="${status==2}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpPartyMemberGroup?status=2"><i class="fa fa-users"></i> 民主党派委员库</a>
   </li>
+  </shiro:hasPermission>
 </ul>

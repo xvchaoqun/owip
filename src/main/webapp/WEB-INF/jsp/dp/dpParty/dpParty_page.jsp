@@ -116,12 +116,12 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/dp/dpParty"
+                                   data-url="${ctx}/dp/dpParty?cls=${cls}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/dp/dpParty"
+                                            data-url="${ctx}/dp/dpParty?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -186,14 +186,6 @@ pageEncoding="UTF-8" %>
                     if (cellvalue == undefined || cellvalue == 0) return 0;
                     <shiro:hasPermission name="dpMember:list">
                     return '<a href="#${ctx}/dp/dpMember?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
-                    </shiro:hasPermission>
-                    <shiro:lacksPermission name="dpMember:list">
-                    return cellvalue;
-                    </shiro:lacksPermission>}},
-            { label:'学生成员数', name: 'studentMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
-                    if(cellvalue==undefined|| cellvalue==0) return 0;
-                    <shiro:hasPermission name="dpMember:list">
-                    return '<a href="#${ctx}/dp/dpMember?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
                     </shiro:hasPermission>
                     <shiro:lacksPermission name="dpMember:list">
                     return cellvalue;
