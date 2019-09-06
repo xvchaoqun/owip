@@ -77,8 +77,8 @@ pageEncoding="UTF-8" %>
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL || status==4}">
                                 <button data-url="${ctx}/abroad/passport_unabolish"
                                         data-title="返回集中管理"
-                                        data-msg="确定将该证件返回集中管理？"
-                                        class="jqItemBtn btn btn-info btn-sm">
+                                        data-msg="确定将证件返回集中管理？（已选{0}个证件）"
+                                        class="jqBatchBtn btn btn-info btn-sm">
                                     <i class="fa fa-reply"></i> 返回集中管理
                                 </button>
                                 <shiro:hasPermission name="passport:edit">
@@ -269,8 +269,8 @@ pageEncoding="UTF-8" %>
             { label: '证件号码', name: 'code' },
             { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.pic)=='') return '--'
-                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
-                        .format(encodeURI(rowObject.pic), rowObject.code + ".jpg");
+                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}&_={2}">查看</a>'
+                        .format(encodeURI(rowObject.pic), rowObject.code + ".jpg", new Date().getTime());
             } },
             { label:'发证机关',name: 'authority', width: 180},
             { label:'发证日期', name: 'issueDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
@@ -363,7 +363,8 @@ pageEncoding="UTF-8" %>
 
     $.register.fancybox(function () {
         //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+        this.title = '<div class="title">' + this.title
+            + '<div class="download">【<a href="javascript:;" class="downloadBtn" data-url="${ctx}/attach_download?path={0}&filename={1}">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'), this.title);
     });
 </script>

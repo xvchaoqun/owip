@@ -14,13 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.abroad.common.PassportSearchBean;
 import shiro.ShiroHelper;
+import sys.HttpResponseMethod;
 import sys.constants.AbroadConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 
 import java.util.*;
 
 @Service
-public class PassportService extends AbroadBaseMapper {
+public class PassportService extends AbroadBaseMapper implements HttpResponseMethod {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -227,9 +229,11 @@ public class PassportService extends AbroadBaseMapper {
     }
 
     @Transactional
-    public Passport unabolish(Integer id) {
+    public void unabolish(Integer[] ids) {
 
-        if (id != null) {
+        if(ids==null) return ;
+        for (Integer id : ids) {
+
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
             Map<String, Object> resultMap = findPassportResultMap(id, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
@@ -253,9 +257,12 @@ public class PassportService extends AbroadBaseMapper {
             example.createCriteria().andIdEqualTo(id).andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
             passportMapper.updateByExample(passport, example);
 
-            return passport;
+            if(passport!=null) {
+                MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
+                logger.info(addLog(LogConstants.LOG_ABROAD, "已取消集中管理证件返回集中管理：%s, %s",
+                        passport.getUser().getRealname(), mcPassportType.getName()));
+            }
         }
-        return null;
     }
 
     @Transactional

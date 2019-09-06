@@ -491,14 +491,17 @@ public class PassportController extends AbroadBaseController {
         String realPath = FILE_SEPARATOR
                 + "passport_pic" + FILE_SEPARATOR  // passport_cancel -> passport_lost 20160620
                 + UUID.randomUUID().toString();
-        if (_pic != null && !_pic.isEmpty()) {
+        if (_pic != null && !_pic.isEmpty()) { // 上传图片
 
             String ext = FileUtils.getExtention(_pic.getOriginalFilename());
             String savePath = realPath + ext;
-            FileUtils.copyFile(_pic, new File(springProps.uploadPath + savePath));
+            File saveFile = new File(springProps.uploadPath + savePath);
+            FileUtils.copyFile(_pic, saveFile);
+            if(_rotate!=0) {
+                Thumbnails.of(saveFile).scale(1f).rotate(_rotate).toFile(saveFile);
+            }
             record.setPic(savePath);
-
-        }else if(StringUtils.isNotBlank(_base64)) {
+        }else if(StringUtils.isNotBlank(_base64)) { // 拍照上传
 
             String savePath =realPath + ".jpg";
             FileUtils.mkdirs(springProps.uploadPath + savePath);
@@ -506,6 +509,15 @@ public class PassportController extends AbroadBaseController {
                     .scale(1f)
                     .rotate(_rotate).toFile(springProps.uploadPath + savePath);
             record.setPic(savePath);
+        }else{ // 修改信息
+
+            if(_rotate!=0) {
+                Passport passport = passportMapper.selectByPrimaryKey(id);
+                if(passport.getPic()!=null) {
+                    String picPath = springProps.uploadPath + passport.getPic();
+                    Thumbnails.of(picPath).scale(1f).rotate(_rotate).toFile(picPath);
+                }
+            }
         }
 
         if(record.getPic()!=null){
@@ -899,30 +911,12 @@ public class PassportController extends AbroadBaseController {
     @RequiresPermissions("passport:abolish")
     @RequestMapping(value = "/passport_unabolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_unabolish(HttpServletRequest request, Integer id) {
+    public Map do_passport_unabolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
 
-        Passport passport = passportService.unabolish(id);
-        if(passport!=null) {
-            MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
-            logger.info(addLog(LogConstants.LOG_ABROAD, "已取消集中管理证件返回集中管理：%s, %s",
-                    passport.getUser().getRealname(), mcPassportType.getName()));
-        }
+        passportService.unabolish(ids);
 
         return success(FormUtils.SUCCESS);
     }
-
-    /*@RequiresPermissions("passport:del")
-    @RequestMapping(value = "/passport_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_passport_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            passportService.del(id);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "删除证件：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("passport:del")
     @RequestMapping(value = "/passport_batchDel", method = RequestMethod.POST)
