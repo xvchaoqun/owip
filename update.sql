@@ -1,8 +1,6 @@
 
 20190906
-北邮  ---北师大
-
-common-io-1.3.2.jar  -> common-io-2.6.jar
+北邮  南航
 
 20190904
 南航
@@ -49,7 +47,8 @@ UPDATE base_short_msg_tpl SET TYPE=1;
 
 -- 删除 sys.SendMsgResult
 -- 更新  jx.utils
--- 更新 twelvemonkeys等jar包
+-- 更新 twelvemonkeys等jar包，删除原来的版本
+-- common-io-1.3.2.jar  -> common-io-2.6.jar
 -- 增加 wx.send
 
 20190902
