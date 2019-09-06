@@ -62,9 +62,9 @@ public class BranchController extends BaseController {
             example.setOrderByClause("sort_order desc");
             List<BranchMember> BranchMembers = branchMemberMapper.selectByExample(example);
             modelMap.put("branchMembers", BranchMembers);
-
-            modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
         }
+
+        modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         return "party/branch/branch_base";

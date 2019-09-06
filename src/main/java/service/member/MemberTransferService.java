@@ -114,7 +114,8 @@ public class MemberTransferService extends MemberBaseMapper {
     public boolean idDuplicate(Integer id, Integer userId){
 
         MemberTransferExample example = new MemberTransferExample();
-        MemberTransferExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        MemberTransferExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId)
+                        .andStatusNotEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return memberTransferMapper.countByExample(example) > 0;
@@ -123,7 +124,8 @@ public class MemberTransferService extends MemberBaseMapper {
     public MemberTransfer get(int userId) {
 
         MemberTransferExample example = new MemberTransferExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStatusNotEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
         if(memberTransfers.size()>0) return memberTransfers.get(0);
 

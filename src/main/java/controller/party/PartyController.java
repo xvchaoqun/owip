@@ -65,9 +65,8 @@ public class PartyController extends BaseController {
             example.setOrderByClause("sort_order desc");
             List<PartyMember> PartyMembers = partyMemberMapper.selectByExample(example);
             modelMap.put("partyMembers", PartyMembers);
-
-            modelMap.put("adminIds", iPartyMapper.findPartyAdmin(id));
         }
+        modelMap.put("adminIds", iPartyMapper.findPartyAdmin(id));
 
         return "party/party_base";
     }

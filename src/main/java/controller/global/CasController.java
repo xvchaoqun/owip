@@ -167,6 +167,9 @@ public class CasController extends BaseController {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             loginType, true, "登录成功"));
                 }
+                // 读取最新的session
+                session = SecurityUtils.getSubject().getSession();
+                session.setAttribute("_loginType", loginType);
                 if(StringUtils.isNotBlank(_switchUser)){
                     session.setAttribute("_switchUser", _switchUser);
                 }else{
