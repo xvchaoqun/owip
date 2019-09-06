@@ -3,7 +3,9 @@ package controller.dp;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.dp.*;
-import domain.sys.*;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberMixin;
@@ -31,7 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dp.DpPartyService;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.CadreConstants;
+import sys.constants.DpConstants;
+import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.helper.DpPartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -43,7 +48,6 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -59,8 +63,8 @@ public class DpMemberController extends DpBaseController {
     public String dpMember(HttpServletResponse response,
                             Integer userId,
                            Integer partyId,
-                           //1 学生 2 教职工 3 离退休 6 已转出学生 7 已转出教职工 10 全部
-                           Integer cls,
+                           //2 教职工 3 离退休 6 已转出学生 7 已转出教职工 10 全部
+                           @RequestParam(defaultValue = "2")Integer cls,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "nativePlace") String nativePlace,
                            ModelMap modelMap) {
@@ -97,30 +101,6 @@ public class DpMemberController extends DpBaseController {
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
 
-        //确认默认显示党派成员人数最多的标签页
-        if (cls == null){
-            int studentNormalCount = 0;
-            if (dpMemberStudentCount != null){
-                studentNormalCount = ((BigDecimal) dpMemberStudentCount.get("student_normalCount")).intValue();
-            }
-            int teacherNormalCount = 0;
-            int teacherRetireCount = 0;
-
-            if (dpMemberStudentCount != null){
-                teacherNormalCount = ((BigDecimal) dpMemberTeacherCount.get("teacher_normalCount")).intValue();
-                teacherRetireCount = ((BigDecimal) dpMemberTeacherCount.get("teacher_retireCount")).intValue();
-            }
-            if (studentNormalCount >= teacherNormalCount
-                    && studentNormalCount >= teacherRetireCount){
-                cls = 1;
-            } else if (teacherNormalCount > studentNormalCount
-                        && teacherNormalCount >= teacherRetireCount){
-                cls = 2;
-            }else {
-                cls = 3;
-            }
-        }
-
         modelMap.put("cls", cls);
 
         //导出的名字
@@ -135,14 +115,7 @@ public class DpMemberController extends DpBaseController {
             modelMap.put("teacherPostClasses", iDpPropertyMapper.teacherPostClasses());
             modelMap.put("nations", iDpPropertyMapper.teacherNations());
             modelMap.put("nativePlaces", iDpPropertyMapper.teacherNativePlaces());
-        } else if (cls == 1|| cls == 6){//学生党派成员
-            titles = getStudentExportTitles();
-
-            modelMap.put("studentGrades", iDpPropertyMapper.studentGrades());
-            modelMap.put("studentTypes", iDpPropertyMapper.studentTypes());
-            modelMap.put("nations", iDpPropertyMapper.studentNations());
-            modelMap.put("nativePlaces", iDpPropertyMapper.studentNativePlaces());
-        } else if (cls == 10){
+        }  else if (cls == 10){
             modelMap.put("nations", iDpPropertyMapper.nations());
             modelMap.put("nativePlaces", iDpPropertyMapper.nativePlaces());
         }
@@ -157,7 +130,7 @@ public class DpMemberController extends DpBaseController {
     public void dpMember_data(HttpServletResponse response,
                                  @RequestParam(defaultValue = "dpParty") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                    @RequestParam(defaultValue = "1")int cls,
+                                    @RequestParam(defaultValue = "2")int cls,
                                     Integer userId,
                                     Integer partyId,
                                     Integer unitId,
@@ -172,10 +145,10 @@ public class DpMemberController extends DpBaseController {
                                     Byte userSource, //账号来源
 
                                      /**学生党员**/
-                                    String grade,//
+                                    /*String grade,
                                     String studentType,
                                     String eduLevel,
-                                    String eduType,
+                                    String eduType,*/
 
                                     /**教职工党员**/
                                     String staffType,
@@ -230,12 +203,10 @@ public class DpMemberController extends DpBaseController {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
         }
-        if (grade != null){
-            criteria.andGradeEqualTo(grade);
-        }
-        if (studentType != null){
+
+        /*if (studentType != null){
             criteria.andStudentTypeEqualTo(studentType);
-        }
+        }*/
             if (age != null) {
                 switch (age) {
                     case DpConstants.DP_MEMBER_AGE_20: // 20及以下
@@ -264,12 +235,12 @@ public class DpMemberController extends DpBaseController {
 
 
 
-        if (StringUtils.isNotBlank(eduLevel)){
+        /*if (StringUtils.isNotBlank(eduLevel)){
             criteria.andEduLevelLike(SqlUtils.like(eduLevel));
-        }
-        if (StringUtils.isNotBlank(eduType)){
+        }*/
+        /*if (StringUtils.isNotBlank(eduType)){
             criteria.andEduTypeLike(SqlUtils.like(eduType));
-        }
+        }*/
         if (StringUtils.isNotBlank(education)) {
             criteria.andEducationEqualTo(education);
         }
@@ -317,10 +288,6 @@ public class DpMemberController extends DpBaseController {
            1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
          */
         switch (cls) {
-            case 1:
-                criteria.andTypeEqualTo(DpConstants.DP_MEMBER_TYPE_STUDENT)
-                        .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_NORMAL);
-                break;
             case 2:
                 criteria.andTypeEqualTo(DpConstants.DP_MEMBER_TYPE_TEACHER)
                         .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_NORMAL)
@@ -351,9 +318,7 @@ public class DpMemberController extends DpBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andUserIdIn(Arrays.asList(ids));
-            if (cls == 1 || cls == 6){
-                student_export(cls, example, cols, response);
-            }else if (cls == 2 || cls == 3 || cls == 7){
+            if (cls == 2 || cls == 3 || cls == 7){
                 teacher_export(cls, example, cols, response);
             }
             return;
@@ -483,7 +448,7 @@ public class DpMemberController extends DpBaseController {
 
             dpMember = dpMemberMapper.selectByPrimaryKey(userId);
             partyId = dpMember.getPartyId();
-            modelMap.put("sysUser", sysUserService.findById(userId));
+            modelMap.put("sysUser", dpCommonService.findById(userId));
         } else {
            SecurityUtils.getSubject().checkPermission("dpMember:edit");
         }
@@ -678,17 +643,16 @@ public class DpMemberController extends DpBaseController {
 
         //党派管理员才可以操作
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
-            Integer partyId = dpMember.getPartyId();
             Integer loginUserId = loginUser.getId();
-            boolean isDpPartyAdmin = DpPartyHelper.isPresentDpPartyAdmin(loginUserId,partyId);
+            boolean isDpPartyAdmin = DpPartyHelper.isPresentDpPartyAdmin(loginUserId,null);
             if (!isDpPartyAdmin){
                 throw new UnauthorizedException();
             }
         }
-        if (dpMember.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
+        //if (dpMember.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
             return "dp/dpMember/dpTeacher_view";
-        }
-        return "dp/dpMember/dpStudent_view";
+        //}
+        //return "dp/dpMember/dpStudent_view";
     }
 
     @RequiresPermissions("dpMember:list")
@@ -757,16 +721,22 @@ public class DpMemberController extends DpBaseController {
     public String dpMember_base(Integer userId, ModelMap modelMap){
 
         DpMemberView dpMemberView = iDpMemberMapper.getDpMemberView(userId);
-        Integer partyId = dpMemberView.getPartyId();
-        modelMap.put("dpParty", dpPartyService.findById(partyId));
-        modelMap.put("dpMember", dpMemberView);
-        modelMap.put("uv", sysUserService.findById(userId));
-        if(dpMemberView.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
+        Integer partyId = null;
+        if (dpMemberView != null) {
+            partyId = dpMemberView.getPartyId();
+            modelMap.put("dpParty", dpPartyService.findById(partyId));
+            modelMap.put("dpMember", dpMemberView);
+        }
+        SysUserView uv = sysUserService.findById(userId);
+        modelMap.put("uv", uv);
+        if(uv.getType() == DpConstants.DP_MEMBER_TYPE_TEACHER){
             modelMap.put("teacherInfo", teacherInfoService.get(userId));
-            return "dp/dpMember/dpTeacher_base";
-        }else {
+        }
+        return "dp/dpMember/dpTeacher_base";
+        /*else {
         modelMap.put("studentInfo", studentInfoService.get(userId));
-        return "dp/dpMember/dpStudent_base";}
+        return "dp/dpMember/dpStudent_base";
+        }*/
 
     }
 
@@ -1162,7 +1132,7 @@ public class DpMemberController extends DpBaseController {
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }
 
-    private List<String> getStudentExportTitles() {
+    /*private List<String> getStudentExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|120", "性别|50", "出生日期|100", "身份证号|150",
                 "民族|100", "年级|50", "所属民主党派|300",
@@ -1170,9 +1140,9 @@ public class DpMemberController extends DpBaseController {
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别（研究生）|150",
                 "培养方式（研究生）|150", "预计毕业年月|100", "学籍状态|100"}));
-    }
+    }*/
 
-    public void student_export(int cls, DpMemberViewExample example, Integer[] cols, HttpServletResponse response) {
+    /*public void student_export(int cls, DpMemberViewExample example, Integer[] cols, HttpServletResponse response) {
 
         Map<Integer, Unit> unitMap = unitService.findAll();
         List<DpMemberView> records = dpMemberViewMapper.selectByExample(example);
@@ -1191,8 +1161,8 @@ public class DpMemberController extends DpBaseController {
 
         List<List<String>> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            DpMemberView record = records.get(i);
-            SysUserView uv = CmTag.getUserById(record.getUserId());
+            DpMemberView record = records.get(i);*/
+            /*SysUserView uv = CmTag.getUserById(record.getUserId());
             StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(record.getUserId());
             Byte gender = uv.getGender();
             Integer partyId = record.getPartyId();
@@ -1238,6 +1208,6 @@ public class DpMemberController extends DpBaseController {
 
         String fileName = (cls == 6 ? "已转出" : "") + "学生党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(exportTitles, valuesList, fileName, response);
-    }
+    }*/
 
 }

@@ -74,7 +74,7 @@
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
                             .format(rowObject.groupPartyId, cellvalue, ctx);
-                    if (cellvalue != ''){
+                    if (cellvalue != undefined){
                         return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";

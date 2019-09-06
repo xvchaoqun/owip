@@ -54,5 +54,10 @@ public interface IDpMemberMapper {
     List<SysUserView> selectNotDpMemberList(@Param("query") String query,
                                           @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
 
+    //非学生的所有用户的数量
+    int countUserList(@Param("query")String query);
+    //非学生的所有用户
+    List<SysUserView> selectUserList(@Param("query")String query, RowBounds rowBounds);
+
 
 }

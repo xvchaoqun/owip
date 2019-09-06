@@ -41,12 +41,10 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/dp/dpMember_data?cls=${cls}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
-
                     <div class="widget-toolbar">
                         <a href="#" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -61,9 +59,6 @@ pageEncoding="UTF-8" %>
                         <div class="form-group">
                             <label>成员姓名</label>
                             <div class="input-group">
-                                <c:if test="${cls==1 || cls==6}">
-                                    <c:set var="_type" value="${DP_MEMBER_TYPE_STUDENT}"/>
-                                </c:if>
                                 <c:if test="${cls==2 || cls==7}">
                                     <c:set var="_type" value="${DP_MEMBER_TYPE_TEACHER}"/>
                                 </c:if>
@@ -227,12 +222,12 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/dp/dpMember"
+                                   data-url="${ctx}/dp/dpMember?cls=${cls}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/dp/dpMember"
+                                            data-url="${ctx}/dp/dpMember?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -316,7 +311,7 @@ pageEncoding="UTF-8" %>
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
                             .format(rowObject.partyId, cellvalue, ctx);
-                    if (cellvalue != ''){
+                    if (cellvalue != undefined){
                         return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
@@ -337,6 +332,7 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
+            {   label: '入党介绍人', name: 'sponsor'},
             {
                 label: '转正时间',
                 name: 'positiveTime',
@@ -355,7 +351,7 @@ pageEncoding="UTF-8" %>
             /*{label: '人员类别', name: 'staffType'},
             {label: '岗位类别', name: 'postClass'},*/
             {label: '专业技术职务', name: 'proPost', width: 150},
-            {label: '联系手机', name: 'mobile', width: 110},
+            {label: '联系手机', name: 'mobile', width: 120},
             </c:if>
             <c:if test="${cls==6 || cls==7}">
             {

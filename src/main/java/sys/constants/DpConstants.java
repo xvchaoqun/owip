@@ -8,6 +8,24 @@ import java.util.Map;
 
 public class DpConstants {
 
+    //人大代表、政协委员信息
+    public final static byte DP_PR_COUNTRY = 1;
+    public final static byte DP_CM_COUNTRY = 2;
+    public final static byte DP_PR_BEIJIGN = 3;
+    public final static byte DP_CM_BEIJIGN = 4;
+    public final static byte DP_PR_HAIDIAN = 5;
+    public final static byte DP_CM_HAIDIAN = 6;
+    public final static Map<Byte, String> DP_PR_CM_MAP = new LinkedHashMap<>();
+
+    static {
+        DP_PR_CM_MAP.put(DP_PR_COUNTRY, "全国人大代表");
+        DP_PR_CM_MAP.put(DP_CM_COUNTRY, "全国政协委员");
+        DP_PR_CM_MAP.put(DP_PR_BEIJIGN, "北京市人大代表");
+        DP_PR_CM_MAP.put(DP_CM_BEIJIGN, "北京市政协委员");
+        DP_PR_CM_MAP.put(DP_PR_HAIDIAN, "海淀区人大代表");
+        DP_PR_CM_MAP.put(DP_CM_HAIDIAN, "海淀区政协委员");
+    }
+
     //党员年龄段
     public final static byte DP_MEMBER_AGE_20 = 1;//20及以下
     public final static byte DP_MEMBER_AGE_21_30= 2;
@@ -50,6 +68,18 @@ public class DpConstants {
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_QUIT, "已出党");
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER, "已转出");
         //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
+    }
+
+    //无党派人士状态，1无党派人士，2退出人士，3转出人士
+    public final static byte DP_NPM_NORMAL = 1;
+    public final static byte DP_NPM_OUT = 2;
+    public final static byte DP_NPM_TRANSFER = 3;
+    public final  static Map<Byte, String> DP_NPM_STATUS_MAP = new LinkedHashMap<>();
+
+    static{
+        DP_NPM_STATUS_MAP.put(DP_NPM_NORMAL, "无党派人士");
+        DP_NPM_STATUS_MAP.put(DP_NPM_OUT, "退出人士");
+        DP_NPM_STATUS_MAP.put(DP_NPM_TRANSFER, "转出人士");
     }
 
     public static byte getDpMemberAgeRange(Date birth){

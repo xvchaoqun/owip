@@ -325,6 +325,7 @@ public class DpPartyController extends DpBaseController {
         modelMap.put("dpParty",dpParty);
         DpPartyMemberGroup presentGroup = dpPartyMemberGroupService.getPresentGroup(id);
         modelMap.put("presentGroup",presentGroup);
+        modelMap.put("adminIds", iDpPartyMapper.findDpPartyAdmin(id));
 
         if (presentGroup!=null){
             DpPartyMemberExample example = new DpPartyMemberExample();
@@ -332,7 +333,6 @@ public class DpPartyController extends DpBaseController {
             example.setOrderByClause("sort_order desc");
             List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
             modelMap.put("dpPartyMembers", dpPartyMembers);
-            modelMap.put("adminIds", iDpPartyMapper.findDpPartyAdmin(id));
         }
 
         return "dp/dpParty/dpParty_base";
@@ -399,7 +399,6 @@ public class DpPartyController extends DpBaseController {
             record.setUnitId(unit.getId());
 
             String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
-            System.out.println(_partyClass+"111111");
             MetaType partyClass = CmTag.getMetaTypeByName("mc_dp_party_class",_partyClass);
             if (partyClass == null)throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
             record.setClassId(partyClass.getId());
