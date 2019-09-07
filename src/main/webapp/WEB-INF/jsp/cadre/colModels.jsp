@@ -455,9 +455,8 @@
         {
             label: '获奖证书', name: 'proof', width: 250,
             formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.proof == undefined) return '--';
-                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">{1}</a>'
-                        .format(encodeURI(rowObject.proof), rowObject.proofFilename);
+
+                return $.imgPreview(rowObject.proof, rowObject.proofFilename);
             }
         },
         {label: '是否独立获奖', name: 'isIndependent', width: 120, formatter: $.jgrid.formatter.TRUEFALSE},

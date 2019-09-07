@@ -91,8 +91,5 @@
         });
     });
 
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '</div>';
-    });
+    $.register.fancybox();
 </script>

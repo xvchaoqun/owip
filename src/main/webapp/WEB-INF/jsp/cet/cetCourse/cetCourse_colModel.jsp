@@ -46,8 +46,13 @@
       <c:if test="${param.type==CET_COURSE_TYPE_ONLINE}">
       {label: '时长', name: 'duration'},
       {label: '播放', name: 'duration', formatter: function (cellvalue, options, rowObject){
-          return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&_={2}">播放</a>'
-                  .format(rowObject.id, rowObject.name, new Date().getTime());
+
+          return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&_={1}" '
+                +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
+                    .format(rowObject.id, new Date().getTime());
+
+          /*return $.iframePreview(rowObject.name, '${ctx}/cet/cetCourse_video?id={0}&_={1}'
+              .format(rowObject.id, new Date().getTime()), "播放")*/
       }},
       </c:if>
       <c:if test="${param.list=='admin'}">

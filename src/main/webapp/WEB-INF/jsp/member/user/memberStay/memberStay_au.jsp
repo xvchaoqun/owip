@@ -604,11 +604,7 @@
 </style>
 
 <script>
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'));
-    });
+    $.register.fancybox();
     <c:if test="${type==MEMBER_STAY_TYPE_ABROAD}">
     <c:forEach var="reason" items="${fn:split(memberStay.stayReason,'+++')}">
     $("input[name=_reason][value='${reason}']").prop("checked", true);

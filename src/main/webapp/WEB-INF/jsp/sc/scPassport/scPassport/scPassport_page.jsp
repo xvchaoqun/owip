@@ -76,10 +76,8 @@
                 return $.trim(cellvalue)
             }},
             { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
-                if(!rowObject.isExist) return '--'
-                if($.trim(rowObject.pic)=='') return '--'
-                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
-                        .format(encodeURI(rowObject.pic), rowObject.code + ".jpg");
+                if(!rowObject.isExist) return '--';
+                return $.imgPreview(rowObject.pic, rowObject.code + ".jpg", '查看');
             } },
             {label: '发证机关', name: 'authority', width: 180, formatter:function(cellvalue, options, rowObject){
                 if(!rowObject.isExist) return '--'
@@ -108,9 +106,5 @@
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
-    });
+    $.register.fancybox();
 </script>

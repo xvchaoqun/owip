@@ -490,8 +490,7 @@
 
                         if (rowObject.useRecord == undefined) return '--';
 
-                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                            .format(encodeURI(rowObject.useRecord), "使用记录.jpg");
+                        return $.imgPreview(rowObject.useRecord, "使用记录.jpg", "使用记录");
                     }
 
                     if ((rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
@@ -573,11 +572,7 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
-            .format($(this.element).data('path'), this.title);
-    });
+    $.register.fancybox();
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

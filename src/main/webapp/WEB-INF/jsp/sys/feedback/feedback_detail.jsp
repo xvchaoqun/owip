@@ -101,12 +101,6 @@ function _reloadDetail(){
         _reloadList();
     }
 }
-$.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="javascript:;" class="downloadBtn"' +
-            ' data-type="download"' +
-            ' data-url="${ctx}/attach_download?path={0}&filename={1}" >点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
-});
+$.register.fancybox();
 </script>
 

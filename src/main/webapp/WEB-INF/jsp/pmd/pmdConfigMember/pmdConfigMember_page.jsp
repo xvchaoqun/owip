@@ -30,7 +30,7 @@
                 <a class="popupBtn btn btn-success btn-sm"
                    data-width="800"
                    data-url="${ctx}/pmd/pmdConfigReset"><i
-                        class="fa fa-gear"></i> 党费重新计算</a>
+                        class="fa fa-gear"></i> 缴费基数调整</a>
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-open-by="page"
                         data-id-name="userId"

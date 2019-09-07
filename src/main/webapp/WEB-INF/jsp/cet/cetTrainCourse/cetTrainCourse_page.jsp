@@ -117,8 +117,13 @@
             },
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
             {label: '播放', name: 'duration', width: 60, formatter: function (cellvalue, options, rowObject){
-                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&_={2}">播放</a>'
-                        .format(rowObject.cetCourse.id, rowObject.cetCourse.name, new Date().getTime());
+
+                return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&_={1}" '
+                +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
+                    .format(rowObject.cetCourse.id, new Date().getTime());
+
+                /*return $.iframePreview(rowObject.cetCourse.name, '${ctx}/cet/cetCourse_video?id={0}&_={1}'
+                    .format(rowObject.cetCourse.id, new Date().getTime()), "播放")*/
             }, frozen:true},
             </c:if>
             <c:if test="${cls==1}">
@@ -242,9 +247,6 @@
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
 
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '</div>';
-    });
+    $.register.fancybox();
 
 </script>

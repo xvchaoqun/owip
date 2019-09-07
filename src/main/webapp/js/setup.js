@@ -386,10 +386,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
 $(document).on("click", ".downloadBtn", function () {
 
     var $this = $(this);
-    var url = $this.data("url");
-    var type = $this.data("type") || 'export';
-
-    $this.download(url, type);
+    $this.download($this.data("url"), $this.data("type")||'export');
     return false;
 });
 

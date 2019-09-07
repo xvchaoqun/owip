@@ -93,11 +93,8 @@ pageEncoding="UTF-8" %>
                 { label: '取值',name: 'content', width:380, align:'left', formatter:function(cellvalue, options, rowObject){
 
                     if(rowObject.type==<%=SystemConstants.SYS_PROPERTY_TYPE_PIC%>){
-                        if($.trim(cellvalue)=='') return '--';
-                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
-                        .format(encodeURI(cellvalue), rowObject.name + ".jpg");
+                        return $.imgPreview(cellvalue, rowObject.name + ".jpg", '查看');
                     }
-
                     return $.jgrid.formatter.htmlencodeWithNoSpace(cellvalue);
                 }},
                 { label: '说明',name: 'remark', width:480, align:'left'}
@@ -109,9 +106,5 @@ pageEncoding="UTF-8" %>
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
-    });
+    $.register.fancybox();
 </script>

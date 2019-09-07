@@ -196,6 +196,7 @@
         url: '${ctx}/cadrePost_data?isMainPost=1&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '岗位名称', name: 'postName', width: 250, align:'left',formatter:function(cellvalue, options, rowObject){
+                if($.isBlank(cellvalue)) return '--'
                 var str = '';
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 str = '<i class="fa fa-star red" title="第一主职"></i>&nbsp;';

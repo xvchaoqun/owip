@@ -268,9 +268,8 @@ pageEncoding="UTF-8" %>
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code' },
             { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
-                if($.trim(rowObject.pic)=='') return '--'
-                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}&_={2}">查看</a>'
-                        .format(encodeURI(rowObject.pic), rowObject.code + ".jpg", new Date().getTime());
+
+                return $.imgPreview(rowObject.pic, rowObject.code + ".jpg", "查看");
             } },
             { label:'发证机关',name: 'authority', width: 180},
             { label:'发证日期', name: 'issueDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
@@ -361,10 +360,5 @@ pageEncoding="UTF-8" %>
     $('[data-rel="tooltip"]').tooltip();
     $.register.user_select($('[data-rel="select2-ajax"]'));
 
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title
-            + '<div class="download">【<a href="javascript:;" class="downloadBtn" data-url="${ctx}/attach_download?path={0}&filename={1}">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
-    });
+    $.register.fancybox();
 </script>

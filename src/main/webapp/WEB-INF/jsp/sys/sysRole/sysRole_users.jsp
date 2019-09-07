@@ -111,10 +111,5 @@
         colModel: colModel
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");
-
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '</div>';
-    });
-
+    $.register.fancybox();
 </script>

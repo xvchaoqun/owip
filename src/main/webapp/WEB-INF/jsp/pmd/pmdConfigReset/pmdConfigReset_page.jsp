@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>党费重新计算</h3>
+    <h3>缴费基数调整</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdConfigReset_au" autocomplete="off" disableautocomplete id="modalForm" method="post">

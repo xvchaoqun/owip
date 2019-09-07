@@ -81,9 +81,4 @@
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
-
-    /*$.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '</div>';
-    });*/
 </script>

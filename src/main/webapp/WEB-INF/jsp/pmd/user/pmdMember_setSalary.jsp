@@ -112,7 +112,7 @@
                         <c:if test="${param.view!=1}">
                             <input required class="number" data-rule-min="0" maxlength="10"
                                    type="text" name="gzcx" value="${cm:stripTrailingZeros(pmdConfigMember.gzcx)}">
-                            <span style="font-size: 8px;">工资明细中工资冲销的负号“-”不要录入。</span>
+                            <span style="font-size: 8px;">注：工资明细中工资冲销的负号“-”不要录入。</span>
                         </c:if>
                     </td>
                 </tr>

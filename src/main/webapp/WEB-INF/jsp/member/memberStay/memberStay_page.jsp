@@ -469,10 +469,7 @@
                 align: 'center',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
-
-                    if (rowObject.letter == undefined) return '--'
-                    return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
-                            .format(encodeURI(rowObject.letter), rowObject.user.realname + "-申请组织关系暂留" + ".jpg");
+                    return $.imgPreview(rowObject.letter, rowObject.user.realname + "-申请组织关系暂留" + ".jpg", '查看');
                 }
             },
             {
@@ -524,10 +521,7 @@
                 align: 'center',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
-
-                    if (rowObject.letter == undefined) return '--'
-                    return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
-                            .format(encodeURI(rowObject.letter), rowObject.user.realname + "-申请组织关系暂留" + ".jpg");
+                    return $.imgPreview(rowObject.letter, rowObject.user.realname + "-户档暂留证明" + ".jpg", '查看');
                 }
             },
             {label: '暂留原因', name: 'stayReason', width: 200},
@@ -635,10 +629,5 @@
 
     $('[data-rel="select2"]').select2();
     $.register.user_select($('#searchForm select[name=userId]'));
-
-    $.register.fancybox(function () {
-        //console.log(this)
-        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach_download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
-                        .format($(this.element).data('path'), this.title);
-    });
+    $.register.fancybox();
 </script>

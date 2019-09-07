@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * toPageNo 显示第几页内容
  * pageNo 表示指定页码的变量名称，默认为"pageNo"
  * uri 请求列表的url地址
@@ -8,42 +7,43 @@
  * searchStr是用来记录搜索时的条件字符串的，生产格式如下：“&name=abc&id=1&pid=8”;
  */
 function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
-	var topage = 1;
-	if(typeof toPageNo == "string"){
-		try{toPageNo = parseInt(toPageNo);}catch(_e){}
-	}
-    if (typeof(toPageNo) != "number" || toPageNo < 1) topage = 1;
+    var topage = 1;
+    if (typeof toPageNo == "string") {
+        try {
+            toPageNo = parseInt(toPageNo);
+        } catch (_e) {
+        }
+    }
+    if (typeof (toPageNo) != "number" || toPageNo < 1) topage = 1;
     else topage = toPageNo;
-    if(!pageNo){
-    	pageNo = "pageNo";
+    if (!pageNo) {
+        pageNo = "pageNo";
     }
     try {
-    	var para = pageNo+"=" + topage ;
-        if (searchStr && searchStr != "null" && searchStr.length>0) {
+        var para = pageNo + "=" + topage;
+        if (searchStr && searchStr != "null" && searchStr.length > 0) {
             //  alert("add_searchStr_pathname=" + window.location.pathname +"?pageNo="+ toPageNo + searchStr);
             //window.location = window.location.pathname + "?pageNo=" + toPageNo + searchStr;
-        	//_renderUrl(uri + "?"+pageNo+"=" + topage + searchStr, selector, replace);
-        	para += searchStr;
-        }
-        else {
-          //  _renderUrl(uri + "?"+pageNo+"=" + topage, selector, replace);
+            //_renderUrl(uri + "?"+pageNo+"=" + topage + searchStr, selector, replace);
+            para += searchStr;
+        } else {
+            //  _renderUrl(uri + "?"+pageNo+"=" + topage, selector, replace);
         }
 
         $(selector).renderUrl({
-    		url : uri,
-    		op : op,
-			params : para,
-			method:method
-    	});
-    }
-    catch(e) {
-       // window.location = window.location.pathname + window.location.search;
-       // _renderUrl(uri + "?"+pageNo+"=1", selector, replace);
-    	$.error("分页出错");
+            url: uri,
+            op: op,
+            params: para,
+            method: method
+        });
+    } catch (e) {
+        // window.location = window.location.pathname + window.location.search;
+        // _renderUrl(uri + "?"+pageNo+"=1", selector, replace);
+        $.error("分页出错");
     }
 }
 
-if(typeof(KindEditor)!='undefined') {
+if (typeof (KindEditor) != 'undefined') {
 
     KindEditor.basePath = ctx + '/extend/ke4/';
     KindEditor.lang({
@@ -312,7 +312,7 @@ $.fn.extend({
             $(this).prop("disabled", disabled)
                 .removeAttr("required")
                 .closest(".form-group").find(".control-label span.star").remove();
-            if(!$(this).is(":checkbox") && !$(this).is(":radio")){
+            if (!$(this).is(":checkbox") && !$(this).is(":radio")) {
                 $(this).val('');
             }
             //console.log($(this).closest(".form-group").find(".control-label span.star").html())
@@ -480,14 +480,14 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
-        isBlank:function(str){
-            return $.trim(str)=='';
+        isBlank: function (str) {
+            return $.trim(str) == '';
         },
-        replace:function(str, searchValue, replaceValue){
+        replace: function (str, searchValue, replaceValue) {
             //console.log("str="+str)
             return $.trim(str).replace(searchValue, replaceValue);
         },
-        substr:function(str, from, length){
+        substr: function (str, from, length) {
             //console.log("str="+str)
             return $.trim(str).substr(from, length);
         },
@@ -586,8 +586,12 @@ var _modal_width;
                 $("#modal").addClass(direction);
             }
             $('#modal .modal-content').load(url, function (data) {
-                if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget,
-                    start:function(){WebuiPopovers.hideAll();}});
+                if (!data.startWith("{")) $("#modal").modal('show').draggable({
+                    handle: dragTarget,
+                    start: function () {
+                        WebuiPopovers.hideAll();
+                    }
+                });
             });
         },
         loadPdfModal: function (path, pages, width, direction, dragTarget) { // 加载pdf图片预览，dragTarget：拖拽位置
@@ -610,17 +614,17 @@ var _modal_width;
                 + 'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
 
             var imgs = "";
-            if(pages>0) {
+            if (pages > 0) {
                 for (var i = 1; i <= pages; i++) {
                     imgs += ('<img data-src="{0}/m/pdf_image?path={1}&pageNo={2}" ' +
                         'src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" ' +
                         'onload="lzld(this)">').format(ctx, path, i);
                 }
-            }else{
+            } else {
                 imgs = "<img src='{0}/m/pdf_image?path={1}'>".format(ctx, path);
             }
 
-            $('#modal .modal-content').html(close + "<div id='preview'>"+ imgs +"</div>")
+            $('#modal .modal-content').html(close + "<div id='preview'>" + imgs + "</div>")
             $("#preview img").width(window.screen.availWidth)
             $(".modal-dialog").css("margin", "0")
             $("#modal").modal('show').draggable({handle: dragTarget});
@@ -669,14 +673,14 @@ var _modal_width;
                     $target = $target.closest("div,td")
                 }
                 var tipContainer = $.trim($form.data("tip-container"));
-                if(tipContainer!='')
+                if (tipContainer != '')
                     $container = $(tipContainer);
                 else
                     $container = $form;
 
                 if ($form.closest("#modal").length > 0) {
                     $container = $form.closest("#modal");
-                    adjustY = $.isIE()?$("#modal").scrollTop():0
+                    adjustY = $.isIE() ? $("#modal").scrollTop() : 0
                 }
             }
             var label = '<i class="fa fa-warning red"></i> ';
@@ -691,11 +695,11 @@ var _modal_width;
                     //inactive: inactive
                 }, position: {
                     container: $container || $('#page-content'),
-                    my: my || $target.data("my") || (isMobile?'bottom center':'left center'),
-                    at: at || $target.data("at") || (isMobile?'top center':'right center'),
-                    adjust:{
-                            y:adjustY
-                        }
+                    my: my || $target.data("my") || (isMobile ? 'bottom center' : 'left center'),
+                    at: at || $target.data("at") || (isMobile ? 'top center' : 'right center'),
+                    adjust: {
+                        y: adjustY
+                    }
                 }
             });
         },
@@ -808,7 +812,7 @@ var _modal_width;
         },
         //计算天数差的函数，通用
         dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
-            if(sDate1==undefined || sDate2==undefined) return '--'
+            if (sDate1 == undefined || sDate2 == undefined) return '--'
             var aDate, oDate1, oDate2, iDays
             sDate1 = sDate1.substr(0, 10)
             sDate2 = sDate2.substr(0, 10)
@@ -822,7 +826,7 @@ var _modal_width;
         //计算月份差
         monthDiff: function (date1, date2) {
 
-            if(date1==undefined || date2==undefined) return '--'
+            if (date1 == undefined || date2 == undefined) return '--'
             //默认格式为"2003-03-03",根据自己需要改格式和方法
             // console.log("date1=" + date1)
             var year1 = date1.substr(0, 4);
@@ -1038,11 +1042,11 @@ var _modal_width;
             var $hide = $(_params.hideEl || "#body-content-view");
             var $show = $(_params.loadEl || "#body-content");
 
-            if(isMobile){
+            if (isMobile) {
                 $hide.fadeOut("fast", function () {
                     $show.show();
                 });
-            }else {
+            } else {
                 $hide.fadeOut("fast", function () {
                     if ($.trim(_params.url) != '') {
                         $.hashchange('', _params.url);
@@ -1130,6 +1134,25 @@ var _modal_width;
                 }
             })
         },
+        imgPreview: function (filepath, filename, hrefLabel) {
+            filepath = $.trim(filepath);
+            filename = $.trim(filename);
+            hrefLabel = $.trim(hrefLabel)
+            if (filepath != '' && filename != '') {
+                hrefLabel = hrefLabel || filename;
+
+                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="{3}/pic?path={0}&_={4}">{2}</a>'
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, new Date().getTime());
+            }
+            if (filepath == '') return '--';
+            return $.trim(filename);
+        },
+        iframePreview: function (displayName, href, hrefLabel) {
+            displayName = $.trim(displayName);
+            hrefLabel = hrefLabel || displayName;
+            return '<a class="various" title="{0}" data-fancybox-type="iframe" href="{2}">{1}</a>'
+                .format(displayName, hrefLabel, href);
+        },
         pdfPreview: function (filepath, filename, hrefLabel, plainText, type) {
             filepath = $.trim(filepath);
             filename = $.trim(filename);
@@ -1144,8 +1167,8 @@ var _modal_width;
                 hrefLabel = hrefLabel || filename;
                 return '<a href="javascript:void(0)" class="{4}" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
-            } else
-                return $.trim(plainText);
+            }
+            return $.trim(plainText);
         },
         pdfShow: function (filepath, filename, hrefLabel) {
             filepath = $.trim(filepath);
@@ -1156,24 +1179,22 @@ var _modal_width;
                 hrefLabel = hrefLabel || filename;
                 return ('<a href="{3}/{1}.pdf?path={0}" target="_blank">{2}</a>')
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
-            } else {
-                return '--';
             }
+            return '--';
         },
         download: function (filepath, filename, hrefLabel, type) {
             filepath = $.trim(filepath);
             filename = $.trim(filename) || new Date().getTime();
             hrefLabel = $.trim(hrefLabel)
-            type = type||'download';
+            type = type || 'download';
 
             if (filepath != '') {
                 hrefLabel = hrefLabel || filename;
                 return ('<a href="javascript:void(0)" class="downloadBtn" data-type="{4}" ' +
                     'data-url="{3}/attach_download?path={0}&filename={1}">{2}</a>')
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, type);
-            } else {
-                return '--';
             }
+            return '--';
         },
         button: {
             confirm: function (params) {
@@ -1683,6 +1704,16 @@ $.extend($.register, {
                 this.wrap.draggable();
             },
             afterLoad: afterLoad || function () {
+                var $element = $(this.element);
+                var fancyboxType = $element.data('fancybox-type');
+                if (fancyboxType == 'image') {
+                    this.title = '<div class="title">' + this.title
+                        + '<div class="download">【<a href="javascript:;" class="downloadBtn" data-type="download" ' +
+                        'data-url="{2}/attach_download?path={0}&filename={1}">点击下载</a>】</div></div>'
+                            .format($element.data('path'), this.title, ctx);
+                } else if (fancyboxType == 'iframe') {
+                    this.title = '<div class="title">' + this.title + '</div>';
+                }
             }
         });
     },
@@ -1723,8 +1754,8 @@ $.extend($.register, {
     // 日历
     date: function ($date, params) {
 
-        params = params||{};
-        $.each($date, function(i, date){
+        params = params || {};
+        $.each($date, function (i, date) {
 
             $(date).parent().css('position', 'relative').css('z-index', '1029');
             $(date).parent().parent().css('z-index', '10');
@@ -1876,7 +1907,7 @@ $.extend($.register, {
             $("#" + branchDivId + " select", $container).removeAttr("required");
 
             var partyOption = $(this).select2("data")[0];
-            var $party_class = (partyOption?$(this).select2("data")[0]['class']:null) || init_party_class;
+            var $party_class = (partyOption ? $(this).select2("data")[0]['class'] : null) || init_party_class;
             //alert("${party.id}")
             if ($(this).val() != init_party_id)
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
