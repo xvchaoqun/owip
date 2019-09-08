@@ -3,7 +3,9 @@ package domain.crs;
 import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
 import persistence.sc.IScMapper;
+import persistence.unit.UnitPostMapper;
 import service.crs.CrsApplicantService;
 import sys.constants.CrsConstants;
 import sys.tags.CmTag;
@@ -75,6 +77,12 @@ public class CrsPost implements Serializable {
         }
 
         return CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED;
+    }
+
+    public UnitPost getUnitPost(){
+        if(unitPostId==null) return null;
+        UnitPostMapper unitPostMapper = CmTag.getBean(UnitPostMapper.class);
+        return unitPostMapper.selectByPrimaryKey(unitPostId);
     }
 
     private Integer id;

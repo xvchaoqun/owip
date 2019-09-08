@@ -1,12 +1,19 @@
 package controller.crs;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.crs.*;
 import domain.crs.CrsPostExample.Criteria;
+import domain.unit.Unit;
+import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +24,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -173,11 +183,11 @@ public class CrsPostController extends CrsBaseController {
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
             modelMap.put("crsPost", crsPost);
 
-            if(iScMapper!=null){
-                if(crsPost.getRecordId()!=null) {
+            if (iScMapper != null) {
+                if (crsPost.getRecordId() != null) {
                     modelMap.put("scRecord", iScMapper.getScRecordView(crsPost.getRecordId()));
                 }
-                if(crsPost.getUnitPostId()!=null) {
+                if (crsPost.getUnitPostId() != null) {
                     modelMap.put("unitPost", iUnitMapper.getUnitPost(crsPost.getUnitPostId()));
                 }
             }
@@ -330,9 +340,9 @@ public class CrsPostController extends CrsBaseController {
     @RequestMapping(value = "/crsPost_updateStatus", method = RequestMethod.POST)
     @ResponseBody
     public Map crsPost_updateStatus(HttpServletRequest request,
-                                byte status,
-                                @RequestParam(value = "ids[]") Integer[] ids,
-                                ModelMap modelMap) {
+                                    byte status,
+                                    @RequestParam(value = "ids[]") Integer[] ids,
+                                    ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             crsPostService.updateStatus(ids, status);
@@ -395,7 +405,7 @@ public class CrsPostController extends CrsBaseController {
         pageNo = Math.max(1, pageNo);
 
         CrsPostExample example = new CrsPostExample();
-        if(StringUtils.isNotBlank(searchStr))
+        if (StringUtils.isNotBlank(searchStr))
             example.createCriteria().andNameLike(SqlUtils.like(searchStr));
         example.setOrderByClause("create_time desc");
 
@@ -422,6 +432,143 @@ public class CrsPostController extends CrsBaseController {
         Map resultMap = success();
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
+        return resultMap;
+    }
+
+    @RequiresPermissions("crsPost:edit")
+    @RequestMapping("/crsPost_import")
+    public String crsPost_import(ModelMap modelMap) {
+
+        return "crs/crsPost/crsPost_import";
+    }
+
+    @RequiresPermissions("crsPost:edit")
+    @RequestMapping(value = "/crsPost_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPost_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CrsPostWithBLOBs> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            CrsPostWithBLOBs record = new CrsPostWithBLOBs();
+            row++;
+            String _year = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(_year) || !StringUtils.isNumeric(_year)) {
+                throw new OpException("第{0}行年度有误", row);
+            }
+            record.setYear(Integer.valueOf(_year));
+
+            String _type = StringUtils.trimToNull(xlsRow.get(1));
+            if (StringUtils.equals(_type, "竞争上岗")) {
+                record.setType(CrsConstants.CRS_POST_TYPE_COMPETE);
+            } else {
+                record.setType(CrsConstants.CRS_POST_TYPE_PUBLIC);
+            }
+
+            String _seq = StringUtils.trimToNull(xlsRow.get(2));
+            if (StringUtils.isBlank(_seq) || !StringUtils.isNumeric(_seq)) {
+                throw new OpException("第{0}行编号有误", row);
+            }
+            record.setSeq(Integer.valueOf(_seq));
+
+            String postCode = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isBlank(postCode)) {
+                throw new OpException("第{0}行岗位编号为空", row);
+            } else {
+                UnitPost unitPost = unitPostService.getByCode(postCode);
+                if (unitPost == null) {
+                    throw new OpException("第{0}行岗位编码[{1}]不存在", row, postCode);
+                }
+                record.setUnitPostId(unitPost.getId());
+                record.setName(unitPost.getName());
+            }
+
+            String name = StringUtils.trimToNull(xlsRow.get(4));
+            if (StringUtils.isNotBlank(name)) {
+                record.setName(name);
+            }
+
+            String job = StringUtils.trimToNull(xlsRow.get(5));
+            if (StringUtils.isNotBlank(job)) {
+                record.setJob(job);
+            }
+
+            String adminLevel = StringUtils.trimToNull(xlsRow.get(6));
+            MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", adminLevel);
+            if (adminLevelType == null) throw new OpException("第{0}行行政级别[{1}]不存在", row, adminLevel);
+            record.setAdminLevel(adminLevelType.getId());
+
+            String unitCode = StringUtils.trimToNull(xlsRow.get(7));
+            if(StringUtils.isBlank(unitCode)){
+                throw new OpException("第{0}行单位编码为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if(unit==null){
+                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+            }
+            record.setUnitId(unit.getId());
+
+            String _num = StringUtils.trimToNull(xlsRow.get(9));
+            if (StringUtils.isBlank(_num) || !StringUtils.isNumeric(_num)) {
+                throw new OpException("第{0}行招聘人数有误", row);
+            }
+            record.setNum(Integer.valueOf(_num));
+
+            //岗位要求
+            String requireRuleName = StringUtils.trimToNull(xlsRow.get(10));
+            if(requireRuleName!=null) {
+                CrsPostRequire crsPostRequire = crsPostRequireService.get(requireRuleName);
+                if (crsPostRequire == null){
+                    throw new OpException("第{0}行岗位要求不存在", row);
+                }
+                record.setPostRequireId(crsPostRequire.getId());
+            }
+            record.setStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
+            record.setEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+            String _meetingApplyCount = StringUtils.trimToNull(xlsRow.get(13));
+            if (StringUtils.isNotBlank(_meetingApplyCount) && !StringUtils.isNumeric(_meetingApplyCount)) {
+                throw new OpException("第{0}行招聘会人数要求有误", row);
+            }
+            record.setMeetingApplyCount(Integer.valueOf(_meetingApplyCount));
+
+            record.setMeetingTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14))));
+            record.setMeetingAddress(StringUtils.trimToNull(xlsRow.get(15)));
+
+            record.setReportDeadline(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(16))));
+            record.setQuitDeadline(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(17))));
+            record.setPptDeadline(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(18))));
+
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(19)));
+
+            record.setCreateTime(new Date());
+            record.setPubStatus(CrsConstants.CRS_POST_PUB_STATUS_UNPUBLISHED);
+            record.setStatus(CrsConstants.CRS_POST_STATUS_NORMAL);
+
+            record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = crsPostService.bacthImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入招聘岗位成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
         return resultMap;
     }
 }

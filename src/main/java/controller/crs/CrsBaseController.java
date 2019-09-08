@@ -6,6 +6,8 @@ import service.base.ContentTplService;
 import service.cadre.CadreService;
 import service.crs.*;
 import service.sys.SysUserService;
+import service.unit.UnitPostService;
+import service.unit.UnitService;
 import sys.HttpResponseMethod;
 
 /**
@@ -20,6 +22,10 @@ public class CrsBaseController extends CrsBaseMapper implements HttpResponseMeth
     protected ContentTplService contentTplService;
     @Autowired
     protected CadreService cadreService;
+    @Autowired
+    protected UnitPostService unitPostService;
+    @Autowired
+    protected UnitService unitService;
     @Autowired
     protected IScMapper iScMapper;
     

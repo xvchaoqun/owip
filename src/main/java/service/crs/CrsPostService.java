@@ -3,6 +3,7 @@ package service.crs;
 import com.google.gson.*;
 import controller.global.OpException;
 import domain.crs.*;
+import domain.unit.UnitPost;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -23,23 +24,23 @@ import java.util.Map;
 @Service
 public class CrsPostService extends CrsBaseMapper {
 
-    public int[] groupCount(int postId){
+    public int[] groupCount(int postId) {
 
-        int[] count = new int[]{-1, 0,0,0,0};
+        int[] count = new int[]{-1, 0, 0, 0, 0};
         List<Map> sta = iCrsMapper.applicantStatic(postId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
         for (Map entity : sta) {
 
             byte require_check_status = -1;
-            if(entity.get("require_check_status")!=null){
+            if (entity.get("require_check_status") != null) {
                 require_check_status = ((Integer) entity.get("require_check_status")).byteValue();
             }
-            boolean is_require_check_pass = ((Integer) entity.get("is_require_check_pass")==1);
+            boolean is_require_check_pass = ((Integer) entity.get("is_require_check_pass") == 1);
             boolean is_quit = BooleanUtils.isTrue((Boolean) entity.get("is_quit"));
 
             int num = ((Long) entity.get("num")).intValue();
 
             // cls==1
-            if(is_quit==false) {
+            if (is_quit == false) {
                 if (require_check_status == CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT) {
                     count[1] += num;
                 }
@@ -48,7 +49,7 @@ public class CrsPostService extends CrsBaseMapper {
                 } else if (require_check_status == CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS) {
                     count[3] += num;
                 }
-            }else{
+            } else {
                 count[4] += num;
             }
         }
@@ -102,14 +103,14 @@ public class CrsPostService extends CrsBaseMapper {
             CrsCandidateExample example = new CrsCandidateExample();
             example.createCriteria().andPostIdEqualTo(postId);
             crsCandidateMapper.deleteByExample(example);
-            if (statBean.getFirstUserId() != null && statBean.getFirstUserId()>0) {
+            if (statBean.getFirstUserId() != null && statBean.getFirstUserId() > 0) {
                 CrsCandidate crsCandidate = new CrsCandidate();
                 crsCandidate.setPostId(postId);
                 crsCandidate.setUserId(statBean.getFirstUserId());
                 crsCandidate.setIsFirst(true);
                 crsCandidateMapper.insertSelective(crsCandidate);
             }
-            if (statBean.getSecondUserId() != null && statBean.getSecondUserId()>0) {
+            if (statBean.getSecondUserId() != null && statBean.getSecondUserId() > 0) {
                 CrsCandidate crsCandidate = new CrsCandidate();
                 crsCandidate.setPostId(postId);
                 crsCandidate.setUserId(statBean.getSecondUserId());
@@ -135,6 +136,17 @@ public class CrsPostService extends CrsBaseMapper {
     public CrsPost get(int id) {
 
         return crsPostMapper.selectByPrimaryKey(id);
+    }
+
+    public CrsPost get(int year, byte type, int seq) {
+
+        CrsPostExample example = new CrsPostExample();
+        example.createCriteria().andYearEqualTo(year)
+                .andTypeEqualTo(type).andSeqEqualTo(seq)
+                .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL);
+        List<CrsPost> crsPosts = crsPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return crsPosts.size() == 1 ? crsPosts.get(0) : null;
     }
 
     public List<CrsPost> get(List<Integer> ids) {
@@ -188,16 +200,16 @@ public class CrsPostService extends CrsBaseMapper {
         CrsPostExample.Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids));
 
 
-        if(status==CrsConstants.CRS_POST_STATUS_NORMAL){
+        if (status == CrsConstants.CRS_POST_STATUS_NORMAL) {
 
             // 只有已作废或已删除的记录，可以重新返回招聘列表
             criteria.andStatusIn(Arrays.asList(CrsConstants.CRS_POST_STATUS_ABOLISH,
                     CrsConstants.CRS_POST_STATUS_DELETE));
-        }else if(status==CrsConstants.CRS_POST_STATUS_ABOLISH||status==CrsConstants.CRS_POST_STATUS_DELETE){
+        } else if (status == CrsConstants.CRS_POST_STATUS_ABOLISH || status == CrsConstants.CRS_POST_STATUS_DELETE) {
 
             // 只有正常招聘的岗位，才可以作废或删除
             criteria.andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL);
-        }else{
+        } else {
 
             // 其他情况不允许更新状态
             throw new OpException("操作有误。");
@@ -223,5 +235,24 @@ public class CrsPostService extends CrsBaseMapper {
     public int updateByPrimaryKeySelective(CrsPostWithBLOBs record) {
 
         return crsPostMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public int bacthImport(List<CrsPostWithBLOBs> records) {
+
+        int addCount = 0;
+        for (CrsPostWithBLOBs record : records) {
+
+            CrsPost crsPost = get(record.getYear(), record.getType(), record.getSeq());
+            if (crsPost == null) {
+                insertSelective(record);
+                addCount++;
+            } else {
+                record.setId(crsPost.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 }

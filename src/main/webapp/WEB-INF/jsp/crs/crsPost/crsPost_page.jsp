@@ -37,6 +37,11 @@
                             <shiro:hasPermission name="crsPost:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-width="900" data-url="${ctx}/crsPost_au"><i
                                         class="fa fa-plus"></i> 添加招聘岗位</a>
+                                <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                        data-url="${ctx}/crsPost_import"
+                                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入
+                                </button>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/crsPost_au"
                                    data-grid-id="#jqGrid" data-width="900"
@@ -96,6 +101,7 @@
                                 </button>
                             </shiro:hasPermission>
                             </c:if>
+
                             <shiro:hasPermission name="crsPost:export">
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -211,7 +217,8 @@
 
             }, width: 190, frozen: true
             },
-            {label: '招聘岗位', name: 'name', align:'left', width:'300', formatter: function (cellvalue, options, rowObject) {
+            {label: '招聘岗位编码', name: 'unitPost.code', width:'120', frozen: true},
+            {label: '招聘岗位名称', name: 'name', align:'left', width:'300', formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             }, frozen: true},
