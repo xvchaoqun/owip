@@ -126,10 +126,10 @@
         //console.log("wxMsgType="+$(this).val())
         if ($(this).val() == '${CONTENT_TPL_WX_TYPE_NEWS}') {
             $(".wxPic").show();
-            $("#modalForm input[name=wxPic]").requireField(true);
+            //$("#modalForm input[name=wxPic]").requireField(true);
         } else {
             $(".wxPic").hide();
-            $("#modalForm input[name=wxPic]").requireField(false);
+            //$("#modalForm input[name=wxPic]").requireField(false);
         }
     });
     <c:if test="${not empty shortMsgTpl}">

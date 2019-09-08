@@ -26,7 +26,7 @@ public class CrsBaseController extends CrsBaseMapper implements HttpResponseMeth
     protected UnitPostService unitPostService;
     @Autowired
     protected UnitService unitService;
-    @Autowired
+    @Autowired(required = false)
     protected IScMapper iScMapper;
     
     @Autowired
