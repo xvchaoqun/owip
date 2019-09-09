@@ -48,7 +48,7 @@
                 </c:if>
                 <tr>
                     <td data-code="cadreFamily.title">称谓</td>
-                    <td class="bg-left">${modify.cadreFamily.title}</td>
+                    <td class="bg-left">${cm:getMetaType(modify.cadreFamily.title).name}</td>
                     <td data-code="cadreFamily.realname">姓名</td>
                     <td class="bg-left">${modify.cadreFamily.realname}</td>
                     <td data-code="country">移居国家</td>
