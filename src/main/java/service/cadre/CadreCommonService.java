@@ -242,7 +242,9 @@ public class CadreCommonService extends BaseMapper {
             if (cadreStatusList.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
                 MetaType postType = postMap.get(cadre.getPostType());
-                int postId = postType.getId();
+
+                int postId = -1;
+                if(postType!=null) postId = postType.getId();
                 if (postIdCadresMap.containsKey(postId)) {
                     list = postIdCadresMap.get(postId);
                 }

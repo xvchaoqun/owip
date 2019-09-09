@@ -125,10 +125,11 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getUnitId(), cadre.getPostType(), false);
-                list.add(bean);
-
-                unitIdCadresMap.put(unitId, list); // 获取所有单位的正职
+                if(cadre.getPostType()!=null && cadre.getUnitId()!=null) {
+                    CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getUnitId(), cadre.getPostType(), false);
+                    list.add(bean);
+                    unitIdCadresMap.put(unitId, list); // 获取所有单位的正职
+                }
             }
         }
 
