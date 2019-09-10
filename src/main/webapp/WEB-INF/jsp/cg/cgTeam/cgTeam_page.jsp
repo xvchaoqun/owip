@@ -186,9 +186,9 @@ pageEncoding="UTF-8" %>
                         return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/cg/cgTeam_base?id={0}"><i class="fa fa-search"></i> {1}</button>'
                             .format(rowObject.id, '详情');
                 }},
-                { label: '是否需要调整',name: 'needAdjust', formatter: function (cellvalue, options, rowObject) {
+                { label: '是否需要调整',name: 'countNeedAdjust', formatter: function (cellvalue, options, rowObject) {
 
-                    return cellvalue == true?"<span class='badge badge-danger'> </span>":"--";
+                    return cellvalue != 0?"<span class='badge badge-danger'>"+cellvalue+"</span>":"--";
                 }},
                 { label: '挂靠单位',name: 'unit.name',width:250,align:'left'},
                 { label: '办公室主任',name: 'user.realname'},

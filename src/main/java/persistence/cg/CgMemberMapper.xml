@@ -12,6 +12,7 @@
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="is_current" jdbcType="BIT" property="isCurrent" />
+    <result column="need_adjust" jdbcType="BIT" property="needAdjust" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, team_id, post, type, unit_post_id, user_id, tag, start_date, end_date, is_current, 
-    sort_order, remark
+    need_adjust, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cg.CgMemberExample" resultMap="BaseResultMap">
     select
@@ -114,11 +115,13 @@
     insert into cg_member (team_id, post, type, 
       unit_post_id, user_id, tag, 
       start_date, end_date, is_current, 
-      sort_order, remark)
+      need_adjust, sort_order, remark
+      )
     values (#{teamId,jdbcType=INTEGER}, #{post,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{unitPostId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isCurrent,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{needAdjust,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cg.CgMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -152,6 +155,9 @@
       </if>
       <if test="isCurrent != null">
         is_current,
+      </if>
+      <if test="needAdjust != null">
+        need_adjust,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -187,6 +193,9 @@
       </if>
       <if test="isCurrent != null">
         #{isCurrent,jdbcType=BIT},
+      </if>
+      <if test="needAdjust != null">
+        #{needAdjust,jdbcType=BIT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -235,6 +244,9 @@
       <if test="record.isCurrent != null">
         is_current = #{record.isCurrent,jdbcType=BIT},
       </if>
+      <if test="record.needAdjust != null">
+        need_adjust = #{record.needAdjust,jdbcType=BIT},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -258,6 +270,7 @@
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       is_current = #{record.isCurrent,jdbcType=BIT},
+      need_adjust = #{record.needAdjust,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -294,6 +307,9 @@
       <if test="isCurrent != null">
         is_current = #{isCurrent,jdbcType=BIT},
       </if>
+      <if test="needAdjust != null">
+        need_adjust = #{needAdjust,jdbcType=BIT},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -314,6 +330,7 @@
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       is_current = #{isCurrent,jdbcType=BIT},
+      need_adjust = #{needAdjust,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

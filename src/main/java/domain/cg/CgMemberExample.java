@@ -742,6 +742,66 @@ public class CgMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andNeedAdjustIsNull() {
+            addCriterion("need_adjust is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustIsNotNull() {
+            addCriterion("need_adjust is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustEqualTo(Boolean value) {
+            addCriterion("need_adjust =", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustNotEqualTo(Boolean value) {
+            addCriterion("need_adjust <>", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustGreaterThan(Boolean value) {
+            addCriterion("need_adjust >", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("need_adjust >=", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustLessThan(Boolean value) {
+            addCriterion("need_adjust <", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustLessThanOrEqualTo(Boolean value) {
+            addCriterion("need_adjust <=", value, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustIn(List<Boolean> values) {
+            addCriterion("need_adjust in", values, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustNotIn(List<Boolean> values) {
+            addCriterion("need_adjust not in", values, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_adjust between", value1, value2, "needAdjust");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedAdjustNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_adjust not between", value1, value2, "needAdjust");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

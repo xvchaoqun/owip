@@ -2,6 +2,7 @@ package service.cg;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.cg.*;
+import persistence.cg.common.ICgMapper;
 import service.CoreBaseMapper;
 
 public class CgBaseMapper extends CoreBaseMapper {
@@ -21,4 +22,6 @@ public class CgBaseMapper extends CoreBaseMapper {
     protected CgUnitMapper cgUnitMapper;
     @Autowired(required = false)
     protected CgTeamViewMapper cgTeamViewMapper;
+    @Autowired(required = false)
+    protected ICgMapper iCgMapper;
 }

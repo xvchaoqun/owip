@@ -2,6 +2,7 @@ package domain.cg;
 
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import persistence.cg.common.ICgMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -15,6 +16,8 @@ public class CgTeamView implements Serializable {
     public Unit getUnit(){
         return CmTag.getUnitById(unitId);
     }
+
+    public Integer getCountNeedAdjust(){return CmTag.getBean(ICgMapper.class).getCountNeedAdjust(id);}
 
     private Integer id;
 

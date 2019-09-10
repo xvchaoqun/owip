@@ -89,6 +89,12 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
+		<c:if test="${cgMember.needAdjust}">
+			<label class="col-xs-4 control-label"/>
+			<div class="col-xs-6">
+				<label style="color: red">该岗位现任干部有变动，请先撤销后在进行添加。</label>
+			</div>
+		</c:if>
     </form>
 </div>
 <div class="modal-footer">

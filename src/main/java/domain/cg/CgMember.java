@@ -11,13 +11,9 @@ import java.util.Date;
 
 public class CgMember implements Serializable {
 
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
+    public SysUserView getUser(){ return CmTag.getUserById(userId); }
 
-    public UnitPost getUnitPost(){
-        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
-    }
+    public UnitPost getUnitPost(){ return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId); }
 
     public CgTeam getCgTeam(){return CmTag.getBean(CgTeamMapper.class).selectByPrimaryKey(teamId);}
 
@@ -40,6 +36,8 @@ public class CgMember implements Serializable {
     private Date endDate;
 
     private Boolean isCurrent;
+
+    private Boolean needAdjust;
 
     private Integer sortOrder;
 
@@ -125,6 +123,14 @@ public class CgMember implements Serializable {
 
     public void setIsCurrent(Boolean isCurrent) {
         this.isCurrent = isCurrent;
+    }
+
+    public Boolean getNeedAdjust() {
+        return needAdjust;
+    }
+
+    public void setNeedAdjust(Boolean needAdjust) {
+        this.needAdjust = needAdjust;
     }
 
     public Integer getSortOrder() {
