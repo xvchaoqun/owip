@@ -89,6 +89,10 @@ pageEncoding="UTF-8" %>
                 },
                 { label: '代表类型',name: 'tag'},
                 { label: '姓名',name: 'user.realname'},
+                { label: '是否需要调整', name: 'needAdjust',formatter: function (cellvalue, options, rowObject) {
+
+                        return cellvalue?"<span class='badge badge-danger'>1</span>":"--";
+                    }},
                 { label: '关联岗位名称',name: 'unitPost.name',width: 300,align:'left'},
         ]}).jqGrid("setFrozenColumns");
 

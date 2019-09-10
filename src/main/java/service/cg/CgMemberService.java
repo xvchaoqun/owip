@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CgMemberService extends CgBaseMapper {
@@ -75,9 +76,26 @@ public class CgMemberService extends CgBaseMapper {
             CgMember record = new CgMember();
             record.setId(id);
             record.setIsCurrent(isCurrent);
+            record.setNeedAdjust(false);
             record.setSortOrder(getNextSortOrder("cg_member",
                     String.format("is_current=%s and team_id=%s",record.getIsCurrent(),cgMember.getTeamId())));
             cgMemberMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    @Transactional
+    public void updateNeedAdjust(){
+        List<Integer> cgMemberIds = iCgMapper.getNeedAdjustMember();
+
+        if (cgMemberIds.size() == 0) return;
+
+        for (Integer cgMemberId : cgMemberIds){
+
+            CgMember cgMember = new CgMember();
+            cgMember.setId(cgMemberId);
+            cgMember.setNeedAdjust(true);
+
+            updateByPrimaryKeySelective(cgMember);
         }
     }
 }

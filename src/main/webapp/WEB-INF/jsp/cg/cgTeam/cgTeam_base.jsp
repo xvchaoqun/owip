@@ -22,6 +22,11 @@
     </span>
 </div>
         <table style="border: 1px solid #151515; width: 850px; font-size: 15px">
+            <tr>
+                <th style="text-align: center">
+                    <h1>${cgTeam.name}</h1>
+                </th>
+            </tr>
 <c:forEach items="${cgRuleContentMap}" var="cgRuleContent">
 
         <tr style="padding-left: 5px">
