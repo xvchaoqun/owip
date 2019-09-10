@@ -12,6 +12,29 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 添加角色
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_cg_admin', '委员会和领导小组管理员', '2084,2086,2091,2085,2087,2088,2089,2090', '-1', NULL, 0, 0, 60, '');
 
+-- 添加源数据
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (300, NULL, '委员会和领导小组类别', '委员会和领导小组', '参数管理', 'mc_cg_type', '', '', '', 91, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (301, NULL, '委员会和领导小组人员职务', '委员会和领导小组', '参数管理', 'mc_cg_staff', '', '', '', 92, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '综合', 'mt_samlhc', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '党建和思想政治工作', 'mt_5lrndx', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '人才培养', 'mt_hlfynu', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '学科建设、科研和社会服务', 'mt_aorgh2', NULL, '', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '人财物管理', 'mt_kjiga9', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '国际交流、港澳台工作', 'mt_imdl4r', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '总务', 'mt_x90odt', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (300, '校区和附属中小学', 'mt_sajyjf', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '主任', 'mt_329tph', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '副主任', 'mt_tpa4me', NULL, '', '', 9, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '委员', 'mt_gssgbp', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '组长', 'mt_jbyim7', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '副组长', 'mt_hot9zc', NULL, '', '', 10, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '成员', 'mt_ilfi8p', NULL, '', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '党校校长', 'mt_0kdzma', NULL, NULL, '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '党校常务副校长', 'mt_lvylno', NULL, NULL, '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (301, '党校副校长', 'mt_nwn6kp', NULL, NULL, '', 3, 1);
+
+
 2019-09-10
 -- 添加定时任务数据 桑文帅
 INSERT INTO `sys_scheduler_job` (`id`, `name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES (26, '委员会和领导小组人员变动提醒', '委员会和领导小组关联岗位的现任干部变动提醒', 'job.cg.NeedAdjustMember', '0 0 0/2 * * ?', 0, 0, 27, '2019-09-06 15:48:19');
