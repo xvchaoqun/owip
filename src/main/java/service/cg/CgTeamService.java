@@ -2,6 +2,10 @@ package service.cg;
 
 import domain.cg.*;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.CgConstants;
@@ -146,5 +150,36 @@ public class CgTeamService extends CgBaseMapper {
         List<CgLeader> cgLeaders = cgLeaderMapper.selectByExample(cgLeaderExample);
 
         return cgLeaders.size()>0?cgLeaders.get(0):null;
+    }
+
+    public String getContentByType(Integer teamId, Byte type){
+
+        CgRuleExample cgRuleExample = new CgRuleExample();
+        cgRuleExample.createCriteria()
+                .andTypeEqualTo(type)
+                .andIsCurrentEqualTo(true)
+                .andTeamIdEqualTo(teamId);
+        List<CgRule> cgRules = cgRuleMapper.selectByExample(cgRuleExample);
+
+        return cgRules.size()>0?"":cgRules.get(0).getContent();
+    }
+
+    public List<String> formatContent(String content){
+
+        Document doc= Jsoup.parseBodyFragment(content);
+        Elements tagElement = doc.getElementsByTag("p");
+
+        List<String> contentList = new ArrayList<>();
+        Element element=null;
+        for(int i=0;i<tagElement.size();i++){
+            element=tagElement.get(i);
+            String pHtml=element.html();
+            pHtml=pHtml.replaceAll("&nbsp;"," ");
+            pHtml=pHtml.replaceAll("&amp;nbsp;\\s{0,1}"," ");
+
+            contentList.add(pHtml);
+        }
+
+        return contentList;
     }
 }
