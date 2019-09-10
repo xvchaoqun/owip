@@ -10,7 +10,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3007, 0, '挂靠单位', '', 'function', '', NULL, 3001, '0/1/3001/', 1, 'cgUnit:*', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3008, 0, '统计分析', '', 'url', '', '/cg/cgCount', 3001, '0/1/3001/', 1, 'cgCount:*', NULL, NULL, NULL, 1, 3550);
 -- 添加角色
-INSERT INTO `sys_role` (`id`, `code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES (65, 'role_cg_admin', '委员会和领导小组管理员', '3001,3002,3003,3004,3005,3006,3007,3008', '-1', NULL, 0, 0, 60, '');
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_cg_admin', '委员会和领导小组管理员', '2084,2086,2091,2085,2087,2088,2089,2090', '-1', NULL, 0, 0, 60, '');
 
 2019-09-10
 -- 添加定时任务数据 桑文帅
