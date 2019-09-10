@@ -24,7 +24,7 @@ public class CgConstants {
         CG_MEMBER_TYPE_MAY.put(CG_MEMBER_TYPE_USER, "各类代表");
     }
 
-    //委员会和领导小组规程类型 1、人员组成规则 2、工作职责 3、议事规则
+    //委员会和领导小组规程类型 1、组成规则 2、工作职责 3、议事规则
     public final static byte CG_RULE_TYPE_STAFF = 1;
     public final static byte CG_RULE_TYPE_JOB = 2;
     public final static byte CG_RULE_TYPE_DEBATE = 3;

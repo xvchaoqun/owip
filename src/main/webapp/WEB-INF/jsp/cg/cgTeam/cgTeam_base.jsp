@@ -8,6 +8,7 @@
 <c:set value="<%=CgConstants.CG_TEAM_VICE_PRESIDENT%>" var="CG_TEAM_VICE_PRESIDENT"/>
 <c:set value="<%=CgConstants.CG_TEAM_MEMBER%>" var="CG_TEAM_MEMBER"/>
 <c:set value="<%=CgConstants.CG_TEAM_OFFICE_DIRECTOR%>" var="CG_TEAM_OFFICE_DIRECTOR"/>
+<c:set value="<%=CgConstants.CG_TEAM_TYPE_MAP%>" var="CG_TEAM_TYPE_MAP"/>
 
 <div class="modal-body">
     <div class="widget-box transparent" id="view-box">
@@ -31,7 +32,7 @@
 
         <tr style="padding-left: 5px">
             <th style="padding: 20px 0px 10px 10px">
-                    ${CG_RULE_TYPE_MAP.get(cgRuleContent.key)}
+                ${CG_TEAM_TYPE_MAP.get(cgTeam.type)}${CG_RULE_TYPE_MAP.get(cgRuleContent.key)}
             </th>
         </tr>
         <tr>
