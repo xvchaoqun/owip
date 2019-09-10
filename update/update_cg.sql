@@ -1,5 +1,86 @@
 
 2019-09-10
+-- 建表语句 桑文帅
+
+DROP TABLE IF EXISTS `cg_leader`;
+CREATE TABLE IF NOT EXISTS `cg_leader` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `team_id` int(10) unsigned NOT NULL COMMENT '所属委员会或领导小组',
+  `is_post` tinyint(1) unsigned NOT NULL COMMENT '是否席位制',
+  `unit_post_id` int(10) unsigned DEFAULT NULL COMMENT '关联岗位，如果是席位制',
+  `user_id` int(10) unsigned NOT NULL COMMENT '如果是非席位制，用户ID。如果是席位制，现任职干部ID',
+  `phone` varchar(50) DEFAULT NULL COMMENT '联系方式，办公电话或手机号码',
+  `is_current` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否当前办公室主任',
+  `confirm_date` date DEFAULT NULL COMMENT '确定时间',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='办公室主任';
+
+-- 数据导出被取消选择。
+-- 导出  表 db_owip_1.cg_member 结构
+DROP TABLE IF EXISTS `cg_member`;
+CREATE TABLE IF NOT EXISTS `cg_member` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `team_id` int(10) unsigned NOT NULL COMMENT '所属委员会或领导小组',
+  `post` int(10) unsigned NOT NULL COMMENT '职务，关联元数据',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '人员类型，1 现任干部 2 各类代表',
+  `unit_post_id` int(10) unsigned DEFAULT NULL COMMENT '关联岗位，针对现任干部，岗位调整时系统自动提示',
+  `user_id` int(10) unsigned DEFAULT NULL COMMENT '现任干部',
+  `tag` varchar(50) DEFAULT NULL COMMENT '代表类型',
+  `start_date` date DEFAULT NULL COMMENT '添加日期',
+  `end_date` date DEFAULT NULL COMMENT '移除日期',
+  `is_current` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否现任成员',
+  `need_adjust` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否需要调整',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='委员会和领导小组成员';
+
+-- 数据导出被取消选择。
+-- 导出  表 db_owip_1.cg_rule 结构
+DROP TABLE IF EXISTS `cg_rule`;
+CREATE TABLE IF NOT EXISTS `cg_rule` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `team_id` int(10) unsigned NOT NULL COMMENT '所属委员会或领导小组',
+  `type` tinyint(3) unsigned NOT NULL COMMENT '类型，1 人员组成规则 2 工作职责 3 议事规则',
+  `is_current` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否当前规程，每种类型只有一个当前规程',
+  `confirm_date` date DEFAULT NULL COMMENT '规程确定时间',
+  `content` text COMMENT '规程内容',
+  `file_path` varchar(100) DEFAULT NULL COMMENT '相关文件，pdf',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='委员会或领导小组相关规程，包含人员组成规则、工作职责、议事规则等';
+
+-- 数据导出被取消选择。
+-- 导出  表 db_owip_1.cg_team 结构
+DROP TABLE IF EXISTS `cg_team`;
+CREATE TABLE IF NOT EXISTS `cg_team` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(100) NOT NULL COMMENT '名称，委员会和领导小组的名称',
+  `type` tinyint(3) unsigned NOT NULL COMMENT '类型，1 委员会 2 领导小组',
+  `category` int(10) unsigned NOT NULL COMMENT '类别，关联元数据',
+  `is_current` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否当前委员会或领导小组',
+  `need_adjust` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否需要调整',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='委员会和领导小组，cg：Committee & leader Group';
+
+-- 数据导出被取消选择。
+-- 导出  表 db_owip_1.cg_unit 结构
+DROP TABLE IF EXISTS `cg_unit`;
+CREATE TABLE IF NOT EXISTS `cg_unit` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `team_id` int(10) unsigned NOT NULL COMMENT '所属委员会或领导小组',
+  `unit_id` int(10) unsigned NOT NULL COMMENT '单位',
+  `is_current` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否当前挂靠单位',
+  `confirm_date` date DEFAULT NULL COMMENT '确定时间',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='挂靠单位';
+
+2019-09-10
 -- 添加资源数据 桑文帅
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3001, 0, '委员会和领导小组', '', 'menu', 'fa fa-star', NULL, 1, '0/1/', 0, 'cg:menu', NULL, NULL, NULL, 1, 3500);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3002, 0, '参数设置', '', 'url', '', '/metaClass_type_list?cls=mc_cg_type,mc_cg_staff', 3001, '0/1/3001/', 1, 'mc_cg_staff,mc_cg_type:*', NULL, NULL, NULL, 1, 3510);
