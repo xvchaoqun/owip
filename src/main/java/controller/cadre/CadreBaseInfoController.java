@@ -46,7 +46,7 @@ public class CadreBaseInfoController extends BaseController {
     public Map do_cadreBaseInfo(int cadreId,
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
-                                  @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date _dpAddTime,
+                                  String _dpAddTime,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _postTime, // 后备干部任职时间
                                   String nativePlace,
@@ -93,7 +93,7 @@ public class CadreBaseInfoController extends BaseController {
 
                     record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
                 }
-                record.setGrowTime(_dpAddTime);
+                record.setGrowTime(DateUtils.parseStringToDate(_dpAddTime));
                 record.setRemark(ShiroHelper.getCurrentUserId()==userId?"干部本人添加":"");
 
                 cadrePartyService.addOrUPdateCadreParty(record);

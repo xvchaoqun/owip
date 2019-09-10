@@ -35,10 +35,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CadrePartyController extends BaseController {
@@ -138,7 +135,10 @@ public class CadrePartyController extends BaseController {
     @RequestMapping(value = "/cadreParty_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreParty_au(CadreParty record,
+                                String _growTime,
                                 HttpServletRequest request) {
+
+        record.setGrowTime(DateUtils.parseStringToDate(_growTime));
 
         if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP) {
             record.setIsFirst(BooleanUtils.isTrue(record.getIsFirst()));

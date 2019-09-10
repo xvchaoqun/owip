@@ -146,11 +146,13 @@
                 var dp = $.jgrid.formatter.MetaType(cellvalue);
                 return (!rowObject.isFirst)?str+dp:dp;
             }},
-            {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
+            {label: '党派加入时间', name: 'growTime',
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_hasPartyModule?"Y.m.d":"Y.m"}'}, width: 110},
             {label: '担任党派职务', name: 'post',align:'left',  width: 250},
             </c:if>
             <c:if test="${type==2}">
-            {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, width: 110},
+            {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: '${_p_hasPartyModule?"Y.m.d":"Y.m"}'}, width: 110},
             <c:if test="${_p_hasPartyModule}">
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {

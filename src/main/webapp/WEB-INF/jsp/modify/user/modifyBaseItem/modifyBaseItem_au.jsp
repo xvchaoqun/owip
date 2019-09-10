@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
           autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${record.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>${record.name}</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>${record.name}</label>
 				<div class="col-xs-6">
                     <c:choose>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_INT && record.code=='health'}">
@@ -40,19 +40,31 @@ pageEncoding="UTF-8"%>
                         </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_DATE}">
                             <c:if test="${record.code=='work_time'}">
-                            <div class="input-group" style="width: 150px">
-                                <input class="form-control date-picker" type="text" name="modifyValue"
-                                       data-date-min-view-mode="1"
-                                       data-date-format="yyyy.mm" value="${record.modifyValue}"/>
-                                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                            </div>
+                                <div class="input-group" style="width: 110px">
+                                    <input class="form-control date-picker" type="text" name="modifyValue"
+                                           data-date-min-view-mode="1"
+                                           data-date-format="yyyy.mm" value="${record.modifyValue}"/>
+                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                </div>
                             </c:if>
-                            <c:if test="${record.code!='work_time'}">
-                            <div class="input-group" style="width: 150px">
-                                <input class="form-control date-picker" type="text" name="modifyValue"
-                                       data-date-format="yyyy-mm-dd" value="${record.modifyValue}"/>
-                                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                            </div>
+                            <c:if test="${record.code=='grow_time'}">
+                                <c:if test="${_p_hasPartyModule}">
+                                    <div class="input-group" style="width: 130px">
+                                        <input class="form-control date-picker" type="text" name="modifyValue"
+                                               data-date-format="yyyy.mm.dd" value="${record.modifyValue}"/>
+                                        <span class="input-group-addon"> <i
+                                                class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
+                                </c:if>
+                                <c:if test="${!_p_hasPartyModule}">
+                                    <div class="input-group" style="width: 110px">
+                                        <input class="form-control date-picker" type="text" name="modifyValue"
+                                               data-date-min-view-mode="1"
+                                               data-date-format="yyyy.mm" value="${record.modifyValue}"/>
+                                        <span class="input-group-addon"> <i
+                                                class="fa fa-calendar bigger-110"></i></span>
+                                    </div>
+                                </c:if>
                             </c:if>
                             <script>
                                 $.register.date($('.date-picker'));

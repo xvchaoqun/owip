@@ -110,26 +110,48 @@
             党派加入时间
           </td>
           <td>
+              <c:if test="${_p_hasPartyModule}">
+                  <c:set var="growTimeFormat" value="yyyy.MM.dd"/>
+              </c:if>
+              <c:if test="${!_p_hasPartyModule}">
+                  <c:set var="growTimeFormat" value="yyyy.MM"/>
+              </c:if>
               <c:choose>
                   <c:when test="${cadre.dpTypeId>0}">
-                      <c:set var="original" value="${cm:formatDate(cadre.dpGrowTime, 'yyyy-MM-dd')}"/>
+                      <c:set var="original" value="${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}"/>
                   </c:when>
                   <c:when test="${cadre.isOw}">
-                      <c:set var="original" value="${cm:formatDate(cadre.owGrowTime, 'yyyy-MM-dd')}"/>
+                      <c:set var="original" value="${cm:formatDate(cadre.owGrowTime, growTimeFormat)}"/>
                   </c:when>
               </c:choose>
-            <div class="input-group" style="width: 150px;">
-              <input class="form-control date-picker" type="text"
-                     data-date-format="yyyy-mm-dd"
-                     data-code="grow_time"
-                     data-table=""
-                     data-table-id-name=""
-                     data-name="党派加入时间"
-                     data-original="${original}"
-                     data-type="${MODIFY_BASE_ITEM_TYPE_DATE}"
-                     value="${original}"/>
-              <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-            </div>
+              <c:if test="${_p_hasPartyModule}">
+                  <div class="input-group" style="width: 130px;">
+                      <input class="form-control date-picker" type="text"
+                             data-date-format="yyyy.mm.dd"
+                             data-code="grow_time"
+                             data-table=""
+                             data-table-id-name=""
+                             data-name="党派加入时间"
+                             data-original="${original}"
+                             data-type="${MODIFY_BASE_ITEM_TYPE_DATE}"
+                             value="${original}"/>
+                      <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                  </div>
+              </c:if>
+              <c:if test="${!_p_hasPartyModule}">
+                  <div class="input-group" style="width: 110px;">
+                      <input class="form-control date-picker" type="text"
+                             data-date-format="yyyy.mm" data-date-min-view-mode="1"
+                             data-code="grow_time"
+                             data-table=""
+                             data-table-id-name=""
+                             data-name="党派加入时间"
+                             data-original="${original}"
+                             data-type="${MODIFY_BASE_ITEM_TYPE_DATE}"
+                             value="${original}"/>
+                      <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                  </div>
+              </c:if>
               <script>
                   $("#modalForm select[name=dpTypeId]").on("change",function(){
                         var val = $.trim($(this).val());

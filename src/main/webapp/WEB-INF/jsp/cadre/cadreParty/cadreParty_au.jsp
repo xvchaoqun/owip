@@ -6,7 +6,8 @@
     <h3>${(empty cadreParty)?"添加":"更新"}${type==1?'民主党派':'党员'}干部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreParty_au" autocomplete="off" disableautocomplete id="modalForm"
+          method="post">
         <input type="hidden" name="id" value="${cadreParty.id}">
         <input type="hidden" name="type" value="${type}">
         <c:if test="${empty sysUser}">
@@ -57,13 +58,23 @@
         </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">党派加入时间</label>
-
             <div class="col-xs-6">
-                <div class="input-group" style="width: 130px">
-                    <input class="form-control date-picker" name="growTime" type="text" placeholder="yyyy.mm.dd"
-                           data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM.dd')}"/>
-                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
+                    <c:if test="${_p_hasPartyModule}">
+                        <div class="input-group" style="width: 130px">
+                        <input class="form-control date-picker" name="_growTime" type="text" placeholder="yyyy.mm.dd"
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(cadreParty.growTime,'yyyy.MM.dd')}"/>
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </c:if>
+                    <c:if test="${!_p_hasPartyModule}">
+                        <div class="input-group" style="width: 110px">
+                        <input class="form-control date-picker" name="_growTime" type="text"
+                               data-date-min-view-mode="1" placeholder="yyyy.mm"
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM')}"/>
+                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </c:if>
             </div>
         </div>
         <c:if test="${type==1}">
@@ -96,15 +107,20 @@
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value='${(empty cadreParty)?"添加":"更新"}'/>
+    <button id="submitBtn" type="button" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定
+    </button>
 </div>
 
 <script>
 
     $("#modal input[name=isFirst]").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modal form").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
@@ -113,6 +129,7 @@
                         $("#jqGrid").trigger("reloadGrid");
                         //});
                     }
+                    $btn.button('reset');
                 }
             });
         }

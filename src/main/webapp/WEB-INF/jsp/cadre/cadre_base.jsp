@@ -575,23 +575,37 @@
                                     <c:set var="original" value="${cadreParty.get('growTime')}"/>
                                     <c:if test="${member!=null || hasMultiParty}">${original}</c:if>
                                     <c:if test="${member==null && !hasMultiParty}">
-                                        <div class="input-group date" data-date-format="yyyy.mm.dd"
-                                             style="width: 150px; float: left;">
-                                            <input class="form-control" type="text" name="_dpAddTime"
-                                                   placeholder="yyyy.mm.dd"/>
-                                            <span class="input-group-addon"> <i
-                                                    class="fa fa-calendar bigger-110"></i></span>
-                                        </div>
+
+                                         <c:if test="${_p_hasPartyModule}">
+                                             <c:set var="growTimeFormat" value="yyyy.MM.dd"/>
+                                             <div class="input-group date" data-date-format="yyyy.mm.dd"
+                                             style="width: 130px; float: left;">
+                                                <input class="form-control" type="text" name="_dpAddTime"
+                                                       placeholder="yyyy.mm.dd"/>
+                                                <span class="input-group-addon"> <i
+                                                        class="fa fa-calendar bigger-110"></i></span>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${!_p_hasPartyModule}">
+                                            <c:set var="growTimeFormat" value="yyyy.MM"/>
+                                             <div class="input-group date" data-date-min-view-mode="1" data-date-format="yyyy.mm"
+                                             style="width: 110px; float: left;">
+                                                <input class="form-control" type="text" name="_dpAddTime"
+                                                       placeholder="yyyy.mm"/>
+                                                <span class="input-group-addon"> <i
+                                                        class="fa fa-calendar bigger-110"></i></span>
+                                            </div>
+                                        </c:if>
                                     </c:if>
                                     <script type="text/javascript">
                                         <c:choose>
                                         <c:when test="${cadre.dpTypeId>0}">
                                         $("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
-                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, "yyyy.MM.dd")}');
+                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, growTimeFormat)}');
                                         </c:when>
                                         <c:when test="${cadre.isOw}">
                                         $("#modalForm select[name=dpTypeId]").val(0);
-                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy.MM.dd")}');
+                                        $("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, growTimeFormat)}');
                                         </c:when>
                                         </c:choose>
                                         $("#modalForm select[name=dpTypeId]").on("change",function(){
