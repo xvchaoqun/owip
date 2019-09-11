@@ -29,7 +29,8 @@ public class CgRuleService extends CgBaseMapper {
     public void insertSelective(CgRule record){
 
         Assert.isTrue(!idDuplicate(null, record.getType(), record.getIsCurrent(), record.getTeamId()), "duplicate");
-        record.setSortOrder(getNextSortOrder("cg_rule", null));
+        record.setSortOrder(getNextSortOrder("cg_rule",
+                String.format("team_id=%s and is_current=%s",record.getTeamId(),record.getIsCurrent())));
         cgRuleMapper.insertSelective(record);
     }
 
@@ -63,7 +64,7 @@ public class CgRuleService extends CgBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("cg_rule", null, ORDER_BY_ASC, id, addNum);
+        changeOrder("cg_rule", null, ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional
@@ -73,10 +74,10 @@ public class CgRuleService extends CgBaseMapper {
 
         for (Integer id : ids){
 
-            CgRule record = new CgRule();
-            record.setId(id);
+            CgRule record = cgRuleMapper.selectByPrimaryKey(id);
             record.setIsCurrent(isCurrent);
-            record.setSortOrder(getNextSortOrder("cg_rule","is_current="+record.getIsCurrent()));
+            record.setSortOrder(getNextSortOrder("cg_rule",
+                    String.format("team_id=%s and is_current=%s",record.getTeamId(), record.getIsCurrent())));
             cgRuleMapper.updateByPrimaryKeySelective(record);
         }
     }

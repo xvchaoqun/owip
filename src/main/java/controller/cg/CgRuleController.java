@@ -190,6 +190,7 @@ public class CgRuleController extends CgBaseController {
         logger.info(log( LogConstants.LOG_CG, "委员会或领导小组相关规程调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
+
     public void cgRule_export(CgRuleExample example, HttpServletResponse response) {
 
         List<CgRule> records = cgRuleMapper.selectByExample(example);

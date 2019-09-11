@@ -96,6 +96,11 @@ pageEncoding="UTF-8" %>
                     if (cellvalue == <%=CgConstants.CG_RULE_TYPE_JOB%>) return "工作职责";
                     if (cellvalue == <%=CgConstants.CG_RULE_TYPE_DEBATE%>) return "议事规则";
                     }},
+                <c:if test="${!_query}">
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                    formatoptions:{grid:'#jqGrid_current', url:'${ctx}/cg/cgRule_changeOrder'}},
+                </c:if>
+
                 { label: '规程确定时间',name: 'confirmDate',
                     formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
                     },
