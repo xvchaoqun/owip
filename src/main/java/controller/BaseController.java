@@ -167,6 +167,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected MetaTypeService metaTypeService;
     @Autowired
+    protected LayerTypeService layerTypeService;
+    @Autowired
     protected AnnualTypeService annualTypeService;
     @Autowired
     protected ShortMsgTplService shortMsgTplService;

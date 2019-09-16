@@ -110,7 +110,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=2 height=46 class=xl94>党派
+                        <td rowspan=2 height=46 class=xl94>政治面貌
                         </td>
                         <td class=xl70>中共党员</td>
                         <jsp:include page="row.jsp">

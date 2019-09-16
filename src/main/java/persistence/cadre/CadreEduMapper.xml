@@ -10,6 +10,8 @@
     <result column="is_high_edu" jdbcType="BIT" property="isHighEdu" />
     <result column="school" jdbcType="VARCHAR" property="school" />
     <result column="dep" jdbcType="VARCHAR" property="dep" />
+    <result column="subject" jdbcType="INTEGER" property="subject" />
+    <result column="first_subject" jdbcType="INTEGER" property="firstSubject" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="school_type" jdbcType="TINYINT" property="schoolType" />
     <result column="enrol_time" jdbcType="DATE" property="enrolTime" />
@@ -89,10 +91,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sub_work_count, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, major, 
-    school_type, enrol_time, finish_time, learn_style, has_degree, degree, is_high_degree, 
-    is_second_degree, degree_country, degree_unit, degree_time, tutor_name, tutor_title, 
-    certificate, remark, note, sort_order, status
+    id, sub_work_count, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, subject, 
+    first_subject, major, school_type, enrol_time, finish_time, learn_style, has_degree, 
+    degree, is_high_degree, is_second_degree, degree_country, degree_unit, degree_time, 
+    tutor_name, tutor_title, certificate, remark, note, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEduExample" resultMap="BaseResultMap">
     select
@@ -130,22 +132,24 @@
     </selectKey>
     insert into cadre_edu (sub_work_count, cadre_id, edu_id, 
       is_graduated, is_high_edu, school, 
-      dep, major, school_type, 
-      enrol_time, finish_time, learn_style, 
-      has_degree, degree, is_high_degree, 
-      is_second_degree, degree_country, degree_unit, 
-      degree_time, tutor_name, tutor_title, 
-      certificate, remark, note, 
-      sort_order, status)
+      dep, subject, first_subject, 
+      major, school_type, enrol_time, 
+      finish_time, learn_style, has_degree, 
+      degree, is_high_degree, is_second_degree, 
+      degree_country, degree_unit, degree_time, 
+      tutor_name, tutor_title, certificate, 
+      remark, note, sort_order, 
+      status)
     values (#{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
-      #{dep,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, 
-      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, 
-      #{hasDegree,jdbcType=BIT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
-      #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, 
-      #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
-      #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+      #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER}, #{firstSubject,jdbcType=INTEGER}, 
+      #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, #{enrolTime,jdbcType=DATE}, 
+      #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, #{hasDegree,jdbcType=BIT}, 
+      #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, #{isSecondDegree,jdbcType=BIT}, 
+      #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, 
+      #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEdu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -173,6 +177,12 @@
       </if>
       <if test="dep != null">
         dep,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="firstSubject != null">
+        first_subject,
       </if>
       <if test="major != null">
         major,
@@ -253,6 +263,12 @@
       </if>
       <if test="dep != null">
         #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="firstSubject != null">
+        #{firstSubject,jdbcType=INTEGER},
       </if>
       <if test="major != null">
         #{major,jdbcType=VARCHAR},
@@ -346,6 +362,12 @@
       <if test="record.dep != null">
         dep = #{record.dep,jdbcType=VARCHAR},
       </if>
+      <if test="record.subject != null">
+        subject = #{record.subject,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstSubject != null">
+        first_subject = #{record.firstSubject,jdbcType=INTEGER},
+      </if>
       <if test="record.major != null">
         major = #{record.major,jdbcType=VARCHAR},
       </if>
@@ -418,6 +440,8 @@
       is_high_edu = #{record.isHighEdu,jdbcType=BIT},
       school = #{record.school,jdbcType=VARCHAR},
       dep = #{record.dep,jdbcType=VARCHAR},
+      subject = #{record.subject,jdbcType=INTEGER},
+      first_subject = #{record.firstSubject,jdbcType=INTEGER},
       major = #{record.major,jdbcType=VARCHAR},
       school_type = #{record.schoolType,jdbcType=TINYINT},
       enrol_time = #{record.enrolTime,jdbcType=DATE},
@@ -464,6 +488,12 @@
       </if>
       <if test="dep != null">
         dep = #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="firstSubject != null">
+        first_subject = #{firstSubject,jdbcType=INTEGER},
       </if>
       <if test="major != null">
         major = #{major,jdbcType=VARCHAR},
@@ -534,6 +564,8 @@
       is_high_edu = #{isHighEdu,jdbcType=BIT},
       school = #{school,jdbcType=VARCHAR},
       dep = #{dep,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=INTEGER},
+      first_subject = #{firstSubject,jdbcType=INTEGER},
       major = #{major,jdbcType=VARCHAR},
       school_type = #{schoolType,jdbcType=TINYINT},
       enrol_time = #{enrolTime,jdbcType=DATE},

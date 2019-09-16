@@ -66,6 +66,7 @@ public class BranchMemberController extends BaseController {
                                Boolean isAdmin,
                                Boolean isDeleted,
                                Boolean isPresent,
+                               Boolean isDoubleLeader,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -103,6 +104,9 @@ public class BranchMemberController extends BaseController {
         if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
         }
+        if(isDoubleLeader!=null){
+            criteria.andIsDoubleLeaderEqualTo(isDoubleLeader);
+        }
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -139,10 +143,11 @@ public class BranchMemberController extends BaseController {
         if (branchMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getTypeId())) {
             return failed("添加重复【每个委员会的人员不可重复，并且书记只有一个】");
         }
+        record.setIsDoubleLeader(BooleanUtils.isTrue(record.getIsDoubleLeader()));
+
         boolean autoAdmin = false;
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
         MetaType metaType = metaTypeMap.get(record.getTypeId());
-
         if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
             autoAdmin = true;
         }

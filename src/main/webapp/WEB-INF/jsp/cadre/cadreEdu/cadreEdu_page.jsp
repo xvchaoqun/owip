@@ -279,7 +279,12 @@
                     {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                     {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                     {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
-                    {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
+                    {label: '工作类型', name: 'workTypes', formatter: function (cellvalue, options, rowObject) {
+                        if($.trim(cellvalue)=='') return '--'
+                        return ($.map(cellvalue.split(","), function(workType){
+                            return $.jgrid.formatter.MetaType(workType);
+                        })).join("，")
+                    }, width: 140},
                     {label: '备注', name: 'remark', width: 150},
                     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">

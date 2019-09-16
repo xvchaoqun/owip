@@ -1416,13 +1416,18 @@ if ($.jgrid) {
         MAP: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--';
 
-            var op = {map: null}
+            var op = {mapKey: null, filed: null}
             if (options != undefined && options.colModel != undefined) {
                 op = $.extend(op, options.colModel.formatoptions);
             }
-            if (op.map == undefined || op.map == null) return '--'
+            if (op.mapKey == undefined || op.mapKey == null) return '--'
+            if (_cMap[op.mapKey] == undefined || _cMap[op.mapKey] == null) return '--'
 
-            return op.map[cellvalue];
+            if(op.filed == null){
+                // 默认直接为value
+                return _cMap[op.mapKey][cellvalue];
+            }
+            return _cMap[op.mapKey][cellvalue][op.filed];
         },
         defaultString: function (cellvalue, options, rowObject) {
             var op = {def: '--'}
@@ -1641,6 +1646,7 @@ $.extend($.register, {
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {
+
         var $select = $select.multiselect($.extend({
             enableFiltering: true,
             /*enableHTML: true,*/
@@ -1653,7 +1659,7 @@ $.extend($.register, {
             selectAllText: '全选/取消全选',
             allSelectedText: '全部已选择',
             maxHeight: 300,
-            buttonWidth: '200px',
+            buttonWidth: $select.data("width") || 200,
             /* templates: {
              button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
              ul: '<ul class="multiselect-container dropdown-menu"></ul>',
@@ -1860,6 +1866,37 @@ $.extend($.register, {
                 cache: true
             }
         })
+    },
+    // 层级分类select2联动
+    layer_type_select: function (firstTypeDivId, secondTypeDivId, jsonData, initFirstId, initSecondId) {
+
+        var $firstSelect = $('select', "#" + firstTypeDivId);
+        var $secondSelect = $('select', "#" + secondTypeDivId);
+
+        var secondData = [];
+        $.each(jsonData, function (i, data) {
+            $firstSelect.append("<option value=" + data.id + ">" + data.name + "</option>");
+            secondData[data.id] = data.children;
+        })
+        $firstSelect.select2();
+        $firstSelect.on("change", function () {
+            var firstId = $(this).val();
+            if (firstId > 0) {
+                $secondSelect.html("<option></option>")
+                $.each(secondData[firstId], function (i, data) {
+                    $secondSelect.append("<option value=" + data.id + ">" + data.name + "</option>");
+                });
+            }
+            $secondSelect.select2();
+            if (initSecondId > 0) {
+                $secondSelect.val(initSecondId).trigger("change");
+            } else {
+                $secondSelect.val(null).trigger("change");
+            }
+        }).change();
+        if (initFirstId > 0) {
+            $firstSelect.val(initFirstId).trigger("change");
+        }
     },
     // 分党委、党支部select2联动
     party_branch_select: function ($container, branchDivId, mt_direct_branch_id,

@@ -84,17 +84,19 @@
 
         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
+             <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <table tableName="ow_member_check" domainObjectName="member.MemberCheck">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
-        </table>
-
-        <!--<table tableName="ow_member_view" domainObjectName="member.MemberView"
+       <!-- <table tableName="ow_member_view" domainObjectName="member.MemberView"
                mapperName="member.MemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+        </table>
+-->
+        <!--<table tableName="ow_member_check" domainObjectName="member.MemberCheck">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
         </table>-->
          <!--
         <table tableName="ow_member_modify" domainObjectName="member.MemberModify">
@@ -127,10 +129,10 @@
        </table>-->
 
 
-        <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
+       <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
+        </table>
+        <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -164,7 +166,7 @@
         <table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
-         </table>
+         </table>-->
         <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -176,8 +178,8 @@
                <columnOverride column="positive_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>-->
+               <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+         </table>
 
           <!--  <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -218,11 +220,12 @@
 
         <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
         </table>-->
-        <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
+        <table tableName="ow_branch_view" domainObjectName="party.BranchView"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
+            <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
 
         <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

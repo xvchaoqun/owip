@@ -77,6 +77,7 @@ pageEncoding="UTF-8"%>
 
 </div></div></div>
 
+<c:if test="${cm:isPresentBranchAdmin(_user.id, branch.partyId, branch.id)}">
 <div class="widget-box transparent">
 
 	<div class="widget-header widget-header-flat">
@@ -124,8 +125,8 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 	</div>
+	<c:set var="isPartyAdmin" value="${cm:isPresentPartyAdmin(_user.id, branch.partyId)}"/>
 <div class="widget-box transparent">
-
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
 			<i class="ace-icon fa fa-key"></i>
@@ -154,11 +155,13 @@ pageEncoding="UTF-8"%>
 					<c:set var="user" value="${cm:getUserById(adminId)}"/>
 					<tr>
 						<td >${user.realname}（${user.code}）</td>
-						<td >
+						<td>
+							<c:if test="${isPartyAdmin}">
 							<a class="confirm btn btn-danger btn-xs"
 							   data-url="${ctx}/branchAdmin_del?userId=${adminId}&branchId=${branch.id}"
 							   data-msg="确定删除该管理员？"
 							   data-callback="_delAdminCallback">删除</a>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>
@@ -167,6 +170,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 </div>
+</c:if>
 <script>
 	function _delAdminCallback(target){
 

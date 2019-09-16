@@ -60,7 +60,13 @@ public class PartyView implements Serializable {
 
     private Integer groupCount;
 
-    private Integer presentGroupCount;
+    private Integer presentGroupId;
+
+    private Date appointTime;
+
+    private Date tranTime;
+
+    private Date actualTranTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -288,11 +294,35 @@ public class PartyView implements Serializable {
         this.groupCount = groupCount;
     }
 
-    public Integer getPresentGroupCount() {
-        return presentGroupCount;
+    public Integer getPresentGroupId() {
+        return presentGroupId;
     }
 
-    public void setPresentGroupCount(Integer presentGroupCount) {
-        this.presentGroupCount = presentGroupCount;
+    public void setPresentGroupId(Integer presentGroupId) {
+        this.presentGroupId = presentGroupId;
+    }
+
+    public Date getAppointTime() {
+        return appointTime;
+    }
+
+    public void setAppointTime(Date appointTime) {
+        this.appointTime = appointTime;
+    }
+
+    public Date getTranTime() {
+        return tranTime;
+    }
+
+    public void setTranTime(Date tranTime) {
+        this.tranTime = tranTime;
+    }
+
+    public Date getActualTranTime() {
+        return actualTranTime;
+    }
+
+    public void setActualTranTime(Date actualTranTime) {
+        this.actualTranTime = actualTranTime;
     }
 }

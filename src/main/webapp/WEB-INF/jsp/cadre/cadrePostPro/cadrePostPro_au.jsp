@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="cadrePostPro_noNeed" value="${_pMap['cadrePostPro_noNeed']=='true'}"/>
+<c:set var="_cadrePostPro_noNeed" value="${_pMap['cadrePostPro_noNeed']=='true'}"/>
 
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -60,20 +60,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专业技术职务</label>
+            <label class="col-xs-4 control-label">${_cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专业技术职务</label>
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.post)}" var="post"/>
-                <select ${cadrePostPro_noNeed?'':'required'} data-rel="select2" name="post" data-placeholder="请选择">
+                <select ${_cadrePostPro_noNeed?'':'required'} data-rel="select2" name="post" data-placeholder="请选择">
                     <option value="${post.id}">${post.name}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专技职务任职时间</label>
+            <label class="col-xs-4 control-label">${_cadrePostPro_noNeed?'':'<span class="star">*</span>'} 专技职务任职时间</label>
 
             <div class="col-xs-6">
                 <div class="input-group" style="width: 120px">
-                    <input ${cadrePostPro_noNeed?'':'required'} class="form-control date-picker" name="_holdTime" type="text"
+                    <input ${_cadrePostPro_noNeed?'':'required'} class="form-control date-picker" name="_holdTime" type="text"
                            data-date-min-view-mode="1" placeholder="yyyy.mm"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadrePostPro.holdTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -81,11 +81,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">${cadrePostPro_noNeed?'':'<span class="star">*</span>'} 职称级别</label>
+            <label class="col-xs-4 control-label">${_cadrePostPro_noNeed?'':'<span class="star">*</span>'} 职称级别</label>
 
             <div class="col-xs-6">
                 <c:set value="${cm:getMetaType(cadrePostPro.level)}" var="level"/>
-                <select ${cadrePostPro_noNeed?'':'required'} data-rel="select2" name="level" data-placeholder="请选择">
+                <select ${_cadrePostPro_noNeed?'':'required'} data-rel="select2" name="level" data-placeholder="请选择">
                     <option value="${level.id}">${level.name}</option>
                 </select>
             </div>

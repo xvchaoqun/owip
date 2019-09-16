@@ -18,7 +18,7 @@
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
-                 ||not empty param.state  ||not empty param.post  ||not empty param.title }"/>
+                 ||not empty param.state  ||not empty param.post  ||not empty param.title ||not empty param.labels }"/>
 
                 <div class="tabbable">
 
@@ -116,7 +116,13 @@
                                             <li>
                                                 <a href="javascript:;" class="popupBtn"
                                                    data-url="${ctx}/cadrePost_import?isMainPost=1">
-                                                    <i class="fa fa-file-excel-o"></i> 导入干部主职情况</a>
+                                                    <i class="fa fa-file-excel-o"></i> 导入第一主职情况</a>
+                                            </li>
+                                             <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="popupBtn"
+                                                   data-url="${ctx}/cadrePost_importWorkTime">
+                                                    <i class="fa fa-file-excel-o"></i> 导入第一主职任职时间</a>
                                             </li>
                                              <li role="separator" class="divider"></li>
                                             <li>
@@ -334,7 +340,7 @@
                                                             $("#searchForm select[name=gender]").val('${param.gender}');
                                                         </script>
                                                     </td>
-                                                    <td class="name">党派</td>
+                                                    <td class="name">政治面貌</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="dpTypes"
                                                                 style="width: 250px;">
@@ -343,18 +349,12 @@
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                                         </select>
                                                     </td>
-                                                    <c:if test="${_p_useCadreState}">
-                                                    <td class="name">${_pMap['cadreStateName']}</td>
+                                                    <td class="name">干部标签</td>
                                                     <td class="input">
-                                                        <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                                                        <select class="multiselect" multiple="" name="labels" data-placeholder="请选择">
+                                                            <c:import url="/metaTypes?__code=mc_cadre_label"/>
                                                         </select>
-                                                        <script type="text/javascript">
-                                                            $("#searchForm select[name=state]").val(${param.state});
-                                                        </script>
                                                     </td>
-                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">民族</td>
@@ -373,6 +373,18 @@
                                                     <td class="input">
                                                         <input type="text" style="width: 200px" name="title" value="${param.title}">
                                                     </td>
+                                                    <c:if test="${_p_useCadreState}">
+                                                    <td class="name">${_pMap['cadreStateName']}</td>
+                                                    <td class="input">
+                                                        <select data-rel="select2" data-width="100" name="state" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <c:import url="/metaTypes?__code=mc_cadre_state"/>
+                                                        </select>
+                                                        <script type="text/javascript">
+                                                            $("#searchForm select[name=state]").val(${param.state});
+                                                        </script>
+                                                    </td>
+                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">部门属性</td>
@@ -537,7 +549,6 @@
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
                                                         </script>
                                                     </td>
-
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
@@ -685,6 +696,7 @@
     $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
     $.register.multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
     $.register.multiselect($('#searchForm select[name=leaderTypes]'), ${cm:toJSONArray(selectLeaderTypes)});
+    $.register.multiselect($('#searchForm select[name=labels]'), ${cm:toJSONArray(selectLabels)});
 
     function _reAssignCallback() {
         $.hashchange('', '${ctx}/cadreInspect');

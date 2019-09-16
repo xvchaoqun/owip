@@ -255,9 +255,24 @@ pageEncoding="UTF-8" %>
             { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'是否已设立现任委员会', name: 'presentGroupCount', width: 160, formatter:function(cellvalue, options, rowObject){
-                return cellvalue>=1?"是":"否";
+            { label:'是否已设立现任委员会', name: 'presentGroupId', width: 160, formatter:function(cellvalue, options, rowObject){
+                return cellvalue>0?"是":"否";
             }},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '应换届时间', name: 'tranTime', width: 130,
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.presentGroupId>0 &&
+                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }},
+            {
+                label: '实际换届时间',
+                name: 'actualTranTime',
+                width: 130,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m.d'}
+            },
             { label:'简称', name: 'shortName', align:'left', width: 180},
             { label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             { label: '${_p_partyName}类别', name: 'classId', formatter: $.jgrid.formatter.MetaType},

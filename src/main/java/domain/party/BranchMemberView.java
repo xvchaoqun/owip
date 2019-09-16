@@ -20,6 +20,8 @@ public class BranchMemberView implements Serializable {
 
     private Integer typeId;
 
+    private Boolean isDoubleLeader;
+
     private Date assignDate;
 
     private String officePhone;
@@ -130,6 +132,14 @@ public class BranchMemberView implements Serializable {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public Boolean getIsDoubleLeader() {
+        return isDoubleLeader;
+    }
+
+    public void setIsDoubleLeader(Boolean isDoubleLeader) {
+        this.isDoubleLeader = isDoubleLeader;
     }
 
     public Date getAssignDate() {

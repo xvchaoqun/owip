@@ -6,6 +6,7 @@
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="is_double_leader" jdbcType="BIT" property="isDoubleLeader" />
     <result column="assign_date" jdbcType="DATE" property="assignDate" />
     <result column="office_phone" jdbcType="VARCHAR" property="officePhone" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, user_id, type_id, assign_date, office_phone, mobile, is_admin, sort_order
+    id, group_id, user_id, type_id, is_double_leader, assign_date, office_phone, mobile, 
+    is_admin, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchMemberExample" resultMap="BaseResultMap">
     select
@@ -108,11 +110,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_branch_member (group_id, user_id, type_id, 
-      assign_date, office_phone, mobile, 
-      is_admin, sort_order)
+      is_double_leader, assign_date, office_phone, 
+      mobile, is_admin, sort_order
+      )
     values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{assignDate,jdbcType=DATE}, #{officePhone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{isAdmin,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER})
+      #{isDoubleLeader,jdbcType=BIT}, #{assignDate,jdbcType=DATE}, #{officePhone,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.party.BranchMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -128,6 +132,9 @@
       </if>
       <if test="typeId != null">
         type_id,
+      </if>
+      <if test="isDoubleLeader != null">
+        is_double_leader,
       </if>
       <if test="assignDate != null">
         assign_date,
@@ -154,6 +161,9 @@
       </if>
       <if test="typeId != null">
         #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="isDoubleLeader != null">
+        #{isDoubleLeader,jdbcType=BIT},
       </if>
       <if test="assignDate != null">
         #{assignDate,jdbcType=DATE},
@@ -193,6 +203,9 @@
       <if test="record.typeId != null">
         type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
+      <if test="record.isDoubleLeader != null">
+        is_double_leader = #{record.isDoubleLeader,jdbcType=BIT},
+      </if>
       <if test="record.assignDate != null">
         assign_date = #{record.assignDate,jdbcType=DATE},
       </if>
@@ -219,6 +232,7 @@
       group_id = #{record.groupId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
+      is_double_leader = #{record.isDoubleLeader,jdbcType=BIT},
       assign_date = #{record.assignDate,jdbcType=DATE},
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -239,6 +253,9 @@
       </if>
       <if test="typeId != null">
         type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="isDoubleLeader != null">
+        is_double_leader = #{isDoubleLeader,jdbcType=BIT},
       </if>
       <if test="assignDate != null">
         assign_date = #{assignDate,jdbcType=DATE},
@@ -263,6 +280,7 @@
     set group_id = #{groupId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
+      is_double_leader = #{isDoubleLeader,jdbcType=BIT},
       assign_date = #{assignDate,jdbcType=DATE},
       office_phone = #{officePhone,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

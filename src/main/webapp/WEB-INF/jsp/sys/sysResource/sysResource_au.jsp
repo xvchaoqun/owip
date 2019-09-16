@@ -131,11 +131,6 @@
 <div class="modal-footer">
 	<a href="javascript:;" class="btn btn-default" data-dismiss="modal">取消</a> <input type="submit" class="btn btn-primary" value="${op}"/>
 </div>
-<style>
-	.modal .modal-body{
-		overflow: visible;
-	}
-</style>
 <script>
 	$.register.multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}], {buttonWidth:'270px'});
 	$.register.multiselect($('#modalForm select[name=countCacheRoles]'), [${sysResource.countCacheRoles}], {buttonWidth:'270px'});

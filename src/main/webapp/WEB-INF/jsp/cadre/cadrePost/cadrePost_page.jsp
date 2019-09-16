@@ -415,7 +415,12 @@
                 formatoptions: {newformat: 'Y.m'}, frozen:true},
             {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left', frozen:true},
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
-            {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
+            {label: '工作类型', name: 'workTypes', formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(cellvalue)=='') return '--'
+                    return ($.map(cellvalue.split(","), function(workType){
+                        return $.jgrid.formatter.MetaType(workType);
+                    })).join("，")
+                }, width: 200},
             {
                 label: '所属内设机构', name: 'unitIds',formatter: function (cellvalue, options, rowObject) {
 

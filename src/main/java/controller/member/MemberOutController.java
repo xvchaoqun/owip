@@ -481,15 +481,15 @@ public class MemberOutController extends MemberBaseController {
         record.setBranchId(member.getBranchId());
 
         Integer partyId = record.getPartyId();
-        //Integer branchId = record.getBranchId();
+        Integer branchId = record.getBranchId();
 
         //===========权限
         Integer loginUserId = loginUser.getId();
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            /*if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, branchId);
-            }*/
+            if(!isAdmin && branchId!=null) {
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+            }
             if (!isAdmin) throw new UnauthorizedException();
 
             if (record.getId() != null) {
@@ -527,9 +527,9 @@ public class MemberOutController extends MemberBaseController {
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
                     loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
-                    "后台添加",
+                    "后台操作",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交组织关系转出申请");
+                    "提交申请");
 
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加组织关系转出：%s", record.getId()));
         } else {
@@ -546,9 +546,9 @@ public class MemberOutController extends MemberBaseController {
                         record.getPartyId(), record.getBranchId(), record.getUserId(),
                         loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
-                        "后台添加",
+                        "后台操作",
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "重新提交组织关系转出申请");
+                        "重新提交申请");
             } else if (hasModified(before, record)) {
 
                 memberOutService.updateByPrimaryKeySelective(record);

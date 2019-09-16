@@ -253,7 +253,7 @@ public class MemberInController extends MemberBaseController {
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
                     loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台添加",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台操作",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加组织关系转入：%s", record.getId()));

@@ -30,7 +30,10 @@
     <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount" />
     <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
     <result column="group_count" jdbcType="INTEGER" property="groupCount" />
-    <result column="present_group_count" jdbcType="INTEGER" property="presentGroupCount" />
+    <result column="present_group_id" jdbcType="INTEGER" property="presentGroupId" />
+    <result column="appoint_time" jdbcType="DATE" property="appointTime" />
+    <result column="tran_time" jdbcType="DATE" property="tranTime" />
+    <result column="actual_tran_time" jdbcType="DATE" property="actualTranTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +68,8 @@
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
     is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
     sort_order, create_time, update_time, is_deleted, branch_count, member_count, student_member_count, 
-    positive_count, teacher_member_count, retire_member_count, group_count, present_group_count
+    positive_count, teacher_member_count, retire_member_count, group_count, present_group_id, 
+    appoint_time, tran_time, actual_tran_time
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">
     select

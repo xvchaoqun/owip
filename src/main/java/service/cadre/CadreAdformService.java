@@ -1056,7 +1056,7 @@ public class CadreAdformService extends BaseMapper {
                 } else if (StringUtils.containsAny(resumeRow.desc, "留学", "国外")) {
                     workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_abroad").getId();
                 }
-                cadreWork.setWorkType(workType);
+                cadreWork.setWorkTypes(workType+"");
                 cadreWork.setIsCadre(StringUtils.containsAny(resumeRow.desc, "处长", "院长",
                         "主任", "处级", "部长", "书记"));
 

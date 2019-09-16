@@ -44,20 +44,23 @@
         <!--<table tableName="base_meta_type" domainObjectName="base.MetaType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
+        <table tableName="base_layer_type" domainObjectName="base.LayerType">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
 
         <!--<table tableName="base_annual_type" domainObjectName="base.AnnualType"
                mapperName="base.AnnualTypeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
+        <!--<table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="repeat_times" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="ret" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="base_short_msg_tpl" domainObjectName="base.ShortMsgTpl">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 

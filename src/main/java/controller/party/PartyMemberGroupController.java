@@ -396,9 +396,9 @@ public class PartyMemberGroupController extends BaseController {
                     record.getName(),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
-                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD)
+                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT)
             };
             valuesList.add(values);
         }

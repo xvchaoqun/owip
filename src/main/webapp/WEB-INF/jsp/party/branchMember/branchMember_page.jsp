@@ -97,6 +97,10 @@
                     return _cMap.branchMap[cellvalue].name;
                 }},
             {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.typeId != '${cm:getMetaTypeByCode("mt_branch_secretary").id}') return '--'
+                return $.jgrid.formatter.TRUEFALSE(cellvalue)
+            }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
@@ -107,7 +111,7 @@
             {
                 label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
             {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
             {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

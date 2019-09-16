@@ -44,7 +44,7 @@ public class CadreWork implements Serializable {
 
     private String unitIds;
 
-    private Integer workType;
+    private String workTypes;
 
     private Boolean isCadre;
 
@@ -126,12 +126,12 @@ public class CadreWork implements Serializable {
         this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
-    public Integer getWorkType() {
-        return workType;
+    public String getWorkTypes() {
+        return workTypes;
     }
 
-    public void setWorkType(Integer workType) {
-        this.workType = workType;
+    public void setWorkTypes(String workTypes) {
+        this.workTypes = workTypes == null ? null : workTypes.trim();
     }
 
     public Boolean getIsCadre() {

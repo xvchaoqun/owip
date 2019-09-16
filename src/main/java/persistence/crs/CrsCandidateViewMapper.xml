@@ -32,6 +32,8 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -94,8 +96,8 @@
     <result column="np_dispatch_id" jdbcType="INTEGER" property="npDispatchId" />
     <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
     <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
-    <result column="cadre_post_year" jdbcType="BIGINT" property="cadrePostYear" />
-    <result column="admin_level_year" jdbcType="BIGINT" property="adminLevelYear" />
+    <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
+    <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
     <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
     <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
     <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
@@ -147,9 +149,9 @@
     crs_post_seq, crs_post_name, crs_post_job, crs_post_status, applicant_id, recommend_ow, 
     recommend_cadre, recommend_crowd, recommend_pdf, recommend_first_count, recommend_second_count, 
     is_recommend, ppt_name, ppt, id, user_id, type, is_dep, has_crp, is_double, double_unit_ids, 
-    state, title, dispatch_cadre_id, remark, sort_order, status, unit_id, admin_level, 
-    post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, email, 
-    code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
+    state, title, dispatch_cadre_id, label, profile, remark, sort_order, status, unit_id, 
+    admin_level, post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, 
+    email, code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
     member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, 
     ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
     major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 

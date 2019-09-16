@@ -378,6 +378,7 @@ public class PartyController extends BaseController {
         int rownum = records.size();
         String[] titles = {"编号","名称|350|left","简称|250|left","所属单位|250|left","党总支类别|100",
                 "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","委员会总数|100","是否已设立现任委员会|150",
+                "任命时间","应换届时间", "实际换届时间",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
                 "组织类别|100","所在单位属性|100","联系电话","传真","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
@@ -396,7 +397,12 @@ public class PartyController extends BaseController {
                     record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
                     record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
                     record.getGroupCount()==null?"0":record.getGroupCount()+"",
-                    (record.getPresentGroupCount()!=null &&record.getPresentGroupCount() > 0) ? "是" : "否",
+                    (record.getPresentGroupId()!=null &&record.getPresentGroupId() > 0) ? "是" : "否",
+
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
+
                     BooleanUtils.isTrue(record.getIsEnterpriseBig()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsEnterpriseNationalized()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsSeparate()) ? "是" : "否",

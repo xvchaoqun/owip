@@ -3,11 +3,7 @@ package domain.cadre;
 import org.apache.commons.lang3.StringUtils;
 import sys.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CadreViewExample {
     protected String orderByClause;
@@ -756,6 +752,146 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andLabelIsNull() {
+            addCriterion("label is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelIsNotNull() {
+            addCriterion("label is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelEqualTo(String value) {
+            addCriterion("label =", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotEqualTo(String value) {
+            addCriterion("label <>", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelGreaterThan(String value) {
+            addCriterion("label >", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelGreaterThanOrEqualTo(String value) {
+            addCriterion("label >=", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLessThan(String value) {
+            addCriterion("label <", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLessThanOrEqualTo(String value) {
+            addCriterion("label <=", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLike(String value) {
+            addCriterion("label like", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotLike(String value) {
+            addCriterion("label not like", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelIn(List<String> values) {
+            addCriterion("label in", values, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotIn(List<String> values) {
+            addCriterion("label not in", values, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelBetween(String value1, String value2) {
+            addCriterion("label between", value1, value2, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotBetween(String value1, String value2) {
+            addCriterion("label not between", value1, value2, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileIsNull() {
+            addCriterion("profile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileIsNotNull() {
+            addCriterion("profile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileEqualTo(String value) {
+            addCriterion("profile =", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotEqualTo(String value) {
+            addCriterion("profile <>", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileGreaterThan(String value) {
+            addCriterion("profile >", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileGreaterThanOrEqualTo(String value) {
+            addCriterion("profile >=", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLessThan(String value) {
+            addCriterion("profile <", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLessThanOrEqualTo(String value) {
+            addCriterion("profile <=", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLike(String value) {
+            addCriterion("profile like", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotLike(String value) {
+            addCriterion("profile not like", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileIn(List<String> values) {
+            addCriterion("profile in", values, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotIn(List<String> values) {
+            addCriterion("profile not in", values, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileBetween(String value1, String value2) {
+            addCriterion("profile between", value1, value2, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotBetween(String value1, String value2) {
+            addCriterion("profile not between", value1, value2, "profile");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
@@ -1003,6 +1139,17 @@ public class CadreViewExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelsContain(Set<Integer> labelIds) {
+
+            List<String> labelIdList = new ArrayList<>();
+            for (Integer labelId : labelIds) {
+                labelIdList.add("find_in_set("+labelId+", label)");
+            }
+            addCriterion("(" + StringUtils.join(labelIdList, " or ") + ")");
+
             return (Criteria) this;
         }
 

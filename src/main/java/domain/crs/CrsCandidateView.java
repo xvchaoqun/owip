@@ -64,6 +64,10 @@ public class CrsCandidateView implements Serializable {
 
     private Integer dispatchCadreId;
 
+    private String label;
+
+    private String profile;
+
     private String remark;
 
     private Integer sortOrder;
@@ -188,9 +192,9 @@ public class CrsCandidateView implements Serializable {
 
     private Byte leaderType;
 
-    private Long cadrePostYear;
+    private Integer cadrePostYear;
 
-    private Long adminLevelYear;
+    private Integer adminLevelYear;
 
     private Integer sDispatchId;
 
@@ -464,6 +468,22 @@ public class CrsCandidateView implements Serializable {
 
     public void setDispatchCadreId(Integer dispatchCadreId) {
         this.dispatchCadreId = dispatchCadreId;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 
     public String getRemark() {
@@ -962,19 +982,19 @@ public class CrsCandidateView implements Serializable {
         this.leaderType = leaderType;
     }
 
-    public Long getCadrePostYear() {
+    public Integer getCadrePostYear() {
         return cadrePostYear;
     }
 
-    public void setCadrePostYear(Long cadrePostYear) {
+    public void setCadrePostYear(Integer cadrePostYear) {
         this.cadrePostYear = cadrePostYear;
     }
 
-    public Long getAdminLevelYear() {
+    public Integer getAdminLevelYear() {
         return adminLevelYear;
     }
 
-    public void setAdminLevelYear(Long adminLevelYear) {
+    public void setAdminLevelYear(Integer adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
     }
 

@@ -698,63 +698,73 @@ public class CadreWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeIsNull() {
-            addCriterion("work_type is null");
+        public Criteria andWorkTypesIsNull() {
+            addCriterion("work_types is null");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeIsNotNull() {
-            addCriterion("work_type is not null");
+        public Criteria andWorkTypesIsNotNull() {
+            addCriterion("work_types is not null");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeEqualTo(Integer value) {
-            addCriterion("work_type =", value, "workType");
+        public Criteria andWorkTypesEqualTo(String value) {
+            addCriterion("work_types =", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeNotEqualTo(Integer value) {
-            addCriterion("work_type <>", value, "workType");
+        public Criteria andWorkTypesNotEqualTo(String value) {
+            addCriterion("work_types <>", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeGreaterThan(Integer value) {
-            addCriterion("work_type >", value, "workType");
+        public Criteria andWorkTypesGreaterThan(String value) {
+            addCriterion("work_types >", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("work_type >=", value, "workType");
+        public Criteria andWorkTypesGreaterThanOrEqualTo(String value) {
+            addCriterion("work_types >=", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeLessThan(Integer value) {
-            addCriterion("work_type <", value, "workType");
+        public Criteria andWorkTypesLessThan(String value) {
+            addCriterion("work_types <", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("work_type <=", value, "workType");
+        public Criteria andWorkTypesLessThanOrEqualTo(String value) {
+            addCriterion("work_types <=", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeIn(List<Integer> values) {
-            addCriterion("work_type in", values, "workType");
+        public Criteria andWorkTypesLike(String value) {
+            addCriterion("work_types like", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeNotIn(List<Integer> values) {
-            addCriterion("work_type not in", values, "workType");
+        public Criteria andWorkTypesNotLike(String value) {
+            addCriterion("work_types not like", value, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeBetween(Integer value1, Integer value2) {
-            addCriterion("work_type between", value1, value2, "workType");
+        public Criteria andWorkTypesIn(List<String> values) {
+            addCriterion("work_types in", values, "workTypes");
             return (Criteria) this;
         }
 
-        public Criteria andWorkTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("work_type not between", value1, value2, "workType");
+        public Criteria andWorkTypesNotIn(List<String> values) {
+            addCriterion("work_types not in", values, "workTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypesBetween(String value1, String value2) {
+            addCriterion("work_types between", value1, value2, "workTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypesNotBetween(String value1, String value2) {
+            addCriterion("work_types not between", value1, value2, "workTypes");
             return (Criteria) this;
         }
 

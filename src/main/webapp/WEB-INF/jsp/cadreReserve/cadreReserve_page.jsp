@@ -363,7 +363,7 @@
             {label: '身份证号', name: 'idcard', width: 160},
             {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {label: '党派', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '政治面貌', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
             {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
             {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},

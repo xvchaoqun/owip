@@ -176,7 +176,7 @@ public class StatCadreController extends BaseController {
         List<ICarde> records = iCadreMapper.selectTalentCadreList(searchBean, new RowBounds());
         int rownum = records.size();
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100", "性别|50",
-                "出生日期|100", "年龄|50", "党派|100", "专业技术职务|150", "人才/荣誉称号|800|left"};
+                "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150", "人才/荣誉称号|800|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ICarde record = records.get(i);
@@ -211,7 +211,7 @@ public class StatCadreController extends BaseController {
         List<CrpRecord> records = iCadreMapper.selectCrpRecordList(CrpConstants.CRP_RECORD_TYPE_OUT, searchBean, new RowBounds());
         int rownum = records.size();
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100", "性别|50",
-                "出生日期|100", "年龄|50", "党派|100", "专业技术职务|150",
+                "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150",
                 "挂职开始日期|120", "挂职结束日期|120", "挂职工作单位|150", "担任职务或者专技职务|300|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -265,7 +265,7 @@ public class StatCadreController extends BaseController {
         List<ICadreWork> records = iCadreMapper.selectCadreWorkList(cadreWorkType.getId(), searchBean, new RowBounds());
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|50", "所在单位及职务|300", "行政级别|100", "性别|50",
-                "出生日期|100", "年龄|50", "党派|100", "专业技术职务|150",
+                "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150",
                 "国（境）外工作开始日期|150", "国（境）外工作结束日期|150", "国（境）外工作单位及担任职务或者专技职务|450"}));
 
         String filename = "";
@@ -323,7 +323,7 @@ public class StatCadreController extends BaseController {
         List<ICadreEdu> records = iCadreMapper.selectCadreEduList(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean, new RowBounds());
         int rownum = records.size();
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100", "性别|50",
-                "出生日期|100", "年龄|50", "党派|100", "专业技术职务|150", "最高学历|100",
+                "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150", "最高学历|100",
                 "最高学位|100", "国（境）外学历|150", "入学时间|100", "毕业时间|100", "毕业/在读学校|200|left",
                 "院系|200|left", "所学专业|150"};
         List<String[]> valuesList = new ArrayList<>();

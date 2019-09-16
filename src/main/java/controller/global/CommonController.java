@@ -59,7 +59,11 @@ public class CommonController extends BaseController {
         List<SysUserView> uvs = iSysMapper.selectUserList(searchStr, types, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
-                RoleConstants.ROLE_CADREADMIN, RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_PARTYADMIN);
+                RoleConstants.ROLE_OA_ADMIN,
+                RoleConstants.ROLE_CADREADMIN,
+                RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_CET_ADMIN,
+                RoleConstants.ROLE_PARTYADMIN);
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {

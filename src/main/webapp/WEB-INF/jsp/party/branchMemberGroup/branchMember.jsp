@@ -8,7 +8,7 @@
              data-url-export="${ctx}/branchMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId||not empty param.partyId
-                || not empty param.typeId}"/>
+                || not empty param.typeId|| not empty param.isDoubleLeader}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
@@ -55,27 +55,36 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                    <div class="form-group">
-                                        <label>所属${_p_partyName}</label>
-                                        <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                                data-placeholder="请选择">
-                                            <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
-                                        </select>
-                                        <script>
-                                            $.register.del_select($("#searchForm select[name=partyId]"), 350)
-                                        </script>
-                                    </div>
+                                <div class="form-group">
+                                    <label>所属${_p_partyName}</label>
+                                    <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                            data-placeholder="请选择">
+                                        <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                    </select>
+                                    <script>
+                                        $.register.del_select($("#searchForm select[name=partyId]"), 350)
+                                    </script>
+                                </div>
                                 <div class="form-group">
                                     <label>类别</label>
-                                    <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
+                                    <select name="typeId" data-rel="select2" data-width="120" data-placeholder="请选择"> 
                                         <option></option>
                                          <c:import url="/metaTypes?__code=mc_branch_member_type"/>
                                     </select> 
                                     <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
-                                     
                                 </div>
-
+                                <div class="form-group">
+                                    <label>是否双带头人</label>
+                                    <select name="isDoubleLeader" data-width="100"
+                                                                data-rel="select2" data-placeholder="请选择">
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select>
+                                    <script>
+                                        $("#searchForm select[name=isDoubleLeader]").val('${param.isDoubleLeader}');
+                                    </script>
+                                </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -132,6 +141,10 @@
                 }, frozen: true
             },
             {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.typeId != '${cm:getMetaTypeByCode("mt_branch_secretary").id}') return '--'
+                return $.jgrid.formatter.TRUEFALSE(cellvalue)
+            }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {
                 label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
@@ -142,7 +155,7 @@
             {
                 label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
             {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '岗位类别', name: 'postClass'},

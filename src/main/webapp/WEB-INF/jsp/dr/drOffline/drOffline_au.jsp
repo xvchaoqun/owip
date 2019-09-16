@@ -111,9 +111,6 @@
         width:auto;
         max-width:900px;
     }
-    .modal .modal-body{
-        overflow: visible;
-    }
 </style>
 <script>
    function typeChange() {

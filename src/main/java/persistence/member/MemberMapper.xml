@@ -23,6 +23,8 @@
     <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,7 +87,7 @@
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
-    positive_branch, create_time, party_post, party_reward, other_reward
+    positive_branch, create_time, party_post, party_reward, other_reward, label, profile
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">
     select
@@ -124,16 +126,16 @@
       apply_time, active_time, candidate_time, 
       sponsor, grow_time, grow_branch, 
       positive_time, positive_branch, create_time, 
-      party_post, party_reward, other_reward
-      )
+      party_post, party_reward, other_reward, 
+      label, profile)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=DATE}, 
       #{applyTime,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, 
       #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{growBranch,jdbcType=VARCHAR}, 
       #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}
-      )
+      #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, 
+      #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.Member">
     insert into ow_member
@@ -201,6 +203,12 @@
       <if test="otherReward != null">
         other_reward,
       </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="profile != null">
+        profile,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -265,6 +273,12 @@
       </if>
       <if test="otherReward != null">
         #{otherReward,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null">
+        #{profile,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -340,6 +354,12 @@
       <if test="record.otherReward != null">
         other_reward = #{record.otherReward,jdbcType=VARCHAR},
       </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.profile != null">
+        profile = #{record.profile,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -367,7 +387,9 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       party_post = #{record.partyPost,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
-      other_reward = #{record.otherReward,jdbcType=VARCHAR}
+      other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      profile = #{record.profile,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -435,6 +457,12 @@
       <if test="otherReward != null">
         other_reward = #{otherReward,jdbcType=VARCHAR},
       </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null">
+        profile = #{profile,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -459,7 +487,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       party_post = #{partyPost,jdbcType=VARCHAR},
       party_reward = #{partyReward,jdbcType=VARCHAR},
-      other_reward = #{otherReward,jdbcType=VARCHAR}
+      other_reward = #{otherReward,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">

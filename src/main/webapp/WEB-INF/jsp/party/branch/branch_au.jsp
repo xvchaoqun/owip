@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">是否是专业教师党支部</label>
+					<label class="col-xs-4 control-label">是否一线教学科研党支部</label>
 					<div class="col-xs-8">
 						<label>
 							<input name="isPrefessional" ${branch.isPrefessional?"checked":""}  type="checkbox" />

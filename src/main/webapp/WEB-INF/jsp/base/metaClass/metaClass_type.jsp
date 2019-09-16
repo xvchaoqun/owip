@@ -139,44 +139,9 @@
     </div>
 </div>
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-
     function metaType_au(id) {
-
         var url = "${ctx}/metaType_au?classId=${metaClass.id}&pageNo=${commonList.pageNo}";
         if (id > 0) url += "&id=" + id;
-
         $.loadModal(url);
     }
-
-    /*
-        $('#modalForm [data-rel="select2"]').select2();
-       /!* $("#modal .adminBtn").click(function () {
-
-            $.post("${ctx}/metaType_admin", {id: $(this).data("id")}, function (data) {
-            if (data.success) {
-                pop_reload();
-                SysMsg.success('操作成功。', '成功');
-            }
-        });
-    })*!/
-
-    $("#modal form").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
-                    if (ret.success) {
-                        pop_reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }, errorPlacement: function (error, element) {
-
-        }, invalidHandler: function (form, validator) {
-            //var errors = validator.numberOfInvalids();
-            SysMsg.info("请选择用户和类别", '错误');
-        }
-    });*/
 </script>

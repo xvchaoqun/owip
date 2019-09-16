@@ -36,6 +36,7 @@ import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -63,7 +64,7 @@ public class CadrePostController extends BaseController {
             // 兼职
             modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
         }
-        if(type==3){
+        if (type == 3) {
             modelMap.put("cadre", iCadreMapper.getCadre(cadreId));
             // 任职级经历
             modelMap.put("cadreAdminLevels", cadreAdminLevelService.getCadreAdminLevels(cadreId));
@@ -74,10 +75,10 @@ public class CadrePostController extends BaseController {
     @RequiresPermissions("cadrePost:list")
     @RequestMapping("/cadrePost_data")
     public void cadrePost_data(HttpServletResponse response,
-                                    int cadreId,
-                                    @RequestParam(required = false, defaultValue = "0") Boolean isMainPost,
-                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                   Integer pageSize, Integer pageNo) throws IOException {
+                               int cadreId,
+                               @RequestParam(required = false, defaultValue = "0") Boolean isMainPost,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -112,6 +113,7 @@ public class CadrePostController extends BaseController {
         return;
 
     }
+
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping(value = "/cadrePost_au", method = RequestMethod.POST)
     @ResponseBody
@@ -121,16 +123,16 @@ public class CadrePostController extends BaseController {
 
         Integer id = record.getId();
 
-        if(record.getUnitPostId()!=null) {
+        if (record.getUnitPostId() != null) {
             CadrePost byUnitPostId = cadrePostService.getByUnitPostId(record.getUnitPostId());
-            if(byUnitPostId!=null && (id==null || id!=byUnitPostId.getId().intValue())){
+            if (byUnitPostId != null && (id == null || id != byUnitPostId.getId().intValue())) {
                 return failed("岗位已被{0}({1})使用。",
                         byUnitPostId.getCadre().getRealname(),
-                        byUnitPostId.getIsMainPost()?"主职":"兼职");
+                        byUnitPostId.getIsMainPost() ? "主职" : "兼职");
             }
         }
 
-        if(BooleanUtils.isNotTrue(record.getIsMainPost()))
+        if (BooleanUtils.isNotTrue(record.getIsMainPost()))
             record.setIsCpc(BooleanUtils.isTrue(isCpc));
 
         record.setIsMainPost(BooleanUtils.isTrue(record.getIsMainPost()));
@@ -153,7 +155,7 @@ public class CadrePostController extends BaseController {
                                @RequestParam(defaultValue = "0") boolean isMainPost,
                                int cadreId, ModelMap modelMap) {
 
-        if(isMainPost){
+        if (isMainPost) {
             // 第一主职
             modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(cadreId));
         }
@@ -162,7 +164,7 @@ public class CadrePostController extends BaseController {
             CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
             modelMap.put("cadrePost", cadrePost);
 
-            if(cadrePost!=null && cadrePost.getUnitPostId()!=null) {
+            if (cadrePost != null && cadrePost.getUnitPostId() != null) {
                 UnitPostView unitPost = iUnitMapper.getUnitPost(cadrePost.getUnitPostId());
                 modelMap.put("unitPost", unitPost);
             }
@@ -172,7 +174,7 @@ public class CadrePostController extends BaseController {
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         modelMap.put("cadre", cadre);
 
-        return isMainPost?"cadre/cadrePost/mainCadrePost_au":"cadre/cadrePost/subCadrePost_au";
+        return isMainPost ? "cadre/cadrePost/mainCadrePost_au" : "cadre/cadrePost/subCadrePost_au";
     }
 
 /*    @RequiresPermissions("cadrePost:del")
@@ -287,7 +289,7 @@ public class CadrePostController extends BaseController {
         List<CadrePost> records = new ArrayList<>();
         int row = 1;
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        if(BooleanUtils.isTrue(isMainPost)) {
+        if (BooleanUtils.isTrue(isMainPost)) {
             for (Map<Integer, String> xlsRow : xlsRows) {
 
                 row++;
@@ -333,7 +335,7 @@ public class CadrePostController extends BaseController {
                     record.setUnitId(unitPost.getUnitId());
                 }
 
-                if(unitPost==null) {
+                if (unitPost == null) {
                     String post = StringUtils.trimToNull(xlsRow.get(4));
                     if (StringUtils.isBlank(post)) {
                         throw new OpException("第{0}行岗位名称为空", row);
@@ -369,14 +371,17 @@ public class CadrePostController extends BaseController {
 
                 String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
                 MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                if(unitPost==null && adminLevel==null){
+                if (unitPost == null && adminLevel == null) {
                     throw new OpException("第{0}行行政级别[{1}]不存在", row, _adminLevel);
-                }else if (adminLevel != null ) {
+                } else if (adminLevel != null) {
                     record.setAdminLevel(adminLevel.getId());
                 }
 
                 record.setPost(StringUtils.trimToNull(xlsRow.get(10)));
                 record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(11)), "是"));
+
+                record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+                record.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
 
                 record.setIsMainPost(true);
                 records.add(record);
@@ -388,9 +393,9 @@ public class CadrePostController extends BaseController {
             resultMap.put("total", totalCount);
 
             logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部主职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount - addCount));
-        }else{
+                    "导入干部主职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                    totalCount, addCount, totalCount - addCount));
+        } else {
 
             for (Map<Integer, String> xlsRow : xlsRows) {
 
@@ -437,7 +442,7 @@ public class CadrePostController extends BaseController {
                     record.setUnitId(unitPost.getUnitId());
                 }
 
-                if(unitPost==null) {
+                if (unitPost == null) {
                     String post = StringUtils.trimToNull(xlsRow.get(4));
                     if (StringUtils.isBlank(post)) {
                         throw new OpException("第{0}行岗位名称为空", row);
@@ -473,14 +478,17 @@ public class CadrePostController extends BaseController {
 
                 String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
                 MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
-                if(unitPost==null && adminLevel==null){
+                if (unitPost == null && adminLevel == null) {
                     throw new OpException("第{0}行行政级别[{1}]不存在", row, _adminLevel);
-                }else if (adminLevel != null ) {
+                } else if (adminLevel != null) {
                     record.setAdminLevel(adminLevel.getId());
                 }
 
                 String _isCpc = StringUtils.trimToNull(xlsRow.get(10));
                 record.setIsCpc(StringUtils.equals(_isCpc, "是"));
+
+                record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
+                record.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
 
                 record.setIsMainPost(false);
                 records.add(record);
@@ -492,9 +500,70 @@ public class CadrePostController extends BaseController {
             resultMap.put("total", totalCount);
 
             logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部兼职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount - addCount));
+                    "导入干部兼职成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                    totalCount, addCount, totalCount - addCount));
         }
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("cadrePost:import")
+    @RequestMapping("/cadrePost_importWorkTime")
+    public String cadrePost_importWorkTime(ModelMap modelMap) {
+
+        return "cadre/cadrePost/cadrePost_importWorkTime";
+    }
+
+    @RequiresPermissions("cadrePost:import")
+    @RequestMapping(value = "/cadrePost_importWorkTime", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadrePost_importWorkTime(HttpServletRequest request, Boolean isMainPost) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<CadrePost> records = new ArrayList<>();
+        int row = 1;
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            CadrePost record = new CadrePost();
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getId();
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if (cv == null) {
+                throw new OpException("第{0}行工作证号[{1}]不在干部库中", row, userCode);
+            }
+            record.setCadreId(cv.getId());
+
+            record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(2))));
+            record.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(3))));
+
+            records.add(record);
+        }
+
+        int addCount = cadrePostService.batchImportWorkTimes(records);
+        int totalCount = records.size();
+        resultMap.put("successCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入干部任职时间成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }

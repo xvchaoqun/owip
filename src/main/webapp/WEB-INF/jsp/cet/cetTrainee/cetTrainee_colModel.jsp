@@ -41,7 +41,7 @@
         {label: '所在单位及职务', name: 'obj.title', align: 'left', width: 350},
         {label: '行政级别', name: 'obj.adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'obj.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '党派', name: '_cadreParty', width: 80, formatter: function (cellvalue, options, rowObject) {
+        {label: '政治面貌', name: '_cadreParty', width: 80, formatter: function (cellvalue, options, rowObject) {
             rowObject.isOw = rowObject.obj.isOw;
             rowObject.dpTypeId = rowObject.obj.dpTypeId;
             return $.jgrid.formatter.cadreParty(cellvalue, options, rowObject);

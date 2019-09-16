@@ -30,6 +30,10 @@ public class Cadre implements Serializable {
 
     private Integer dispatchCadreId;
 
+    private String label;
+
+    private String profile;
+
     private String remark;
 
     private Integer sortOrder;
@@ -116,6 +120,22 @@ public class Cadre implements Serializable {
 
     public void setDispatchCadreId(Integer dispatchCadreId) {
         this.dispatchCadreId = dispatchCadreId;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 
     public String getRemark() {

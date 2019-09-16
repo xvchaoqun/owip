@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <hr/>
     <form class="form-horizontal" action="${ctx}/memberTransfer_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberTransfer.id}">
+		<input type="hidden" name="reapply" value="${param.reapply}">
 		<div class="row">
 			<div class="col-xs-6">
 			<div class="form-group">
@@ -154,7 +155,7 @@ pageEncoding="UTF-8"%>
 <c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
 		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
-		<button id="submitBtn" class="btn btn-primary">${memberTransfer!=null?'确定':'添加'}</button>
+		<button id="submitBtn" class="btn btn-primary">${param.reapply==1?"重新申请":"确定"}</button>
 	</div>
 </c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
@@ -187,6 +188,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+                    	<c:if test="${param.reapply==1}">
+						$(window).trigger('hashchange');
+						</c:if>
 						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
 							$.hashchange();

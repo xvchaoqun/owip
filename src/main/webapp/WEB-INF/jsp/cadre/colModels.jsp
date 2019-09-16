@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
 <c:set value="${_pMap['proPostTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_proPostTimeFormat"/>
+<c:set var="_cadreEdu_needSubject" value="${_pMap['cadreEdu_needSubject']=='true'}"/>
 <script>
     var colModels = function () {
     };
@@ -20,10 +21,8 @@
         </shiro:hasPermission>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
         <c:if test="${_p_hasKjCadre}">
-        {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
-            if($.trim(cellvalue)=='') return '--';
-            return _cMap.CADRE_TYPE_MAP[cellvalue]
-        }},
+        {label: '类型', name: 'type', width: 90, formatter: $.jgrid.formatter.MAP,
+                    formatoptions:{mapKey:'CADRE_TYPE_MAP'}},
         </c:if>
         </c:if>
         {label: '干部类别', name: 'isDep', width: 90, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '院系干部', off: '机关干部'}},
@@ -49,7 +48,7 @@
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+        {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
@@ -207,6 +206,12 @@
         }
         },
         </shiro:lacksPermission>
+        {label: '干部标签', name: 'label', align:'left', width: 140, formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(cellvalue)=='') return '--'
+                    return ($.map(cellvalue.split(","), function(label){
+                        return $.jgrid.formatter.MetaType(label);
+                    })).join("，")
+        }},
         {label: '备注', name: 'remark', align:'left', width: 250, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [
@@ -233,7 +238,7 @@
         },
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+        {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {label: '联系方式', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 180}
@@ -308,14 +313,14 @@
         {label: '毕业/在读学校', name: 'school', width: 180, align:'left'},
         {label: '院系', name: 'dep', width: 180, align:'left'},
         {label: '所学专业', name: 'major', width: 250, align:'left'},
-        {
-            label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--'
-                return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
-        }, width: 90
-        },
-
-        //{label: '学制', name: 'schoolLen', width:50},
+        <c:if test="${_cadreEdu_needSubject}">
+        {label: '学科门类', name: 'subject', width: 90, formatter: $.jgrid.formatter.MAP,
+                    formatoptions:{mapKey:'layerTypeMap', filed:'name'}},
+        {label: '一级学科', name: 'firstSubject', width: 120, formatter: $.jgrid.formatter.MAP,
+                    formatoptions:{mapKey:'layerTypeMap', filed:'name'}},
+        </c:if>
+        {label: '学校类型', name: 'schoolType', formatter: $.jgrid.formatter.MAP,
+                    formatoptions:{mapKey:'CADRE_SCHOOL_TYPE_MAP'}, width: 90},
         {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
         {label: '是否获得学位', name: 'hasDegree', formatter: $.jgrid.formatter.TRUEFALSE},
         {
@@ -376,9 +381,9 @@
                 var filesArray = [];
                 if (cellvalue != undefined) {
                     var filePaths = cellvalue.split(",");
-                    filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[0]), 1, rowObject.id));
+                    filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证书{1}</a>'.format(encodeURI(filePaths[0]), 1, rowObject.id));
                     if (filePaths.length == 2)
-                        filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[1]), 2, rowObject.id));
+                        filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证书{1}</a>'.format(encodeURI(filePaths[1]), 2, rowObject.id));
                 }
 
                 return filesArray.join("，");
@@ -402,7 +407,12 @@
         {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380},
-        {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
+        {label: '工作类型', name: 'workTypes', width: 140, formatter: function (cellvalue, options, rowObject) {
+            if($.trim(cellvalue)=='') return '--'
+            return ($.map(cellvalue.split(","), function(workType){
+                return $.jgrid.formatter.MetaType(workType);
+            })).join("，")
+        }},
         {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '备注', name: 'remark', width: 150},
         {

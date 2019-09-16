@@ -182,7 +182,7 @@ public class BranchController extends BaseController {
             return;
         }
 
-        int count = branchViewMapper.countByExample(example);
+        int count = (int) branchViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
@@ -458,7 +458,7 @@ public class BranchController extends BaseController {
         int rownum = records.size();
         String[] titles = {"编号|100", "名称|200|left", "简称|150|left", "所属分党委|300|left", "类别|100",
                 "党员总数", "在职教职工数量", "离退休党员数量", "学生数量", "委员会总数",
-                "是否已设立现任委员会", "是否是教工党支部", "是否是专业教师党支部", "是否建立在团队",
+                "是否已设立现任委员会", "任命时间","应换届时间", "实际换届时间", "是否是教工党支部", "是否一线教学科研党支部", "是否建立在团队",
                 "单位属性", "联系电话|100", "传真|100", "邮箱|150", "成立时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -474,7 +474,12 @@ public class BranchController extends BaseController {
                     record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
                     record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
                     record.getGroupCount()==null?"0":record.getGroupCount()+"",
-                    (record.getPresentGroupCount()!=null &&record.getPresentGroupCount() > 0) ? "是" : "否",
+                    (record.getPresentGroupId()!=null &&record.getPresentGroupId() > 0) ? "是" : "否",
+
+                    DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
+
                     BooleanUtils.isTrue(record.getIsStaff()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsPrefessional()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsBaseTeam()) ? "是" : "否",
@@ -482,7 +487,7 @@ public class BranchController extends BaseController {
                     record.getPhone(),
                     record.getFax(),
                     record.getEmail(),
-                    DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYY_MM_DD)
+                    DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD_DOT)
             };
             valuesList.add(values);
         }
@@ -539,7 +544,7 @@ public class BranchController extends BaseController {
             }
         }
 
-        int count = branchViewMapper.countByExample(example);
+        int count = (int) branchViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

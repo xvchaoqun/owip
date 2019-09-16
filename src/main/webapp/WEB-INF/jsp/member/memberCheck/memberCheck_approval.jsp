@@ -189,7 +189,7 @@
         </c:if>
         <div class="clearfix form-actions center">
             <c:if test="${param.opType=='check'}">
-                <shiro:hasPermission name="modifyTableApply:approval">
+                <shiro:hasPermission name="memberCheck:approval">
                     <button class="btn btn-success" type="button" id="approvalBtn">
                         <i class="ace-icon fa fa-check"></i>
                         审核

@@ -64,6 +64,10 @@ public class CadreReserveView implements Serializable {
 
     private Integer dispatchCadreId;
 
+    private String label;
+
+    private String profile;
+
     private String remark;
 
     private Integer sortOrder;
@@ -172,6 +176,8 @@ public class CadreReserveView implements Serializable {
 
     private Date workStartTime;
 
+    private String talentTitle;
+
     private Integer mainCadrePostId;
 
     private Boolean isPrincipal;
@@ -186,9 +192,9 @@ public class CadreReserveView implements Serializable {
 
     private Byte leaderType;
 
-    private Long cadrePostYear;
+    private Integer cadrePostYear;
 
-    private Long adminLevelYear;
+    private Integer adminLevelYear;
 
     private Integer sDispatchId;
 
@@ -221,8 +227,6 @@ public class CadreReserveView implements Serializable {
     private Date verifyBirth;
 
     private Date verifyWorkTime;
-
-    private String talentTitle;
 
     private static final long serialVersionUID = 1L;
 
@@ -360,6 +364,22 @@ public class CadreReserveView implements Serializable {
 
     public void setDispatchCadreId(Integer dispatchCadreId) {
         this.dispatchCadreId = dispatchCadreId;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 
     public String getRemark() {
@@ -794,6 +814,14 @@ public class CadreReserveView implements Serializable {
         this.workStartTime = workStartTime;
     }
 
+    public String getTalentTitle() {
+        return talentTitle;
+    }
+
+    public void setTalentTitle(String talentTitle) {
+        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
+    }
+
     public Integer getMainCadrePostId() {
         return mainCadrePostId;
     }
@@ -850,19 +878,19 @@ public class CadreReserveView implements Serializable {
         this.leaderType = leaderType;
     }
 
-    public Long getCadrePostYear() {
+    public Integer getCadrePostYear() {
         return cadrePostYear;
     }
 
-    public void setCadrePostYear(Long cadrePostYear) {
+    public void setCadrePostYear(Integer cadrePostYear) {
         this.cadrePostYear = cadrePostYear;
     }
 
-    public Long getAdminLevelYear() {
+    public Integer getAdminLevelYear() {
         return adminLevelYear;
     }
 
-    public void setAdminLevelYear(Long adminLevelYear) {
+    public void setAdminLevelYear(Integer adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
     }
 
@@ -992,13 +1020,5 @@ public class CadreReserveView implements Serializable {
 
     public void setVerifyWorkTime(Date verifyWorkTime) {
         this.verifyWorkTime = verifyWorkTime;
-    }
-
-    public String getTalentTitle() {
-        return talentTitle;
-    }
-
-    public void setTalentTitle(String talentTitle) {
-        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
     }
 }

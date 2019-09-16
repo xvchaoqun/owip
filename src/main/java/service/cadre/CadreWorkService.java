@@ -643,6 +643,14 @@ public class CadreWorkService extends BaseMapper {
 
             CadreWork record = cadreWorks.get(i);
             CadreView cadre = CmTag.getCadreById(record.getCadreId());
+            Set<Integer> workTypeSet = NumberUtils.toIntSet(record.getWorkTypes(), ",");
+            List<String> workTypes = new ArrayList<>();
+            for (Integer workType : workTypeSet) {
+                String name = metaTypeService.getName(workType);
+                if(StringUtils.isNotBlank(name)) {
+                    workTypes.add(name);
+                }
+            }
             Unit unit = CmTag.getUnit(cadre.getUnitId());
             String[] values = {
                     cadre.getCode(),
@@ -651,7 +659,7 @@ public class CadreWorkService extends BaseMapper {
                     cadre.getTitle(),
                     DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getEndTime(), DateUtils.YYYYMM),
-                    metaTypeService.getName(record.getWorkType()),
+                    StringUtils.join(workTypes, ","),
                     record.getDetail(),
                     BooleanUtils.isTrue(record.getIsCadre()) ? "是" : "否",
                     record.getRemark()

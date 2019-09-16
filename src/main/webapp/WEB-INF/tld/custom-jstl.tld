@@ -136,6 +136,11 @@
 		<function-signature>domain.base.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>getLayerTypes</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.List getLayerTypes(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>displayParty</name>
 		<function-class>sys.helper.PartyHelper</function-class>
 		<function-signature>java.lang.String displayParty(java.lang.Integer,java.lang.Integer)</function-signature>
@@ -169,6 +174,16 @@
 		<name>getApplyStatus</name>
 		<function-class>sys.helper.PartyHelper</function-class>
 		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApplyView)</function-signature>
+	</function>
+	<function>
+		<name>isPresentPartyAdmin</name>
+		<function-class>sys.helper.PartyHelper</function-class>
+		<function-signature>java.lang.Boolean isPresentPartyAdmin(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>isPresentBranchAdmin</name>
+		<function-class>sys.helper.PartyHelper</function-class>
+		<function-signature>java.lang.Boolean isPresentBranchAdmin(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 
 	<!--<function>

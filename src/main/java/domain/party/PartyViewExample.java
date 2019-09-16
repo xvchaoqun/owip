@@ -1895,63 +1895,243 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountIsNull() {
-            addCriterion("present_group_count is null");
+        public Criteria andPresentGroupIdIsNull() {
+            addCriterion("present_group_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountIsNotNull() {
-            addCriterion("present_group_count is not null");
+        public Criteria andPresentGroupIdIsNotNull() {
+            addCriterion("present_group_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountEqualTo(Integer value) {
-            addCriterion("present_group_count =", value, "presentGroupCount");
+        public Criteria andPresentGroupIdEqualTo(Integer value) {
+            addCriterion("present_group_id =", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotEqualTo(Integer value) {
-            addCriterion("present_group_count <>", value, "presentGroupCount");
+        public Criteria andPresentGroupIdNotEqualTo(Integer value) {
+            addCriterion("present_group_id <>", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountGreaterThan(Integer value) {
-            addCriterion("present_group_count >", value, "presentGroupCount");
+        public Criteria andPresentGroupIdGreaterThan(Integer value) {
+            addCriterion("present_group_id >", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("present_group_count >=", value, "presentGroupCount");
+        public Criteria andPresentGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("present_group_id >=", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountLessThan(Integer value) {
-            addCriterion("present_group_count <", value, "presentGroupCount");
+        public Criteria andPresentGroupIdLessThan(Integer value) {
+            addCriterion("present_group_id <", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountLessThanOrEqualTo(Integer value) {
-            addCriterion("present_group_count <=", value, "presentGroupCount");
+        public Criteria andPresentGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("present_group_id <=", value, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountIn(List<Integer> values) {
-            addCriterion("present_group_count in", values, "presentGroupCount");
+        public Criteria andPresentGroupIdIn(List<Integer> values) {
+            addCriterion("present_group_id in", values, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotIn(List<Integer> values) {
-            addCriterion("present_group_count not in", values, "presentGroupCount");
+        public Criteria andPresentGroupIdNotIn(List<Integer> values) {
+            addCriterion("present_group_id not in", values, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountBetween(Integer value1, Integer value2) {
-            addCriterion("present_group_count between", value1, value2, "presentGroupCount");
+        public Criteria andPresentGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("present_group_id between", value1, value2, "presentGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("present_group_count not between", value1, value2, "presentGroupCount");
+        public Criteria andPresentGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("present_group_id not between", value1, value2, "presentGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeIsNull() {
+            addCriterion("appoint_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeIsNotNull() {
+            addCriterion("appoint_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_time =", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_time <>", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("appoint_time >", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_time >=", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeLessThan(Date value) {
+            addCriterionForJDBCDate("appoint_time <", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_time <=", value, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_time in", values, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_time not in", values, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_time between", value1, value2, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_time not between", value1, value2, "appointTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeIsNull() {
+            addCriterion("tran_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeIsNotNull() {
+            addCriterion("tran_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("tran_time =", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("tran_time <>", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("tran_time >", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("tran_time >=", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeLessThan(Date value) {
+            addCriterionForJDBCDate("tran_time <", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("tran_time <=", value, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("tran_time in", values, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("tran_time not in", values, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("tran_time between", value1, value2, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("tran_time not between", value1, value2, "tranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeIsNull() {
+            addCriterion("actual_tran_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeIsNotNull() {
+            addCriterion("actual_tran_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("actual_tran_time =", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("actual_tran_time <>", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("actual_tran_time >", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("actual_tran_time >=", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeLessThan(Date value) {
+            addCriterionForJDBCDate("actual_tran_time <", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("actual_tran_time <=", value, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("actual_tran_time in", values, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("actual_tran_time not in", values, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("actual_tran_time between", value1, value2, "actualTranTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualTranTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("actual_tran_time not between", value1, value2, "actualTranTime");
             return (Criteria) this;
         }
     }

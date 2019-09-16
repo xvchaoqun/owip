@@ -632,6 +632,126 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andSubjectIsNull() {
+            addCriterion("subject is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectIsNotNull() {
+            addCriterion("subject is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectEqualTo(Integer value) {
+            addCriterion("subject =", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNotEqualTo(Integer value) {
+            addCriterion("subject <>", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectGreaterThan(Integer value) {
+            addCriterion("subject >", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectGreaterThanOrEqualTo(Integer value) {
+            addCriterion("subject >=", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectLessThan(Integer value) {
+            addCriterion("subject <", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectLessThanOrEqualTo(Integer value) {
+            addCriterion("subject <=", value, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectIn(List<Integer> values) {
+            addCriterion("subject in", values, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNotIn(List<Integer> values) {
+            addCriterion("subject not in", values, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectBetween(Integer value1, Integer value2) {
+            addCriterion("subject between", value1, value2, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubjectNotBetween(Integer value1, Integer value2) {
+            addCriterion("subject not between", value1, value2, "subject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectIsNull() {
+            addCriterion("first_subject is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectIsNotNull() {
+            addCriterion("first_subject is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectEqualTo(Integer value) {
+            addCriterion("first_subject =", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectNotEqualTo(Integer value) {
+            addCriterion("first_subject <>", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectGreaterThan(Integer value) {
+            addCriterion("first_subject >", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectGreaterThanOrEqualTo(Integer value) {
+            addCriterion("first_subject >=", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectLessThan(Integer value) {
+            addCriterion("first_subject <", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectLessThanOrEqualTo(Integer value) {
+            addCriterion("first_subject <=", value, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectIn(List<Integer> values) {
+            addCriterion("first_subject in", values, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectNotIn(List<Integer> values) {
+            addCriterion("first_subject not in", values, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectBetween(Integer value1, Integer value2) {
+            addCriterion("first_subject between", value1, value2, "firstSubject");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstSubjectNotBetween(Integer value1, Integer value2) {
+            addCriterion("first_subject not between", value1, value2, "firstSubject");
+            return (Criteria) this;
+        }
+
         public Criteria andMajorIsNull() {
             addCriterion("major is null");
             return (Criteria) this;

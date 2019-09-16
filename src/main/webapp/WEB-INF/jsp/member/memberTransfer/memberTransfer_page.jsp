@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
 <c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
-
 <div class="row">
     <div class="col-xs-12">
 
@@ -36,18 +35,24 @@
                                     <c:if test="${cls==1}">
                                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/memberTransfer_au">
                                         <i class="fa fa-plus"></i> 添加</a>
-                                    </c:if>
-                                    <c:if test="${cls==1||cls==2}">
                                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
+                                    </c:if>
+                                    <c:if test="${cls==2}">
+                                        <button class="jqEditBtn btn btn-primary btn-sm"
+                                                data-querystr="reapply=1"
+                                                data-open-by="page">
+                                            <i class="fa fa-edit"></i> 重新申请
+                                        </button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1}">
+                                    <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
                                     <button id="partyApprovalBtn" ${partyApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberTransfer_approval"
@@ -66,6 +71,7 @@
                                                 data-count="${toPartyApprovalCount}">
                                             <i class="fa fa-check-circle-o"></i> 转入${_p_partyName}审核（${toPartyApprovalCount}）
                                         </button>
+                                    </c:if>
                                 </c:if>
                                 <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
                                    data-width="1200"
@@ -298,43 +304,44 @@
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-
-
     $.initNavGrid("jqGrid", "jqGridPager");
-    <c:if test="${cls==1}">
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转出${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-primary btn-xs",
-        buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
-    });
 
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"转入${_p_partyName}批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
-        buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
-    });
+    <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
+        <c:if test="${cls==1}">
+        $("#jqGrid").navButtonAdd('#jqGridPager',{
+            caption:"转出${_p_partyName}批量审核",
+            btnbase:"jqBatchBtn btn btn-primary btn-xs",
+            buttonicon:"fa fa-check-circle-o",
+            props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+        });
 
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"批量打回申请",
-        btnbase:"btn btn-danger btn-xs",
-        buttonicon:"fa fa-reply-all",
-        onClickButton: function(){
-            var ids  = $(this).getGridParam("selarrrow");
-            if(ids.length==0){
-                SysMsg.warning("请选择行", "提示");
-                return ;
+        $("#jqGrid").navButtonAdd('#jqGridPager',{
+            caption:"转入${_p_partyName}批量审核",
+            btnbase:"jqBatchBtn btn btn-warning btn-xs",
+            buttonicon:"fa fa-check-circle-o",
+            props:'data-url="${ctx}/memberTransfer_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+        });
+
+        $("#jqGrid").navButtonAdd('#jqGridPager',{
+            caption:"批量打回申请",
+            btnbase:"btn btn-danger btn-xs",
+            buttonicon:"fa fa-reply-all",
+            onClickButton: function(){
+                var ids  = $(this).getGridParam("selarrrow");
+                if(ids.length==0){
+                    SysMsg.warning("请选择行", "提示");
+                    return ;
+                }
+                var minStatus;
+                for(var key in ids){
+                    var rowData = $(this).getRowData(ids[key]);
+                    if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
+                }
+
+                $.loadModal("${ctx}/memberTransfer_back?ids[]={0}&status={1}".format(ids, minStatus))
             }
-            var minStatus;
-            for(var key in ids){
-                var rowData = $(this).getRowData(ids[key]);
-                if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
-            }
-
-            $.loadModal("${ctx}/memberTransfer_back?ids[]={0}&status={1}".format(ids, minStatus))
-        }
-    });
+        });
+        </c:if>
     </c:if>
 
     $('[data-rel="select2"]').select2();

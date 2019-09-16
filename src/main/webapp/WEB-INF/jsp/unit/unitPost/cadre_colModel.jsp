@@ -23,7 +23,7 @@
         {label: '民族', name: 'cadre.nation', width: 60},
         {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
+        {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
         {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime, formatoptions:{useCadre:true}},
         {
             label: '参加工作时间', name: 'cadre.workTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}

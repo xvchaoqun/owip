@@ -35,6 +35,7 @@
             <div class="col-xs-6 ${not empty cadre?'label-text':''}">
                 <c:if test="${cadre==null}">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
+                             data-width="273"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
@@ -109,7 +110,7 @@
         <div class="form-group ">
             <label class="col-xs-4 control-label">双肩挑单位</label>
             <div class="col-xs-6 input-group" style="padding-left: 12px">
-                <select class="multiselect" multiple="" name="unitIds">
+                <select class="multiselect" multiple="" name="unitIds" data-width="273">
                     <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
                         <c:set var="unitList" value="${unitListMap.get(unitType.value.id)}"/>
                         <c:if test="${fn:length(unitList)>0}">
@@ -127,7 +128,7 @@
                 </select>
                 <div>（从正在运转单位中选择）</div>
                 <div class="space-4"></div>
-                <select class="multiselect" multiple="" name="historyUnitIds">
+                <select class="multiselect" multiple="" name="historyUnitIds" data-width="273">
                     <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
                         <c:set var="unitList" value="${historyUnitListMap.get(unitType.value.id)}"/>
                         <c:if test="${fn:length(unitList)>0}">
@@ -147,6 +148,19 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">干部标签</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <select class="multiselect" multiple="" name="label" data-width="273" data-placeholder="请选择">
+                        <c:import url="/metaTypes?__code=mc_cadre_label"/>
+                    </select>
+                    <script type="text/javascript">
+                        $.register.multiselect($('#modalForm select[name=label]'), '${cadre.label}'.split(","));
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control limited" name="remark" rows="3">${cadre.remark}</textarea>
@@ -160,11 +174,6 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${not empty cadre?"确定":"添加"}
     </button>
 </div>
-<style>
-    .modal .modal-body{
-        overflow: visible;
-    }
-</style>
 <script>
     var doubleUnitIds = '${cadre.doubleUnitIds}';
     $.register.multiselect($('#modalForm select[name=unitIds]'), doubleUnitIds.split(","), {

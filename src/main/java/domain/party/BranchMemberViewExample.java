@@ -1,8 +1,6 @@
 package domain.party;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
@@ -375,6 +373,66 @@ public class BranchMemberViewExample {
 
         public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
             addCriterion("type_id not between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderIsNull() {
+            addCriterion("is_double_leader is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderIsNotNull() {
+            addCriterion("is_double_leader is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderEqualTo(Boolean value) {
+            addCriterion("is_double_leader =", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderNotEqualTo(Boolean value) {
+            addCriterion("is_double_leader <>", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderGreaterThan(Boolean value) {
+            addCriterion("is_double_leader >", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double_leader >=", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderLessThan(Boolean value) {
+            addCriterion("is_double_leader <", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double_leader <=", value, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderIn(List<Boolean> values) {
+            addCriterion("is_double_leader in", values, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderNotIn(List<Boolean> values) {
+            addCriterion("is_double_leader not in", values, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double_leader between", value1, value2, "isDoubleLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLeaderNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double_leader not between", value1, value2, "isDoubleLeader");
             return (Criteria) this;
         }
 

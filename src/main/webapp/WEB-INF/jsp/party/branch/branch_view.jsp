@@ -15,9 +15,11 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/branch_base?id=${param.id}">基本信息</a>
                         </li>
+                        <c:if test="${cm:isPresentBranchAdmin(_user.id, branch.partyId, branch.id)}">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/branchMemberGroup_view?branchId=${param.id}">支部委员会</a>
                         </li>
+                        </c:if>
                     </ul>
                 </div>
             </div>

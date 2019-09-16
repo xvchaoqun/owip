@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="_cadreEdu_needSubject" value="${_pMap['cadreEdu_needSubject']=='true'}"/>
+<c:set var="_cadreEdu_needCertificate" value="${_pMap['cadreEdu_needCertificate']=='true'}"/>
+
 <div class="modal-header">
 	<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历（${sysUser.realname}）
@@ -76,6 +79,31 @@
 						<input required class="form-control" type="text" name="dep" value="${cadreEdu.dep}">
 					</div>
 				</div>
+				<c:if test="${_cadreEdu_needSubject}">
+				<div class="form-group" id="firstDiv">
+					<label class="col-xs-5 control-label"><span class="star">*</span>学科门类</label>
+					<div class="col-xs-7">
+						<select required data-rel="select2" name="subject"
+								data-placeholder="请选择" data-width="193">
+							<option></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group"  id="secondDiv">
+					<label class="col-xs-5 control-label"><span class="star">*</span>一级学科</label>
+					<div class="col-xs-7">
+						<select required data-rel="select2" name="firstSubject"
+								data-placeholder="请选择" data-width="193">
+							<option></option>
+						</select>
+					</div>
+				</div>
+					<script>
+						$.register.layer_type_select("firstDiv",
+								"secondDiv", ${cm:toJSONArrayWithFilter(cm:getLayerTypes("lt_subject"), "id,name,children,children.id,children.name")}
+								, '${cadreEdu.subject}', '${cadreEdu.firstSubject}');
+					</script>
+				</c:if>
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>所学专业</label>
 					<div class="col-xs-7">
@@ -184,11 +212,11 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-4 control-label">学历学位证书</label>
+						<label class="col-xs-4 control-label">${_cadreEdu_needCertificate?'<span class="star">*</span>':''}学历学位证书</label>
 						<div class="col-xs-8 file">
 							<div class="files">
-								<input class="form-control" type="file" name="_files[]"/>
-								<input class="form-control" type="file" name="_files[]" />
+								<input class="form-control" type="file" name="file1"/>
+								<input class="form-control" type="file" name="file2" />
 							</div>
 							<span class="help-block" style="font-size: 10px;"><span class="star">*</span>每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
@@ -216,9 +244,15 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"> ${not empty cadreEdu?"确定":"添加"}
     </button>
 </div>
-<shiro:hasPermission name="cadre:updateWithoutRequired">
-	<style>span.star{color: grey}</style>
-</shiro:hasPermission>
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+	<shiro:hasPermission name="cadre:updateWithoutRequired">
+		span.star{color: grey}
+	</shiro:hasPermission>
+</style>
+
 <script>
 	$.fileInput($('#modalForm input[type=file]'),{
 		no_file:'请选择证书图片 ...',
@@ -353,7 +387,7 @@
 		if(!$("#modalForm input[name=isGraduated]").bootstrapSwitch("state")) {
 			$("#modalForm input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("#modalForm input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("#modalForm input[name='_files[]']").prop("disabled", true);
+			$("#modalForm input[type=file]").prop("disabled", true);
 
 			$("#modalForm input[name=finishTime]").requireField(false, true);;
 			//$("input[name=schoolLen]").requireField(false, true);;
@@ -363,7 +397,7 @@
 			if($.trim($("#modalForm select[name=eduId]").val())!='') {
 				$("#modalForm input[name=isHighEdu]").bootstrapSwitch('disabled', false);
 			}
-			$("#modalForm input[name='_files[]']").prop("disabled", false);
+			$("#modalForm input[type=file]").prop("disabled", false);
 
 			$("#modalForm input[name=finishTime]").requireField(true);
 			//$("input[name=schoolLen]").requireField(true);
@@ -402,6 +436,21 @@
 		<shiro:hasPermission name="cadre:updateWithoutRequired">
 			$('input, textarea, select').prop("required", false);
 		</shiro:hasPermission>
+		<shiro:lacksPermission name="cadre:updateWithoutRequired">
+		<c:if test="${_cadreEdu_needCertificate}">
+		var $eduId = $("#modalForm select[name=eduId]");
+		var hasEdu = $eduId.val()>0; // 有学历
+		var hasDegree = $("#modalForm input[name=hasDegree]").bootstrapSwitch("state");
+		$("#modalForm input[type=file]").prop("required", false)
+		var filePaths = '${cadreEdu.certificate}'.split(",");
+		if(hasEdu && hasDegree && (filePaths=='' || filePaths.length < 2)){
+			$("#modalForm input[name='file1']").prop("required", true)
+			$("#modalForm input[name='file2']").prop("required", true)
+		}else if((hasEdu || hasDegree) && (filePaths=='' || filePaths.length < 1)){
+			$("#modalForm input[name='file1']").prop("required", true)
+		}
+		</c:if>
+		</shiro:lacksPermission>
         $("#modalForm").submit();
         return false;
     });

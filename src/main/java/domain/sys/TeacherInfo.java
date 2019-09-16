@@ -88,6 +88,8 @@ public class TeacherInfo implements Serializable {
 
     private String isTemp;
 
+    private Boolean isHighLevelTalent;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -424,5 +426,13 @@ public class TeacherInfo implements Serializable {
 
     public void setIsTemp(String isTemp) {
         this.isTemp = isTemp == null ? null : isTemp.trim();
+    }
+
+    public Boolean getIsHighLevelTalent() {
+        return isHighLevelTalent;
+    }
+
+    public void setIsHighLevelTalent(Boolean isHighLevelTalent) {
+        this.isHighLevelTalent = isHighLevelTalent;
     }
 }

@@ -627,52 +627,52 @@ public class MemberViewExample {
         }
 
         public Criteria andTransferTimeEqualTo(Date value) {
-            addCriterion("transfer_time =", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time =", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotEqualTo(Date value) {
-            addCriterion("transfer_time <>", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <>", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeGreaterThan(Date value) {
-            addCriterion("transfer_time >", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time >", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("transfer_time >=", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time >=", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeLessThan(Date value) {
-            addCriterion("transfer_time <", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeLessThanOrEqualTo(Date value) {
-            addCriterion("transfer_time <=", value, "transferTime");
+            addCriterionForJDBCDate("transfer_time <=", value, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeIn(List<Date> values) {
-            addCriterion("transfer_time in", values, "transferTime");
+            addCriterionForJDBCDate("transfer_time in", values, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotIn(List<Date> values) {
-            addCriterion("transfer_time not in", values, "transferTime");
+            addCriterionForJDBCDate("transfer_time not in", values, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeBetween(Date value1, Date value2) {
-            addCriterion("transfer_time between", value1, value2, "transferTime");
+            addCriterionForJDBCDate("transfer_time between", value1, value2, "transferTime");
             return (Criteria) this;
         }
 
         public Criteria andTransferTimeNotBetween(Date value1, Date value2) {
-            addCriterion("transfer_time not between", value1, value2, "transferTime");
+            addCriterionForJDBCDate("transfer_time not between", value1, value2, "transferTime");
             return (Criteria) this;
         }
 
@@ -1513,6 +1513,76 @@ public class MemberViewExample {
 
         public Criteria andOtherRewardNotBetween(String value1, String value2) {
             addCriterion("other_reward not between", value1, value2, "otherReward");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelIsNull() {
+            addCriterion("label is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelIsNotNull() {
+            addCriterion("label is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelEqualTo(String value) {
+            addCriterion("label =", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotEqualTo(String value) {
+            addCriterion("label <>", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelGreaterThan(String value) {
+            addCriterion("label >", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelGreaterThanOrEqualTo(String value) {
+            addCriterion("label >=", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLessThan(String value) {
+            addCriterion("label <", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLessThanOrEqualTo(String value) {
+            addCriterion("label <=", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelLike(String value) {
+            addCriterion("label like", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotLike(String value) {
+            addCriterion("label not like", value, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelIn(List<String> values) {
+            addCriterion("label in", values, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotIn(List<String> values) {
+            addCriterion("label not in", values, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelBetween(String value1, String value2) {
+            addCriterion("label between", value1, value2, "label");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelNotBetween(String value1, String value2) {
+            addCriterion("label not between", value1, value2, "label");
             return (Criteria) this;
         }
 
@@ -4226,6 +4296,76 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTalentTitleIsNull() {
+            addCriterion("talent_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleIsNotNull() {
+            addCriterion("talent_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleEqualTo(String value) {
+            addCriterion("talent_title =", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotEqualTo(String value) {
+            addCriterion("talent_title <>", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleGreaterThan(String value) {
+            addCriterion("talent_title >", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("talent_title >=", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLessThan(String value) {
+            addCriterion("talent_title <", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLessThanOrEqualTo(String value) {
+            addCriterion("talent_title <=", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLike(String value) {
+            addCriterion("talent_title like", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotLike(String value) {
+            addCriterion("talent_title not like", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleIn(List<String> values) {
+            addCriterion("talent_title in", values, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotIn(List<String> values) {
+            addCriterion("talent_title not in", values, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleBetween(String value1, String value2) {
+            addCriterion("talent_title between", value1, value2, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotBetween(String value1, String value2) {
+            addCriterion("talent_title not between", value1, value2, "talentTitle");
+            return (Criteria) this;
+        }
+
         public Criteria andIsRetireIsNull() {
             addCriterion("is_retire is null");
             return (Criteria) this;
@@ -4403,6 +4543,66 @@ public class MemberViewExample {
 
         public Criteria andRetireTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("retire_time not between", value1, value2, "retireTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentIsNull() {
+            addCriterion("is_high_level_talent is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentIsNotNull() {
+            addCriterion("is_high_level_talent is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent =", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent <>", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentGreaterThan(Boolean value) {
+            addCriterion("is_high_level_talent >", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent >=", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentLessThan(Boolean value) {
+            addCriterion("is_high_level_talent <", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent <=", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentIn(List<Boolean> values) {
+            addCriterion("is_high_level_talent in", values, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotIn(List<Boolean> values) {
+            addCriterion("is_high_level_talent not in", values, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_high_level_talent between", value1, value2, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_high_level_talent not between", value1, value2, "isHighLevelTalent");
             return (Criteria) this;
         }
 

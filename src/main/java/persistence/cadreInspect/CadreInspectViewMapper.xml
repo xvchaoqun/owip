@@ -20,6 +20,8 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -74,6 +76,7 @@
     <result column="is_temp" jdbcType="VARCHAR" property="isTemp" />
     <result column="work_time" jdbcType="DATE" property="workTime" />
     <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
+    <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
     <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="lp_dispatch_id" jdbcType="INTEGER" property="lpDispatchId" />
@@ -81,8 +84,8 @@
     <result column="np_dispatch_id" jdbcType="INTEGER" property="npDispatchId" />
     <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
     <result column="leader_type" jdbcType="TINYINT" property="leaderType" />
-    <result column="cadre_post_year" jdbcType="BIGINT" property="cadrePostYear" />
-    <result column="admin_level_year" jdbcType="BIGINT" property="adminLevelYear" />
+    <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
+    <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
     <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
     <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
     <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
@@ -99,9 +102,6 @@
     <result column="unit_type_group" jdbcType="VARCHAR" property="unitTypeGroup" />
     <result column="verify_birth" jdbcType="DATE" property="verifyBirth" />
     <result column="verify_work_time" jdbcType="DATE" property="verifyWorkTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cadreInspect.CadreInspectView">
-    <result column="talent_title" jdbcType="LONGVARCHAR" property="talentTitle" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -135,38 +135,20 @@
   <sql id="Base_Column_List">
     inspect_id, record_id, unit_post_id, inspect_type, inspect_status, inspect_remark, 
     record_user_id, inspect_sort_order, id, user_id, type, is_dep, has_crp, is_double, 
-    double_unit_ids, state, title, dispatch_cadre_id, remark, sort_order, status, unit_id, 
-    admin_level, post_type, post, is_committee_member, msg_title, mobile, phone, home_phone, 
-    email, code, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
-    member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, 
-    ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, 
-    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
-    pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, staff_status, 
-    is_temp, work_time, work_start_time, main_cadre_post_id, is_principal, lp_dispatch_id, 
-    lp_work_time, np_dispatch_id, np_work_time, leader_type, cadre_post_year, admin_level_year, 
-    s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
-    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
-    unit_type_name, unit_type_group, verify_birth, verify_work_time
+    double_unit_ids, state, title, dispatch_cadre_id, label, profile, remark, sort_order, 
+    status, unit_id, admin_level, post_type, post, is_committee_member, msg_title, mobile, 
+    phone, home_phone, email, code, realname, gender, nation, native_place, idcard, birth, 
+    party_id, branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, 
+    ow_id, is_ow, ow_grow_time, ow_remark, edu_id, finish_time, learn_style, school, 
+    dep, school_type, major, degree, post_class, sub_post_class, main_post_level, pro_post_time, 
+    pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, 
+    staff_status, is_temp, work_time, work_start_time, talent_title, main_cadre_post_id, 
+    is_principal, lp_dispatch_id, lp_work_time, np_dispatch_id, np_work_time, leader_type, 
+    cadre_post_year, admin_level_year, s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, 
+    admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, 
+    unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_group, verify_birth, 
+    verify_work_time
   </sql>
-  <sql id="Blob_Column_List">
-    talent_title
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.cadreInspect.CadreInspectViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cadre_inspect_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.cadreInspect.CadreInspectViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -185,22 +167,6 @@
     select count(*) from cadre_inspect_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cadreInspect.CadreInspectViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cadre_inspect_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cadreInspect.CadreInspectViewExample" resultMap="BaseResultMap">

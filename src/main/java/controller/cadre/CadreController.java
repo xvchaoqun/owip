@@ -76,6 +76,7 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "proPosts") String[] proPosts,
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
                              @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
+                             @RequestParam(required = false, value = "labels") Integer[] labels,
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -142,6 +143,9 @@ public class CadreController extends BaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
+        if(labels!=null){
+            modelMap.put("selectLabels", Arrays.asList(labels));
+        }
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
@@ -192,6 +196,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
                            Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
+                           @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
                            Boolean isDep,
@@ -297,6 +302,10 @@ public class CadreController extends BaseController {
         }
         if (dpTypes != null) {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
+        }
+
+        if (labels != null) {
+            criteria.andLabelsContain(new HashSet<>(Arrays.asList(labels)));
         }
 
         if (isPrincipal != null) {
@@ -677,7 +686,6 @@ public class CadreController extends BaseController {
                            HttpServletRequest request) {
 
         record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
-
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
             if(unitIds==null || unitIds.length==0) {
@@ -685,6 +693,7 @@ public class CadreController extends BaseController {
             }
             record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
         }
+        record.setLabel(StringUtils.trimToEmpty(record.getLabel()));
 
         Integer id = record.getId();
         if (id == null) {

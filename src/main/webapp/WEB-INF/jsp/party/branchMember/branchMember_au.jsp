@@ -30,6 +30,15 @@ pageEncoding="UTF-8"%>
                 </script>
             </div>
         </div>
+        <div class="form-group" id="isDoubleLeader">
+            <label class="col-xs-3 control-label">是否双带头人</label>
+            <div class="col-xs-6">
+                <label>
+                    <input name="isDoubleLeader" ${branchMember.isDoubleLeader?"checked":""}  type="checkbox" />
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">任职时间</label>
             <div class="col-xs-6">
@@ -63,6 +72,16 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $("#modalForm select[name=typeId]").change(function(){
+        var type = $(this).val();
+        if(type=='${cm:getMetaTypeByCode("mt_branch_secretary").id}'){
+            $("#isDoubleLeader").show();
+        }else{
+            $("#isDoubleLeader").hide();
+        }
+    }).change();
+
+    $("#modal :checkbox").bootstrapSwitch();
     $.register.date($('.input-group.date'));
     $("#modal form").validate({
         submitHandler: function (form) {

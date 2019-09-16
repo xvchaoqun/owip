@@ -15,6 +15,8 @@ public class BranchMember implements Serializable {
 
     private Integer typeId;
 
+    private Boolean isDoubleLeader;
+
     @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date assignDate;
 
@@ -58,6 +60,14 @@ public class BranchMember implements Serializable {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public Boolean getIsDoubleLeader() {
+        return isDoubleLeader;
+    }
+
+    public void setIsDoubleLeader(Boolean isDoubleLeader) {
+        this.isDoubleLeader = isDoubleLeader;
     }
 
     public Date getAssignDate() {

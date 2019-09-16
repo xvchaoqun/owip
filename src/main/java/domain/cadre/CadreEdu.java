@@ -35,6 +35,10 @@ public class CadreEdu implements Serializable {
 
     private String dep;
 
+    private Integer subject;
+
+    private Integer firstSubject;
+
     private String major;
 
     private Byte schoolType;
@@ -140,6 +144,22 @@ public class CadreEdu implements Serializable {
 
     public void setDep(String dep) {
         this.dep = dep == null ? null : dep.trim();
+    }
+
+    public Integer getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Integer subject) {
+        this.subject = subject;
+    }
+
+    public Integer getFirstSubject() {
+        return firstSubject;
+    }
+
+    public void setFirstSubject(Integer firstSubject) {
+        this.firstSubject = firstSubject;
     }
 
     public String getMajor() {

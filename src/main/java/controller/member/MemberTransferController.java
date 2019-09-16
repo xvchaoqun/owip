@@ -316,7 +316,9 @@ public class MemberTransferController extends MemberBaseController {
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_au(@CurrentUser SysUserView loginUser,MemberTransfer record,
-                                    String _payTime, String _fromHandleTime, HttpServletRequest request) {
+                                    String _payTime, String _fromHandleTime,
+                                    Boolean reapply,
+                                    HttpServletRequest request) {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
@@ -368,25 +370,41 @@ public class MemberTransferController extends MemberBaseController {
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
                     loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
-                    "后台添加",
+                    "后台操作",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交申请");
 
-
             logger.info(addLog(LogConstants.LOG_MEMBER, "提交校内组织关系转接申请：%s", record.getId()));
         } else {
-            record.setStatus(null); // 不改状态
-            memberTransferService.updateByPrimaryKeySelective(record);
+            MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
+            if (BooleanUtils.isTrue(reapply) && memberTransfer.getStatus() < MemberConstants.MEMBER_TRANSFER_STATUS_APPLY) {
 
-            applyApprovalLogService.add(record.getId(),
-                    record.getPartyId(), record.getBranchId(), record.getUserId(),
-                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
-                    "后台修改",
-                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "修改申请");
+                record.setApplyTime(new Date());
+                record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
+                record.setIsBack(false);
+                memberTransferService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(LogConstants.LOG_MEMBER, "更新校内组织关系转接申请：%s", record.getId()));
+                applyApprovalLogService.add(record.getId(),
+                        record.getPartyId(), record.getBranchId(), record.getUserId(),
+                        loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                        "后台操作",
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "重新提交申请");
+            } else {
+                record.setStatus(null); // 不改状态
+                memberTransferService.updateByPrimaryKeySelective(record);
+
+                applyApprovalLogService.add(record.getId(),
+                        record.getPartyId(), record.getBranchId(), record.getUserId(),
+                        loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                        "后台操作",
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "修改申请");
+
+                logger.info(addLog(LogConstants.LOG_MEMBER, "更新校内组织关系转接申请：%s", record.getId()));
+            }
         }
 
         return success(FormUtils.SUCCESS);

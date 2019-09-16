@@ -152,7 +152,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>是否是专业教师党支部</label>
+                                    <label>是否一线教学科研党支部</label>
                                     <select name="isPrefessional" data-width="80" data-rel="select2" data-placeholder="请选择"> 
                                         <option></option>
                                         <option value="1">是</option>
@@ -235,12 +235,27 @@
             { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'是否已设立现任委员会', name: 'presentGroupCount', width: 160, formatter:function(cellvalue, options, rowObject){
-                return cellvalue>=1?"是":"否";
+            { label:'是否已设立现任委员会', name: 'presentGroupId', width: 160, formatter:function(cellvalue, options, rowObject){
+                return cellvalue>0?"是":"否";
             }},
+            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '应换届时间', name: 'tranTime', width: 130,
+                formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
+                cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if (rowObject.presentGroupId>0 &&
+                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }},
+            {
+                label: '实际换届时间',
+                name: 'actualTranTime',
+                width: 130,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m.d'}
+            },
             { label:'类别', name: 'typeId', width: 150, formatter: $.jgrid.formatter.MetaType},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '是否是专业教师党支部', name: 'isPrefessional' , width: 170,  formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否一线教学科研党支部', name: 'isPrefessional' , width: 170,  formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:$.jgrid.formatter.TRUEFALSE},
             { label:'单位属性', name: 'unitTypeId', width: 150, formatter: $.jgrid.formatter.MetaType},
             { label: '联系电话', name: 'phone', width: 130 },

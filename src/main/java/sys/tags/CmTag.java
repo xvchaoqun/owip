@@ -1,6 +1,7 @@
 package sys.tags;
 
 import domain.base.ContentTpl;
+import domain.base.LayerType;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
@@ -26,6 +27,7 @@ import persistence.dispatch.DispatchMapper;
 import persistence.dispatch.DispatchUnitMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.base.ContentTplService;
+import service.base.LayerTypeService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.*;
@@ -70,6 +72,7 @@ public class CmTag {
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
+    static LayerTypeService layerTypeService = context.getBean(LayerTypeService.class);
 
     static ExtService extService = context.getBean(ExtService.class);
     static SyncService syncService = context.getBean(SyncService.class);
@@ -268,6 +271,12 @@ public class CmTag {
         if (StringUtils.isBlank(code)) return null;
         Map<String, MetaClass> metaClassMap = metaClassService.codeKeyMap();
         return metaClassMap.get(code);
+    }
+
+    public static List<LayerType> getLayerTypes(String code) {
+
+        if (StringUtils.isBlank(code)) return null;
+        return layerTypeService.findAll(code);
     }
 
     public static MetaType getMetaTypeByName(String classCode, String name) {

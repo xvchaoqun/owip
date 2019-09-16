@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
-
+<c:set var="_cadreEdu_needSubject" value="${_pMap['cadreEdu_needSubject']=='true'}"/>
 <div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
     <div class="col-md-9">
         <button class="hideView btn btn-success btn-sm" type="button">
@@ -72,6 +72,14 @@
                     <td data-code="schoolType">学校类型</td>
                     <td class="bg-left">${CADRE_SCHOOL_TYPE_MAP.get(modify.schoolType)}</td>
                 </tr>
+                <c:if test="${_cadreEdu_needSubject}">
+                <tr>
+                    <td data-code="subject">学科门类</td>
+                    <td class="bg-left">${layerTypeMap.get(modify.subject).name}</td>
+                    <td data-code="firstSubject">一级学科</td>
+                    <td class="bg-left" colspan="3">${layerTypeMap.get(modify.firstSubject).name}</td>
+                </tr>
+                    </c:if>
                 <tr>
                     <td data-code="learnStyle">学习方式</td>
                     <td class="bg-left">${cm:getMetaType(modify.learnStyle).name}</td>

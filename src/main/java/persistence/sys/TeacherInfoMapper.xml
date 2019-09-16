@@ -44,6 +44,7 @@
     <result column="retire_time" jdbcType="DATE" property="retireTime" />
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
     <result column="is_temp" jdbcType="VARCHAR" property="isTemp" />
+    <result column="is_high_level_talent" jdbcType="BIT" property="isHighLevelTalent" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -110,7 +111,7 @@
     on_job, personnel_status, pro_post, pro_post_time, pro_post_level, pro_post_level_time, 
     title_level, manage_level, manage_level_time, office_level, office_level_time, post, 
     post_level, talent_type, talent_title, address, marital_status, is_retire, retire_time, 
-    is_honor_retire, is_temp
+    is_honor_retire, is_temp, is_high_level_talent
   </sql>
   <select id="selectByExample" parameterType="domain.sys.TeacherInfoExample" resultMap="BaseResultMap">
     select
@@ -156,8 +157,8 @@
       office_level, office_level_time, post, 
       post_level, talent_type, talent_title, 
       address, marital_status, is_retire, 
-      retire_time, is_honor_retire, is_temp
-      )
+      retire_time, is_honor_retire, is_temp, 
+      is_high_level_talent)
     values (#{userId,jdbcType=INTEGER}, #{extPhone,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, 
       #{school,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, #{degreeSchool,jdbcType=VARCHAR}, 
@@ -171,8 +172,8 @@
       #{officeLevel,jdbcType=VARCHAR}, #{officeLevelTime,jdbcType=DATE}, #{post,jdbcType=VARCHAR}, 
       #{postLevel,jdbcType=VARCHAR}, #{talentType,jdbcType=VARCHAR}, #{talentTitle,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, 
-      #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, #{isTemp,jdbcType=VARCHAR}
-      )
+      #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, #{isTemp,jdbcType=VARCHAR}, 
+      #{isHighLevelTalent,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.TeacherInfo">
     insert into sys_teacher_info
@@ -303,6 +304,9 @@
       <if test="isTemp != null">
         is_temp,
       </if>
+      <if test="isHighLevelTalent != null">
+        is_high_level_talent,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -430,6 +434,9 @@
       </if>
       <if test="isTemp != null">
         #{isTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="isHighLevelTalent != null">
+        #{isHighLevelTalent,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -568,6 +575,9 @@
       <if test="record.isTemp != null">
         is_temp = #{record.isTemp,jdbcType=VARCHAR},
       </if>
+      <if test="record.isHighLevelTalent != null">
+        is_high_level_talent = #{record.isHighLevelTalent,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -616,7 +626,8 @@
       is_retire = #{record.isRetire,jdbcType=BIT},
       retire_time = #{record.retireTime,jdbcType=DATE},
       is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
-      is_temp = #{record.isTemp,jdbcType=VARCHAR}
+      is_temp = #{record.isTemp,jdbcType=VARCHAR},
+      is_high_level_talent = #{record.isHighLevelTalent,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -747,6 +758,9 @@
       <if test="isTemp != null">
         is_temp = #{isTemp,jdbcType=VARCHAR},
       </if>
+      <if test="isHighLevelTalent != null">
+        is_high_level_talent = #{isHighLevelTalent,jdbcType=BIT},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -792,7 +806,8 @@
       is_retire = #{isRetire,jdbcType=BIT},
       retire_time = #{retireTime,jdbcType=DATE},
       is_honor_retire = #{isHonorRetire,jdbcType=BIT},
-      is_temp = #{isTemp,jdbcType=VARCHAR}
+      is_temp = #{isTemp,jdbcType=VARCHAR},
+      is_high_level_talent = #{isHighLevelTalent,jdbcType=BIT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.TeacherInfoExample" resultMap="BaseResultMap">

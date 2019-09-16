@@ -199,11 +199,9 @@ public class CadreWorkController extends BaseController {
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-
             CadreWork record, String _startTime, String _endTime, HttpServletRequest request) {
 
         Integer id = record.getId();
-
         if (StringUtils.isNotBlank(_startTime)) {
             record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYYMM));
         }

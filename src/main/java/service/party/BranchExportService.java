@@ -81,7 +81,7 @@ public class BranchExportService extends BaseMapper {
         int count = records.size();
         String[] titles = {"工作证号", "姓名", "所在单位", "所属分党委", "所属支部", "类别",
                 "任职时间","性别", "民族", "身份证号",
-                "出生时间", "党派", "党派加入时间", "到校时间", /*"岗位类别",
+                "出生时间", "政治面貌", "党派加入时间", "到校时间", /*"岗位类别",
                 "主岗等级",*/ "专业技术职务", "职称级别", /*"管理岗位等级",*/ "办公电话",
                 "手机号", "所属党组织"};
         int columnCount = titles.length;

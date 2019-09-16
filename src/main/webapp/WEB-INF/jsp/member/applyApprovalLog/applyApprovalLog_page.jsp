@@ -37,7 +37,8 @@
     colModel: [
       { label: '阶段',  name: 'stage', width: 200 },
       { label: '操作时间',  name: 'createTime', width: 200 },
-      { label: '操作人', name: 'user.realname', width: 150 },
+      { label: '操作人', name: 'user.realname', width: 120 },
+      { label: '学工号', name: 'user.code', width: 120 },
       { label:'审核结果',  name: 'statusName', formatter:function(cellvalue, options, rowObject){
         //return cellvalue==0?"未通过":"通过";
         return _cMap.OW_APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];

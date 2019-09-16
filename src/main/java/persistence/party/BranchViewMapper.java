@@ -2,12 +2,11 @@ package persistence.party;
 
 import domain.party.BranchView;
 import domain.party.BranchViewExample;
+import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface BranchViewMapper {
-    int countByExample(BranchViewExample example);
+    long countByExample(BranchViewExample example);
 
     List<BranchView> selectByExampleWithRowbounds(BranchViewExample example, RowBounds rowBounds);
 

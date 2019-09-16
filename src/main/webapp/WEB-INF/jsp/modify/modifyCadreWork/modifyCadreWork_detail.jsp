@@ -55,8 +55,12 @@
                     <td class="bg-left">${modify.detail}</td>
                 </tr>
                 <tr>
-                    <td data-code="workType">工作类型</td>
-                    <td class="bg-left">${cm:getMetaType(modify.workType).name}</td>
+                    <td data-code="workTypes">工作类型</td>
+                    <td class="bg-left">
+                        <c:forEach var="workType" items="${fn:split(modify.workTypes, ',')}" varStatus="vs">
+                            ${cm:getMetaType(workType).name}${!vs.last?"，":""}
+                        </c:forEach>
+                    </td>
                     <td data-code="isCadre">是否担任领导职务</td>
                     <td class="bg-left">${modify.isCadre?"是":"否"}</td>
                     <td data-code="remark">备注</td>

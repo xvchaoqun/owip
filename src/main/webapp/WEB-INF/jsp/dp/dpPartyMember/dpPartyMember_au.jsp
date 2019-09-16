@@ -69,11 +69,6 @@
   <input type="button" id="submitBtn" class="btn btn-primary"
          value="<c:if test="${dpPartyMember!=null}">确定</c:if><c:if test="${dpPartyMember==null}">添加</c:if>"/>
 </div>
-<style>
-  .modal .modal-body{
-    overflow: visible;
-  }
-</style>
 <script>
   $.register.multiselect($('#modal select[name=_typeIds]'), [${dpPartyMember.typeIds}]);
   $.register.date($('.date-picker'));

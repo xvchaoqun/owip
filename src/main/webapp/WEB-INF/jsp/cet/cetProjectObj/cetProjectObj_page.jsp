@@ -459,7 +459,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label>党派</label>
+                    <label>政治面貌</label>
                     <select class="multiselect" multiple="" name="dpTypes"
                             style="width: 250px;">
                         <option value="-1">非党干部</option>
@@ -655,7 +655,7 @@
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '专业技术职务', name: 'proPost', width: 120},
             {
                 label: '任现职时间',

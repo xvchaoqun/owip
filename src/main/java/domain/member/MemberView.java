@@ -48,6 +48,8 @@ public class MemberView implements Serializable {
 
     private String otherReward;
 
+    private String label;
+
     private Byte userSource;
 
     private String code;
@@ -128,11 +130,15 @@ public class MemberView implements Serializable {
 
     private String talentType;
 
+    private String talentTitle;
+
     private Boolean isRetire;
 
     private Boolean isHonorRetire;
 
     private Date retireTime;
+
+    private Boolean isHighLevelTalent;
 
     private Float delayYear;
 
@@ -164,7 +170,7 @@ public class MemberView implements Serializable {
 
     private String xjStatus;
 
-    private String talentTitle;
+    private String profile;
 
     private static final long serialVersionUID = 1L;
 
@@ -342,6 +348,14 @@ public class MemberView implements Serializable {
 
     public void setOtherReward(String otherReward) {
         this.otherReward = otherReward == null ? null : otherReward.trim();
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
     }
 
     public Byte getUserSource() {
@@ -664,6 +678,14 @@ public class MemberView implements Serializable {
         this.talentType = talentType == null ? null : talentType.trim();
     }
 
+    public String getTalentTitle() {
+        return talentTitle;
+    }
+
+    public void setTalentTitle(String talentTitle) {
+        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
+    }
+
     public Boolean getIsRetire() {
         return isRetire;
     }
@@ -686,6 +708,14 @@ public class MemberView implements Serializable {
 
     public void setRetireTime(Date retireTime) {
         this.retireTime = retireTime;
+    }
+
+    public Boolean getIsHighLevelTalent() {
+        return isHighLevelTalent;
+    }
+
+    public void setIsHighLevelTalent(Boolean isHighLevelTalent) {
+        this.isHighLevelTalent = isHighLevelTalent;
     }
 
     public Float getDelayYear() {
@@ -808,11 +838,11 @@ public class MemberView implements Serializable {
         this.xjStatus = xjStatus == null ? null : xjStatus.trim();
     }
 
-    public String getTalentTitle() {
-        return talentTitle;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setTalentTitle(String talentTitle) {
-        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 }

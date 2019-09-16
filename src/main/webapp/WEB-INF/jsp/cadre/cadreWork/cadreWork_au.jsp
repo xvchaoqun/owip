@@ -62,13 +62,14 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>工作类型</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="workType" data-width="273" data-placeholder="请选择">
-                        <option></option>
-                        <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modal form select[name=workType]").val(${cadreWork.workType});
-                    </script>
+                    <div class="input-group">
+                        <select required class="multiselect" multiple="" name="workTypes" data-width="273" data-placeholder="请选择">
+                            <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
+                        </select>
+                        <script type="text/javascript">
+                            $.register.multiselect($('#modalForm select[name=workTypes]'), '${cadreWork.workTypes}'.split(","));
+                        </script>
+                    </div>
 				</div>
 			</div>
         <c:if test="${!isEduWork}">
@@ -95,7 +96,7 @@ pageEncoding="UTF-8"%>
     <input type="submit" class="btn btn-primary" value="<c:if test="${cadreWork!=null}">确定</c:if><c:if test="${cadreWork==null}">添加</c:if>"/>
 </div>
 <script>
-    $("#modal :checkbox").bootstrapSwitch();
+    $("#modalForm input[name=isCadre]").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
     $.register.date($('.input-group.date'));
     $("#modal form").validate({

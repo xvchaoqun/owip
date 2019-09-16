@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.global.CacheHelper;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
@@ -64,7 +65,7 @@ public class CacheController extends BaseController {
     @RequiresPermissions("sysConfig:cache")
     @RequestMapping("/flush_location_JSON")
     @ResponseBody
-    public Map flush_location_JSON() {
+    public Map flush_location_JSON() throws FileNotFoundException {
 
         cacheService.flushLocation();
         return success();
@@ -90,7 +91,6 @@ public class CacheController extends BaseController {
     public Map flush_count() {
 
         cacheService.refreshCacheCounts();
-
         return success();
     }
 }

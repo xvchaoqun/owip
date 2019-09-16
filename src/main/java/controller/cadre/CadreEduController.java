@@ -27,15 +27,16 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadreEduController extends BaseController {
@@ -134,8 +135,9 @@ public class CadreEduController extends BaseController {
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
             CadreEdu record,
-            @RequestParam(value = "_files[]") MultipartFile[] _files,
-            HttpServletRequest request) {
+            MultipartFile file1,
+            MultipartFile file2,
+            HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
@@ -145,16 +147,11 @@ public class CadreEduController extends BaseController {
         }
 
         List<String> filePaths = new ArrayList<>();
-        for (MultipartFile _file : _files) {
-            String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "cadre_edu" + FILE_SEPARATOR + record.getCadreId() + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-
-            filePaths.add(savePath);
+        if(file1!=null){
+            filePaths.add(upload(file1, "cadre_edu"));
+        }
+        if(file2!=null){
+            filePaths.add(upload(file2, "cadre_edu"));
         }
         if (filePaths.size() > 0) {
             record.setCertificate(StringUtils.join(filePaths, ","));

@@ -49,7 +49,11 @@ public class BranchView implements Serializable {
 
     private Boolean isDeleted;
 
+    private Integer partySortOrder;
+
     private Long memberCount;
+
+    private BigDecimal positiveCount;
 
     private BigDecimal studentMemberCount;
 
@@ -59,7 +63,13 @@ public class BranchView implements Serializable {
 
     private Long groupCount;
 
-    private Long presentGroupCount;
+    private Integer presentGroupId;
+
+    private Date appointTime;
+
+    private Date tranTime;
+
+    private Date actualTranTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -239,12 +249,28 @@ public class BranchView implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
+    }
+
     public Long getMemberCount() {
         return memberCount;
     }
 
     public void setMemberCount(Long memberCount) {
         this.memberCount = memberCount;
+    }
+
+    public BigDecimal getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(BigDecimal positiveCount) {
+        this.positiveCount = positiveCount;
     }
 
     public BigDecimal getStudentMemberCount() {
@@ -279,11 +305,35 @@ public class BranchView implements Serializable {
         this.groupCount = groupCount;
     }
 
-    public Long getPresentGroupCount() {
-        return presentGroupCount;
+    public Integer getPresentGroupId() {
+        return presentGroupId;
     }
 
-    public void setPresentGroupCount(Long presentGroupCount) {
-        this.presentGroupCount = presentGroupCount;
+    public void setPresentGroupId(Integer presentGroupId) {
+        this.presentGroupId = presentGroupId;
+    }
+
+    public Date getAppointTime() {
+        return appointTime;
+    }
+
+    public void setAppointTime(Date appointTime) {
+        this.appointTime = appointTime;
+    }
+
+    public Date getTranTime() {
+        return tranTime;
+    }
+
+    public void setTranTime(Date tranTime) {
+        this.tranTime = tranTime;
+    }
+
+    public Date getActualTranTime() {
+        return actualTranTime;
+    }
+
+    public void setActualTranTime(Date actualTranTime) {
+        this.actualTranTime = actualTranTime;
     }
 }

@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
-
 <div class="row">
     <div class="col-xs-12">
 
@@ -99,6 +98,7 @@
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <c:if test="${cls==1||cls==4}">
+                                    <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
                                     <button id="partyApprovalBtn" ${approvalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/memberOut_approval"
@@ -108,6 +108,7 @@
                                             data-count="${approvalCount}">
                                         <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${approvalCount}）
                                     </button>
+                                    </c:if>
                                 </c:if>
                                 <c:if test="${cls==6||cls==7}">
                                     <button id="odApprovalBtn" ${approvalCount>0?'':'disabled'}
@@ -134,29 +135,31 @@
                                     <i class="fa fa-search"></i> 查看修改记录
                                 </button>
                                 </c:if>
-                                <c:if test="${cls==3}">
-                                <c:forEach items="${printTypeList}" var="_type">
-                                <button class="print print${_type.id} jqOpenViewBatchBtn btn btn-primary btn-sm"
-                                        data-url="${ctx}/report/printPreview"
-                                        data-querystr="type=${JASPER_PRINT_TYPE_LETTER_PRINT}"
-                                        data-open-by="page">
-                                    <i class="fa fa-print"></i> 批量打印介绍信(${_type.name})
-                                </button>
-                                </c:forEach>
-                                <c:forEach items="${fillPrintTypeList}" var="_type">
-                                <button class="print print${_type.id} fill jqOpenViewBatchBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/report/printPreview"
-                                        data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
-                                        data-open-by="page">
-                                    <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
-                                </button>
-                                </c:forEach>
-                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                                    <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                            data-url="${ctx}/memberOut_abolish">
-                                        <i class="fa fa-reply"></i> 撤销
-                                    </button>
-                                </shiro:hasAnyRoles>
+                                <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
+                                    <c:if test="${cls==3}">
+                                        <c:forEach items="${printTypeList}" var="_type">
+                                        <button class="print print${_type.id} jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                                data-url="${ctx}/report/printPreview"
+                                                data-querystr="type=${JASPER_PRINT_TYPE_LETTER_PRINT}"
+                                                data-open-by="page">
+                                            <i class="fa fa-print"></i> 批量打印介绍信(${_type.name})
+                                        </button>
+                                        </c:forEach>
+                                        <c:forEach items="${fillPrintTypeList}" var="_type">
+                                        <button class="print print${_type.id} fill jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                                data-url="${ctx}/report/printPreview"
+                                                data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
+                                                data-open-by="page">
+                                            <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
+                                        </button>
+                                        </c:forEach>
+                                        <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+                                            <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                    data-url="${ctx}/memberOut_abolish">
+                                                <i class="fa fa-reply"></i> 撤销
+                                            </button>
+                                        </c:if>
+                                    </c:if>
                                 </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -496,6 +499,7 @@
     }
 
     $.initNavGrid("jqGrid", "jqGridPager");
+    <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
     <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"${_p_partyName}批量审核",
@@ -504,7 +508,7 @@
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=1" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
-<c:if test="${cls==6||cls==7}">
+    <c:if test="${cls==6||cls==7}">
     <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
@@ -535,7 +539,7 @@
         }
     });
     </c:if>
-
+    </c:if>
     $('[data-rel="select2"]').select2();
     $.register.user_select($('#searchForm select[name=userId]'));
 </script>

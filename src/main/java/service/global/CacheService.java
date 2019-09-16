@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.abroad.ApproverType;
+import domain.base.LayerType;
 import domain.base.Location;
 import domain.base.MetaType;
 import domain.cadre.CadreViewExample;
@@ -15,7 +16,10 @@ import domain.party.Party;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import mixin.*;
+import mixin.MetaTypeOptionMixin;
+import mixin.OptionMixin;
+import mixin.PartyOptionMixin;
+import mixin.UnitOptionMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.cache.Cache;
@@ -28,6 +32,7 @@ import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import service.BaseMapper;
 import service.SpringProps;
+import service.base.LayerTypeService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
@@ -47,9 +52,13 @@ import sys.constants.MemberConstants;
 import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
 import sys.utils.ClassUtils;
+import sys.utils.ConfigUtil;
 import sys.utils.FileUtils;
 import sys.utils.JSONUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -67,6 +76,8 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     protected CacheManager cacheManager;
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private LayerTypeService layerTypeService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -254,10 +265,14 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     }
 
     // 刷新地区js数据
-    public void flushLocation(){
+    public void flushLocation() throws FileNotFoundException {
 
-        String content = "function ChinaLocation() {this.items=" + locationService.toJSON() + ";}";
-        FileUtils.writerText(CmTag.getJsFolder(), content, "location.js", false);
+        String locationJs = ConfigUtil.defaultHomePath() + File.separator
+                + "extend" + File.separator + "js" + File.separator + "location.js";
+        String function = FileUtils.getData(new FileInputStream(locationJs));
+        String clazz = "function ChinaLocation() {this.items=" + locationService.toJSON() + ";}\r\n";
+
+        FileUtils.writerText(CmTag.getJsFolder(), clazz + function, "location.js", false);
 
         logger.info("==============刷新location.js成功=================");
     }
@@ -265,15 +280,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     // 刷新基础js数据
     public Map flushMetadata() {
 
-        /*Map map = new HashMap();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        for (MetaType metaType : metaTypeMap.values()) {
-            map.put(metaType.getId(), metaType.getName());
-        }
-        modelMap.put("metaTypeMap", JSONUtils.toString(map));*/
-
         Map cMap = new HashMap();
-
         for (Class<?> aClass : ClassUtils.getClasses("sys.constants", true)) {
 
             Map constantMap = new HashMap();
@@ -317,6 +324,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
         baseMixins.put(Location.class, OptionMixin.class);
         baseMixins.put(CetTrainEvaTable.class, OptionMixin.class);
         baseMixins.put(SysRole.class, OptionMixin.class);
+        baseMixins.put(LayerType.class, OptionMixin.class);
 
         mapper.setMixIns(baseMixins);
 
@@ -350,6 +358,8 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
         map.put("roleMap", sysRoleService.findAll());
 
         map.put("_pMap", sysPropertyService.findAll());
+
+        map.put("layerTypeMap", layerTypeService.findAll());
 
         return map;
     }

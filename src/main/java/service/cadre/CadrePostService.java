@@ -219,6 +219,33 @@ public class CadrePostService extends BaseMapper {
         return addCount;
     }
 
+    // 批量导入任职时间
+    @Transactional
+    public int batchImportWorkTimes(List<CadrePost> records) {
+
+        int addCount = 0;
+        for (CadrePost record : records) {
+
+            int cadreId = record.getCadreId();
+            CadrePost cadreMainCadrePost = getCadreMainCadrePost(cadreId);
+            if (cadreMainCadrePost != null) {
+                record.setId(cadreMainCadrePost.getId());
+                cadrePostMapper.updateByPrimaryKeySelective(record);
+            } else {
+                record.setIsMainPost(true);
+                record.setIsFirstMainPost(true);
+                record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
+                + " and is_main_post=" + record.getIsMainPost()));
+                insertSelective(record);
+                addCount++;
+            }
+        }
+
+        cacheHelper.clearCadreCache();
+
+        return addCount;
+    }
+
     @Transactional
     public void changeOrder(int id, int addNum) {
 

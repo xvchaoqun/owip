@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=CadreConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
 <c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
+<c:set value="${_pMap['cadreReward_needProof']=='true'}" var="_cadreReward_needProof"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadreReward!=null}">编辑</c:if><c:if test="${cadreReward==null}">添加</c:if></h3>
@@ -72,9 +73,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">获奖证书</label>
+                <label class="col-xs-3 control-label">${_cadreReward_needProof?'<span class="star">*</span>':''}获奖证书</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="file" name="_proof" />
+                    <input ${(_cadreReward_needProof && empty cadreReward.proof)?'required':''} class="form-control" type="file" name="_proof" />
                 </div>
             </div>
             <div class="form-group">

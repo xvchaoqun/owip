@@ -46,6 +46,10 @@ public class Member implements Serializable {
 
     private String otherReward;
 
+    private String label;
+
+    private String profile;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -214,5 +218,21 @@ public class Member implements Serializable {
 
     public void setOtherReward(String otherReward) {
         this.otherReward = otherReward == null ? null : otherReward.trim();
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label == null ? null : label.trim();
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
     }
 }

@@ -2941,6 +2941,66 @@ public class TeacherInfoExample {
             addCriterion("is_temp not between", value1, value2, "isTemp");
             return (Criteria) this;
         }
+
+        public Criteria andIsHighLevelTalentIsNull() {
+            addCriterion("is_high_level_talent is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentIsNotNull() {
+            addCriterion("is_high_level_talent is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent =", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent <>", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentGreaterThan(Boolean value) {
+            addCriterion("is_high_level_talent >", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent >=", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentLessThan(Boolean value) {
+            addCriterion("is_high_level_talent <", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_high_level_talent <=", value, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentIn(List<Boolean> values) {
+            addCriterion("is_high_level_talent in", values, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotIn(List<Boolean> values) {
+            addCriterion("is_high_level_talent not in", values, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_high_level_talent between", value1, value2, "isHighLevelTalent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHighLevelTalentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_high_level_talent not between", value1, value2, "isHighLevelTalent");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
