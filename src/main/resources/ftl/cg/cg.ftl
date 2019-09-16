@@ -1774,7 +1774,7 @@
                         <w:rPr>
                             <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>
                         </w:rPr>
-                        <w:t>北京师范大学党校校务委员会</w:t>
+                        <w:t>${cgTeam.name}</w:t>
                     </w:r>
                     <aml:annotation aml:id="0" w:type="Word.Bookmark.End"/>
                 </w:p>
@@ -1810,9 +1810,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>一、委员会组成原则</w:t>
+                        <w:t>一、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>组成原则</w:t>
                     </w:r>
                 </w:p>
+
+                <#if staffContentList??>
+                <#list staffContentList as staffContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:pStyle w:val="ae"/>
@@ -1834,342 +1837,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>党</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>长</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>:</w:t>
-                    </w:r>
-                    <w:r wsp:rsidR="00601F56">
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党委书记</w:t>
+                        <w:t>${staffContent}</w:t>
                     </w:r>
                 </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党校常务副校长：分管组织工作的校领导</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>副</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>长：党委组织部负责人</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>委</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>员：</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>1.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党委办公室、党委宣传部、党委学生工作部负责人</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>2.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>学部、院系党委书记代表：马克思主义学院</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>委员会办公室设在党委组织部，具体负责日常工作，办公室主任由党委组织部分管党校工作的副部长兼任。</w:t>
-                    </w:r>
-                </w:p>
+                </#list>
+                </#if>
+
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00FD0534">
                     <w:pPr>
                         <w:pStyle w:val="ae"/>
@@ -2209,6 +1882,10 @@
                         <w:t>根据学校目前工作安排，具体人员组成为：</w:t>
                     </w:r>
                 </w:p>
+
+
+                <#if memberAndUserList??>
+                    <#list memberAndUserList as memberAndUser>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:pStyle w:val="ae"/>
@@ -2230,201 +1907,13 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>党</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>长</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>:</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>程建平</w:t>
+                        <w:t>${memberAndUser}</w:t>
                     </w:r>
                 </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党校常务副校长：李晓兵</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:pStyle w:val="ae"/>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>副</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>长：方增泉</w:t>
-                    </w:r>
-                </w:p>
+                    </#list>
+                </#if>
+
+
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:spacing w:line="560" w:line-rule="at-least"/>
@@ -2443,118 +1932,7 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>委</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>员：张朱博</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>刘长旭</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>王洛忠</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>张润枝</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>办公室主任：徐</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t></w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>蕾</w:t>
+                        <w:t>办公室主任：${leaderName!}</w:t>
                     </w:r>
                 </w:p>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
@@ -2576,9 +1954,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>二、委员会工作职责</w:t>
+                        <w:t>二、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>工作职责</w:t>
                     </w:r>
                 </w:p>
+
+                <#if jobContentList??>
+                <#list jobContentList as jobContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:adjustRightInd w:val="off"/>
@@ -2599,182 +1980,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>1.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>坚持</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>“</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>党校姓党</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>”</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>，贯彻落实中央和上级党组织关于党校工作的精神要求和部署安排，统筹规划学校党校工作。</w:t>
+                        <w:t>${jobContent}</w:t>
                     </w:r>
                 </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>2.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>讨论决定党校的建设、教学、培训、科研等重要工作。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>3.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>讨论制定学校年度党校工作计划和实施方案，加强工作协调。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>4.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>指导、督促学部院系二级党校建设，审议二级党校年度工作计划和方案，以及相关工作汇报。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:adjustRightInd w:val="off"/>
-                        <w:snapToGrid w:val="off"/>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>5.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>加强工作交流研讨，研究解决党校工作的重点、难点问题。</w:t>
-                    </w:r>
-                </w:p>
+                </#list>
+                </#if>
+
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:adjustRightInd w:val="off"/>
@@ -2794,9 +2005,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>三、委员会议事规则</w:t>
+                        <w:t>三、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>议事规则</w:t>
                     </w:r>
                 </w:p>
+
+                <#if debateContentList??>
+                <#list debateContentList as debateContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:spacing w:line="560" w:line-rule="at-least"/>
@@ -2815,138 +2029,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>1.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校委会原则上每年召开一次会议，如因工作需要可随时召开。</w:t>
+                        <w:t>${debateContent}</w:t>
                     </w:r>
                 </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>2.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校委会的上会议题，由党校办公室会同有关职能部处和二级党校提出初步意见，报党校校长审定。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>3.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校委会会议可根据议题和决策事项，邀请有关领域专家、有关部门负责同志列席。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>4.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校委会委员因故不能出席会议时，可委托本部门其他负责同志出席。</w:t>
-                    </w:r>
-                </w:p>
-                <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-                    <w:pPr>
-                        <w:spacing w:line="560" w:line-rule="at-least"/>
-                        <w:ind w:first-line-chars="200" w:first-line="640"/>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                    </w:pPr>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="Times New Roman"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>5.</w:t>
-                    </w:r>
-                    <w:r>
-                        <w:rPr>
-                            <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                            <wx:font wx:val="仿宋_GB2312"/>
-                            <w:sz w:val="32"/>
-                            <w:sz-cs w:val="32"/>
-                        </w:rPr>
-                        <w:t>校委会会议研究决定的事项，会后由党校办公室整理形成《会议纪要》，印发各基层分党委、党总支和直属党支部。相关议题按照分工负责的原则，由相应的部门和单位贯彻执行。</w:t>
-                    </w:r>
-                </w:p>
+                </#list>
+                </#if>
+
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00796674" wsp:rsidRDefault="00FD0534" wsp:rsidP="00796674">
                     <w:pPr>
                         <w:spacing w:line="560" w:line-rule="at-least"/>

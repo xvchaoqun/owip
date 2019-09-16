@@ -64,7 +64,8 @@ public class CgMemberService extends CgBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("cg_member", null, ORDER_BY_DESC, id, addNum);
+        CgMember cgMember = cgMemberMapper.selectByPrimaryKey(id);
+        changeOrder("cg_member", String.format("is_current=%s and team_id=%s",cgMember.getIsCurrent(),cgMember.getTeamId()), ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional

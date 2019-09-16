@@ -1,6 +1,7 @@
 package controller.cg;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import service.base.MetaTypeService;
 import service.cg.*;
 import service.sys.SysUserService;
 import service.unit.UnitService;
@@ -23,4 +24,7 @@ public class CgBaseController extends CgBaseMapper implements HttpResponseMethod
     protected CgUnitService cgUnitService;
     @Autowired
     protected CgRuleService cgRuleService;
+
+    @Autowired
+    protected MetaTypeService metaTypeService;
 }

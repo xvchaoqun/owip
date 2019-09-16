@@ -1,4 +1,8 @@
 
+2019-09-19
+-- 添加字段 桑文帅
+ALTER TABLE `cg_member` ADD COLUMN `seat` VARCHAR(50) NULL DEFAULT NULL COMMENT '席位' AFTER `tag`;
+
 2019-09-10
 -- 建表语句 桑文帅
 

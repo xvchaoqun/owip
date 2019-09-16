@@ -64,7 +64,8 @@ public class CgRuleService extends CgBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("cg_rule", null, ORDER_BY_DESC, id, addNum);
+        CgRule record = cgRuleMapper.selectByPrimaryKey(id);
+        changeOrder("cg_rule", String.format("team_id=%s and is_current=%s",record.getTeamId(), record.getIsCurrent()), ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional

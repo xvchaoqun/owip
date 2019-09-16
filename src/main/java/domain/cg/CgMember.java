@@ -31,6 +31,8 @@ public class CgMember implements Serializable {
 
     private String tag;
 
+    private String seat;
+
     private Date startDate;
 
     private Date endDate;
@@ -99,6 +101,14 @@ public class CgMember implements Serializable {
 
     public void setTag(String tag) {
         this.tag = tag == null ? null : tag.trim();
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public void setSeat(String seat) {
+        this.seat = seat == null ? null : seat.trim();
     }
 
     public Date getStartDate() {

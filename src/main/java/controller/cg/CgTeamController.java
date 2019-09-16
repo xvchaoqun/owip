@@ -6,6 +6,7 @@ import domain.cg.CgTeam;
 import domain.cg.CgTeamView;
 import domain.cg.CgTeamViewExample;
 import domain.cg.CgTeamViewExample.Criteria;
+import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.base.MetaTypeService;
 import service.ps.PsInfoService;
 import sys.constants.CgConstants;
 import sys.constants.LogConstants;
@@ -45,8 +45,6 @@ public class CgTeamController extends CgBaseController {
 
     @Autowired
     private PsInfoService psInfoService;
-    @Autowired
-    private MetaTypeService metaTypeService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -388,5 +386,12 @@ public class CgTeamController extends CgBaseController {
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;
+    }
+
+    @RequestMapping("/cgTeam_download")
+    public void cgTeam_download(Integer teamId, HttpServletRequest request,
+                                HttpServletResponse response) throws IOException, TemplateException {
+
+        cgTeamService.export(teamId,request, response);
     }
 }

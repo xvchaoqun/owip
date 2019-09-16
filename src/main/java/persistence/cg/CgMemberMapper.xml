@@ -9,6 +9,7 @@
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="seat" jdbcType="VARCHAR" property="seat" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="is_current" jdbcType="BIT" property="isCurrent" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, team_id, post, type, unit_post_id, user_id, tag, start_date, end_date, is_current, 
-    need_adjust, sort_order, remark
+    id, team_id, post, type, unit_post_id, user_id, tag, seat, start_date, end_date, 
+    is_current, need_adjust, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cg.CgMemberExample" resultMap="BaseResultMap">
     select
@@ -114,14 +115,14 @@
     </selectKey>
     insert into cg_member (team_id, post, type, 
       unit_post_id, user_id, tag, 
-      start_date, end_date, is_current, 
-      need_adjust, sort_order, remark
-      )
+      seat, start_date, end_date, 
+      is_current, need_adjust, sort_order, 
+      remark)
     values (#{teamId,jdbcType=INTEGER}, #{post,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{unitPostId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isCurrent,jdbcType=BIT}, 
-      #{needAdjust,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{seat,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{isCurrent,jdbcType=BIT}, #{needAdjust,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cg.CgMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -146,6 +147,9 @@
       </if>
       <if test="tag != null">
         tag,
+      </if>
+      <if test="seat != null">
+        seat,
       </if>
       <if test="startDate != null">
         start_date,
@@ -184,6 +188,9 @@
       </if>
       <if test="tag != null">
         #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="seat != null">
+        #{seat,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
@@ -235,6 +242,9 @@
       <if test="record.tag != null">
         tag = #{record.tag,jdbcType=VARCHAR},
       </if>
+      <if test="record.seat != null">
+        seat = #{record.seat,jdbcType=VARCHAR},
+      </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
       </if>
@@ -267,6 +277,7 @@
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       tag = #{record.tag,jdbcType=VARCHAR},
+      seat = #{record.seat,jdbcType=VARCHAR},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       is_current = #{record.isCurrent,jdbcType=BIT},
@@ -298,6 +309,9 @@
       <if test="tag != null">
         tag = #{tag,jdbcType=VARCHAR},
       </if>
+      <if test="seat != null">
+        seat = #{seat,jdbcType=VARCHAR},
+      </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
       </if>
@@ -327,6 +341,7 @@
       unit_post_id = #{unitPostId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR},
+      seat = #{seat,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       is_current = #{isCurrent,jdbcType=BIT},

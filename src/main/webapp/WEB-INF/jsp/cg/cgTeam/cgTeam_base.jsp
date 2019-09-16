@@ -21,6 +21,11 @@
     <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
         ${cgTeam.name}概况
     </span>
+        <a href="javascript:;" class="downloadBtn btn btn-primary"
+           data-url="${ctx}/cg/cgTeam_download?teamId=${cgTeam.id}">
+            <i class="ace-icon fa fa-download "></i>
+            导出
+        </a>
 </div>
         <table style="border: 1px solid #151515; width: 850px; font-size: 15px">
             <tr>

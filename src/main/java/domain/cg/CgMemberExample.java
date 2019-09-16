@@ -562,6 +562,76 @@ public class CgMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andSeatIsNull() {
+            addCriterion("seat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatIsNotNull() {
+            addCriterion("seat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatEqualTo(String value) {
+            addCriterion("seat =", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatNotEqualTo(String value) {
+            addCriterion("seat <>", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatGreaterThan(String value) {
+            addCriterion("seat >", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatGreaterThanOrEqualTo(String value) {
+            addCriterion("seat >=", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatLessThan(String value) {
+            addCriterion("seat <", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatLessThanOrEqualTo(String value) {
+            addCriterion("seat <=", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatLike(String value) {
+            addCriterion("seat like", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatNotLike(String value) {
+            addCriterion("seat not like", value, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatIn(List<String> values) {
+            addCriterion("seat in", values, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatNotIn(List<String> values) {
+            addCriterion("seat not in", values, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatBetween(String value1, String value2) {
+            addCriterion("seat between", value1, value2, "seat");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeatNotBetween(String value1, String value2) {
+            addCriterion("seat not between", value1, value2, "seat");
+            return (Criteria) this;
+        }
+
         public Criteria andStartDateIsNull() {
             addCriterion("start_date is null");
             return (Criteria) this;

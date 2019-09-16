@@ -68,6 +68,12 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group delegateAndUser" hidden>
+			<label class="col-xs-4 control-label"> 席位</label>
+			<div class="col-xs-6">
+				<input name="seat" type="text" class="form-control" value="${cgMember.seat}">
+			</div>
+		</div>
+		<div class="form-group delegateAndUser" hidden>
 			<label class="col-xs-4 control-label"><span class="star">*</span> 代表姓名</label>
 			<div class="col-xs-6">
 				<select name="userIds"
@@ -133,6 +139,7 @@ pageEncoding="UTF-8"%>
 	var unitPostSelect = $(".unitPostAndUser select[name=unitPostId]");//岗位名称
 	var userSelect = $(".unitPostAndUser select[name=userId]");//现任干部
 	var tag = $(".delegateAndUser input[name=tag]");//代表类型
+	var seat = $(".delegateAndUser input[name=seat]");//席位
 	var usersSelect = $(".delegateAndUser select[name=userIds]");//代表姓名
 	var remind = $("label[name=remind]");//提醒
 
@@ -152,6 +159,7 @@ pageEncoding="UTF-8"%>
 
 			//清空各类代表中的值
 			tag.val(null);
+			seat.val(null);
 			usersSelect.val(null).trigger("change");
 
 			//删除各类代表中“必选”属性
