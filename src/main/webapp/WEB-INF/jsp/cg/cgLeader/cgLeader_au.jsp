@@ -125,17 +125,28 @@ function clearSelect(){
 
         var option = new Option(up.cadre.user.realname, up.cadre.user.id, true, true);
         userIdSelect.append(option).trigger('change');
+
+        $("input[name=phone]").val(up.cadre.mobile);
         $("label[name=remind]").hide();
     }else if (unitPostIdSelect.val()!='' && unitPostIdSelect.val()!=null) {//如果选择的岗位没有现任干部
 
+        $("input[name=phone]").val("");
         userIdSelect.val(null).trigger('change');
         $("label[name=remind]").show();
     }else if(unitPostIdSelect.val()=='' || unitPostIdSelect.val()==null){//如果没有选择岗位
 
+        $("input[name=phone]").val("");
         userIdSelect.val(null).trigger("change");
         $("label[name=remind]").hide();
     }
 });
+
+    userIdSelect.on("change",function () {
+
+        var data = $(this).select2("data")[0];
+        //console.log(data['mobile']);
+        $("input[name=phone]").val(data['mobile']);
+    });
 
     $("#submitBtn").click(function(){
 
