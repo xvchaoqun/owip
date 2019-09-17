@@ -44,21 +44,21 @@ public class CadreBaseInfoController extends BaseController {
     @RequestMapping(value = "/cadreBaseInfo", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreBaseInfo(int cadreId,
-                                  MultipartFile _avatar,
-                                  Integer dpTypeId,
-                                  String _dpAddTime,
-                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
-                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _postTime, // 后备干部任职时间
-                                  String nativePlace,
-                                  String homeplace,
-                                  String household,
-                                  Integer health,
-                                  String specialty,
-                                  String mobile,
-                                  String phone,
-                                  String email,
-                                    String title,
-                                  HttpServletRequest request) throws IOException {
+                                MultipartFile _avatar,
+                                Integer dpTypeId,
+                                String _dpAddTime,
+                                @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
+                                @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _postTime, // 后备干部任职时间
+                                String nativePlace,
+                                String homeplace,
+                                String household,
+                                Integer health,
+                                String specialty,
+                                String mobile,
+                                String phone,
+                                String email,
+                                String title,
+                                HttpServletRequest request) throws IOException {
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         int userId = cadre.getUserId();
@@ -118,7 +118,7 @@ public class CadreBaseInfoController extends BaseController {
         }
 
         {
-            if(StringUtils.isNotBlank(title) /*&& ShiroHelper.hasRole(RoleConstants.ROLE_CADRERECRUIT)*/){
+            if(title != null /*&& ShiroHelper.hasRole(RoleConstants.ROLE_CADRERECRUIT)*/){
 
                 cadreService.updateTitle(cadreId, title);
             }

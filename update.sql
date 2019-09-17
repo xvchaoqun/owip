@@ -1,9 +1,5 @@
 
-
-ALTER TABLE `ow_branch`
-	CHANGE COLUMN `found_time` `found_time` DATE NULL COMMENT '成立时间' AFTER `email`;
-
-update sys_resource set NAME='消息日志' WHERE permission='shortMsg:*';
+---- 北师大
 
 20190916
 
@@ -51,6 +47,10 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
                             VALUES (73, 0, '层级分类管理', '', 'url', '', '/layerType', 67, '0/1/67/', 1, 'layerType:*', NULL, NULL, NULL, 1, 450);
 
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `found_time` `found_time` DATE NULL COMMENT '成立时间' AFTER `email`;
+
+update sys_resource set NAME='消息日志' WHERE permission='shortMsg:*';
 
 -- 更新cadre_view等
 -- 更新 ow_member_view
