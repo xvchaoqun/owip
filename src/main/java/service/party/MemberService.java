@@ -7,6 +7,7 @@ import domain.party.EnterApply;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ext.service.SyncService;
 import service.member.EnterApplyService;
 import service.member.MemberApplyService;
 import service.member.MemberBaseMapper;
@@ -450,27 +450,24 @@ public class MemberService extends MemberBaseMapper {
                     MemberConstants.MEMBER_STATUS_MAP.get(checkMember.getStatus()));
         }
 
-        if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
+        /*if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
             throw new OpException("身份证号码不相同，无法更换");
-        }
+        }*/
 
         Byte memberType = null;
         Byte type = newUser.getType();
         if (type == SystemConstants.USER_TYPE_JZG) {
 
-            // 同步教职工信息
             memberType = MemberConstants.MEMBER_TYPE_TEACHER; // 教职工党员
-            syncService.snycTeacherInfo(userId, newUser);
+            //syncService.snycTeacherInfo(userId, newUser);
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
-            // 同步本科生信息
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
-            syncService.snycStudent(userId, newUser);
+            //syncService.snycStudent(userId, newUser);
         } else if (type == SystemConstants.USER_TYPE_YJS) {
 
-            // 同步研究生信息
             memberType = MemberConstants.MEMBER_TYPE_STUDENT; // 学生党员
-            syncService.snycStudent(userId, newUser);
+            //syncService.snycStudent(userId, newUser);
         } else {
             throw new OpException("账号不是教工或学生。" + newUser.getCode() + "," + newUser.getRealname());
         }
@@ -480,7 +477,6 @@ public class MemberService extends MemberBaseMapper {
 
         // 更新新的学工号的系统角色  访客->党员
         sysUserService.changeRole(newUserId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
-
         sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
 
         addModify(userId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
