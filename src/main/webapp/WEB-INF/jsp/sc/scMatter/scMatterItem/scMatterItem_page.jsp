@@ -24,7 +24,7 @@
                                data-url="${ctx}/sc/scMatter_au"
                                data-grid-id="#jqGrid"
                                ><i class="fa fa-send"></i>
-                                催交短信</a>--%>
+                                催交通知</a>--%>
                             <a class="jqOpenViewBtn btn btn-success btn-sm"
                                data-url="${ctx}/sc/scMatterAccess"
                                data-grid-id="#jqGrid"

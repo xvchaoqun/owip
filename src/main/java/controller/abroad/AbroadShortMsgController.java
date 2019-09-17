@@ -49,11 +49,11 @@ public class AbroadShortMsgController extends AbroadBaseController {
 
         if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "发送信息：%s", shortMsgBean.getContent()));
             return success(FormUtils.SUCCESS);
         }
 
-        return failed("短信发送失败（短信接口错误或设定了禁止发送短信）");
+        return failed("发送失败（接口错误或设定了禁止发送）");
     }
 
     // 批量发送证件信息
@@ -69,7 +69,7 @@ public class AbroadShortMsgController extends AbroadBaseController {
 
             ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(userId, null, type, id);
             if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
-                logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "发送信息：%s", shortMsgBean.getContent()));
             }else{
                 Integer receiver = shortMsgBean.getReceiver();
                 failedUsers.add(CmTag.getUserById(receiver));

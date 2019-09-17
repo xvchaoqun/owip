@@ -189,7 +189,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         int send = crsShortMsgService.send(postId, tplKey);
 
-        logger.info(addLog(LogConstants.LOG_CRS, "干部招聘，发送短信：%s, %s", postId, tplKey));
+        logger.info(addLog(LogConstants.LOG_CRS, "干部招聘，发送信息：%s, %s", postId, tplKey));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", send);

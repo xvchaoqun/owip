@@ -55,7 +55,7 @@
                                    data-url="${ctx}/oa/oaTaskUser_infoMsg"
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"><i class="fa fa-send"></i>
-                                    下发任务短信通知</a>
+                                    下发任务通知</a>
                             </shiro:hasPermission>
                             </c:if>
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"

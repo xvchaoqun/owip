@@ -123,7 +123,7 @@ public class AbroadShortMsgService extends AbroadBaseMapper {
             shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request));
         }catch (Exception ex){
             logger.error("异常", ex);
-            logger.error("短信发送失败, {}, {}, {}, {}, {}, {}, {}",
+            logger.error("发送失败, {}, {}, {}, {}, {}, {}, {}",
                     new Object[]{ShiroHelper.getCurrentUsername(), ex.getMessage(), request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),

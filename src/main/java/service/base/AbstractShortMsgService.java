@@ -152,7 +152,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
             throw new OpException("{0}（工号：{1}）手机号码有误（{2}）", uv.getRealname(), uv.getCode(), mobile);
         }
         if (StringUtils.isBlank(content)) {
-            throw new OpException("短信发送内容为空。");
+            throw new OpException("发送内容为空。");
         }
 
         ShortMsg record = new ShortMsg();

@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
             { label: '任务',name: 'taskId'},
             { label: '接收人',name: 'userId'},
             { label: '类别',name: 'type'},
-            { label: '短信内容',name: 'content'},
+            { label: '通知内容',name: 'content'},
             { label: '是否发送成功',name: 'success'},
             { label: '发送人',name: 'sendUserId'},
             { label: '发送时间',name: 'sendTime'},

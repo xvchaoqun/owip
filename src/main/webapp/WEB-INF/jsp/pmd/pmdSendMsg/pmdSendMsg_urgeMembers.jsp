@@ -31,7 +31,7 @@
 </div>
 <div class="modal-footer">
   <div style="color: red; font-size: 16px; font-weight: bolder;text-align: left;padding-bottom: 20px;">
-    注：此短信发送之后可能有延迟，请勿重复发送。
+    注：此信息发送之后可能有延迟，请勿重复发送。
   </div>
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" ${count==0?'disabled':''} class="btn btn-primary"><i class="fa fa-check"></i> 确定发送</button>

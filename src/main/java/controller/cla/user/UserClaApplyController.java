@@ -223,7 +223,7 @@ public class UserClaApplyController extends ClaBaseController {
             claApplyService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CLA, "提交干部请假申请：%s", record.getId()));
 
-            // 给干部管理员发短信提醒
+            // 给干部管理员发消息提醒
             claShortMsgService.sendApplySubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),

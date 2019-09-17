@@ -21,7 +21,7 @@ public class PassportDrawReturnMsg implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.debug("领取证件之后催交证件短信通知...");
+        logger.debug("领取证件之后催交证件信息通知...");
         try {
             abroadShortMsgService.sendReturnMsg();
         }catch (Exception ex){

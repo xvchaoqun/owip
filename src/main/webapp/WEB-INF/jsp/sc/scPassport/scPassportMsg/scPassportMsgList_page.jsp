@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>短信发送记录</h3>
+  <h3>发送记录</h3>
 </div>
 <div class="modal-body">
   <table id="jqGrid_popup" class="table-striped"> </table>

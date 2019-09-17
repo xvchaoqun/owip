@@ -76,7 +76,7 @@
                 <label class="col-xs-3 control-label">微信跳转地址</label>
                 <div class="col-xs-8">
                     <input class="form-control" type="text" name="wxUrl" value="${contentTpl.wxUrl}">
-                    <span class="help-block">最终跳转地址为：${_p_siteHome}+微信跳转地址</span>
+                    <span class="help-block">最终跳转地址为：${_p_siteHome}+微信跳转地址；如无需跳转请留空。</span>
                 </div>
             </div>
             <c:if test="${contentType==CONTENT_TPL_CONTENT_TYPE_STRING}">
@@ -145,10 +145,12 @@
         //console.log("wxMsgType="+$(this).val())
         if ($(this).val() == '${CONTENT_TPL_WX_TYPE_NEWS}') {
             $(".wxPic").show();
-            $("#modalForm input[name=wxPic]").requireField(true);
+            //$("#modalForm input[name=wxPic]").requireField(true);
+            $("#modalForm input[name=wxTitle]").requireField(true).closest(".wxMsg").show();
         } else {
             $(".wxPic").hide();
-            $("#modalForm input[name=wxPic]").requireField(false);
+            //$("#modalForm input[name=wxPic]").requireField(false);
+            $("#modalForm input[name=wxTitle]").requireField(false).closest(".wxMsg").hide();
         }
     });
     <c:if test="${not empty contentTpl}">

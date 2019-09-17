@@ -28,7 +28,7 @@
                     <c:if test="${taskCanEdit}">
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/oa/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
-                        短信催促未报送对象</a>
+                        催促未报送对象</a>
                     <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                        data-querystr="taskId=${oaTask.id}"
                        data-ids-name="taskUserIds[]"
@@ -182,10 +182,10 @@
 
                 return _cMap.OA_TASK_USER_STATUS_MAP[cellvalue];
             }},
-            { label: '短信提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
+            { label: '通知提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_DENY%>')
                     return ('<button class="popupBtn btn btn-warning btn-xs" ' +
-                    'data-url="${ctx}/oa/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 短信提醒</button>')
+                    'data-url="${ctx}/oa/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 通知提醒</button>')
                             .format(rowObject.id);
                 return "-";
             }},

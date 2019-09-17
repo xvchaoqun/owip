@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>短信通知指定负责人</h3>
+    <h3>通知指定负责人</h3>
 </div>
 <div class="modal-body">
     <p style="padding:30px;font-size:20px;text-indent: 2em; ">
@@ -25,7 +25,7 @@
             $.post("${ctx}/user/oa/oaTaskUser_assignMsg", {taskId:${param.taskId}}, function (ret) {
                 if (ret.success) {
                     $("#modal").modal('hide');
-                    SysMsg.success('<div class="modal-note">通知短信已发送，有可能会因为短信平台接口问题发送失败。为了保证工作按时完成，请确保负责人已接到通知。</div>');
+                    SysMsg.success('<div class="modal-note">通知已发送，有可能会因为平台接口问题发送失败。为了保证工作按时完成，请确保负责人已接到通知。</div>');
                 }
             });
         })

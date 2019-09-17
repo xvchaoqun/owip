@@ -44,7 +44,7 @@ public class ShortMsgController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             shortMsgService.repeat(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "重复发送短信：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "重复发送：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

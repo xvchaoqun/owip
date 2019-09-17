@@ -35,11 +35,11 @@ public class ShortMsgReceiverController extends BaseController {
             record.setAddTime(new Date());
             record.setAddUserId(ShiroHelper.getCurrentUserId());
             shortMsgReceiverMapper.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加短信接收人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加接收人：%s", record.getId()));
         } else {
 
             shortMsgReceiverMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新短信接收人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新接收人：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -53,7 +53,7 @@ public class ShortMsgReceiverController extends BaseController {
         if (id != null) {
 
             shortMsgReceiverMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除短信接收人：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除接收人：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

@@ -44,10 +44,10 @@ public class ClaShortMsgController extends ClaBaseController {
 
         if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "发送信息：%s", shortMsgBean.getContent()));
             return success(FormUtils.SUCCESS);
         }
 
-        return failed("短信发送失败（短信接口错误或设定了禁止发送短信）");
+        return failed("发送失败（接口错误或设定了禁止发送）");
     }
 }

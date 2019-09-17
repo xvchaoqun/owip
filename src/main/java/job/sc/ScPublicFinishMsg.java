@@ -19,7 +19,7 @@ public class ScPublicFinishMsg implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("干部任前公示结束确认短信系统自动扫描...");
+        logger.info("干部任前公示结束确认信息系统自动扫描...");
         try {
             scPublicService.autoFinishMsg();
 

@@ -422,7 +422,7 @@ public class CrsShortMsgService extends CrsBaseMapper {
             try {
                 success = shortMsgService.send(bean, "127.0.0.1");
             } catch (Exception ex) {
-                logger.error("干部招聘短信发送失败", ex);
+                logger.error("干部招聘信息发送失败", ex);
             }
 
             if (success) {

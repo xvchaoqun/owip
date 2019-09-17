@@ -109,7 +109,7 @@ public class CetShortMsgService extends CetBaseMapper {
         try {
             success = shortMsgService.send(bean, "127.0.0.1");
         }catch (Exception ex){
-            logger.error("干部教育培训短信发送失败", ex);
+            logger.error("干部教育培训消息发送失败", ex);
         }
 
         csm.setMobile(mobile);
@@ -187,7 +187,7 @@ public class CetShortMsgService extends CetBaseMapper {
         try {
             success = shortMsgService.send(bean, "127.0.0.1");
         }catch (Exception ex){
-            logger.error("干部教育培训短信发送失败", ex);
+            logger.error("干部教育培训消息发送失败", ex);
         }
 
         csm.setSendTime(new Date());
@@ -253,7 +253,7 @@ public class CetShortMsgService extends CetBaseMapper {
                 try {
                     success = shortMsgService.send(bean, "127.0.0.1");
                 } catch (Exception ex) {
-                    logger.error("干部教育培训短信发送失败", ex);
+                    logger.error("干部教育培训消息发送失败", ex);
                 }
 
                 csm.setSendTime(new Date());
@@ -271,7 +271,7 @@ public class CetShortMsgService extends CetBaseMapper {
             try {
                 success = shortMsgService.send(bean, "127.0.0.1");
             } catch (Exception ex) {
-                logger.error("干部教育培训短信发送失败", ex);
+                logger.error("干部教育培训消息发送失败", ex);
             }
 
             csm.setSendTime(new Date());

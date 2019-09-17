@@ -35,7 +35,7 @@
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"
                                    ><i class="fa fa-send"></i>
-                                    短信通知指定负责人</button>
+                                    通知指定负责人</button>
                             </div>
                         </c:if>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -129,7 +129,7 @@
             },
            /*
             {
-                label: '短信提醒', name: '_op', formatter: function (cellvalue, options, rowObject) {
+                label: '消息提醒', name: '_op', formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="confirm btn btn-success btn-xs" data-msg="确定撤回？" data-callback="_reload"' +
                         'data-url="${ctx}/user/oa/oaTaskUser_back?taskId={0}"><i class="fa fa-clock-o"></i> 定时提醒</button>'

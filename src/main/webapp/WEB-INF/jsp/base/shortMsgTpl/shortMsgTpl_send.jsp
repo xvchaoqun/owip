@@ -53,7 +53,7 @@
                 </div>
             </c:if>
         </c:if>
-        <c:if test="${shortMsgTpl.type==CONTENT_TPL_TYPE_WX}">
+        <c:if test="${shortMsgTpl.wxMsgType == CONTENT_TPL_WX_TYPE_NEWS}">
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><span class="star">*</span>标题</label>
                     <div class="col-xs-9">

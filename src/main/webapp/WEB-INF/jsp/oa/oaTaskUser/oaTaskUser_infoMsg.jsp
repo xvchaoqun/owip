@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
 	<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-	<h3>下发任务短信通知</h3>
+	<h3>下发任务通知</h3>
 </div>
 <div class="modal-body">
 	<form class="form-horizontal" action="${ctx}/oa/oaTaskUser_infoMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>通知内容</label>
 			<div class="col-xs-8">
 				<textarea required class="form-control" name="msg" rows="8"></textarea>
 			</div>
@@ -43,7 +43,7 @@
 
 						$("#modal").modal('hide');
 						//$("#jqGrid").trigger("reloadGrid");
-						SysMsg.info("共发送{0}条短信，其中发送成功{1}条".format(ret.totalCount, ret.successCount))
+						SysMsg.info("共发送{0}条通知，其中发送成功{1}条".format(ret.totalCount, ret.successCount))
 					}else{
 						$btn.button('reset');
 					}

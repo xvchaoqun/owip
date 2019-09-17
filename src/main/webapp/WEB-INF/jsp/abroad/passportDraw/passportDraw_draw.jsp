@@ -193,7 +193,7 @@
                 }
                 </c:if>
             },
-            title: '短信发送【<i class="fa fa-mobile" aria-hidden="true"></i>${empty mobile?"<span style=\"color:red;font-weight:bolder\">手机号码为空</span>":mobile}】'
+            title: '发送信息【<i class="fa fa-mobile" aria-hidden="true"></i>${empty mobile?"<span style=\"color:red;font-weight:bolder\">手机号码为空</span>":mobile}】'
         });  });
 
     $("#modalForm").validate({

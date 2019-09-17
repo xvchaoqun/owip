@@ -113,8 +113,8 @@
                 if(rowObject.wxPic!=undefined){
                     str += '<a href="{0}" target="_blank"><img src="{0}" width="40"/></a> '.format(rowObject.wxPic)
                 }
-                str += $.trim(cellvalue) + "，" + $.trim(rowObject.wxUrl);
-                return str;
+                str += $.trim(cellvalue) + ($.isBlank(cellvalue)||$.isBlank(rowObject.wxUrl)?'':'，') + $.trim(rowObject.wxUrl);
+                return $.isBlank(str)?'--':str;
             }},
             { label: '内容', name: 'content', width: 450, align:'left', formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
             { label: '指定消息接收人', name: '_receivers', width: 180, formatter: function (cellvalue, options, rowObject) {

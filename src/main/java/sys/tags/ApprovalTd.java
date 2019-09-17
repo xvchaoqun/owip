@@ -131,7 +131,7 @@ public class ApprovalTd extends BodyTagSupport {
             if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
                 td += String.format("<td><button data-id=\"%s\" data-userid=\"%s\" data-status=\"%s\" data-name=\"%s\"" +
                         "        class=\"shortMsgBtn btn btn-primary btn-mini btn-xs\">\n" +
-                        "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
+                        "        <i class=\"fa fa-info-circle\"></i> 消息提醒\n" +
                         "        </button></td>", applySelfId, sysUser.getId(), (lastVal.getValue()!=null && lastVal.getValue()==1), sysUser.getRealname());
             }else{
                 td +="<td></td>";

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>短信催促未报送对象</h3>
+    <h3>催促未报送对象</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_unreportMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>短信内容</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>通知内容</label>
 
             <div class="col-xs-8">
                 <textarea required class="form-control" name="msg" rows="8"></textarea>
@@ -37,7 +37,7 @@
     </button>
 </div>
 <script type="text/template" id="msgRetTpl">
-    <div>共发送{{=ret.totalCount}}条短信，其中发送成功{{=ret.successCount}}条。</div>
+    <div>共发送{{=ret.totalCount}}条通知，其中发送成功{{=ret.successCount}}条。</div>
     {{if(ret.failedUsers.length>0){}}
     <div>发送失败名单（共{{=ret.failedUsers.length}}人）：</div>
     <table class="table table-bordered table-unhover">

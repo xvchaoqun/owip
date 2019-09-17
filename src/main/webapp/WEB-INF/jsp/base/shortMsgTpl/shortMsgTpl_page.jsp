@@ -91,8 +91,8 @@
                 if(rowObject.wxPic!=undefined){
                     str += '<a href="{0}" target="_blank"><img src="{0}" width="40"/></a> '.format(rowObject.wxPic)
                 }
-                str += $.trim(cellvalue) + "，" + $.trim(rowObject.wxUrl);
-                return str;
+                str += $.trim(cellvalue) + ($.isBlank(cellvalue)||$.isBlank(rowObject.wxUrl)?'':'，') + $.trim(rowObject.wxUrl);
+                return $.isBlank(str)?'--':str;
             }},
             {label: '模板名称', name: 'name', width: 350, align:'left',frozen:true},
             {

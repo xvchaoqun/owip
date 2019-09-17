@@ -40,9 +40,9 @@ public class OaConstants {
     public final static byte OA_TASK_MSG_TYPE_SELF =3;
     public final static Map<Byte, String> OA_TASK_MSG_TYPE_MAP = new LinkedHashMap<>();
     static {
-        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_INFO, "下发任务短信通知");
-        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_UNREPORT, "短信催促未报送对象");
-        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_DENY, "审核未通过短信提醒");
-        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_SELF, "本人设置的短信提醒");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_INFO, "下发任务通知");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_UNREPORT, "催促未报送对象");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_DENY, "审核未通过提醒");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_SELF, "本人设置的提醒");
     }
 }
