@@ -9,19 +9,12 @@
           返回
         </a>
         <c:if test="${param.status==0}">
-          <c:if test="${param.type!='admin' ||(param.type=='admin' && applySelf.flowNode<=0)}">
             <div class="pull-right" style="margin-right: 10px;">
-        <button id="agree" style="margin-left: 10px; margin-right: 10px;"
-           class="btn btn-primary btn-xs"><i class="fa fa-check"></i> 同意申请</button>
-        <button id="disagree" class="btn btn-danger btn-xs">
-          <i class="fa fa-times"></i>  不同意申请</button>
+            <button id="agree" style="margin-left: 10px; margin-right: 10px;"
+               class="btn btn-primary btn-xs"><i class="fa fa-check"></i> 同意申请</button>
+            <button id="disagree" class="btn btn-danger btn-xs">
+              <i class="fa fa-times"></i>  不同意申请</button>
             </div>
-        </c:if>
-
-        <c:if test="${param.type=='admin' && applySelf.flowNode>0}">
-          <c:set var="approverType" value="${approverTypeMap.get(applySelf.flowNode)}"/>
-          <button disabled class="btn btn-default btn-xs pull-right">当前：${approverType.name}审批</button>
-        </c:if>
         </c:if>
 
         <c:if test="${param.status==1 && param.type=='admin'}">
@@ -136,6 +129,15 @@
                   <span class="editable" >${cm:getMetaType(cadre.adminLevel).name}</span>
                 </div>
               </div>
+              <c:if test="${param.type=='admin'}">
+              <div class="profile-info-row">
+                <div class="profile-info-name td"> 当前审批身份 </div>
+                <div class="profile-info-value td">
+                  <c:set var="approverType" value="${approverTypeMap.get(applySelf.flowNode)}"/>
+                  <span class="editable" >${approverType.name}</span>
+                </div>
+              </div>
+              </c:if>
             </div>
 
           </div>

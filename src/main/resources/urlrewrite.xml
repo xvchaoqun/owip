@@ -9,6 +9,12 @@
 		<from>^/m/cas</from>
 		<to>/cas</to>
 	</rule>
+	<rule>
+		<note>wxLogin</note>
+		<condition type="method">GET</condition>
+		<from>^/m/wxLogin</from>
+		<to>/wxLogin</to>
+	</rule>
 	<!-- 如果服务器使用了nginx动静分离，此处应该创建软链接
 	 cd /pathTo/owip/mobile
 	 ln -s ../fonts fonts

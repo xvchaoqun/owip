@@ -152,6 +152,8 @@
                 /monitor = anon
                 /cas = anon
                 /m/cas = anon
+                /wxLogin = anon
+                /m/wxLogin = anon
                 /member_reg = anon
                 /login = authc
                 /logout = logout

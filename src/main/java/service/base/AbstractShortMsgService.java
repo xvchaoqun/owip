@@ -284,14 +284,14 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         for (ShortMsg shortMsg : shortMsgs) {
 
             boolean result = false;
-            if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
+            if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
                 if (springProps.shortMsgSend) {
                     SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(shortMsg.getMobile(), shortMsg.getContent());
                     result = sendMsgResult.isSuccess();
                 } else {
                     result = true;
                 }
-            }else if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_WX) {
+            }else if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_WX) {
                 if (springProps.wxSend) {
                     int times = 2;
                     String repeatTimes = shortMsg.getRepeatTimes();
@@ -384,8 +384,10 @@ public abstract class AbstractShortMsgService extends BaseMapper {
                                    List<Integer> userIdList) {
 
         if(StringUtils.isNotBlank(wxUrl)){
-            String redirectUrL = CmTag.getStringProperty("siteHome") + "/cas?url=" + wxUrl.trim();
+            String redirectUrL = CmTag.getStringProperty("siteHome") + "/wxLogin?url=" + wxUrl.trim();
             wxUrl = weixinService.getAuthorizeUrl(redirectUrL);
+            logger.info("redirectUrL=" + redirectUrL);
+            logger.info("wxUrl=" + wxUrl);
         }
         List<String> codeList = new ArrayList<>();
         for (Integer userId : userIdList) {
@@ -410,5 +412,11 @@ public abstract class AbstractShortMsgService extends BaseMapper {
     // 学工号转换为对应的微信账号
     public String toWxUser(String code){
         return code;
+    }
+
+    // 微信账号转换为学工号
+    public String wxUserToCode(String wxUserId){
+
+        return weixinService.getUserId(wxUserId);
     }
 }

@@ -3,6 +3,7 @@ package controller.global;
 import controller.BaseController;
 import domain.party.OrgAdmin;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import ext.utils.CasUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.base.WeixinService;
 import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -51,13 +51,13 @@ public class CasController extends BaseController {
     @Autowired
     private EnterpriseCacheSessionDAO sessionDAO;
     @Autowired
-    private WeixinService weixinService;
+    private ShortMsgService shortMsgService;
 
     //@RequiresPermissions("sysLogin:switch")
     @RequestMapping("/login_switch")
     public String login_switch(String username, HttpServletRequest request, HttpServletResponse response) {
 
-        if(!ShiroHelper.isPermitted("sysLogin:switch")) {
+        if (!ShiroHelper.isPermitted("sysLogin:switch")) {
 
             if (ShiroHelper.isPermitted("sysLogin:switchParty")) {
                 // 限定了只允许切换党组织管理员的账号
@@ -81,14 +81,14 @@ public class CasController extends BaseController {
     }
 
     // 登出当前账号并清除session cache
-    private void logoutAndRemoveSessionCache(HttpServletRequest request){
+    private void logoutAndRemoveSessionCache(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         //System.out.println(sessionDAO.getActiveSessionsCache().keys());
         SecurityUtils.getSubject().logout();
         sessionDAO.getActiveSessionsCache().remove(sessionId);
-       // System.out.println(sessionDAO.getActiveSessionsCache().keys());
+        // System.out.println(sessionDAO.getActiveSessionsCache().keys());
     }
 
     // 切换回主账号
@@ -96,8 +96,8 @@ public class CasController extends BaseController {
     public String sysLogin_switch_back(HttpServletRequest request, HttpServletResponse response) {
 
         String switchUser = (String) request.getSession().getAttribute("_switchUser");
-        if(StringUtils.isBlank(switchUser))
-            throw  new UnauthorizedException();
+        if (StringUtils.isBlank(switchUser))
+            throw new UnauthorizedException();
 
         // 防止被切换的账号登录时，踢出主账号 (但不能避免切换回来之前，被踢出)
         Cache<Object, Object> cache = cacheManager.getCache("shiro-kickout-session");
@@ -111,22 +111,28 @@ public class CasController extends BaseController {
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
-        if(ShiroHelper.getCurrentUser()!=null){
+        if (ShiroHelper.getCurrentUser() != null) {
             // 已登录的情况下，跳转到原账号
             return loginRedirect(request, response);
         }
-        String username = null;
-        byte loginType;
-        String code = request.getParameter("code");
-        if(StringUtils.isNotBlank(code)){
-            username = weixinService.getUserId(code);
-            loginType = SystemConstants.LOGIN_TYPE_WX;
-        }else {
-            username = CasUtils.getName(request);
-            loginType = SystemConstants.LOGIN_TYPE_CAS;
+
+        return directLogin(CasUtils.getName(request), SystemConstants.LOGIN_TYPE_CAS,
+                request, response, null);
+    }
+
+    @RequestMapping("/wxLogin")
+    public String wxLogin(HttpServletRequest request, HttpServletResponse response) {
+
+        if (ShiroHelper.getCurrentUser() != null) {
+            // 已登录的情况下，跳转到原账号
+            return loginRedirect(request, response);
         }
 
-        return directLogin(username, loginType,
+        String wxCode = request.getParameter("code");
+        String username = shortMsgService.wxUserToCode(wxCode);
+        logger.info("wxCode="+wxCode + " username="+ username);
+
+        return directLogin(username, SystemConstants.LOGIN_TYPE_WX,
                 request, response, null);
     }
 
@@ -134,15 +140,15 @@ public class CasController extends BaseController {
      * 使用账号直接登录
      *
      * @param username
-     * @param loginType 登录方式
+     * @param loginType   登录方式
      * @param request
      * @param response
-     * @param _switchUser  切换登录的账号
+     * @param _switchUser 切换登录的账号
      * @return
      */
     private String directLogin(String username, byte loginType,
                                HttpServletRequest request, HttpServletResponse response,
-                               String _switchUser){
+                               String _switchUser) {
 
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("_loginType", loginType); // 此次登录类型
@@ -163,16 +169,16 @@ public class CasController extends BaseController {
 
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
-                if(loginType != SystemConstants.LOGIN_TYPE_SWITCH) {
+                if (loginType != SystemConstants.LOGIN_TYPE_SWITCH) {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             loginType, true, "登录成功"));
                 }
                 // 读取最新的session
                 session = SecurityUtils.getSubject().getSession();
                 session.setAttribute("_loginType", loginType);
-                if(StringUtils.isNotBlank(_switchUser)){
+                if (StringUtils.isNotBlank(_switchUser)) {
                     session.setAttribute("_switchUser", _switchUser);
-                }else{
+                } else {
                     session.removeAttribute("_switchUser");
                 }
 
@@ -190,19 +196,19 @@ public class CasController extends BaseController {
         return redirect("/", response);
     }
 
-    private String loginRedirect(HttpServletRequest request, HttpServletResponse response){
+    private String loginRedirect(HttpServletRequest request, HttpServletResponse response) {
 
         String url = StringUtils.trimToEmpty(request.getParameter("url"));
-        if(!url.startsWith("/")){
+        if (!url.startsWith("/")) {
             url = "/" + url;
         }
-        return redirect((HttpRequestDeviceUtils.isMobileDevice(request)?"":"/#")+url, response);
+        return redirect((HttpRequestDeviceUtils.isMobileDevice(request) ? "" : "/#") + url, response);
     }
 
-    private String redirect(String url, HttpServletResponse response){
+    private String redirect(String url, HttpServletResponse response) {
 
-        if(response.getStatus()!= HttpStatus.SC_OK){
-            logger.warn("response.getStatus()="+response.getStatus());
+        if (response.getStatus() != HttpStatus.SC_OK) {
+            logger.warn("response.getStatus()=" + response.getStatus());
             return null;
         }
 

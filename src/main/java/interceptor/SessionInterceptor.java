@@ -121,16 +121,25 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                         WebUtils.issueRedirect(request, response, "/m/cas", RequestUtils.getParameterMap(request));
                         return false;
                     }
+                    if (servletPath.startsWith("/wxLogin")) {
+                        WebUtils.issueRedirect(request, response, "/m/wxLogin", RequestUtils.getParameterMap(request));
+                        return false;
+                    }
 
                     if (!servletPath.startsWith("/m/")) { // 移动端
-                        //WebUtils.issueRedirect(request, response, "/m/abroad/index");
-                        WebUtils.issueRedirect(request, response, "/m/index");
+
+                        String redirectUrl = "/m/index";
+                        if(StringUtils.isNotBlank(servletPath)
+                                && !StringUtils.equals(StringUtils.trim(servletPath), "/")){
+                            redirectUrl = "/m" + servletPath;
+                        }
+                        WebUtils.issueRedirect(request, response, redirectUrl);
                         return false;
                     }
                 }
             } else {
                 if (servletPath.startsWith("/m/")) { // 非移动端
-                    WebUtils.issueRedirect(request, response, "/");
+                    WebUtils.issueRedirect(request, response, servletPath.substring(2));
                     return false;
                 }
             }

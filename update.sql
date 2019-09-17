@@ -1,5 +1,8 @@
 
 
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `found_time` `found_time` DATE NULL COMMENT '成立时间' AFTER `email`;
+
 update sys_resource set NAME='消息日志' WHERE permission='shortMsg:*';
 
 20190916
