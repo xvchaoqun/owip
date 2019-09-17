@@ -1,4 +1,7 @@
 
+
+update sys_resource set NAME='消息日志' WHERE permission='shortMsg:*';
+
 20190916
 
 ALTER TABLE `cadre_work`

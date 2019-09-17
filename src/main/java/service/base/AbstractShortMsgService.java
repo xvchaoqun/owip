@@ -205,7 +205,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         if (type == ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
             send = send(shortMsgBean, null, ip);
         } else if (type == ContentTplConstants.CONTENT_TPL_TYPE_WX) {
-            sendWxMsg(shortMsgBean, Arrays.asList(shortMsgBean.getReceiver()), ip);
+            send = sendWxMsg(shortMsgBean, Arrays.asList(shortMsgBean.getReceiver()), ip);
         }
 
         if (relateType == SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL) {
@@ -274,6 +274,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         return map;
     }
 
+    // 重新发送消息
     public void repeat(Integer[] ids) {
 
         ShortMsgExample example = new ShortMsgExample();
@@ -283,14 +284,14 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         for (ShortMsg shortMsg : shortMsgs) {
 
             boolean result = false;
-            if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
+            if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_MSG) {
                 if (springProps.shortMsgSend) {
                     SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(shortMsg.getMobile(), shortMsg.getContent());
                     result = sendMsgResult.isSuccess();
                 } else {
                     result = true;
                 }
-            }else if(shortMsg.getType()==ContentTplConstants.CONTENT_TPL_TYPE_WX) {
+            }else if(shortMsg.getType()== ContentTplConstants.CONTENT_TPL_TYPE_WX) {
                 if (springProps.wxSend) {
                     int times = 2;
                     String repeatTimes = shortMsg.getRepeatTimes();
@@ -389,7 +390,7 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         List<String> codeList = new ArrayList<>();
         for (Integer userId : userIdList) {
             SysUserView uv = sysUserService.findById(userId);
-            codeList.add(uv.getCode());
+            codeList.add(toWxUser(uv.getCode()));
         }
         String codes = StringUtils.join(codeList, "|");
         SendMsgResult sendMsgResult = null;
@@ -404,5 +405,10 @@ public abstract class AbstractShortMsgService extends BaseMapper {
         }
 
         return sendMsgResult;
+    }
+
+    // 学工号转换为对应的微信账号
+    public String toWxUser(String code){
+        return code;
     }
 }
