@@ -99,7 +99,7 @@
                             $("#modalForm select[name=drawStatus]").val('${passportDraw.drawStatus}');
                         </script>
                         <span class="help-block">
-                            注：如果选择“已领取”，则系统会根据“应归还时间”进行短信催促交证件
+                            注：如果选择“已领取”，则系统会根据“应归还时间”进行催促交证件
                         </span>
                     </div>
                 </div>

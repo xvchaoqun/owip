@@ -218,7 +218,7 @@
                 if(rowObject.dispatch==undefined) return '--'
                 return $.pdfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
             }},
-            {label: '短信通知', name: '_msg', width: 150, formatter: function (cellvalue, options, rowObject) {
+            {label: '发送通知', name: '_msg', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 return ('<button data-url="${ctx}/sc/scPassportMsg?handId={0}"'+
                 ' class="popupBtn btn btn-warning btn-xs"><i class="fa fa-send"></i> 通知</button>' +

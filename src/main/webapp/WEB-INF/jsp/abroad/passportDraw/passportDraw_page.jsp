@@ -413,14 +413,14 @@
                 }
             },
             {
-                label: '短信通知', formatter: function (cellvalue, options, rowObject) {
+                label: '发送通知', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
                         return '--';
                     }
                     if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
                         return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
                                 .format(rowObject.id)
-                            + '<i class="fa fa-info"></i> 短信通知</button>';
+                            + '<i class="fa fa-info"></i> 发送通知</button>';
                     }
                     return '--'
                 }

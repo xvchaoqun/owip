@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>短信提醒</h3>
+  <h3>发送提醒</h3>
 </div>
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_urgeMembers" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -21,7 +21,7 @@
       <div class="col-xs-8 label-text">${count}人</div>
     </div>
     <div class="form-group">
-      <label class="col-xs-3 control-label">短信内容：</label>
+      <label class="col-xs-3 control-label">发送内容：</label>
       <div class="col-xs-8 label-text">
         ${msg}
       </div>

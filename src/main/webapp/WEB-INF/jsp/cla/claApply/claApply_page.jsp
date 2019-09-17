@@ -87,7 +87,7 @@
                                 <button data-url="${ctx}/cla/shortMsg_view"
                                         data-querystr="&type=apply"
                                         class="jqOpenViewBtn btn btn-primary btn-sm">
-                                    <i class="fa fa-info-circle"></i> 短信提醒
+                                    <i class="fa fa-info-circle"></i> 发送提醒
                                 </button>
                             </c:if>
                             <c:if test="${status==1}">

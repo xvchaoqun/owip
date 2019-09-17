@@ -91,7 +91,7 @@ pageEncoding="UTF-8" %>
 
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passport">
-                                    <i class="fa fa-info-circle"></i> 短信通知
+                                    <i class="fa fa-info-circle"></i> 发送通知
                                 </button>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-open-by="page" data-url="${ctx}/abroad/passport_cancel">
@@ -248,9 +248,9 @@ pageEncoding="UTF-8" %>
         //console.log(ret);
         var failedSize = ret.failedUsers.length;
         if(failedSize>0){
-            SysMsg.success("部分发送成功，其中{0}人发送失败，可在【系统监测-短信日志】中查询发送记录。".format(failedSize));
+            SysMsg.success("部分发送成功，其中{0}人发送失败，可在【系统监测-消息日志】中查询发送记录。".format(failedSize));
         }else{
-            SysMsg.success("发送成功，可在【系统监测-短信日志】中查询发送记录。");
+            SysMsg.success("发送成功，可在【系统监测-消息日志】中查询发送记录。");
         }
     }
     $("#jqGrid").jqGrid({

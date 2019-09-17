@@ -3,13 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>短信通知所有${_p_partyName}管理员</h3>
+    <h3>通知所有${_p_partyName}管理员</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">短信内容：</label>
+            <label class="col-xs-3 control-label">发送内容：</label>
             <div class="col-xs-8 label-text">
                 ${msg}
             </div>

@@ -5,12 +5,12 @@
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
   <h3>
     <c:choose>
-      <c:when test="${param.type=='passportApplyPass'}">申请已批准，发送短信通知</c:when>
+      <c:when test="${param.type=='passportApplyPass'}">申请已批准，发送通知</c:when>
       <c:when test="${param.type=='passportApplyDraw'}">催交证件</c:when>
       <c:when test="${param.type=='passportApplySubmit'}">
         <h3 class="label label-success" style="font-size: 30px; height: 50px;">温馨提示</h3>
       </c:when>
-      <c:otherwise>短信通知</c:otherwise>
+      <c:otherwise>通知</c:otherwise>
     </c:choose>
     【<i class="fa fa-mobile" aria-hidden="true"></i>
     ${empty shortMsgBean.mobile?"<span style='color:red;font-weight:bolder'>手机号码为空</span>":shortMsgBean.mobile}】

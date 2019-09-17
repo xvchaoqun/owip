@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
             </c:if>
                 <button id="agree_msg" class="btn btn-info btn-block"
                         style="margin-top:20px;font-size: 20px;
-                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_PASS?'none':'block'}">短信通知</button>
+                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_PASS?'none':'block'}">发送通知</button>
             </div>
         </div>
     </c:if>
@@ -90,7 +90,7 @@ pageEncoding="UTF-8"%>
                 </c:if>
                 <button id="disagree_msg"class="btn btn-info btn-block"
                         style="margin-top:20px;font-size: 20px;
-                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS?'none':'block'}">短信通知</button>
+                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS?'none':'block'}">发送通知</button>
             </div>
         </div>
         </c:if>

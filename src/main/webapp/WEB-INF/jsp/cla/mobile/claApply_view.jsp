@@ -26,7 +26,7 @@
 
         <c:if test="${param.status==1 && param.type=='admin'}">
           <button id="msgBtn" style="margin-left: 10px; margin-right: 10px;"
-                  class="btn btn-primary btn-xs"><i class="fa fa-info-circle"></i> 短信提醒</button>
+                  class="btn btn-primary btn-xs"><i class="fa fa-info-circle"></i> 提醒</button>
         </c:if>
       </div>
   </ul>

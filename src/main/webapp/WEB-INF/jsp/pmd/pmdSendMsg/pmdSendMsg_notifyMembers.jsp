@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>短信通知</h3>
+    <h3>发送通知</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyMembers" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -16,7 +16,7 @@
             </div>
         </div>--%>
         <div class="form-group">
-            <label class="col-xs-3 control-label">短信内容：</label>
+            <label class="col-xs-3 control-label">发送内容：</label>
             <div class="col-xs-8 label-text">
                 ${msg}
             </div>
@@ -26,7 +26,7 @@
 </div>
 <div class="modal-footer">
     <div style="color: red; font-size: 16px; font-weight: bolder;text-align: left;padding-bottom: 20px;">
-        注：此短信会通知所有的党员，发送之后可能有延迟，请勿重复发送。
+        注：通知所有的党员，发送之后可能有延迟，请勿重复发送。
     </div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> 确定发送</button>

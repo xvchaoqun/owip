@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>下发名单短信通知</h3>
+    <h3>下发名单通知</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcsAdmin_msg2" autocomplete="off" disableautocomplete id="modalForm" method="post">

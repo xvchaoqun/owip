@@ -94,7 +94,7 @@
                                 <button data-url="${ctx}/abroad/shortMsg_view"
                                         data-querystr="&type=applySelf"
                                         class="jqOpenViewBtn btn btn-primary btn-sm">
-                                    <i class="fa fa-info-circle"></i> 短信提醒
+                                    <i class="fa fa-info-circle"></i> 发送提醒
                                 </button>
                             </c:if>
                             <c:if test="${status>=0 && status!=1}">
