@@ -27,7 +27,7 @@ public class PmdPayController extends PmdBaseController {
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
     
         Map<String, String[]> parameterMap = request.getParameterMap();
-        logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
+        logger.info("pmd callback request.getParameterMap()=" + JSONUtils.toString(parameterMap, false));
         boolean ret = true;
         if(parameterMap.size()>0) {
             ret = pmdOrderService.notify(request);

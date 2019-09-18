@@ -601,11 +601,13 @@ public class PmdOrderService extends PmdBaseMapper {
         String orderNo = request.getParameter("thirdorderid");
         String payerCode = request.getParameter("sno");
         String amt = request.getParameter("actulamt"); // 单位 分
+        String state = request.getParameter("state");
 
         BigDecimal realPay = new BigDecimal(amt).divide(BigDecimal.valueOf(100));
         try {
             // 签名校验成功 且 确认交易成功
-            if (verifyNotifySign(request) && StringUtils.equals(request.getParameter("state"), "1")) {
+            boolean verifyNotifySign = verifyNotifySign(request);
+            if ( verifyNotifySign && StringUtils.equals(state, "1")) {
                 
                 PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
                 if (pmdOrder == null) {
@@ -628,6 +630,9 @@ public class PmdOrderService extends PmdBaseMapper {
                                 payerCode, realPay);
                     }
                 }
+            }else{
+                logger.warn("[党费收缴]处理支付通知，订单号交易失败，订单号：{}，校验签名结果：{}, state：{}",
+                        orderNo, verifyNotifySign, state);
             }
         } catch (Exception ex) {
             

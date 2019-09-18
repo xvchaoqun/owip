@@ -22,11 +22,11 @@
         <script>
             $("#ret").html($.trimHtml('${ret}'))
         </script>
-        <c:if test="${not empty ret && fn:trim(ret) !='' && !order.isSuccess}">
+        <c:if test="${not empty ret && fn:trim(ret) !=''}">
             <tr>
                 <td class="bg-right">主动同步结果</td>
                 <td>
-                    <button onclick="_syncResult()" class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> 同步</button>
+                    <button onclick="_syncResult()" class="btn ${order.isSuccess?'btn-success':'btn-info'} btn-xs"><i class="fa fa-refresh"></i> 同步</button>
                     (用于没有收到支付平台通知的情况)
                 </td>
             </tr>
