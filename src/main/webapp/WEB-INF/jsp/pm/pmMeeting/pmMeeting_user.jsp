@@ -5,10 +5,7 @@
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.type==1?'参会':'请假'}人员</h3>
 </div>
-<div class="modal-body">
-
-    <div class="popTableDiv"
-         data-url-page="${ctx}/pmMeeting_user?id=${pmMeeting.id}">
+<div class="modal-body"style="overflow:auto">
         <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>
@@ -30,10 +27,8 @@
             </c:forEach>
             </tbody>
         </table>
-    </div>
 </div>
 <script>
-    $.fileInput($('#modalForm input[type=file]'));
     function _pop_reload(){
         pop_reload();
         $(window).triggerHandler('resize.jqGrid');
