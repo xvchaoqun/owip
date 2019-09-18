@@ -143,7 +143,9 @@ public class MemberController extends MemberBaseController {
     @ResponseBody
     public Map dbUpdate() {
 
-        List<Member> members = memberMapper.selectByExample(new MemberExample());
+        MemberExample example = new MemberExample();
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
+        List<Member> members = memberMapper.selectByExample(example);
         for (Member member : members) {
             memberService.dbUpdate(member.getUserId());
         }
@@ -608,7 +610,7 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:edit")
     @RequestMapping(value = "/snyc_memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map snyc_memberApply(int userId) {
+    public Map snyc_memberApply(Integer userId) {
 
         Member member = memberService.get(userId);
         Integer partyId = member.getPartyId();
@@ -624,9 +626,14 @@ public class MemberController extends MemberBaseController {
             if (!isAdmin) throw new UnauthorizedException();
         }
 
-        memberApplyService.addOrChangeToGrowApply(userId);
+        if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)){
+            memberApplyService.addOrChangeToGrowApply(userId);
+            return success(FormUtils.SUCCESS);
+        }else {
+            return failed("该成员是正式党员！");
+        }
 
-        return success(FormUtils.SUCCESS);
+
     }
 
     // 更换学工号
