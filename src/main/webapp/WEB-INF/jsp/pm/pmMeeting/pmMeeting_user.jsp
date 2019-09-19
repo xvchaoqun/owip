@@ -5,7 +5,7 @@
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.type==1?'参会':'请假'}人员</h3>
 </div>
-<div class="modal-body"style="overflow:auto">
+<div class="modal-body" style="overflow:auto">
         <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>

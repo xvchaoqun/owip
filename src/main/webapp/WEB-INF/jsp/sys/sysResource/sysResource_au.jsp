@@ -10,7 +10,7 @@
 		<c:if test="${not empty param.id}"><span class="text-error">${sysResource.name}</span>-</c:if>
 	${op}</h3>
 </div>
-<div  class="modal-body">
+<div  class="modal-body overflow-visible">
 	<form:form method="post" id="modalForm" commandName="sysResource" class="form-horizontal" autocomplete="off">
         <form:hidden path="id"/>
         <form:hidden path="available"/>

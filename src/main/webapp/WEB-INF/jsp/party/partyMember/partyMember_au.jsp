@@ -4,7 +4,7 @@
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
   <h3><c:if test="${partyMember!=null}">修改</c:if><c:if test="${partyMember==null}">添加</c:if>委员</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body overflow-visible">
 <form class="form-horizontal no-footer" action="${ctx}/partyMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
   <input type="hidden" name="groupId" value="${partyMemberGroup.id}">
   <input type="hidden" name="id" value="${partyMember.id}">

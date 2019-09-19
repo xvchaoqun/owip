@@ -54,7 +54,7 @@
         <input type="hidden" name="id" value="${dispatchCadre.id}">
         <input type="hidden" name="dispatchId" value="${dispatch.id}">
         <div class="form-group">
-          <label class="col-xs-3 control-label" id="typeNameTd"><span class="star">*</span>任命职务</label>
+          <label class="col-xs-3 control-label" id="typeNameTd"><span class="star">*</span>任免职务</label>
           <div class="col-xs-8">
             <textarea required class="form-control noEnter" name="post" rows="2">${dispatchCadre.post}</textarea>
           </div>
@@ -307,7 +307,7 @@
       } else {
           $("#typeNameTd").html("免去职务");
       }
-  })
+  }).change()
 
   $.register.ajax_select($('#cadreForm select[name=unitPostId]'), function (state) {
       var $state = state.text;

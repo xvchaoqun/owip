@@ -6,7 +6,7 @@
     <button type="button" class="close closeBtn">&times;</button>
     <h3>${drOffline!=null?'编辑':'添加'}线下民主推荐</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body overflow-visible">
     <form class="form-horizontal" action="${ctx}/drOffline_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${drOffline.id}">
         <div class="form-group">

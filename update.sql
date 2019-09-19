@@ -1,7 +1,42 @@
 
 
+UPDATE `base_meta_class` SET `second_level`='二级党委培训', `bool_attr`='是否网络培训' WHERE   CODE='mc_cet_upper_train_type2';
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+ VALUES (81, '网络培训', 'mt_cz5ve9', 1, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (81, '专题讲座', 'mt_itthf8', 0, '', '', 3, 1);
+
+UPDATE sys_resource SET NAME='二级党委培训信息', sort_order=265 WHERE permission='cet:menu:unit';
+
+UPDATE sys_resource SET sort_order=268 WHERE permission='cet:menu:oncampus';
+
+DELETE FROM base_meta_class WHERE CODE = 'mc_cet_upper_train_special';
+DELETE FROM base_meta_class WHERE CODE = 'mc_cet_upper_train_special2';
+UPDATE sys_resource SET permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer,mc_cet_upper_train_type:*' WHERE permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer,mc_cet_upper_train_type,mc_cet_upper_train_special:*';
+UPDATE sys_resource SET permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer2,mc_cet_upper_train_type2:*' WHERE permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer2,mc_cet_upper_train_type2,mc_cet_upper_train_special2:*';
+
+ALTER TABLE `cet_unit_project`
+	DROP COLUMN `special_type`;
+
+ALTER TABLE `cet_upper_train`
+	DROP COLUMN `special_type`;
+
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `report_name` VARCHAR(200) NULL COMMENT '报告名称，专题讲座时填写' AFTER `project_type`,
+	ADD COLUMN `reporter` VARCHAR(50) NULL COMMENT '主讲人，专题讲座时填写' AFTER `report_name`;
+
+ALTER TABLE `cet_unit_train`
+	ADD COLUMN `trainee_type_id` INT(10) UNSIGNED NULL COMMENT '培训对象类型' AFTER `user_id`;
+
+ALTER TABLE `cet_unit_train`
+	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性' AFTER `title`;
+
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '审批状态，0 待报送 1 已报送 2 打回 3 审批通过' AFTER `add_time`,
+	DROP COLUMN `status`;
+
 20190917
-更新 北邮、北航、南航
+更新 北邮、北航、南航、哈工大
 
 20190916
 

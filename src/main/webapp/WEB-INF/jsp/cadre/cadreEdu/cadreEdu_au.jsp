@@ -54,7 +54,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">毕业/在读</label>
-					<div class="col-xs-7 label-text"  style="font-size: 15px;">
+					<div class="col-xs-7">
 						<input type="checkbox" class="big" name="isGraduated" ${(cadreEdu==null ||cadreEdu.isGraduated)?"checked":""} data-off-text="在读" data-on-text="毕业"/>
 					</div>
 				</div>
