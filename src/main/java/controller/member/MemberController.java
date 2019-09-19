@@ -24,6 +24,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.party.OrgAdminService;
+import service.sys.SysRoleService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.PartyHelper;
@@ -52,6 +55,10 @@ import java.util.*;
 public class MemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private OrgAdminService orgAdminService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @RequiresPermissions("member:list")
     @RequestMapping("/member/search")
@@ -608,32 +615,46 @@ public class MemberController extends MemberBaseController {
 
     // 后台添加预备党员，可能需要加入党员发展流程（预备党员阶段）
     @RequiresPermissions("member:edit")
-    @RequestMapping(value = "/snyc_memberApply", method = RequestMethod.POST)
+    @RequestMapping("/snyc_memberApply")
     @ResponseBody
     public Map snyc_memberApply(Integer userId) {
 
-        Member member = memberService.get(userId);
-        Integer partyId = member.getPartyId();
-        Integer branchId = member.getBranchId();
-        //===========权限
-        Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+        if (userId != null) {
+            Member member = memberService.get(userId);
+            Integer partyId = member.getPartyId();
+            Integer branchId = member.getBranchId();
+            //===========权限
+            Integer loginUserId = ShiroHelper.getCurrentUserId();
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+                if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
+                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+                }
+                if (!isAdmin) throw new UnauthorizedException();
             }
-            if (!isAdmin) throw new UnauthorizedException();
-        }
 
-        if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)){
-            memberApplyService.addOrChangeToGrowApply(userId);
-            return success(FormUtils.SUCCESS);
+            if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)) {
+                memberApplyService.addOrChangeToGrowApply(userId);
+                return success(FormUtils.SUCCESS);
+            } else {
+                return failed("该成员是正式党员！");
+            }
         }else {
-            return failed("该成员是正式党员！");
+            SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
+
+            MemberExample example = new MemberExample();
+            MemberExample.Criteria criteria = example.createCriteria();
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
+                    .andPoliticalStatusEqualTo(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
+
+            List<Member> members = memberMapper.selectByExample(example);
+            for (Member member : members) {
+                memberApplyService.addOrChangeToGrowApply(member.getUserId());
+            }
+
+            return success(FormUtils.SUCCESS);
         }
-
-
     }
 
     // 更换学工号
