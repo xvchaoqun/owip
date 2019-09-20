@@ -360,13 +360,11 @@ public class MemberInService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
-
             if(memberIn.getStatus() >= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
             if(memberIn.getStatus() >= MemberConstants.MEMBER_IN_STATUS_BACK){
-                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasPartyAuth(loginUserId, memberIn.getPartyId())) throw new UnauthorizedException();
             }
 
             back(memberIn, status, loginUserId, reason);

@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="period" jdbcType="DECIMAL" property="period" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, title, post_type, period, word_note, pdf_note, add_type, 
-    add_user_id, add_time, status, back_reason, remark
+    id, project_id, user_id, trainee_type_id, title, post_type, period, word_note, pdf_note, 
+    add_type, add_user_id, add_time, status, back_reason, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -111,15 +112,17 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train (id, project_id, user_id, 
-      title, post_type, period, 
-      word_note, pdf_note, add_type, 
-      add_user_id, add_time, status, 
-      back_reason, remark)
+      trainee_type_id, title, post_type, 
+      period, word_note, pdf_note, 
+      add_type, add_user_id, add_time, 
+      status, back_reason, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
-      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{backReason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{traineeTypeId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, 
+      #{period,jdbcType=DECIMAL}, #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, 
+      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train
@@ -132,6 +135,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id,
       </if>
       <if test="title != null">
         title,
@@ -176,6 +182,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        #{traineeTypeId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -230,6 +239,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.traineeTypeId != null">
+        trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -273,6 +285,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       project_id = #{record.projectId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       post_type = #{record.postType,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
@@ -296,6 +309,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -337,6 +353,7 @@
     update cet_unit_train
     set project_id = #{projectId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       post_type = #{postType,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},

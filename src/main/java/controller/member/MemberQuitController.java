@@ -216,12 +216,10 @@ public class MemberQuitController extends MemberBaseController {
         Integer partyId = currentMemberQuit.getPartyId();
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
         }
         if (type == 3) {
             modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
@@ -313,13 +311,8 @@ public class MemberQuitController extends MemberBaseController {
         Integer branchId = member.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if(!isAdmin) throw new UnauthorizedException();
-        }
+        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            throw new UnauthorizedException();
 
         record.setPartyId(partyId);
         record.setBranchId(branchId);

@@ -10,13 +10,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetUnitProject implements Serializable {
-    
+
     public SysUserView getAddUser(){
         return CmTag.getUserById(addUserId);
     }
     private Integer id;
 
     private Integer year;
+
+    private Integer partyId;
 
     private Integer unitId;
 
@@ -30,7 +32,9 @@ public class CetUnitProject implements Serializable {
 
     private Integer projectType;
 
-    private Integer specialType;
+    private String reportName;
+
+    private String reporter;
 
     private BigDecimal period;
 
@@ -66,6 +70,14 @@ public class CetUnitProject implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
     }
 
     public Integer getUnitId() {
@@ -108,12 +120,20 @@ public class CetUnitProject implements Serializable {
         this.projectType = projectType;
     }
 
-    public Integer getSpecialType() {
-        return specialType;
+    public String getReportName() {
+        return reportName;
     }
 
-    public void setSpecialType(Integer specialType) {
-        this.specialType = specialType;
+    public void setReportName(String reportName) {
+        this.reportName = reportName == null ? null : reportName.trim();
+    }
+
+    public String getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(String reporter) {
+        this.reporter = reporter == null ? null : reporter.trim();
     }
 
     public BigDecimal getPeriod() {

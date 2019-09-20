@@ -24,7 +24,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.party.OrgAdminService;
-import service.sys.SysRoleService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.PartyHelper;
@@ -55,10 +52,6 @@ import java.util.*;
 public class MemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private OrgAdminService orgAdminService;
-    @Autowired
-    private SysRoleService sysRoleService;
 
     @RequiresPermissions("member:list")
     @RequestMapping("/member/search")
@@ -502,14 +495,8 @@ public class MemberController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
-        }
+        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            throw new UnauthorizedException();
 
         Integer userId = record.getUserId();
 
@@ -625,14 +612,8 @@ public class MemberController extends MemberBaseController {
             Integer branchId = member.getBranchId();
             //===========权限
             Integer loginUserId = ShiroHelper.getCurrentUserId();
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-                if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
-                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-                }
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+                throw new UnauthorizedException();
 
             if (member.getStatus().equals(MemberConstants.MEMBER_STATUS_NORMAL) && member.getPoliticalStatus().equals(MemberConstants.MEMBER_POLITICAL_STATUS_GROW)) {
                 memberApplyService.addOrChangeToGrowApply(userId);
@@ -640,7 +621,7 @@ public class MemberController extends MemberBaseController {
             } else {
                 return failed("该成员是正式党员！");
             }
-        }else {
+        } else {
             SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
 
             MemberExample example = new MemberExample();
@@ -700,14 +681,8 @@ public class MemberController extends MemberBaseController {
         Integer branchId = member.getBranchId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
-        }
+        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            throw new UnauthorizedException();
 
         if (member.getPoliticalStatus() != politicalStatus) {
             memberService.addModify(userId, "修改党籍状态");
@@ -722,7 +697,7 @@ public class MemberController extends MemberBaseController {
                                       int partyId, ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if (!PartyHelper.isPresentPartyAdmin(loginUser.getId(), partyId)) {
+        if (!PartyHelper.hasPartyAuth(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
@@ -756,7 +731,7 @@ public class MemberController extends MemberBaseController {
                                    ModelMap modelMap) {
 
         // 判断是分党委管理员
-        if (!PartyHelper.isPresentPartyAdmin(loginUser.getId(), partyId)) {
+        if (!PartyHelper.hasPartyAuth(loginUser.getId(), partyId)) {
             throw new UnauthorizedException();
         }
 
@@ -789,25 +764,11 @@ public class MemberController extends MemberBaseController {
         if (null != ids) {
             memberService.changeParty(ids, partyId, branchId);
             logger.info(addLog(LogConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s",
-                    StringUtils.join( ids, ","), partyId, branchId));
+                    StringUtils.join(ids, ","), partyId, branchId));
         }
 
         return success(FormUtils.SUCCESS);
     }
-
-    /*@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("member:del")
-    @RequestMapping(value = "/member_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_member_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            memberService.del(id);
-            logger.info(addLog(LogConstants.LOG_MEMBER, "删除党员信息表：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
@@ -927,7 +888,7 @@ public class MemberController extends MemberBaseController {
             modelMap.put("studentTypes", iPropertyMapper.studentTypes());
             modelMap.put("nations", iPropertyMapper.studentNations());
             modelMap.put("nativePlaces", iPropertyMapper.studentNativePlaces());
-        }else if(cls==10){
+        } else if (cls == 10) {
             modelMap.put("nations", iPropertyMapper.nations());
             modelMap.put("nativePlaces", iPropertyMapper.nativePlaces());
         }
@@ -1140,9 +1101,9 @@ public class MemberController extends MemberBaseController {
             if (ids != null && ids.length > 0)
                 criteria.andUserIdIn(Arrays.asList(ids));
 
-            if(cls==1 || cls==6){
+            if (cls == 1 || cls == 6) {
                 student_export(cls, example, cols, response);
-            }else if(cls==2 || cls==3 || cls==7) {
+            } else if (cls == 2 || cls == 3 || cls == 7) {
                 teacher_export(cls, example, cols, response);
             }
             return;
@@ -1194,16 +1155,13 @@ public class MemberController extends MemberBaseController {
         Member member = memberService.get(userId);
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            Integer partyId = member.getPartyId();
-            Integer branchId = member.getBranchId();
-            Integer loginUserId = loginUser.getId();
-            boolean isBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, partyId, branchId);
-            boolean isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
-            if (!isBranchAdmin && !isPartyAdmin) {
-                throw new UnauthorizedException();
-            }
+        Integer partyId = member.getPartyId();
+        Integer branchId = member.getBranchId();
+        Integer loginUserId = loginUser.getId();
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId)) {
+            throw new UnauthorizedException();
         }
+
         if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
             return "member/member/teacher_view";
         return "member/member/student_view";

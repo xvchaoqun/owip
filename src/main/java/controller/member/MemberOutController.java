@@ -401,8 +401,7 @@ public class MemberOutController extends MemberBaseController {
 
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberOut.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), currentMemberOut.getPartyId()));
         }
         if (type == 2) {
             modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));
@@ -486,11 +485,9 @@ public class MemberOutController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
+
+            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+                throw new UnauthorizedException();
 
             if (record.getId() != null) {
                 // 分党委只能修改还未提交组织部审核的记录

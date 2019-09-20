@@ -370,12 +370,10 @@ public class MemberStayController extends MemberBaseController {
 
         // 是否是当前记录的管理员
         if (checkType == 1) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
         }
         if (checkType == 2) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
         }
         if (checkType == 3) {
             modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL));

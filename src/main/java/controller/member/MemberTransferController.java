@@ -246,12 +246,10 @@ public class MemberTransferController extends MemberBaseController {
 
         // 是否是当前记录的管理员
         if (type == 1) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberTransfer.getPartyId()));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), currentMemberTransfer.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberTransfer.getToPartyId()));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), currentMemberTransfer.getToPartyId()));
         }
 
         // 读取总数

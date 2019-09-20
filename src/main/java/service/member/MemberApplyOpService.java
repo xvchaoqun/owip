@@ -15,7 +15,6 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
@@ -738,8 +737,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+            if (!PartyHelper.hasPartyAuth(loginUserId, memberApply.getPartyId())) {
                 throw new UnauthorizedException();
             }
 
@@ -777,8 +775,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+            if (!PartyHelper.hasPartyAuth(loginUserId, memberApply.getPartyId())) {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
@@ -813,8 +810,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+            if (!PartyHelper.hasPartyAuth(loginUserId, memberApply.getPartyId())) {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
@@ -843,8 +839,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL) && !presentPartyAdmin) {
+            if (!PartyHelper.hasPartyAuth(loginUserId, memberApply.getPartyId())) {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();

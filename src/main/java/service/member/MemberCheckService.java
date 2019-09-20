@@ -21,7 +21,6 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 
 import java.util.List;
 
@@ -185,14 +184,8 @@ public class MemberCheckService extends MemberBaseMapper {
 
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         if (userId != loginUserId
-                && !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
-        }
+                && !branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            throw new UnauthorizedException();
 
         memberCheckMapper.deleteByPrimaryKey(id);
     }

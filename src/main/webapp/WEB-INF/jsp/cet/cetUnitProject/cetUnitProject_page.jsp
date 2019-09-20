@@ -7,10 +7,10 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.year ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetUnitProject:edit">
-                    <button class="popupBtn btn btn-success btn-sm"
+                    <button class="popupBtn btn btn-success btn-sm" data-width="900"
                             data-url="${ctx}/cet/cetUnitProject_au?addType=${addType}">
                         <i class="fa fa-plus"></i> 添加</button>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
                        data-url="${ctx}/cet/cetUnitProject_au?addType=${addType}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
@@ -24,6 +24,12 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-url="${ctx}/sysApprovalLog"
+                        data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN%>"
+                        data-open-by="page">
+                    <i class="fa fa-search"></i> 操作记录
+                </button>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetUnitProject_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -86,9 +92,12 @@ pageEncoding="UTF-8" %>
                     'data-url="${ctx}/cet/cetUnitTrain?projectId={0}&addType=${addType}"><i class="fa fa-search"></i> 详情</button>')
                             .format(rowObject.id);
                 }, frozen: true},
-                { label: '年度',name: 'year', width: 60},
-                { label: '培训班主办方',name: 'unitId', width: 250, align:'left', formatter: $.jgrid.formatter.unit},
-                {label: '培训班名称', name: 'projectName', align: 'left',width: 350},
+                { label: '年度',name: 'year', width: 60, frozen: true},
+                { label: '培训班主办方',name: 'partyId',align:'left', width: 250, formatter:function(cellvalue, options, rowObject){
+                    return $.party(rowObject.partyId);
+                }, frozen: true},
+                { label: '主办单位',name: 'unitId', width: 150, align:'left', formatter: $.jgrid.formatter.unit},
+                {label: '培训项目名称', name: 'projectName', align: 'left',width: 350},
                 {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 {
@@ -97,13 +106,8 @@ pageEncoding="UTF-8" %>
                 }
                 },
                 {label: '培训班类型', name: 'projectType', width: 150, formatter: $.jgrid.formatter.MetaType},
-                {
-                  label: '所属专项培训', name: 'specialType', width: 300, align: 'left',formatter: function (cellvalue, options, rowObject) {
-                  if (cellvalue == 0) {
-                    return '无'
-                  }
-                  return $.jgrid.formatter.MetaType(cellvalue)
-                }},
+                {label: '报告名称', name: 'reportName', width: 150},
+                {label: '主讲人', name: 'reporter', width: 80},
                 {label: '培训学时', name: 'period', width: 80},
                 {label: '培训地点', name: 'address', align: 'left', width: 180},
                 /*{ label: '参训人数',name: 'totalCount'},*/

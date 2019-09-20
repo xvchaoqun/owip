@@ -66,7 +66,7 @@ public class CadreExportService extends BaseMapper {
         String cadreStateName = HtmlEscapeUtils.getTextFromHTML(CmTag.getStringProperty("cadreStateName"));
         return new ArrayList<>(Arrays.asList(new String[]{
                 /*1*/"工作证号|100", "姓名|100", "干部类型|100", cadreStateName + "|100", "部门属性|150",
-                /*6*/"所在单位|300", "现任职务|160", "所在单位及职务|300", "行政级别|100", "职务属性|100",
+                /*6*/"所在单位|300", /*"现任职务|160",*/ "所在单位及职务|300", "行政级别|100", "职务属性|100",
                 /*11*/"是否正职|120",  "是否班子负责人|120", "性别|50", "民族|100", "籍贯|100",
                 /*16*/"出生地|100", "身份证号|150", "出生时间|100", "年龄|50", "政治面貌|150",
                 /*21*/"党派加入时间|120", "参加工作时间|120", "到校时间|100", "最高学历|120", "最高学位|120",
@@ -124,12 +124,12 @@ public class CadreExportService extends BaseMapper {
         boolean useCadreState = CmTag.getBoolProperty("useCadreState");
         boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 8, 9, 10, 13, 17, 18, 19, 20, 21, 24, 35, 38, 48, 49};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 7, 8, 9, 12, 16, 17, 18, 19, 20, 23, 34, 37, 47, 48};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
-            // 字段为：1工作证号，姓名，干部类型，5部门属性，所在单位、8所在单位及职务、行政级别、职务属性，13性别，
-            // 17身份证号、出生时间、19年龄、党派、党派加入时间、24最高学历、
-            // 35专业技术职务、任现职时间、联系方式、电子邮箱。
+            // 字段为：1工作证号，姓名，干部类型，5部门属性，所在单位、7所在单位及职务、行政级别、职务属性，12性别，
+            // 16身份证号、出生时间、18年龄、党派、党派加入时间、23最高学历、
+            // 34专业技术职务、任现职时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
             for (int exportCloumn : exportCloumns_1) {
                 _titles.add(titles.get(exportCloumn - 1));
@@ -322,7 +322,7 @@ public class CadreExportService extends BaseMapper {
                     unit == null ? "" : unit.getUnitType().getName(),
 
                     unit == null ? "" : unit.getName(),
-                    record.getPost(),
+                    /*record.getPost(),*/
                     record.getTitle(),
                     metaTypeService.getName(record.getAdminLevel()),
                     metaTypeService.getName(record.getPostType()),

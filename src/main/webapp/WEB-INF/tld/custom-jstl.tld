@@ -176,14 +176,14 @@
 		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApplyView)</function-signature>
 	</function>
 	<function>
-		<name>isPresentPartyAdmin</name>
+		<name>hasPartyAuth</name>
 		<function-class>sys.helper.PartyHelper</function-class>
-		<function-signature>java.lang.Boolean isPresentPartyAdmin(java.lang.Integer,java.lang.Integer)</function-signature>
+		<function-signature>java.lang.Boolean hasPartyAuth(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>isPresentBranchAdmin</name>
 		<function-class>sys.helper.PartyHelper</function-class>
-		<function-signature>java.lang.Boolean isPresentBranchAdmin(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
+		<function-signature>java.lang.Boolean hasBranchAuth(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 
 	<!--<function>

@@ -18,7 +18,7 @@
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
-                 ||not empty param.state  ||not empty param.post  ||not empty param.title ||not empty param.labels }"/>
+                 ||not empty param.state  ||not empty param.title ||not empty param.labels }"/>
 
                 <div class="tabbable">
 
@@ -349,12 +349,7 @@
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                                         </select>
                                                     </td>
-                                                    <td class="name">干部标签</td>
-                                                    <td class="input">
-                                                        <select class="multiselect" multiple="" name="labels" data-placeholder="请选择">
-                                                            <c:import url="/metaTypes?__code=mc_cadre_label"/>
-                                                        </select>
-                                                    </td>
+
                                                 </tr>
                                                 <tr>
                                                     <td class="name">民族</td>
@@ -365,13 +360,15 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <td class="name">职务</td>
-                                                    <td class="input">
-                                                        <input type="text" style="width: 200px" name="post" value="${param.post}">
-                                                    </td>
                                                     <td class="name">所在单位及职务</td>
                                                     <td class="input">
                                                         <input type="text" style="width: 200px" name="title" value="${param.title}">
+                                                    </td>
+                                                    <td class="name">干部标签</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="labels" data-placeholder="请选择">
+                                                            <c:import url="/metaTypes?__code=mc_cadre_label"/>
+                                                        </select>
                                                     </td>
                                                     <c:if test="${_p_useCadreState}">
                                                     <td class="name">${_pMap['cadreStateName']}</td>

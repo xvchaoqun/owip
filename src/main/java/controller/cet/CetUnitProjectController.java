@@ -194,6 +194,10 @@ public class CetUnitProjectController extends CetBaseController {
         if (id != null) {
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
             modelMap.put("cetUnitProject", cetUnitProject);
+
+            modelMap.put("party", partyService.findAll().get(cetUnitProject.getPartyId()));
+            modelMap.put("unit", unitService.findAll().get(cetUnitProject.getUnitId()));
+
             addType = cetUnitProject.getAddType();
         }
         
@@ -252,7 +256,7 @@ public class CetUnitProjectController extends CetBaseController {
 
         List<CetUnitProject> records = cetUnitProjectMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100","培训班主办方|100","培训结束时间|100","培训开始时间|100","培训班名称|100","培训班类型|100","所属专项培训|100","培训学时|100","参训人数|100","培训地点|100","是否计入年度学习任务|100","备注|100","操作人|100","添加时间|100"};
+        String[] titles = {"年度|100","培训班主办方|100","培训结束时间|100","培训开始时间|100","培训班名称|100","培训班类型|100","培训学时|100","参训人数|100","培训地点|100","是否计入年度学习任务|100","备注|100","操作人|100","添加时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUnitProject record = records.get(i);
@@ -263,7 +267,6 @@ public class CetUnitProjectController extends CetBaseController {
                             DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                             record.getProjectName(),
                             record.getProjectType()+"",
-                            record.getSpecialType()+"",
                             record.getPeriod()+"",
                             record.getTotalCount()+"",
                             record.getAddress(),

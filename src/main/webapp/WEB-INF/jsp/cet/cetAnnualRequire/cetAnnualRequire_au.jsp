@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>二级党校培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级党委培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxPartyPeriod" value="${cetAnnualRequire.maxPartyPeriod}">
 				</div>

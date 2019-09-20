@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -270,12 +268,10 @@ public class MemberOutflowController extends MemberBaseController {
         Integer partyId = currentMemberOutflow.getPartyId();
         // 是否是当前记录的管理员
         if(type==1){
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
+            modelMap.put("isAdmin", branchMemberService.hasAdminAuth(loginUser.getId(), partyId, branchId));
         }
         if(type==2){
-            modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                    || partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
+            modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), partyId));
         }
 
         // 读取总数
@@ -359,13 +355,8 @@ public class MemberOutflowController extends MemberBaseController {
         Integer branchId = record.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if(!isAdmin) throw new UnauthorizedException();
-        }
+        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+            throw new UnauthorizedException();
 
         if (id == null) {
             record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);

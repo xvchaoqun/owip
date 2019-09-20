@@ -22,14 +22,6 @@
     }
     },
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
-    {
-      label: '专项培训班', name: 'specialType', width: 300, align: 'left',formatter: function (cellvalue, options, rowObject) {
-      if (cellvalue == 0) {
-        return '无'
-      }
-      return $.jgrid.formatter.MetaType(cellvalue)
-    }
-    },
     {label: '培训班名称', name: 'trainName', align: 'left',width: 350},
     {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

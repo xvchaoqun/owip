@@ -108,13 +108,9 @@ public class PartyPublicController extends BaseController {
 
                 PartyPublic partyPublic = partyPublicMapper.selectByPrimaryKey(id);
                 // 权限控制
-                if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-                    // 要求是分党委管理员
-                    Integer partyId = partyPublic.getPartyId();
-                    if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                        throw new UnauthorizedException();
-                    }
-                }
+                Integer partyId = partyPublic.getPartyId();
+                if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
+                    throw new UnauthorizedException();
 
                 PartyPublic record = new PartyPublic();
                 record.setId(id);
@@ -253,13 +249,9 @@ public class PartyPublicController extends BaseController {
                                  HttpServletRequest request) {
 
         // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委管理员
-            Integer partyId = record.getPartyId();
-            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                throw new UnauthorizedException();
-            }
-        }
+        Integer partyId = record.getPartyId();
+        if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
+            throw new UnauthorizedException();
 
         Integer id = record.getId();
 

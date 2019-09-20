@@ -44,8 +44,6 @@ public class CetUpperTrain implements Serializable {
 
     private Integer trainType;
 
-    private Integer specialType;
-
     private String trainName;
 
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
@@ -166,14 +164,6 @@ public class CetUpperTrain implements Serializable {
 
     public void setTrainType(Integer trainType) {
         this.trainType = trainType;
-    }
-
-    public Integer getSpecialType() {
-        return specialType;
-    }
-
-    public void setSpecialType(Integer specialType) {
-        this.specialType = specialType;
     }
 
     public String getTrainName() {

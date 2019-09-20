@@ -7,7 +7,7 @@
         ${CADRE_STATUS_MAP.get(status)}
     </h3>
 </div>
-<div class="modal-body overflow-visible">
+<div class="modal-body ${(status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_LEADER)?'overflow-visible':''}">
     <form class="form-horizontal" action="${ctx}/cadre_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">

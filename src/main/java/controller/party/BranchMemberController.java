@@ -60,16 +60,16 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branchMember_data")
     public void branchMember_data(HttpServletResponse response,
-                               Integer groupId,
-                               Integer userId,
-                               Integer typeId,
-                               Boolean isAdmin,
-                               Boolean isDeleted,
-                               Boolean isPresent,
-                               Boolean isDoubleLeader,
-                               @RequestParam(required = false, defaultValue = "0") int export,
-                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                               Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
+                                  Integer groupId,
+                                  Integer userId,
+                                  Integer typeId,
+                                  Boolean isAdmin,
+                                  Boolean isDeleted,
+                                  Boolean isPresent,
+                                  Boolean isDoubleLeader,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -85,10 +85,10 @@ public class BranchMemberController extends BaseController {
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        if(isDeleted!=null){
+        if (isDeleted != null) {
             criteria.andIsDeletedEqualTo(isDeleted);
         }
-        if(isPresent!=null){
+        if (isPresent != null) {
             criteria.andIsPresentEqualTo(isPresent);
         }
 
@@ -104,7 +104,7 @@ public class BranchMemberController extends BaseController {
         if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
         }
-        if(isDoubleLeader!=null){
+        if (isDoubleLeader != null) {
             criteria.andIsDoubleLeaderEqualTo(isDoubleLeader);
         }
 
@@ -182,19 +182,14 @@ public class BranchMemberController extends BaseController {
     @ResponseBody
     public Map branchAdmin_del(@CurrentUser SysUserView loginUser, Integer userId, Integer branchId) {
 
-        // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委管理员
-            Branch branch = branchService.findAll().get(branchId);
-            int partyId = branch.getPartyId();
-            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
-                throw new UnauthorizedException();
-            }
-
-            if (userId.intValue() == loginUser.getId()) {
-                return failed("不能删除自己");
-            }
+        if (userId.intValue() == loginUser.getId()) {
+            return failed("不能删除自己");
         }
+        // 权限控制
+        Branch branch = branchService.findAll().get(branchId);
+        int partyId = branch.getPartyId();
+        if (!partyMemberService.hasAdminAuth(loginUser.getId(), partyId))
+            throw new UnauthorizedException();
 
         branchMemberService.delAdmin(userId, branchId);
         logger.info(addLog(LogConstants.LOG_PARTY, "删除支部管理员权限，userId=%s, branchId=%s", userId, branchId));

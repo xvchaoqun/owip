@@ -234,21 +234,6 @@ public class PartyController extends BaseController {
         return "party/party_au";
     }
 
-    /*@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
-    @RequiresPermissions("party:del")
-    @RequestMapping(value = "/party_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_party_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            partyService.del(id);
-            logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
-
-
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody

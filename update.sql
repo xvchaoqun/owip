@@ -1,4 +1,5 @@
 
+20190920
 
 UPDATE `base_meta_class` SET `second_level`='二级党委培训', `bool_attr`='是否网络培训' WHERE   CODE='mc_cet_upper_train_type2';
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
@@ -34,6 +35,20 @@ ALTER TABLE `cet_unit_train`
 ALTER TABLE `cet_unit_project`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '审批状态，0 待报送 1 已报送 2 打回 3 审批通过' AFTER `add_time`,
 	DROP COLUMN `status`;
+
+ALTER TABLE `cet_unit_train`
+	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性' AFTER `title`;
+
+ALTER TABLE `cet_unit_train`
+	COMMENT='二级党委培训参训人信息';
+ALTER TABLE `cet_unit_project`
+	COMMENT='二级党委培训';
+
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `party_id` INT(10) UNSIGNED NULL COMMENT '培训班主办方，从分党委中选择' AFTER `year`;
+
+UPDATE cet_unit_project cup, ow_party p SET cup.party_id=p.id WHERE cup.unit_id=p.unit_id;
+
 
 20190917
 更新 北邮、北航、南航、哈工大

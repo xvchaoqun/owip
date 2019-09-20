@@ -31,7 +31,6 @@
         </c:if>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
-        {label: '现任职务', name: 'post', align: 'left', width: 350},
         {label: '是否<br/>常委', name: 'isCommitteeMember', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},

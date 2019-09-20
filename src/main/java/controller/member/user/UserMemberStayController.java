@@ -4,11 +4,9 @@ import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberStay;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -74,14 +72,8 @@ public class UserMemberStayController extends MemberBaseController {
         // 非本人提交，要验证权限
         if(!selfSubmit){
             //===========权限
-            Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(RoleConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
-                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-                if (!isAdmin && branchId != null) {
-                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-                }
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+                throw new UnauthorizedException();
         }
 
         MemberStay memberStay = memberStayService.get(userId, type);
@@ -153,14 +145,8 @@ public class UserMemberStayController extends MemberBaseController {
         // 非本人提交，要验证权限
         if(!selfSubmit){
             //===========权限
-            Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(RoleConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
-                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-                if (!isAdmin && branchId != null) {
-                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-                }
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+            if (!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId))
+                throw new UnauthorizedException();
         }
 
         record.setPartyId(member.getPartyId());

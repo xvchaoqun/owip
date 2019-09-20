@@ -325,14 +325,13 @@ public class MemberOutflowService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
-
             if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
-                if(!presentPartyAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasPartyAuth(loginUserId, memberOutflow.getPartyId()))
+                    throw new UnauthorizedException();
             }
             if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以打回
-                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasBranchAuth(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId()))
+                    throw new UnauthorizedException();
             }
 
             back(memberOutflow, status, loginUserId, reason);

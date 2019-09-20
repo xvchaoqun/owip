@@ -10,12 +10,12 @@ pageEncoding="UTF-8" %>
                 <li class="active">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/cet/cetUpperTrainAdmin?upperType=${upperType}"><i
-                            class="fa fa-users"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'上级':'二级'}单位管理员</a>
+                            class="fa fa-users"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'上级单位':'二级党委'}管理员</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/metaClass_type_list?cls=${upperType==CET_UPPER_TRAIN_UPPER?'mc_cet_upper_train_organizer,':''}mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'},mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"><i
+                       data-url="${ctx}/metaClass_type_list?cls=${upperType==CET_UPPER_TRAIN_UPPER?'mc_cet_upper_train_organizer,':''}mc_cet_upper_train_type${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"><i
                             class="fa fa-info-circle"></i> ${upperType==CET_UPPER_TRAIN_UPPER?'调训':'培训'}专项信息</a>
                 </li>
             </ul>

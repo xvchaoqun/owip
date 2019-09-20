@@ -125,7 +125,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 	</div>
-	<c:set var="isPartyAdmin" value="${cm:isPresentPartyAdmin(_user.id, branch.partyId)}"/>
+	<c:set var="isPartyAdmin" value="${cm:hasPartyAuth(_user.id, branch.partyId)}"/>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">

@@ -12,7 +12,7 @@
                 <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-success btn-sm"
                             data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}&upperType=${upperType}">
-                        <i class="fa fa-plus"></i> 添加本人参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级单位培训'}信息
+                        <i class="fa fa-plus"></i> 添加本人参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级党委培训'}信息
                     </button>
                 </c:if>
                 </div>
@@ -21,7 +21,7 @@
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=1&upperType=${upperType}"><i
-                            class="fa fa-list"></i> 参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级单位培训'}信息</a>
+                            class="fa fa-list"></i> 参加${upperType==CET_UPPER_TRAIN_UPPER?'上级单位调训':'二级党委培训'}信息</a>
                 </li>
                 <li class="<c:if test="${cls==2}">active</c:if>">
                     <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUpperTrain?cls=2&upperType=${upperType}"><i

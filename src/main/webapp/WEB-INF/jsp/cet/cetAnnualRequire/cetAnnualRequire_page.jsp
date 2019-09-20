@@ -54,7 +54,7 @@
             {label: '年度学习任务', name: 'period'},
             {label: '党校专题<br/>培训学时上限', name: 'maxSpecialPeriod'},
             {label: '党校日常<br/>培训学时上限', name: 'maxDailyPeriod'},
-            {label: '二级党校/党委<br/>培训学时上限', name: 'maxPartyPeriod'},
+            {label: '二级党委<br/>培训学时上限', name: 'maxPartyPeriod'},
             {label: '二级单位<br/>培训学时上限', name: 'maxUnitPeriod'},
             {label: '上级调训<br/>学时上限', name: 'maxUpperPeriod'},
             {label: '影响人数', name: 'relateCount'},

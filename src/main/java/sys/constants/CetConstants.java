@@ -238,7 +238,7 @@ public class CetConstants {
         CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_OW, "组织部填写");
     }
     
-    // 培训类型，1 党校专题培训  2 党校日常培训 3 二级党校/党委培训 4 上级调训 5 二级单位培训
+    // 培训类型，1 党校专题培训  2 党校日常培训 3 二级党委培训 4 上级调训 5 二级单位培训
     public final static byte CET_TYPE_SPECIAL = 1;
     public final static byte CET_TYPE_DAILY = 2;
     public final static byte CET_TYPE_PARTY = 3;
@@ -249,7 +249,7 @@ public class CetConstants {
     static {
         CET_TYPE_MAP.put(CET_TYPE_SPECIAL, "党校专题培训");
         CET_TYPE_MAP.put(CET_TYPE_DAILY, "党校日常培训");
-        CET_TYPE_MAP.put(CET_TYPE_PARTY, "二级党校/党委培训");
+        CET_TYPE_MAP.put(CET_TYPE_PARTY, "二级党委培训");
         CET_TYPE_MAP.put(CET_TYPE_UNIT, "二级单位培训");
         CET_TYPE_MAP.put(CET_TYPE_UPPER, "上级调训");
     }

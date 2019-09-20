@@ -34,7 +34,6 @@ import persistence.party.PartyViewMapper;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
@@ -306,9 +305,7 @@ public class PmMeetingController extends PmBaseController {
     @RequestMapping("/pmMeeting_member")
     public String pmMeeting_member(Integer partyId,Integer branchId,Byte type,HttpServletRequest request, ModelMap modelMap) {
 
-        if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
-                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),partyId)
-                &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),partyId,branchId)){
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),partyId,branchId)){
             throw new UnauthorizedException();
         }
         MemberViewExample example = new MemberViewExample();
@@ -431,8 +428,7 @@ public class PmMeetingController extends PmBaseController {
             if (party == null) {
                 throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
             }
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
-                    !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
                 throw new OpException("您没有权限导入第{0}行党支部数据", row);
             }
             record.setPartyId(party.getId());

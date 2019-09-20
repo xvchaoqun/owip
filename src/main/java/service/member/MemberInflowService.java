@@ -304,14 +304,13 @@ public class MemberInflowService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
-
             if(memberInflow.getInflowStatus() >= MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
-                if(!presentPartyAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasPartyAuth(loginUserId, memberInflow.getPartyId()))
+                    throw new UnauthorizedException();
             }
             if(memberInflow.getInflowStatus() >= MemberConstants.MEMBER_INFLOW_STATUS_BACK){
-                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasBranchAuth(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId()))
+                    throw new UnauthorizedException();
             }
 
             back(memberInflow, status, loginUserId, reason);

@@ -208,7 +208,6 @@ public class CetUpperTrainService extends CetBaseMapper {
                 .andYearEqualTo(record.getYear())
                 .andOrganizerEqualTo(record.getOrganizer())
                 .andTrainTypeEqualTo(record.getTrainType())
-                .andSpecialTypeEqualTo(record.getSpecialType())
                 .andIsDeletedEqualTo(false)
                 .andStatusNotEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
 

@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -80,8 +79,8 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch")
     public String branch(Integer partyId,
-                              @RequestParam(required = false, defaultValue = "1") Byte cls,
-                              ModelMap modelMap) {
+                         @RequestParam(required = false, defaultValue = "1") Byte cls,
+                         ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
@@ -162,11 +161,11 @@ public class BranchController extends BaseController {
             criteria.andIsBaseTeamEqualTo(isBaseTeam);
         }
 
-        if (_foundTime.getStart()!=null) {
+        if (_foundTime.getStart() != null) {
             criteria.andFoundTimeGreaterThanOrEqualTo(_foundTime.getStart());
         }
 
-        if (_foundTime.getEnd()!=null) {
+        if (_foundTime.getEnd() != null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
         }
 
@@ -208,22 +207,14 @@ public class BranchController extends BaseController {
         Integer id = record.getId();
 
         // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委或支部管理员
-            Integer partyId = record.getPartyId();
-            if (id != null) {
-                Branch branch = branchService.findAll().get(id);
-                partyId = branch.getPartyId();
-            }
-            int loginUserId = loginUser.getId();
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
-                if (!isAdmin && id != null) { // 只有支部管理员或分党委管理员可以添加党员
-                    isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, id);
-                }
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+        Integer partyId = record.getPartyId();
+        if (id != null) {
+            Branch branch = branchService.findAll().get(id);
+            partyId = branch.getPartyId();
         }
+        int loginUserId = loginUser.getId();
+        if (!branchMemberService.hasAdminAuth(loginUserId, partyId, id))
+            throw new UnauthorizedException();
 
         if (StringUtils.isNotBlank(_foundTime)) {
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
@@ -254,7 +245,7 @@ public class BranchController extends BaseController {
 
             SecurityUtils.getSubject().checkPermission("branch:edit");
 
-            if(!CmTag.isSuperAccount(ShiroHelper.getCurrentUsername())) {
+            if (!CmTag.isSuperAccount(ShiroHelper.getCurrentUsername())) {
                 record.setCode(null); // 不修改编号
             }
             branchService.updateByPrimaryKeySelective(record);
@@ -308,7 +299,7 @@ public class BranchController extends BaseController {
             row++;
 
             String name = StringUtils.trimToNull(xlsRow.get(0));
-             if(StringUtils.isBlank(name)){
+            if (StringUtils.isBlank(name)) {
                 throw new OpException("第{0}行党支部名称为空", row);
             }
             record.setName(name);
@@ -318,17 +309,17 @@ public class BranchController extends BaseController {
 
             String _foundTime = StringUtils.trimToNull(xlsRow.get(2));
             Date foundTime = DateUtils.parseStringToDate(_foundTime);
-            if(foundTime==null){
+            if (foundTime == null) {
                 throw new OpException("第{0}行党支部成立时间为空", row);
             }
             record.setFoundTime(foundTime);
 
             String partyCode = StringUtils.trimToNull(xlsRow.get(4));
-            if(StringUtils.isBlank(partyCode)){
+            if (StringUtils.isBlank(partyCode)) {
                 throw new OpException("第{0}行所属分党委编码为空", row);
             }
             Party party = partyService.getByCode(partyCode);
-            if(party==null){
+            if (party == null) {
                 throw new OpException("第{0}行所属分党委编码[{1}]不存在", row, partyCode);
             }
             record.setPartyId(party.getId());
@@ -418,15 +409,11 @@ public class BranchController extends BaseController {
     public Map do_branch_changeOrder(@CurrentUser SysUserView loginUser, Integer id, Integer addNum, HttpServletRequest request) {
 
         // 权限控制
-        Subject subject = SecurityUtils.getSubject();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委管理员
-            Branch branch = branchService.findAll().get(id);
-            int partyId = branch.getPartyId();
-            if (!partyMemberService.isPresentAdmin(loginUser.getId(), partyId)) {
-                throw new UnauthorizedException();
-            }
-        }
+        Branch branch = branchService.findAll().get(id);
+        int partyId = branch.getPartyId();
+        if (!partyMemberService.hasAdminAuth(loginUser.getId(), partyId))
+            throw new UnauthorizedException();
+
 
         branchService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_PARTY, "党支部调序：%s,%s", id, addNum));
@@ -435,7 +422,7 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:transfer")
     @RequestMapping(value = "/branch_batchTransfer")
-    public String branch_batchTransfer(){
+    public String branch_batchTransfer() {
 
         return "party/branch/branch_batchTransfer";
     }
@@ -458,7 +445,7 @@ public class BranchController extends BaseController {
         int rownum = records.size();
         String[] titles = {"编号|100", "名称|200|left", "简称|150|left", "所属分党委|300|left", "类别|100",
                 "党员总数", "在职教职工数量", "离退休党员数量", "学生数量", "委员会总数",
-                "是否已设立现任委员会", "任命时间","应换届时间", "实际换届时间", "是否是教工党支部", "是否一线教学科研党支部", "是否建立在团队",
+                "是否已设立现任委员会", "任命时间", "应换届时间", "实际换届时间", "是否是教工党支部", "是否一线教学科研党支部", "是否建立在团队",
                 "单位属性", "联系电话|100", "传真|100", "邮箱|150", "成立时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -469,12 +456,12 @@ public class BranchController extends BaseController {
                     record.getShortName(),
                     record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
                     metaTypeService.getName(record.getTypeId()),
-                    record.getMemberCount()==null?"0":record.getMemberCount()+"",
-                    record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"",
-                    record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
-                    record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
-                    record.getGroupCount()==null?"0":record.getGroupCount()+"",
-                    (record.getPresentGroupId()!=null &&record.getPresentGroupId() > 0) ? "是" : "否",
+                    record.getMemberCount() == null ? "0" : record.getMemberCount() + "",
+                    record.getTeacherMemberCount() == null ? "0" : record.getTeacherMemberCount() + "",
+                    record.getRetireMemberCount() == null ? "0" : record.getRetireMemberCount() + "",
+                    record.getStudentMemberCount() == null ? "0" : record.getStudentMemberCount() + "",
+                    record.getGroupCount() == null ? "0" : record.getGroupCount() + "",
+                    (record.getPresentGroupId() != null && record.getPresentGroupId() > 0) ? "是" : "否",
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
@@ -491,7 +478,7 @@ public class BranchController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "党支部(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
+        String fileName = "党支部(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -516,9 +503,9 @@ public class BranchController extends BaseController {
             criteria.andIsDeletedEqualTo(del);
         }
 
-        if (partyId == null){
+        if (partyId == null) {
             criteria.andIdIsNull(); // partyId肯定存在
-        }else{
+        } else {
             criteria.andPartyIdEqualTo(partyId);
         }
 

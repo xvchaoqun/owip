@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -25,13 +27,13 @@ public class BranchMemberService extends BaseMapper {
     @Autowired
     private BranchMemberGroupService branchMemberGroupService;
     @Autowired
-    private  PartyMemberService partyMemberService;
+    private PartyMemberService partyMemberService;
     @Autowired
-    private  PartyService partyService;
+    private PartyService partyService;
     @Autowired
     private MetaTypeService metaTypeService;
 
-    public TreeNode getTree(Set<Integer> selectIdSet){
+    public TreeNode getTree(Set<Integer> selectIdSet) {
 
         Map<Integer, List<SysUserView>> groupMap = new LinkedHashMap<>();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
@@ -54,7 +56,7 @@ public class BranchMemberService extends BaseMapper {
                 SysUserView uv = pmv.getUser();
 
                 List<SysUserView> uvs = groupMap.get(typeId);
-                if(uvs==null){
+                if (uvs == null) {
                     uvs = new ArrayList<>();
                     groupMap.put(typeId, uvs);
                 }
@@ -69,9 +71,9 @@ public class BranchMemberService extends BaseMapper {
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
 
-        for(Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
+        for (Map.Entry<Integer, List<SysUserView>> entry : groupMap.entrySet()) {
             List<SysUserView> entryValue = entry.getValue();
-            if(entryValue.size()>0) {
+            if (entryValue.size() > 0) {
 
                 TreeNode titleNode = new TreeNode();
                 titleNode.expand = false;
@@ -106,22 +108,32 @@ public class BranchMemberService extends BaseMapper {
     }
 
     // 查询用户是否是支部管理员或直属党支部管理员
-    public boolean isPresentAdmin(Integer userId,Integer partyId, Integer branchId){
-        if(userId==null) return false;
-        if(partyId==null && branchId==null) return false;
+    public boolean isPresentAdmin(Integer userId, Integer partyId, Integer branchId) {
+        if (userId == null) return false;
+        if (partyId == null && branchId == null) return false;
 
-        if(branchId==null) { // 直属党支部管理员
+        if (branchId == null) { // 直属党支部管理员
             boolean directBranch = partyService.isDirectBranch(partyId);
             boolean isAdmin = partyMemberService.isPresentAdmin(userId, partyId);
             return directBranch && isAdmin;
-        }else { // 支部管理员
+        } else { // 支部管理员
             return iPartyMapper.isBranchAdmin(userId, branchId) > 0;
         }
     }
 
+    // 判断是否有支部管理的权限（包含组织部管理员、分党委管理员、支部管理员）
+    public boolean hasAdminAuth(Integer userId, Integer partyId, Integer branchId) {
+
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
+                || partyMemberService.isPresentAdmin(userId, partyId))
+            return true;
+
+        return isPresentAdmin(userId, partyId, branchId);
+    }
+
     // 删除支部管理员
     @Transactional
-    public void delAdmin(int userId, int branchId){
+    public void delAdmin(int userId, int branchId) {
 
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
@@ -137,10 +149,10 @@ public class BranchMemberService extends BaseMapper {
     }
 
     // 获取现任支部书记
-    public BranchMemberView getBranchSecretary(int branchId){
+    public BranchMemberView getBranchSecretary(int branchId) {
 
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(branchId);
-        if(presentGroup==null) return null;
+        if (presentGroup == null) return null;
 
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
 
@@ -148,10 +160,10 @@ public class BranchMemberService extends BaseMapper {
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andTypeIdEqualTo(secretaryType.getId());
 
         List<BranchMemberView> records = branchMemberViewMapper.selectByExample(example);
-        return records.size()==0?null:records.get(0);
+        return records.size() == 0 ? null : records.get(0);
     }
 
-    public boolean idDuplicate(Integer id, int groupId, int userId, int typeId){
+    public boolean idDuplicate(Integer id, int groupId, int userId, int typeId) {
 
         // 20190405注释 可能存在兼职情况
         /*{
@@ -165,7 +177,7 @@ public class BranchMemberService extends BaseMapper {
         }*/
 
         MetaType metaType = metaTypeService.findAll().get(typeId);
-        if(StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")){
+        if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_branch_secretary")) {
 
             // 每个委员会只有一个书记
             BranchMemberExample example = new BranchMemberExample();
@@ -173,14 +185,14 @@ public class BranchMemberService extends BaseMapper {
                     .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId);
             if (id != null) criteria.andIdNotEqualTo(id);
 
-            if(branchMemberMapper.countByExample(example) > 0) return true;
+            if (branchMemberMapper.countByExample(example) > 0) return true;
         }
 
         return false;
     }
 
     @Transactional
-    public int insertSelective(BranchMember record, boolean autoAdmin){
+    public int insertSelective(BranchMember record, boolean autoAdmin) {
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
@@ -190,13 +202,14 @@ public class BranchMemberService extends BaseMapper {
         record.setSortOrder(getNextSortOrder("ow_branch_member", "group_id=" + record.getGroupId()));
         branchMemberMapper.insertSelective(record);
 
-        if(autoAdmin){
+        if (autoAdmin) {
             branchMemberAdminService.toggleAdmin(record);
         }
         return 1;
     }
+
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
@@ -204,16 +217,16 @@ public class BranchMemberService extends BaseMapper {
         Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
-        if(branchMember.getIsAdmin()){
+        if (branchMember.getIsAdmin()) {
             branchMemberAdminService.toggleAdmin(branchMember);
         }
         branchMemberMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         for (Integer id : ids) {
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
@@ -221,7 +234,7 @@ public class BranchMemberService extends BaseMapper {
             Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
             PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
-            if(branchMember.getIsAdmin()){
+            if (branchMember.getIsAdmin()) {
                 branchMemberAdminService.toggleAdmin(branchMember);
             }
         }
@@ -231,7 +244,7 @@ public class BranchMemberService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(BranchMember record, boolean autoAdmin){
+    public int updateByPrimaryKeySelective(BranchMember record, boolean autoAdmin) {
         BranchMember old = branchMemberMapper.selectByPrimaryKey(record.getId());
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(old.getGroupId());
@@ -242,7 +255,7 @@ public class BranchMemberService extends BaseMapper {
         branchMemberMapper.updateByPrimaryKeySelective(record);
 
         // 如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if(!record.getIsAdmin() && autoAdmin){
+        if (!record.getIsAdmin() && autoAdmin) {
             record.setUserId(old.getUserId());
             record.setGroupId(old.getGroupId());
             branchMemberAdminService.toggleAdmin(record);
@@ -253,13 +266,14 @@ public class BranchMemberService extends BaseMapper {
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,
+     *
      * @param id
      * @param addNum
      */
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         BranchMember entity = branchMemberMapper.selectByPrimaryKey(id);
 
@@ -275,16 +289,16 @@ public class BranchMemberService extends BaseMapper {
 
             example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<BranchMember> overEntities = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            BranchMember targetEntity = overEntities.get(overEntities.size()-1);
+            BranchMember targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
                 commonMapper.downOrder("ow_branch_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());

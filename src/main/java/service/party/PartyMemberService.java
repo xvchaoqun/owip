@@ -163,8 +163,17 @@ public class PartyMemberService extends BaseMapper {
 
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
+
         if (userId == null || partyId == null) return false;
         return iPartyMapper.isPartyAdmin(userId, partyId) > 0;
+    }
+
+    public boolean hasAdminAuth(Integer userId, Integer partyId) {
+
+        if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+            return true;
+
+        return isPresentAdmin(userId, partyId);
     }
 
     // 删除分党委管理员
@@ -314,7 +323,7 @@ public class PartyMemberService extends BaseMapper {
                 addCount++;
             } else {
 
-                if(_record.getIsAdmin()){
+                if (_record.getIsAdmin()) {
                     // 先清除管理员
                     partyMemberAdminService.toggleAdmin(_record);
                 }

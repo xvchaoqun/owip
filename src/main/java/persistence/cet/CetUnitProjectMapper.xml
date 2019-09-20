@@ -4,12 +4,14 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetUnitProject">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
-    <result column="special_type" jdbcType="INTEGER" property="specialType" />
+    <result column="report_name" jdbcType="VARCHAR" property="reportName" />
+    <result column="reporter" jdbcType="VARCHAR" property="reporter" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="total_count" jdbcType="INTEGER" property="totalCount" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -79,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, unit_id, start_date, end_date, project_name, project_type, special_type, 
-    period, total_count, address, is_valid, remark, add_type, add_user_id, add_time, 
-    status
+    id, year, party_id, unit_id, start_date, end_date, project_name, project_type, report_name, 
+    reporter, period, total_count, address, is_valid, remark, add_type, add_user_id, 
+    add_time, status
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
     select
@@ -114,27 +116,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUnitProject">
-    insert into cet_unit_project (id, year, unit_id, 
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_unit_project (year, party_id, unit_id, 
       start_date, end_date, project_name, 
-      project_type, special_type, period, 
-      total_count, address, is_valid, 
-      remark, add_type, add_user_id, 
-      add_time, status)
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      project_type, report_name, reporter, 
+      period, total_count, address, 
+      is_valid, remark, add_type, 
+      add_user_id, add_time, status
+      )
+    values (#{year,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR}, 
-      #{projectType,jdbcType=INTEGER}, #{specialType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
-      #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+      #{projectType,jdbcType=INTEGER}, #{reportName,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR}, 
+      #{period,jdbcType=DECIMAL}, #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitProject">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cet_unit_project
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="year != null">
         year,
+      </if>
+      <if test="partyId != null">
+        party_id,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -151,8 +161,11 @@
       <if test="projectType != null">
         project_type,
       </if>
-      <if test="specialType != null">
-        special_type,
+      <if test="reportName != null">
+        report_name,
+      </if>
+      <if test="reporter != null">
+        reporter,
       </if>
       <if test="period != null">
         period,
@@ -183,11 +196,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -204,8 +217,11 @@
       <if test="projectType != null">
         #{projectType,jdbcType=INTEGER},
       </if>
-      <if test="specialType != null">
-        #{specialType,jdbcType=INTEGER},
+      <if test="reportName != null">
+        #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="reporter != null">
+        #{reporter,jdbcType=VARCHAR},
       </if>
       <if test="period != null">
         #{period,jdbcType=DECIMAL},
@@ -251,6 +267,9 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
@@ -266,8 +285,11 @@
       <if test="record.projectType != null">
         project_type = #{record.projectType,jdbcType=INTEGER},
       </if>
-      <if test="record.specialType != null">
-        special_type = #{record.specialType,jdbcType=INTEGER},
+      <if test="record.reportName != null">
+        report_name = #{record.reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporter != null">
+        reporter = #{record.reporter,jdbcType=VARCHAR},
       </if>
       <if test="record.period != null">
         period = #{record.period,jdbcType=DECIMAL},
@@ -305,12 +327,14 @@
     update cet_unit_project
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       project_name = #{record.projectName,jdbcType=VARCHAR},
       project_type = #{record.projectType,jdbcType=INTEGER},
-      special_type = #{record.specialType,jdbcType=INTEGER},
+      report_name = #{record.reportName,jdbcType=VARCHAR},
+      reporter = #{record.reporter,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       total_count = #{record.totalCount,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
@@ -330,6 +354,9 @@
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
@@ -345,8 +372,11 @@
       <if test="projectType != null">
         project_type = #{projectType,jdbcType=INTEGER},
       </if>
-      <if test="specialType != null">
-        special_type = #{specialType,jdbcType=INTEGER},
+      <if test="reportName != null">
+        report_name = #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="reporter != null">
+        reporter = #{reporter,jdbcType=VARCHAR},
       </if>
       <if test="period != null">
         period = #{period,jdbcType=DECIMAL},
@@ -381,12 +411,14 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetUnitProject">
     update cet_unit_project
     set year = #{year,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       project_name = #{projectName,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=INTEGER},
-      special_type = #{specialType,jdbcType=INTEGER},
+      report_name = #{reportName,jdbcType=VARCHAR},
+      reporter = #{reporter,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       total_count = #{totalCount,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},

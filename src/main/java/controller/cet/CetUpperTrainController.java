@@ -94,7 +94,6 @@ public class CetUpperTrainController extends CetBaseController {
                                    Integer postId,
                                    Integer organizer,
                                    Integer trainType,
-                                   Integer specialType,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
@@ -172,9 +171,7 @@ public class CetUpperTrainController extends CetBaseController {
         if (trainType != null) {
             criteria.andTrainTypeEqualTo(trainType);
         }
-        if (specialType != null) {
-            criteria.andSpecialTypeEqualTo(specialType);
-        }
+
         if (postId != null) {
             criteria.andPostIdEqualTo(postId);
         }
@@ -643,41 +640,26 @@ public class CetUpperTrainController extends CetBaseController {
             }
             record.setTrainType(trainType.getId());
 
-            String _specialType = StringUtils.trimToNull(xlsRow.get(7));
-            if (StringUtils.isBlank(_specialType)) {
-                throw new OpException("第{0}行专项培训班为空", row);
-            }
-            if (StringUtils.equals(_specialType, "无")) {
-                record.setSpecialType(0);
-            } else {
-                MetaType specialType = CmTag.getMetaTypeByName(
-                        "mc_cet_upper_train_special" + (upperType == CetConstants.CET_UPPER_TRAIN_UPPER ? "" : "2"), _specialType);
-                if (specialType == null) {
-                    throw new OpException("第{0}行专项培训班不存在", row);
-                }
-                record.setSpecialType(specialType.getId());
-            }
-
-            String trainName = StringUtils.trimToNull(xlsRow.get(8));
+            String trainName = StringUtils.trimToNull(xlsRow.get(7));
             if (StringUtils.isBlank(trainName)) {
                 throw new OpException("第{0}行培训班名称为空", row);
             }
             record.setTrainName(trainName);
 
-            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
-            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10))));
+            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8))));
+            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(9))));
 
-            String period = StringUtils.trimToNull(xlsRow.get(11));
+            String period = StringUtils.trimToNull(xlsRow.get(10));
             if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
                 throw new OpException("第{0}行培训学时有误", row);
             }
             record.setPeriod(new BigDecimal(period));
-            record.setAddress(StringUtils.trimToNull(xlsRow.get(12)));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(11)));
 
-            String _type = StringUtils.trimToNull(xlsRow.get(13));
+            String _type = StringUtils.trimToNull(xlsRow.get(12));
             record.setType(!StringUtils.equals(_type, "党委组织部"));
             if (record.getType()) {
-                String unitCode = StringUtils.trimToNull(xlsRow.get(14));
+                String unitCode = StringUtils.trimToNull(xlsRow.get(13));
                 if (StringUtils.isBlank(unitCode)) {
                     throw new OpException("第{0}行单位编码为空", row);
                 }
@@ -688,8 +670,8 @@ public class CetUpperTrainController extends CetBaseController {
                 record.setUnitId(unit.getId());
             }
 
-            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(15)), "是"));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(16)));
+            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(14)), "是"));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(15)));
 
             records.add(record);
         }
@@ -712,7 +694,7 @@ public class CetUpperTrainController extends CetBaseController {
         List<CetUpperTrain> records = cetUpperTrainMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"派出类型|100", "派出单位|100", "参训人|100", "时任单位及职务|100|left",
-                "职务属性|100", "培训班主办方|100", "培训班类型|100", "专项培训班|100",
+                "职务属性|100", "培训班主办方|100", "培训班类型|100",
                 "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "是否计入年度学习任务|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -725,7 +707,6 @@ public class CetUpperTrainController extends CetBaseController {
                     record.getPostId() + "",
                     record.getOrganizer() + "",
                     record.getTrainType() + "",
-                    record.getSpecialType() + "",
                     record.getTrainName(),
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),

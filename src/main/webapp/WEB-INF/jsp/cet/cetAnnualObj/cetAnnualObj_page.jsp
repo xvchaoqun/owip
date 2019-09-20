@@ -294,7 +294,7 @@
                 }
             },
             {
-                label: '二级党校/党委培训<br/>完成学时数', name: 'partyPeriod', width: 130
+                label: '二级党委培训<br/>完成学时数', name: 'partyPeriod', width: 130
                 , formatter: function (cellvalue, options, rowObject) {
                     var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
                         :Math.trimToZero(rowObject.r.partyPeriod);

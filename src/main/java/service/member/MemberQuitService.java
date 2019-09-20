@@ -280,17 +280,17 @@ public class MemberQuitService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberQuit.getPartyId());
-            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId());
 
             if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
             if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY){
-                if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasPartyAuth(loginUserId, memberQuit.getPartyId()))
+                    throw new UnauthorizedException();
             }
             if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_BACK){
-                if(!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasBranchAuth(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId()))
+                    throw new UnauthorizedException();
             }
 
             back(memberQuit, status, loginUserId, reason);

@@ -27,6 +27,8 @@ public class CetUnitTrain implements Serializable {
 
     private Integer userId;
 
+    private Integer traineeTypeId;
+
     private String title;
 
     private Integer postType;
@@ -73,6 +75,14 @@ public class CetUnitTrain implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getTraineeTypeId() {
+        return traineeTypeId;
+    }
+
+    public void setTraineeTypeId(Integer traineeTypeId) {
+        this.traineeTypeId = traineeTypeId;
     }
 
     public String getTitle() {

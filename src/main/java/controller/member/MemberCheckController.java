@@ -26,7 +26,6 @@ import service.sys.AvatarService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -166,14 +165,8 @@ public class MemberCheckController extends MemberBaseController {
 
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (userId != loginUserId
-                && !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin && branchId != null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
+        if (userId != loginUserId && !branchMemberService.hasAdminAuth(loginUserId, partyId, branchId)){
+                throw new UnauthorizedException();
         }
 
         record.setStatus(MemberConstants.MEMBER_CHECK_STATUS_APPLY);

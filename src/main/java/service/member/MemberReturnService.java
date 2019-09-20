@@ -278,14 +278,13 @@ public class MemberReturnService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
-
             if(memberReturn.getStatus() >= MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
-                if(!presentPartyAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasPartyAuth(loginUserId, memberReturn.getPartyId()))
+                    throw new UnauthorizedException();
             }
             if(memberReturn.getStatus() >= MemberConstants.MEMBER_RETURN_STATUS_DENY){
-                if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+                if(!PartyHelper.hasBranchAuth(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId()))
+                    throw new UnauthorizedException();
             }
 
             back(memberReturn, status, loginUserId, reason);

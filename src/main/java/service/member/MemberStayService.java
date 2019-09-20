@@ -408,17 +408,16 @@ public class MemberStayService extends MemberBaseMapper {
         for (int id : ids) {
 
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
-            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberStay.getPartyId(), memberStay.getBranchId());
-
             if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY) {
                 if (!odAdmin) throw new UnauthorizedException();
             }
             if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) {
-                if (!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if (!PartyHelper.hasPartyAuth(loginUserId, memberStay.getPartyId()))
+                    throw new UnauthorizedException();
             }
             if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_BACK) {
-                if (!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
+                if (!PartyHelper.hasBranchAuth(loginUserId, memberStay.getPartyId(), memberStay.getBranchId()))
+                    throw new UnauthorizedException();
             }
 
             if (partyService.isDirectBranch(memberStay.getPartyId())

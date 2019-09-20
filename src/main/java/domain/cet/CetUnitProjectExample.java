@@ -252,6 +252,66 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andPartyIdIsNull() {
+            addCriterion("party_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIsNotNull() {
+            addCriterion("party_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdEqualTo(Integer value) {
+            addCriterion("party_id =", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotEqualTo(Integer value) {
+            addCriterion("party_id <>", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThan(Integer value) {
+            addCriterion("party_id >", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_id >=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThan(Integer value) {
+            addCriterion("party_id <", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("party_id <=", value, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdIn(List<Integer> values) {
+            addCriterion("party_id in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotIn(List<Integer> values) {
+            addCriterion("party_id not in", values, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("party_id between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_id not between", value1, value2, "partyId");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;
@@ -562,63 +622,143 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeIsNull() {
-            addCriterion("special_type is null");
+        public Criteria andReportNameIsNull() {
+            addCriterion("report_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeIsNotNull() {
-            addCriterion("special_type is not null");
+        public Criteria andReportNameIsNotNull() {
+            addCriterion("report_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeEqualTo(Integer value) {
-            addCriterion("special_type =", value, "specialType");
+        public Criteria andReportNameEqualTo(String value) {
+            addCriterion("report_name =", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeNotEqualTo(Integer value) {
-            addCriterion("special_type <>", value, "specialType");
+        public Criteria andReportNameNotEqualTo(String value) {
+            addCriterion("report_name <>", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeGreaterThan(Integer value) {
-            addCriterion("special_type >", value, "specialType");
+        public Criteria andReportNameGreaterThan(String value) {
+            addCriterion("report_name >", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("special_type >=", value, "specialType");
+        public Criteria andReportNameGreaterThanOrEqualTo(String value) {
+            addCriterion("report_name >=", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeLessThan(Integer value) {
-            addCriterion("special_type <", value, "specialType");
+        public Criteria andReportNameLessThan(String value) {
+            addCriterion("report_name <", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("special_type <=", value, "specialType");
+        public Criteria andReportNameLessThanOrEqualTo(String value) {
+            addCriterion("report_name <=", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeIn(List<Integer> values) {
-            addCriterion("special_type in", values, "specialType");
+        public Criteria andReportNameLike(String value) {
+            addCriterion("report_name like", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeNotIn(List<Integer> values) {
-            addCriterion("special_type not in", values, "specialType");
+        public Criteria andReportNameNotLike(String value) {
+            addCriterion("report_name not like", value, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeBetween(Integer value1, Integer value2) {
-            addCriterion("special_type between", value1, value2, "specialType");
+        public Criteria andReportNameIn(List<String> values) {
+            addCriterion("report_name in", values, "reportName");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("special_type not between", value1, value2, "specialType");
+        public Criteria andReportNameNotIn(List<String> values) {
+            addCriterion("report_name not in", values, "reportName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNameBetween(String value1, String value2) {
+            addCriterion("report_name between", value1, value2, "reportName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportNameNotBetween(String value1, String value2) {
+            addCriterion("report_name not between", value1, value2, "reportName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterIsNull() {
+            addCriterion("reporter is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterIsNotNull() {
+            addCriterion("reporter is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterEqualTo(String value) {
+            addCriterion("reporter =", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterNotEqualTo(String value) {
+            addCriterion("reporter <>", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterGreaterThan(String value) {
+            addCriterion("reporter >", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterGreaterThanOrEqualTo(String value) {
+            addCriterion("reporter >=", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterLessThan(String value) {
+            addCriterion("reporter <", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterLessThanOrEqualTo(String value) {
+            addCriterion("reporter <=", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterLike(String value) {
+            addCriterion("reporter like", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterNotLike(String value) {
+            addCriterion("reporter not like", value, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterIn(List<String> values) {
+            addCriterion("reporter in", values, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterNotIn(List<String> values) {
+            addCriterion("reporter not in", values, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterBetween(String value1, String value2) {
+            addCriterion("reporter between", value1, value2, "reporter");
+            return (Criteria) this;
+        }
+
+        public Criteria andReporterNotBetween(String value1, String value2) {
+            addCriterion("reporter not between", value1, value2, "reporter");
             return (Criteria) this;
         }
 
@@ -1181,7 +1321,7 @@ public class CetUnitProjectExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
-        
+
         public CetUnitProjectExample.Criteria andUnitAdmin(Set<Integer> adminUnitIdSet, Set<Integer> adminLeaderUserIdSet) {
             String sql = "";
             if(adminUnitIdSet.size()>0){

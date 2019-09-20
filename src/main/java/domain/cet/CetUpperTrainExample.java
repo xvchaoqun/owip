@@ -829,66 +829,6 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andSpecialTypeIsNull() {
-            addCriterion("special_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeIsNotNull() {
-            addCriterion("special_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeEqualTo(Integer value) {
-            addCriterion("special_type =", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeNotEqualTo(Integer value) {
-            addCriterion("special_type <>", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeGreaterThan(Integer value) {
-            addCriterion("special_type >", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("special_type >=", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeLessThan(Integer value) {
-            addCriterion("special_type <", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("special_type <=", value, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeIn(List<Integer> values) {
-            addCriterion("special_type in", values, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeNotIn(List<Integer> values) {
-            addCriterion("special_type not in", values, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeBetween(Integer value1, Integer value2) {
-            addCriterion("special_type between", value1, value2, "specialType");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("special_type not between", value1, value2, "specialType");
-            return (Criteria) this;
-        }
-
         public Criteria andTrainNameIsNull() {
             addCriterion("train_name is null");
             return (Criteria) this;

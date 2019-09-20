@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import service.party.BranchMemberService;
 import service.party.MemberService;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
@@ -22,7 +21,6 @@ import java.util.*;
 
 import static sys.constants.PmConstants.PM_MEETING_STATUS_INIT;
 import static sys.constants.PmConstants.PM_MEETING_STATUS_PASS;
-import static sys.constants.RoleConstants.ROLE_ODADMIN;
 
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
@@ -35,9 +33,7 @@ public class PmMeetingService extends PmBaseMapper {
     @Transactional
     public void insertSelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles) throws InterruptedException {
 
-        if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
-                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())
-                &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
 
@@ -48,7 +44,7 @@ public class PmMeetingService extends PmBaseMapper {
         record.setIsBack(false);
         record.setIsDelete(false);
 
-        if (ShiroHelper.hasRole(ROLE_ODADMIN)||PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())) {
+        if (PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())) {
             record.setStatus(PM_MEETING_STATUS_PASS);
         }else{
             record.setStatus(PM_MEETING_STATUS_INIT);
@@ -66,9 +62,7 @@ public class PmMeetingService extends PmBaseMapper {
     }
     public void updateByPrimaryKeySelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles){
 
-        if(!ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)&&
-                !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId())
-                &&!PartyHelper.isPresentBranchAdmin(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
 
@@ -105,8 +99,7 @@ public class PmMeetingService extends PmBaseMapper {
 
         for(PmMeeting pmMeeting:pmMeetings){
 
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)&&
-                    !PartyHelper.isPresentPartyAdmin(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
                 continue;
             }
 

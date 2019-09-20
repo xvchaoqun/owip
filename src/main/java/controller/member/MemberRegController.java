@@ -245,8 +245,7 @@ public class MemberRegController extends MemberBaseController {
         modelMap.put("memberReg", currentMemberReg);
 
         // 是否是当前记录的管理员
-        modelMap.put("isAdmin", ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
-                || partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberReg.getPartyId()));
+        modelMap.put("isAdmin", partyMemberService.hasAdminAuth(loginUser.getId(), currentMemberReg.getPartyId()));
 
         // 读取总数
         modelMap.put("count", memberRegService.count(null));
@@ -348,10 +347,8 @@ public class MemberRegController extends MemberBaseController {
             // 只能修改本党委的注册账号信息，但可以修改为联系其他分党委
             //===========权限
             Integer loginUserId = ShiroHelper.getCurrentUserId();
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+            if (!partyMemberService.hasAdminAuth(loginUserId, partyId))
+                throw new UnauthorizedException();
 
             memberRegService.updateByPrimaryKeySelective(record);
             logger.info(log(LogConstants.LOG_ADMIN, "更新系统注册账号信息：{0}", record.getId()));
@@ -366,10 +363,8 @@ public class MemberRegController extends MemberBaseController {
             // 只能添加本党委的党员
             Integer partyId = record.getPartyId();
             Integer loginUserId = ShiroHelper.getCurrentUserId();
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-                boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-                if (!isAdmin) throw new UnauthorizedException();
-            }
+            if (!partyMemberService.hasAdminAuth(loginUserId, partyId))
+                throw new UnauthorizedException();
 
             String prefix = CmTag.getStringProperty("memberRegPrefix", "dy");
             MemberReg memberReg = memberRegService.addMemberReg(record, prefix, -1,
@@ -509,10 +504,8 @@ public class MemberRegController extends MemberBaseController {
         Integer partyId = memberReg.getPartyId();
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if (!isAdmin) throw new UnauthorizedException();
-        }
+        if (!partyMemberService.hasAdminAuth(loginUserId, partyId))
+            throw new UnauthorizedException();
 
         memberRegService.changepw(id, password);
 

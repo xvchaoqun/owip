@@ -27,9 +27,9 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="addType" value="${addType}">
 		<c:set var="selectWidth" value="${isMultiSelect?223:272}"/>
 		<c:if test="${isMultiSelect}">
-		<div class="col-xs-12">
+		<div class="row col-xs-12">
 			<div class="col-xs-5">
-				<div id="tree3" style="height: 550px"></div>
+				<div id="tree3" style="height: 535px"></div>
 			</div>
 			<div class="col-xs-7">
 		</c:if>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group" style="width: 100px">
 						<input required class="form-control date-picker" placeholder="请选择年份"
 							   name="year"
 							   type="text"
@@ -55,7 +55,13 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-
+			<div class="form-group">
+					<label class="col-xs-4 control-label"><span class="star">*</span>培训班名称</label>
+					<div class="col-xs-6">
+						<textarea required class="form-control noEnter" rows="2"
+								  name="trainName">${cetUpperTrain.trainName}</textarea>
+					</div>
+				</div>
 			<div class="form-group">
 					<label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
 					<div class="col-xs-6">
@@ -84,26 +90,6 @@ pageEncoding="UTF-8"%>
 						<script type="text/javascript">
 							$("#modalForm select[name=trainType]").val(${cetUpperTrain.trainType});
 						</script>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-4 control-label"><span class="star">*</span>专项培训班</label>
-					<div class="col-xs-6">
-						<select required data-rel="select2" name="specialType" data-placeholder="请选择" data-width="${selectWidth}">
-							<option></option>
-							<c:import url="/metaTypes?__code=mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
-							<option value="0">无</option>
-						</select>
-						<script type="text/javascript">
-							$("#modalForm select[name=specialType]").val(${cetUpperTrain.specialType});
-						</script>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-4 control-label"><span class="star">*</span>培训班名称</label>
-					<div class="col-xs-6">
-						<textarea required class="form-control noEnter" rows="3"
-								  name="trainName">${cetUpperTrain.trainName}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -257,13 +243,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			</c:if>
-<c:if test="${isMultiSelect}">
+		<c:if test="${isMultiSelect}">
+				</div>
 			</div>
-		</div>
-	</c:if>
+		</c:if>
     </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" style="clear: both">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
 	<button id="submitBtn" class="btn btn-primary"
 			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">

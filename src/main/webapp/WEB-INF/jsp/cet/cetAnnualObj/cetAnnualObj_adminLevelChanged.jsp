@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 				（变更前：${cm:trimToZero(cetAnnualObj.maxDailyPeriod)}）
 			</div>
 			<div class="form-group">
-				<label class="col-xs-5 control-label">二级党校培训学时上限</label>
+				<label class="col-xs-5 control-label">二级党委培训学时上限</label>
 				<div class="col-xs-3">
                         <input class="form-control period" type="text" name="maxPartyPeriod">
 				</div>

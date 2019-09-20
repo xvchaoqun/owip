@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>二级党校培训学时上限</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级党委培训学时上限</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="maxPartyPeriod" value="${cetAnnualObj.maxPartyPeriod}">
 				</div>
@@ -99,7 +99,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>二级党校培训完成学时</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>二级党委培训完成学时</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="partyPeriod" value="${cetAnnualObj.partyPeriod}">
 				</div>

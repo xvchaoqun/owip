@@ -1,17 +1,6 @@
 package controller.pm;
 
-import domain.member.Member;
-import domain.member.MemberView;
-import domain.member.MemberViewExample;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.pm.PmMeeting;
-import domain.pm.PmMeetingExample;
 import domain.pm.PmMeetingFile;
-import domain.pm.PmMeetingFileExample;
-import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,32 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.PmConstants;
-import sys.constants.SystemConstants;
-import sys.spring.DateRange;
-import sys.spring.RequestDateRange;
-import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static sys.constants.PmConstants.*;
-import static sys.constants.RoleConstants.ROLE_ADMIN;
-import static sys.constants.RoleConstants.ROLE_ODADMIN;
-
 
 @Controller
 

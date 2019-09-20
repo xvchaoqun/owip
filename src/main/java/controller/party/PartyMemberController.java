@@ -174,17 +174,11 @@ public class PartyMemberController extends BaseController {
 
 
         // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            Integer groupId = record.getGroupId();
-            PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
-            Integer partyId = partyMemberGroup.getPartyId();
-
-            // 要求是分党委管理员
-            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                throw new UnauthorizedException();
-            }
-        }
+        Integer groupId = record.getGroupId();
+        PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+        Integer partyId = partyMemberGroup.getPartyId();
+        if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
+            throw new UnauthorizedException();
 
         Integer id = record.getId();
         if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getPostId())) {
@@ -254,19 +248,12 @@ public class PartyMemberController extends BaseController {
         if (id != null) {
 
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
-
+            Integer groupId = partyMember.getGroupId();
+            PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+            Integer partyId = partyMemberGroup.getPartyId();
             // 权限控制
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-                Integer groupId = partyMember.getGroupId();
-                PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
-                Integer partyId = partyMemberGroup.getPartyId();
-
-                // 要求是分党委管理员
-                if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                    throw new UnauthorizedException();
-                }
-            }
+            if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
+                throw new UnauthorizedException();
 
             partyMemberAdminService.toggleAdmin(partyMember);
 
@@ -390,7 +377,7 @@ public class PartyMemberController extends BaseController {
             }
 
             PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(party.getId());
-            if(presentGroup==null) continue; // 如果分党委还未设置当前班子，则忽略导入；
+            if (presentGroup == null) continue; // 如果分党委还未设置当前班子，则忽略导入；
             record.setGroupId(presentGroup.getId());
 
             String userCode = StringUtils.trim(xlsRow.get(3));
@@ -406,9 +393,9 @@ public class PartyMemberController extends BaseController {
 
             String _post = StringUtils.trim(xlsRow.get(4));
             MetaType postType = CmTag.getMetaTypeByName("mc_party_member_post", _post);
-            if(postType!=null) {
+            if (postType != null) {
                 record.setPostId(postType.getId());
-            }else{
+            } else {
                 // 默认都是委员
                 MetaType partyMemberType = CmTag.getMetaTypeByCode("mt_party_member");
                 record.setPostId(partyMemberType.getId());

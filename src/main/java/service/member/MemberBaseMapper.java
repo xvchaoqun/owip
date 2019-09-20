@@ -88,10 +88,11 @@ public class MemberBaseMapper extends CoreBaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
         
-        verifyAuth.isBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, partyId, branchId);
-        verifyAuth.isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isBranchAdmin = PartyHelper.hasBranchAuth(loginUserId, partyId, branchId);
+        verifyAuth.isPartyAdmin = PartyHelper.hasPartyAuth(loginUserId, partyId);
         verifyAuth.isDirectBranch = PartyHelper.isDirectBranch(partyId);
-        if (!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
+
+        if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId)) { // 不是党支部管理员， 也不是分党委管理员
             throw new UnauthorizedException();
         }
         return verifyAuth;
@@ -106,11 +107,11 @@ public class MemberBaseMapper extends CoreBaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
         
-        if (!PartyHelper.isPresentPartyAdmin(loginUserId, partyId)) {
+        if (!PartyHelper.hasPartyAuth(loginUserId, partyId)) {
             throw new UnauthorizedException();
         }
         verifyAuth.isParty = PartyHelper.isParty(partyId);
-        verifyAuth.isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isPartyAdmin = PartyHelper.hasPartyAuth(loginUserId, partyId);
         verifyAuth.isDirectBranch = PartyHelper.isDirectBranch(partyId);
         return verifyAuth;
     }

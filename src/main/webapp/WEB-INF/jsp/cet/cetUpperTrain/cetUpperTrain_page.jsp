@@ -11,7 +11,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.unitId ||not empty param.userId ||not empty param.postId
-                   ||not empty param.organizer ||not empty param.trainType ||not empty param.specialType
+                   ||not empty param.organizer ||not empty param.trainType
                    || not empty param.code || not empty param.sort}"/>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
@@ -183,19 +183,6 @@
                                 </select>
                                 <script type="text/javascript">
                                     $("#searchForm select[name=trainType]").val(${param.trainType});
-                                </script>
-                            </div>
-                            <div class="form-group">
-                                <label>专项培训班</label>
-                                <select data-rel="select2" name="specialType"
-                                        data-width="272"
-                                        data-placeholder="请选择">
-                                    <option></option>
-                                    <c:import url="/metaTypes?__code=mc_cet_upper_train_special${upperType==CET_UPPER_TRAIN_UPPER?'':'2'}"/>
-                                    <option value="0">无</option>
-                                </select>
-                                <script type="text/javascript">
-                                    $("#searchForm select[name=specialType]").val(${param.specialType});
                                 </script>
                             </div>
 

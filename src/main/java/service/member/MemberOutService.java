@@ -369,13 +369,11 @@ public class MemberOutService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberOut.getPartyId());
-
             if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
                 if (!odAdmin) throw new UnauthorizedException();
             }
             if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_BACK) {
-                if (!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                if (!PartyHelper.hasPartyAuth(loginUserId, memberOut.getPartyId())) throw new UnauthorizedException();
             }
 
             back(memberOut, status, loginUserId, reason);

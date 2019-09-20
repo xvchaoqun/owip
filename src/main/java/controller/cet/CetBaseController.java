@@ -9,6 +9,7 @@ import service.member.MemberApplyService;
 import service.party.BranchMemberService;
 import service.party.OrganizerService;
 import service.party.PartyMemberService;
+import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
@@ -42,6 +43,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected UserBeanService userBeanService;
     @Autowired
     protected SysLoginLogService sysLoginLogService;
+    @Autowired
+    protected PartyService partyService;
     
     @Autowired
     protected CetAnnualService cetAnnualService;

@@ -8,9 +8,11 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 
 import java.util.Set;
 
@@ -19,11 +21,18 @@ public class CetUnitProjectService extends CetBaseMapper {
     
     @Autowired
     protected CetUpperTrainAdminService cetUpperTrainAdminService;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
     
     @Transactional
     public void insertSelective(CetUnitProject record) {
         
         cetUnitProjectMapper.insertSelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                    "添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
     
     @Transactional
@@ -79,7 +88,13 @@ public class CetUnitProjectService extends CetBaseMapper {
     }
     
     @Transactional
-    public int updateByPrimaryKeySelective(CetUnitProject record) {
-        return cetUnitProjectMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(CetUnitProject record) {
+
+        cetUnitProjectMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                    "更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 }

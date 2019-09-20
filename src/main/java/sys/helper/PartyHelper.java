@@ -14,7 +14,6 @@ import service.party.PartyMemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,29 +46,19 @@ public class PartyHelper {
 
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-
-            boolean isAdmin = isPresentPartyAdmin(loginUserId, partyId);
-
-            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以维护党员信息
-                isAdmin = isPresentBranchAdmin(loginUserId, partyId, branchId);
-            }
-            if (!isAdmin) throw new UnauthorizedException();
+        if(!branchMemberService.hasAdminAuth(loginUserId, partyId, branchId)){
+            throw new UnauthorizedException();
         }
     }
 
-    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId) {
+    public static Boolean hasBranchAuth(Integer userId, Integer partyId, Integer branchId) {
 
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) return true;
-
-        return branchMemberService.isPresentAdmin(userId, partyId, branchId);
+        return branchMemberService.hasAdminAuth(userId, partyId, branchId);
     }
 
-    public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId) {
+    public static Boolean hasPartyAuth(Integer userId, Integer partyId) {
 
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) return true;
-
-        return partyMemberService.isPresentAdmin(userId, partyId);
+        return partyMemberService.hasAdminAuth(userId, partyId);
     }
 
     // 是否直属党支部

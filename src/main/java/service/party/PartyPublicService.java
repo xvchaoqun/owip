@@ -16,7 +16,6 @@ import service.BaseMapper;
 import service.member.MemberApplyService;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -41,7 +40,7 @@ public class PartyPublicService extends BaseMapper {
 
         List<PartyPublic> partyPublics = partyPublicMapper.selectByExample(example);
 
-        return partyPublics.size()==0?null:partyPublics.get(0);
+        return partyPublics.size() == 0 ? null : partyPublics.get(0);
     }
 
     public boolean idDuplicate(Integer id, int partyId, byte type, Date pubDate) {
@@ -79,7 +78,8 @@ public class PartyPublicService extends BaseMapper {
     }
 
     @CacheEvict(value = "PartyPublics", allEntries = true)
-    public void refreshPartyPublics() {}
+    public void refreshPartyPublics() {
+    }
 
     @Transactional
     @CacheEvict(value = "PartyPublic", key = "#record.id")
@@ -89,7 +89,7 @@ public class PartyPublicService extends BaseMapper {
                 record.getType(), record.getPubDate()), "duplicate");
 
         record.setNum(userIds.length);
-        record.setPubUsers(","+ StringUtils.join(userIds, ",") + ",");
+        record.setPubUsers("," + StringUtils.join(userIds, ",") + ",");
         record.setPartyName(CmTag.getParty(record.getPartyId()).getName());
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setCreateTime(new Date());
@@ -110,12 +110,9 @@ public class PartyPublicService extends BaseMapper {
             PartyPublic partyPublic = partyPublicMapper.selectByPrimaryKey(id);
 
             // 权限控制
-            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-                // 要求是分党委管理员
-                Integer partyId = partyPublic.getPartyId();
-                if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                    throw new UnauthorizedException();
-                }
+            Integer partyId = partyPublic.getPartyId();
+            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                throw new UnauthorizedException();
             }
 
             if (partyPublic.getType() == OwConstants.OW_PARTY_PUBLIC_TYPE_GROW) {
@@ -137,7 +134,7 @@ public class PartyPublicService extends BaseMapper {
                 record.getType(), record.getPubDate()), "duplicate");
 
         record.setNum(userIds.length);
-        record.setPubUsers(","+ StringUtils.join(userIds, ",") + ",");
+        record.setPubUsers("," + StringUtils.join(userIds, ",") + ",");
         record.setPartyName(CmTag.getParty(record.getPartyId()).getName());
         record.setUpdateTime(new Date());
         partyPublicMapper.updateByPrimaryKeySelective(record);
@@ -190,7 +187,7 @@ public class PartyPublicService extends BaseMapper {
             record.setUserId(userId);
             if (type == OwConstants.OW_PARTY_PUBLIC_TYPE_GROW) {
                 record.setGrowPublicId(publicId);
-            }else{
+            } else {
                 record.setPositivePublicId(publicId);
             }
             memberApplyService.updateByPrimaryKeySelective(record);

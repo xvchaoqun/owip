@@ -304,14 +304,14 @@ public class MemberTransferService extends MemberBaseMapper {
             MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(userId);
 
             if(notAdmin) {
-                Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
-                Boolean presentToPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
-
                 if (memberTransfer.getStatus() >= MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY) {
-                    if (!presentToPartyAdmin) throw new UnauthorizedException();
+                    if (!PartyHelper.hasPartyAuth(loginUserId, memberTransfer.getToPartyId()))
+                        throw new UnauthorizedException();
                 }
                 if (memberTransfer.getStatus() >= MemberConstants.MEMBER_TRANSFER_STATUS_BACK) {
-                    if (!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                    if (!PartyHelper.hasPartyAuth(loginUserId, memberTransfer.getToPartyId())
+                            && !PartyHelper.hasPartyAuth(loginUserId, memberTransfer.getPartyId()))
+                        throw new UnauthorizedException();
                 }
             }
 
