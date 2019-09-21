@@ -219,15 +219,30 @@ public class CetProjectObjService extends CetBaseMapper {
                     record.setAssignDate(organizer.getAppointDate());
                 }
                 break;
-            case "t_activist":
+            case "t_candidate":
                 MemberApplyExample example4 = new MemberApplyExample();
                 example4.createCriteria()
                         .andIsRemoveEqualTo(false)
+                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE)
+                        .andUserIdEqualTo(userId);
+                List<MemberApply> candidates = memberApplyMapper.selectByExampleWithRowbounds(example4, new RowBounds(0, 1));
+                if (candidates.size() > 0) {
+                    MemberApply memberApply = candidates.get(0);
+                    record.setPartyId(memberApply.getPartyId());
+                    record.setBranchId(memberApply.getBranchId());
+                    record.setActiveTime(memberApply.getActiveTime());
+                    record.setCandidateTime(memberApply.getCandidateTime());
+                }
+                break;
+            case "t_activist":
+                MemberApplyExample example5 = new MemberApplyExample();
+                example5.createCriteria()
+                        .andIsRemoveEqualTo(false)
                         .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE)
                         .andUserIdEqualTo(userId);
-                List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example4, new RowBounds(0, 1));
-                if (memberApplies.size() > 0) {
-                    MemberApply memberApply = memberApplies.get(0);
+                List<MemberApply> activists = memberApplyMapper.selectByExampleWithRowbounds(example5, new RowBounds(0, 1));
+                if (activists.size() > 0) {
+                    MemberApply memberApply = activists.get(0);
                     record.setPartyId(memberApply.getPartyId());
                     record.setBranchId(memberApply.getBranchId());
                     record.setActiveTime(memberApply.getActiveTime());

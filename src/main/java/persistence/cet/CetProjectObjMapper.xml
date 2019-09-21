@@ -37,6 +37,7 @@
     <result column="organizer_party_id" jdbcType="INTEGER" property="organizerPartyId" />
     <result column="assign_date" jdbcType="DATE" property="assignDate" />
     <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -101,7 +102,7 @@
     is_graduate, word_write, write_file_path, remark, cadre_id, title, admin_level, post_type, 
     is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
     cadre_status, cadre_sort_order, party_id, branch_id, party_type_ids, post_id, branch_type_id, 
-    organizer_type, organizer_units, organizer_party_id, assign_date, active_time
+    organizer_type, organizer_units, organizer_party_id, assign_date, active_time, candidate_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -148,7 +149,7 @@
       party_id, branch_id, party_type_ids, 
       post_id, branch_type_id, organizer_type, 
       organizer_units, organizer_party_id, assign_date, 
-      active_time)
+      active_time, candidate_time)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
       #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
@@ -160,7 +161,7 @@
       #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{partyTypeIds,jdbcType=VARCHAR}, 
       #{postId,jdbcType=INTEGER}, #{branchTypeId,jdbcType=INTEGER}, #{organizerType,jdbcType=TINYINT}, 
       #{organizerUnits,jdbcType=VARCHAR}, #{organizerPartyId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
-      #{activeTime,jdbcType=DATE})
+      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -270,6 +271,9 @@
       <if test="activeTime != null">
         active_time,
       </if>
+      <if test="candidateTime != null">
+        candidate_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -373,6 +377,9 @@
       </if>
       <if test="activeTime != null">
         #{activeTime,jdbcType=DATE},
+      </if>
+      <if test="candidateTime != null">
+        #{candidateTime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -490,6 +497,9 @@
       <if test="record.activeTime != null">
         active_time = #{record.activeTime,jdbcType=DATE},
       </if>
+      <if test="record.candidateTime != null">
+        candidate_time = #{record.candidateTime,jdbcType=DATE},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -531,7 +541,8 @@
       organizer_units = #{record.organizerUnits,jdbcType=VARCHAR},
       organizer_party_id = #{record.organizerPartyId,jdbcType=INTEGER},
       assign_date = #{record.assignDate,jdbcType=DATE},
-      active_time = #{record.activeTime,jdbcType=DATE}
+      active_time = #{record.activeTime,jdbcType=DATE},
+      candidate_time = #{record.candidateTime,jdbcType=DATE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -641,6 +652,9 @@
       <if test="activeTime != null">
         active_time = #{activeTime,jdbcType=DATE},
       </if>
+      <if test="candidateTime != null">
+        candidate_time = #{candidateTime,jdbcType=DATE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -679,7 +693,8 @@
       organizer_units = #{organizerUnits,jdbcType=VARCHAR},
       organizer_party_id = #{organizerPartyId,jdbcType=INTEGER},
       assign_date = #{assignDate,jdbcType=DATE},
-      active_time = #{activeTime,jdbcType=DATE}
+      active_time = #{activeTime,jdbcType=DATE},
+      candidate_time = #{candidateTime,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">

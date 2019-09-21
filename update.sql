@@ -1,4 +1,5 @@
 
+
 20190920
 
 UPDATE `base_meta_class` SET `second_level`='二级党委培训', `bool_attr`='是否网络培训' WHERE   CODE='mc_cet_upper_train_type2';
@@ -54,6 +55,11 @@ ALTER TABLE `cet_unit_project`
 
 UPDATE cet_unit_project cup, ow_party p SET cup.party_id=p.id WHERE cup.unit_id=p.unit_id;
 
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `candidate_time` DATE NULL DEFAULT NULL COMMENT '成为发展对象时间' AFTER `active_time`;
+UPDATE cet_unit_train SET trainee_type_id=NULL;
+update cet_unit_train set trainee_type_id=1;
+-- 更新导入样表
 
 20190917
 更新 北邮、北航、南航、哈工大

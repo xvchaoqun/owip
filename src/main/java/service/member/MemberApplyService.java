@@ -177,7 +177,7 @@ public class MemberApplyService extends MemberBaseMapper {
     }
 
     // 积极分子选择树
-    public TreeNode getActivistTree(Set<Integer> selectIdSet) {
+    public TreeNode getTree(Set<Integer> selectIdSet, byte stage) {
 
         Map<Integer, List<MemberApplyView>> groupMap = new LinkedHashMap<>();
 
@@ -185,7 +185,7 @@ public class MemberApplyService extends MemberBaseMapper {
             MemberApplyViewExample example = new MemberApplyViewExample();
             example.createCriteria()
                     .andIsRemoveEqualTo(false)
-                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE);
+                    .andStageEqualTo(stage);
             example.setOrderByClause("party_sort_order desc, branch_sort_order desc,create_time desc");
 
             List<MemberApplyView> memberApplyViews = memberApplyViewMapper.selectByExample(example);
@@ -203,7 +203,7 @@ public class MemberApplyService extends MemberBaseMapper {
         }
 
         TreeNode root = new TreeNode();
-        root.title = "入党积极分子";
+        root.title = OwConstants.OW_APPLY_STAGE_MAP.get(stage);
         root.expand = true;
         root.isFolder = true;
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();

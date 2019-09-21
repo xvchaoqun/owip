@@ -720,7 +720,7 @@
             }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             </c:if>
-            <c:if test="${cetTraineeType.code=='t_activist'}">
+            <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'}">
              {
                 label: '联系党组织',
                 name: 'partyId',
@@ -731,6 +731,9 @@
                 }
             },
             {label: '成为积极分子时间', name: 'activeTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            <c:if test="${cetTraineeType.code=='t_candidate'}">
+            {label: '成为发展对象时间', name: 'candidateTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
             </c:if>
 
             <c:if test="${cls==1}">

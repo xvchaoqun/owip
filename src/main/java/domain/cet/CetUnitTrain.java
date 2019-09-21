@@ -1,6 +1,5 @@
 package domain.cet;
 
-import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import persistence.cet.CetUnitProjectMapper;
 import sys.tags.CmTag;
@@ -11,8 +10,8 @@ import java.util.Date;
 
 public class CetUnitTrain implements Serializable {
 
-    public CadreView getCadre(){
-        return CmTag.getCadreByUserId(userId);
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
     }
     public SysUserView getAddUser(){
         return CmTag.getUserById(addUserId);

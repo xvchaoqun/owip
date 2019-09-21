@@ -2339,6 +2339,66 @@ public class CetProjectObjExample {
             addCriterionForJDBCDate("active_time not between", value1, value2, "activeTime");
             return (Criteria) this;
         }
+
+        public Criteria andCandidateTimeIsNull() {
+            addCriterion("candidate_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeIsNotNull() {
+            addCriterion("candidate_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("candidate_time =", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("candidate_time <>", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("candidate_time >", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("candidate_time >=", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeLessThan(Date value) {
+            addCriterionForJDBCDate("candidate_time <", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("candidate_time <=", value, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("candidate_time in", values, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("candidate_time not in", values, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("candidate_time between", value1, value2, "candidateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("candidate_time not between", value1, value2, "candidateTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

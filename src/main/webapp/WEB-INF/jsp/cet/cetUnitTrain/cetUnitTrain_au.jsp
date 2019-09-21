@@ -13,12 +13,29 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>参训人</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=2&key=1&unitIds=${unitIds}"
+					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
 							name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-						<option value="${cetUnitTrain.cadre.userId}">${cetUnitTrain.cadre.realname}-${cetUnitTrain.cadre.code}</option>
+						<option value="${cetUnitTrain.user.id}">${cetUnitTrain.user.realname}-${cetUnitTrain.user.code}</option>
 					</select>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
+				<div class="col-xs-6">
+					<select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择" data-width="272">
+                        <option></option>
+                        <c:forEach items="${traineeTypeMap}" var="entity">
+							<c:if test="${entity.value.code!='t_reserve' && entity.value.code!='t_candidate'}">
+							<option value="${entity.value.id}">${entity.value.name}</option>
+							</c:if>
+						</c:forEach>
+                    </select>
+                    <script type="text/javascript">
+                        $("#modalForm select[name=traineeTypeId]").val(${cetUnitTrain.traineeTypeId});
+                    </script>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">时任单位及职务</label>
 				<div class="col-xs-6">

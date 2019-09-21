@@ -179,7 +179,7 @@ public class CetUnitTrainController extends CetBaseController {
             projectId = cetUnitTrain.getProjectId();
         }
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
-        
+
         return "cet/cetUnitTrain/cetUnitTrain_au";
     }
     
@@ -201,10 +201,11 @@ public class CetUnitTrainController extends CetBaseController {
     public Map do_cetUnitTrain_batchAdd(HttpServletRequest request,
                                         int projectId,
                                         byte addType,
+                                        int traineeTypeId,
                                         @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                         ModelMap modelMap) {
         
-       cetUnitTrainService.batchAdd(projectId, userIds, addType);
+       cetUnitTrainService.batchAdd(projectId, traineeTypeId, userIds, addType);
         
         return success(FormUtils.SUCCESS);
     }

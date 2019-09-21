@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="OW_APPLY_STAGE_ACTIVE" value="<%=OwConstants.OW_APPLY_STAGE_ACTIVE%>"/>
+<c:set var="OW_APPLY_STAGE_CANDIDATE" value="<%=OwConstants.OW_APPLY_STAGE_CANDIDATE%>"/>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h4>选择培训对象（${cetTraineeType.name}）</h4>
@@ -36,8 +38,11 @@
       <c:when test="${cetTraineeType.code=='t_organizer'}">
           <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectOrganizers_tree"/>
       </c:when>
+      <c:when test="${cetTraineeType.code=='t_candidate'}">
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectMemberApply_tree?stage=${OW_APPLY_STAGE_CANDIDATE}"/>
+      </c:when>
       <c:when test="${cetTraineeType.code=='t_activist'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectActivists_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectMemberApply_tree?stage=${OW_APPLY_STAGE_ACTIVE}"/>
       </c:when>
   </c:choose>
   <script>

@@ -173,6 +173,8 @@ public class CetProjectObj implements Serializable {
 
     private Date activeTime;
 
+    private Date candidateTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -453,5 +455,13 @@ public class CetProjectObj implements Serializable {
 
     public void setActiveTime(Date activeTime) {
         this.activeTime = activeTime;
+    }
+
+    public Date getCandidateTime() {
+        return candidateTime;
+    }
+
+    public void setCandidateTime(Date candidateTime) {
+        this.candidateTime = candidateTime;
     }
 }
