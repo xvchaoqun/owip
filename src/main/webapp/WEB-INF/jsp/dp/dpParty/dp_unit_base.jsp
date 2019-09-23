@@ -64,7 +64,7 @@
                         成立时间
                     </td>
                     <td>
-                        ${cm:formatDate(unit.workTime, "yyyy-MM-dd")}
+                        ${cm:formatDate(unit.workTime, "yyyy.MM.dd")}
                     </td>
                 </tr>
                 <tr>
@@ -120,7 +120,7 @@
                             <t:unit unit="${unit}"/>
                         </td>
                         <td class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
-                        <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
+                        <td class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy.MM.dd")}</td>
 
                         <td class="hidden-480 hidden-xs">${unit.remark}</td>
                     </tr>

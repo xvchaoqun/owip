@@ -29,6 +29,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -51,7 +52,7 @@ public class DpPrCmController extends DpBaseController {
                          @RequestParam(defaultValue = "1") int cls,
                          ModelMap modelMap) {
 
-        modelMap.put("type", type);
+        //modelMap.put("type", type);
         modelMap.put("cls", cls);
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
@@ -201,7 +202,9 @@ public class DpPrCmController extends DpBaseController {
 
         Integer id = record.getId();
 
-        if (dpPrCmService.idDuplicate(id, record.getUserId(), record.getElectSession())) {
+        if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工账号");
+        }else if (dpPrCmService.idDuplicate(id, record.getUserId(), record.getElectSession())) {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(workTime)){
@@ -234,10 +237,31 @@ public class DpPrCmController extends DpBaseController {
 
             DpPrCm dpPrCm = dpPrCmMapper.selectByPrimaryKey(id);
             Integer userId = dpPrCm.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
+            SysUserView sysUserView = CmTag.getUserById(userId);
+            if (sysUserView.getType() == SystemConstants.USER_TYPE_JZG){
+                modelMap.put("sysUser", sysUserView);
+            }
+
             modelMap.put("dpPrCm", dpPrCm);
         }
         return "dp/dpPrCm/dpPrCm_au";
+    }
+
+    @RequiresPermissions("dpPrCm:del")
+    @RequestMapping(value = "/dpPrCm_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpPrCm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+                              HttpServletRequest request){
+
+        if (null != ids && ids.length>0){
+            Boolean status = true;
+            for (Integer id : ids){
+                DpPrCm dpPrCm = dpPrCmMapper.selectByPrimaryKey(id);
+                dpPrCm.setStatus(status);
+                dpPrCmService.updateByPrimaryKeySelective(dpPrCm);
+            }
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpPrCm:del")
@@ -493,7 +517,7 @@ public class DpPrCmController extends DpBaseController {
             String fileName = String.format(DpConstants.DP_PR_CM_MAP.get(type) + "(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(titles, valuesList, fileName, response);
         }else if (cls == 2){
-            String fileName = String.format("已离任" + DpConstants.DP_PR_CM_MAP.get(type) + "(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("往届" + DpConstants.DP_PR_CM_MAP.get(type) + "(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(cancelTitles, valuesList, fileName, response);
         }
 
@@ -501,7 +525,7 @@ public class DpPrCmController extends DpBaseController {
 
     @RequestMapping("/dpPrCm_selects")
     @ResponseBody
-    public Map dpPrCm_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map dpPrCm_selects(Integer pageSize, Integer type,int cls, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -511,8 +535,12 @@ public class DpPrCmController extends DpBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
+        Boolean status = false;
+        if (cls == 1){
+            status = true;
+        }
         DpPrCmExample example = new DpPrCmExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(status);
         example.setOrderByClause("sort_order desc");
 
         searchStr = StringUtils.trimToNull(searchStr);
@@ -525,10 +553,20 @@ public class DpPrCmController extends DpBaseController {
         }
         List<DpPrCm> records = dpPrCmMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        Set<DpPrCm> dpPrCms = new HashSet<>();
+        for (DpPrCm dpPrCm : records){
+            Set<Integer> userIds = new HashSet<>();
+            int userId = dpPrCm.getUserId();
+            if (!userIds.contains(userId)){
+                userIds.add(userId);
+                dpPrCms.add(dpPrCm);
+            }
+        }
 
-            for(DpPrCm record:records){
+        List options = new ArrayList<>();
+        if(null != dpPrCms && dpPrCms.size()>0){
+
+            for(DpPrCm record:dpPrCms){
                 SysUserView uv = sysUserService.findById(record.getUserId());
 
                 Map<String, Object> option = new HashMap<>();
@@ -541,7 +579,6 @@ public class DpPrCmController extends DpBaseController {
                 option.put("gender", uv.getGender());
                 option.put("birth", uv.getBirth());
                 option.put("nation", uv.getNation());
-
 
                 options.add(option);
             }

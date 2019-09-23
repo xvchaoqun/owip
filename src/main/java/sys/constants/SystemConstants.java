@@ -318,6 +318,8 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_ANNUAL = 9; // 年度学习档案
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN = 10; // 二级党委培训
 
+    public final static byte SYS_DP_LOG_TYPE_PARTY = 21;//民主党派操作
+
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -331,6 +333,8 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN, "上级调训");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_ANNUAL, "年度学习档案");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN, "二级党委培训");
+
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派操作");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员
@@ -349,6 +353,26 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_CLA_APPLY, "干部请假审批人员");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF, "他人操作");
+    }
+
+    //民主党派操作
+    public final static byte SYS_DP_LOG_type_ADD = 0;//添加
+    public final static byte SYS_DP_LOG_type_EDIT = 1;//修改
+    public final static byte SYS_DP_LOG_type_DEL = 2;//删除
+    public final static byte SYS_DP_LOG_type_IMPORT = 3;//导入
+    public final static byte SYS_DP_LOG_type_EXPORT = 4;//导出
+    public final static byte SYS_DP_LOG_type_CANCEL = 5;//撤销
+    public final static byte SYS_DP_LOG_type_RECOVER = 6;//恢复
+    public final static Map<Byte, String> SYS_DP_LOG_type_MAP =new LinkedHashMap<>();
+
+    static {
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_ADD, "添加");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_EDIT, "修改");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_DEL, "删除");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_IMPORT, "导入");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_EXPORT, "导出");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_CANCEL, "撤销");
+        SYS_DP_LOG_type_MAP.put(SYS_DP_LOG_type_RECOVER, "恢复");
     }
 
     // 党员各类申请的审批结果

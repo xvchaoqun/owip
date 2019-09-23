@@ -46,6 +46,8 @@ public class DpMemberView implements Serializable {
 
     private Date updateTime;
 
+    private Date outTime;
+
     private String partyPost;
 
     private String partyReward;
@@ -83,26 +85,6 @@ public class DpMemberView implements Serializable {
     private String staffType;
 
     private String postClass;
-
-    private String eduLevel;
-
-    private String eduType;
-
-    private Date actualEnrolTime;
-
-    private Boolean isFullTime;
-
-    private Date expectGraduateTime;
-
-    private Float delayYear;
-
-    private Date actualGraduateTime;
-
-    private Byte syncSource;
-
-    private String grade;
-
-    private String studentType;
 
     private static final long serialVersionUID = 1L;
 
@@ -232,6 +214,14 @@ public class DpMemberView implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Date getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(Date outTime) {
+        this.outTime = outTime;
     }
 
     public String getPartyPost() {
@@ -384,85 +374,5 @@ public class DpMemberView implements Serializable {
 
     public void setPostClass(String postClass) {
         this.postClass = postClass == null ? null : postClass.trim();
-    }
-
-    public String getEduLevel() {
-        return eduLevel;
-    }
-
-    public void setEduLevel(String eduLevel) {
-        this.eduLevel = eduLevel == null ? null : eduLevel.trim();
-    }
-
-    public String getEduType() {
-        return eduType;
-    }
-
-    public void setEduType(String eduType) {
-        this.eduType = eduType == null ? null : eduType.trim();
-    }
-
-    public Date getActualEnrolTime() {
-        return actualEnrolTime;
-    }
-
-    public void setActualEnrolTime(Date actualEnrolTime) {
-        this.actualEnrolTime = actualEnrolTime;
-    }
-
-    public Boolean getIsFullTime() {
-        return isFullTime;
-    }
-
-    public void setIsFullTime(Boolean isFullTime) {
-        this.isFullTime = isFullTime;
-    }
-
-    public Date getExpectGraduateTime() {
-        return expectGraduateTime;
-    }
-
-    public void setExpectGraduateTime(Date expectGraduateTime) {
-        this.expectGraduateTime = expectGraduateTime;
-    }
-
-    public Float getDelayYear() {
-        return delayYear;
-    }
-
-    public void setDelayYear(Float delayYear) {
-        this.delayYear = delayYear;
-    }
-
-    public Date getActualGraduateTime() {
-        return actualGraduateTime;
-    }
-
-    public void setActualGraduateTime(Date actualGraduateTime) {
-        this.actualGraduateTime = actualGraduateTime;
-    }
-
-    public Byte getSyncSource() {
-        return syncSource;
-    }
-
-    public void setSyncSource(Byte syncSource) {
-        this.syncSource = syncSource;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade == null ? null : grade.trim();
-    }
-
-    public String getStudentType() {
-        return studentType;
-    }
-
-    public void setStudentType(String studentType) {
-        this.studentType = studentType == null ? null : studentType.trim();
     }
 }

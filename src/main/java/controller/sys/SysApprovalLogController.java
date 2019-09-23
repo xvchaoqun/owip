@@ -5,6 +5,7 @@ import domain.abroad.ApplySelf;
 import domain.cet.CetProjectObj;
 import domain.cet.CetTrainee;
 import domain.crs.CrsApplicant;
+import domain.dp.DpParty;
 import domain.pmd.PmdMember;
 import domain.sys.SysApprovalLog;
 import domain.sys.SysApprovalLogExample;
@@ -20,7 +21,9 @@ import persistence.abroad.ApplySelfMapper;
 import persistence.cet.CetProjectObjMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.crs.CrsApplicantMapper;
+import persistence.dp.DpPartyMapper;
 import persistence.pmd.PmdMemberMapper;
+import service.dp.DpPartyService;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -38,6 +41,10 @@ import java.util.Map;
 @Controller
 public class SysApprovalLogController extends BaseController {
 
+    @Autowired
+    private DpPartyService dpPartyService;
+    @Autowired
+    private DpPartyMapper dpPartyMapper;
     @Autowired(required = false)
     private CetTraineeMapper cetTraineeMapper;
     @Autowired(required = false)
@@ -52,6 +59,7 @@ public class SysApprovalLogController extends BaseController {
     @RequestMapping("/sysApprovalLog")
     public String sysApprovalLog(Integer id, Integer userId, Byte type, Byte displayType, ModelMap modelMap) {
 
+        Integer partyId = null;
         if (id != null) {
             switch (type) {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF: {
@@ -75,8 +83,16 @@ public class SysApprovalLogController extends BaseController {
                     userId = cetProjectObj.getUserId();
                     break;
                 }
+                case SystemConstants.SYS_DP_LOG_TYPE_PARTY: {
+                    DpParty dpParty = dpPartyMapper.selectByPrimaryKey(id);
+                    partyId = dpParty.getId();
+                    break;
+                }
             }
 
+        }
+        if (partyId != null){
+            modelMap.put("dpParty", dpPartyService.getDpPartyViewById(partyId));
         }
 
         if (userId != null) {

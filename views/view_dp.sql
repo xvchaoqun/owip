@@ -39,27 +39,17 @@ select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.
 from dp_party_member dpm join dp_party_member_group dpmg on dpmg.id=dpm.group_id
 left join dp_party dp on dp.id=dpmg.party_id;
 
--- 20190819 李阳  添加dp_party_member_view视图，修改dp_member_view视图
--- dp_party_member_view
-DROP VIEW IF EXISTS `dp_party_member_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
-select dpm.*,dpmg.party_id as group_party_id,dpmg.is_present,dpmg.is_deleted,dp.unit_id
-from dp_party_member dpm join dp_party_member_group dpmg on dpmg.id=dpm.group_id
-left join dp_party dp on dp.id=dpmg.party_id;
-
 -- 2019.8.13 李阳
 -- 把党派成员信息和学生老师的信息对应
 DROP VIEW IF EXISTS `dp_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_member_view` AS
 select dm.*,dp.unit_id,sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,
 dmo.status as out_status,dmo.handle_time as out_handle_time,
-t.education,t.authorized_type,t.pro_post,t.is_retire,t.retire_time,t.is_honor_retire,t.staff_type,t.post_class,
-s.edu_level,s.edu_type,s.actual_enrol_time,s.is_full_time,s.expect_graduate_time,s.delay_year,s.actual_graduate_time,s.sync_source,s.grade,s.type as student_type
+t.education,t.authorized_type,t.pro_post,t.is_retire,t.retire_time,t.is_honor_retire,t.staff_type,t.post_class
 from dp_member dm left join dp_party dp on dp.id = dm.party_id
 left join sys_user_info sui on dm.user_id=sui.user_id
 left join dp_member_out dmo on dmo.status!=10 and dmo.user_id = dm.user_id
-left join sys_teacher_info t on t.user_id = dm.user_id
-left join sys_student_info s on s.user_id = dm.user_id;
+left join sys_teacher_info t on t.user_id = dm.user_id;
 
 -- 统计民主党派所拥有的成员数量，委员会数量，老师学生数量，在职离退休数量
 DROP VIEW IF EXISTS `dp_party_view`;

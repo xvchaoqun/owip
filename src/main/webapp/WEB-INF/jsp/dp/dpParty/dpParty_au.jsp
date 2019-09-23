@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
 			<div class="col-xs-6">
 				<c:set var="unit" value="${cm:getUnitById(dpParty.unitId)}"/>
-				<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+				<select required data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
 						name="unitId" data-placeholder="请选择">
 					<option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
 				</select>
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>民主党派类别</label>
 			<div class="col-xs-6">
-				<select required class="form-control" name="classId" data-rel="select2"
+				<select required data-width="270" class="form-control" name="classId" data-rel="select2"
 						data-placeholder="请选择分类">
 					<option></option>
 					<c:import url="/metaTypes?__code=mc_dp_party_class"/>
@@ -78,12 +78,25 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6" style="width: 223px">
                 <div class="input-group date" data-date-format="yyyy-mm-dd">
                     <input required class="form-control date-picker" name="_foundTime" type="text"
-                           placeholder="格式：yyyy-mm-dd"
+                           placeholder="格式：yyyy.mm.dd"
                            value="${cm:formatDate(dpParty.foundTime,'yyyy-MM-dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
         </div>
+		<c:if test="${cls==2}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label"><span class="star">*</span>撤销时间</label>
+			<div class="col-xs-6" style="width: 223px">
+				<div class="input-group date" data-date-format="yyyy-mm-dd">
+					<input required class="form-control date-picker" name="deleteTime" type="text"
+						   placeholder="格式：yyyy.mm.dd"
+						   value="${cm:formatDate(dpParty.deleteTime,'yyyy-MM-dd')}"/>
+					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+				</div>
+			</div>
+		</div>
+		</c:if>
     </form>
 </div>
 <div class="modal-footer">

@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 							成立时间
 						</td>
 						<td>
-							${cm:formatDate(dpParty.foundTime,'yyyy-MM-dd')}
+							${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
 					</tbody>

@@ -1,5 +1,8 @@
 package domain.dp;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,6 +36,9 @@ public class DpParty implements Serializable {
     private Date updateTime;
 
     private Boolean isDeleted;
+
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    private Date deleteTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -154,5 +160,13 @@ public class DpParty implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 }

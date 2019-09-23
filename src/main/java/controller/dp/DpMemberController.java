@@ -144,12 +144,6 @@ public class DpMemberController extends DpBaseController {
                                     @RequestDateRange DateRange _outHandleTime,
                                     Byte userSource, //账号来源
 
-                                     /**学生党员**/
-                                    /*String grade,
-                                    String studentType,
-                                    String eduLevel,
-                                    String eduType,*/
-
                                     /**教职工党员**/
                                     String staffType,
                                     String education,
@@ -381,6 +375,12 @@ public class DpMemberController extends DpBaseController {
 
         Integer partyId = record.getPartyId();
 
+        if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工账号");
+        }else if (dpNpmService.get(record.getUserId()) != null){
+            return failed("该成员已是无党派人士");
+        }
+
         //权限
         Integer loginUserId = loginUser.getUserId();
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
@@ -448,7 +448,7 @@ public class DpMemberController extends DpBaseController {
 
             dpMember = dpMemberMapper.selectByPrimaryKey(userId);
             partyId = dpMember.getPartyId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         } else {
            SecurityUtils.getSubject().checkPermission("dpMember:edit");
         }
@@ -460,6 +460,63 @@ public class DpMemberController extends DpBaseController {
         modelMap.put("dpMember", dpMember);
 
         return "dp/dpMember/dpMember_au";
+    }
+
+    @RequiresPermissions("dpMember:del")
+    @RequestMapping(value = "/dpMember_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpMember_recover(@RequestParam(value = "ids[]") Integer[] ids,
+                                HttpServletRequest request,
+                                Byte status){
+
+        if(ids != null){
+            for (Integer userId :ids){
+                TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+                Boolean isRetire = teacherInfo.getIsRetire();
+                if (isRetire)
+                    status = DpConstants.DP_MEMBER_STATUS_RETIRE;
+                else
+                    status = DpConstants.DP_MEMBER_STATUS_NORMAL;
+                DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
+                dpMember.setStatus(status);
+                dpMemberService.updateByPrimaryKeySelective(dpMember);
+            }
+
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("dpMember:del")
+    @RequestMapping("/dpMember_transfer")
+    public String dpMember_transfer(){
+
+        return "dp/dpMember/dpMember_transfer";
+    }
+
+    @RequiresPermissions("dpMember:del")
+    @RequestMapping(value = "/dpMember_transfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpMember_transfer(@RequestParam(value = "ids[]") Integer[] userIds,
+                              Byte stasus,
+                              String transferTime){
+
+        if (null != userIds && userIds.length>0){
+            DpMemberExample example = new DpMemberExample();
+            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
+            List<DpMember> dpMembers = dpMemberMapper.selectByExample(example);
+            stasus = DpConstants.DP_MEMBER_STATUS_TRANSFER;
+            for (DpMember dpMember : dpMembers){
+                dpMember.setStatus(stasus);
+                if (StringUtils.isNotBlank(transferTime)){
+                    dpMember.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
+                }
+                dpMemberService.updateByPrimaryKeySelective(dpMember);
+                logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpMember.getUserId()));
+            }
+
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpMember:del")
@@ -1077,7 +1134,7 @@ public class DpMemberController extends DpBaseController {
                     //teacherInfo.getPostClass(), // 岗位类别
                     //teacherInfo.getMainPostLevel(), // 主岗等级
                     sysUserView.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUserView.getGender()),//性别
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),//出生日期
+                    DateUtils.formatDate(birth, DateUtils.YYYYMMDD_DOT),//出生日期
                     birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",//年龄
                     ageRange, // 年龄范围
                     sysUserView.getNation(),//民族
@@ -1087,15 +1144,15 @@ public class DpMemberController extends DpBaseController {
                     partyId == null ? "--" : dpPartyService.findAll().get(partyId).getName(),//所属民主党派
                     uv.getUnit(), // 所在单位
 
-                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),//入党时间
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),//入党时间
                     record.getSponsor(),//入党介绍人
-                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),//转正时间
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYYMMDD_DOT),//转正时间
                     record.getPartyPost(),//党内职务
                     record.getPartyReward(),//党内奖励
                     record.getOtherReward(),//其他奖励
                     metaTypeService.getName(record.getAddType()),//增加类型
 
-                    DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
+                    DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYYMMDD_DOT), // 到校日期
                     record.getProPost(), // 专业技术职务
                     //teacherInfo.getProPostLevel(), //专技岗位等级
                     //teacherInfo.getManageLevel(), // 管理岗位等级
@@ -1172,15 +1229,15 @@ public class DpMemberController extends DpBaseController {
                     record.getStudentType(),//学生类别
                     uv.getRealname(),//姓名
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),//性别
-                    DateUtils.formatDate(uv.getBirth(), DateUtils.YYYY_MM_DD),//出生日期
+                    DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMMDD_DOT),//出生日期
                     uv.getIdcard(),//身份证号
                     uv.getNation(),//民族
                     record.getGrade(), // 年级
                     partyId == null ? "" : dpPartyService.findAll().get(partyId).getName(),//
                     DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
-                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),//入党时间
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),//入党时间
                     record.getSponsor(),//入党介绍人
-                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),//转正时间
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYYMMDD_DOT),//转正时间
                     record.getPartyPost(),//党内职务
                     record.getPartyReward(),//党内奖励
                     record.getOtherReward(),//其他奖励
@@ -1189,7 +1246,7 @@ public class DpMemberController extends DpBaseController {
                     record.getEduType(),//培养类型（研究生）
                     studentInfo.getEduCategory(),//教育类别（研究生）
                     studentInfo.getEduWay(),//培养方式（研究生）
-                    DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),//预计毕业年月
+                    DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYYMMDD_DOT),//预计毕业年月
                     studentInfo.getXjStatus()//学籍状态
             }));
 

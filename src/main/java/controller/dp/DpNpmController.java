@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.DpConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -104,13 +105,13 @@ public class DpNpmController extends DpBaseController {
             example.setOrderByClause("sort_order desc");
 
         if (cls == 1) {
-            status = 1;
+            status = DpConstants.DP_NPM_NORMAL;
             criteria.andStatusEqualTo(status);
         }else if (cls == 2){
-            status = 2;
+            status = DpConstants.DP_NPM_OUT;
             criteria.andStatusEqualTo(status);
         }else {
-            status = 3;
+            status = DpConstants.DP_NPM_TRANSFER;
             criteria.andStatusEqualTo(status);
         }
         if (id != null){
@@ -191,7 +192,11 @@ public class DpNpmController extends DpBaseController {
         Integer id = record.getId();
         Integer userId = record.getUserId();
 
-        if (dpNpmService.idDuplicate(id, userId)) {
+        if (CmTag.getUserById(userId).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工账号");
+        }else if (dpMemberService.get(userId) != null){
+            return failed("该成员已是民主党派成员");
+        }else if (dpNpmService.idDuplicate(id, userId)) {
             return failed("添加重复");
         }
 
@@ -233,11 +238,11 @@ public class DpNpmController extends DpBaseController {
             status = 1;
             record.setStatus(status);
             dpNpmService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_MEMBER, "添加无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
+            logger.info(log( LogConstants.LOG_DPPARTY, "添加无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
         } else {
 
             dpNpmService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_MEMBER, "更新无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
+            logger.info(log( LogConstants.LOG_DPPARTY, "更新无党派人士信息：%s %s", sysUserView.getId(),sysUserView.getRealname()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -250,7 +255,7 @@ public class DpNpmController extends DpBaseController {
         if (id != null) {
             DpNpm dpNpm = dpNpmMapper.selectByPrimaryKey(id);
             Integer userId = dpNpm.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
             DpNpmExample example = new DpNpmExample();
             example.createCriteria().andUserIdEqualTo(userId);
             List<DpNpm> dpNpms = dpNpmMapper.selectByExample(example);
@@ -316,6 +321,21 @@ public class DpNpmController extends DpBaseController {
                 logger.info(log( LogConstants.LOG_DPPARTY, "无党派人士退出信息：%s", dpNpm.getUserId()));
             }
 
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("dpNpm:edit")
+    @RequestMapping(value = "/dpNpm_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpNpm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+                             HttpServletRequest request){
+        if (null != ids && ids.length>0){
+            for (Integer id :ids){
+                DpNpm dpNpm = dpNpmMapper.selectByPrimaryKey(id);
+                dpNpm.setStatus(DpConstants.DP_NPM_NORMAL);
+                dpNpmMapper.updateByPrimaryKeySelective(dpNpm);
+            }
         }
         return success(FormUtils.SUCCESS);
     }
@@ -465,9 +485,12 @@ public class DpNpmController extends DpBaseController {
         String[] noPartyTitles = {"姓名|100","工作证号|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","现任职务|100","最高学历|100",
                 "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
-        String[] transferTitles = {"姓名|100","工作证号|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
+        String[] outTitles = {"姓名|100","工作证号|100","退出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","现任职务|100","最高学历|100",
-                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250","转出时间|100"};
+                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
+        String[] transferTitles = {"姓名|100","工作证号|100","转出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
+                "认定时间|100","现任职务|100","最高学历|100",
+                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 3){
             for (int i = 0; i < rownum; i++) {
@@ -477,6 +500,7 @@ public class DpNpmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),//姓名
                         uv.getCode(),//工作证号
+                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT),
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),//性别
                         uv.getNation(),//民族
                         uv.getNativePlace(),
@@ -488,12 +512,11 @@ public class DpNpmController extends DpBaseController {
                         record.getDegree(),
                         record.getAuthorizedType(),
                         record.getProPost(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
-                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT)
+                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName()
                 };
                 valuesList.add(values);
             }
-        }else {
+        }else if (cls == 1){
             for (int i = 0; i < rownum; i++) {
                 DpNpmView record = records.get(i);
                 Integer userId = record.getUserId();
@@ -516,16 +539,40 @@ public class DpNpmController extends DpBaseController {
                 };
                 valuesList.add(values);
             }
+        }else if (cls == 2){
+            for (int i = 0; i < rownum; i++) {
+                DpNpmView record = records.get(i);
+                Integer userId = record.getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                String[] values = {
+                        uv.getRealname(),//姓名
+                        uv.getCode(),//工作证号
+                        DateUtils.formatDate(record.getOutTime(), DateUtils.YYYYMMDD_DOT),
+                        uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),//性别
+                        uv.getNation(),//民族
+                        uv.getNativePlace(),
+                        DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
+                        uv.getBirth() != null ? DateUtils.intervalYearsUntilNow(uv.getBirth()) + "" : "",//年龄
+                        DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getPost(),
+                        record.getEducation(),
+                        record.getDegree(),
+                        record.getAuthorizedType(),
+                        record.getProPost(),
+                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName()
+                };
+                valuesList.add(values);
+            }
         }
 
         if (cls == 1){
             String fileName = String.format("无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(noPartyTitles, valuesList, fileName, response);
         }else if (cls == 2){
-            String fileName = String.format("退出人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-            ExportHelper.export(noPartyTitles, valuesList, fileName, response);
+            String fileName = String.format("已退出的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            ExportHelper.export(outTitles, valuesList, fileName, response);
         }else {
-            String fileName = String.format("转出人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已转出的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(transferTitles, valuesList, fileName, response);
         }
 

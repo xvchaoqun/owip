@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dp.PmdOrderLogMapper">
+  <resultMap id="BaseResultMap" type="domain.dp.PmdOrderLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="date_id" jdbcType="INTEGER" property="dateId" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="third_order_id" jdbcType="VARCHAR" property="thirdOrderId" />
+    <result column="to_account" jdbcType="INTEGER" property="toAccount" />
+    <result column="tranamt" jdbcType="INTEGER" property="tranamt" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="reforder_id" jdbcType="VARCHAR" property="reforderId" />
+    <result column="oper_type" jdbcType="INTEGER" property="operType" />
+    <result column="order_desc" jdbcType="VARCHAR" property="orderDesc" />
+    <result column="praram1" jdbcType="VARCHAR" property="praram1" />
+    <result column="sno" jdbcType="VARCHAR" property="sno" />
+    <result column="actua_lamt" jdbcType="INTEGER" property="actuaLamt" />
+    <result column="state" jdbcType="BIT" property="state" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+    <result column="rz_date" jdbcType="TIMESTAMP" property="rzDate" />
+    <result column="jy_date" jdbcType="TIMESTAMP" property="jyDate" />
+    <result column="third_system" jdbcType="VARCHAR" property="thirdSystem" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, date_id, account, third_order_id, to_account, tranamt, order_id, reforder_id, 
+    oper_type, order_desc, praram1, sno, actua_lamt, state, pay_name, rz_date, jy_date, 
+    third_system, sign, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.dp.PmdOrderLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pmd_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pmd_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dp.PmdOrderLogExample">
+    delete from pmd_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dp.PmdOrderLog">
+    insert into pmd_order_log (id, date_id, account, 
+      third_order_id, to_account, tranamt, 
+      order_id, reforder_id, oper_type, 
+      order_desc, praram1, sno, 
+      actua_lamt, state, pay_name, 
+      rz_date, jy_date, third_system, 
+      sign, remark)
+    values (#{id,jdbcType=INTEGER}, #{dateId,jdbcType=INTEGER}, #{account,jdbcType=INTEGER}, 
+      #{thirdOrderId,jdbcType=VARCHAR}, #{toAccount,jdbcType=INTEGER}, #{tranamt,jdbcType=INTEGER}, 
+      #{orderId,jdbcType=VARCHAR}, #{reforderId,jdbcType=VARCHAR}, #{operType,jdbcType=INTEGER}, 
+      #{orderDesc,jdbcType=VARCHAR}, #{praram1,jdbcType=VARCHAR}, #{sno,jdbcType=VARCHAR}, 
+      #{actuaLamt,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{payName,jdbcType=VARCHAR}, 
+      #{rzDate,jdbcType=TIMESTAMP}, #{jyDate,jdbcType=TIMESTAMP}, #{thirdSystem,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dp.PmdOrderLog">
+    insert into pmd_order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dateId != null">
+        date_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="thirdOrderId != null">
+        third_order_id,
+      </if>
+      <if test="toAccount != null">
+        to_account,
+      </if>
+      <if test="tranamt != null">
+        tranamt,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="reforderId != null">
+        reforder_id,
+      </if>
+      <if test="operType != null">
+        oper_type,
+      </if>
+      <if test="orderDesc != null">
+        order_desc,
+      </if>
+      <if test="praram1 != null">
+        praram1,
+      </if>
+      <if test="sno != null">
+        sno,
+      </if>
+      <if test="actuaLamt != null">
+        actua_lamt,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="payName != null">
+        pay_name,
+      </if>
+      <if test="rzDate != null">
+        rz_date,
+      </if>
+      <if test="jyDate != null">
+        jy_date,
+      </if>
+      <if test="thirdSystem != null">
+        third_system,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dateId != null">
+        #{dateId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="thirdOrderId != null">
+        #{thirdOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccount != null">
+        #{toAccount,jdbcType=INTEGER},
+      </if>
+      <if test="tranamt != null">
+        #{tranamt,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="reforderId != null">
+        #{reforderId,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        #{operType,jdbcType=INTEGER},
+      </if>
+      <if test="orderDesc != null">
+        #{orderDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="praram1 != null">
+        #{praram1,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null">
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="actuaLamt != null">
+        #{actuaLamt,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+      <if test="payName != null">
+        #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="rzDate != null">
+        #{rzDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jyDate != null">
+        #{jyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdSystem != null">
+        #{thirdSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dp.PmdOrderLogExample" resultType="java.lang.Long">
+    select count(*) from pmd_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pmd_order_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dateId != null">
+        date_id = #{record.dateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null">
+        account = #{record.account,jdbcType=INTEGER},
+      </if>
+      <if test="record.thirdOrderId != null">
+        third_order_id = #{record.thirdOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toAccount != null">
+        to_account = #{record.toAccount,jdbcType=INTEGER},
+      </if>
+      <if test="record.tranamt != null">
+        tranamt = #{record.tranamt,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reforderId != null">
+        reforder_id = #{record.reforderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operType != null">
+        oper_type = #{record.operType,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderDesc != null">
+        order_desc = #{record.orderDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.praram1 != null">
+        praram1 = #{record.praram1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sno != null">
+        sno = #{record.sno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actuaLamt != null">
+        actua_lamt = #{record.actuaLamt,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=BIT},
+      </if>
+      <if test="record.payName != null">
+        pay_name = #{record.payName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rzDate != null">
+        rz_date = #{record.rzDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jyDate != null">
+        jy_date = #{record.jyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.thirdSystem != null">
+        third_system = #{record.thirdSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sign != null">
+        sign = #{record.sign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pmd_order_log
+    set id = #{record.id,jdbcType=INTEGER},
+      date_id = #{record.dateId,jdbcType=INTEGER},
+      account = #{record.account,jdbcType=INTEGER},
+      third_order_id = #{record.thirdOrderId,jdbcType=VARCHAR},
+      to_account = #{record.toAccount,jdbcType=INTEGER},
+      tranamt = #{record.tranamt,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      reforder_id = #{record.reforderId,jdbcType=VARCHAR},
+      oper_type = #{record.operType,jdbcType=INTEGER},
+      order_desc = #{record.orderDesc,jdbcType=VARCHAR},
+      praram1 = #{record.praram1,jdbcType=VARCHAR},
+      sno = #{record.sno,jdbcType=VARCHAR},
+      actua_lamt = #{record.actuaLamt,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=BIT},
+      pay_name = #{record.payName,jdbcType=VARCHAR},
+      rz_date = #{record.rzDate,jdbcType=TIMESTAMP},
+      jy_date = #{record.jyDate,jdbcType=TIMESTAMP},
+      third_system = #{record.thirdSystem,jdbcType=VARCHAR},
+      sign = #{record.sign,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dp.PmdOrderLog">
+    update pmd_order_log
+    <set>
+      <if test="dateId != null">
+        date_id = #{dateId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="thirdOrderId != null">
+        third_order_id = #{thirdOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccount != null">
+        to_account = #{toAccount,jdbcType=INTEGER},
+      </if>
+      <if test="tranamt != null">
+        tranamt = #{tranamt,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="reforderId != null">
+        reforder_id = #{reforderId,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        oper_type = #{operType,jdbcType=INTEGER},
+      </if>
+      <if test="orderDesc != null">
+        order_desc = #{orderDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="praram1 != null">
+        praram1 = #{praram1,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null">
+        sno = #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="actuaLamt != null">
+        actua_lamt = #{actuaLamt,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+      <if test="payName != null">
+        pay_name = #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="rzDate != null">
+        rz_date = #{rzDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jyDate != null">
+        jy_date = #{jyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdSystem != null">
+        third_system = #{thirdSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dp.PmdOrderLog">
+    update pmd_order_log
+    set date_id = #{dateId,jdbcType=INTEGER},
+      account = #{account,jdbcType=INTEGER},
+      third_order_id = #{thirdOrderId,jdbcType=VARCHAR},
+      to_account = #{toAccount,jdbcType=INTEGER},
+      tranamt = #{tranamt,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      reforder_id = #{reforderId,jdbcType=VARCHAR},
+      oper_type = #{operType,jdbcType=INTEGER},
+      order_desc = #{orderDesc,jdbcType=VARCHAR},
+      praram1 = #{praram1,jdbcType=VARCHAR},
+      sno = #{sno,jdbcType=VARCHAR},
+      actua_lamt = #{actuaLamt,jdbcType=INTEGER},
+      state = #{state,jdbcType=BIT},
+      pay_name = #{payName,jdbcType=VARCHAR},
+      rz_date = #{rzDate,jdbcType=TIMESTAMP},
+      jy_date = #{jyDate,jdbcType=TIMESTAMP},
+      third_system = #{thirdSystem,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dp.PmdOrderLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

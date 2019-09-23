@@ -103,11 +103,11 @@ public class DpMemberService extends DpBaseMapper {
 
     public boolean idDuplicate(Integer userId, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code), "null");
+        Assert.isTrue(userId != null, "null");
 
         DpMemberExample example = new DpMemberExample();
         DpMemberExample.Criteria criteria = example.createCriteria();
-        if(userId!=null) criteria.andUserIdNotEqualTo(userId);
+        if(userId!=null) criteria.andUserIdEqualTo(userId);
 
         return dpMemberMapper.countByExample(example) > 0;
     }

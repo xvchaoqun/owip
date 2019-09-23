@@ -83,11 +83,12 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
+		<c:if test="${status==-1}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">实际换届时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>实际换届时间</label>
 			<div class="col-xs-8">
 				<div class="input-group" style="width: 150px">
-					<input class="form-control date-picker" name="_actualTranTime" type="text"
+					<input required class="form-control date-picker" name="_actualTranTime" type="text"
 						   data-date-format="yyyy-mm-dd"
 						   value="${cm:formatDate(dpPartyMemberGroup.actualTranTime,'yyyy-MM-dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -95,6 +96,7 @@ pageEncoding="UTF-8"%>
 				<span class="help-block">注：实际换届时填写，即将现任班子改为历任班子时</span>
 			</div>
 		</div>
+		</c:if>
 		<%--<div class="form-group">
             <label class="col-xs-3 control-label">发文</label>
             <div class="col-xs-8">

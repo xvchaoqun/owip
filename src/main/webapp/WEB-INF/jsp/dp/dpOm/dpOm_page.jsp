@@ -41,6 +41,13 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                     </c:if>
+                    <c:if test="${cls!=1}">
+                        <shiro:hasPermission name="dpOm:del">
+                            <a class="jqBatchBtn btn btn-success btn-sm"
+                               data-url="${ctx}/dp/dpOm_recover" data-title="恢复其他统战人员身份"
+                               data-msg="确定恢复这{0}个其他统战人员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                        </shiro:hasPermission>
+                    </c:if>
                 </shiro:hasPermission>
                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
                         data-url="${ctx}/dp/dpOm_import"
@@ -243,11 +250,6 @@ pageEncoding="UTF-8" %>
                 { label: '所学专业',name: 'major'},
                 { label: '办公电话',name: 'phone',width:120},
                 { label: '手机号',name: 'mobile',width:120},
-                <c:if test="${cls==2}">
-                { label: '离任时间',name: 'transferTime',width:120,sortable:true,
-                    formatter: $.jgrid.formatter.date,
-                    formatoptions: {newformat: 'Y.m.d'}},
-                </c:if>
                 { label: '备注',name: 'remark',width:120,sortable:true},
                 { hidden:true,key:true,name:'id'}
         ]

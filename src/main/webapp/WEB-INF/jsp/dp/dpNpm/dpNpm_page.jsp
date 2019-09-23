@@ -62,6 +62,13 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-random"></i> 转出
                     </button>
                 </c:if>
+                <c:if test="${cls!=1}">
+                    <shiro:hasPermission name="dpNpm:del">
+                        <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-url="${ctx}/dp/dpNpm_recover" data-title="恢复无党派成员身份"
+                           data-msg="确定恢复这{0}个无党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                    </shiro:hasPermission>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

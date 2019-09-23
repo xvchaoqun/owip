@@ -1102,6 +1102,66 @@ public class DpMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andOutTimeIsNull() {
+            addCriterion("out_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIsNotNull() {
+            addCriterion("out_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time =", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time <>", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("out_time >", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time >=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThan(Date value) {
+            addCriterionForJDBCDate("out_time <", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time <=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("out_time in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("out_time not in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_time between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_time not between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
         public Criteria andPartyPostIsNull() {
             addCriterion("party_post is null");
             return (Criteria) this;

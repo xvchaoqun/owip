@@ -12,21 +12,10 @@
   </li>
   <li class="${cls==10?'active':''}">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=10"}><i class="fa fa-th${cls==10?'-large':''}"></i>
-      全部民主党派成员</a>
+      全部民主党派成员(${cm:trimToZero(teacher_normalCount + teacher_retireCount)})</a>
   </li>
-  <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
-    <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-      <i class="fa fa-sign-out"></i> 已转出党派成员${cls==6?"(学生)":(cls==7)?"(教工)":""}
-      <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-    </a>
-    <ul class="dropdown-menu dropdown-info" style="min-width: 100px"  role="menu">
-      <%--<li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=6"><i class="fa fa-hand-o-right"></i>  学生（${cm:trimToZero(student_transferCount)}）</a>
-      </li>--%>
-      <li>
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=7"><i class="fa fa-hand-o-right"></i>  教职工（${cm:trimToZero(teacher_transferCount)}）</a>
-      </li>
-    </ul>
+  <li class="${cls==7?'active':''}">
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=7"}><i class="fa fa-th${cls==7?'-large':''}"></i> 已转出党派成员</a>
   </li>
   <li>
   <div class="buttons hidden-sm hidden-xs" style="padding-left:10px; position: relative">

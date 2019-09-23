@@ -13,10 +13,10 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpPartyMemberGroup:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/dp/dpPartyMemberGroup_au">
+                            data-url="${ctx}/dp/dpPartyMemberGroup_au?status=${status}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/dp/dpPartyMemberGroup_au"
+                       data-url="${ctx}/dp/dpPartyMemberGroup_au?status=${status}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改信息</button>
                 <c:if test="${status>=0}">
@@ -46,13 +46,13 @@ pageEncoding="UTF-8" %>
                 </c:if>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dp/dpPartyMemberGroup_data"
+                   data-url="${ctx}/dp/dpPartyMemberGroup_data?status=${status}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
                 <c:if test="${status>=0}">
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
-                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel" data-title="撤销委员会"
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="撤销委员会"
                            data-msg="确定撤销这{0}个委员会吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将同时删除相关管理员，请谨慎操作！】
                     </shiro:hasPermission>
@@ -224,6 +224,7 @@ pageEncoding="UTF-8" %>
                         return "class='danger'";
                 }
             },
+            <c:if test="${status==-1}">
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
@@ -231,6 +232,7 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             }
+            </c:if>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

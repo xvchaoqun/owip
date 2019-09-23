@@ -211,7 +211,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
     @RequiresPermissions("dpPartyMemberGroup:edit")
     @RequestMapping("/dpPartyMemberGroup_au")
-    public String dpPartyMemberGroup_au(Integer id, Integer partyId, ModelMap modelMap) {
+    public String dpPartyMemberGroup_au(int status, Integer id, Integer partyId, ModelMap modelMap) {
 
         Map<Integer, DpParty> dpPartyMap = dpPartyService.findAll();
         modelMap.put("dpPartyMap", dpPartyMap);
@@ -224,6 +224,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             }
 
             DpParty dpParty = dpPartyMap.get(dpPartyMemberGroup.getPartyId());
+            modelMap.put("status", status);
             modelMap.put("dpParty", dpParty);
             Integer dispatchUnitId = dpPartyMemberGroup.getDispatchUnitId();
             if (dispatchUnitId != null){
@@ -237,6 +238,37 @@ public class DpPartyMemberGroupController extends DpBaseController {
             modelMap.put("dpParty",dpParty);
         }
         return "dp/dpPartyMemberGroup/dpPartyMemberGroup_au";
+    }
+
+    @RequiresPermissions("dpPartyMemberGroup:del")
+    @RequestMapping("/dpPartyMemberGroup_cancel")
+    public String dpPartyMemberGroup_cancel(){
+
+        return "dp/dpPartyMemberGroup/dpPartyMemberGroup_cancel";
+    }
+
+    @RequiresPermissions("dpPartyMemberGroup:del")
+    @RequestMapping(value = "/dpPartyMemberGroup_cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpPartyMemberGroup_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+                                 String actualTranTime){
+
+        if (null != ids && ids.length>0){
+            DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(example);
+            for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
+                dpPartyMemberGroup.setIsDeleted(true);
+                if (StringUtils.isNotBlank(actualTranTime)){
+                    dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYY_MM_DD));
+                }
+                dpPartyMemberGroupService.updateByPrimaryKeySelective(dpPartyMemberGroup);
+                logger.info(log( LogConstants.LOG_DPPARTY, "撤销委员会：{0}", dpPartyMemberGroup.getName()));
+            }
+
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpPartyMemberGroup:del")
@@ -296,7 +328,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         List<DpPartyMemberGroup> records = dpPartyMemberGroupMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|250|left", "所属分党委|250|left", "是否现任班子|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
+        String[] titles = {"名称|250|left", "所属党派|250|left", "是否现任委员会|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberGroup record = records.get(i);
@@ -316,9 +348,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
                             partyId == null ? "" : dpPartyService.findAll().get(partyId).getName(),
                             BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
                             record.getGroupSession(),
-                            DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
+                            DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
+                            DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
+                            DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
             };
             valuesList.add(values);
         }

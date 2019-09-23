@@ -6,7 +6,7 @@
 
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/dp/dpPartyMemberGroup?status=${status}"
-             data-url-export="${ctx}/dp/partyMember_data?isDeleted=0&isPresent=1"
+             data-url-export="${ctx}/dp/dpPartyMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
                 ||not empty param.postId || not empty param.typeIds}"/>

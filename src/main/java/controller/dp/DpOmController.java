@@ -186,7 +186,9 @@ public class DpOmController extends DpBaseController {
 
         Integer id = record.getId();
 
-        if (dpOmService.idDuplicate(id, record.getUserId())) {
+        if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工成员");
+        }else if (dpOmService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
 
@@ -216,10 +218,26 @@ public class DpOmController extends DpBaseController {
         if (id != null) {
             DpOm dpOm = dpOmMapper.selectByPrimaryKey(id);
             Integer userId = dpOm.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
+            modelMap.put("sysUser", CmTag.getUserById(userId));
             modelMap.put("dpOm", dpOm);
         }
         return "dp/dpOm/dpOm_au";
+    }
+
+    @RequiresPermissions("dpOm:del")
+    @RequestMapping(value = "/dpOm_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpOm_recover(@RequestParam(value = "ids[]") Integer[] ids,
+                            HttpServletRequest request){
+        if (null != ids && ids.length>0){
+            Boolean isDeleted = false;
+            for (Integer id : ids){
+                DpOm dpOm = dpOmMapper.selectByPrimaryKey(id);
+                dpOm.setIsDeleted(isDeleted);
+                dpOmService.updateByPrimaryKeySelective(dpOm);
+            }
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpOm:del")

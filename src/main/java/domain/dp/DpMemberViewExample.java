@@ -1105,6 +1105,66 @@ public class DpMemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andOutTimeIsNull() {
+            addCriterion("out_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIsNotNull() {
+            addCriterion("out_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time =", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time <>", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("out_time >", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time >=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThan(Date value) {
+            addCriterionForJDBCDate("out_time <", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_time <=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("out_time in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("out_time not in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_time between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_time not between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
         public Criteria andPartyPostIsNull() {
             addCriterion("party_post is null");
             return (Criteria) this;
@@ -2352,646 +2412,6 @@ public class DpMemberViewExample {
 
         public Criteria andPostClassNotBetween(String value1, String value2) {
             addCriterion("post_class not between", value1, value2, "postClass");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelIsNull() {
-            addCriterion("edu_level is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelIsNotNull() {
-            addCriterion("edu_level is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelEqualTo(String value) {
-            addCriterion("edu_level =", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelNotEqualTo(String value) {
-            addCriterion("edu_level <>", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelGreaterThan(String value) {
-            addCriterion("edu_level >", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelGreaterThanOrEqualTo(String value) {
-            addCriterion("edu_level >=", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelLessThan(String value) {
-            addCriterion("edu_level <", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelLessThanOrEqualTo(String value) {
-            addCriterion("edu_level <=", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelLike(String value) {
-            addCriterion("edu_level like", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelNotLike(String value) {
-            addCriterion("edu_level not like", value, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelIn(List<String> values) {
-            addCriterion("edu_level in", values, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelNotIn(List<String> values) {
-            addCriterion("edu_level not in", values, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelBetween(String value1, String value2) {
-            addCriterion("edu_level between", value1, value2, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduLevelNotBetween(String value1, String value2) {
-            addCriterion("edu_level not between", value1, value2, "eduLevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeIsNull() {
-            addCriterion("edu_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeIsNotNull() {
-            addCriterion("edu_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeEqualTo(String value) {
-            addCriterion("edu_type =", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeNotEqualTo(String value) {
-            addCriterion("edu_type <>", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeGreaterThan(String value) {
-            addCriterion("edu_type >", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("edu_type >=", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeLessThan(String value) {
-            addCriterion("edu_type <", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeLessThanOrEqualTo(String value) {
-            addCriterion("edu_type <=", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeLike(String value) {
-            addCriterion("edu_type like", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeNotLike(String value) {
-            addCriterion("edu_type not like", value, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeIn(List<String> values) {
-            addCriterion("edu_type in", values, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeNotIn(List<String> values) {
-            addCriterion("edu_type not in", values, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeBetween(String value1, String value2) {
-            addCriterion("edu_type between", value1, value2, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andEduTypeNotBetween(String value1, String value2) {
-            addCriterion("edu_type not between", value1, value2, "eduType");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeIsNull() {
-            addCriterion("actual_enrol_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeIsNotNull() {
-            addCriterion("actual_enrol_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time =", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time <>", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time >", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time >=", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeLessThan(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time <", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_enrol_time <=", value, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_enrol_time in", values, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_enrol_time not in", values, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_enrol_time between", value1, value2, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualEnrolTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_enrol_time not between", value1, value2, "actualEnrolTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeIsNull() {
-            addCriterion("is_full_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeIsNotNull() {
-            addCriterion("is_full_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeEqualTo(Boolean value) {
-            addCriterion("is_full_time =", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeNotEqualTo(Boolean value) {
-            addCriterion("is_full_time <>", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeGreaterThan(Boolean value) {
-            addCriterion("is_full_time >", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_full_time >=", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeLessThan(Boolean value) {
-            addCriterion("is_full_time <", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_full_time <=", value, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeIn(List<Boolean> values) {
-            addCriterion("is_full_time in", values, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeNotIn(List<Boolean> values) {
-            addCriterion("is_full_time not in", values, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_full_time between", value1, value2, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsFullTimeNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_full_time not between", value1, value2, "isFullTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeIsNull() {
-            addCriterion("expect_graduate_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeIsNotNull() {
-            addCriterion("expect_graduate_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time =", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time <>", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time >", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time >=", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeLessThan(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time <", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("expect_graduate_time <=", value, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("expect_graduate_time in", values, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("expect_graduate_time not in", values, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("expect_graduate_time between", value1, value2, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectGraduateTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("expect_graduate_time not between", value1, value2, "expectGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearIsNull() {
-            addCriterion("delay_year is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearIsNotNull() {
-            addCriterion("delay_year is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearEqualTo(Float value) {
-            addCriterion("delay_year =", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearNotEqualTo(Float value) {
-            addCriterion("delay_year <>", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearGreaterThan(Float value) {
-            addCriterion("delay_year >", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearGreaterThanOrEqualTo(Float value) {
-            addCriterion("delay_year >=", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearLessThan(Float value) {
-            addCriterion("delay_year <", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearLessThanOrEqualTo(Float value) {
-            addCriterion("delay_year <=", value, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearIn(List<Float> values) {
-            addCriterion("delay_year in", values, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearNotIn(List<Float> values) {
-            addCriterion("delay_year not in", values, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearBetween(Float value1, Float value2) {
-            addCriterion("delay_year between", value1, value2, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andDelayYearNotBetween(Float value1, Float value2) {
-            addCriterion("delay_year not between", value1, value2, "delayYear");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeIsNull() {
-            addCriterion("actual_graduate_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeIsNotNull() {
-            addCriterion("actual_graduate_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time =", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time <>", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time >", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time >=", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeLessThan(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time <", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_graduate_time <=", value, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_graduate_time in", values, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_graduate_time not in", values, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_graduate_time between", value1, value2, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andActualGraduateTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_graduate_time not between", value1, value2, "actualGraduateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceIsNull() {
-            addCriterion("sync_source is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceIsNotNull() {
-            addCriterion("sync_source is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceEqualTo(Byte value) {
-            addCriterion("sync_source =", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceNotEqualTo(Byte value) {
-            addCriterion("sync_source <>", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceGreaterThan(Byte value) {
-            addCriterion("sync_source >", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceGreaterThanOrEqualTo(Byte value) {
-            addCriterion("sync_source >=", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceLessThan(Byte value) {
-            addCriterion("sync_source <", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceLessThanOrEqualTo(Byte value) {
-            addCriterion("sync_source <=", value, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceIn(List<Byte> values) {
-            addCriterion("sync_source in", values, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceNotIn(List<Byte> values) {
-            addCriterion("sync_source not in", values, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceBetween(Byte value1, Byte value2) {
-            addCriterion("sync_source between", value1, value2, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andSyncSourceNotBetween(Byte value1, Byte value2) {
-            addCriterion("sync_source not between", value1, value2, "syncSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeIsNull() {
-            addCriterion("grade is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeIsNotNull() {
-            addCriterion("grade is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeEqualTo(String value) {
-            addCriterion("grade =", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeNotEqualTo(String value) {
-            addCriterion("grade <>", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeGreaterThan(String value) {
-            addCriterion("grade >", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeGreaterThanOrEqualTo(String value) {
-            addCriterion("grade >=", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeLessThan(String value) {
-            addCriterion("grade <", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeLessThanOrEqualTo(String value) {
-            addCriterion("grade <=", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeLike(String value) {
-            addCriterion("grade like", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeNotLike(String value) {
-            addCriterion("grade not like", value, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeIn(List<String> values) {
-            addCriterion("grade in", values, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeNotIn(List<String> values) {
-            addCriterion("grade not in", values, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeBetween(String value1, String value2) {
-            addCriterion("grade between", value1, value2, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andGradeNotBetween(String value1, String value2) {
-            addCriterion("grade not between", value1, value2, "grade");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeIsNull() {
-            addCriterion("student_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeIsNotNull() {
-            addCriterion("student_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeEqualTo(String value) {
-            addCriterion("student_type =", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeNotEqualTo(String value) {
-            addCriterion("student_type <>", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeGreaterThan(String value) {
-            addCriterion("student_type >", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("student_type >=", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeLessThan(String value) {
-            addCriterion("student_type <", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeLessThanOrEqualTo(String value) {
-            addCriterion("student_type <=", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeLike(String value) {
-            addCriterion("student_type like", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeNotLike(String value) {
-            addCriterion("student_type not like", value, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeIn(List<String> values) {
-            addCriterion("student_type in", values, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeNotIn(List<String> values) {
-            addCriterion("student_type not in", values, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeBetween(String value1, String value2) {
-            addCriterion("student_type between", value1, value2, "studentType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentTypeNotBetween(String value1, String value2) {
-            addCriterion("student_type not between", value1, value2, "studentType");
             return (Criteria) this;
         }
     }

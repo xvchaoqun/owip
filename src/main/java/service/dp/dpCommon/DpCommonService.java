@@ -4,8 +4,6 @@ import domain.dp.DpParty;
 import domain.dp.DpPartyExample;
 import domain.dp.DpPartyMemberGroup;
 import domain.dp.DpPartyMemberGroupExample;
-import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -44,16 +42,5 @@ public class DpCommonService extends DpBaseMapper  implements HttpResponseMethod
         List<DpParty> dpParties = dpPartyMapper.selectByExampleWithRowbounds(example,new RowBounds(0, 1));
 
         return (dpParties.size() > 0) ? dpParties.get(0) : null;
-    }
-
-    @Cacheable(value = "SysUserView:ID_", key = "#id")
-    public SysUserView findById(int id) {
-
-        Byte type = 1;
-        SysUserViewExample example = new SysUserViewExample();
-        example.createCriteria().andIdEqualTo(id).andTypeEqualTo(type);
-        List<SysUserView> users = sysUserViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-
-        return (users.size() > 0) ? users.get(0) : null;
     }
 }

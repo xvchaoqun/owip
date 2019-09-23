@@ -56,7 +56,7 @@ public class DpConstants {
 
     //成员状态，1正常，2已退休（弃用），3已出党，4已转出，5暂时转出（外出挂职、休学等）
     public final static byte DP_MEMBER_STATUS_NORMAL = 1; // 正常
-    //public final static byte DP_MEMBER_STATUS_RETIRE= 2; // 已退休
+    public final static byte DP_MEMBER_STATUS_RETIRE= 2; // 已退休
     public final static byte DP_MEMBER_STATUS_QUIT = 3; // 已出党
     public final static byte DP_MEMBER_STATUS_TRANSFER = 4; // 已转出
     //public final static byte DP_MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
@@ -64,7 +64,7 @@ public class DpConstants {
 
     static {
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_NORMAL, "正常");
-        //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_RETIRE, "已退休");
+        DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_RETIRE, "已退休");
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_QUIT, "已出党");
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER, "已转出");
         //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");

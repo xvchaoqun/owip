@@ -35,6 +35,8 @@ public class DpPartyView implements Serializable {
 
     private Boolean isDeleted;
 
+    private Date deleteTime;
+
     private Long memberCount;
 
     private BigDecimal studentMemberCount;
@@ -171,6 +173,14 @@ public class DpPartyView implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     public Long getMemberCount() {

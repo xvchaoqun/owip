@@ -69,6 +69,7 @@ public class DpPartyController extends DpBaseController {
                              String phone,
                              Long presentGroupCount,
                              @RequestDateRange DateRange _foundTime,
+                             @RequestDateRange DateRange deleteTime,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                              Integer pageSize, Integer pageNo)  throws IOException{
@@ -112,6 +113,12 @@ public class DpPartyController extends DpBaseController {
         if (_foundTime.getEnd()!=null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
         }
+        if (deleteTime.getStart()!=null) {
+            criteria.andDeleteTimeGreaterThanOrEqualTo(deleteTime.getStart());
+        }
+        if (deleteTime.getEnd()!=null) {
+            criteria.andDeleteTimeGreaterThanOrEqualTo(deleteTime.getEnd());
+        }
         if (presentGroupCount != null){
             criteria.andPresentGroupCountEqualTo(presentGroupCount);
         }
@@ -119,7 +126,7 @@ public class DpPartyController extends DpBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            dpParty_export(example, response);
+            dpParty_export(cls, example, response);
             return;
         }
 
@@ -146,24 +153,34 @@ public class DpPartyController extends DpBaseController {
     @RequiresPermissions("dpParty:edit")
     @RequestMapping(value = "/dpParty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpParty_au(DpParty record, String _foundTime, HttpServletRequest request) {
+    public Map dpParty_au(Integer id, DpParty record, String deleteTime, String _foundTime, HttpServletRequest request) {
 
-        Integer id = record.getId();
+        Integer partyId = record.getId();
 
-        if (dpPartyService.idDuplicate(id, record.getCode())) {
+        if (dpPartyService.idDuplicate(partyId, record.getCode())) {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(_foundTime)){
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
         }
-        if (id == null) {
+        if (StringUtils.isNotBlank(deleteTime)){
+            record.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+        }
+        if (partyId == null) {
             SecurityUtils.getSubject().checkPermission("dpParty:add");
 
             record.setCreateTime(new Date());
             dpPartyService.insertSelective(record);
+            DpParty dpParty = dpPartyService.getByCode(record.getCode());
+            sysApprovalLogService.add(dpParty.getId(), dpParty.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_DP_LOG_TYPE_PARTY,
+                    "添加党派", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "添加民主党派" + dpParty.getName());
             logger.info(log( LogConstants.LOG_DPPARTY, "添加民主党派：{0}", record.getId()));
         } else {
             dpPartyService.updateByPrimaryKeySelective(record);
+            sysApprovalLogService.add(id, record.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_DP_LOG_TYPE_PARTY,
+                    "修改党派", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "修改名民主党派" + record.getName() + "的信息");
             logger.info(log( LogConstants.LOG_DPPARTY, "更新民主党派：{0}", record.getId()));
         }
 
@@ -172,13 +189,45 @@ public class DpPartyController extends DpBaseController {
 
     @RequiresPermissions("dpParty:edit")
     @RequestMapping("/dpParty_au")
-    public String dpParty_au(Integer id, ModelMap modelMap) {
+    public String dpParty_au(int cls,Integer id, ModelMap modelMap) {
 
         if (id != null) {
             DpParty dpParty = dpPartyMapper.selectByPrimaryKey(id);
+            modelMap.put("cls", cls);
             modelMap.put("dpParty", dpParty);
         }
         return "dp/dpParty/dpParty_au";
+    }
+
+    @RequiresPermissions("dpParty:del")
+    @RequestMapping("/dpParty_cancel")
+    public String dpParty_cancel(){
+
+        return "dp/dpParty/dpParty_cancel";
+    }
+
+    @RequiresPermissions("dpParty:del")
+    @RequestMapping(value = "/dpParty_cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpParty_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+                              String deleteTime){
+
+        if (null != ids && ids.length>0){
+            DpPartyExample example = new DpPartyExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<DpParty> dpParties = dpPartyMapper.selectByExample(example);
+            for (DpParty dpParty : dpParties){
+                dpParty.setIsDeleted(true);
+                if (StringUtils.isNotBlank(deleteTime)){
+                    dpParty.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+                }
+                dpPartyService.updateByPrimaryKeySelective(dpParty);
+                logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpParty.getName()));
+            }
+
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpParty:del")
@@ -222,29 +271,51 @@ public class DpPartyController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void dpParty_export(DpPartyViewExample example, HttpServletResponse response) {
+    public void dpParty_export(int cls, DpPartyViewExample example, HttpServletResponse response) {
 
         List<DpPartyView> records = dpPartyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|100","名称|100","简称|100","所属单位|250","民主党派类别|100","联系电话|100","传真|100","邮箱|100","成立时间|100"};
+        String[] titles = {"编号|100","名称|250","简称|100","所属单位|250","民主党派类别|250","联系电话|100","传真|100","邮箱|100","成立时间|100"};
+        String[] deleteTitles = {"编号|100","名称|250","撤销时间|100","简称|100","所属单位|250","民主党派类别|250","联系电话|100","传真|100","邮箱|100","成立时间|100"};
         List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            DpPartyView record = records.get(i);
-            String[] values = {
-                            record.getCode(),//编号
-                            record.getName(),//名称
-                            record.getShortName(),//简称
-                            record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
-                            metaTypeService.getName(record.getClassId()),//民主党派类别
-                            record.getPhone(),//联系电话
-                            record.getFax(),
-                            record.getEmail(),
-                            DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD),
-            };
-            valuesList.add(values);
+        if (cls == 1) {
+            for (int i = 0; i < rownum; i++) {
+                DpPartyView record = records.get(i);
+                String[] values = {
+                        record.getCode(),//编号
+                        record.getName(),//名称
+                        record.getShortName(),//简称
+                        record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
+                        metaTypeService.getName(record.getClassId()),//民主党派类别
+                        record.getPhone(),//联系电话
+                        record.getFax(),
+                        record.getEmail(),
+                        DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD_DOT),
+                };
+                valuesList.add(values);
+            }
+            String fileName = String.format("民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }else if (cls == 2){
+            for (int i = 0; i < rownum; i++) {
+                DpPartyView record = records.get(i);
+                String[] values = {
+                        record.getCode(),//编号
+                        record.getName(),//名称
+                        DateUtils.formatDate(record.getDeleteTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getShortName(),//简称
+                        record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
+                        metaTypeService.getName(record.getClassId()),//民主党派类别
+                        record.getPhone(),//联系电话
+                        record.getFax(),
+                        record.getEmail(),
+                        DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD_DOT),
+                };
+                valuesList.add(values);
+            }
+            String fileName = String.format("已撤销民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            ExportHelper.export(deleteTitles, valuesList, fileName, response);
         }
-        String fileName = String.format("民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/dpParty_selects")

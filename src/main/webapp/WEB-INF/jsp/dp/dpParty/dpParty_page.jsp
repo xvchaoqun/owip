@@ -13,12 +13,12 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpParty:add">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/dp/dpParty_au">
+                            data-url="${ctx}/dp/dpParty_au?cls=${cls}">
                         <i class="fa fa-plus"></i> 添加</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpParty:edit">
                     <button class="jqEditBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/dp/dpParty_au"
+                       data-url="${ctx}/dp/dpParty_au?cls=${cls}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改信息</button>
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
@@ -33,21 +33,26 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-user"></i> 编辑管理员
                 </button>
                 </shiro:hasPermission>
+                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-url="${ctx}/sysApprovalLog"
+                        data-querystr="&type=<%=SystemConstants.SYS_DP_LOG_TYPE_PARTY%>"
+                        data-open-by="page">
+                    <i class="fa fa-sign-in"></i> 查看操作记录
+                </button>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/dp/dpParty_data"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <shiro:hasPermission name="dpParty:del">
-                <c:if test="${cls==1}">
-                    <shiro:hasPermission name="dpParty:del">
-                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpParty_batchDel" data-title="撤销民主党派"
+                    <c:if test="${cls==1}">
+                        <shiro:hasPermission name="dpParty:edit">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpParty_cancel" data-title="撤销民主党派"
                            data-msg="确定撤销这{0}个民主党派吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
-                    </shiro:hasPermission>
-                </c:if>
+                        </shiro:hasPermission>
+                    </c:if>
                 <c:if test="${cls==2}">
-                    <shiro:hasPermission name="dpParty:del">
+                    <shiro:hasPermission name="dpParty:edit">
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpParty_batchDel"
                            data-querystr="isDeleted=0"
@@ -56,7 +61,6 @@ pageEncoding="UTF-8" %>
                         【注：恢复操作之后需要重新设置委员会及相关管理员权限！】
                     </shiro:hasPermission>
                 </c:if>
-                </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -174,6 +178,9 @@ pageEncoding="UTF-8" %>
                 formatoptions: {url: '${ctx}/dp/dpParty_changeOrder'}, frozen: true},
             </c:if>
             </shiro:hasPermission>
+            <c:if test="${cls==2}">
+            {label: '撤销时间', name: 'deleteTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
             {label: '成员总数', name: 'memberCount', width: 80, formatter: function (cellvalue, option, rowObject) {
                     <shiro:hasPermission name="dpMember:list">
                     if (cellvalue == undefined ||cellvalue == 0)return 0;
@@ -209,28 +216,13 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue >= 1 ? "是" : "否";}},
             {label: '党派简称', name: 'shortName', width: 180},
-            {label:'所属单位', name: 'unitId', width: 180, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--'
-                    var name = null;
-                    var unit = _cMap.unitMap[cellvalue];
-                    if (unit != undefined) name = unit.name;
-
-                    if ($.trim(name) == '') return '--'
-
-                    if ($.inArray("unit:view", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
-                        return ('<a href="javascript:;" class="openView" data-url="{3}/dp/dp_unit_view?id={0}"><span class="{1}">{2}</span></a>'
-                            .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
-                    }
-
-                    return ('<span class="{0}">{1}</span>'
-                        .format(unit.status == 2 ? 'delete' : '', name));
-                }},
+            {label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             {label: '民族党派类别', name: 'classId', width:300, formatter: $.jgrid.formatter.MetaType},
             {label: '联系电话', name: 'phone'},
             {label: '传真', name: 'fax'},
             {label: '邮箱', name: 'email'},
             {label: '信箱', name: 'mailbox'},
-            {label: '成立时间', name: 'foundTime', width: 200}
+            {label: '成立时间', name: 'foundTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

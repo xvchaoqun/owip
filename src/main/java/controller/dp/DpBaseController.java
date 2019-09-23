@@ -11,6 +11,7 @@ import service.global.CacheHelper;
 import service.global.CacheService;
 import service.party.MemberService;
 import service.sys.StudentInfoService;
+import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import service.unit.UnitService;
@@ -18,6 +19,9 @@ import sys.HttpResponseMethod;
 
 public class DpBaseController extends DpBaseMapper implements HttpResponseMethod {
 
+
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected DpPrCmService dpPrCmService;
     @Autowired

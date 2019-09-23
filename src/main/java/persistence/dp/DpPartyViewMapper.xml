@@ -17,6 +17,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="delete_time" jdbcType="DATE" property="deleteTime" />
     <result column="member_count" jdbcType="BIGINT" property="memberCount" />
     <result column="student_member_count" jdbcType="DECIMAL" property="studentMemberCount" />
     <result column="positive_count" jdbcType="DECIMAL" property="positiveCount" />
@@ -86,7 +87,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, short_name, unit_id, class_id, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, update_time, is_deleted, member_count, student_member_count, 
+    sort_order, create_time, update_time, is_deleted, delete_time, member_count, student_member_count, 
     positive_count, teacher_member_count, retire_member_count, honor_retire_count, group_count, 
     present_group_count
   </sql>
@@ -116,8 +117,8 @@
       phone, fax, email, 
       mailbox, found_time, sort_order, 
       create_time, update_time, is_deleted, 
-      member_count, student_member_count, positive_count, 
-      teacher_member_count, retire_member_count, 
+      delete_time, member_count, student_member_count, 
+      positive_count, teacher_member_count, retire_member_count, 
       honor_retire_count, group_count, present_group_count
       )
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -125,8 +126,8 @@
       #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
-      #{memberCount,jdbcType=BIGINT}, #{studentMemberCount,jdbcType=DECIMAL}, #{positiveCount,jdbcType=DECIMAL}, 
-      #{teacherMemberCount,jdbcType=DECIMAL}, #{retireMemberCount,jdbcType=DECIMAL}, 
+      #{deleteTime,jdbcType=DATE}, #{memberCount,jdbcType=BIGINT}, #{studentMemberCount,jdbcType=DECIMAL}, 
+      #{positiveCount,jdbcType=DECIMAL}, #{teacherMemberCount,jdbcType=DECIMAL}, #{retireMemberCount,jdbcType=DECIMAL}, 
       #{honorRetireCount,jdbcType=DECIMAL}, #{groupCount,jdbcType=BIGINT}, #{presentGroupCount,jdbcType=BIGINT}
       )
   </insert>
@@ -177,6 +178,9 @@
       </if>
       <if test="isDeleted != null">
         is_deleted,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
       </if>
       <if test="memberCount != null">
         member_count,
@@ -248,6 +252,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=DATE},
       </if>
       <if test="memberCount != null">
         #{memberCount,jdbcType=BIGINT},
@@ -329,6 +336,9 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=DATE},
+      </if>
       <if test="record.memberCount != null">
         member_count = #{record.memberCount,jdbcType=BIGINT},
       </if>
@@ -375,6 +385,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=DATE},
       member_count = #{record.memberCount,jdbcType=BIGINT},
       student_member_count = #{record.studentMemberCount,jdbcType=DECIMAL},
       positive_count = #{record.positiveCount,jdbcType=DECIMAL},

@@ -54,6 +54,15 @@ public class DpPartyService extends DpBaseMapper {
         return dpPartyMapper.countByExample(example) > 0;
     }
 
+    public DpPartyView getDpPartyViewById(Integer partyId){
+
+        DpPartyViewExample example = new DpPartyViewExample();
+        DpPartyViewExample.Criteria criteria = example.createCriteria().andIdEqualTo(partyId);
+        List<DpPartyView> records = dpPartyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return records.size()==1?records.get(0):null;
+    }
+
     public DpParty getById(Integer partyId){
 
         DpPartyExample example = new DpPartyExample();

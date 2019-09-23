@@ -36,6 +36,8 @@ public class DpMember implements Serializable {
 
     private Date updateTime;
 
+    private Date outTime;
+
     private String partyPost;
 
     private String partyReward;
@@ -170,6 +172,14 @@ public class DpMember implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Date getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(Date outTime) {
+        this.outTime = outTime;
     }
 
     public String getPartyPost() {

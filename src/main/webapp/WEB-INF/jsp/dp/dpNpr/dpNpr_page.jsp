@@ -41,6 +41,13 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </c:if>
+                    <c:if test="${cls!=1}">
+                        <shiro:hasPermission name="dpNpr:del">
+                            <a class="jqBatchBtn btn btn-success btn-sm"
+                               data-url="${ctx}/dp/dpNpr_recover" data-title="恢复党外代表身份"
+                               data-msg="确定恢复这{0}个党外代表身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                        </shiro:hasPermission>
+                    </c:if>
                 </shiro:hasPermission>
                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
                         data-url="${ctx}/dp/dpNpr_import"

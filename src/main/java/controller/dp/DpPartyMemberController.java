@@ -122,6 +122,12 @@ public class DpPartyMemberController extends DpBaseController {
 
         criteria.andPresentMemberEqualTo(cls==1);
 
+        if (isDeleted != null){
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
+        if (isPresent != null){
+            criteria.andIsPresentEqualTo(isPresent);
+        }
         if (groupId!=null) {
             criteria.andGroupIdEqualTo(groupId);
         }
@@ -180,6 +186,13 @@ public class DpPartyMemberController extends DpBaseController {
                                    @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
                                    HttpServletRequest request) {
 
+        Integer id = record.getId();
+        if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工账号");
+        }else if (dpPartyMemberService.idDuplicate(id, record.getUserId(),record.getGroupId(),record.getPostId())){
+            return failed("该成员已是无党派人士");
+        }
+
         //权限控制
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
             Integer groupId = record.getGroupId();
@@ -191,8 +204,7 @@ public class DpPartyMemberController extends DpBaseController {
             }
         }
 
-        Integer id = record.getId();
-        if (dpPartyMemberService.idDuplicate(id,record.getUserId(),record.getGroupId(), record.getPostId())){
+        if (dpPartyMemberService.idDuplicate(id, record.getUserId(),record.getGroupId(), record.getPostId())){
             return failed("添加重复【该委员已添加，并且主委只能有一个】");
         }
         boolean autoAdmin = false;
@@ -270,11 +282,11 @@ public class DpPartyMemberController extends DpBaseController {
             for (Integer id : ids){
                 DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
                 if (dpPartyMember.getUserId().intValue() == ShiroHelper.getCurrentUserId()){
-                    return failed("不能删除自己");
+                    return failed("不能撤销自己");
                 }
             }
             dpPartyMemberService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_GROW, "批量删除分党委委员：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_GROW, "批量撤销分党委委员：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -307,11 +319,11 @@ public class DpPartyMemberController extends DpBaseController {
 
         List<DpPartyMemberView> records = dpPartyMemberViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号", "姓名", "所在单位", "所属分党委", "职务",
-                "分工", "任职时间", "性别", "民族", "身份证号",
-                "出生时间", "党派", "党派加入时间", "到校时间", "岗位类别",
-                "主岗等级", "专业技术职务", "专技职务等级", "管理岗位等级", "办公电话",
-                "手机号"};
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|200", "所属党派|270", "职务|100",
+                "分工|100", "任职时间|100", "性别|50", "民族|50", "身份证号|150",
+                "出生时间|80", "到校时间|100", "岗位类别|100",
+                "主岗等级|100", "专业技术职务|120", "专技职务等级|120", "管理岗位等级|120", "办公电话|100",
+                "手机号|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberView record = records.get(i);
@@ -343,8 +355,6 @@ public class DpPartyMemberController extends DpBaseController {
                     sysUserView.getNation(),
                     sysUserView.getIdcard(),
                     DateUtils.formatDate(sysUserView.getBirth(), DateUtils.YYYY_MM_DD),
-                    dpPartyMapper.selectByPrimaryKey(dpMember.getPartyId()).getName(),
-                    DateUtils.formatDate(dpMember.getGrowTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYY_MM_DD),
                     teacherInfo.getPostClass(),
 
@@ -358,7 +368,7 @@ public class DpPartyMemberController extends DpBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = String.format("党派委员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        String fileName = String.format("民主党派委员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

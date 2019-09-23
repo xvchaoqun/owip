@@ -41,6 +41,20 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/dp/dpMember_data?cls=${cls}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
+                <c:if test="${cls!=7}">
+                    <shiro:hasPermission name="dpMember:del">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpMember_transfer" data-title="转出民主党派"
+                           data-msg="确定转出这{0}个党派成员吗？"><i class="fa fa-history"></i> 转出</a>
+                    </shiro:hasPermission>
+                </c:if>
+                <c:if test="${cls==7}">
+                    <shiro:hasPermission name="dpMember:del">
+                        <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-url="${ctx}/dp/dpMember_recover" data-title="恢复党派成员身份"
+                           data-msg="确定恢复这{0}个党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                    </shiro:hasPermission>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -295,9 +309,17 @@ pageEncoding="UTF-8" %>
                 }, frozen: true
             },
             {label: '学工号', name: 'user.code', width: 120, frozen: true},
+            <c:if test="${cls==7}">
+            {
+                label: '转出时间',
+                name: 'transferTime',
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m.d'}
+            },
+            </c:if>
             {label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
-            {label: '籍贯', name: 'nativePlace', width: 120},
+            {label: '籍贯', name: 'nativePlace', width: 140},
             {label: '出生时间', name :'growTime', width: 120,sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
@@ -353,15 +375,6 @@ pageEncoding="UTF-8" %>
             {label: '专业技术职务', name: 'proPost', width: 150},
             {label: '联系手机', name: 'mobile', width: 120},
             </c:if>
-            <c:if test="${cls==6 || cls==7}">
-            {
-                label: '转出时间',
-                name: 'outHandleTime',
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
-            },
-            </c:if>
-
             <c:if test="${cls==3||cls==7}">
             {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},

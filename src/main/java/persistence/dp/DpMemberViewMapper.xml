@@ -18,6 +18,7 @@
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="out_time" jdbcType="DATE" property="outTime" />
     <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
@@ -37,16 +38,6 @@
     <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
     <result column="staff_type" jdbcType="VARCHAR" property="staffType" />
     <result column="post_class" jdbcType="VARCHAR" property="postClass" />
-    <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
-    <result column="edu_type" jdbcType="VARCHAR" property="eduType" />
-    <result column="actual_enrol_time" jdbcType="DATE" property="actualEnrolTime" />
-    <result column="is_full_time" jdbcType="BIT" property="isFullTime" />
-    <result column="expect_graduate_time" jdbcType="DATE" property="expectGraduateTime" />
-    <result column="delay_year" jdbcType="REAL" property="delayYear" />
-    <result column="actual_graduate_time" jdbcType="DATE" property="actualGraduateTime" />
-    <result column="sync_source" jdbcType="TINYINT" property="syncSource" />
-    <result column="grade" jdbcType="VARCHAR" property="grade" />
-    <result column="student_type" jdbcType="VARCHAR" property="studentType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,11 +100,9 @@
   <sql id="Base_Column_List">
     user_id, party_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, positive_time, create_time, 
-    update_time, party_post, party_reward, other_reward, unit_id, gender, birth, nation, 
-    native_place, mobile, out_status, out_handle_time, education, authorized_type, pro_post, 
-    is_retire, retire_time, is_honor_retire, staff_type, post_class, edu_level, edu_type, 
-    actual_enrol_time, is_full_time, expect_graduate_time, delay_year, actual_graduate_time, 
-    sync_source, grade, student_type
+    update_time, out_time, party_post, party_reward, other_reward, unit_id, gender, birth, 
+    nation, native_place, mobile, out_status, out_handle_time, education, authorized_type, 
+    pro_post, is_retire, retire_time, is_honor_retire, staff_type, post_class
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpMemberViewExample" resultMap="BaseResultMap">
     select
@@ -141,32 +130,26 @@
       add_type, transfer_time, apply_time, 
       active_time, candidate_time, sponsor, 
       grow_time, positive_time, create_time, 
-      update_time, party_post, party_reward, 
-      other_reward, unit_id, gender, 
-      birth, nation, native_place, 
-      mobile, out_status, out_handle_time, 
-      education, authorized_type, pro_post, 
-      is_retire, retire_time, is_honor_retire, 
-      staff_type, post_class, edu_level, 
-      edu_type, actual_enrol_time, is_full_time, 
-      expect_graduate_time, delay_year, actual_graduate_time, 
-      sync_source, grade, student_type
+      update_time, out_time, party_post, 
+      party_reward, other_reward, unit_id, 
+      gender, birth, nation, 
+      native_place, mobile, out_status, 
+      out_handle_time, education, authorized_type, 
+      pro_post, is_retire, retire_time, 
+      is_honor_retire, staff_type, post_class
       )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, 
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{source,jdbcType=TINYINT}, 
       #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, 
       #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, 
-      #{otherReward,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{outStatus,jdbcType=TINYINT}, #{outHandleTime,jdbcType=DATE}, 
-      #{education,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, 
-      #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, 
-      #{staffType,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, 
-      #{eduType,jdbcType=VARCHAR}, #{actualEnrolTime,jdbcType=DATE}, #{isFullTime,jdbcType=BIT}, 
-      #{expectGraduateTime,jdbcType=DATE}, #{delayYear,jdbcType=REAL}, #{actualGraduateTime,jdbcType=DATE}, 
-      #{syncSource,jdbcType=TINYINT}, #{grade,jdbcType=VARCHAR}, #{studentType,jdbcType=VARCHAR}
+      #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, #{partyPost,jdbcType=VARCHAR}, 
+      #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
+      #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{outStatus,jdbcType=TINYINT}, 
+      #{outHandleTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, 
+      #{proPost,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, 
+      #{isHonorRetire,jdbcType=BIT}, #{staffType,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpMemberView">
@@ -219,6 +202,9 @@
       </if>
       <if test="updateTime != null">
         update_time,
+      </if>
+      <if test="outTime != null">
+        out_time,
       </if>
       <if test="partyPost != null">
         party_post,
@@ -277,36 +263,6 @@
       <if test="postClass != null">
         post_class,
       </if>
-      <if test="eduLevel != null">
-        edu_level,
-      </if>
-      <if test="eduType != null">
-        edu_type,
-      </if>
-      <if test="actualEnrolTime != null">
-        actual_enrol_time,
-      </if>
-      <if test="isFullTime != null">
-        is_full_time,
-      </if>
-      <if test="expectGraduateTime != null">
-        expect_graduate_time,
-      </if>
-      <if test="delayYear != null">
-        delay_year,
-      </if>
-      <if test="actualGraduateTime != null">
-        actual_graduate_time,
-      </if>
-      <if test="syncSource != null">
-        sync_source,
-      </if>
-      <if test="grade != null">
-        grade,
-      </if>
-      <if test="studentType != null">
-        student_type,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -356,6 +312,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=DATE},
       </if>
       <if test="partyPost != null">
         #{partyPost,jdbcType=VARCHAR},
@@ -413,36 +372,6 @@
       </if>
       <if test="postClass != null">
         #{postClass,jdbcType=VARCHAR},
-      </if>
-      <if test="eduLevel != null">
-        #{eduLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="eduType != null">
-        #{eduType,jdbcType=VARCHAR},
-      </if>
-      <if test="actualEnrolTime != null">
-        #{actualEnrolTime,jdbcType=DATE},
-      </if>
-      <if test="isFullTime != null">
-        #{isFullTime,jdbcType=BIT},
-      </if>
-      <if test="expectGraduateTime != null">
-        #{expectGraduateTime,jdbcType=DATE},
-      </if>
-      <if test="delayYear != null">
-        #{delayYear,jdbcType=REAL},
-      </if>
-      <if test="actualGraduateTime != null">
-        #{actualGraduateTime,jdbcType=DATE},
-      </if>
-      <if test="syncSource != null">
-        #{syncSource,jdbcType=TINYINT},
-      </if>
-      <if test="grade != null">
-        #{grade,jdbcType=VARCHAR},
-      </if>
-      <if test="studentType != null">
-        #{studentType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -503,6 +432,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.outTime != null">
+        out_time = #{record.outTime,jdbcType=DATE},
+      </if>
       <if test="record.partyPost != null">
         party_post = #{record.partyPost,jdbcType=VARCHAR},
       </if>
@@ -560,36 +492,6 @@
       <if test="record.postClass != null">
         post_class = #{record.postClass,jdbcType=VARCHAR},
       </if>
-      <if test="record.eduLevel != null">
-        edu_level = #{record.eduLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="record.eduType != null">
-        edu_type = #{record.eduType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.actualEnrolTime != null">
-        actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
-      </if>
-      <if test="record.isFullTime != null">
-        is_full_time = #{record.isFullTime,jdbcType=BIT},
-      </if>
-      <if test="record.expectGraduateTime != null">
-        expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
-      </if>
-      <if test="record.delayYear != null">
-        delay_year = #{record.delayYear,jdbcType=REAL},
-      </if>
-      <if test="record.actualGraduateTime != null">
-        actual_graduate_time = #{record.actualGraduateTime,jdbcType=DATE},
-      </if>
-      <if test="record.syncSource != null">
-        sync_source = #{record.syncSource,jdbcType=TINYINT},
-      </if>
-      <if test="record.grade != null">
-        grade = #{record.grade,jdbcType=VARCHAR},
-      </if>
-      <if test="record.studentType != null">
-        student_type = #{record.studentType,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -613,6 +515,7 @@
       positive_time = #{record.positiveTime,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      out_time = #{record.outTime,jdbcType=DATE},
       party_post = #{record.partyPost,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
       other_reward = #{record.otherReward,jdbcType=VARCHAR},
@@ -631,17 +534,7 @@
       retire_time = #{record.retireTime,jdbcType=DATE},
       is_honor_retire = #{record.isHonorRetire,jdbcType=BIT},
       staff_type = #{record.staffType,jdbcType=VARCHAR},
-      post_class = #{record.postClass,jdbcType=VARCHAR},
-      edu_level = #{record.eduLevel,jdbcType=VARCHAR},
-      edu_type = #{record.eduType,jdbcType=VARCHAR},
-      actual_enrol_time = #{record.actualEnrolTime,jdbcType=DATE},
-      is_full_time = #{record.isFullTime,jdbcType=BIT},
-      expect_graduate_time = #{record.expectGraduateTime,jdbcType=DATE},
-      delay_year = #{record.delayYear,jdbcType=REAL},
-      actual_graduate_time = #{record.actualGraduateTime,jdbcType=DATE},
-      sync_source = #{record.syncSource,jdbcType=TINYINT},
-      grade = #{record.grade,jdbcType=VARCHAR},
-      student_type = #{record.studentType,jdbcType=VARCHAR}
+      post_class = #{record.postClass,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

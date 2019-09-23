@@ -65,7 +65,7 @@
                         入党时间
                     </td>
                     <td class="bg-left" width="150">
-                        ${cm:formatDate(dpMember.growTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         入党介绍人
@@ -77,26 +77,26 @@
                         转正时间
                     </td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.positiveTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.positiveTime,'yyyy.MM.dd')}
                     </td>
                 </tr>
                 <tr>
                     <td class="bg-right">提交书面申请书时间</td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.applyTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.applyTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为入党积极分子时间
                     </td>
 
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.activeTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.activeTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为发展对象时间
                     </td>
                     <td class="bg-left">
-                        ${cm:formatDate(dpMember.candidateTime,'yyyy-MM-dd')}
+                        ${cm:formatDate(dpMember.candidateTime,'yyyy.MM.dd')}
                     </td>
                 </tr>
                 <tr>

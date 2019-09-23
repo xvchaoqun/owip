@@ -182,7 +182,9 @@ public class DpNprController extends DpBaseController {
 
         Integer id = record.getId();
 
-        if (dpNprService.idDuplicate(id, record.getUserId())) {
+        if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
+            return failed("非教职工账号");
+        }else if (dpNprService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(workTime)){
@@ -212,10 +214,32 @@ public class DpNprController extends DpBaseController {
         if (id != null) {
             DpNpr dpNpr = dpNprMapper.selectByPrimaryKey(id);
             Integer userId = dpNpr.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
+            SysUserView sysUserView = CmTag.getUserById(userId);
+            if (sysUserView.getType() == 1){
+                modelMap.put("sysUser", sysUserView);
+            }else {
+                throw new OpException("非教职工账号");
+            }
             modelMap.put("dpNpr", dpNpr);
         }
         return "dp/dpNpr/dpNpr_au";
+    }
+
+    @RequiresPermissions("dpNpr:del")
+    @RequestMapping(value = "/dpNpr_rcover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dpNpr_rcover(@RequestParam(value = "ids[]") Integer[] ids,
+                            HttpServletRequest request){
+
+        if (null != ids && ids.length>0) {
+            Boolean isDeleted = false;
+            for (Integer id : ids) {
+                DpNpr dpNpr = dpNprMapper.selectByPrimaryKey(id);
+                dpNpr.setIsDeleted(isDeleted);
+                dpNprService.updateByPrimaryKeySelective(dpNpr);
+            }
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpNpr:del")

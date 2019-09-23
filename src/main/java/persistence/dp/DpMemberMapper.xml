@@ -18,6 +18,7 @@
     <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="out_time" jdbcType="DATE" property="outTime" />
     <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List">
     user_id, party_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, positive_time, create_time, 
-    update_time, party_post, party_reward, other_reward
+    update_time, out_time, party_post, party_reward, other_reward
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpMemberExample" resultMap="BaseResultMap">
     select
@@ -121,15 +122,15 @@
       add_type, transfer_time, apply_time, 
       active_time, candidate_time, sponsor, 
       grow_time, positive_time, create_time, 
-      update_time, party_post, party_reward, 
-      other_reward)
+      update_time, out_time, party_post, 
+      party_reward, other_reward)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, 
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{source,jdbcType=TINYINT}, 
       #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, 
       #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
       #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, 
-      #{otherReward,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, #{partyPost,jdbcType=VARCHAR}, 
+      #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpMember">
     insert into dp_member
@@ -181,6 +182,9 @@
       </if>
       <if test="updateTime != null">
         update_time,
+      </if>
+      <if test="outTime != null">
+        out_time,
       </if>
       <if test="partyPost != null">
         party_post,
@@ -240,6 +244,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=DATE},
       </if>
       <if test="partyPost != null">
         #{partyPost,jdbcType=VARCHAR},
@@ -309,6 +316,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.outTime != null">
+        out_time = #{record.outTime,jdbcType=DATE},
+      </if>
       <if test="record.partyPost != null">
         party_post = #{record.partyPost,jdbcType=VARCHAR},
       </if>
@@ -341,6 +351,7 @@
       positive_time = #{record.positiveTime,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      out_time = #{record.outTime,jdbcType=DATE},
       party_post = #{record.partyPost,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
       other_reward = #{record.otherReward,jdbcType=VARCHAR}
@@ -396,6 +407,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="outTime != null">
+        out_time = #{outTime,jdbcType=DATE},
+      </if>
       <if test="partyPost != null">
         party_post = #{partyPost,jdbcType=VARCHAR},
       </if>
@@ -425,6 +439,7 @@
       positive_time = #{positiveTime,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
+      out_time = #{outTime,jdbcType=DATE},
       party_post = #{partyPost,jdbcType=VARCHAR},
       party_reward = #{partyReward,jdbcType=VARCHAR},
       other_reward = #{otherReward,jdbcType=VARCHAR}
@@ -439,6 +454,9 @@
     from dp_member
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
     </if>
   </select>
 </mapper>

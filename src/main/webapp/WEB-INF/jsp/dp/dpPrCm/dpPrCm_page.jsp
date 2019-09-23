@@ -48,9 +48,16 @@ pageEncoding="UTF-8" %>
                     批量导入
                 </button>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dp/dpPrCm_data?type=${type}"
+                   data-url="${ctx}/dp/dpPrCm_data?type=${type}&cls=${cls}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
+                <c:if test="${cls!=1}">
+                    <shiro:hasPermission name="dpPrCm:del">
+                        <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-url="${ctx}/dp/dpPrCm_recover" data-title="恢复人大代表或政协委员"
+                           data-msg="确定恢复这{0}个人大代表或政协委员吗？"><i class="fa fa-reply"></i> 恢复</a>
+                    </shiro:hasPermission>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -69,7 +76,7 @@ pageEncoding="UTF-8" %>
                                 <label>成员姓名</label>
                                 <div class="input-group">
                                     <select data-rel="select2-ajax"
-                                            data-ajax-url="${ctx}/dp/dpPrCm_selects?status=${_status}?cls=${cls}"
+                                            data-ajax-url="${ctx}/dp/dpPrCm_selects?type=${param.type}&cls=${cls}"
                                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                     </select>
@@ -150,7 +157,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/dp/dpPrCm?cls=${cls}&type=${type}"
+                                   data-url="${ctx}/dp/dpPrCm?cls=${cls}&type=${param.type}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;

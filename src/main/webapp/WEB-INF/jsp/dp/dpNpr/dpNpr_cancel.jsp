@@ -19,10 +19,10 @@ pageEncoding="UTF-8"%>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">撤销时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 撤销时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input class="form-control date-picker" name="transferTime" type="text"
+					<input required class="form-control date-picker" name="transferTime" type="text"
 						   data-date-format="yyyy-mm-dd"
 						   value="${cm:formatDate(dpNpr.transferTime, 'yyyy-MM-dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpNpr?'确定':'添加'}</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpNpr?'确定':'撤销'}</button>
 </div>
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
