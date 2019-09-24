@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group unitPostAndUser" hidden>
-			<label class="col-xs-4 control-label"><span class="star">*</span> 现任干部</label>
+			<label class="col-xs-4 control-label">现任干部</label>
 			<div class="col-xs-6">
 				<select name="userId" class="form-control" data-width="272"
 						data-rel="select2-ajax"
