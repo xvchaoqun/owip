@@ -30,29 +30,6 @@ public class PmdOrderLogService {
     public static final String fileLimitChar = "&";
     public static final int fieldAllCount = 17;
     private int count;
-    private String dateId;
-    private String account;
-    private String thirdOrderId;
-    private String toAccount;
-    private String tranamt;
-    private String orderId;
-    private String reforderId;
-    private String operType;
-    private String orderDesc;
-    private String praram1;
-    private String sno;
-    private String actuaLamt;
-    private String state;
-    private String payName;
-    private String rzDate;
-    private String jyDate;
-    private String thirdSystem;
-    private String sign;
-
-    //每日统计所需字段
-    private Integer totalCount;
-    private Integer totalMoney;
-
 
     @Transactional
     public int loadFile(String path,String openFileStyle, String name){
@@ -70,7 +47,7 @@ public class PmdOrderLogService {
                     continue;
                 }
 
-                parseRecord(line_record);
+                parseRecord(line_record, name);
                 line_record = raf.readLine();
             }
             logger.info(name + ".txt文件中共有合法的记录" + count + "条");
@@ -120,7 +97,10 @@ public class PmdOrderLogService {
 
     //各条明细
     @Transactional
-    public void parseRecord(String line_record) throws Exception {
+    public void parseRecord(String line_record, String name) throws Exception {
+
+        String _fileId = name.substring(name.length() - 12,name.length() - 4);
+
         //拆分记录
 
         String[] fields = line_record.split(fileLimitChar);
@@ -133,52 +113,32 @@ public class PmdOrderLogService {
                 pmdOrderLogMapper.deleteByPrimaryKey(pmdOrderLog.getId());
             }
         }
-
         if (fields.length == fieldAllCount) {
-            dateId = tranStr(fields[1]).substring(0,8);
-            account = tranStr(fields[0]);
-            thirdOrderId = tranStr(fields[1]);
-            toAccount = tranStr(fields[2]);
-            tranamt = tranStr(fields[3]);
-            orderId = tranStr(fields[4]);
-            reforderId = tranStr(fields[5]);
-            operType = tranStr(fields[6]);
-            orderDesc = tranStr(fields[7]);
-            praram1 = tranStr(fields[8]);
-            sno = tranStr(fields[9]);
-            actuaLamt = tranStr(fields[10]);
-            state = tranStr(fields[11]);
-            payName = tranStr(fields[12]);
-            rzDate = tranStr(fields[13]);
-            jyDate = tranStr(fields[14]);
-            thirdSystem = tranStr(fields[15]);
             String _sign = tranStr(fields[16]);
-            sign = _sign.substring(0,_sign.length()-1);
-            //logger.info("记录：" + dateId + "," + account + "," + thirdOrderId + "," + sign);
             PmdOrderLog pmdOrderLog = new PmdOrderLog();
-            pmdOrderLog.setDateId(Integer.valueOf(dateId));
-            pmdOrderLog.setAccount(Integer.valueOf(account));
-            pmdOrderLog.setThirdOrderId(thirdOrderId);
-            pmdOrderLog.setToAccount(Integer.valueOf(toAccount));
-            pmdOrderLog.setTranamt(Integer.valueOf(tranamt));
-            pmdOrderLog.setOrderId(orderId);
-            pmdOrderLog.setReforderId(reforderId);
-            pmdOrderLog.setOperType(Integer.valueOf(operType));
-            pmdOrderLog.setOrderDesc(orderDesc);
-            pmdOrderLog.setPraram1(praram1);
-            pmdOrderLog.setSno(sno);
-            pmdOrderLog.setActuaLamt(Integer.valueOf(actuaLamt));
-            pmdOrderLog.setState(Byte.valueOf(state) == 1 ? true :false);
-            pmdOrderLog.setPayName(payName);
-            pmdOrderLog.setRzDate(DateUtils.parseStringToDate(rzDate));
-            pmdOrderLog.setJyDate(DateUtils.parseStringToDate(jyDate));
-            pmdOrderLog.setThirdSystem(thirdSystem);
-            pmdOrderLog.setSign(sign);
+            pmdOrderLog.setDateId(Integer.valueOf(_fileId));
+            pmdOrderLog.setAccount(Integer.valueOf(tranStr(fields[0])));
+            pmdOrderLog.setThirdOrderId(tranStr(fields[1]));
+            pmdOrderLog.setToAccount(Integer.valueOf(tranStr(fields[2])));
+            pmdOrderLog.setTranamt(Integer.valueOf(tranStr(fields[3])));
+            pmdOrderLog.setOrderId(tranStr(fields[4]));
+            pmdOrderLog.setReforderId(tranStr(fields[5]));
+            pmdOrderLog.setOperType(Integer.valueOf(tranStr(fields[6])));
+            pmdOrderLog.setOrderDesc(tranStr(fields[7]));
+            pmdOrderLog.setPraram1(tranStr(fields[8]));
+            pmdOrderLog.setSno(tranStr(fields[9]));
+            pmdOrderLog.setActuaLamt(Integer.valueOf(tranStr(fields[10])));
+            pmdOrderLog.setState(Byte.valueOf(tranStr(fields[11])) == 1 ? true :false);
+            pmdOrderLog.setPayName(tranStr(fields[12]));
+            pmdOrderLog.setRzDate(DateUtils.parseStringToDate(tranStr(fields[13])));
+            pmdOrderLog.setJyDate(DateUtils.parseStringToDate(tranStr(fields[14])));
+            pmdOrderLog.setThirdSystem(tranStr(fields[15]));
+            pmdOrderLog.setSign(_sign.substring(0,_sign.length()-1));
             count++;
             try {
                 pmdOrderLogMapper.insert(pmdOrderLog);
             }catch (Exception e){
-                throw new OpException(thirdOrderId + "订单插入数据库失败！");
+                throw new OpException(tranStr(fields[1]) + "订单插入数据库失败！");
             }
 
 

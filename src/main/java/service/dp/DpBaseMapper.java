@@ -35,8 +35,6 @@ public class DpBaseMapper extends CoreBaseMapper {
     @Autowired
     protected DpPartyViewMapper dpPartyViewMapper;
     @Autowired
-    protected DpMemberOutMapper dpMemberOutMapper;
-    @Autowired
     protected DpMemberViewMapper dpMemberViewMapper;
     @Autowired
     protected IDpPropertyMapper iDpPropertyMapper;
