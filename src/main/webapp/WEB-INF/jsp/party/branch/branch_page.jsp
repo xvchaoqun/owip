@@ -241,7 +241,7 @@
 
                 return $.party(null, rowObject.id);
             }, frozen:true },
-            <shiro:hasAnyRoles name="${ROLE_BRANCHADMIN}">
+            <shiro:hasPermission name="branchGroup:*">
             {
                 label: '党小组', name: 'bgCount', formatter: function (cellvalue, options, rowObject) {
 
@@ -250,7 +250,7 @@
                         + '<i class="fa fa-search"></i> 查看({1})</button>')
                         .format(rowObject.id, cellvalue==undefined?"0":cellvalue);
                 },frozen:true},
-            </shiro:hasAnyRoles>
+            </shiro:hasPermission>
             <c:if test="${cls==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>

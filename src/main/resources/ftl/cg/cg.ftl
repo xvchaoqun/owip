@@ -1761,7 +1761,6 @@
     <w:body>
         <wx:sect>
 
-
             <#list cgTeams as bean>
             <wx:sub-section>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
