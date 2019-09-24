@@ -3,8 +3,6 @@ package service.dp;
 import controller.global.OpException;
 import domain.dp.DpMember;
 import domain.dp.DpMemberExample;
-import domain.dp.DpMemberOut;
-import domain.dp.DpMemberOutExample;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -22,10 +20,8 @@ import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import sys.constants.DpConstants;
-import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.utils.JSONUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -170,17 +166,6 @@ public class DpMemberService extends DpBaseMapper {
             DpMemberExample example = new DpMemberExample();
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             dpMemberMapper.deleteByExample(example);
-        }
-
-        //删除组织关系转出成员
-        {
-            DpMemberOutExample example = new DpMemberOutExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            List<DpMemberOut> memberOuts = dpMemberOutMapper.selectByExample(example);
-            if (memberOuts.size()>0){
-                logger.info(logService.log(LogConstants.LOG_DPMEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts,false)));
-                dpMemberOutMapper.deleteByExample(example);
-            }
         }
 
         //更新系统角色
