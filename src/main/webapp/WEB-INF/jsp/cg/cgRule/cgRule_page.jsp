@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-user"></i> 当前规则
             <div class="buttons" id="hostUnit">
-                <shiro:hasPermission name="psParty:edit">
+                <shiro:hasPermission name="cgRule:edit">
                     <button class="popupBtn btn btn-success btn-sm"
                             data-url="${ctx}/cg/cgRule_au?teamId=${param.teamId}">
                         <i class="fa fa-plus"></i>
@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                         修改</button>
 
                 </shiro:hasPermission>
-                <shiro:hasPermission name="psParty:history">
+                <shiro:hasPermission name="cgRule:history">
                     <button class="jqBatchBtn btn btn-warning btn-sm"
                             data-callback="_statusChange"
                             data-grid-id="#jqGrid_current"
@@ -30,7 +30,7 @@ pageEncoding="UTF-8" %>
                         弃用</button>
 
                 </shiro:hasPermission>
-                <shiro:hasPermission name="psParty:del">
+                <shiro:hasPermission name="cgRule:del">
                     <button class="jqBatchBtn btn btn-danger btn-sm"
                             data-url="${ctx}/cg/cgRule_batchDel"
                             data-title="删除"
@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-backward"></i>
                         返回</button>
 
-                <shiro:hasPermission name="psParty:del">
+                <shiro:hasPermission name="cgRule:del">
                     <button class="jqBatchBtn btn btn-danger btn-sm"
                             data-url="${ctx}/cg/cgRule_batchDel"
                             data-title="删除"

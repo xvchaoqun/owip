@@ -55,12 +55,46 @@
                 <a href="javascript:;" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
                     <i class="fa fa-random"></i> 支部转移</a>
                 </shiro:hasPermission>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+
+                <div class="btn-group">
+                    <button data-toggle="dropdown"
+                            data-rel="tooltip" data-placement="top" data-html="true"
+                            title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
+                            class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                        <i class="fa fa-download"></i> 导出  <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                        <li>
+                            <a class="jqExportBtn"
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a class="jqExportBtn"
+                               data-querystr="exportType=secretary"
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a class="jqExportBtn"
+                               data-querystr="exportType=groupMember"
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                    </ul>
+                </div>
+
+                <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-querystr="exportType=secretary"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党支部书记</a>
+
+                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-querystr="exportType=groupMember"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>--%>
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
@@ -203,10 +237,20 @@
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号', name: 'code', frozen:true },
-            { label: '名称',  name: 'name',align:'left', width: 550,formatter:function(cellvalue, options, rowObject){
+            { label: '名称',  name: 'name',align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
 
                 return $.party(null, rowObject.id);
             }, frozen:true },
+            <shiro:hasAnyRoles name="${ROLE_BRANCHADMIN}">
+            {
+                label: '党小组', name: 'bgCount', formatter: function (cellvalue, options, rowObject) {
+
+                    return ('<button class="openView btn btn-warning btn-xs" ' +
+                        'data-url="${ctx}/branchGroup?branchId={0}">'
+                        + '<i class="fa fa-search"></i> 查看({1})</button>')
+                        .format(rowObject.id, cellvalue==undefined?"0":cellvalue);
+                },frozen:true},
+            </shiro:hasAnyRoles>
             <c:if test="${cls==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>

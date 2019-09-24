@@ -2176,6 +2176,66 @@ public class BranchViewExample {
             addCriterionForJDBCDate("actual_tran_time not between", value1, value2, "actualTranTime");
             return (Criteria) this;
         }
+
+        public Criteria andBgCountIsNull() {
+            addCriterion("bg_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountIsNotNull() {
+            addCriterion("bg_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountEqualTo(Long value) {
+            addCriterion("bg_count =", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountNotEqualTo(Long value) {
+            addCriterion("bg_count <>", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountGreaterThan(Long value) {
+            addCriterion("bg_count >", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountGreaterThanOrEqualTo(Long value) {
+            addCriterion("bg_count >=", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountLessThan(Long value) {
+            addCriterion("bg_count <", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountLessThanOrEqualTo(Long value) {
+            addCriterion("bg_count <=", value, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountIn(List<Long> values) {
+            addCriterion("bg_count in", values, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountNotIn(List<Long> values) {
+            addCriterion("bg_count not in", values, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountBetween(Long value1, Long value2) {
+            addCriterion("bg_count between", value1, value2, "bgCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgCountNotBetween(Long value1, Long value2) {
+            addCriterion("bg_count not between", value1, value2, "bgCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

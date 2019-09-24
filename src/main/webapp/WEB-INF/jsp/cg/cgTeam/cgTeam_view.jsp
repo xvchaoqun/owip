@@ -9,7 +9,7 @@
                     <i class="ace-icon fa fa-backward"></i> 返回
                 </a>
             </h4>
-            <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+            <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;font-size: large">
                 ${cgTeam.name}
             </span>
             <div class="widget-toolbar no-border">

@@ -1760,6 +1760,9 @@
     </w:docPr>
     <w:body>
         <wx:sect>
+
+
+            <#list cgTeams as bean>
             <wx:sub-section>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
@@ -1774,7 +1777,7 @@
                         <w:rPr>
                             <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>
                         </w:rPr>
-                        <w:t>${cgTeam.name}</w:t>
+                        <w:t>${bean.cgTeam.name}</w:t>
                     </w:r>
                     <aml:annotation aml:id="0" w:type="Word.Bookmark.End"/>
                 </w:p>
@@ -1810,12 +1813,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>一、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>组成原则</w:t>
+                        <w:t>一、<#if bean.cgTeam.type?? && bean.cgTeam.type == 1>委员会</#if><#if bean.cgTeam.type?? && bean.cgTeam.type == 2>领导小组</#if>组成原则</w:t>
                     </w:r>
                 </w:p>
 
-                <#if staffContentList??>
-                <#list staffContentList as staffContent>
+                <#if bean.staffContentList??>
+                <#list bean.staffContentList as staffContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:pStyle w:val="ae"/>
@@ -1884,8 +1887,8 @@
                 </w:p>
 
 
-                <#if memberAndUserList??>
-                    <#list memberAndUserList as memberAndUser>
+                <#if bean.memberAndUserList??>
+                    <#list bean.memberAndUserList as memberAndUser>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:pStyle w:val="ae"/>
@@ -1932,7 +1935,7 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>办公室主任：${leaderName!}</w:t>
+                        <w:t>办公室主任：${bean.leaderName!}</w:t>
                     </w:r>
                 </w:p>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
@@ -1954,12 +1957,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>二、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>工作职责</w:t>
+                        <w:t>二、<#if bean.cgTeam.type?? && bean.cgTeam.type == 1>委员会</#if><#if bean.cgTeam.type?? && bean.cgTeam.type == 2>领导小组</#if>工作职责</w:t>
                     </w:r>
                 </w:p>
 
-                <#if jobContentList??>
-                <#list jobContentList as jobContent>
+                <#if bean.jobContentList??>
+                <#list bean.jobContentList as jobContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:adjustRightInd w:val="off"/>
@@ -2005,12 +2008,12 @@
                             <w:sz w:val="32"/>
                             <w:sz-cs w:val="32"/>
                         </w:rPr>
-                        <w:t>三、<#if cgTeam.type?? && cgTeam.type == 1>委员会</#if><#if cgTeam.type?? && cgTeam.type == 2>领导小组</#if>议事规则</w:t>
+                        <w:t>三、<#if bean.cgTeam.type?? && bean.cgTeam.type == 1>委员会</#if><#if bean.cgTeam.type?? && bean.cgTeam.type == 2>领导小组</#if>议事规则</w:t>
                     </w:r>
                 </w:p>
 
-                <#if debateContentList??>
-                <#list debateContentList as debateContent>
+                <#if bean.debateContentList??>
+                <#list bean.debateContentList as debateContent>
                 <w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
                     <w:pPr>
                         <w:spacing w:line="560" w:line-rule="at-least"/>
@@ -2089,5 +2092,6 @@
                 <w:cols w:space="425"/>
                 <w:docGrid w:type="lines" w:line-pitch="312"/>
             </w:sectPr>
+            </#list>
         </wx:sect>
     </w:body></w:wordDocument>

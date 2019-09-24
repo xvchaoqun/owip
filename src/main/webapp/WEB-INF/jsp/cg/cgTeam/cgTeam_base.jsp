@@ -22,7 +22,7 @@
         ${cgTeam.name}概况
     </span>
         <a href="javascript:;" class="downloadBtn btn btn-primary"
-           data-url="${ctx}/cg/cgTeam_download?teamId=${cgTeam.id}">
+           data-url="${ctx}/cg/cgTeam_download?ids[]=${cgTeam.id}">
             <i class="ace-icon fa fa-download "></i>
             导出
         </a>

@@ -57,12 +57,54 @@ pageEncoding="UTF-8" %>
                                     返回</button>
 
                             </c:if>
-                            <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            <div class="btn-group">
+                                <button data-toggle="dropdown"
+                                        data-rel="tooltip" data-placement="top" data-html="true"
+                                        title="<div style='width:180px'>导出数据入口</div>"
+                                        class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                                    <i class="fa fa-download"></i> 导出 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                    <li>
+                                        <a class="jqExportBtn tooltip-success"
+                                                title="导出选中记录或所有搜索结果"
+                                                data-url="${ctx}/cg/cgTeam_data"
+                                                data-rel="tooltip"
+                                                data-placement="top"><i class="fa fa-file-excel-o"></i>
+                                        导出（基本信息）</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="javascript:;" class="jqLinkBtn"
+                                                data-need-id="false" data-grid-id="#jqGrid"
+                                                data-url="${ctx}/cg/cgTeam_download?isWord=1">
+                                            <i class="fa fa-file-word-o"></i> 导出概况（word）</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="javascript:;" class="jqLinkBtn"
+                                                data-need-id="false" data-grid-id="#jqGrid"
+                                                data-url="${ctx}/cg/cgTeam_download?isWord=0">
+                                            <i class="fa fa-file-zip-o"></i> 导出概况（zip）</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                     title="导出选中记录或所有搜索结果"
                                     data-url="${ctx}/cg/cgTeam_data"
                                     data-rel="tooltip"
                                     data-placement="top"><i class="fa fa-download"></i>
                             导出</button>
+
+                            <button href="javascript:;" class="jqLinkBtn btn btn-success btn-sm"
+                               data-need-id="false" data-grid-id="#jqGrid"
+                               data-url="${ctx}/cg/cgTeam_download?isWord=1">
+                                <i class="fa fa-file-word-o"></i> 导出概况(word)</button>
+
+                            <button href="javascript:;" class="jqLinkBtn btn btn-success btn-sm"
+                                    data-need-id="false" data-grid-id="#jqGrid"
+                                    data-url="${ctx}/cg/cgTeam_download?isWord=0">
+                                <i class="fa fa-file-word-o"></i> 导出概况(zip)</button>--%>
 
                             <shiro:hasPermission name="cgTeam:del">
                                 <button class="jqBatchBtn btn btn-danger btn-sm"

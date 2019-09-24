@@ -17,10 +17,11 @@ import sys.constants.CgConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @Service
@@ -90,6 +91,7 @@ public class CgTeamService extends CgBaseMapper {
         cgRuleExample.createCriteria()
                 .andTeamIdEqualTo(id)
                 .andIsCurrentEqualTo(true);
+        cgRuleExample.setOrderByClause("sort_order desc");
         List<CgRule> cgRules = cgRuleMapper.selectByExample(cgRuleExample);
 
         Map cgRuleContentMap = new LinkedHashMap();
@@ -204,52 +206,87 @@ public class CgTeamService extends CgBaseMapper {
     }
 
     //导出委员会和领导小组概括
-    public void export(Integer teamId, HttpServletRequest request,
-                       HttpServletResponse response) throws IOException, TemplateException {
+    public void export(Integer[] teamIds, Writer out) throws IOException, TemplateException {
 
-        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
+        List cgTeams = new ArrayList<>();
+        for (Integer teamId : teamIds) {
 
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                + cgTeam.getName() + ".doc";
-        response.reset();
-        DownloadUtils.addFileDownloadCookieHeader(response);
-        response.setHeader("Content-Disposition",
-                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
-        response.setContentType("application/msword;charset=UTF-8");
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
+            //委员会和领导小组基本信息
+            dataMap.put("cgTeam", cgTeam);
 
-        Map<String, Object> dataMap = new HashMap<>();
+            //参数设置内容
+            List staffContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_STAFF));
+            List jobContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_JOB));
+            List debateContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_DEBATE));
 
-        //委员会和领导小组基本信息
-        dataMap.put("cgTeam",cgTeam);
+            dataMap.put("staffContentList", staffContentList);
+            dataMap.put("jobContentList", jobContentList);
+            dataMap.put("debateContentList", debateContentList);
 
-        //参数设置内容
-        List staffContentList = formatContent(getContentByType(teamId,CgConstants.CG_RULE_TYPE_STAFF));
-        List jobContentList = formatContent(getContentByType(teamId,CgConstants.CG_RULE_TYPE_JOB));
-        List debateContentList = formatContent(getContentByType(teamId,CgConstants.CG_RULE_TYPE_DEBATE));
+            //办公室主任
+            CgLeader cgLeader = getCgLeader(teamId);
+            if (cgLeader != null && cgLeader.getUser() != null)
+                dataMap.put("leaderName", cgLeader.getUser().getRealname());
 
-        dataMap.put("staffContentList",staffContentList);
-        dataMap.put("jobContentList",jobContentList);
-        dataMap.put("debateContentList",debateContentList);
+            //人员组成
+            Map<Integer, Set<Integer>> memberMap = getMember(teamId);
+            List<String> memberAndUserList = new LinkedList<>();
 
-        //办公室主任
-        CgLeader cgLeader = getCgLeader(teamId);
-        if (cgLeader != null && cgLeader.getUser() != null)
-        dataMap.put("leaderName",cgLeader.getUser().getRealname());
+            for (Map.Entry<Integer, Set<Integer>> entry : memberMap.entrySet()) {
 
-        //人员组成
-        Map<Integer,Set<Integer>> memberMap = getMember(teamId);
-        List<String> memberAndUserList = new LinkedList<>();
+                MetaType metaType = metaTypeMapper.selectByPrimaryKey(entry.getKey());
+                if (metaType != null)
+                    memberAndUserList.add(metaType.getName() + "：" + getUserNamesById(entry.getValue()));
 
-        for (Map.Entry<Integer,Set<Integer>> entry : memberMap.entrySet()){
+            }
 
-            MetaType metaType = metaTypeMapper.selectByPrimaryKey(entry.getKey());
-            if (metaType != null)
-                memberAndUserList.add(metaType.getName()+"："+getUserNamesById(entry.getValue()));
+            dataMap.put("memberAndUserList", memberAndUserList);
 
+            cgTeams.add(dataMap);
         }
 
-        dataMap.put("memberAndUserList",memberAndUserList);
-        freemarkerService.process("/cg/cg.ftl", dataMap, response.getWriter());
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("cgTeams",cgTeams);
+        freemarkerService.process("/cg/cg.ftl", dataMap, out);
+    }
+
+    public void export(Integer[] teamIds, HttpServletRequest request, HttpServletResponse response)
+            throws IOException, TemplateException{
+
+        Map<String, File> fileMap = new LinkedHashMap<>();
+        String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "cgTeam";
+        FileUtils.mkdirs(tmpdir, false);
+
+        Set<String> filenameSet = new HashSet<>();
+        for (Integer teamId : teamIds){
+            CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
+
+            String filename = null;
+            String filepath = null;
+
+            filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + cgTeam.getName() + ".doc";
+
+            // 保证文件名不重复
+            if (filenameSet.contains(filename)) {
+                filename = cgTeam.getId() + " " + filename;
+            }
+            filenameSet.add(filename);
+            filepath = tmpdir + FILE_SEPARATOR + filename;
+            FileOutputStream output = new FileOutputStream(new File(filepath));
+            OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+            export(new Integer[]{teamId},osw);
+
+            fileMap.put(filename, new File(filepath));
+        }
+        String filename = String.format("%s委员会和领导小组",
+                CmTag.getSysConfig().getSchoolName());
+        DownloadUtils.addFileDownloadCookieHeader(response);
+        DownloadUtils.zip(fileMap, filename, request, response);
+        FileUtils.deleteDir(new File(tmpdir));
     }
 
     //查询Set中userId对应的用户姓名
@@ -262,5 +299,22 @@ public class CgTeamService extends CgBaseMapper {
             if (sysUserView != null) userNames.append(CmTag.realnameWithEmpty(sysUserView.getRealname())+"  ");
         }
         return userNames.toString();
+    }
+
+    public Integer[] getAllTeamId(Integer[] teamIds){
+
+            CgTeamExample cgTeamExample = new CgTeamExample();
+            cgTeamExample.setOrderByClause("sort_order desc");
+            cgTeamExample.createCriteria().andIsCurrentEqualTo(true);
+
+            List<CgTeam> cgTeams = cgTeamMapper.selectByExample(cgTeamExample);
+            List<Integer> idList = new ArrayList<>();
+            for (CgTeam cgTeam : cgTeams){
+                idList.add(cgTeam.getId());
+            }
+
+            teamIds = idList.toArray(new Integer[0]);
+
+        return teamIds;
     }
     }

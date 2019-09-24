@@ -165,7 +165,6 @@ pageEncoding="UTF-8"%>
 			usersSelect.removeAttr("required");
 
 			//现任干部添加“必选属性”
-			userSelect.attr("required","required");
 
 		}else if (userTypeSelect.val()==<%=CgConstants.CG_MEMBER_TYPE_USER%>) {//人员类型为各类代表
 
@@ -177,7 +176,6 @@ pageEncoding="UTF-8"%>
 			userSelect.val(null).trigger("change");
 
 			//删除现任干部的“必选”属性
-			userSelect.removeAttr("required");
 
 			//各类代表添加“必选”属性
 			tag.attr("required","required");
@@ -189,6 +187,7 @@ pageEncoding="UTF-8"%>
 		}
 	}
 
+	//设置是否可选
 	unitPostSelect.on("change",function () {
 
 		var data = $(this).select2("data")[0];
@@ -206,13 +205,11 @@ pageEncoding="UTF-8"%>
 
 			userSelect.val(null).trigger('change');
 			userSelect.prop("disabled",true);
-			userSelect.attr("required","required");
 			remind.show();
 		}else if (unitPostSelect.val() == "" || unitPostSelect.val() == null){//没有选择岗位
 
 			userSelect.val(null).trigger('change');
 			userSelect.prop("disabled",false);
-			userSelect.attr("required","required");
 			remind.hide();
 		}
 	});

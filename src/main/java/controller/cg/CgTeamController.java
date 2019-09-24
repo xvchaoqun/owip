@@ -88,9 +88,9 @@ public class CgTeamController extends CgBaseController {
 
     @RequiresPermissions("cgTeam:view")
     @RequestMapping("/cgTeam_view")
-    public String cgTeam_view(Integer id, ModelMap modelMap) {
+    public String cgTeam_view(Integer teamId, ModelMap modelMap) {
 
-        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
+        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
         modelMap.put("cgTeam", cgTeam);
 
         return "cg/cgTeam/cgTeam_view";
@@ -389,9 +389,27 @@ public class CgTeamController extends CgBaseController {
     }
 
     @RequestMapping("/cgTeam_download")
-    public void cgTeam_download(Integer teamId, HttpServletRequest request,
-                                HttpServletResponse response) throws IOException, TemplateException {
+    public void cgTeam_download(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+                                @RequestParam(required = false, value = "isWord", defaultValue = "1") Boolean isWord,
+                                HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException {
 
-        cgTeamService.export(teamId,request, response);
+        //如果没选则得到全部委员会和领导小组
+        if (ids == null || ids.length == 0)
+            ids = cgTeamService.getAllTeamId(ids);
+
+        if (isWord){//导出word
+
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + "委员会和领导小组" + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            cgTeamService.export(ids, response.getWriter());
+        }else {// 导出zip
+            cgTeamService.export(ids,request,response);
+        }
     }
 }

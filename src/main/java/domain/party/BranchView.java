@@ -71,6 +71,8 @@ public class BranchView implements Serializable {
 
     private Date actualTranTime;
 
+    private Long bgCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -335,5 +337,13 @@ public class BranchView implements Serializable {
 
     public void setActualTranTime(Date actualTranTime) {
         this.actualTranTime = actualTranTime;
+    }
+
+    public Long getBgCount() {
+        return bgCount;
+    }
+
+    public void setBgCount(Long bgCount) {
+        this.bgCount = bgCount;
     }
 }

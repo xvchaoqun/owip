@@ -81,14 +81,14 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cg/cgMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '职务',name: 'post',width:150, formatter: $.jgrid.formatter.MetaType},
-                { label: '席位',name: 'seat',width:150},
+                { label: '席位',name: 'seat',width:400, align: "left"},
                 { label: '排序', width: 85, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/cg/cgMember_changeOrder'}
                 },
                 { label: '人员类型',name: 'type',formatter: function (cellvalue, options, rowObject)
                 {return cellvalue == <%=CgConstants.CG_MEMBER_TYPE_CADRE%>?'现任干部':'各类代表'}},
                 { label: '代表类型',name: 'tag'},
-                { label: '关联岗位名称',name: 'unitPost.name',width: 300,align:'left'},
+                { label: '关联岗位名称',name: 'unitPost.name',width: 400,align:'left'},
                 { label: '姓名',name: 'user.realname'},
                 { label: '是否需要调整', name: 'needAdjust',formatter: function (cellvalue, options, rowObject)
                     {return cellvalue?"<span class='badge badge-danger'>1</span>":"--";

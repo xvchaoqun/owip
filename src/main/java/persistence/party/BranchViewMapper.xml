@@ -35,6 +35,7 @@
     <result column="appoint_time" jdbcType="DATE" property="appointTime" />
     <result column="tran_time" jdbcType="DATE" property="tranTime" />
     <result column="actual_tran_time" jdbcType="DATE" property="actualTranTime" />
+    <result column="bg_count" jdbcType="BIGINT" property="bgCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,8 @@
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
     email, found_time, transfer_count, sort_order, create_time, update_time, is_deleted, 
     party_sort_order, member_count, positive_count, student_member_count, teacher_member_count, 
-    retire_member_count, group_count, present_group_id, appoint_time, tran_time, actual_tran_time
+    retire_member_count, group_count, present_group_id, appoint_time, tran_time, actual_tran_time, 
+    bg_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchViewExample" resultMap="BaseResultMap">
     select

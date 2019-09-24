@@ -243,4 +243,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected SpringProps springProps;
     @Autowired
     protected Environment evironment;
+
+    @Autowired
+    protected BranchGroupService branchGroupService;
+
 }

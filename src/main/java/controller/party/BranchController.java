@@ -175,7 +175,9 @@ public class BranchController extends BaseController {
 
             if (StringUtils.equals(exportType, "secretary")) { // 导出支部书记
                 extService.branch_secretary_export(example, response);
-            } else {
+            }else if (StringUtils.equals(exportType, "groupMember")){// 导出党小组成员
+                branchGroupService.branch_groupMember_export(example, response);
+            }else {
                 branch_export(example, response);
             }
             return;
