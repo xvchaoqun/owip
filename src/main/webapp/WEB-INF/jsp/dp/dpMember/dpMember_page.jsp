@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.gender
             ||not empty param.partyId ||not empty param.politicalStatus ||not empty param.type || not empty selectNations ||not empty selectNativePlaces
             ||not empty param.status ||not empty param.source ||not empty param.partyPost
-            || not empty param.code || not empty param.sort ||not empty param._outHandleTime ||not empty param._positiveTime ||not empty param._growTime
+            || not empty param.code || not empty param.sort ||not empty param._positiveTime ||not empty param._growTime
             ||not empty param.isHonorRetire ||not empty param._retireTime ||not empty param.education}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/dp/dpMember/dpMember_menu.jsp"/>

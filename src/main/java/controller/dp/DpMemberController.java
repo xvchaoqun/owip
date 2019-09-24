@@ -141,7 +141,6 @@ public class DpMemberController extends DpBaseController {
                                     @RequestParam(required = false, value = "nativePlace") String[] nativePlace,//
                                     @RequestDateRange DateRange _growTime,
                                     @RequestDateRange DateRange _positiveTime,
-                                    @RequestDateRange DateRange _outHandleTime,
                                     Byte userSource, //账号来源
 
                                     /**教职工党员**/
@@ -264,12 +263,6 @@ public class DpMemberController extends DpBaseController {
         }
         if (_positiveTime.getEnd() != null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
-        }
-        if (_outHandleTime.getStart() != null) {
-            criteria.andOutHandleTimeGreaterThanOrEqualTo(_outHandleTime.getStart());
-        }
-        if (_outHandleTime.getEnd() != null) {
-            criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
         if (postClass != null){
             criteria.andPostClassEqualTo(postClass);

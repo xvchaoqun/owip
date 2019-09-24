@@ -41,9 +41,9 @@ import java.util.Map;
 @Controller
 public class SysApprovalLogController extends BaseController {
 
-    @Autowired
+    @Autowired(required = false)
     private DpPartyService dpPartyService;
-    @Autowired
+    @Autowired(required = false)
     private DpPartyMapper dpPartyMapper;
     @Autowired(required = false)
     private CetTraineeMapper cetTraineeMapper;

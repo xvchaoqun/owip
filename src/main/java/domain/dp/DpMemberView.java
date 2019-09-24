@@ -66,10 +66,6 @@ public class DpMemberView implements Serializable {
 
     private String mobile;
 
-    private Byte outStatus;
-
-    private Date outHandleTime;
-
     private String education;
 
     private String authorizedType;
@@ -294,22 +290,6 @@ public class DpMemberView implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public Byte getOutStatus() {
-        return outStatus;
-    }
-
-    public void setOutStatus(Byte outStatus) {
-        this.outStatus = outStatus;
-    }
-
-    public Date getOutHandleTime() {
-        return outHandleTime;
-    }
-
-    public void setOutHandleTime(Date outHandleTime) {
-        this.outHandleTime = outHandleTime;
     }
 
     public String getEducation() {
