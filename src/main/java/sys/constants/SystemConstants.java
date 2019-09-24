@@ -334,7 +334,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_ANNUAL, "年度学习档案");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN, "二级党委培训");
 
-        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派操作");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_DP_LOG_TYPE_PARTY, "民主党派");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员

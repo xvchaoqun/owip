@@ -719,6 +719,14 @@
               timeToIdleSeconds="0"
               diskPersistent="true"
               diskExpiryThreadIntervalSeconds="600"/>
+       <cache name="LayerTypes:ALL"
+              maxElementsInMemory="100"
+              overflowToDisk="true"
+              eternal="true"
+              timeToLiveSeconds="0"
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600"/>
 
     <cache name="Location:ALL"
            maxElementsInMemory="1000"

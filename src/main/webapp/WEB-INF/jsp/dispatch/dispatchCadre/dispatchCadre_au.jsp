@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
         <input type="hidden" name="id" value="${dispatchCadre.id}">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label" id="typeNameTd"><span class="star">*</span>任命职务</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>任免职务</label>
                     <div class="col-xs-8">
                         <textarea required class="form-control noEnter" name="post" rows="2">${dispatchCadre.post}</textarea>
                     </div>
@@ -215,16 +215,6 @@ pageEncoding="UTF-8"%>
     $('[data-rel="tooltip"]').tooltip();
 
     $.register.ajax_select($('#modalForm select[name=dispatchId][data-rel="select2-ajax"]'));
-
-    $("#modalForm input[name=type]").change(function () {
-
-        //console.log("$(this).val()=" + $(this).val())
-        if ($(this).val() == '<%=DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT%>') {
-            $("#typeNameTd").html("任命职务");
-        } else {
-            $("#typeNameTd").html("免去职务");
-        }
-    })
 
     $.register.ajax_select($('#modalForm select[name=unitPostId]'), function (state) {
         var $state = state.text;

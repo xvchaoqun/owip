@@ -77,7 +77,7 @@
                     table-condensed table-center table-unhover2" style="margin: 10px 0 0;">
                     <tbody>
                     <tr>
-                        <td rowspan="4" style="width: 30px;" class="red bolder" id="typeInfoTd">任职信息</td>
+                        <td rowspan="4" style="width: 30px;" class="red bolder">任免信息</td>
                         <td class="bg-right">所属岗位</td>
                         <td class="bg-left" colspan="5">
                             <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
@@ -87,7 +87,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg-right" id="typeNameTd">任命职务</td>
+                        <td class="bg-right" id="typeNameTd">任免职务</td>
                         <td class="bg-left">
                             <textarea required class="form-control noEnter" rows="2" style="width: 150px"
                                        name="post">${scCommitteeVote.post}</textarea>
@@ -329,18 +329,6 @@
         $.loadModal("${ctx}/sc/scCommitteeVote_selectScRecord?userId="+userId
             +"&year=${scCommittee.year}&recordId="+recordId, 1050)
     }
-
-    $("#voteForm input[name=type]").change(function () {
-
-        //console.log("$(this).val()=" + $(this).val())
-         if ($(this).val() == '<%=DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT%>') {
-             $("#typeNameTd").html("任命职务");
-             $("#typeInfoTd").html("任职信息");
-         } else {
-             $("#typeNameTd").html("免去职务");
-             $("#typeInfoTd").html("免职信息");
-         }
-     })
 
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();

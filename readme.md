@@ -1,6 +1,7 @@
 
 -- 打包commit文件
-cd /cygdrive/d/IdeaProjects/owip | git diff-tree -r --no-commit-id --name-only 4376995030365e1b1ffff3b3bd15ee66d275346f | xargs tar -rf /cygdrive/d/tmp/1.tar
+cd /cygdrive/d/IdeaProjects/owip 
+git diff-tree -r --no-commit-id --name-only 4376995030365e1b1ffff3b3bd15ee66d275346f | xargs tar -rf /cygdrive/d/tmp/1.tar
 -- 忽略文件
 git update-index --assume-unchanged pom.xml
 

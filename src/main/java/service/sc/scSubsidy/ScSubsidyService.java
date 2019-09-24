@@ -298,7 +298,7 @@ public class ScSubsidyService extends ScBaseMapper {
         int cadreId = scSubsidyCadre.getCadreId();
         CadreView cadre = scSubsidyCadre.getCadre();
         Integer unitId = scSubsidyCadre.getUnitId();
-        Unit unit = unitService.findAll().get(unitId);
+        Unit unit = CmTag.getUnit(unitId);
         String title = scSubsidyCadre.getTitle();
         Integer adminLevel = scSubsidyCadre.getAdminLevel();
 
@@ -306,7 +306,8 @@ public class ScSubsidyService extends ScBaseMapper {
         XSSFCell cel = row.getCell(2);
         cel.setCellValue(cadre.getRealname());
         cel = row.getCell(4);
-        cel.setCellValue(unit.getName());
+
+        cel.setCellValue(unit==null?"":unit.getName());
         cel = row.getCell(6);
         cel.setCellValue(cadre.getCode());
 

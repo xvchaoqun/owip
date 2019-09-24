@@ -22,7 +22,7 @@ public class LayerTypeService extends BaseMapper {
     @Transactional
     @Caching(evict = {
         @CacheEvict(value = "LayerTypes", key = "#record.code"),
-        @CacheEvict(value = "LayerTypes")
+        @CacheEvict(value = "LayerTypes:ALL")
     })
     public void insertSelective(LayerType record){
 
@@ -50,7 +50,7 @@ public class LayerTypeService extends BaseMapper {
     @Transactional
     @Caching(evict = {
         @CacheEvict(value = "LayerTypes", key = "#result.code"),
-        @CacheEvict(value = "LayerTypes")
+        @CacheEvict(value = "LayerTypes:ALL")
     })
     public LayerType del(Integer id){
 
@@ -74,7 +74,7 @@ public class LayerTypeService extends BaseMapper {
     @Transactional
     @Caching(evict = {
         @CacheEvict(value = "LayerTypes", key = "#record.code"),
-        @CacheEvict(value = "LayerTypes")
+        @CacheEvict(value = "LayerTypes:ALL")
     })
     public void updateByPrimaryKeySelective(LayerType record){
 
@@ -96,7 +96,7 @@ public class LayerTypeService extends BaseMapper {
         return layerTypes;
     }
 
-    @Cacheable(value="LayerTypes")
+    @Cacheable(value="LayerTypes:ALL")
     public Map<Integer, LayerType> findAll() {
 
         List<LayerType> layerTypes = layerTypeMapper.selectByExample(new LayerTypeExample());
