@@ -7,7 +7,7 @@ ALTER TABLE `dp_party`
 ALTER TABLE `dp_member`
 	ADD COLUMN `out_time` DATE NULL COMMENT '转出时间' AFTER `update_time`;
 
-	DROP TABLE IF EXISTS `pmd_order_log`;
+DROP TABLE IF EXISTS `pmd_order_log`;
 CREATE TABLE IF NOT EXISTS `pmd_order_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date_id` int(10) unsigned NOT NULL COMMENT '日期id',
@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS `pmd_order_sum_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='党费收缴每日统计';
 
 -- sys_resource
+SET FOREIGN_KEY_CHECKS=0;
+delete from sys_resource where id>2574 and id<2620;
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2574, 0, '统战信息管理', '', 'menu', 'fa fa-binoculars', NULL, 1, '0/1/', 0, 'dp:list', NULL, NULL, NULL, 1, 7535);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2575, 0, '民主党派', '', 'url', '', '/dp/dpParty', 2574, '0/1/2574/', 0, 'dpParty:list', NULL, NULL, NULL, 1, 300);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2576, 0, '委员会', '', 'url', '', '/dp/dpPartyMemberGroup', 2574, '0/1/2574/', 0, 'dpPartyMemberGroup:list', NULL, NULL, NULL, 1, 200);
@@ -83,7 +85,7 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2617, 0, '编辑', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:edit', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2618, 0, '删除', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:del', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2619, 0, '调序', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:changeOrder', NULL, NULL, NULL, 1, NULL);
-
+SET FOREIGN_KEY_CHECKS=1;
 
 
 -- 20190906 李阳
