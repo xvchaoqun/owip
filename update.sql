@@ -1,4 +1,17 @@
 
+20190925
+更新 北邮  -- 北师大
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `degree_type` TINYINT(3) UNSIGNED NULL COMMENT '学位类型，1 学士 2 硕士 3 博士' AFTER `has_degree`;
+
+UPDATE cadre_edu SET degree_type=1 WHERE degree LIKE '%学士%' AND has_degree=1;
+UPDATE cadre_edu SET degree_type=2 WHERE degree LIKE '%硕士%' AND has_degree=1;
+UPDATE cadre_edu SET degree_type=3 WHERE degree LIKE '%博士%' AND has_degree=1;
+
+-- 更新 cadre_view等
+
+
 20190924
 更新 北邮
 

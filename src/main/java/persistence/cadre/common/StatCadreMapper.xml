@@ -5,7 +5,7 @@
         <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
         <result column="gender" property="gender" jdbcType="TINYINT" />
         <result column="nation" property="nation" jdbcType="VARCHAR" />
-        <result column="max_ce_edu_code" property="maxCeEduCode" jdbcType="VARCHAR" />
+        <result column="degree_type" property="degreeType" jdbcType="TINYINT" />
         <result column="num" property="num" jdbcType="INTEGER" />
         <result column="num_1" property="num1" jdbcType="INTEGER" />
         <result column="num_2" property="num2" jdbcType="INTEGER" />
@@ -185,23 +185,23 @@
          and gender is not null group by gender
 
     </select>
-    <!-- 学历 -->
-    <select id="cadre_stat_edu" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_code, count(*) as num from cadre_view where status=1
+    <!-- 学位 -->
+    <select id="cadre_stat_degree" resultMap="BaseResultMap" parameterType="map">
+        select degree_type, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_code is not null  group by max_ce_edu_code
+         and degree_type is not null  group by degree_type
     </select>
-    <!-- 学历-行政级别 -->
-    <select id="cadre_stat_edu_adminLevel" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_code, admin_level_code, count(*) as num from cadre_view where status=1
+    <!-- 学位-行政级别 -->
+    <select id="cadre_stat_degree_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        select degree_type, admin_level_code, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_code is not null and admin_level_code is not null  group by max_ce_edu_code, admin_level_code
+         and degree_type is not null and admin_level_code is not null  group by degree_type, admin_level_code
     </select>
-    <!-- 学历-性别 -->
-    <select id="cadre_stat_edu_gender" resultMap="BaseResultMap" parameterType="map">
-        select max_ce_edu_code, gender, count(*) as num from cadre_view where status=1
+    <!-- 学位-性别 -->
+    <select id="cadre_stat_degree_gender" resultMap="BaseResultMap" parameterType="map">
+        select degree_type, gender, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_code is not null and gender is not null  group by max_ce_edu_code, gender
+         and degree_type is not null and gender is not null  group by degree_type, gender
     </select>
     <!-- 专职 -->
     <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">

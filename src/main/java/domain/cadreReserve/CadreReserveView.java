@@ -146,6 +146,8 @@ public class CadreReserveView implements Serializable {
 
     private String major;
 
+    private Byte degreeType;
+
     private String degree;
 
     private String postClass;
@@ -692,6 +694,14 @@ public class CadreReserveView implements Serializable {
 
     public void setMajor(String major) {
         this.major = major == null ? null : major.trim();
+    }
+
+    public Byte getDegreeType() {
+        return degreeType;
+    }
+
+    public void setDegreeType(Byte degreeType) {
+        this.degreeType = degreeType;
     }
 
     public String getDegree() {

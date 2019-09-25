@@ -28,7 +28,7 @@
         <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
-         </table>
+         </table>-->
         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -39,8 +39,8 @@
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
-        <!--<table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+        </table>
+        <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
                mapperName="cadreReserve.CadreReserveViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -51,7 +51,7 @@
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
         <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -163,9 +163,9 @@
          </table>-->
         <!--<table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
         </table>-->
-        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
+        <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
         </table>
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">

@@ -3450,6 +3450,66 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDegreeTypeIsNull() {
+            addCriterion("degree_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeIsNotNull() {
+            addCriterion("degree_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeEqualTo(Byte value) {
+            addCriterion("degree_type =", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeNotEqualTo(Byte value) {
+            addCriterion("degree_type <>", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeGreaterThan(Byte value) {
+            addCriterion("degree_type >", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("degree_type >=", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeLessThan(Byte value) {
+            addCriterion("degree_type <", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("degree_type <=", value, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeIn(List<Byte> values) {
+            addCriterion("degree_type in", values, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeNotIn(List<Byte> values) {
+            addCriterion("degree_type not in", values, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeBetween(Byte value1, Byte value2) {
+            addCriterion("degree_type between", value1, value2, "degreeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("degree_type not between", value1, value2, "degreeType");
+            return (Criteria) this;
+        }
+
         public Criteria andDegreeIsNull() {
             addCriterion("degree is null");
             return (Criteria) this;

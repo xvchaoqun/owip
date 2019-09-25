@@ -40,10 +40,10 @@ public interface StatCadreMapper {
     List<StatCadreBean> cadre_stat_post_adminLevel(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
     List<StatCadreBean> cadre_stat_post_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
 
-    // 学历
-    List<StatCadreBean> cadre_stat_edu(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
-    List<StatCadreBean> cadre_stat_edu_adminLevel(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
-    List<StatCadreBean> cadre_stat_edu_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
+    // 学位
+    List<StatCadreBean> cadre_stat_degree(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
+    List<StatCadreBean> cadre_stat_degree_adminLevel(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
+    List<StatCadreBean> cadre_stat_degree_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
 
     // 专职
     StatCadreBean cadre_stat_double(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);

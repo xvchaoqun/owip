@@ -184,6 +184,18 @@ public class SystemConstants {
         USER_REG_STATUS_MAP.put(USER_REG_STATUS_PASS, "申请通过");
     }
 
+    // 学位类型，1 学士 2 硕士 3 博士
+    public final static byte DEGREE_TYPE_XS = 1;
+    public final static byte DEGREE_TYPE_SS = 2;
+    public final static byte DEGREE_TYPE_BS = 3;
+    public final static Map<Byte, String> DEGREE_TYPE_MAP = new LinkedHashMap();
+
+    static {
+        DEGREE_TYPE_MAP.put(DEGREE_TYPE_XS, "学士");
+        DEGREE_TYPE_MAP.put(DEGREE_TYPE_SS, "硕士");
+        DEGREE_TYPE_MAP.put(DEGREE_TYPE_BS, "博士");
+    }
+
     // 账号类别，1教职工 2本科生 3研究生
     public final static byte USER_TYPE_JZG = 1;
     public final static byte USER_TYPE_BKS = 2;

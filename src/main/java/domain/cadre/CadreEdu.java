@@ -53,6 +53,8 @@ public class CadreEdu implements Serializable {
 
     private Boolean hasDegree;
 
+    private Byte degreeType;
+
     private String degree;
 
     private Boolean isHighDegree;
@@ -208,6 +210,14 @@ public class CadreEdu implements Serializable {
 
     public void setHasDegree(Boolean hasDegree) {
         this.hasDegree = hasDegree;
+    }
+
+    public Byte getDegreeType() {
+        return degreeType;
+    }
+
+    public void setDegreeType(Byte degreeType) {
+        this.degreeType = degreeType;
     }
 
     public String getDegree() {

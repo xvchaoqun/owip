@@ -65,7 +65,7 @@
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">公示日期</label>
                                             <div class="col-xs-8 label-text">
-                                                ${_today}
+                                                ${empty partyPublic?_today:cm:formatDate(partyPublic.pubDate,'yyyy-MM-dd')}
                                             </div>
                                         </div>
                                         <div class="form-group">

@@ -218,7 +218,7 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=5 height=92 class=xl94>学历分布
+                        <td rowspan=3 height=92 class=xl94>学位分布
                         </td>
                         <td height=23 class=xl70>博士
                         </td>
@@ -241,24 +241,10 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td height=23 class=xl70>大专
-                        </td>
-                        <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="25"/>
-                        </jsp:include>
-                    </tr>
-                    <tr>
-                        <td height=23 class=xl70>中专
-                        </td>
-                        <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="26"/>
-                        </jsp:include>
-                    </tr>
-                    <tr>
                         <td colspan=2 height=23 class=xl70>专职干部
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="27"/>
+                            <jsp:param name="row" value="25"/>
                         </jsp:include>
                     </tr>
                 </table>

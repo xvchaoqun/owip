@@ -158,7 +158,17 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
-						<input disabled class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
+						<select required data-rel="select2" name="degreeType" data-width="150"
+								data-placeholder="请选择">
+							<option></option>
+							<c:forEach items="<%=SystemConstants.DEGREE_TYPE_MAP%>" var="degreeType">
+								<option value="${degreeType.key}">${degreeType.value}</option>
+							</c:forEach>
+						</select>
+						<script type="text/javascript">
+							$("#modal form select[name=degreeType]").val(${cadreEdu.degreeType});
+						</script>
+						<input style="margin-top: 3px" disabled class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
 						<span class="help-block" style="font-size: 10px;">例如：文学学士、管理学硕士、教育学博士</span>
 					</div>
 				</div>
@@ -246,7 +256,7 @@
 </div>
 <style>
 	.form-group {
-		margin-bottom: 5px;
+		margin-bottom: 3px;
 	}
 	<shiro:hasPermission name="cadre:updateWithoutRequired">
 		span.star{color: grey}
@@ -280,6 +290,7 @@
 
 	function hasDegreeChange(){
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
+			$("#modalForm select[name=degreeType]").requireField(true);
 			$("#modalForm input[name=degree]").requireField(true);
 			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('disabled', false);
 			$("#modalForm input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').requireField(true);
@@ -296,6 +307,7 @@
 
 			$("#modalForm textarea[name=school]").trigger("keyup");
 		}else{
+			$("#modalForm select[name=degreeType]").val(null).trigger("change").requireField(false, true);
 			$("#modalForm input[name=degree]").requireField(false, true);;
 			$("#modalForm input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
 			$("#modalForm input[name=degreeCountry]").requireField(false, true);;

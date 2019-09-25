@@ -36,6 +36,7 @@ SELECT c.*,
 	,`max_ce`.`dep` AS `dep`
 	,`max_ce`.`school_type` AS `school_type`
 	,`max_ce`.`major` AS `major`
+	,`max_degree`.`degree_type` AS `degree_type`
 	,`max_degree`.`degree` AS `degree`
 	,`t`.`post_class` AS `post_class`
 	,`t`.`sub_post_class` AS `sub_post_class`

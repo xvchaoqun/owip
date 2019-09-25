@@ -18,6 +18,7 @@
     <result column="finish_time" jdbcType="DATE" property="finishTime" />
     <result column="learn_style" jdbcType="INTEGER" property="learnStyle" />
     <result column="has_degree" jdbcType="BIT" property="hasDegree" />
+    <result column="degree_type" jdbcType="TINYINT" property="degreeType" />
     <result column="degree" jdbcType="VARCHAR" property="degree" />
     <result column="is_high_degree" jdbcType="BIT" property="isHighDegree" />
     <result column="is_second_degree" jdbcType="BIT" property="isSecondDegree" />
@@ -93,8 +94,8 @@
   <sql id="Base_Column_List">
     id, sub_work_count, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, subject, 
     first_subject, major, school_type, enrol_time, finish_time, learn_style, has_degree, 
-    degree, is_high_degree, is_second_degree, degree_country, degree_unit, degree_time, 
-    tutor_name, tutor_title, certificate, remark, note, sort_order, status
+    degree_type, degree, is_high_degree, is_second_degree, degree_country, degree_unit, 
+    degree_time, tutor_name, tutor_title, certificate, remark, note, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEduExample" resultMap="BaseResultMap">
     select
@@ -135,21 +136,21 @@
       dep, subject, first_subject, 
       major, school_type, enrol_time, 
       finish_time, learn_style, has_degree, 
-      degree, is_high_degree, is_second_degree, 
-      degree_country, degree_unit, degree_time, 
-      tutor_name, tutor_title, certificate, 
-      remark, note, sort_order, 
-      status)
+      degree_type, degree, is_high_degree, 
+      is_second_degree, degree_country, degree_unit, 
+      degree_time, tutor_name, tutor_title, 
+      certificate, remark, note, 
+      sort_order, status)
     values (#{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
       #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER}, #{firstSubject,jdbcType=INTEGER}, 
       #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, #{enrolTime,jdbcType=DATE}, 
       #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, #{hasDegree,jdbcType=BIT}, 
-      #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, #{isSecondDegree,jdbcType=BIT}, 
-      #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, 
-      #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{degreeType,jdbcType=TINYINT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
+      #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, 
+      #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
+      #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEdu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -201,6 +202,9 @@
       </if>
       <if test="hasDegree != null">
         has_degree,
+      </if>
+      <if test="degreeType != null">
+        degree_type,
       </if>
       <if test="degree != null">
         degree,
@@ -287,6 +291,9 @@
       </if>
       <if test="hasDegree != null">
         #{hasDegree,jdbcType=BIT},
+      </if>
+      <if test="degreeType != null">
+        #{degreeType,jdbcType=TINYINT},
       </if>
       <if test="degree != null">
         #{degree,jdbcType=VARCHAR},
@@ -386,6 +393,9 @@
       <if test="record.hasDegree != null">
         has_degree = #{record.hasDegree,jdbcType=BIT},
       </if>
+      <if test="record.degreeType != null">
+        degree_type = #{record.degreeType,jdbcType=TINYINT},
+      </if>
       <if test="record.degree != null">
         degree = #{record.degree,jdbcType=VARCHAR},
       </if>
@@ -448,6 +458,7 @@
       finish_time = #{record.finishTime,jdbcType=DATE},
       learn_style = #{record.learnStyle,jdbcType=INTEGER},
       has_degree = #{record.hasDegree,jdbcType=BIT},
+      degree_type = #{record.degreeType,jdbcType=TINYINT},
       degree = #{record.degree,jdbcType=VARCHAR},
       is_high_degree = #{record.isHighDegree,jdbcType=BIT},
       is_second_degree = #{record.isSecondDegree,jdbcType=BIT},
@@ -513,6 +524,9 @@
       <if test="hasDegree != null">
         has_degree = #{hasDegree,jdbcType=BIT},
       </if>
+      <if test="degreeType != null">
+        degree_type = #{degreeType,jdbcType=TINYINT},
+      </if>
       <if test="degree != null">
         degree = #{degree,jdbcType=VARCHAR},
       </if>
@@ -572,6 +586,7 @@
       finish_time = #{finishTime,jdbcType=DATE},
       learn_style = #{learnStyle,jdbcType=INTEGER},
       has_degree = #{hasDegree,jdbcType=BIT},
+      degree_type = #{degreeType,jdbcType=TINYINT},
       degree = #{degree,jdbcType=VARCHAR},
       is_high_degree = #{isHighDegree,jdbcType=BIT},
       is_second_degree = #{isSecondDegree,jdbcType=BIT},
