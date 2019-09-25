@@ -64,9 +64,8 @@
                     </button>
                     <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
                         <li>
-                            <a class="jqExportBtn"
+                            <a href="javascript:;" class="jqExportBtn"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-
                         </li>
                         <li role="separator" class="divider"></li>
                         <li>
@@ -80,7 +79,6 @@
                                data-querystr="exportType=groupMember"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>
                         </li>
-                        <li role="separator" class="divider"></li>
                     </ul>
                 </div>
 

@@ -126,9 +126,7 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        pop_reload();
-                        $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        pop_reload(_reload2);
                     }
                 }
             });
