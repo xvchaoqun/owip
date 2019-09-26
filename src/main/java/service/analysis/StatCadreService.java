@@ -79,13 +79,13 @@ public class StatCadreService extends BaseMapper {
                 .replace("type", typeName);
         cell.setCellValue(str);
 
-        row = sheet.getRow(2);
+        row = sheet.getRow(3);
         cell = row.getCell(4);
         cell.setCellValue(cadreType==CadreConstants.CADRE_TYPE_CJ?"正处":"正科");
         cell = row.getCell(6);
         cell.setCellValue(cadreType==CadreConstants.CADRE_TYPE_CJ?"副处":"副科");
 
-        int rowNum = 3;
+        int rowNum = 4;
         Map<String, List> dataMap = stat(unitTypeGroup, cadreType);
         for (Map.Entry<String, List> entry : dataMap.entrySet()) {
 

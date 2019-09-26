@@ -324,7 +324,9 @@ public class CadreWorkService extends BaseMapper {
             for (CadreWork cadreWork : cadreWorks) {
                 Integer fid = cadreWork.getId();
                 CadreWorkExample example = new CadreWorkExample();
-                example.createCriteria().andFidEqualTo(fid)
+                example.createCriteria()
+                        .andCadreIdEqualTo(cadreId)
+                        .andFidEqualTo(fid)
                         .andIsEduWorkEqualTo(false)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 example.setOrderByClause("start_time asc");

@@ -78,6 +78,7 @@ public class CadreWorkController extends BaseController {
                                @OrderParam(required = false, defaultValue = "desc") String order,*/
                                Integer cadreId, Integer pageSize, Integer pageNo,
                                    Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取其间工作
+                               Boolean isEduWork,
                                Boolean isCadre,
                                Integer unitId, // 所属内设机构
                                @RequestParam(required = false, defaultValue = "0") int export,
@@ -96,6 +97,9 @@ public class CadreWorkController extends BaseController {
 
         CadreWorkExample example = new CadreWorkExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        if(isEduWork!=null){
+            criteria.andIsEduWorkEqualTo(isEduWork);
+        }
         if (unitId != null) {
             criteria.andUnitIdsContain(unitId);
         }

@@ -267,7 +267,7 @@
             var childGridID = parentRowID + "_table";
             var childGridPagerID = parentRowID + "_pager";
 
-            var childGridURL = '${ctx}/cadreWork_data?fid={0}&${cm:encodeQueryString(pageContext.request.queryString)}'.format(parentRowKey);
+            var childGridURL = '${ctx}/cadreWork_data?isEduWork=1&fid={0}&${cm:encodeQueryString(pageContext.request.queryString)}'.format(parentRowKey);
 
             $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
             $("#" + childGridID).jqGrid({
