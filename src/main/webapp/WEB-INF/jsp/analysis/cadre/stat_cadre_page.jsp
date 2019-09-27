@@ -45,6 +45,9 @@
                             <c:if test="${not empty param.unitTypeGroup}">（${unitTypeGroupMap.get(param.unitTypeGroup).name}）</c:if>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="14" align="right">注：百分比按四舍五入取值</td>
+                    </tr>
                     <tr class=xl66>
                         <td colspan=2 rowspan=2 height=46 class=xl70 width=170 style='height:34.5pt;width:128pt'>类别</td>
                         <td colspan=2 class=xl91 width=162

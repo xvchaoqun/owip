@@ -367,8 +367,9 @@ public class CmTag {
 
     // 现任职务
     public static CadreAdminLevel getPresentByCadreId(int caderId) {
+
         CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
-        return cadreAdminLevelService.getPresentByCadreId(caderId,
+        return cadreAdminLevelService.getByCadreId(caderId,
                 mainCadrePost != null ? mainCadrePost.getAdminLevel() : null);
     }
 

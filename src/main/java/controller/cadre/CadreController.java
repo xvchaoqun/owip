@@ -200,9 +200,11 @@ public class CadreController extends BaseController {
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
                            Boolean isDep,
+                           Byte degreeType,
                            Byte type,
                            Integer state,
                            String title,
+                           String sortBy, // 自定义排序
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -223,7 +225,31 @@ public class CadreController extends BaseController {
 
         CadreViewExample example = new CadreViewExample();
         CadreViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause("sort_order desc");
+
+        String sortStr = "sort_order desc";
+        if(StringUtils.isNotBlank(sortBy)) {
+            switch (sortBy.trim()){
+                case "birth":
+                   sortStr = "birth asc";
+                   break;
+                case "growTime":
+                   sortStr = "ow_grow_time asc, dp_grow_time asc";
+                   break;
+                case "arriveTime":
+                   sortStr = "arrive_time asc";
+                   break;
+                case "finishTime":
+                   sortStr = "finish_time asc";
+                   break;
+                case "lpWorkTime":
+                   sortStr = "lp_work_time asc";
+                   break;
+                case "sWorkTime":
+                   sortStr = "s_work_time asc";
+                   break;
+            }
+        }
+        example.setOrderByClause(sortStr);
 
         if (cadreId != null) {
             criteria.andIdEqualTo(cadreId);
@@ -324,6 +350,13 @@ public class CadreController extends BaseController {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if(degreeType!=null){
+            if(degreeType==-1){
+                criteria.andDegreeTypeIsNull();
+            }else{
+                criteria.andDegreeTypeEqualTo(degreeType);
+            }
         }
         if (state != null) {
             criteria.andStateEqualTo(state);

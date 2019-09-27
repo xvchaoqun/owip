@@ -1,4 +1,6 @@
 
+
+
 20190925
 更新 北邮  -- 北师大
 
@@ -10,7 +12,10 @@ UPDATE cadre_edu SET degree_type=2 WHERE degree LIKE '%硕士%' AND has_degree=1
 UPDATE cadre_edu SET degree_type=3 WHERE degree LIKE '%博士%' AND has_degree=1;
 
 -- 更新 cadre_view等
+ALTER TABLE `cadre_admin_level`
+	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL COMMENT '备注' AFTER `end_dispatch_cadre_id`;
 
+-- 更新导入样表
 
 20190924
 更新 北邮

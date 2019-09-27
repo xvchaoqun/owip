@@ -42,14 +42,14 @@ public class CadreAdminLevelService extends BaseMapper {
         return cadreAdminLevelMapper.selectByExample(example);
     }
 
-    public CadreAdminLevel getPresentByCadreId(int cadreId, Integer adminLevel){
+    public CadreAdminLevel getByCadreId(int cadreId, Integer adminLevel) {
 
-        if(adminLevel==null) return null;
+        if (adminLevel == null) return null;
         CadreAdminLevelExample example = new CadreAdminLevelExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andAdminLevelEqualTo(adminLevel);
 
         List<CadreAdminLevel> cadreAdminLevels = cadreAdminLevelMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (cadreAdminLevels.size()==1)?cadreAdminLevels.get(0):null;
+        return (cadreAdminLevels.size() == 1) ? cadreAdminLevels.get(0) : null;
     }
 
     @Transactional
@@ -60,5 +60,25 @@ public class CadreAdminLevelService extends BaseMapper {
         CadreAdminLevelExample example = new CadreAdminLevelExample();
         example.createCriteria().andIdIn(Arrays.asList(ids)); // 删除任职级经历
         cadreAdminLevelMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public int batchImport(List<CadreAdminLevel> records) {
+
+        int addCount = 0;
+        for (CadreAdminLevel record : records) {
+            int cadreId = record.getCadreId();
+            CadreAdminLevel cadreAdminLevel = getByCadreId(cadreId, record.getAdminLevel());
+
+            if (cadreAdminLevel != null) {
+                record.setId(cadreAdminLevel.getId());
+                cadreAdminLevelMapper.updateByPrimaryKeySelective(record);
+            } else {
+
+                cadreAdminLevelMapper.insertSelective(record);
+                addCount++;
+            }
+        }
+        return addCount;
     }
 }

@@ -15,9 +15,11 @@
         }, frozen: true
         },
         <shiro:hasPermission name="cadre:changeOrder">
+        <c:if test="${empty param.sortBy}">
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
+        </c:if>
         </shiro:hasPermission>
         <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
         <c:if test="${_p_hasKjCadre}">
