@@ -349,6 +349,66 @@ public class PmMeetingExample {
             return (Criteria) this;
         }
 
+        public Criteria andPlanDateIsNull() {
+            addCriterion("plan_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateIsNotNull() {
+            addCriterion("plan_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateEqualTo(Date value) {
+            addCriterion("plan_date =", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateNotEqualTo(Date value) {
+            addCriterion("plan_date <>", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateGreaterThan(Date value) {
+            addCriterion("plan_date >", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("plan_date >=", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateLessThan(Date value) {
+            addCriterion("plan_date <", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateLessThanOrEqualTo(Date value) {
+            addCriterion("plan_date <=", value, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateIn(List<Date> values) {
+            addCriterion("plan_date in", values, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateNotIn(List<Date> values) {
+            addCriterion("plan_date not in", values, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateBetween(Date value1, Date value2) {
+            addCriterion("plan_date between", value1, value2, "planDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanDateNotBetween(Date value1, Date value2) {
+            addCriterion("plan_date not between", value1, value2, "planDate");
+            return (Criteria) this;
+        }
+
         public Criteria andDateIsNull() {
             addCriterion("date is null");
             return (Criteria) this;

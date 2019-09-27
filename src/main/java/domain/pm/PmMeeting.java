@@ -56,6 +56,9 @@ public class PmMeeting implements Serializable {
     private Byte type;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date planDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date date;
 
     private Integer year;
@@ -130,6 +133,14 @@ public class PmMeeting implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Date getPlanDate() {
+        return planDate;
+    }
+
+    public void setPlanDate(Date planDate) {
+        this.planDate = planDate;
     }
 
     public Date getDate() {
