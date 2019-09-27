@@ -479,6 +479,7 @@ public class PmMeetingController extends PmBaseController {
 
             int col = 9;
             record.setName(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPlanDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             //record.setCreateTime(now);
             record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -506,7 +507,7 @@ public class PmMeetingController extends PmBaseController {
 
         List<PmMeeting> records = pmMeetingMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度","季度","会议名称|150|left","会议议题|250|left","会议时间|100","所属分党委|250|left","所属党支部|250|left","会议地点|100","审核情况|100",
+        String[] titles = {"年度","季度","所属分党委|250|left","所属党支部|250|left","计划时间|100","实际时间|100","会议名称|150|left","会议议题|250|left","会议地点|100","审核情况|100",
                 "主持人","记录人","应到人数","实到人数","请假人数"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -514,11 +515,12 @@ public class PmMeetingController extends PmBaseController {
             String[] values = {
                     String.valueOf(record.getYear()),
                     String.valueOf(record.getQuarter()),
-                    record.getName(),
-                    record.getIssue(),
-                    DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
                     CmTag.getParty(record.getPartyId()).getName(),
                     record.getBranchId()==null?"":CmTag.getBranch(record.getBranchId()).getName(),
+                    DateUtils.formatDate(record.getPlanDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                    DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                    record.getName(),
+                    record.getIssue(),
                     record.getAddress(),
                     PM_MEETING_STATUS_MAP.get(record.getStatus()),
                     CmTag.getUserById(record.getPresenter()).getRealname(),

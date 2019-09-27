@@ -1,7 +1,11 @@
 2019-09-27
+
+-- 更新三会一课录入模板.xlsx (sample_pm_Meeting)
+
 ALTER TABLE `pm_meeting`
 	ADD COLUMN `plan_date` DATETIME NULL DEFAULT NULL COMMENT '计划召开会议时间' AFTER `type`,
 	CHANGE COLUMN `date` `date` DATETIME NULL DEFAULT NULL COMMENT '实际召开会议时间' AFTER `plan_date`;
+
 2019-08-15
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2772, 0, '三会一课管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm:menu', NULL, NULL, NULL, 1, 4500);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2774, 0, '支部党员大会', '', 'url', '', '/pmMeeting?type=1', 2772, '0/1/2772/', 1, 'pmMeeting:list:1', NULL, NULL, NULL, 1, 400);
