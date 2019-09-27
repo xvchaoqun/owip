@@ -6,6 +6,7 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
     <result column="date" jdbcType="TIMESTAMP" property="date" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="quarter" jdbcType="TINYINT" property="quarter" />
@@ -89,9 +90,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, branch_id, type, date, year, quarter, name, issue, address, presenter, 
-    recorder, attends, absents, Invitee, due_num, attend_num, absent_num, content, is_public, 
-    status, is_back, reason, is_delete
+    id, party_id, branch_id, type, plan_date, date, year, quarter, name, issue, address, 
+    presenter, recorder, attends, absents, Invitee, due_num, attend_num, absent_num, 
+    content, is_public, status, is_back, reason, is_delete
   </sql>
   <sql id="Blob_Column_List">
     decision
@@ -149,21 +150,23 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pm_meeting (party_id, branch_id, type, 
-      date, year, quarter, 
-      name, issue, address, 
-      presenter, recorder, attends, 
-      absents, Invitee, due_num, 
-      attend_num, absent_num, content, 
-      is_public, status, is_back, reason, 
-      is_delete, decision)
+      plan_date, date, year, 
+      quarter, name, issue, 
+      address, presenter, recorder, 
+      attends, absents, Invitee, 
+      due_num, attend_num, absent_num, 
+      content, is_public, status, 
+      is_back, reason, is_delete, decision
+      )
     values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{date,jdbcType=TIMESTAMP}, #{year,jdbcType=INTEGER}, #{quarter,jdbcType=TINYINT}, 
-      #{name,jdbcType=VARCHAR}, #{issue,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, #{attends,jdbcType=VARCHAR}, 
-      #{absents,jdbcType=VARCHAR}, #{invitee,jdbcType=VARCHAR}, #{dueNum,jdbcType=INTEGER}, 
-      #{attendNum,jdbcType=INTEGER}, #{absentNum,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{isPublic,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=BIT}, #{decision,jdbcType=LONGVARCHAR})
+      #{planDate,jdbcType=TIMESTAMP}, #{date,jdbcType=TIMESTAMP}, #{year,jdbcType=INTEGER}, 
+      #{quarter,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, #{issue,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
+      #{attends,jdbcType=VARCHAR}, #{absents,jdbcType=VARCHAR}, #{invitee,jdbcType=VARCHAR}, 
+      #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, #{absentNum,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
+      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{decision,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pm.PmMeeting">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -179,6 +182,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="planDate != null">
+        plan_date,
       </if>
       <if test="date != null">
         date,
@@ -253,6 +259,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="planDate != null">
+        #{planDate,jdbcType=TIMESTAMP},
       </if>
       <if test="date != null">
         #{date,jdbcType=TIMESTAMP},
@@ -340,6 +349,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.planDate != null">
+        plan_date = #{record.planDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.date != null">
         date = #{record.date,jdbcType=TIMESTAMP},
       </if>
@@ -414,6 +426,7 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      plan_date = #{record.planDate,jdbcType=TIMESTAMP},
       date = #{record.date,jdbcType=TIMESTAMP},
       year = #{record.year,jdbcType=INTEGER},
       quarter = #{record.quarter,jdbcType=TINYINT},
@@ -445,6 +458,7 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      plan_date = #{record.planDate,jdbcType=TIMESTAMP},
       date = #{record.date,jdbcType=TIMESTAMP},
       year = #{record.year,jdbcType=INTEGER},
       quarter = #{record.quarter,jdbcType=TINYINT},
@@ -480,6 +494,9 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="planDate != null">
+        plan_date = #{planDate,jdbcType=TIMESTAMP},
       </if>
       <if test="date != null">
         date = #{date,jdbcType=TIMESTAMP},
@@ -552,6 +569,7 @@
     set party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
       date = #{date,jdbcType=TIMESTAMP},
       year = #{year,jdbcType=INTEGER},
       quarter = #{quarter,jdbcType=TINYINT},
@@ -580,6 +598,7 @@
     set party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
       date = #{date,jdbcType=TIMESTAMP},
       year = #{year,jdbcType=INTEGER},
       quarter = #{quarter,jdbcType=TINYINT},

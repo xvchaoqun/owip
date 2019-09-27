@@ -201,26 +201,31 @@
         url: '${ctx}/pmMeeting_data?branch=${param.branchId}&type=${type}&cls=${cls}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '年份', name: 'year', width:80,align: 'left', frozen:true
+                label: '年份', name: 'year', width:80, frozen:true
             },
             {
-                label: '季度', name: 'quarter',width:80, align: 'left',frozen:true, formatter: function (cellvalue, options, rowObject) {
+                label: '季度', name: 'quarter',width:80,frozen:true, formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined)
                         return '--'
                     return '第'+cellvalue+'季度'
                 }
             },
-            {label: '会议名称', name: 'name', align:'left',frozen:true},
+            { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
+                    return $.party(rowObject.partyId);
+                }},
+            { label: '所属党支部',  name: 'branchId',align:'left', width: 300,formatter:function(cellvalue, options, rowObject){
+
+                    return $.party(null, rowObject.branchId);
+                }, frozen:true },
+            {label: '计划时间', name: 'planDate', width:150, align:'left'},
+            {label: '实际时间', name: 'date', width:150, align:'left'},
+            {label: '会议名称', name: 'name', width:250,align:'left',frozen:true},
             {label: '会议议题', name: 'issue', width:250, align:'left', formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined) return '--';
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,cellvalue);
                 }
             },
-            {label: '会议时间', name: 'date', width:150, align:'left'},
-            {label: '所属组织机构', name: 'branch.name', width:400, frozen: true, align:'left', formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }
-            },
+
             {label: '应到人数', name: 'dueNum', align:'left'},
             {label: '实到人数', name: 'attendNum', align:'left',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==0) return '--'
