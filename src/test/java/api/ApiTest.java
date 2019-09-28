@@ -23,7 +23,7 @@ public class ApiTest {
     @Test
     public void abroad() throws IOException {
 
-        String url = "http://localhost:8080/api/abroad/approve_count";
+        String url = "https://zzbgz.bnu.edu.cn/api/abroad/approve_count";
         String app = "oa";
         String key = "b887e286bf5d82b7b9712ed03d3e6e0e";
         String code = "11112016098";

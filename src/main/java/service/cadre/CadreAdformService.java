@@ -421,7 +421,7 @@ public class CadreAdformService extends BaseMapper {
 
         bean.setTitle(cadre.getTitle());
         // 主职,现任职务
-        /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
+        /*CadrePost mainCadrePost = cadrePostService.getFirstMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/
         // 现任职务
         String schoolName = sysConfigService.getSchoolName();
@@ -502,7 +502,7 @@ public class CadreAdformService extends BaseMapper {
         bean.setCadreFamilys(cadreFamilys);
 
         // 呈报日程默认当天
-        bean.setReportDate(new Date());
+        //bean.setReportDate(new Date());
 
         return bean;
     }
@@ -628,9 +628,11 @@ public class CadreAdformService extends BaseMapper {
             dataMap.put("admin", currentUser.getRealname());
 
         Date reportDate = bean.getReportDate();
-        dataMap.put("y1", DateUtils.getYear(reportDate));
-        dataMap.put("m1", DateUtils.getMonth(reportDate));
-        dataMap.put("d1", DateUtils.getDay(reportDate));
+        if(reportDate!=null) {
+            dataMap.put("y1", DateUtils.getYear(reportDate));
+            dataMap.put("m1", DateUtils.getMonth(reportDate));
+            dataMap.put("d1", DateUtils.getDay(reportDate));
+        }
 
         freemarkerService.process(adFormFtl, dataMap, out);
     }

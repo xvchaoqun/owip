@@ -1,5 +1,5 @@
 // 恢复重新加载之前滚动位置及选中的行状态
-var jgrid_sid, jgrid_left, jgrid_top;
+var jgrid_sid;
 function saveJqgridSelected(jqGridId) {
 
     jgrid_sid = jgrid_sid || {};
@@ -48,14 +48,6 @@ $.jgrid.defaults.gridComplete = function () {
     loadJqgridSelected("#" + this.id);
 
     //console.log("加载完成：left:{0}, top:{1}".format(_left, _top))
-    if (jgrid_left != undefined) {
-        $(this).closest(".ui-jqgrid-bdiv").scrollLeft(0).scrollLeft(jgrid_left);
-        jgrid_left = undefined;
-    }
-    if (jgrid_top != undefined) {
-        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
-        jgrid_top = undefined;
-    }
     _adjustFrozenDivHeight($(this))
 };
 
@@ -779,8 +771,6 @@ $(document).on("click", ".jqOrderBtn", function () {
     //alert(gridId)
     var grid = $(gridId);
 
-    jgrid_left = grid.closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = grid.closest(".ui-jqgrid-bdiv").scrollTop();
     var id = $(this).data("id");
     var direction = parseInt($(this).data("direction"));
     var step = $(this).closest("td").find("input").val();

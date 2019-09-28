@@ -99,8 +99,6 @@
     </div>
 </div>
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     function drVoterType_au(id){
 
         var url = "${ctx}/drVoterType_au?tplId=${drVoterTypeTpl.id}&pageNo=${commonList.pageNo}";

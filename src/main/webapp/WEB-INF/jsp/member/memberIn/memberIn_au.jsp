@@ -271,9 +271,6 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="footer-margin lower"/>
 <script>
-	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));

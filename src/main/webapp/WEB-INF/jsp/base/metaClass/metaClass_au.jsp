@@ -61,8 +61,6 @@
   </div>
 
   <script>
-      jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-      jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 	$(function(){
 		$("#modal form").validate({
 				submitHandler: function (form) {

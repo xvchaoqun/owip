@@ -50,9 +50,6 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-	jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-
 	$.showLocation("${memberInflow.province}");
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));

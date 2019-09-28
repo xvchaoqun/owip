@@ -92,15 +92,22 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     public Set<Integer> getTaskUserIdSet(int taskId) {
 
         Set<Integer> taskUserIdSet = new HashSet<>();
-        OaTaskUserExample example = new OaTaskUserExample();
-        example.createCriteria().andTaskIdEqualTo(taskId)
-                .andIsDeleteEqualTo(false);
 
-        List<OaTaskUser> oaTaskUsers = oaTaskUserMapper.selectByExample(example);
+        List<OaTaskUser> oaTaskUsers = getTaskUsers(taskId);
         for (OaTaskUser oaTaskUser : oaTaskUsers) {
             taskUserIdSet.add(oaTaskUser.getUserId());
         }
         return taskUserIdSet;
+    }
+
+    // 任务对象列表（不含已删除）
+    public List<OaTaskUser> getTaskUsers(int taskId) {
+
+        OaTaskUserExample example = new OaTaskUserExample();
+        example.createCriteria().andTaskIdEqualTo(taskId)
+                .andIsDeleteEqualTo(false);
+
+        return oaTaskUserMapper.selectByExample(example);
     }
 
     // 任务对象数量（不含已删除）

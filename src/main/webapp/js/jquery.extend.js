@@ -1052,7 +1052,8 @@ var _modal_width;
                         $.hashchange('', _params.url);
                     } else {
                         $show.show(0, function () {
-                            $(window).resize(); // 解决jqgrid不显示的问题
+                            //$(window).resize(); // 解决jqgrid不显示的问题
+                            $(".jqGrid").jqGrid('resizeGrid')
                         });
                     }
                 });
@@ -1403,6 +1404,22 @@ if ($.jgrid) {
         },
         onPaging: function () {
             $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+        },
+        loadComplete: function () {
+
+            var $jqGridBDiv = $(this).closest(".ui-jqgrid-bdiv");
+            var $frozenBDiv = $(".frozen-bdiv", $(this).closest(".ui-jqgrid"));
+            //console.log("$jqGridBDiv.scrollTop()=" + $jqGridBDiv.scrollTop())
+            //console.log("$frozenBDiv.scrollTop()=" + $frozenBDiv.scrollTop())
+            $frozenBDiv.scrollTop($jqGridBDiv.scrollTop());
+            //console.log("$frozenBDiv.scrollTop()=" + $frozenBDiv.scrollTop())
+            if ($frozenBDiv.scrollTop() < $jqGridBDiv.scrollTop()) {
+
+                setTimeout(function () {
+                    $frozenBDiv.scrollTop($jqGridBDiv.scrollTop());
+                    //console.log("$frozenBDiv.scrollTop()=" + $frozenBDiv.scrollTop())
+                }, 500)
+            }
         }
     });
 

@@ -459,7 +459,7 @@ public class CadreController extends BaseController {
             String unitPostCode = "--";
             String unitPostName = "--";
             String unitPostStatus = "--";
-            CadrePost cadrePost = cadrePostService.getCadreMainCadrePost(cv.getId());
+            CadrePost cadrePost = cadrePostService.getFirstMainCadrePost(cv.getId());
             if (cadrePost != null) {
                 Integer unitPostId = cadrePost.getUnitPostId();
                 if (unitPostId != null) {
@@ -647,11 +647,14 @@ public class CadreController extends BaseController {
         modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
 
         // 获取该干部的所有岗位
-        CadrePost cadreMainCadrePost = cadrePostService.getCadreMainCadrePost(id);
+        List<CadrePost> cadreMainCadrePosts = cadrePostService.getCadreMainCadrePosts(id);
         List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
         List<CadrePost> cadrePosts = new ArrayList<>();
-        if (cadreMainCadrePost != null && cadreMainCadrePost.getUnitPostId() != null) {
-            cadrePosts.add(cadreMainCadrePost);
+
+        for (CadrePost mainCadrePost : cadreMainCadrePosts) {
+            if (mainCadrePost.getUnitPostId() != null) {
+                cadrePosts.add(mainCadrePost);
+            }
         }
         for (CadrePost subCadrePost : subCadrePosts) {
             if (subCadrePost.getUnitPostId() != null) {

@@ -219,7 +219,7 @@ pageEncoding="UTF-8"%>
 		if(admin==undefined) return ;
 		var userId = $(this).select2("data")[0]['userId'] || '';
 		var realname = $(this).select2("data")[0]['realname'] || '';
-		console.log(userId + "  " + realname)
+		//console.log(userId + "  " + realname)
 		$("#unitAdmin").html(realname);
 		$("#modalForm input[name=adminUserId]").val(userId);
 	});

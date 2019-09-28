@@ -15,9 +15,19 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-xs-3 control-label">选择消息模板</label>
+			<div class="col-xs-8">
+				<select data-rel="select2-ajax" data-ajax-url="${ctx}/shortMsgTpl_selects" data-width="503"
+					name="relateId" data-placeholder="请选择">
+					<option value=""></option>
+				</select>
+				<span class="help-block">从定向消息模板中获取通知内容</span>
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>通知内容</label>
 			<div class="col-xs-8">
-				<textarea required class="form-control" name="msg" rows="8"></textarea>
+				<textarea required class="form-control" name="msg" rows="12"></textarea>
 			</div>
 		</div>
 	</form>
@@ -31,6 +41,13 @@
 	</button>
 </div>
 <script>
+	$.register.ajax_select($('#modalForm select[name=relateId]'));
+	$('#modalForm select[name=relateId]').change(function(){
+		if($(this).val()>0){
+		var content = $(this).select2("data")[0]['content'] || '';
+		$("#modalForm textarea[name=msg]").val(content);
+		}
+	});
 	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 	$("#modalForm").validate({
 		submitHandler: function (form) {

@@ -210,6 +210,26 @@ public class UnitPostService extends BaseMapper {
         }
     }
 
+    @Transactional
+    public void sortByCode(Integer unitId, boolean asc) {
+
+        UnitPostExample example = new UnitPostExample();
+        UnitPostExample.Criteria criteria =
+                example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
+        if(unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        example.setOrderByClause("code " + (asc?"asc":"desc"));
+        List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+        int sortOrder = 1;
+        for (UnitPost unitPost : unitPosts) {
+            UnitPost record = new UnitPost();
+            record.setId(unitPost.getId());
+            record.setSortOrder(sortOrder++);
+            unitPostMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
     // 岗位历史任职干部导出
     public void exportCadres(Integer unitPostId, DispatchCadreViewExample example,
                              HttpServletResponse response) throws IOException {

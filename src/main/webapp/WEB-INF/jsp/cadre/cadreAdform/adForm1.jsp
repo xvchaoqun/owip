@@ -442,7 +442,8 @@ td.bolder{font-weight: bolder}
         </p>
 
         <p class="p14">
-          <span>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span>
+          <%--<span>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span>--%>
+          <span>年  月  日</span>
         </p>
       </td>
       <td class="td17" colspan="4">

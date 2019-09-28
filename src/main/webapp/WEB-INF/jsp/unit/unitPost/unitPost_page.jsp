@@ -58,6 +58,32 @@
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <div class="btn-group">
+                    <button data-toggle="dropdown"
+                            data-rel="tooltip" data-placement="top" data-html="true"
+                            title="<div style='width:180px'>按指定条件进行批量排序</div>"
+                            class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                        <i class="fa fa-sort"></i> 批量排序 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-success" role="menu">
+                        <li>
+                            <a href="javascript:;" class="runBtn"
+                                    data-url="${ctx}/unitPost_sortByCode?asc=1"
+                                    data-callback="_callback_sortByCode">
+                                <i class="fa fa-sort-alpha-asc"></i> 按每个单位的岗位编号排序（升序）
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="javascript:;" class="runBtn"
+                                    data-url="${ctx}/unitPost_sortByCode?asc=0"
+                                    data-callback="_callback_sortByCode">
+                                <i class="fa fa-sort-alpha-desc"></i> 按每个单位的岗位编号排序（降序）
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
                 <shiro:hasPermission name="unitPost:del">
                      <button data-url="${ctx}/unitPost_batchDel"
                              data-title="删除"
@@ -276,6 +302,9 @@
     </button>
 </script>
 <script>
+    function _callback_sortByCode(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
     $(":checkbox", ".typeCheckbox").click(function () {
         $("#searchForm input[name=displayType]").val($(this).prop("checked") ? 1 : 0);
         $("#searchForm .jqSearchBtn").click();

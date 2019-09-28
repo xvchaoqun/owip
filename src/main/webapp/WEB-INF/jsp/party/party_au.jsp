@@ -160,10 +160,6 @@
     }
 </style>
 <script>
-
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-
     $("#modal :checkbox").bootstrapSwitch();
     $.register.date($('.input-group.date'));
     $("#submitBtn").click(function () {

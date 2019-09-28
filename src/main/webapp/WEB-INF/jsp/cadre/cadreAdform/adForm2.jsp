@@ -748,7 +748,14 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   <p class=MsoNormal align=right style='text-align:right;line-height:15.0pt;
   word-break:break-all'><span lang=EN-US style='font-size:14.0pt;font-family:
   "Times New Roman",serif;color:windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  </span><span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span></p>
+  </span><%--<span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${cm:formatDate(bean.reportDate, "yyyy年MM月dd日")}</span>--%>
+  <span style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>年</span><span
+  lang=EN-US style='font-size:14.0pt;font-family:"Times New Roman",serif;
+  color:windowtext'>&nbsp; </span><span style='font-size:14.0pt;font-family:
+  仿宋_GB2312;color:windowtext'>月</span><span lang=EN-US style='font-size:14.0pt;
+  font-family:"Times New Roman",serif;color:windowtext'>&nbsp; </span><span
+  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>日</span>
+  </p>
   </td>
  </tr>
  <tr>

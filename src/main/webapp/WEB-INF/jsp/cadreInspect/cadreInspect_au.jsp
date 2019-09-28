@@ -109,8 +109,6 @@
         url: '/sc/scRecord?cls=10&year=${_thisYear}'
     });
 
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

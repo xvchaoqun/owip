@@ -62,8 +62,6 @@
            value="<c:if test="${abroadAdditionalPost!=null}">确定</c:if><c:if test="${abroadAdditionalPost==null}">添加</c:if>"/>
 </div>
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

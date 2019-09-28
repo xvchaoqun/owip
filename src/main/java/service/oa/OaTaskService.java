@@ -206,22 +206,22 @@ public class OaTaskService extends OaBaseMapper {
 
     // 任务完结
     @Transactional
-    public void finish(int taskId) {
+    public void finish(int taskId, boolean isFinish) {
 
         checkAuth(taskId, null);
 
-        OaTaskUserExample example = new OaTaskUserExample();
+        /*OaTaskUserExample example = new OaTaskUserExample();
         example.createCriteria().andTaskIdEqualTo(taskId)
                 .andIsDeleteEqualTo(false)
                 .andStatusNotEqualTo(OaConstants.OA_TASK_USER_STATUS_PASS);
         long notPassCount = oaTaskUserMapper.countByExample(example);
         if (notPassCount > 0) {
             throw new OpException("还有{0}个未完成任务的任务对象", notPassCount);
-        }
+        }*/
 
         OaTask record = new OaTask();
         record.setId(taskId);
-        record.setStatus(OaConstants.OA_TASK_STATUS_FINISH);
+        record.setStatus(isFinish?OaConstants.OA_TASK_STATUS_FINISH:OaConstants.OA_TASK_STATUS_PUBLISH);
 
         updateByPrimaryKeySelective(record);
     }

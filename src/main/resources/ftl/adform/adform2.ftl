@@ -3929,7 +3929,16 @@
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
-								<w:t>${y1?c!}年</w:t>
+								<w:t><#if y1??>${y1?c}</#if>年</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="009B666C">
+								<w:rPr>
+									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+									<wx:font wx:val="Times New Roman"/>
+									<w:sz w:val="28"/>
+									<w:sz-cs w:val="28"/>
+								</w:rPr>
+								<w:t>  </w:t>
 							</w:r>
 							<w:r wsp:rsidRPr="009B666C">
 								<w:rPr>
@@ -3944,12 +3953,30 @@
 							<w:r wsp:rsidRPr="009B666C">
 								<w:rPr>
 									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+									<wx:font wx:val="Times New Roman"/>
+									<w:sz w:val="28"/>
+									<w:sz-cs w:val="28"/>
+								</w:rPr>
+								<w:t>  </w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="009B666C">
+								<w:rPr>
+									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
 									<wx:font wx:val="仿宋_GB2312"/>
 									<w:b-cs/>
 									<w:sz w:val="28"/>
 									<w:sz-cs w:val="28"/>
 								</w:rPr>
 								<w:t>${d1!}日</w:t>
+							</w:r>
+							<w:r wsp:rsidRPr="009B666C">
+								<w:rPr>
+									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+									<wx:font wx:val="Times New Roman"/>
+									<w:sz w:val="28"/>
+									<w:sz-cs w:val="28"/>
+								</w:rPr>
+								<w:t>  </w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

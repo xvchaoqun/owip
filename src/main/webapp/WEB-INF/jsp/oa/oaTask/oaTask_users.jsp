@@ -27,18 +27,15 @@
                         </div>
                         <div class="widget-body">
                             <div class="widget-main" style="padding-bottom: 0px">
-                                <div class="row" style="padding: 20px;">
+                                <div class="row" style="padding: 0 10px;">
                                     <h4>方式一：从现任干部库中选择
-
                                         <button data-url="${ctx}/oa/oaTask_selectCadres" type="button"
                                                 style="margin-left: 20px;"
                                                 class="popupBtn btn btn-success"><i class="fa fa-plus-square-o"></i> 选择
                                         </button>
                                     </h4>
-                                    <hr>
-
+                                    <hr class="no-margin-bottom">
                                     <h4>方式二：从Excel中导入</h4>
-                                    <hr>
                                     <form class="form-horizontal" action="${ctx}/oa/oaTask_importUsers"
                                           autocomplete="off"
                                           disableautocomplete id="importForm" method="post"
@@ -55,9 +52,8 @@
                                                     href="${ctx}/attach?code=sample_oaTaskUser">导入样表.xlsx</a>）</span>
                                         </div>
                                     </form>
-                                    <hr>
+                                    <hr class="no-margin-bottom">
                                     <h4>方式三：从人事库中选择</h4>
-                                    <hr>
                                     <select data-rel="select2-ajax" data-width="200"
                                             data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                                             name="userId" data-placeholder="请输入账号或姓名或工号">
@@ -67,7 +63,17 @@
                                     <button id="selectBtn" type="button" class="btn btn-success"><i
                                             class="fa fa-plus"></i> 添加
                                     </button>
-                                    <hr>
+                                    <hr class="no-margin-bottom">
+                                    <h4>方式四：从历史任务中导入</h4>
+                                    <select data-rel="select2-ajax" data-width="350"
+                                            data-ajax-url="${ctx}/oa/oaTask_selects?notTaskId=${oaTask.id}"
+                                            name="taskId" data-placeholder="请选择">
+                                        <option></option>
+                                    </select>
+                                    <button id="historyBtn" type="button" class="btn btn-success">
+                                        <i class="fa fa-check-circle-o"></i> 确定
+                                    </button>
+                                    <hr class="no-margin-bottom">
                                     <div class="col-xs-12" style="padding: 0 5px">
                                         <div style="font-weight: bolder">使用说明：</div>
                                         <ol style="padding-left: 5px;">
@@ -88,6 +94,10 @@
                                 <span class="tip">已选<span
                                         class="count">${fn:length(selectUsers)}</span>人，请确认准确无误。</span>
                             </h4>
+                            <div class="pull-right" style="padding: 6px">
+                                <button class="btn btn-xs btn-danger" onclick="_clearUsers()">
+                                    <i class="fa fa-trash"></i> 清空</button>
+                            </div>
                         </div>
                         <div class="widget-body">
                             <div class="widget-main" style="padding:5px">
@@ -134,11 +144,9 @@
     }
 </style>
 <script>
-
     <c:if test="${!taskCanEdit}">
         $("#selectDiv button").prop("disabled", true);
     </c:if>
-
     var $userSelect = $("#selectDiv select[name=userId]");
     $.register.user_select($userSelect);
     $userSelect.on("change", function () {
@@ -186,6 +194,36 @@
                 _showCount();
             }
         });
+    });
+
+    function _clearUsers(){
+        $("#jqGrid2").jqGrid("clearGridData");
+        _showCount();
+    }
+
+    $.register.ajax_select($('#selectDiv select[name=taskId]'));
+    $("#historyBtn").click(function () {
+
+        var taskId = $("#selectDiv select[name=taskId]").val();
+        if(taskId>0){
+            $.post("${ctx}/oa/oaTask_selectUsersFromHisthory", {taskId: taskId}, function (ret) {
+
+                if (ret.success) {
+
+                    $.each(ret.users, function (i, user) {
+                        var rowData = $jqGrid.getRowData(user.userId);
+                        if (rowData.userId == undefined) {
+                            $jqGrid.jqGrid("addRowData", user.userId, user, "last");
+                        } else {
+                            $jqGrid.delRowData(user.userId);
+                            $jqGrid.jqGrid("addRowData", user.userId, user, "last");
+                        }
+                    })
+                    _showCount();
+                    $("#selectDiv select[name=taskId]").val(null).trigger("change");
+                }
+        });
+        }
     });
 
     $.fileInput($("#importForm input[name=xlsx]"), {
@@ -288,7 +326,8 @@
 
         $.post("${ctx}/oa/oaTask_users", {id:'${oaTask.id}', users: $.base64.encode(JSON.stringify(users))}, function (ret) {
             if (ret.success) {
-                SysMsg.info("保存成功。");
+                $.tip({$target:$("#submitBtn"), msg:"保存成功", type:'success'})
+                $("#jqGrid").trigger("reloadGrid");
             }
             $btn.button('reset');
         })

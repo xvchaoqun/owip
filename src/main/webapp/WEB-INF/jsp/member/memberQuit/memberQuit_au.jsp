@@ -72,8 +72,6 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();
 

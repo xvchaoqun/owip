@@ -406,6 +406,40 @@ public class OaTaskController extends OaBaseController {
         JSONUtils.write(response, resultMap);
     }
 
+    @RequiresPermissions("oaTask:edit")
+    @RequestMapping(value = "/oaTask_selectUsersFromHisthory", method = RequestMethod.POST)
+    public void do_oaTask_selectUsersFromHisthory(int taskId, HttpServletRequest request, HttpServletResponse response) throws InvalidFormatException, IOException {
+
+        List<OaTaskUser> taskUsers = oaTaskUserService.getTaskUsers(taskId);
+
+        List<TaskUser> records = new ArrayList<>();
+        for (OaTaskUser taskUser:taskUsers) {
+
+            TaskUser user = new TaskUser();
+            CadreView cv = cadreService.dbFindByUserId(taskUser.getUserId());
+            if (cv != null) {
+                user.setUserId(cv.getUserId());
+                user.setRealname(cv.getRealname());
+                user.setCode(cv.getCode());
+                user.setTitle(cv.getTitle());
+                user.setMobile(cv.getMobile());
+            } else {
+                SysUserView uv = sysUserService.findById(taskUser.getUserId());
+                user.setUserId(uv.getId());
+                user.setRealname(uv.getRealname());
+                user.setCode(uv.getCode());
+                user.setTitle(uv.getUnit());
+                user.setMobile(uv.getMobile());
+            }
+
+            records.add(user);
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("users", records);
+        JSONUtils.write(response, resultMap);
+    }
+
     // 任务对象列表管理
     @RequiresPermissions("oaTask:edit")
     @RequestMapping("/oaTask_users")
@@ -481,11 +515,63 @@ public class OaTaskController extends OaBaseController {
     @RequiresPermissions("oaTask:edit")
     @RequestMapping(value = "/oaTask_finish", method = RequestMethod.POST)
     @ResponseBody
-    public Map oaTask_finish(HttpServletRequest request, int id, ModelMap modelMap) {
+    public Map oaTask_finish(HttpServletRequest request, int id, @RequestParam(required = false, defaultValue = "1") Boolean isFinish) {
 
-        oaTaskService.finish(id);
-        logger.info(addLog(LogConstants.LOG_OA, "任务完结：%s", id));
+        oaTaskService.finish(id, isFinish);
+        logger.info(addLog(LogConstants.LOG_OA, "任务完结：%s, isFinish=%s", id, isFinish));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/oaTask_selects")
+    @ResponseBody
+    public Map oaTask_selects(Integer notTaskId, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        OaTaskExample example = new OaTaskExample();
+        OaTaskExample.Criteria criteria = example.createCriteria()
+                .andIsDeleteEqualTo(false)
+                .andStatusNotEqualTo(OaConstants.OA_TASK_STATUS_ABOLISH);
+        if(notTaskId!=null){
+            criteria.andIdNotEqualTo(notTaskId);
+        }
+        example.setOrderByClause("create_time desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike("%"+searchStr.trim()+"%");
+        }
+
+        long count = oaTaskMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<OaTask> records = oaTaskMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if(null != records && records.size()>0){
+
+            for(OaTask record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", record.getId() + "");
+                option.put("text", record.getName());
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+
+        return resultMap;
     }
 }

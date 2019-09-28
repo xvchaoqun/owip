@@ -64,8 +64,6 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {

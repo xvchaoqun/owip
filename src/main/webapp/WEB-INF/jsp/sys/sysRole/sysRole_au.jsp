@@ -93,11 +93,7 @@
              <i class="ace-icon fa fa-check bigger-110"></i> ${op}</button>
     </div>
 </div>
-<%--<style>
-    ul.dynatree-container {
-        border: none;
-    }
-</style>--%>
+<div class="footer-margin lower"/>
 <script>
     $('#sidebar-review .sidebar').ace_sidebar();
     $('#m-sidebar-review .sidebar').ace_sidebar();

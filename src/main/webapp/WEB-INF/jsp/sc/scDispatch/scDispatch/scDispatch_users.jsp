@@ -82,7 +82,7 @@
             { label:'任免职务', name: 'post', width: 380,align:'left' },
             {hidden: true, name: 'dispatchUserId'}, {hidden: true, key: true, name: 'id'}
         ],
-        loadComplete:function(){
+        gridComplete:function(){
             $.each(scCommitteeVotes, function(i, v){
                 if (v.dispatchUserId>0 && $.inArray(v.id, voteIds)==-1) {
                     $("#jqg_jqGridPopup_"+ v.id).prop("disabled", true);

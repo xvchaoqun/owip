@@ -157,7 +157,7 @@ public class CadrePostController extends BaseController {
 
         if (isMainPost) {
             // 第一主职
-            modelMap.put("mainCadrePost", cadrePostService.getCadreMainCadrePost(cadreId));
+            modelMap.put("mainCadrePost", cadrePostService.getFirstMainCadrePost(cadreId));
         }
 
         if (id != null) {

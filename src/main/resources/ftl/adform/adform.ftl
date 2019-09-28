@@ -2916,7 +2916,7 @@
 									<w:rFonts w:hint="fareast"/>
 									<wx:font wx:val="宋体"/>
 								</w:rPr>
-								<w:t>${y1?c!}</w:t>
+								<w:t><#if y1??>${y1?c}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 							<w:r>

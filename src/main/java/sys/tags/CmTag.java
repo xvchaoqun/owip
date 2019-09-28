@@ -356,19 +356,19 @@ public class CmTag {
         return leaderService.findAll().get(userId);
     }
 
-    // 主职
-    public static CadrePost getCadreMainCadrePostById(Integer id) {
-        return cadrePostService.getCadreMainCadrePostById(id);
+    // 第一主职
+    public static CadrePost getCadrePostById(Integer id) {
+        return cadrePostService.getCadrePostById(id);
     }
 
-    public static CadrePost getCadreMainCadrePost(int caderId) {
-        return cadrePostService.getCadreMainCadrePost(caderId);
+    public static CadrePost getFirstMainCadrePost(int caderId) {
+        return cadrePostService.getFirstMainCadrePost(caderId);
     }
 
     // 现任职务
-    public static CadreAdminLevel getPresentByCadreId(int caderId) {
+    public static CadreAdminLevel getPresentCadreAdminLevel(int caderId) {
 
-        CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
+        CadrePost mainCadrePost = getFirstMainCadrePost(caderId);
         return cadreAdminLevelService.getByCadreId(caderId,
                 mainCadrePost != null ? mainCadrePost.getAdminLevel() : null);
     }

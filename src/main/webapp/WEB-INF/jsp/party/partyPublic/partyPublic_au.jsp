@@ -10,13 +10,6 @@
         <span class="bolder" style="cursor: auto;padding-left: 20px;font-size:larger">
             生成党员公示文件
         </span>
-        <%--<div class="widget-toolbar no-border">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="javascript:;">生成公示文件</a>
-                </li>
-            </ul>
-        </div>--%>
     </div>
     <div class="widget-body" style="max-width: 1225px">
         <div class="widget-main padding-4">
@@ -35,7 +28,7 @@
                                 <div class="widget-main" style="padding-bottom: 0px">
                                     <div class="row">
                                         <input type="hidden" name="id" value="${partyPublic.id}">
-                                        <input type="hidden" name="isPublish" value="${partyPublic.isPublish}">
+                                        <input type="hidden" name="isPublish" value="${partyPublic.isPublish?1:0}">
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label"><span class="star">*</span> 类别</label>
                                             <div class="col-xs-7">
@@ -65,7 +58,18 @@
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">公示日期</label>
                                             <div class="col-xs-8 label-text">
-                                                ${empty partyPublic?_today:cm:formatDate(partyPublic.pubDate,'yyyy-MM-dd')}
+                                                <c:set var="pubDate" value="${empty partyPublic?_today:cm:formatDate(partyPublic.pubDate,'yyyy.MM.dd')}"/>
+                                                <shiro:hasRole name="${ROLE_ODADMIN}">
+                                                <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
+                                                    <input required class="form-control" name="pubDate" type="text"
+                                                            value="${pubDate}" />
+                                                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                                </div>
+                                                    <script>$.register.date($('.input-group.date'));</script>
+                                                </shiro:hasRole>
+                                                <shiro:lacksRole name="${ROLE_ODADMIN}">
+                                                    ${pubDate}
+                                                </shiro:lacksRole>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -143,7 +147,7 @@
                         &nbsp;--%>
                         <button class="submitBtn btn btn-primary" type="button"
                                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-                                data-publish="0">
+                                data-publish="${partyPublic.isPublish?1:0}">
                             <i class="ace-icon fa ${partyPublic!=null?"fa-edit":"fa-save"} bigger-110"></i>
                             ${partyPublic!=null?"修改":"保存"}<c:if test="${!partyPublic.isPublish}">（暂存）</c:if>
                         </button>

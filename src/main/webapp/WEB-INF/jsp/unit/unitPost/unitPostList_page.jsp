@@ -42,6 +42,31 @@
                 data-grid-id="#jqGrid2"><i class="fa fa-history"></i>
             撤销
         </button>
+        <div class="btn-group">
+            <button data-toggle="dropdown"
+                    data-rel="tooltip" data-placement="top" data-html="true"
+                    title="<div style='width:180px'>按指定条件进行批量排序</div>"
+                    class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                <i class="fa fa-sort"></i> 批量排序 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-success" role="menu">
+                <li>
+                    <a href="javascript:;" class="runBtn"
+                            data-url="${ctx}/unitPost_sortByCode?unitId=${param.unitId}&asc=1"
+                            data-callback="_callback_sortByCode">
+                        <i class="fa fa-sort-alpha-asc"></i> 按岗位编号排序（升序）
+                    </a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a href="javascript:;" class="runBtn"
+                            data-url="${ctx}/unitPost_sortByCode?unitId=${param.unitId}&asc=0"
+                            data-callback="_callback_sortByCode">
+                        <i class="fa fa-sort-alpha-desc"></i> 按岗位编号排序（降序）
+                    </a>
+                </li>
+            </ul>
+        </div>
     </shiro:hasPermission>
     </c:if>
     <c:if test="${cls==2}">
@@ -161,6 +186,9 @@
 </script>
 <jsp:include page="colModel.jsp?list=1"/>
 <script>
+    function _callback_sortByCode(){
+        $("#jqGrid2").trigger("reloadGrid");
+    }
     function _reload(){
         $("#modal").modal('hide');
         $("#jqGrid2").trigger("reloadGrid");

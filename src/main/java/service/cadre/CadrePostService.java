@@ -45,7 +45,7 @@ public class CadrePostService extends BaseMapper {
         record.setIsFirstMainPost(true);
 
         int cadreId = record.getCadreId();
-        CadrePost mainCadrePost = getCadreMainCadrePost(cadreId);
+        CadrePost mainCadrePost = getFirstMainCadrePost(cadreId);
         if(mainCadrePost!=null){
             record.setId(mainCadrePost.getId());
             cadrePostMapper.updateByPrimaryKeySelective(record);
@@ -60,7 +60,7 @@ public class CadrePostService extends BaseMapper {
 
         // 如果是第一主职提交，则判断是否重复
         if (BooleanUtils.isTrue(record.getIsFirstMainPost())) {
-            CadrePost cadreMainCadrePost = getCadreMainCadrePost(record.getCadreId());
+            CadrePost cadreMainCadrePost = getFirstMainCadrePost(record.getCadreId());
             if (cadreMainCadrePost != null) {
                 if (record.getId() == null || cadreMainCadrePost.getId() != record.getId()) {
                     throw new OpException("已存在第一主职");
@@ -123,7 +123,7 @@ public class CadrePostService extends BaseMapper {
         cacheHelper.clearCadreCache();
     }
 
-    public CadrePost getCadreMainCadrePostById(Integer id) {
+    public CadrePost getCadrePostById(Integer id) {
 
         if (id == null) return null;
 
@@ -131,7 +131,7 @@ public class CadrePostService extends BaseMapper {
     }
 
     // 获取第一主职
-    public CadrePost getCadreMainCadrePost(int cadreId) {
+    public CadrePost getFirstMainCadrePost(int cadreId) {
 
         CadrePostExample example = new CadrePostExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -141,6 +141,16 @@ public class CadrePostService extends BaseMapper {
         List<CadrePost> cadrePosts = cadrePostMapper.selectByExample(example);
         if (cadrePosts.size() > 0) return cadrePosts.get(0);
         return null;
+    }
+
+    public List<CadrePost> getCadreMainCadrePosts(int cadreId) {
+
+        CadrePostExample example = new CadrePostExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andIsMainPostEqualTo(true);
+        example.setOrderByClause("is_first_main_post desc, sort_order desc");
+
+        return cadrePostMapper.selectByExample(example);
     }
 
     public List<CadrePost> getSubCadrePosts(int cadreId) {
@@ -161,7 +171,7 @@ public class CadrePostService extends BaseMapper {
         for (CadrePost record : records) {
 
             int cadreId = record.getCadreId();
-            CadrePost cadreMainCadrePost = getCadreMainCadrePost(cadreId);
+            CadrePost cadreMainCadrePost = getFirstMainCadrePost(cadreId);
             if (cadreMainCadrePost != null) {
 
                 record.setId(cadreMainCadrePost.getId());
@@ -227,7 +237,7 @@ public class CadrePostService extends BaseMapper {
         for (CadrePost record : records) {
 
             int cadreId = record.getCadreId();
-            CadrePost cadreMainCadrePost = getCadreMainCadrePost(cadreId);
+            CadrePost cadreMainCadrePost = getFirstMainCadrePost(cadreId);
             if (cadreMainCadrePost != null) {
                 record.setId(cadreMainCadrePost.getId());
                 cadrePostMapper.updateByPrimaryKeySelective(record);

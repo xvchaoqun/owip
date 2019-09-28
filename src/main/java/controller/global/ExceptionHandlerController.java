@@ -100,7 +100,7 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
-        String msg = "数据请求错误，请稍后重试：" + ex.getMessage();
+        String msg = "数据请求错误，请稍后重试";
         if (ex instanceof FileNotFoundException) {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {

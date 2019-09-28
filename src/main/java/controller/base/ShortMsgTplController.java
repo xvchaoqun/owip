@@ -29,7 +29,6 @@ import sys.constants.*;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.ContextHelper;
@@ -379,14 +378,15 @@ public class ShortMsgTplController extends BaseController {
         }
         List<ShortMsgTpl> records = shortMsgTplMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if(null != records && records.size()>0){
 
             for(ShortMsgTpl record:records){
 
-                Select2Option option = new Select2Option();
-                option.setText(record.getName());
-                option.setId(record.getId() + "");
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", record.getId() + "");
+                option.put("text", record.getName());
+                option.put("content", record.getContent());
 
                 options.add(option);
             }

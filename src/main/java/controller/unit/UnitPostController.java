@@ -491,6 +491,17 @@ public class UnitPostController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping(value = "/unitPost_sortByCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_sortByCode(Integer unitId, @RequestParam(required = false, defaultValue = "1") Boolean asc) {
+
+        unitPostService.sortByCode(unitId, asc);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "按干部岗位编号进行排序, unitId=%s", unitId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("unitPost:del")
     @RequestMapping(value = "/unitPost_batchDel", method = RequestMethod.POST)
     @ResponseBody

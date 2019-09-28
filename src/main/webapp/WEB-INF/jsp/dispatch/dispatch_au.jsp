@@ -298,9 +298,6 @@
         $("#modalForm input[name=dismissCount]").prop("disabled", false);
     })
 
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-
     $('textarea.limited').inputlimiter();
     $.fileInput($('#modalForm input[name=_ppt]'),{
         allowExt: ['ppt', 'pptx'],

@@ -81,8 +81,6 @@ pageEncoding="UTF-8"%>
         $cadreSelect.val(null).trigger("change");
     });
 
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     $("#modalForm").validate({
         submitHandler: function (form) {

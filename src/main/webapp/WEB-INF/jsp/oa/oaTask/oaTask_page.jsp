@@ -53,7 +53,7 @@
                                     作废</a>
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/oa/oaTaskUser_infoMsg"
-                                   data-grid-id="#jqGrid"
+                                   data-grid-id="#jqGrid" data-width="800"
                                    data-id-name="taskId"><i class="fa fa-send"></i>
                                     下发任务通知</a>
                             </shiro:hasPermission>
@@ -68,11 +68,17 @@
                                    data-msg="确定任务完结？（转移至已完成列表）"data-callback="_reload"
                                    data-open-by="page"><i class="fa fa-check-square-o"></i> 任务完结</button>
                             </c:if>
+                            <c:if test="${cls==2}">
+                                <button class="jqItemBtn btn btn-success btn-sm"
+                                   data-url="${ctx}/oa/oaTask_finish?isFinish=0"
+                                   data-msg="确定返回任务列表？"data-callback="_reload"
+                                   data-open-by="page"><i class="fa fa-reply"></i> 返回任务列表</button>
+                            </c:if>
                             <c:if test="${cls==3}">
                             <shiro:hasPermission name="oaTask:del">
                                 <a class="jqBatchBtn btn btn-success btn-sm"
-                                   data-title="作废"
-                                   data-msg="确定作废这{0}个任务？"
+                                   data-title="返回任务列表"
+                                   data-msg="确定重新启用这{0}个任务？"
                                    data-url="${ctx}/oa/oaTask_abolish?isAbolish=0"
                                    data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
                                     返回任务列表</a>
@@ -260,7 +266,7 @@
             }},
             </c:if>
             {label: '创建时间', name: 'createTime', width: 180}, {name: 'userCount', hidden:true}
-        ],
+        ]/*,
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             _onSelectRow(this)
@@ -268,12 +274,12 @@
         onSelectAll: function (aRowids, status) {
             saveJqgridSelected("#" + this.id);
             _onSelectRow(this)
-        }
+        }*/
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
-    function _onSelectRow(grid) {
+    /*function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
             $("#finishBtn").prop("disabled", true);
@@ -282,7 +288,7 @@
             var isFinish = (rowData.finishCount==rowData.userCount);
             $("#finishBtn").prop("disabled", !isFinish);
         }
-    }
+    }*/
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

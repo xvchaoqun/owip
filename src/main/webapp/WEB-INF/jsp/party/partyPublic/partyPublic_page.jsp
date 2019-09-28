@@ -49,7 +49,7 @@
                                     </shiro:hasPermission>
                                     <button class="popupBtn btn btn-info btn-sm"
                                                 data-url="${ctx}/partyPublics_preview">
-                                            <i class="fa fa-search"></i> 预览已发布公示列表
+                                            <i class="fa fa-search"></i> 已发布公示列表
                                     </button>
                                     <shiro:hasPermission name="partyPublic:del">
                                         <button data-url="${ctx}/partyPublic_batchDel"

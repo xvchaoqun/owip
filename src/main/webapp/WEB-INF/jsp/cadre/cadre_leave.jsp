@@ -30,6 +30,7 @@ pageEncoding="UTF-8"%>
                     <div><input type="checkbox" value="${cadrePost.id}" class="big" name="postIds[]">
                             ${cadrePost.post}(${cadrePost.isMainPost?"主职":"兼职"})</div>
                 </c:forEach>
+                <span class="red bolder padding-4">注：勾选后，将取消相关岗位的关联（即成为空岗）。</span>
             </div>
         </div>
         </c:if>

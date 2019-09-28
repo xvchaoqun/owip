@@ -24,6 +24,7 @@ import persistence.member.MemberApplyViewMapper;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.security.Base64Utils;
 import sys.spring.DateRange;
@@ -254,16 +255,23 @@ public class PartyPublicController extends BaseController {
             throw new UnauthorizedException();
 
         Integer id = record.getId();
+        Date pubDate;
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)){
+            pubDate = record.getPubDate(); // 只有组织部管理员才允许更新公示日期
+        }else {
+            pubDate = (id==null)?new Date():null;
+        }
+        record.setPubDate(pubDate);
 
-        record.setPubDate(new Date());
-        PartyPublic partyPublic = partyPublicService.get(record.getPartyId(),
-                record.getType(), record.getPubDate());
-        if(partyPublic != null) {
-            if (id == null || partyPublic.getId() != id) {
-
-                return failed("已经存在今天的{0}（{1}），不可重复生成公示文件。",
-                        OwConstants.OW_PARTY_PUBLIC_TYPE_MAP.get(partyPublic.getType()),
-                        partyPublic.getPartyName());
+        if(pubDate!=null){
+            PartyPublic partyPublic = partyPublicService.get(record.getPartyId(),
+                record.getType(), pubDate);
+            if(partyPublic != null) {
+                if (id == null || partyPublic.getId() != id) {
+                    return failed("已经存在{2}的{0}（{1}），不可重复生成公示文件。",
+                            OwConstants.OW_PARTY_PUBLIC_TYPE_MAP.get(partyPublic.getType()),
+                            partyPublic.getPartyName(), DateUtils.formatDate(pubDate, "yyyy年MM月dd日"));
+                }
             }
         }
 
