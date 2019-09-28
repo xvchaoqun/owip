@@ -2,7 +2,7 @@
 
 
 20190925
-更新 北邮  -- 北师大
+更新 北邮
 
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `degree_type` TINYINT(3) UNSIGNED NULL COMMENT '学位类型，1 学士 2 硕士 3 博士' AFTER `has_degree`;
