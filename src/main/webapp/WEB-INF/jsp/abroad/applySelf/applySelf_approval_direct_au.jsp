@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-4 control-label">审批</label>
+        <label class="col-xs-3 control-label">审批</label>
         <div class="col-xs-6">
             <div class="input-group">
                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
