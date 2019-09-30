@@ -237,6 +237,23 @@ public class CetConstants {
         CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_UNIT, "单位填写");
         CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_OW, "组织部填写");
     }
+
+    // 二级党委培训 审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（打回） 4 已删除
+    public final static byte CET_UNIT_PROJECT_STATUS_UNREPORT = 0;
+    public final static byte CET_UNIT_PROJECT_STATUS_REPORT = 1;
+    public final static byte CET_UNIT_PROJECT_STATUS_PASS = 2;
+    public final static byte CET_UNIT_PROJECT_STATUS_UNPASS = 3;
+    public final static byte CET_UNIT_PROJECT_STATUS_DELETE = 4;
+    public static Map<Byte, String> CET_UNIT_PROJECT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_UNREPORT, "未报送");
+        CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_REPORT, "已报送");
+        CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_PASS, "审批通过");
+        CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_UNPASS, "审批不通过");
+        CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_DELETE, "已删除");
+    }
     
     // 培训类型，1 党校专题培训  2 党校日常培训 3 二级党委培训 4 上级调训 5 二级单位培训
     public final static byte CET_TYPE_SPECIAL = 1;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT%>" var="CET_UNIT_PROJECT_STATUS_UNREPORT"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${cetUnitProject!=null?'编辑':'添加'}二级党委培训班</h3>
@@ -9,7 +10,6 @@
     <form class="form-horizontal" action="${ctx}/cet/cetUnitProject_au" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUnitProject.id}">
-        <input type="hidden" name="addType" value="${addType}">
         <div class="col-xs-12">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
                     <div class="col-xs-7">
-                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
                                  data-width="223" name="partyId" data-placeholder="请选择二级党委">
                             <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                         </select>
@@ -123,12 +123,14 @@
                                value="${cetUnitProject.address}">
                     </div>
                 </div>
+                <shiro:hasRole name="${ROLE_CET_ADMIN}">
                 <div class="form-group">
                     <label class="col-xs-5 control-label">是否计入年度学习任务</label>
                     <div class="col-xs-3">
                         <input type="checkbox" class="big" name="isValid" ${cetUnitProject.isValid?"checked":""}/>
                     </div>
                 </div>
+                </shiro:hasRole>
                 <div class="form-group">
                     <label class="col-xs-4 control-label">备注</label>
                     <div class="col-xs-6">
@@ -141,6 +143,11 @@
     </form>
 </div>
 <div class="modal-footer">
+    <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+        <c:if test="${empty cetUnitProject || cetUnitProject.status==CET_UNIT_PROJECT_STATUS_UNREPORT}">
+            <div class="note">提醒：添加后请继续添加参训人，完成后请及时报送</div>
+        </c:if>
+    </shiro:lacksRole>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"

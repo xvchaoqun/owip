@@ -13,10 +13,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.LoginUserService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
@@ -28,12 +28,11 @@ public class CetUnitTrainService extends CetBaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
+    private LoginUserService loginUserService;
+    @Autowired
     private UserBeanService userBeanService;
     @Autowired
-    private CetUpperTrainAdminService cetUpperTrainAdminService;
-    @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
-
 
     public boolean idDuplicate(Integer id, int projectId, int userId) {
 
@@ -49,34 +48,39 @@ public class CetUnitTrainService extends CetBaseMapper {
     public void insertSelective(CetUnitTrain record) {
 
         cetUnitTrainMapper.insertSelective(record);
+        updateTotalCount(record.getProjectId());
     }
 
 
     @Transactional
-    public void batchDel(Integer[] ids, byte addType) {
+    public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
-        Set<Integer> adminUnitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
+        Set<Integer> projectIdSet = new HashSet<>();
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
 
-        for (Integer id : ids) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            for (Integer id : ids) {
 
-            CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
-            CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(cetUnitTrain.getProjectId());
-            if (!adminUnitIds.contains(cetUnitProject.getUnitId())) {
-                throw new OpException("没有权限。");
-            }
+                CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
+                int projectId = cetUnitTrain.getProjectId();
+                projectIdSet.add(projectId);
+                CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
+                if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                    throw new OpException("没有权限。");
+                }
 
-            if (cetUnitTrain.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_PASS
-                    && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-
-                throw new OpException("已审批通过的培训记录不允许删除。");
             }
         }
 
         CetUnitTrainExample example = new CetUnitTrainExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cetUnitTrainMapper.deleteByExample(example);
+
+        for (Integer projectId : projectIdSet) {
+            updateTotalCount(projectId);
+        }
     }
 
     @Transactional
@@ -84,17 +88,14 @@ public class CetUnitTrainService extends CetBaseMapper {
 
         CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(record.getId());
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(cetUnitTrain.getProjectId());
-        Set<Integer> adminUnitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, record.getAddType());
-        if (!adminUnitIds.contains(cetUnitProject.getUnitId())) {
-            throw new OpException("没有权限。");
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                throw new OpException("没有权限。");
+            }
         }
 
-        if (cetUnitTrain.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_PASS
-                && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-
-            throw new OpException("已审批通过的培训记录不允许修改。");
-        }
-
+        record.setProjectId(null);
         return cetUnitTrainMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -108,20 +109,14 @@ public class CetUnitTrainService extends CetBaseMapper {
 
     // 批量添加参训人员
     @Transactional
-    public void batchAdd(int projectId, int traineeTypeId, Integer[] userIds, byte addType) {
+    public void batchAdd(int projectId, int traineeTypeId, Integer[] userIds) {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-
-        Set<Integer> adminUnitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
-        if (!adminUnitIds.contains(cetUnitProject.getUnitId())) {
-            throw new OpException("没有权限。");
-        }
-
-        Byte status = null;
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-            status = CetConstants.CET_UPPER_TRAIN_STATUS_INIT;
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
-            status = CetConstants.CET_UPPER_TRAIN_STATUS_PASS;
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                throw new OpException("没有权限。");
+            }
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
@@ -144,14 +139,13 @@ public class CetUnitTrainService extends CetBaseMapper {
                 }
             }
             record.setPeriod(cetUnitProject.getPeriod());
-            record.setAddType(addType);
             record.setAddUserId(currentUserId);
             record.setAddTime(now);
-            record.setStatus(status);
 
             cetUnitTrainMapper.insertSelective(record);
         }
 
+        updateTotalCount(projectId);
     }
 
     @Transactional
@@ -206,18 +200,32 @@ public class CetUnitTrainService extends CetBaseMapper {
                 }
             }
             record.setPeriod(cetUnitProject.getPeriod());
-            record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
             record.setAddUserId(currentUserId);
             record.setAddTime(now);
-            record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
 
             cetUnitTrainMapper.insertSelective(record);
             success++;
         }
 
+        updateTotalCount(projectId);
+
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", success);
         resultMap.put("failedXlsRows", failedXlsRows);
         return resultMap;
+    }
+
+    // 更新参训人数量
+    public void updateTotalCount(int projectId){
+
+        CetUnitTrainExample example = new CetUnitTrainExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        int totalCount = (int) cetUnitTrainMapper.countByExample(example);
+
+        CetUnitProject record = new CetUnitProject();
+        record.setId(projectId);
+        record.setTotalCount(totalCount);
+
+        cetUnitProjectMapper.updateByPrimaryKeySelective(record);
     }
 }

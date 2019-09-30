@@ -3,7 +3,6 @@ package controller.cet;
 import domain.cet.CetUnitProject;
 import domain.cet.CetUnitProjectExample;
 import domain.cet.CetUnitProjectExample.Criteria;
-import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,6 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -43,10 +42,29 @@ public class CetUnitProjectController extends CetBaseController {
 
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitProject")
-    public String cetUnitProject(byte addType, ModelMap modelMap) {
+    public String cetUnitProject(Byte cls, ModelMap modelMap) {
 
-        modelMap.put("addType", addType);
-        
+        if (cls == null) {
+            cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
+        }
+
+        modelMap.put("cls", cls);
+
+        boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+        List<Integer> adminPartyIdList = new ArrayList<>();
+        if(addPermits) {
+            adminPartyIdList = loginUserService.adminPartyIdList();
+        }
+        List<Map> mapList = iCetMapper.unitProjectGroupByStatus(addPermits, adminPartyIdList);
+        Map<Byte, Integer> statusCountMap = new HashMap<>();
+        for (Map resultMap : mapList) {
+            byte status = ((Integer) resultMap.get("status")).byteValue();
+            int num = ((Long) resultMap.get("num")).intValue();
+            statusCountMap.put(status, num);
+        }
+
+        modelMap.put("statusCountMap", statusCountMap);
+
         return "cet/cetUnitProject/cetUnitProject_page";
     }
 
@@ -54,12 +72,16 @@ public class CetUnitProjectController extends CetBaseController {
     @RequestMapping("/cetUnitProject_data")
     @ResponseBody
     public void cetUnitProject_data(HttpServletResponse response,
-                                byte addType,
+                                    Byte cls,
                                     Integer year,
                                     Integer unitId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer pageSize, Integer pageNo) throws IOException {
+
+        if (cls == null) {
+            cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -73,36 +95,35 @@ public class CetUnitProjectController extends CetBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("year desc, start_date desc");
 
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
-        
-        // 查看权限（单位管理员和组织部管理员）
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
-
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-
-            Integer currentUserId = ShiroHelper.getCurrentUserId();
-            byte upperType = CetConstants.CET_UPPER_TRAIN_UNIT;
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if (adminUnitIdSet.size() == 0 && adminLeaderUserIdSet.size() == 0) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
+            criteria.andPartyIdIn(adminPartyIdList);
+        }
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
-            criteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
-        }else {
-            criteria.andIdIsNull();
+        if (cls == 1) {
+            criteria.andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_PASS);
+        } else if (cls == 2) {
+            criteria.andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);
+        } else if (cls == 3) {
+            criteria.andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
+        } else if (cls == 4) {
+            criteria.andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS);
+        } else if (cls == 5) {
+            criteria.andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_DELETE);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             cetUnitProject_export(example, response);
             return;
@@ -113,7 +134,7 @@ public class CetUnitProjectController extends CetBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetUnitProject> records= cetUnitProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetUnitProject> records = cetUnitProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -128,67 +149,56 @@ public class CetUnitProjectController extends CetBaseController {
         return;
     }
 
-    //@RequiresPermissions("cetUnitProject:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitProject_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitProject_au(CetUnitProject record, HttpServletRequest request) {
 
         CetUnitProject oldRecord = null;
         Integer id = record.getId();
-        byte addType = record.getAddType();
         if (id != null) {
             oldRecord = cetUnitProjectMapper.selectByPrimaryKey(id);
-            record.setAddType(null);
         }
-        
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
-            SecurityUtils.getSubject().checkPermission("cetUpperTrain:edit");
-            
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-
-            byte upperType = CetConstants.CET_UPPER_TRAIN_UNIT;
-            if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
-                Integer currentUserId = ShiroHelper.getCurrentUserId();
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-
-                if (id != null) {
-                    Integer oldUnitId = oldRecord.getUnitId();
-                    if (oldUnitId==null || !adminUnitIdSet.contains(oldUnitId)) {
-                        throw new UnauthorizedException(); // 非单位管理员
-                    }
-                }else{
-                    Integer unitId = record.getUnitId();
-                    if (unitId == null || !adminUnitIdSet.contains(unitId)) {
-                        throw new UnauthorizedException(); // 非单位管理员
-                    }
-                }
-
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (adminPartyIdList.size() == 0) {
+                throw new UnauthorizedException();
             }
-        } else{
-            throw new UnauthorizedException();
+            if (record.getPartyId() != null && !adminPartyIdList.contains(record.getPartyId())) {
+                throw new UnauthorizedException();
+            }
+            if (oldRecord != null && oldRecord.getPartyId() != null
+                    && !adminPartyIdList.contains(oldRecord.getPartyId())) {
+                throw new UnauthorizedException();
+            }
+
+            record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);
+            record.setIsValid(false);
+        } else {
+            record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_PASS);
         }
-        
+
         record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
         if (id == null) {
+
             record.setAddTime(new Date());
             record.setAddUserId(ShiroHelper.getCurrentUserId());
             cetUnitProjectService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "添加二级单位培训班：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加二级党委培训班：%s", record.getId()));
         } else {
 
+            record.setStatus(null);
             cetUnitProjectService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "更新二级单位培训班：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新二级党委培训班：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    //@RequiresPermissions("cetUnitProject:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitProject_au")
     public String cetUnitProject_au(Integer id,
-                                    byte addType,  // 2：单位填写  3： 组织部填写
                                     ModelMap modelMap) {
 
         if (id != null) {
@@ -197,93 +207,135 @@ public class CetUnitProjectController extends CetBaseController {
 
             modelMap.put("party", partyService.findAll().get(cetUnitProject.getPartyId()));
             modelMap.put("unit", unitService.findAll().get(cetUnitProject.getUnitId()));
-
-            addType = cetUnitProject.getAddType();
         }
-        
-        modelMap.put("addType", addType);
-        
-        byte upperType = CetConstants.CET_UPPER_TRAIN_UNIT;
-        
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-            int currentUserId = ShiroHelper.getCurrentUserId();
-            Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if(adminLeaderUserIdSet.size()>0){
-                // 如果是校领导管理员，从所有的单位中选
-                List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
-                modelMap.put("upperUnits", upperUnits);
-            }else if(adminUnitIdSet.size()>0){
-                List<Unit> upperUnits = new ArrayList<>();
-                for (Integer adminUintId : adminUnitIdSet) {
-                    Unit unit = CmTag.getUnit(adminUintId);
-                    if(unit!=null){
-                        upperUnits.add(unit);
-                    }
-                }
-                modelMap.put("upperUnits", upperUnits);
-            }else{
-                throw new UnauthorizedException();
-            }
 
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
-            List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
-            modelMap.put("upperUnits", upperUnits);
-        }else {
-            throw new UnauthorizedException();
-        }
-       
-                
         return "cet/cetUnitProject/cetUnitProject_au";
     }
 
-    //@RequiresPermissions("cetUnitProject:del")
-    @RequestMapping(value = "/cetUnitProject_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitProject_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetUnitProject_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_cetUnitProject_report(int id, ModelMap modelMap) {
 
+        cetUnitProjectService.report(id);
+        logger.info(addLog(LogConstants.LOG_CET, "二级党委培训报送：%s", id));
 
-        if (null != ids && ids.length>0){
-            cetUnitProjectService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_CET, "批量删除二级单位培训班：%s", StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping("/cetUnitProject_check")
+    public String cetUnitProject_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1)
+            modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(ids[0]));
+
+        return "cet/cetUnitProject/cetUnitProject_check";
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitProject_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUnitProject_check(HttpServletRequest request,
+                                       @RequestParam(value = "ids[]") Integer[] ids,
+                                       Boolean pass, Boolean isValid, String backReason, ModelMap modelMap) {
+
+        if (ids != null && ids.length > 0) {
+
+            CetUnitProject record = new CetUnitProject();
+            record.setStatus(BooleanUtils.isTrue(pass) ? CetConstants.CET_UNIT_PROJECT_STATUS_PASS
+                    : CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS);
+            record.setBackReason(backReason);
+            record.setIsValid(BooleanUtils.isTrue(isValid));
+
+            CetUnitProjectExample example = new CetUnitProjectExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids))
+                    .andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
+            cetUnitProjectMapper.updateByExampleSelective(record, example);
+
+            if (BooleanUtils.isTrue(pass)) {
+                commonMapper.excuteSql("update cet_unit_project set back_reason=null where id in (" + StringUtils.join(ids, ",") + ")");
+            }
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-   
+    // 二级党委管理员删除
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitProject_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUnitProject_del(HttpServletRequest request, int id, ModelMap modelMap) {
+
+        cetUnitProjectService.del(id);
+        logger.info(addLog(LogConstants.LOG_CET, "删除二级党委培训班：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitProject_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUnitProject_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN);
+
+        if (null != ids && ids.length > 0) {
+            cetUnitProjectService.batchDel(ids);
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除二级党委培训班：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitProject_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUnitProject_back(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+            cetUnitProjectService.back(ids);
+            logger.info(addLog(LogConstants.LOG_CET, "返回报送二级党委培训班：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
     public void cetUnitProject_export(CetUnitProjectExample example, HttpServletResponse response) {
 
         List<CetUnitProject> records = cetUnitProjectMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100","培训班主办方|100","培训结束时间|100","培训开始时间|100","培训班名称|100","培训班类型|100","培训学时|100","参训人数|100","培训地点|100","是否计入年度学习任务|100","备注|100","操作人|100","添加时间|100"};
+        String[] titles = {"年度|100", "培训班主办方|100", "培训结束时间|100", "培训开始时间|100", "培训班名称|100", "培训班类型|100", "培训学时|100", "参训人数|100", "培训地点|100", "是否计入年度学习任务|100", "备注|100", "操作人|100", "添加时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUnitProject record = records.get(i);
             String[] values = {
-                record.getYear()+"",
-                            record.getUnitId()+"",
-                            DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                            record.getProjectName(),
-                            record.getProjectType()+"",
-                            record.getPeriod()+"",
-                            record.getTotalCount()+"",
-                            record.getAddress(),
-                            record.getIsValid()+"",
-                            record.getRemark(),
-                            record.getAddUserId()+"",
-                            DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    record.getYear() + "",
+                    record.getUnitId() + "",
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
+                    record.getProjectName(),
+                    record.getProjectType() + "",
+                    record.getPeriod() + "",
+                    record.getTotalCount() + "",
+                    record.getAddress(),
+                    record.getIsValid() + "",
+                    record.getRemark(),
+                    record.getAddUserId() + "",
+                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
             };
             valuesList.add(values);
         }
-        String fileName = "二级单位培训班_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "二级党委培训班_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequestMapping("/cetUnitProject_selects")
     @ResponseBody
-    public Map cetUnitProject_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map cetUnitProject_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -297,21 +349,21 @@ public class CetUnitProjectController extends CetBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andProjectNameLike("%"+searchStr.trim()+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andProjectNameLike("%" + searchStr.trim() + "%");
         }
 
         long count = cetUnitProjectMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetUnitProject> records = cetUnitProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<CetUnitProject> records = cetUnitProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        if (null != records && records.size() > 0) {
 
-            for(CetUnitProject record:records){
+            for (CetUnitProject record : records) {
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getProjectName());

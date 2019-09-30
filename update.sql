@@ -1,5 +1,53 @@
 
+20190930
+ALTER TABLE `cet_unit_project`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL
+	  COMMENT '审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（打回） 4 已删除' AFTER `add_time`;
+UPDATE cet_unit_project SET STATUS=2;
+DELETE FROM sys_resource WHERE permission='cetUnitProject:list2';
+DELETE FROM sys_resource WHERE permission='cetUnitTrain:*';
+DELETE FROM sys_resource WHERE permission='cetUnitProject:*';
+DELETE FROM sys_resource WHERE permission='cetUpperTrain:unit';
+DELETE FROM sys_resource WHERE permission='cetUpperTrain:listUnit';
+update sys_resource SET permission='cetUnitProject:list' WHERE permission='cetUnitProject:menu';
+update sys_resource SET NAME='二级党委培训信息' WHERE permission='userCetUnitTrain:*';
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (881, 0, '二级党委培训编辑', '', 'function', '', NULL, 652, '0/1/384/652/', 1,
+                                    'cetUnitProject:edit', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `cet_unit_project`
+	DROP COLUMN `add_type`;
+
+ALTER TABLE `cet_unit_train`
+	DROP COLUMN `add_type`;
+
+ALTER TABLE `cet_unit_train`
+	DROP COLUMN `status`,
+	DROP COLUMN `back_reason`;
+
+ALTER TABLE `cet_unit_project`
+	CHANGE COLUMN `total_count` `total_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人数' AFTER `period`;
+
+UPDATE cet_unit_project p SET total_count=(SELECT COUNT(*) FROM cet_unit_train WHERE project_id=p.id);
+
+ALTER TABLE `cet_unit_project`
+	CHANGE COLUMN `remark` `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `add_time`,
+	ADD COLUMN `back_reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '不通过原因' AFTER `status`;
+update sys_resource SET NAME='培训班类型', permission='mc_cet_upper_train_type2:*'
+, url='/metaClass_type_list?cls=mc_cet_upper_train_type2'
+WHERE permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer2,mc_cet_upper_train_type2:*';
+
+INSERT INTO `sys_scheduler_job` (`id`, `name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`,
+                                 `sort_order`, `create_time`) VALUES (27, '【干部培训】归档培训学时', '', 'job.cet.CetArchive', '0 0 4 * * ?', 0, 1, 28, '2019-09-30 09:52:49');
+
+
+-- 给分党委分配二级党委培训权限
+
+20190928
+更新 南航
 
 20190925
 更新 北邮

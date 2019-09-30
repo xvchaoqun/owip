@@ -538,7 +538,9 @@ public class CrsPostController extends CrsBaseController {
             if (StringUtils.isNotBlank(_meetingApplyCount) && !StringUtils.isNumeric(_meetingApplyCount)) {
                 throw new OpException("第{0}行招聘会人数要求有误", row);
             }
-            record.setMeetingApplyCount(Integer.valueOf(_meetingApplyCount));
+            if(_meetingApplyCount!=null) {
+                record.setMeetingApplyCount(Integer.valueOf(_meetingApplyCount));
+            }
 
             record.setMeetingTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14))));
             record.setMeetingAddress(StringUtils.trimToNull(xlsRow.get(15)));

@@ -1,6 +1,7 @@
 package controller.cet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import service.LoginUserService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
@@ -23,6 +24,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected SysUserService sysUserService;
+    @Autowired
+    protected LoginUserService loginUserService;
     @Autowired
     protected UnitService unitService;
     @Autowired

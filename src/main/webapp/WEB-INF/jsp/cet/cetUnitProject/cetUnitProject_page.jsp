@@ -1,29 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT%>" var="_UNREPORT"/>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_REPORT%>" var="_REPORT"/>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="_PASS"/>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS%>" var="_UNPASS"/>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_DELETE%>" var="_DELETE"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
+
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="<c:if test="${cls==1}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUnitProject?cls=1"><i
+                            class="fa fa-list"></i> 培训信息汇总(${cm:trimToZero(statusCountMap.get(_PASS))})
+                    </a>
+                </li>
+                <li class="<c:if test="${cls==2}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUnitProject?cls=2"><i
+                            class="fa fa-circle-o"></i> 待报送(${cm:trimToZero(statusCountMap.get(_UNREPORT))})
+                    <span id="unreportCount"></span>
+                    </a>
+                </li>
+                <li class="<c:if test="${cls==3}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUnitProject?cls=3"><i
+                            class="fa fa-history"></i> 待审核(${cm:trimToZero(statusCountMap.get(_REPORT))})
+                    <span id="checkCount"></span>
+                    </a>
+                </li>
+                <li class="<c:if test="${cls==4}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUnitProject?cls=4"><i
+                            class="fa fa-times"></i> 未通过审核(${cm:trimToZero(statusCountMap.get(_UNPASS))})</a>
+                </li>
+                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <li class="<c:if test="${cls==5}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUnitProject?cls=5"><i
+                            class="fa fa-trash"></i> 已删除(${cm:trimToZero(statusCountMap.get(_DELETE))})</a>
+                </li>
+                </shiro:hasRole>
+                <%--<div class="buttons pull-left" style="left:20px; position: relative">
+
+                </div>--%>
+            </ul>
+            <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetUnitProject:edit">
-                    <button class="popupBtn btn btn-success btn-sm" data-width="900"
-                            data-url="${ctx}/cet/cetUnitProject_au?addType=${addType}">
+                <c:if test="${(cm:hasRole(ROLE_CET_ADMIN) && cls==1)||(!cm:hasRole(ROLE_CET_ADMIN) && cls==2)}">
+                <button class="popupBtn btn btn-success btn-sm" data-width="900"
+                            data-url="${ctx}/cet/cetUnitProject_au">
                         <i class="fa fa-plus"></i> 添加</button>
+                </c:if>
+                <c:if test="${cls!=5 && (cm:hasRole(ROLE_CET_ADMIN) || (cls==2))}">
+                <shiro:hasPermission name="cetUnitProject:edit">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
-                       data-url="${ctx}/cet/cetUnitProject_au?addType=${addType}"
+                       data-url="${ctx}/cet/cetUnitProject_au"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cetUnitProject:del">
-                    <button data-url="${ctx}/cet/cetUnitProject_batchDel"
+                </c:if>
+                <c:if test="${cls==4}">
+                <shiro:hasPermission name="cetUnitProject:edit">
+                    <button class="jqBatchBtn btn btn-success btn-sm"
+                            data-title="返回待报送"
+                            data-msg="确定返回待报送？（已选{0}条数据）"
+                       data-url="${ctx}/cet/cetUnitProject_back"
+                       data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
+                        返回待报送</button>
+                </shiro:hasPermission>
+                </c:if>
+                <c:if test="${cls==3}">
+                    <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                    <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/cet/cetUnitProject_check"
+                                    data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                                    审批
+                    </button>
+                    </shiro:hasRole>
+                </c:if>
+                <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+                <c:if test="${cls==2}">
+                    <button data-url="${ctx}/cet/cetUnitProject_del"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？（删除后不可恢复，请谨慎操作！）"
+                            data-grid-id="#jqGrid"
+                            class="jqItemBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </c:if>
+                </shiro:lacksRole>
+                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                    <c:if test="${cls!=5}">
+                    <button data-url="${ctx}/cet/cetUnitProject_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                </shiro:hasPermission>
+                    </c:if>
+                </shiro:hasRole>
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-url="${ctx}/sysApprovalLog"
                         data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN%>"
@@ -83,14 +163,25 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function _report(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/cet/cetUnitProject_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
-                    return ('<button class="openView btn btn-success btn-xs" ' +
-                    'data-url="${ctx}/cet/cetUnitTrain?projectId={0}&addType=${addType}"><i class="fa fa-search"></i> 详情</button>')
-                            .format(rowObject.id);
+                <c:if test="${cls==2}">
+                { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
+                  return ('<button class="confirm btn btn-success btn-xs" data-msg="报送后不可修改，请核实后确认。" ' +
+                      'data-callback="_report" ' +
+                  'data-url="${ctx}/cet/cetUnitProject_report?id={0}&cls=${cls}"><i class="fa fa-hand-paper-o"></i> 报送</button>')
+                          .format(rowObject.id);
+                }, frozen:true},
+                </c:if>
+                {label: '参训人列表', name: '_detail', formatter: function (cellvalue, options, rowObject) {
+                    return ('<button class="openView btn btn-warning btn-xs" ' +
+                    'data-url="${ctx}/cet/cetUnitTrain?projectId={0}"><i class="fa fa-users"></i> 查看({1})</button>')
+                            .format(rowObject.id, rowObject.totalCount);
                 }, frozen: true},
                 { label: '年度',name: 'year', width: 60, frozen: true},
                 { label: '培训班主办方',name: 'partyId',align:'left', width: 250, formatter:function(cellvalue, options, rowObject){
@@ -120,6 +211,9 @@ pageEncoding="UTF-8" %>
                 { label: '备注',name: 'remark', align: 'left', width: 150},
                 {label: '操作人', name: 'addUser.realname'},
                 {label: '添加时间', name: 'addTime', width: 150},
+                {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                    return _cMap.CET_UNIT_PROJECT_STATUS_MAP[cellvalue]
+                }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

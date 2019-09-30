@@ -9,7 +9,6 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUnitTrain.id}">
         <input type="hidden" name="projectId" value="${cetUnitProject.id}">
-		 <input type="hidden" name="addType" value="${addType}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>参训人</label>
 				<div class="col-xs-6">
@@ -109,6 +108,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
                         $("#jqGrid2").trigger("reloadGrid");
                     }
                     $btn.button('reset');

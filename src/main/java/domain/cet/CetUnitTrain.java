@@ -38,15 +38,9 @@ public class CetUnitTrain implements Serializable {
 
     private String pdfNote;
 
-    private Byte addType;
-
     private Integer addUserId;
 
     private Date addTime;
-
-    private Byte status;
-
-    private String backReason;
 
     private String remark;
 
@@ -124,14 +118,6 @@ public class CetUnitTrain implements Serializable {
         this.pdfNote = pdfNote == null ? null : pdfNote.trim();
     }
 
-    public Byte getAddType() {
-        return addType;
-    }
-
-    public void setAddType(Byte addType) {
-        this.addType = addType;
-    }
-
     public Integer getAddUserId() {
         return addUserId;
     }
@@ -146,22 +132,6 @@ public class CetUnitTrain implements Serializable {
 
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public String getBackReason() {
-        return backReason;
-    }
-
-    public void setBackReason(String backReason) {
-        this.backReason = backReason == null ? null : backReason.trim();
     }
 
     public String getRemark() {

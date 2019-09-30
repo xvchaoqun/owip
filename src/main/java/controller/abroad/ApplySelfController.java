@@ -140,6 +140,7 @@ public class ApplySelfController extends AbroadBaseController {
     public Map do_applySelf_approval_direct_au(HttpServletRequest request,
                                                int applySelfId,
                                                int approvalLogId,
+                                               Boolean pass,
                                                @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date approvalTime,
                                                String remark,
                                                MultipartFile _filePath,
@@ -153,6 +154,7 @@ public class ApplySelfController extends AbroadBaseController {
         ApprovalLog record = new ApprovalLog();
         record.setId(approvalLogId);
         record.setCreateTime(approvalTime);
+        record.setStatus(BooleanUtils.isTrue(pass));
         record.setRemark(remark);
         if(_filePath!=null) {
             record.setFilePath(uploadPdfOrImage(_filePath, "applySelf_approval"));

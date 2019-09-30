@@ -24,25 +24,25 @@
 		  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">确定</button></div>
   <c:choose>
       <c:when test="${cetTraineeType.code=='t_cadre'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectCadres_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectCadres_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_reserve'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectCadreReserves_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectCadreReserves_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_party_member'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectPartyMembers_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectPartyMembers_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_branch_member'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectBranchMembers_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectBranchMembers_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_organizer'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectOrganizers_tree"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectOrganizers_tree"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_candidate'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectMemberApply_tree?stage=${OW_APPLY_STAGE_CANDIDATE}"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectMemberApply_tree?stage=${OW_APPLY_STAGE_CANDIDATE}"/>
       </c:when>
       <c:when test="${cetTraineeType.code=='t_activist'}">
-          <c:set var="selectTreeURL" value="${ctx}/cet/cetProjectObj_selectMemberApply_tree?stage=${OW_APPLY_STAGE_ACTIVE}"/>
+          <c:set var="selectTreeURL" value="${ctx}/cet/selectMemberApply_tree?stage=${OW_APPLY_STAGE_ACTIVE}"/>
       </c:when>
   </c:choose>
   <script>

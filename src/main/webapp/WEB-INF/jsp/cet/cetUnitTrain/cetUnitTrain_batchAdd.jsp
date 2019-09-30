@@ -10,7 +10,6 @@
     <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_batchAdd" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <input type="hidden" name="projectId" value="${cetUnitProject.id}">
-        <input type="hidden" name="addType" value="${addType}">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
             <div class="col-xs-6">
@@ -53,16 +52,16 @@
             var traineeType = traineeTypeMap[traineeTypeId];
             switch (traineeType.code) {
                 case 't_cadre':
-                    selectTreeURL = "${ctx}/cet/cetProjectObj_selectCadres_tree";
+                    selectTreeURL = "${ctx}/cet/selectCadres_tree";
                     break;
                 case 't_party_member':
-                    selectTreeURL = "${ctx}/cet/cetProjectObj_selectPartyMembers_tree";
+                    selectTreeURL = "${ctx}/cet/selectPartyMembers_tree";
                     break;
                 case 't_branch_member':
-                    selectTreeURL = "${ctx}/cet/cetProjectObj_selectBranchMembers_tree";
+                    selectTreeURL = "${ctx}/cet/selectBranchMembers_tree";
                     break;
                 case 't_organizer':
-                    selectTreeURL = "${ctx}/cet/cetProjectObj_selectOrganizers_tree";
+                    selectTreeURL = "${ctx}/cet/selectOrganizers_tree";
                     break;
             }
         }
@@ -76,7 +75,6 @@
             return;
         }
         $.getJSON(selectTreeURL, {
-            addType:${addType},
             upperType:${CET_UPPER_TRAIN_UNIT}
         }, function (data) {
             var treeData = data.tree;

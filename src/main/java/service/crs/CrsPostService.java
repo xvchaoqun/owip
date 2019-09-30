@@ -3,7 +3,6 @@ package service.crs;
 import com.google.gson.*;
 import controller.global.OpException;
 import domain.crs.*;
-import domain.unit.UnitPost;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -201,13 +200,15 @@ public class CrsPostService extends CrsBaseMapper {
 
 
         if (status == CrsConstants.CRS_POST_STATUS_NORMAL) {
-
-            // 只有已作废或已删除的记录，可以重新返回招聘列表
+            // 只有已作废或已删除或完成招聘的记录，可以重新返回招聘列表
             criteria.andStatusIn(Arrays.asList(CrsConstants.CRS_POST_STATUS_ABOLISH,
+                    CrsConstants.CRS_POST_STATUS_FINISH,
                     CrsConstants.CRS_POST_STATUS_DELETE));
-        } else if (status == CrsConstants.CRS_POST_STATUS_ABOLISH || status == CrsConstants.CRS_POST_STATUS_DELETE) {
+        } else if (status == CrsConstants.CRS_POST_STATUS_ABOLISH
+                || status == CrsConstants.CRS_POST_STATUS_FINISH
+                || status == CrsConstants.CRS_POST_STATUS_DELETE) {
 
-            // 只有正常招聘的岗位，才可以作废或删除
+            // 只有正常招聘的岗位，才可以作废或删除或完成招聘
             criteria.andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL);
         } else {
 

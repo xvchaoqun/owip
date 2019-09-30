@@ -20,6 +20,25 @@
       </div>
     </div>
     <div class="form-group">
+        <label class="col-xs-4 control-label">审批</label>
+        <div class="col-xs-6">
+            <div class="input-group">
+                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                    <input required type="radio" name="pass" id="pass1" value="1" ${approvalLog.status?'checked':''}>
+                    <label for="pass1">
+                        通过
+                    </label>
+                </div>
+                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                    <input required type="radio" name="pass" id="pass0" value="0" ${approvalLog.status?'':'checked'}>
+                    <label for="pass0">
+                        不通过
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
       <label class="col-xs-3 control-label">审批意见</label>
       <div class="col-xs-6">
         <textarea class="form-control limited" name="remark">${approvalLog.remark}</textarea>

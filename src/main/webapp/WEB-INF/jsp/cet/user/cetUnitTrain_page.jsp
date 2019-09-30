@@ -39,8 +39,8 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '参训人姓名', name: 'cadre.realname', frozen: true},
-            {label: '参训人工号', width: 110, name: 'cadre.code', frozen: true},
+            {label: '参训人姓名', name: 'user.realname', frozen: true},
+            {label: '参训人工号', width: 110, name: 'user.code', frozen: true},
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
             {label: '职务属性', name: 'postId', width: 120, align: 'left', formatter: $.jgrid.formatter.MetaType},
             {label: '完成培训学时', name: 'period'},
@@ -48,7 +48,7 @@
                 label: '培训总结', name: '_note', width: 200, formatter: function (cellvalue, options, rowObject) {
 
                     var ret = "";
-                    var fileName = "培训总结(" + rowObject.cadre.realname + ")";
+                    var fileName = "培训总结(" + rowObject.user.realname + ")";
                     var pdfNote = rowObject.pdfNote;
                     if ($.trim(pdfNote) != '') {
 

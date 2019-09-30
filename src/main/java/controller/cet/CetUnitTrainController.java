@@ -5,7 +5,6 @@ import domain.cet.CetUnitTrain;
 import domain.cet.CetUnitTrainExample;
 import domain.cet.CetUnitTrainExample.Criteria;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
@@ -43,23 +41,20 @@ public class CetUnitTrainController extends CetBaseController {
     
     private Logger logger = LoggerFactory.getLogger(getClass());
     
-    @RequiresPermissions("cetUnitTrain:list")
+    @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain")
     public String cetUnitTrain(Integer projectId,
-                               byte addType,
                                ModelMap modelMap) {
         
-        modelMap.put("addType", addType);
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
         
         return "cet/cetUnitTrain/cetUnitTrain_page";
     }
     
-    @RequiresPermissions("cetUnitTrain:list")
+    @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain_data")
     @ResponseBody
     public void cetUnitTrain_data(HttpServletResponse response,
-                                  byte addType,
                                   int projectId,
                                   Integer userId,
                                   @RequestParam(required = false, defaultValue = "0") int export,
@@ -68,11 +63,13 @@ public class CetUnitTrainController extends CetBaseController {
         
         
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-        Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
-        if(adminUnitIdSet==null || !adminUnitIdSet.contains(cetUnitProject.getUnitId())){
-            throw new UnauthorizedException();
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if(adminPartyIdList.size()==0 || !adminPartyIdList.contains(cetUnitProject.getPartyId())){
+                throw new UnauthorizedException();
+            }
         }
-        
+
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -116,7 +113,7 @@ public class CetUnitTrainController extends CetBaseController {
         return;
     }
     
-    @RequiresPermissions("cetUnitTrain:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_au(CetUnitTrain record,
@@ -135,20 +132,16 @@ public class CetUnitTrainController extends CetBaseController {
         
         int projectId = record.getProjectId();
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-        Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, record.getAddType());
-        if(adminUnitIdSet==null || !adminUnitIdSet.contains(cetUnitProject.getUnitId())){
-            return failed("没有权限。");
+
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                return failed("没有权限。");
+            }
         }
-    
         if (id == null) {
             record.setAddTime(new Date());
             record.setAddUserId(ShiroHelper.getCurrentUserId());
-            if(record.getAddType()==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-                record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
-            }else if(record.getAddType()==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
-                record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
-            }
-            
             cetUnitTrainService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "添加二级单位培训班培训记录：%s", record.getId()));
         } else {
@@ -160,19 +153,11 @@ public class CetUnitTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
     
-    @RequiresPermissions("cetUnitTrain:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_au")
     public String cetUnitTrain_au(Integer id,
-                                  byte addType,
                                   Integer projectId, ModelMap modelMap) {
-        
-        modelMap.put("addType", addType);
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            Set<Integer> unitIds = cetUpperTrainAdminService.adminUnitIds(CetConstants.CET_UPPER_TRAIN_UNIT, addType);
-            modelMap.put("unitIds", StringUtils.join(unitIds, ","));
-        }
-        
         if (id != null) {
             CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
             modelMap.put("cetUnitTrain", cetUnitTrain);
@@ -183,71 +168,30 @@ public class CetUnitTrainController extends CetBaseController {
         return "cet/cetUnitTrain/cetUnitTrain_au";
     }
     
-    @RequiresPermissions("cetUnitTrain:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_batchAdd")
-    public String cetUnitTrain_batchAdd(byte addType,
-                                        int projectId, ModelMap modelMap) {
-        
-        modelMap.put("addType", addType);
-        
+    public String cetUnitTrain_batchAdd(int projectId, ModelMap modelMap) {
+
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
         
         return "cet/cetUnitTrain/cetUnitTrain_batchAdd";
     }
     
-    @RequiresPermissions("cetUnitTrain:edit")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_batchAdd", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_batchAdd(HttpServletRequest request,
                                         int projectId,
-                                        byte addType,
                                         int traineeTypeId,
                                         @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                         ModelMap modelMap) {
         
-       cetUnitTrainService.batchAdd(projectId, traineeTypeId, userIds, addType);
-        
-        return success(FormUtils.SUCCESS);
-    }
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
-    @RequiresPermissions("cetUnitTrain:check")
-    @RequestMapping("/cetUnitTrain_check")
-    public String cetUnitTrain_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-        
-        if(ids!=null && ids.length==1)
-            modelMap.put("cetUnitTrain", cetUnitTrainMapper.selectByPrimaryKey(ids[0]));
-        
-        return "cet/cetUnitTrain/cetUnitTrain_check";
-    }
-    
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
-    @RequiresPermissions("cetUnitTrain:edit")
-    @RequestMapping(value = "/cetUnitTrain_check", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetUnitTrain_check(HttpServletRequest request,
-                                        @RequestParam(value = "ids[]") Integer[] ids,
-                                        Boolean pass, String backReason, ModelMap modelMap) {
-    
-        if(ids!=null && ids.length>0) {
-            
-            CetUnitTrain record = new CetUnitTrain();
-            record.setStatus(BooleanUtils.isTrue(pass) ? CetConstants.CET_UPPER_TRAIN_STATUS_PASS :
-                    CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
-            record.setBackReason(backReason);
-    
-            CetUnitTrainExample example = new CetUnitTrainExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            cetUnitTrainMapper.updateByExampleSelective(record, example);
-    
-            if (BooleanUtils.isTrue(pass)) {
-                commonMapper.excuteSql("update cet_unit_train set back_reason=null where id in (" + StringUtils.join(ids, ",") + ")");
-            }
-        }
+       cetUnitTrainService.batchAdd(projectId, traineeTypeId, userIds);
         
         return success(FormUtils.SUCCESS);
     }
     
-    @RequiresPermissions("cetUnitTrain:import")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_import")
     public String cetUnitTrain_import() {
 
@@ -255,7 +199,7 @@ public class CetUnitTrainController extends CetBaseController {
     }
 
     @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
-    @RequiresPermissions("cetUnitTrain:import")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value="/cetUnitTrain_import", method=RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_import(int projectId,
@@ -268,8 +212,6 @@ public class CetUnitTrainController extends CetBaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
-
-
         Map<String, Object> retMap = cetUnitTrainService.imports(xlsRows, projectId);
 
         int totalCount = xlsRows.size();
@@ -288,15 +230,13 @@ public class CetUnitTrainController extends CetBaseController {
         return resultMap;
     }
     
-    @RequiresPermissions("cetUnitTrain:del")
+    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetUnitTrain_batchDel(HttpServletRequest request, byte addType,
-                                     @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-        
+    public Map cetUnitTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
         
         if (null != ids && ids.length > 0) {
-            cetUnitTrainService.batchDel(ids, addType);
+            cetUnitTrainService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除二级单位培训班培训记录：%s", StringUtils.join(ids, ",")));
         }
         
@@ -307,7 +247,7 @@ public class CetUnitTrainController extends CetBaseController {
         
         List<CetUnitTrain> records = cetUnitTrainMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"参训人|100", "时任单位及职务|100", "职务属性|100", "完成培训学时|100", "培训总结|100", "添加类型|100", "操作人|100", "添加时间|100", "审批状态|100"};
+        String[] titles = {"参训人|100", "时任单位及职务|100", "职务属性|100", "完成培训学时|100", "培训总结|100", "操作人|100", "添加时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUnitTrain record = records.get(i);
@@ -317,10 +257,8 @@ public class CetUnitTrainController extends CetBaseController {
                     record.getPostType() + "",
                     record.getPeriod() + "",
                     record.getWordNote(),
-                    record.getAddType() + "",
                     record.getAddUserId() + "",
-                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                    record.getStatus() + ""
+                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
             };
             valuesList.add(values);
         }

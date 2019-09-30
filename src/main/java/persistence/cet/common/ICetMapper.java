@@ -1,7 +1,6 @@
 package persistence.cet.common;
 
 import domain.cet.*;
-import domain.cis.CisInspector;
 import domain.unit.Unit;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -339,4 +338,7 @@ public interface ICetMapper {
             "group by result.inspector_id, result.train_course_id")
     public List<StatTrainBean> stat(@Param("trainId") int trainId);
 
+    // 二级党委培训数量统计
+    List<Map> unitProjectGroupByStatus(@Param("addPermits") Boolean addPermits,
+                                 @Param("adminPartyIdList") List<Integer> adminPartyIdList);
 }

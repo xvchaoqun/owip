@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -53,9 +52,7 @@ public class UserCetUnitTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetUnitTrainExample example = new CetUnitTrainExample();
-        CetUnitTrainExample.Criteria criteria =
-                example.createCriteria().andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_PASS)
-                        .andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId);
         
         example.setOrderByClause("id desc");
 

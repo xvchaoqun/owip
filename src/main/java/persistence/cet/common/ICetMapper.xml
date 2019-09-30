@@ -195,4 +195,21 @@
         </if>
         and cpco.obj_id=cpo.id order by cpo.id asc
     </select>
+
+    <select id="unitProjectGroupByStatus" parameterType="map" resultType="map">
+        SELECT status, COUNT(*) num FROM cet_unit_project
+        <if test="addPermits">
+            <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
+                where party_id in
+                <foreach collection="adminPartyIdList" item="st"
+                         index="index" open="(" close=")" separator=",">
+                    #{st}
+                </foreach>
+            </if>
+          <if test="adminPartyIdList==null or adminPartyIdList.size==0">
+                where party_id is null
+            </if>
+        </if>
+        GROUP BY STATUS
+    </select>
 </mapper>

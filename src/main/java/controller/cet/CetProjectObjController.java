@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.tool.tree.TreeNode;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -470,109 +468,6 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("cetTraineeType", cetTraineeType);
 
         return "cet/cetProjectObj/cetProjectObj_select";
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectCadres_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectCadres_tree(Integer projectId, Integer traineeTypeId) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-    
-        Set<Byte> cadreStatusList = new HashSet<>();
-        cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
-                cadreStatusList, selectIdSet, null, false, true, false);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectCadreReserves_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectCadreReserves_tree(Integer projectId, Integer traineeTypeId) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-
-        TreeNode tree = cadreReserveService.getTree(selectIdSet, false);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectPartyMembers_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectPartyMembers_tree(Integer projectId, Integer traineeTypeId) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-
-        TreeNode tree = partyMemberService.getTree(selectIdSet);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectBranchMembers_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectBranchMembers_tree(Integer projectId, Integer traineeTypeId) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-
-        TreeNode tree = branchMemberService.getTree(selectIdSet);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectOrganizers_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectOrganizers_tree(Integer projectId, Integer traineeTypeId) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-
-        TreeNode tree = organizerService.getTree(selectIdSet);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_selectMemberApply_tree")
-    @ResponseBody
-    public Map cetProjectObj_selectMemberApply_tree(Integer projectId, Integer traineeTypeId, byte stage) throws IOException {
-
-        Set<Integer> selectIdSet = new HashSet<>();
-        if(projectId!=null && traineeTypeId!=null){
-            selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        }
-        TreeNode tree = memberApplyService.getTree(selectIdSet, stage);
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
     }
 
     @RequiresPermissions("cetProjectObj:edit")

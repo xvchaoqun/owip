@@ -137,8 +137,10 @@ public class SystemController extends BaseController {
         }*/
         sql = new String(Base64Utils.decode(sql), "utf-8");
 
-        //sql = sql.replaceAll("\n", ";");
-        sql = sql.replaceAll("\"", "\\\\\"");
+        if(SystemInfo.isOSLinux()) {
+            sql = sql.replaceAll("`", "\\\\`");
+        }
+        //sql = sql.replaceAll("\"", "\\\\\"");
         String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"),

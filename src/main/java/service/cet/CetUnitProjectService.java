@@ -2,19 +2,19 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cet.CetUnitProject;
-import domain.cet.CetUnitTrainExample;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.UnauthorizedException;
+import domain.cet.CetUnitProjectExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.LoginUserService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CetUnitProjectService extends CetBaseMapper {
@@ -23,10 +23,13 @@ public class CetUnitProjectService extends CetBaseMapper {
     protected CetUpperTrainAdminService cetUpperTrainAdminService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    protected LoginUserService loginUserService;
     
     @Transactional
     public void insertSelective(CetUnitProject record) {
-        
+
+        record.setTotalCount(0);
         cetUnitProjectMapper.insertSelective(record);
 
         sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
@@ -37,43 +40,18 @@ public class CetUnitProjectService extends CetBaseMapper {
     
     @Transactional
     public void del(Integer id) {
-        
-        CetUnitProject oldRecord = cetUnitProjectMapper.selectByPrimaryKey(id);
-        
-        byte upperType = CetConstants.CET_UPPER_TRAIN_UNIT;
-        byte addType = oldRecord.getAddType();
-        Integer unitId = oldRecord.getUnitId();
-        
-        int currentUserId = ShiroHelper.getCurrentUserId();
-        
-        // 如果有审批通过的培训记录，则不允许删除
-        {
-            CetUnitTrainExample example = new CetUnitTrainExample();
-            example.createCriteria().andProjectIdEqualTo(id).andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
-            if (cetUnitTrainMapper.countByExample(example) > 0) {
-                throw new OpException("培训班中存在已审批通过的培训记录，不允许删除。");
+
+        CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                throw new OpException("没有权限。");
             }
         }
-        
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) { // 组织部添加的只有组织部可以删除
-            
-            SecurityUtils.getSubject().checkPermission("cetUnitProject:del");
-            
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) { // 单位添加的组织部、本单位可以删除
-            
-            if (!ShiroHelper.isPermitted("cetUnitProject:del")) {
-                
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UNIT);
-                
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-                if (unitId == null || !adminUnitIdSet.contains(unitId)) {
-                    throw new UnauthorizedException(); // 非单位管理员
-                }
-            }
-        } else {
-            throw new UnauthorizedException();
+        if(cetUnitProject.getStatus() != CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT){
+            throw new OpException("只允许删除未报送的记录");
         }
-        
+
         cetUnitProjectMapper.deleteByPrimaryKey(id);
     }
     
@@ -83,8 +61,47 @@ public class CetUnitProjectService extends CetBaseMapper {
         if (ids == null || ids.length == 0) return;
         
         for (Integer id : ids) {
-            del(id);
+            sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                    "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
+
+        CetUnitProjectExample example = new CetUnitProjectExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        CetUnitProject record = new CetUnitProject();
+        record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_DELETE);
+        cetUnitProjectMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void back(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+                CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
+                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                    throw new OpException("没有权限。");
+                }
+            }
+            sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                    "返回待报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+        }
+
+        CetUnitProjectExample example = new CetUnitProjectExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids))
+                .andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS);
+
+        CetUnitProject record = new CetUnitProject();
+        record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);
+        cetUnitProjectMapper.updateByExampleSelective(record, example);
     }
     
     @Transactional
@@ -96,5 +113,28 @@ public class CetUnitProjectService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
                     "更新", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+    }
+
+    // 报送
+    @Transactional
+    public void report(int id) {
+
+        CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                throw new OpException("没有权限。");
+            }
+        }
+
+        CetUnitProject record = new CetUnitProject();
+        record.setId(id);
+        record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_REPORT);
+        cetUnitProjectMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
+                    "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 }

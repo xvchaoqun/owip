@@ -16,11 +16,11 @@
     <result column="total_count" jdbcType="INTEGER" property="totalCount" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="is_valid" jdbcType="BIT" property="isValid" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="add_type" jdbcType="TINYINT" property="addType" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, party_id, unit_id, start_date, end_date, project_name, project_type, report_name, 
-    reporter, period, total_count, address, is_valid, remark, add_type, add_user_id, 
-    add_time, status
+    reporter, period, total_count, address, is_valid, add_user_id, add_time, remark, 
+    status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
     select
@@ -123,15 +123,15 @@
       start_date, end_date, project_name, 
       project_type, report_name, reporter, 
       period, total_count, address, 
-      is_valid, remark, add_type, 
-      add_user_id, add_time, status
+      is_valid, add_user_id, add_time, 
+      remark, status, back_reason
       )
     values (#{year,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR}, 
       #{projectType,jdbcType=INTEGER}, #{reportName,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR}, 
       #{period,jdbcType=DECIMAL}, #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
+      #{isValid,jdbcType=BIT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitProject">
@@ -179,20 +179,20 @@
       <if test="isValid != null">
         is_valid,
       </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="addType != null">
-        add_type,
-      </if>
       <if test="addUserId != null">
         add_user_id,
       </if>
       <if test="addTime != null">
         add_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="backReason != null">
+        back_reason,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -235,20 +235,20 @@
       <if test="isValid != null">
         #{isValid,jdbcType=BIT},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="addType != null">
-        #{addType,jdbcType=TINYINT},
-      </if>
       <if test="addUserId != null">
         #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        #{backReason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -303,20 +303,20 @@
       <if test="record.isValid != null">
         is_valid = #{record.isValid,jdbcType=BIT},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.addType != null">
-        add_type = #{record.addType,jdbcType=TINYINT},
-      </if>
       <if test="record.addUserId != null">
         add_user_id = #{record.addUserId,jdbcType=INTEGER},
       </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.backReason != null">
+        back_reason = #{record.backReason,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -339,11 +339,11 @@
       total_count = #{record.totalCount,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       is_valid = #{record.isValid,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      add_type = #{record.addType,jdbcType=TINYINT},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=TINYINT}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      back_reason = #{record.backReason,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -390,20 +390,20 @@
       <if test="isValid != null">
         is_valid = #{isValid,jdbcType=BIT},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="addType != null">
-        add_type = #{addType,jdbcType=TINYINT},
-      </if>
       <if test="addUserId != null">
         add_user_id = #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        back_reason = #{backReason,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -423,11 +423,11 @@
       total_count = #{totalCount,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR},
-      add_type = #{addType,jdbcType=TINYINT},
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      back_reason = #{backReason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">

@@ -62,6 +62,15 @@
                                     <i class="fa fa-times-circle-o"></i> 取消发布
                                 </button>
                             </shiro:hasPermission>
+                                <c:if test="${status==CRS_POST_STATUS_NORMAL}">
+                                <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_FINISH}"
+                                        data-title="完成招聘"
+                                        data-msg="确定完成招聘？（已选{0}个招聘岗位）"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-success btn-sm">
+                                    <i class="fa fa-check"></i> 完成招聘
+                                </button>
+                            </c:if>
                             <shiro:hasPermission name="crsPost:del">
                                 <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_ABOLISH}"
                                         data-title="作废"
@@ -81,7 +90,8 @@
                             <button class="popupBtn btn btn-success btn-sm"
                                     data-url="${ctx}/crsApplicant_search"><i class="fa fa-search"></i> 查询账号报名情况</button>
                              </c:if>
-                            <c:if test="${status==CRS_POST_STATUS_ABOLISH||status==CRS_POST_STATUS_DELETE}">
+                            <c:if test="${status==CRS_POST_STATUS_FINISH
+                            ||status==CRS_POST_STATUS_ABOLISH||status==CRS_POST_STATUS_DELETE}">
                                 <button data-url="${ctx}/crsPost_updateStatus?status=${CRS_POST_STATUS_NORMAL}"
                                         data-title="返回招聘列表"
                                         data-msg="确定恢复这{0}个招聘岗位？"
@@ -311,10 +321,10 @@
                 if (cellvalue == undefined) return '--';
                 return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
             }},
-            {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
+            /*{label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];
-            }},
+            }},*/
             <shiro:hasPermission name="scRecord:list">
             {label: '纪实编号', name: 'scRecord.code', width: 200},
             {label: '纪实人员', name: 'recordUser.realname'},

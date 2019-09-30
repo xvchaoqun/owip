@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
+<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="CET_UNIT_PROJECT_STATUS_PASS"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -27,35 +28,30 @@
             <div class="tab-content padding-4" id="detail-content">
                 <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasPermission name="cetUnitTrain:edit">
+                    <c:if test="${cm:hasRole(ROLE_CET_ADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
+                    <shiro:hasPermission name="cetUnitProject:edit">
+                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
                         <button class="popupBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/cet/cetUnitTrain_batchAdd?projectId=${param.projectId}&addType=${addType}">
+                                data-url="${ctx}/cet/cetUnitTrain_batchAdd?projectId=${param.projectId}">
                             <i class="fa fa-plus-square"></i> 批量添加
                         </button>
+                        </shiro:hasRole>
                         <button class="popupBtn btn btn-success btn-sm"
-                                data-url="${ctx}/cet/cetUnitTrain_au?projectId=${param.projectId}&addType=${addType}">
-                            <i class="fa fa-plus"></i> 个别添加
+                                data-url="${ctx}/cet/cetUnitTrain_au?projectId=${param.projectId}">
+                            <i class="fa fa-plus"></i> ${cm:hasRole(ROLE_CET_ADMIN)?'个别添加':'添加'}
                         </button>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                data-url="${ctx}/cet/cetUnitTrain_au?addType=${addType}"
+                                data-url="${ctx}/cet/cetUnitTrain_au"
                                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                             修改
                         </button>
                         <shiro:hasRole name="${ROLE_CET_ADMIN}">
-                        <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                        data-url="${ctx}/cet/cetUnitTrain_import?projectId=${param.projectId}"
-                        data-rel="tooltip" data-placement="top"
-                        title="从Excel中导入培训记录"><i class="fa fa-upload"></i> 导入</button>
-
-                       <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUnitTrain_check"
-                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
-                        审批
-                    </button>
+                            <button class="popupBtn btn btn-info btn-sm tooltip-success"
+                            data-url="${ctx}/cet/cetUnitTrain_import?projectId=${param.projectId}"
+                            data-rel="tooltip" data-placement="top"
+                            title="从Excel中导入培训记录"><i class="fa fa-upload"></i> 导入</button>
                         </shiro:hasRole>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="cetUnitTrain:del">
-                        <button data-url="${ctx}/cet/cetUnitTrain_batchDel?addType=${addType}"
+                        <button data-url="${ctx}/cet/cetUnitTrain_batchDel"
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？（删除后不可恢复，请谨慎操作！）"
                                 data-grid-id="#jqGrid2"
@@ -63,6 +59,7 @@
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>
+                    </c:if>
                     <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/cet/cetUnitTrain_data"
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -148,12 +145,8 @@
               }
               return ret;
             }},
-            /*{label: '添加类型', name: 'addType'},*/
             {label: '操作人', name: 'addUser.realname'},
             {label: '添加时间', name: 'addTime', width: 150},
-            {label: '审批状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CET_UPPER_TRAIN_STATUS_MAP[cellvalue]
-            }},
             { label: '备注',name: 'remark', align: 'left', width: 150},
         ]
     }).jqGrid("setFrozenColumns");

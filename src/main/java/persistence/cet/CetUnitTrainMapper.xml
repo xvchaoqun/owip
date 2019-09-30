@@ -11,11 +11,8 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
-    <result column="add_type" jdbcType="TINYINT" property="addType" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, title, post_type, period, word_note, pdf_note, 
-    add_type, add_user_id, add_time, status, back_reason, remark
+    add_user_id, add_time, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -114,14 +111,12 @@
     insert into cet_unit_train (id, project_id, user_id, 
       trainee_type_id, title, post_type, 
       period, word_note, pdf_note, 
-      add_type, add_user_id, add_time, 
-      status, back_reason, remark
+      add_user_id, add_time, remark
       )
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{traineeTypeId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, 
       #{period,jdbcType=DECIMAL}, #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, 
-      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitTrain">
@@ -154,20 +149,11 @@
       <if test="pdfNote != null">
         pdf_note,
       </if>
-      <if test="addType != null">
-        add_type,
-      </if>
       <if test="addUserId != null">
         add_user_id,
       </if>
       <if test="addTime != null">
         add_time,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="backReason != null">
-        back_reason,
       </if>
       <if test="remark != null">
         remark,
@@ -201,20 +187,11 @@
       <if test="pdfNote != null">
         #{pdfNote,jdbcType=VARCHAR},
       </if>
-      <if test="addType != null">
-        #{addType,jdbcType=TINYINT},
-      </if>
       <if test="addUserId != null">
         #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="backReason != null">
-        #{backReason,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -257,20 +234,11 @@
       <if test="record.pdfNote != null">
         pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
       </if>
-      <if test="record.addType != null">
-        add_type = #{record.addType,jdbcType=TINYINT},
-      </if>
       <if test="record.addUserId != null">
         add_user_id = #{record.addUserId,jdbcType=INTEGER},
       </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.backReason != null">
-        back_reason = #{record.backReason,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -291,11 +259,8 @@
       period = #{record.period,jdbcType=DECIMAL},
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
-      add_type = #{record.addType,jdbcType=TINYINT},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=TINYINT},
-      back_reason = #{record.backReason,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -328,20 +293,11 @@
       <if test="pdfNote != null">
         pdf_note = #{pdfNote,jdbcType=VARCHAR},
       </if>
-      <if test="addType != null">
-        add_type = #{addType,jdbcType=TINYINT},
-      </if>
       <if test="addUserId != null">
         add_user_id = #{addUserId,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="backReason != null">
-        back_reason = #{backReason,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -359,11 +315,8 @@
       period = #{period,jdbcType=DECIMAL},
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},
-      add_type = #{addType,jdbcType=TINYINT},
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT},
-      back_reason = #{backReason,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

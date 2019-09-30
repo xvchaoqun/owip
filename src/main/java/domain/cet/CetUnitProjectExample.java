@@ -1,9 +1,10 @@
 package domain.cet;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class CetUnitProjectExample {
     protected String orderByClause;
@@ -1012,136 +1013,6 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andRemarkIsNull() {
-            addCriterion("remark is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIsNotNull() {
-            addCriterion("remark is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkEqualTo(String value) {
-            addCriterion("remark =", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotEqualTo(String value) {
-            addCriterion("remark <>", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThan(String value) {
-            addCriterion("remark >", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
-            addCriterion("remark >=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThan(String value) {
-            addCriterion("remark <", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThanOrEqualTo(String value) {
-            addCriterion("remark <=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLike(String value) {
-            addCriterion("remark like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotLike(String value) {
-            addCriterion("remark not like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIn(List<String> values) {
-            addCriterion("remark in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotIn(List<String> values) {
-            addCriterion("remark not in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkBetween(String value1, String value2) {
-            addCriterion("remark between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotBetween(String value1, String value2) {
-            addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeIsNull() {
-            addCriterion("add_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeIsNotNull() {
-            addCriterion("add_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeEqualTo(Byte value) {
-            addCriterion("add_type =", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeNotEqualTo(Byte value) {
-            addCriterion("add_type <>", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeGreaterThan(Byte value) {
-            addCriterion("add_type >", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("add_type >=", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeLessThan(Byte value) {
-            addCriterion("add_type <", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("add_type <=", value, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeIn(List<Byte> values) {
-            addCriterion("add_type in", values, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeNotIn(List<Byte> values) {
-            addCriterion("add_type not in", values, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeBetween(Byte value1, Byte value2) {
-            addCriterion("add_type between", value1, value2, "addType");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("add_type not between", value1, value2, "addType");
-            return (Criteria) this;
-        }
-
         public Criteria andAddUserIdIsNull() {
             addCriterion("add_user_id is null");
             return (Criteria) this;
@@ -1262,6 +1133,76 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
@@ -1322,17 +1263,74 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
-        public CetUnitProjectExample.Criteria andUnitAdmin(Set<Integer> adminUnitIdSet, Set<Integer> adminLeaderUserIdSet) {
-            String sql = "";
-            if(adminUnitIdSet.size()>0){
-                sql += String.format("unit_id in(%s)", StringUtils.join(adminUnitIdSet, ","));
-            }
-            if(adminLeaderUserIdSet.size()>0){
-                if(adminUnitIdSet.size()>0) sql += " or ";
-                sql += String.format("user_id in(%s)", StringUtils.join(adminLeaderUserIdSet, ","));
-            }
-            addCriterion("(" + sql + ")");
-            return (CetUnitProjectExample.Criteria) this;
+        public Criteria andBackReasonIsNull() {
+            addCriterion("back_reason is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonIsNotNull() {
+            addCriterion("back_reason is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonEqualTo(String value) {
+            addCriterion("back_reason =", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonNotEqualTo(String value) {
+            addCriterion("back_reason <>", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonGreaterThan(String value) {
+            addCriterion("back_reason >", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("back_reason >=", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonLessThan(String value) {
+            addCriterion("back_reason <", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonLessThanOrEqualTo(String value) {
+            addCriterion("back_reason <=", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonLike(String value) {
+            addCriterion("back_reason like", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonNotLike(String value) {
+            addCriterion("back_reason not like", value, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonIn(List<String> values) {
+            addCriterion("back_reason in", values, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonNotIn(List<String> values) {
+            addCriterion("back_reason not in", values, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonBetween(String value1, String value2) {
+            addCriterion("back_reason between", value1, value2, "backReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andBackReasonNotBetween(String value1, String value2) {
+            addCriterion("back_reason not between", value1, value2, "backReason");
+            return (Criteria) this;
         }
     }
 

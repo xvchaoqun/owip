@@ -44,15 +44,15 @@ public class CetUnitProject implements Serializable {
 
     private Boolean isValid;
 
-    private String remark;
-
-    private Byte addType;
-
     private Integer addUserId;
 
     private Date addTime;
 
+    private String remark;
+
     private Byte status;
+
+    private String backReason;
 
     private static final long serialVersionUID = 1L;
 
@@ -168,22 +168,6 @@ public class CetUnitProject implements Serializable {
         this.isValid = isValid;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Byte getAddType() {
-        return addType;
-    }
-
-    public void setAddType(Byte addType) {
-        this.addType = addType;
-    }
-
     public Integer getAddUserId() {
         return addUserId;
     }
@@ -200,11 +184,27 @@ public class CetUnitProject implements Serializable {
         this.addTime = addTime;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public Byte getStatus() {
         return status;
     }
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getBackReason() {
+        return backReason;
+    }
+
+    public void setBackReason(String backReason) {
+        this.backReason = backReason == null ? null : backReason.trim();
     }
 }
