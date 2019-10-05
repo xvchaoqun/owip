@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crs.CrsPostRequire;
 import domain.crs.CrsPostRequireExample;
+import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,11 @@ public class CrsPostRequireService extends CrsBaseMapper {
 
         String arriveTime = cv.getArriveTime() == null ? null : DateUtils.yearOffNow_cn(cv.getArriveTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_BXGZ, arriveTime);
+
+        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+        if(teacherInfo!=null) {
+            resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_BZLB, teacherInfo.getAuthorizedType());
+        }
 
         return resultMap;
     }

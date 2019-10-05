@@ -9,7 +9,7 @@
          ||not empty param.endNowPostAge
         || not empty param.code || not empty param.sort}"/>
     <div class="jqgrid-vertical-offset buttons">
-        <div class="type-select" style="float: left;padding-top:5px;font-size: larger">
+        <div class="type-select" style="float: left;">
             同一岗位任职满：
             <span class="typeCheckbox">
             <input ${startNowPostAge==8?"checked disabled":""} type="checkbox" class="big"
@@ -36,7 +36,7 @@
     </div>
     <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
         <div class="widget-header">
-            <h4 class="widget-title">搜索</h4>
+            <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
             <div class="widget-toolbar">
                 <a href="#" data-action="collapse">

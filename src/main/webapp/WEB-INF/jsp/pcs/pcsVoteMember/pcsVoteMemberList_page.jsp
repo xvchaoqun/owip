@@ -39,15 +39,6 @@
         float: left;
         margin-right: 50px;
     }
-    .type-select .typeCheckbox{
-        padding: 10px;
-        cursor: pointer;
-    }
-    .type-select .typeCheckbox.checked{
-        color: darkred;
-        font-weight: bolder;
-    }
-
     .modal .tip ul{
         margin-left: 50px;
     }

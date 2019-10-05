@@ -507,7 +507,7 @@ public class PmMeetingController extends PmBaseController {
 
         List<PmMeeting> records = pmMeetingMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度","季度","所属分党委|250|left","所属党支部|250|left","计划时间|100","实际时间|100","会议名称|150|left","会议议题|250|left","会议地点|100","审核情况|100",
+        String[] titles = {"年度","季度","所属"+CmTag.getStringProperty("partyName")+"|250|left","所属党支部|250|left","计划时间|100","实际时间|100","会议名称|150|left","会议议题|250|left","会议地点|100","审核情况|100",
                 "主持人","记录人","应到人数","实到人数","请假人数"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

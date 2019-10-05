@@ -6,8 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${branch!=null}">编辑</c:if><c:if test="${branch==null}">添加</c:if>党支部</h3>
 </div>
 <form class="form-horizontal" action="${ctx}/branch_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-<div class="modal-body">
-
+<div class="modal-body overflow-visible">
         	<input type="hidden" name="id" value="${branch.id}">
 		<div class="row">
 			<div class="col-xs-8">
@@ -43,18 +42,14 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
+				<label class="col-xs-4 control-label">支部类型</label>
 				<div class="col-xs-8">
-					<select required class="form-control"
-							data-width="372"
-							name="typeId" data-rel="select2"
-                                data-placeholder="请选择">
-						<option></option>
-						<c:import url="/metaTypes?__code=mc_branch_type"/>
-					</select>
-					<script>
-						$("#modalForm select[name=typeId]").val('${branch.typeId}');
-					</script>
+					<select class="multiselect" multiple="" name="types" data-width="372" data-placeholder="请选择">
+                        <c:import url="/metaTypes?__code=mc_branch_type"/>
+                    </select>
+                    <script type="text/javascript">
+                        $.register.multiselect($('#modalForm select[name=types]'), '${branch.types}'.split(","));
+                    </script>
 				</div>
 			</div>
 			<div class="form-group">
@@ -175,7 +170,8 @@ pageEncoding="UTF-8"%>
 </style>
 <script>
 
-	$("#modal :checkbox").bootstrapSwitch();
+	$("input[name=isStaff],input[name=isPrefessional],input[name=isBaseTeam]," +
+			"input[name=isEnterpriseBig],input[name=isEnterpriseNationalized],input[name=isUnion]").bootstrapSwitch();
 
 	$.register.date($('.date-picker'), {endDate:'${_today}'});
 

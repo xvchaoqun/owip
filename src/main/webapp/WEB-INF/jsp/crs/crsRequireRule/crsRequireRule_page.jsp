@@ -171,7 +171,7 @@
             multiselect: false,
             url: childGridURL,
             colModel: [
-                { label: '类别',name: 'type', width: 180, align:'left', formatter: function (cellvalue, options, rowObject) {
+                { label: '类别',name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     return _cMap.CRS_POST_RULE_TYPE_MAP[cellvalue];
                 }},

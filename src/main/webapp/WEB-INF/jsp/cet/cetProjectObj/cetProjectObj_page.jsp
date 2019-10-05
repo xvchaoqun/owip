@@ -357,7 +357,7 @@
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
-        <h4 class="widget-title">搜索</h4>
+        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -487,26 +487,6 @@
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${(cls==2||cls==3)?0:20}"></table>
 <div id="jqGridPager2"></div>
-<style>
-    .type-select {
-        float:right;
-        padding: 5px 5px 0 5px;
-    }
-
-    .type-select a {
-        padding-left: 5px;
-    }
-
-    .type-select .typeCheckbox {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    .type-select .typeCheckbox.checked {
-        color: darkred;
-        font-weight: bolder;
-    }
-</style>
 <script>
     function _callback2(){
         $("#jqGrid2").trigger("reloadGrid");

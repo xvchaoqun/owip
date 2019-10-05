@@ -8,9 +8,11 @@
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="is_double_leader" jdbcType="BIT" property="isDoubleLeader" />
     <result column="assign_date" jdbcType="DATE" property="assignDate" />
+    <result column="dismiss_date" jdbcType="DATE" property="dismissDate" />
     <result column="office_phone" jdbcType="VARCHAR" property="officePhone" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="is_admin" jdbcType="BIT" property="isAdmin" />
+    <result column="is_history" jdbcType="BIT" property="isHistory" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, user_id, type_id, is_double_leader, assign_date, office_phone, mobile, 
-    is_admin, sort_order
+    id, group_id, user_id, type_id, is_double_leader, assign_date, dismiss_date, office_phone, 
+    mobile, is_admin, is_history, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchMemberExample" resultMap="BaseResultMap">
     select
@@ -110,13 +112,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ow_branch_member (group_id, user_id, type_id, 
-      is_double_leader, assign_date, office_phone, 
-      mobile, is_admin, sort_order
-      )
+      is_double_leader, assign_date, dismiss_date, 
+      office_phone, mobile, is_admin, 
+      is_history, sort_order)
     values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{isDoubleLeader,jdbcType=BIT}, #{assignDate,jdbcType=DATE}, #{officePhone,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{isDoubleLeader,jdbcType=BIT}, #{assignDate,jdbcType=DATE}, #{dismissDate,jdbcType=DATE}, 
+      #{officePhone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, 
+      #{isHistory,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.BranchMember">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -139,6 +141,9 @@
       <if test="assignDate != null">
         assign_date,
       </if>
+      <if test="dismissDate != null">
+        dismiss_date,
+      </if>
       <if test="officePhone != null">
         office_phone,
       </if>
@@ -147,6 +152,9 @@
       </if>
       <if test="isAdmin != null">
         is_admin,
+      </if>
+      <if test="isHistory != null">
+        is_history,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -168,6 +176,9 @@
       <if test="assignDate != null">
         #{assignDate,jdbcType=DATE},
       </if>
+      <if test="dismissDate != null">
+        #{dismissDate,jdbcType=DATE},
+      </if>
       <if test="officePhone != null">
         #{officePhone,jdbcType=VARCHAR},
       </if>
@@ -176,6 +187,9 @@
       </if>
       <if test="isAdmin != null">
         #{isAdmin,jdbcType=BIT},
+      </if>
+      <if test="isHistory != null">
+        #{isHistory,jdbcType=BIT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -209,6 +223,9 @@
       <if test="record.assignDate != null">
         assign_date = #{record.assignDate,jdbcType=DATE},
       </if>
+      <if test="record.dismissDate != null">
+        dismiss_date = #{record.dismissDate,jdbcType=DATE},
+      </if>
       <if test="record.officePhone != null">
         office_phone = #{record.officePhone,jdbcType=VARCHAR},
       </if>
@@ -217,6 +234,9 @@
       </if>
       <if test="record.isAdmin != null">
         is_admin = #{record.isAdmin,jdbcType=BIT},
+      </if>
+      <if test="record.isHistory != null">
+        is_history = #{record.isHistory,jdbcType=BIT},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -234,9 +254,11 @@
       type_id = #{record.typeId,jdbcType=INTEGER},
       is_double_leader = #{record.isDoubleLeader,jdbcType=BIT},
       assign_date = #{record.assignDate,jdbcType=DATE},
+      dismiss_date = #{record.dismissDate,jdbcType=DATE},
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       is_admin = #{record.isAdmin,jdbcType=BIT},
+      is_history = #{record.isHistory,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -260,6 +282,9 @@
       <if test="assignDate != null">
         assign_date = #{assignDate,jdbcType=DATE},
       </if>
+      <if test="dismissDate != null">
+        dismiss_date = #{dismissDate,jdbcType=DATE},
+      </if>
       <if test="officePhone != null">
         office_phone = #{officePhone,jdbcType=VARCHAR},
       </if>
@@ -268,6 +293,9 @@
       </if>
       <if test="isAdmin != null">
         is_admin = #{isAdmin,jdbcType=BIT},
+      </if>
+      <if test="isHistory != null">
+        is_history = #{isHistory,jdbcType=BIT},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -282,9 +310,11 @@
       type_id = #{typeId,jdbcType=INTEGER},
       is_double_leader = #{isDoubleLeader,jdbcType=BIT},
       assign_date = #{assignDate,jdbcType=DATE},
+      dismiss_date = #{dismissDate,jdbcType=DATE},
       office_phone = #{officePhone,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       is_admin = #{isAdmin,jdbcType=BIT},
+      is_history = #{isHistory,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

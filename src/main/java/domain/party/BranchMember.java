@@ -20,11 +20,16 @@ public class BranchMember implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date assignDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    private Date dismissDate;
+
     private String officePhone;
 
     private String mobile;
 
     private Boolean isAdmin;
+
+    private Boolean isHistory;
 
     private Integer sortOrder;
 
@@ -78,6 +83,14 @@ public class BranchMember implements Serializable {
         this.assignDate = assignDate;
     }
 
+    public Date getDismissDate() {
+        return dismissDate;
+    }
+
+    public void setDismissDate(Date dismissDate) {
+        this.dismissDate = dismissDate;
+    }
+
     public String getOfficePhone() {
         return officePhone;
     }
@@ -100,6 +113,14 @@ public class BranchMember implements Serializable {
 
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Boolean getIsHistory() {
+        return isHistory;
+    }
+
+    public void setIsHistory(Boolean isHistory) {
+        this.isHistory = isHistory;
     }
 
     public Integer getSortOrder() {

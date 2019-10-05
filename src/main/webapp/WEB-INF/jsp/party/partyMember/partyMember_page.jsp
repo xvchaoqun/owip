@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -27,9 +26,18 @@
                         <i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/partyMember_au?gridId=jqGrid2"
-                       data-grid-id="#jqGrid2"
-                       ><i class="fa fa-edit"></i>
+                       data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改</a>
+                    <button data-url="${ctx}/partyMember_dismiss?dismiss=1"
+                            data-grid-id="#jqGrid2"
+                            class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-sign-out"></i> 离任
+                    </button>
+                    <button data-url="${ctx}/partyMember_dismiss?dismiss=0"
+                            data-grid-id="#jqGrid2"
+                            class="jqOpenViewBtn btn btn-success btn-sm">
+                        <i class="fa fa-reply"></i> 重新任用
+                    </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="partyMember:del">
                     <button data-url="${ctx}/partyMember_batchDel"
@@ -53,93 +61,19 @@
     <!-- /.widget-body -->
 </div>
 <!-- /.widget-box -->
+<jsp:include page="partyMember_colModel.jsp"/>
 <script>
     function _adminCallback(){
         $("#modal").modal("hide")
         $("#jqGrid2").trigger("reloadGrid");
     }
-
     $.register.date($('.date-picker'));
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager: "jqGridPager2",
         url: '${ctx}/partyMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
-            {
-                label: '姓名', name: 'user.realname', align:'left', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                var str = '<span class="label label-sm label-primary " style="display: inline!important;"> 管理员</span>&nbsp;';
-                return (rowObject.isAdmin?str:'')+ cellvalue;
-            }, frozen: true
-            },
-             <shiro:hasPermission name="partyMember:changeOrder">
-            {
-                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid2', url: "${ctx}/partyMember_changeOrder"}, frozen: true
-            },
-             </shiro:hasPermission>
-            <shiro:hasPermission name="partyMember:edit">
-            {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue)
-                 return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
-                else
-                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
-            }},
-            </shiro:hasPermission>
-            {label: '所在单位', name: 'unitId', width: 350,align:'left', formatter: $.jgrid.formatter.unit},
-            {label: '所属${_p_partyName}', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
-                return $.party(rowObject.groupPartyId);
-            }},
-            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
-            {
-                label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                var typeIdStrs = [];
-                var typeIds = cellvalue.split(",");
-                for(i in typeIds){
-                    var typeId = typeIds[i];
-                    //console.log(typeId)
-                    if(typeId instanceof Function == false)
-                        typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
-                }
-                //console.log(typeIdStrs)
-                return typeIdStrs.join(",");
-            }
-            },
-            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {
-                label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
-            },
-            {label: '民族', name: 'nation', width: 60},
-            {label: '身份证号', name: 'idcard', width: 170},
-
-            {
-                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
-            },
-            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
-            {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '岗位类别', name: 'postClass'},
-            {label: '主岗等级', name: 'mainPostLevel', width: 150},
-            {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '职称级别', name: 'proPostLevel', width: 150},
-            /*{label: '管理岗位等级', name: 'manageLevel', width: 150},*/
-            { label: '办公电话', name: 'officePhone' },
-            { label: '手机号', name: 'mobile' },
-            {
-                label: '所属党组织',
-                name: 'partyId',
-                align: 'left',
-                width: 550,
-                formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }
-            }
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns")
      $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
-
 </script>

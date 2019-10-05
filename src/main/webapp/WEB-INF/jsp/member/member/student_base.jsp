@@ -35,7 +35,7 @@
                 <tbody>
                 <tr>
                     <td class="bg-right">
-                        所属组织机构
+                        所在党组织
                     </td>
                     <td class="bg-left" colspan="5">
                         ${cm:displayParty(member.partyId, member.branchId)}

@@ -29,6 +29,16 @@
                        data-url="${ctx}/branchMember_au?gridId=jqGrid2&groupId=${branchMemberGroup.id}"
                        data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改</a>
+                    <button data-url="${ctx}/branchMember_dismiss?dismiss=1"
+                            data-grid-id="#jqGrid2"
+                            class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-sign-out"></i> 离任
+                    </button>
+                    <button data-url="${ctx}/branchMember_dismiss?dismiss=0"
+                            data-grid-id="#jqGrid2"
+                            class="jqOpenViewBtn btn btn-success btn-sm">
+                        <i class="fa fa-reply"></i> 重新任用
+                    </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="branchMember:del">
                     <button data-url="${ctx}/branchMember_batchDel"
@@ -53,6 +63,7 @@
     <!-- /.widget-body -->
 </div>
 <!-- /.widget-box -->
+<jsp:include page="branchMember_colModel.jsp"/>
 <script>
     function _adminCallback(){
         $("#modal").modal("hide")
@@ -64,74 +75,7 @@
         //forceFit:true,
         pager: "jqGridPager2",
         url: '${ctx}/branchMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
-            {
-                label: '姓名', name: 'user.realname', align:'left', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                    var str = '<span class="label label-sm label-primary " style="display: inline!important;"> 管理员</span>&nbsp;';
-                    return (rowObject.isAdmin?str:'')+ cellvalue;
-                }, frozen: true
-            },
-            <shiro:hasPermission name="branchMember:changeOrder">
-            {
-                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid2', url: "${ctx}/branchMember_changeOrder"}, frozen: true
-            },
-            </shiro:hasPermission>
-            <shiro:hasPermission name="branchMember:edit">
-            {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue)
-                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
-                    else
-                        return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
-                }},
-            </shiro:hasPermission>
-            {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
-            {label: '所属${_p_partyName}', name: 'groupPartyId', width: 250, align:'left',formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--';
-                    return _cMap.partyMap[cellvalue].name;
-                }},
-            {label: '所属党支部', name: 'groupBranchId', width: 180, align:'left',formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '--';
-                    return _cMap.branchMap[cellvalue].name;
-                }},
-            {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-            {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.typeId != '${cm:getMetaTypeByCode("mt_branch_secretary").id}') return '--'
-                return $.jgrid.formatter.TRUEFALSE(cellvalue)
-            }},
-            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {
-                label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
-            },
-            {label: '民族', name: 'nation', width: 60},
-            {label: '身份证号', name: 'idcard', width: 170},
-
-            {
-                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
-            },
-            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
-            {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '岗位类别', name: 'postClass'},
-            {label: '主岗等级', name: 'mainPostLevel', width: 150},
-            {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '职称级别', name: 'proPostLevel', width: 150},
-            /*{label: '管理岗位等级', name: 'manageLevel', width: 150},*/
-            { label: '办公电话', name: 'officePhone' },
-            { label: '手机号', name: 'mobile' },
-            {
-                label: '所属党组织',
-                name: 'partyId',
-                align: 'left',
-                width: 550,
-                formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }
-            }
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");

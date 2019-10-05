@@ -110,6 +110,8 @@ public class PartyController extends BaseController {
                                     Boolean isEnterpriseBig,
                                     Boolean isEnterpriseNationalized,
                                     Boolean isSeparate,
+                                    Boolean isPycj,
+                                    Boolean isBg,
                                     @RequestDateRange DateRange _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -158,6 +160,12 @@ public class PartyController extends BaseController {
         if(isSeparate!=null){
             criteria.andIsSeparateEqualTo(isSeparate);
         }
+        if(isPycj!=null){
+            criteria.andIsPycjEqualTo(isPycj);
+        }
+        if(isBg!=null){
+            criteria.andIsBgEqualTo(isBg);
+        }
         if (_foundTime.getStart()!=null) {
             criteria.andFoundTimeGreaterThanOrEqualTo(_foundTime.getStart());
         }
@@ -194,15 +202,13 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:edit")
     @RequestMapping(value = "/party_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_party_au(Party record, String _foundTime, HttpServletRequest request) {
+    public Map do_party_au(Party record, HttpServletRequest request) {
 
         Integer id = record.getId();
         if (partyService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
-        if(StringUtils.isNotBlank(_foundTime)){
-            record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
-        }
+
         record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
         record.setIsEnterpriseNationalized((record.getIsEnterpriseNationalized() == null) ? false : record.getIsEnterpriseNationalized());
         record.setIsSeparate((record.getIsSeparate() == null) ? false : record.getIsSeparate());
@@ -351,7 +357,7 @@ public class PartyController extends BaseController {
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入分党委成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                "导入成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
                 totalCount, addCount, totalCount - addCount));
 
         return resultMap;

@@ -82,7 +82,7 @@
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4>
+                                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                                     <div class="widget-toolbar">
                                         <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -179,24 +179,25 @@
                 align: 'left',
                 width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
+                    //var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
+                    var str = '<i class="fa fa-flag red" title="现任领导班子"></i> ';
                     return (rowObject.isPresent) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
             {
-                label: '查看委员', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                label: '班子成员管理', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="openView btn btn-warning btn-xs" ' +
                         'data-url="${ctx}/partyMember?groupId={0}">'
-                        + '<i class="fa fa-search"></i> 查看委员({1})</button>')
+                        + '<i class="fa fa-search"></i> 详情({1})</button>')
                         .format(rowObject.id, rowObject.memberCount);
                 }
             },
             {
-                label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                label: '导出班子成员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.isPresent)
                         return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
-                            'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
+                            'data-url="${ctx}/partyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出</a>')
                             .format(rowObject.id);
                     return '--'
                 }

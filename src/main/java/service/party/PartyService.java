@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -33,7 +34,7 @@ public class PartyService extends BaseMapper {
         if (null == selectIdSet) selectIdSet = new HashSet<>();
 
         TreeNode root = new TreeNode();
-        root.title = "分党委列表";
+        root.title = CmTag.getStringProperty("partyName") + "列表";
         root.expand = true;
         root.isFolder = true;
         root.hideCheckbox = true;

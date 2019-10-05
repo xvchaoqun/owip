@@ -40,7 +40,7 @@
       { label:'修改原因',  name: 'reason', width: 200, frozen:true },
       { label: '学工号',  name: 'user.code',width: 120, frozen:true},
       { label: '姓名',  name: 'user.realname', frozen:true},
-      { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
+      { label:'所在党组织', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
         return $.party(rowObject.partyId, rowObject.branchId);
       } },
       { label:'党籍状态',name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){

@@ -100,7 +100,7 @@
             <div style="clear: both"></div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
+                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                     <div class="widget-toolbar">
                         <a href="#" data-action="collapse">
@@ -273,26 +273,6 @@
         <div id="body-content-view"></div>
     </div>
 </div>
-<style>
-    .type-select {
-        float:right;
-        padding: 5px 5px 0px 5px;
-    }
-
-    .type-select a {
-        padding-left: 20px;
-    }
-
-    .type-select .typeCheckbox {
-        padding: 10px;
-        /*font-size: 16px;*/
-    }
-
-    .type-select .typeCheckbox.checked {
-        color: darkred;
-        font-weight: bolder;
-    }
-</style>
 <jsp:include page="colModel.jsp?list=0"/>
 <script type="text/template" id="dispatch_select_tpl">
     <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"

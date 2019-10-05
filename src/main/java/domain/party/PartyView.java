@@ -42,6 +42,14 @@ public class PartyView implements Serializable {
 
     private Date createTime;
 
+    private Boolean isPycj;
+
+    private Date pycjDate;
+
+    private Boolean isBg;
+
+    private Date bgDate;
+
     private Date updateTime;
 
     private Boolean isDeleted;
@@ -220,6 +228,38 @@ public class PartyView implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsPycj() {
+        return isPycj;
+    }
+
+    public void setIsPycj(Boolean isPycj) {
+        this.isPycj = isPycj;
+    }
+
+    public Date getPycjDate() {
+        return pycjDate;
+    }
+
+    public void setPycjDate(Date pycjDate) {
+        this.pycjDate = pycjDate;
+    }
+
+    public Boolean getIsBg() {
+        return isBg;
+    }
+
+    public void setIsBg(Boolean isBg) {
+        this.isBg = isBg;
+    }
+
+    public Date getBgDate() {
+        return bgDate;
+    }
+
+    public void setBgDate(Date bgDate) {
+        this.bgDate = bgDate;
     }
 
     public Date getUpdateTime() {

@@ -1,4 +1,42 @@
 
+201901005
+南航 -- 北师大
+
+ALTER TABLE `ow_party_member`
+	ADD COLUMN `dismiss_date` DATE NULL DEFAULT NULL COMMENT '离任时间' AFTER `assign_date`,
+	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `mobile`,
+	ADD COLUMN `is_histroy` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否离任' AFTER `is_admin`;
+
+ALTER TABLE `ow_branch_member`
+	ADD COLUMN `dismiss_date` DATE NULL DEFAULT NULL COMMENT '离任时间' AFTER `assign_date`,
+	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `mobile`,
+	ADD COLUMN `is_history` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否离任' AFTER `is_admin`;
+
+更新  ow_party_member_view ， ow_branch_member_view
+
+ALTER TABLE `ow_party`
+	ADD COLUMN `is_pycj` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否培育创建单位' AFTER `create_time`,
+	ADD COLUMN `pycj_date` DATE NULL DEFAULT NULL COMMENT '评选培育创建单位时间' AFTER `is_pycj`,
+	ADD COLUMN `is_bg` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否标杆院系' AFTER `pycj_date`,
+	ADD COLUMN `bg_date` DATE NULL DEFAULT NULL COMMENT '评选标杆院系时间' AFTER `is_bg`;
+
+ALTER TABLE `ow_branch`
+	ALTER `type_id` DROP DEFAULT;
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `type_id` `types` VARCHAR(300) NULL COMMENT '支部类型，关联元数据，多选' AFTER `party_id`,
+	DROP INDEX `FK_ow_branch_base_meta_type`,
+	DROP FOREIGN KEY `FK_ow_branch_base_meta_type`;
+
+更新 ow_party_view  ow_branch_view
+
+更新 ow_party_member_group_view  ow_branch_member_group_view
+
+
+
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `notice` `notice` VARCHAR(255) NULL DEFAULT NULL COMMENT '招聘通知，pdf文件' AFTER `num`;
+
+
 20190930
 ALTER TABLE `cet_unit_project`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL

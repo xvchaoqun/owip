@@ -21,7 +21,7 @@
                 </div>
                 <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs" style="margin-right: 20px">
                     <div class="widget-header">
-                        <h4 class="widget-title">搜索</h4>
+                        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                         <div class="widget-toolbar">
                             <a href="javascript:;" data-action="collapse">

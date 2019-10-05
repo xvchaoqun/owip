@@ -14,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +67,7 @@ public class BranchMemberController extends BaseController {
                                   Boolean isAdmin,
                                   Boolean isDeleted,
                                   Boolean isPresent,
+                                  Boolean isHistory,
                                   Boolean isDoubleLeader,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -81,7 +83,7 @@ public class BranchMemberController extends BaseController {
 
         BranchMemberViewExample example = new BranchMemberViewExample();
         BranchMemberViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, sort_order desc");
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, is_history asc, sort_order desc");
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -103,6 +105,9 @@ public class BranchMemberController extends BaseController {
         }
         if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
+        }
+        if (isHistory != null) {
+            criteria.andIsHistoryEqualTo(isHistory);
         }
         if (isDoubleLeader != null) {
             criteria.andIsDoubleLeaderEqualTo(isDoubleLeader);
@@ -233,6 +238,33 @@ public class BranchMemberController extends BaseController {
     }
 
     @RequiresPermissions("branchMember:edit")
+    @RequestMapping("/branchMember_dismiss")
+    public String branchMember_dismiss(int id, ModelMap modelMap) {
+
+        BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
+        modelMap.put("branchMember", branchMember);
+        modelMap.put("sysUser", CmTag.getUserById(branchMember.getUserId()));
+
+        return "party/branchMember/branchMember_dismiss";
+    }
+
+    @RequiresPermissions("branchMember:edit")
+    @RequestMapping(value = "/branchMember_dismiss", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branchMember_dismiss(Integer id,
+                                      Boolean dismiss,
+                                      @DateTimeFormat(pattern = DateUtils.YYYYMM) Date dismissDate,
+                                      @DateTimeFormat(pattern = DateUtils.YYYYMM) Date assignDate,
+                                      HttpServletRequest request) {
+
+        branchMemberService.dissmiss(id, dismiss, dismissDate, assignDate);
+
+        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s,%s", id,
+                DateUtils.formatDate(dismissDate, DateUtils.YYYYMM)));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
     public Map branchMember_admin(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -276,7 +308,7 @@ public class BranchMemberController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         BranchMemberExample example = new BranchMemberExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
         example.setOrderByClause("sort_order desc");
 
        /* if(StringUtils.isNotBlank(searchStr)){

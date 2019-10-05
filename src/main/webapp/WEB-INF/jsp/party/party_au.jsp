@@ -60,29 +60,31 @@
                         <input class="form-control" type="text" name="mailbox" value="${party.mailbox}">
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-6">
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>成立时间</label>
-                    <div class="col-xs-8" style="width: 223px">
-                        <div class="input-group date" data-date-format="yyyy-mm-dd">
-                            <input required class="form-control date-picker" name="_foundTime" type="text"
-                                   placeholder="格式：yyyy-mm-dd"
-                                   value="${cm:formatDate(party.foundTime,'yyyy-MM-dd')}"/>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
+                    <div class="col-xs-8" style="width: 180px">
+                        <div class="input-group date" data-date-format="yyyy.mm.dd">
+                            <input required class="form-control date-picker" name="foundTime" type="text"
+                                   placeholder="yyyy.mm.dd"
+                                   value="${cm:formatDate(party.foundTime,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>所属单位</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
                     <div class="col-xs-8">
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                data-width="273"
                                 name="unitId" data-placeholder="请选择">
                             <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                     </div>
                 </div>
+            </div>
+            <div class="col-xs-6">
+
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>党总支类别</label>
                     <div class="col-xs-8">
@@ -142,7 +144,42 @@
                                type="checkbox"/>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <label class="col-xs-6 control-label">是否培育创建单位</label>
+                    <div class="col-xs-6">
+                        <input name="isPycj" ${party.isPycj?"checked":""}
+                               type="checkbox"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-6 control-label">评选培育创建单位时间</label>
+                    <div class="col-xs-6" style="width: 180px">
+                        <div class="input-group date" data-date-format="yyyy.mm.dd">
+                            <input required class="form-control date-picker" name="pycjDate" type="text"
+                                   placeholder="yyyy.mm.dd"
+                                   value="${cm:formatDate(party.pycjDate,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-6 control-label">是否标杆院系</label>
+                    <div class="col-xs-6">
+                        <input name="isBg" ${party.isBg?"checked":""}
+                               type="checkbox"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-6 control-label">评选标杆院系时间</label>
+                    <div class="col-xs-6" style="width: 180px">
+                        <div class="input-group date" data-date-format="yyyy.mm.dd">
+                            <input required class="form-control date-picker" name="bgDate" type="text"
+                                   placeholder="yyyy.mm.dd"
+                                   value="${cm:formatDate(party.bgDate,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

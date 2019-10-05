@@ -50,6 +50,19 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
         </div>
+        <c:if test="${branchMember.isHistory}">
+          <div class="form-group">
+            <label class="col-xs-3 control-label">离任时间</label>
+            <div class="col-xs-6">
+              <div class="input-group">
+                <input class="form-control date-picker" name="dismissDate" type="text"
+                       data-date-min-view-mode="1" placeholder="yyyy.mm"
+                       data-date-format="yyyy.mm" value="${cm:formatDate(branchMember.dismissDate,'yyyy.MM')}" />
+                <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+              </div>
+            </div>
+          </div>
+          </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">办公电话</label>
 

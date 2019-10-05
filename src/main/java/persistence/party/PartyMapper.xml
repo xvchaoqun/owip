@@ -21,6 +21,10 @@
     <result column="found_time" jdbcType="DATE" property="foundTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_pycj" jdbcType="BIT" property="isPycj" />
+    <result column="pycj_date" jdbcType="DATE" property="pycjDate" />
+    <result column="is_bg" jdbcType="BIT" property="isBg" />
+    <result column="bg_date" jdbcType="DATE" property="bgDate" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -84,7 +88,7 @@
   <sql id="Base_Column_List">
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
     is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, is_deleted
+    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">
     select
@@ -126,6 +130,7 @@
       is_enterprise_nationalized, is_separate, phone, 
       fax, email, mailbox, 
       found_time, sort_order, create_time, 
+      is_pycj, pycj_date, is_bg, bg_date, 
       is_deleted)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
@@ -133,6 +138,7 @@
       #{isEnterpriseNationalized,jdbcType=BIT}, #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, 
       #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
       #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, 
       #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Party">
@@ -195,6 +201,18 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="isPycj != null">
+        is_pycj,
+      </if>
+      <if test="pycjDate != null">
+        pycj_date,
+      </if>
+      <if test="isBg != null">
+        is_bg,
+      </if>
+      <if test="bgDate != null">
+        bg_date,
+      </if>
       <if test="isDeleted != null">
         is_deleted,
       </if>
@@ -253,6 +271,18 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPycj != null">
+        #{isPycj,jdbcType=BIT},
+      </if>
+      <if test="pycjDate != null">
+        #{pycjDate,jdbcType=DATE},
+      </if>
+      <if test="isBg != null">
+        #{isBg,jdbcType=BIT},
+      </if>
+      <if test="bgDate != null">
+        #{bgDate,jdbcType=DATE},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -325,6 +355,18 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isPycj != null">
+        is_pycj = #{record.isPycj,jdbcType=BIT},
+      </if>
+      <if test="record.pycjDate != null">
+        pycj_date = #{record.pycjDate,jdbcType=DATE},
+      </if>
+      <if test="record.isBg != null">
+        is_bg = #{record.isBg,jdbcType=BIT},
+      </if>
+      <if test="record.bgDate != null">
+        bg_date = #{record.bgDate,jdbcType=DATE},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -354,6 +396,10 @@
       found_time = #{record.foundTime,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_pycj = #{record.isPycj,jdbcType=BIT},
+      pycj_date = #{record.pycjDate,jdbcType=DATE},
+      is_bg = #{record.isBg,jdbcType=BIT},
+      bg_date = #{record.bgDate,jdbcType=DATE},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -416,6 +462,18 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isPycj != null">
+        is_pycj = #{isPycj,jdbcType=BIT},
+      </if>
+      <if test="pycjDate != null">
+        pycj_date = #{pycjDate,jdbcType=DATE},
+      </if>
+      <if test="isBg != null">
+        is_bg = #{isBg,jdbcType=BIT},
+      </if>
+      <if test="bgDate != null">
+        bg_date = #{bgDate,jdbcType=DATE},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -442,6 +500,10 @@
       found_time = #{foundTime,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_pycj = #{isPycj,jdbcType=BIT},
+      pycj_date = #{pycjDate,jdbcType=DATE},
+      is_bg = #{isBg,jdbcType=BIT},
+      bg_date = #{bgDate,jdbcType=DATE},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

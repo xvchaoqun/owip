@@ -13,14 +13,14 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
-            ||not empty param.isEnterpriseBig||not empty param.isEnterpriseNationalized||not empty param.isSeparate
+            ||not empty param.isEnterpriseBig||not empty param.isEnterpriseNationalized||not empty param.isSeparate||not empty param.isPycj||not empty param.isBg
             || not empty param.code}"/>
 
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
 
                 <div class="tab-content">
-                    <div class="tab-pane in active">
+                    <div class="tab-pane in active multi-row-head-table">
 
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="party:add">
@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
+                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                     <div class="widget-toolbar">
                         <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -178,6 +178,28 @@ pageEncoding="UTF-8" %>
                                         $("#searchForm select[name=isSeparate]").val('${param.isSeparate}');
                                     </script>
                                 </div>
+                                <div class="form-group">
+                                    <label>是否培育创建单位</label>
+                                    <select name="isPycj" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isPycj]").val('${param.isPycj}');
+                                    </script>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否标杆院系</label>
+                                    <select name="isBg" data-width="80" data-rel="select2" data-placeholder="请选择"> 
+                                        <option></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=isBg]").val('${param.isBg}');
+                                    </script>
+                                </div>
 
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -203,11 +225,10 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-
     $("#jqGrid").jqGrid({
         url: '${ctx}/party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号',name: 'code', width: 75 ,frozen:true},
+            { label: '编号',name: 'code',frozen:true},
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.id);
             },frozen:true },
@@ -216,16 +237,16 @@ pageEncoding="UTF-8" %>
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shiro:hasPermission>
-            { label:'支部数量', name: 'branchCount', width: 70, formatter:function(cellvalue, options, rowObject){
+            { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'党员总数', name: 'memberCount', width: 80, formatter:function(cellvalue, options, rowObject){
+            { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'正式党员总数', name: 'positiveCount', width: 120, formatter:function(cellvalue, options, rowObject){
+            { label:'正式党员<br/>总数', name: 'positiveCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'在职<br/>教职工', name: 'teacherMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 <shiro:hasPermission name="member:list">
                     return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
@@ -234,7 +255,7 @@ pageEncoding="UTF-8" %>
                     return cellvalue;
                 </shiro:lacksPermission>
             }},
-            { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'离退休<br/>党员', name: 'retireMemberCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 <shiro:hasPermission name="member:list">
                     return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
@@ -252,14 +273,14 @@ pageEncoding="UTF-8" %>
                     return cellvalue;
                 </shiro:lacksPermission>
             }},
-            { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'委员会<br/>总数', name: 'groupCount', width: 60, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'是否已设立现任委员会', name: 'presentGroupId', width: 160, formatter:function(cellvalue, options, rowObject){
+            { label:'是否已设立<br/>现任委员会', name: 'presentGroupId', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue>0?"是":"否";
             }},
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '应换届时间', name: 'tranTime', width: 130,
+            {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.presentGroupId>0 &&
@@ -267,20 +288,23 @@ pageEncoding="UTF-8" %>
                         return "class='danger'";
                 }},
             {
-                label: '实际换届时间',
+                label: '实际换届<br/>时间',
                 name: 'actualTranTime',
-                width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
-            { label: '${_p_partyName}类别', name: 'classId', formatter: $.jgrid.formatter.MetaType},
+            { label:'所属单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
+            { label: '${_p_partyName}类别', name: 'classId', width: 90, align:'left', formatter: $.jgrid.formatter.MetaType},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
-            { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter: $.jgrid.formatter.MetaType},
-            { label: '是否大中型', name: 'isEnterpriseBig', formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '是否国有独资', name: 'isEnterpriseNationalized', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '是否独立法人', name: 'isSeparate', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '所在单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},
+            { label: '是否<br/>大中型', name: 'isEnterpriseBig', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否<br/>国有独资', name: 'isEnterpriseNationalized', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否<br/>独立法人', name: 'isSeparate', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否培育<br/>创建单位', name: 'isPycj', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
+            {label: '评选培育创建<br/>单位时间', name: 'pycjDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            { label: '是否<br/>标杆院系', name: 'isBg', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
+            {label: '评选标杆<br/>院系时间', name: 'bgDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             { label: '联系电话', name: 'phone' },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },

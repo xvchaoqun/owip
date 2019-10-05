@@ -929,7 +929,9 @@ br.xs-100 {
     margin-left: 20px;
     margin-right: 20px;
 }
-
+.note{
+   color: red;
+}
 .form-actions .note, .modal .modal-footer .note{
     color: red;
     font-size: 16px;
@@ -1544,4 +1546,37 @@ span.delete, span.delete a {
 .webui-popover-content{
     min-width: 150px;
     min-height: 120px;
+}
+
+.widget-note{
+    position: absolute;
+    right: 60px;
+    top: 10px;
+}
+
+.type-select {
+    float:right;
+    font-size: larger;
+    padding: 5px 5px 0px 5px;
+}
+
+.type-select a {
+    padding-left: 20px;
+}
+
+.type-select input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    _vertical-align: -3px; /*针对IE6使用hack*/
+    vertical-align: -3px;
+}
+
+.type-select .typeCheckbox {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.type-select .typeCheckbox.checked {
+    color: darkred;
+    font-weight: bolder;
 }

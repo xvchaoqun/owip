@@ -19,6 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,10 +73,6 @@ public class PartyMemberController extends BaseController {
         if (partyId != null) {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
-        /*if (typeIds!=null) {
-            List<Integer> _typeIds = Arrays.asList(typeIds);
-            modelMap.put("selectedTypeIds", _typeIds);
-        }*/
 
         return "party/partyMember/partyMember_page";
     }
@@ -92,6 +89,7 @@ public class PartyMemberController extends BaseController {
                                  Boolean isAdmin,
                                  Boolean isDeleted,
                                  Boolean isPresent,
+                                 Boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -106,7 +104,7 @@ public class PartyMemberController extends BaseController {
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         PartyMemberViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("party_sort_order desc, sort_order desc");
+        example.setOrderByClause("party_sort_order desc, is_history asc, sort_order desc");
 
         criteria.addPermits(loginUserService.adminPartyIdList());
 
@@ -116,7 +114,9 @@ public class PartyMemberController extends BaseController {
         if (isPresent != null) {
             criteria.andIsPresentEqualTo(isPresent);
         }
-
+        if (isHistory != null) {
+            criteria.andIsHistoryEqualTo(isHistory);
+        }
         if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
         }
@@ -348,6 +348,33 @@ public class PartyMemberController extends BaseController {
     }
 
     @RequiresPermissions("partyMember:edit")
+    @RequestMapping("/partyMember_dismiss")
+    public String partyMember_dismiss(int id, ModelMap modelMap) {
+
+        PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+        modelMap.put("partyMember", partyMember);
+        modelMap.put("sysUser", CmTag.getUserById(partyMember.getUserId()));
+
+        return "party/partyMember/partyMember_dismiss";
+    }
+
+    @RequiresPermissions("partyMember:edit")
+    @RequestMapping(value = "/partyMember_dismiss", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_partyMember_dismiss(Integer id,
+                                      Boolean dismiss,
+                                      @DateTimeFormat(pattern = DateUtils.YYYYMM) Date dismissDate,
+                                      @DateTimeFormat(pattern = DateUtils.YYYYMM) Date assignDate,
+                                      HttpServletRequest request) {
+
+        partyMemberService.dissmiss(id, dismiss, dismissDate, assignDate);
+
+        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s,%s", id,
+                DateUtils.formatDate(dismissDate, DateUtils.YYYYMM)));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMember_import(HttpServletRequest request) throws InvalidFormatException, IOException {
@@ -433,7 +460,7 @@ public class PartyMemberController extends BaseController {
 
         SXSSFWorkbook wb = partyExportService.export(example);
         String fileName = CmTag.getSysConfig().getSchoolName()
-                + "分党委委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+                + CmTag.getStringProperty("partyName") + "委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
@@ -450,14 +477,14 @@ public class PartyMemberController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         PartyMemberExample example = new PartyMemberExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
         example.setOrderByClause("sort_order desc");
 
         /*if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr.trim()+"%");
         }*/
 
-        int count = partyMemberMapper.countByExample(example);
+        int count = (int) partyMemberMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

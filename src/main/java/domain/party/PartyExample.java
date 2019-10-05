@@ -1352,6 +1352,246 @@ public class PartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsPycjIsNull() {
+            addCriterion("is_pycj is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjIsNotNull() {
+            addCriterion("is_pycj is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjEqualTo(Boolean value) {
+            addCriterion("is_pycj =", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjNotEqualTo(Boolean value) {
+            addCriterion("is_pycj <>", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjGreaterThan(Boolean value) {
+            addCriterion("is_pycj >", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_pycj >=", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjLessThan(Boolean value) {
+            addCriterion("is_pycj <", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_pycj <=", value, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjIn(List<Boolean> values) {
+            addCriterion("is_pycj in", values, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjNotIn(List<Boolean> values) {
+            addCriterion("is_pycj not in", values, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_pycj between", value1, value2, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPycjNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_pycj not between", value1, value2, "isPycj");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateIsNull() {
+            addCriterion("pycj_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateIsNotNull() {
+            addCriterion("pycj_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateEqualTo(Date value) {
+            addCriterionForJDBCDate("pycj_date =", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("pycj_date <>", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("pycj_date >", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pycj_date >=", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateLessThan(Date value) {
+            addCriterionForJDBCDate("pycj_date <", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pycj_date <=", value, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateIn(List<Date> values) {
+            addCriterionForJDBCDate("pycj_date in", values, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("pycj_date not in", values, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pycj_date between", value1, value2, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPycjDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pycj_date not between", value1, value2, "pycjDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgIsNull() {
+            addCriterion("is_bg is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgIsNotNull() {
+            addCriterion("is_bg is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgEqualTo(Boolean value) {
+            addCriterion("is_bg =", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgNotEqualTo(Boolean value) {
+            addCriterion("is_bg <>", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgGreaterThan(Boolean value) {
+            addCriterion("is_bg >", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_bg >=", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgLessThan(Boolean value) {
+            addCriterion("is_bg <", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_bg <=", value, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgIn(List<Boolean> values) {
+            addCriterion("is_bg in", values, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgNotIn(List<Boolean> values) {
+            addCriterion("is_bg not in", values, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_bg between", value1, value2, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBgNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_bg not between", value1, value2, "isBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateIsNull() {
+            addCriterion("bg_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateIsNotNull() {
+            addCriterion("bg_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateEqualTo(Date value) {
+            addCriterionForJDBCDate("bg_date =", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("bg_date <>", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("bg_date >", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("bg_date >=", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateLessThan(Date value) {
+            addCriterionForJDBCDate("bg_date <", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("bg_date <=", value, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateIn(List<Date> values) {
+            addCriterionForJDBCDate("bg_date in", values, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("bg_date not in", values, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("bg_date between", value1, value2, "bgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBgDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("bg_date not between", value1, value2, "bgDate");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDeletedIsNull() {
             addCriterion("is_deleted is null");
             return (Criteria) this;

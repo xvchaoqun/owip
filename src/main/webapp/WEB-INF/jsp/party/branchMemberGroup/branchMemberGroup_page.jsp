@@ -70,7 +70,7 @@
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4>
+                                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                                     <div class="widget-toolbar">
                                         <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -174,23 +174,24 @@
                 label: '名称',
                 name: 'name',
                 align: 'left',
-                width: 550,
+                width: 410,
                 formatter: function (cellvalue, options, rowObject) {
-                    var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任委员会</span>&nbsp;';
+                    //var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任委员会</span>&nbsp;';
+                    var str = '<i class="fa fa-flag red" title="现任委员会"></i> ';
                     return (rowObject.isPresent) ? str + cellvalue : cellvalue;
                 },
                 frozen: true
             },
             {
-                label: '查看委员', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
+                label: '支部委员管理', name: 'memberCount', width: 110, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="openView btn btn-warning btn-xs" ' +
                         'data-url="${ctx}/branchMember?groupId={0}">'
-                        + '<i class="fa fa-search"></i> 查看委员({1})</button>')
+                        + '<i class="fa fa-search"></i> 详情({1})</button>')
                         .format(rowObject.id, rowObject.memberCount);
                 }
             },
             {
-                label: '所属组织机构', name: 'party', align: 'left', width: 650,
+                label: '所在党组织', name: 'party', align: 'left', width: 650,
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen: true

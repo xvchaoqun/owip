@@ -79,10 +79,15 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch")
     public String branch(Integer partyId,
+                         @RequestParam(required = false, value = "types") Integer[] types,
                          @RequestParam(required = false, defaultValue = "1") Byte cls,
                          ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        if(types!=null){
+            modelMap.put("selectTypes", Arrays.asList(types));
+        }
 
         if (partyId != null) {
             Party party = partyMapper.selectByPrimaryKey(partyId);
@@ -99,7 +104,7 @@ public class BranchController extends BaseController {
                             String code,
                             String name,
                             Integer partyId,
-                            Integer typeId,
+                            @RequestParam(required = false, value = "types") Integer[] types,
                             Integer unitTypeId,
                             @RequestDateRange DateRange _foundTime,
                             Boolean isStaff,
@@ -145,8 +150,8 @@ public class BranchController extends BaseController {
             else criteria.andPartyIdIsNull();
         }*/
 
-        if (typeId != null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (types != null) {
+            criteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
         }
         if (unitTypeId != null) {
             criteria.andUnitTypeIdEqualTo(unitTypeId);
@@ -330,7 +335,7 @@ public class BranchController extends BaseController {
             String _branchType = StringUtils.trimToNull(xlsRow.get(startRow++));
             MetaType branchType = CmTag.getMetaTypeByName("mc_branch_type", _branchType);
             if (branchType == null) throw new OpException("第{0}行党支部类别[{1}]不存在", row, _branchType);
-            record.setTypeId(branchType.getId());
+            record.setTypes(branchType.getId()+"");
 
             String _partyUnitType = StringUtils.trimToNull(xlsRow.get(startRow++));
             MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
@@ -452,12 +457,21 @@ public class BranchController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView record = records.get(i);
+
+            Set<Integer> typeIds = NumberUtils.toIntSet(record.getTypes(), ",");
+            List<String> types = new ArrayList<>();
+            for (Integer typeId : typeIds) {
+                String name = metaTypeService.getName(typeId);
+                if(StringUtils.isNotBlank(name)){
+                    types.add(name);
+                }
+            }
             String[] values = {
                     record.getCode(),
                     record.getName(),
                     record.getShortName(),
                     record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
-                    metaTypeService.getName(record.getTypeId()),
+                    StringUtils.join(types, ","),
                     record.getMemberCount() == null ? "0" : record.getMemberCount() + "",
                     record.getTeacherMemberCount() == null ? "0" : record.getTeacherMemberCount() + "",
                     record.getRetireMemberCount() == null ? "0" : record.getRetireMemberCount() + "",

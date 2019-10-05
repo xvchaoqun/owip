@@ -42,7 +42,7 @@ pageEncoding="UTF-8" %>
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             }, frozen:true},
             {
-                label: '所属组织机构', name: 'party',  width: 450,
+                label: '所在党组织', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true

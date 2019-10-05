@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 <div class="profile-info-row">
-                                    <div class="profile-info-name"> 所属组织机构 </div>
+                                    <div class="profile-info-name"> 所在党组织 </div>
 
                                     <div class="profile-info-value">
                                     <span class="editable" style="height: 55px">

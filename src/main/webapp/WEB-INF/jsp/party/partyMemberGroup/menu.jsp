@@ -6,7 +6,7 @@
     <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=1"><i class="fa fa-list"></i> 领导班子</a>
   </li>
   <li  class="<c:if test="${status==2}">active</c:if>">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=2"><i class="fa fa-users"></i> ${_p_partyName}委员库</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/partyMemberGroup?status=2"><i class="fa fa-users"></i> 领导班子成员库</a>
   </li>
   <shiro:hasPermission name="party:list">
   <li  class="<c:if test="${status==-1}">active</c:if>">

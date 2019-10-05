@@ -70,6 +70,7 @@ public class CrsConstants {
     public final static byte CRS_POST_RULE_TYPE_FCJ = 7;
     public final static byte CRS_POST_RULE_TYPE_GZ = 8;
     public final static byte CRS_POST_RULE_TYPE_BXGZ = 9;
+    public final static byte CRS_POST_RULE_TYPE_BZLB = 10;
     public static Map<Byte, String> CRS_POST_RULE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -83,6 +84,7 @@ public class CrsConstants {
         CRS_POST_RULE_TYPE_MAP.put(CRS_POST_RULE_TYPE_FCJ, "副处级任职年限");
         CRS_POST_RULE_TYPE_MAP.put(CRS_POST_RULE_TYPE_GZ, "参加工作年限");
         CRS_POST_RULE_TYPE_MAP.put(CRS_POST_RULE_TYPE_BXGZ, "本校工作年限");
+        CRS_POST_RULE_TYPE_MAP.put(CRS_POST_RULE_TYPE_BZLB, "编制类别");
     }
 
     // 干部招聘 岗位发布状态，0 未发布 1 已发布  2 取消发布

@@ -83,7 +83,7 @@ public class BranchExportService extends BaseMapper {
                 "任职时间","性别", "民族", "身份证号",
                 "出生时间", "政治面貌", "党派加入时间", "到校时间", /*"岗位类别",
                 "主岗等级",*/ "专业技术职务", "职称级别", /*"管理岗位等级",*/ "办公电话",
-                "手机号", "所属党组织"};
+                "手机号", "所在党组织"};
         int columnCount = titles.length;
         Row firstRow = sheet.createRow(rowNum++);
         firstRow.setHeight((short) (35.7 * 12));
@@ -132,7 +132,7 @@ public class BranchExportService extends BaseMapper {
             String partyAddTime = cadreParty.get("growTime");
             
             
-            String partyFullName = ""; // 所属党组织
+            String partyFullName = ""; // 所在党组织
             if (member != null && member.getStatus() == MemberConstants.MEMBER_STATUS_NORMAL) {
                 if (record.getPartyId() != null) {
                     Party party = partyMap.get(record.getPartyId());

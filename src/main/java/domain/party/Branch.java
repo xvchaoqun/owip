@@ -14,7 +14,7 @@ public class Branch implements Serializable {
 
     private Integer partyId;
 
-    private Integer typeId;
+    private String types;
 
     private Boolean isStaff;
 
@@ -88,12 +88,12 @@ public class Branch implements Serializable {
         this.partyId = partyId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public String getTypes() {
+        return types;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTypes(String types) {
+        this.types = types == null ? null : types.trim();
     }
 
     public Boolean getIsStaff() {

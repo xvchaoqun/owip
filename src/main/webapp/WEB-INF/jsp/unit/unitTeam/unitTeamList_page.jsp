@@ -12,7 +12,7 @@
 <c:set var="_query" value="${not empty param.timeLevel || not empty param._deposeTime || not empty param.name}"/>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
             <div class="widget-header">
-                <h4 class="widget-title">搜索</h4>
+                <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>

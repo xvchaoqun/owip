@@ -23,11 +23,15 @@ public class PartyMemberView implements Serializable {
 
     private Date assignDate;
 
+    private Date dismissDate;
+
     private String officePhone;
 
     private String mobile;
 
     private Boolean isAdmin;
+
+    private Boolean isHistory;
 
     private Integer sortOrder;
 
@@ -145,6 +149,14 @@ public class PartyMemberView implements Serializable {
         this.assignDate = assignDate;
     }
 
+    public Date getDismissDate() {
+        return dismissDate;
+    }
+
+    public void setDismissDate(Date dismissDate) {
+        this.dismissDate = dismissDate;
+    }
+
     public String getOfficePhone() {
         return officePhone;
     }
@@ -167,6 +179,14 @@ public class PartyMemberView implements Serializable {
 
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Boolean getIsHistory() {
+        return isHistory;
+    }
+
+    public void setIsHistory(Boolean isHistory) {
+        this.isHistory = isHistory;
     }
 
     public Integer getSortOrder() {

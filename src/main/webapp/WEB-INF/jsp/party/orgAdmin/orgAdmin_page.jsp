@@ -23,15 +23,15 @@
 
                             <div class="jqgrid-vertical-offset buttons">
                                  <c:if test="${type==OW_ORG_ADMIN_PARTY}">
-                                    【注：班子成员如果没有在正在运转的基层党组织中设置为管理员，不在此显示】
+                                    <div class="note">【注：此列表不包含领导班子成员】</div>
                                 </c:if>
                                 <c:if test="${type==OW_ORG_ADMIN_BRANCH}">
-                                    【注：支部委员如果没有在现运行支部中设置为管理员，不在此显示】
+                                    <div class="note">【注：此列表不包含支部委员】</div>
                                 </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4>
+                                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                                     <div class="widget-toolbar">
                                         <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -108,7 +108,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/orgAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 110, frozen: true},
+            {label: '学工号', name: 'user.code', width: 120, frozen: true},
             {label: '姓名', name: 'user.realname', width: 90, frozen: true},
             <c:if test="${type==OW_ORG_ADMIN_PARTY}">
             {
@@ -123,21 +123,12 @@
             </c:if>
             <c:if test="${type==OW_ORG_ADMIN_BRANCH}">
             {
-                label: '所在${_p_partyName}',
-                name: 'branchPartyId',
-                width: 450,
+                label: '所在党组织',
+                name: '_party',
+                width: 650,
                 align: 'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.branchPartyId);
-                }
-            },
-            {
-                label: '所在支部',
-                name: 'branchId',
-                width: 450,
-                align: 'left',
-                formatter: function (cellvalue, options, rowObject) {
-                    return $.party(null, rowObject.branchId);
+                    return $.party(rowObject.branchPartyId, rowObject.branchId);
                 }
             },
             </c:if>

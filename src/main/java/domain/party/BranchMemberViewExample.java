@@ -496,6 +496,66 @@ public class BranchMemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDismissDateIsNull() {
+            addCriterion("dismiss_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateIsNotNull() {
+            addCriterion("dismiss_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateEqualTo(Date value) {
+            addCriterionForJDBCDate("dismiss_date =", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("dismiss_date <>", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("dismiss_date >", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("dismiss_date >=", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateLessThan(Date value) {
+            addCriterionForJDBCDate("dismiss_date <", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("dismiss_date <=", value, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateIn(List<Date> values) {
+            addCriterionForJDBCDate("dismiss_date in", values, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("dismiss_date not in", values, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("dismiss_date between", value1, value2, "dismissDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDismissDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("dismiss_date not between", value1, value2, "dismissDate");
+            return (Criteria) this;
+        }
+
         public Criteria andOfficePhoneIsNull() {
             addCriterion("office_phone is null");
             return (Criteria) this;
@@ -693,6 +753,66 @@ public class BranchMemberViewExample {
 
         public Criteria andIsAdminNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_admin not between", value1, value2, "isAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIsNull() {
+            addCriterion("is_history is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIsNotNull() {
+            addCriterion("is_history is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryEqualTo(Boolean value) {
+            addCriterion("is_history =", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotEqualTo(Boolean value) {
+            addCriterion("is_history <>", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryGreaterThan(Boolean value) {
+            addCriterion("is_history >", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_history >=", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryLessThan(Boolean value) {
+            addCriterion("is_history <", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_history <=", value, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryIn(List<Boolean> values) {
+            addCriterion("is_history in", values, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotIn(List<Boolean> values) {
+            addCriterion("is_history not in", values, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history between", value1, value2, "isHistory");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsHistoryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history not between", value1, value2, "isHistory");
             return (Criteria) this;
         }
 

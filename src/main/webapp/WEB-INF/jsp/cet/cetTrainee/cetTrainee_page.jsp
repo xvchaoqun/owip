@@ -11,21 +11,6 @@
         </span>
         </c:forEach>
     </div>
-    <%--<c:if test="${param.cls==1}">
-        <button class="popupBtn btn btn-success btn-sm" data-width="700"
-           data-url="${ctx}/cet/cetTrainee_add?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}">
-            <i class="fa fa-plus"></i> 选择可选课人员</button>
-
-        <button data-url="${ctx}/cet/cetTrainee_batchDel"
-                data-title="删除"
-                data-msg="确定删除这{0}个人员？"
-                data-grid-id="#jqGrid2"
-                data-callback="_detailReload"
-                class="jqBatchBtn btn btn-danger btn-sm">
-            <i class="fa fa-trash"></i> 删除
-        </button>
-    </c:if>--%>
-
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
@@ -36,7 +21,7 @@
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
-        <h4 class="widget-title">搜索</h4>
+        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -78,26 +63,7 @@
     <table id="jqGrid2" class="jqGrid2 table-striped"></table>
     <div id="jqGridPager2"></div>
 </div>
-<style>
-    .type-select {
-        float:right;
-        padding: 5px 20px 0 5px;
-    }
 
-    .type-select a {
-        padding-left: 20px;
-    }
-
-    .type-select .typeCheckbox {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    .type-select .typeCheckbox.checked {
-        color: darkred;
-        font-weight: bolder;
-    }
-</style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <jsp:include page="cetTrainee_colModel.jsp?type=admin"/>
 <script>

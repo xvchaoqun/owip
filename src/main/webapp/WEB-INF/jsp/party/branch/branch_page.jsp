@@ -13,7 +13,7 @@
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code
                                 ||not empty param.name ||not empty param.partyId
                                 ||not empty param.isStaff||not empty param.isPrefessional||not empty param.isBaseTeam
-                                ||not empty param.typeId ||not empty param.unitTypeId}"/>
+                                ||not empty param.types ||not empty param.unitTypeId}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
 
@@ -113,7 +113,7 @@
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
+                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                     <div class="widget-toolbar">
                         <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -152,12 +152,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>类别</label>
-                                            <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
-                                                <option></option>
-                                                <c:import url="/metaTypes?__code=mc_branch_type"/>
-                                            </select> 
-                                            <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
+                                        <label>支部类型</label>
+                                         <select class="multiselect" multiple="" name="types"
+                                                                data-placeholder="请选择">
+                                            <c:import url="/metaTypes?__code=mc_branch_type"/>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>单位属性</label>
@@ -230,10 +229,12 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/branch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '编号', name: 'code', frozen:true },
+            { label: '编号', name: 'code', width: 120, frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
 
                 return $.party(null, rowObject.id);
@@ -294,7 +295,12 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            { label:'类别', name: 'typeId', width: 150, formatter: $.jgrid.formatter.MetaType},
+            {label: '支部类型', name: 'types', align:'left', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(cellvalue)=='') return '--'
+                return ($.map(cellvalue.split(","), function(label){
+                    return $.jgrid.formatter.MetaType(label);
+                })).join("，")
+            }},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否一线教学科研党支部', name: 'isPrefessional' , width: 170,  formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:$.jgrid.formatter.TRUEFALSE},

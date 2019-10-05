@@ -21,6 +21,10 @@
     <result column="found_time" jdbcType="DATE" property="foundTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_pycj" jdbcType="BIT" property="isPycj" />
+    <result column="pycj_date" jdbcType="DATE" property="pycjDate" />
+    <result column="is_bg" jdbcType="BIT" property="isBg" />
+    <result column="bg_date" jdbcType="DATE" property="bgDate" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
@@ -67,9 +71,9 @@
   <sql id="Base_Column_List">
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
     is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, update_time, is_deleted, branch_count, member_count, student_member_count, 
-    positive_count, teacher_member_count, retire_member_count, group_count, present_group_id, 
-    appoint_time, tran_time, actual_tran_time
+    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, update_time, is_deleted, 
+    branch_count, member_count, student_member_count, positive_count, teacher_member_count, 
+    retire_member_count, group_count, present_group_id, appoint_time, tran_time, actual_tran_time
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">
     select

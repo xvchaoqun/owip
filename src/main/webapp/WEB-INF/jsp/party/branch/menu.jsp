@@ -8,6 +8,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?cls=2"><i class="fa fa-history"></i> 已撤销支部</a>
     </li>
     <li  class="<c:if test="${cls==3}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/orgAdmin?type=<%=OwConstants.OW_ORG_ADMIN_BRANCH%>&cls=3"><i class="fa fa-users"></i> 管理员列表</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/orgAdmin?type=<%=OwConstants.OW_ORG_ADMIN_BRANCH%>&cls=3"><i class="fa fa-user-circle-o"></i> 管理员列表</a>
     </li>
 </ul>

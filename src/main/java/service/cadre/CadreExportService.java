@@ -76,7 +76,7 @@ public class CadreExportService extends BaseMapper {
                 /*37*//*"专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", */"现职务任命文件|150",
                 /*38*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
                 /*43*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
-                /*48*/"联系方式|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所属党组织|500",
+                /*48*/"联系方式|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所在党组织|500",
                  /*51*/"是否有挂职经历|100", "备注|500"}));
     }
 
@@ -250,7 +250,7 @@ public class CadreExportService extends BaseMapper {
                 doubleUnit = StringUtils.join(doubleUnits, ",");
             }
 
-            String partyFullName = ""; // 所属党组织
+            String partyFullName = ""; // 所在党组织
             if (record.getPartyId() != null) {
                 Party party = partyMap.get(record.getPartyId());
                 if (party != null) {

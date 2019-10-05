@@ -708,7 +708,7 @@ public class MemberController extends MemberBaseController {
             Member member = memberService.get(userId);
             if (_partyId == null) _partyId = member.getPartyId();
             if (_partyId != null && _partyId.intValue() != member.getPartyId()) {
-                throw new OpException("只允许在同一个分党委内部进行批量转移。");
+                throw new OpException("只允许在同一个"+CmTag.getStringProperty("partyName") + "内部进行批量转移。");
             }
             if (partyService.isDirectBranch(member.getPartyId())) {
                 throw new OpException("直属党支部不能进行内部转移。");

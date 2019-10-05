@@ -79,7 +79,7 @@ public class CadreInspectExportService extends BaseMapper {
                 "现职务任命文件","任现职时间","现职务始任时间","现职务始任年限","现职级始任时间",
                 "任现职级年限","兼任单位及职务", "兼任职务现任时间", "兼任职务始任时间", "是否双肩挑",
                 "双肩挑单位","联系方式",/*"党委委员", "纪委委员",*/"电子信箱",
-                /*"所属党组织",*/"备注"};
+                /*"所在党组织",*/"备注"};
 
         int columnCount = titles.length;
         Row firstRow = sheet.createRow(rowNum++);
@@ -210,7 +210,7 @@ public class CadreInspectExportService extends BaseMapper {
                 doubleUnit = StringUtils.join(doubleUnits, ",");
             }
 
-            /*String partyFullName = ""; // 所属党组织
+            /*String partyFullName = ""; // 所在党组织
             if (record.getPartyId() != null) {
                 Party party = partyMap.get(record.getPartyId());
                 if (party != null) {

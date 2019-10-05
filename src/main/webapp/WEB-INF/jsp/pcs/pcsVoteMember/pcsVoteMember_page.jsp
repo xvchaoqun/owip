@@ -35,14 +35,6 @@
         float: left;
         margin-right: 50px;
     }
-    .type-select .typeCheckbox{
-        padding: 10px;
-        cursor: pointer;
-    }
-    .type-select .typeCheckbox.checked{
-        color: darkred;
-        font-weight: bolder;
-    }
 </style>
 <script>
     $(".orderCheckbox").click(function(){

@@ -217,7 +217,7 @@ public class CadreReserveExportService extends BaseMapper {
                 doubleUnit = StringUtils.join(doubleUnits, ",");
             }
 
-            /*String partyFullName = ""; // 所属党组织
+            /*String partyFullName = ""; // 所在党组织
             if (record.getPartyId() != null) {
                 Party party = partyMap.get(record.getPartyId());
                 if (party != null) {

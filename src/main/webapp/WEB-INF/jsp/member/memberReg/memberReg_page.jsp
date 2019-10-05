@@ -87,7 +87,7 @@
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4>
+                                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                                     <div class="widget-toolbar">
                                         <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -218,7 +218,7 @@
             {label: '身份证号码', name: 'idcard', width: 200, frozen: true},
             {label: '手机号码', name: 'phone', width: 120},
             {
-                label: '所属组织机构',
+                label: '所在党组织',
                 name: 'party',
                 width: 450,
                 align: 'left',

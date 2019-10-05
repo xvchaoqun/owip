@@ -29,6 +29,7 @@ import sys.constants.*;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -381,7 +382,7 @@ public class MemberQuitController extends MemberBaseController {
 
         List<MemberQuit> records = memberQuitMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号|100","姓名|100", "所在分党委|250|left","所在党支部|250|left", "类别|150", "入党时间|150", "出党时间|150", "审核状态|150"};
+        String[] titles = {"学工号|100","姓名|100", "所在"+ CmTag.getStringProperty("partyName") + "|250|left","所在党支部|250|left", "类别|150", "入党时间|150", "出党时间|150", "审核状态|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberQuit record = records.get(i);

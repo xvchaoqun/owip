@@ -24,7 +24,7 @@
                 <c:if test="${adminOnePartyOrBranch!=true}">
                 <tr>
                     <div class="form-group">
-                        <td><span class="star">*</span>所属党组织</td>
+                        <td><span class="star">*</span>所在党组织</td>
                         <td colspan="3">
                             <c:if test="${!edit}">
                                 ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}
@@ -60,7 +60,7 @@
                 </tr>
                 </c:if>
                 <c:if test="${adminOnePartyOrBranch==true}">
-                <td><span class="star">*</span>所属党组织</td>
+                <td><span class="star">*</span>所在党组织</td>
                 <td colspan="3">
                    ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}
                    <%-- ${cm:displayParty(pmMeeting.partyId,pmMeeting.branchId)}--%>

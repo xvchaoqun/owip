@@ -186,7 +186,7 @@
         {label: '电子邮箱', name: 'email', width: 180, align:'left'},
         <c:if test="${_p_hasPartyModule}">
         {
-            label: '所属党组织',
+            label: '所在党组织',
             name: 'partyId',
             align: 'left',
             width: 550,

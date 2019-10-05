@@ -45,7 +45,8 @@ public class PartyMemberService extends BaseMapper {
             PartyMemberViewExample example = new PartyMemberViewExample();
             example.createCriteria()
                     .andIsDeletedEqualTo(false)
-                    .andIsPresentEqualTo(true);
+                    .andIsPresentEqualTo(true)
+                    .andIsHistoryEqualTo(false);
             example.setOrderByClause("party_sort_order desc, sort_order desc");
 
             List<PartyMemberView> partyMemberViews = partyMemberViewMapper.selectByExample(example);
@@ -115,7 +116,8 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
-                .andTypeIdsIn(Arrays.asList(typeId));
+                .andTypeIdsIn(Arrays.asList(typeId))
+                .andIsHistoryEqualTo(false);
 
         return partyMemberViewMapper.selectByExample(example);
     }
@@ -128,7 +130,8 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId)
-                .andTypeIdsIn(Arrays.asList(typeId));
+                .andTypeIdsIn(Arrays.asList(typeId))
+                .andIsHistoryEqualTo(false);
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size() == 0 ? null : records.get(0);
     }
@@ -140,7 +143,9 @@ public class PartyMemberService extends BaseMapper {
         if (presentGroup == null) return null;
 
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId);
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
+                .andUserIdEqualTo(userId)
+                .andIsHistoryEqualTo(false);
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size() == 0 ? null : records.get(0);
@@ -155,7 +160,9 @@ public class PartyMemberService extends BaseMapper {
         MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
 
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andPostIdEqualTo(partySecretaryType.getId());
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
+                .andPostIdEqualTo(partySecretaryType.getId())
+                .andIsHistoryEqualTo(false);
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size() == 0 ? null : records.get(0);
@@ -223,7 +230,8 @@ public class PartyMemberService extends BaseMapper {
 
         PartyMemberExample example = new PartyMemberExample();
         PartyMemberExample.Criteria criteria = example.createCriteria()
-                .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+                .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId)
+                .andUserIdEqualTo(userId);
 
         List<PartyMember> partyMembers = partyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return partyMembers.size() == 1 ? partyMembers.get(0) : null;
@@ -233,7 +241,9 @@ public class PartyMemberService extends BaseMapper {
     public int insertSelective(PartyMember record, boolean autoAdmin) {
 
         record.setIsAdmin(false);
-        record.setSortOrder(getNextSortOrder("ow_party_member", "group_id=" + record.getGroupId()));
+        record.setIsHistory(false);
+        record.setSortOrder(getNextSortOrder("ow_party_member",
+                "group_id=" + record.getGroupId() + " and is_history=0"));
         partyMemberMapper.insertSelective(record);
 
         if (autoAdmin) {
@@ -246,6 +256,7 @@ public class PartyMemberService extends BaseMapper {
     public void del(Integer id) {
 
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+
         if (partyMember.getIsAdmin()) {
             partyMemberAdminService.toggleAdmin(partyMember);
         }
@@ -258,7 +269,6 @@ public class PartyMemberService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
         for (Integer id : ids) {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
-
             // 权限控制
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
 
@@ -288,10 +298,11 @@ public class PartyMemberService extends BaseMapper {
         record.setIsAdmin(old.getIsAdmin());
         record.setSortOrder(old.getSortOrder());
         record.setGroupId(old.getGroupId());
+        record.setIsHistory(null);
         partyMemberMapper.updateByPrimaryKeySelective(record);
 
         // 如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if (!record.getIsAdmin() && autoAdmin) {
+        if (!old.getIsHistory() && !record.getIsAdmin() && autoAdmin) {
             record.setUserId(old.getUserId());
             record.setGroupId(old.getGroupId());
             partyMemberAdminService.toggleAdmin(record);
@@ -346,37 +357,35 @@ public class PartyMemberService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
         PartyMember entity = partyMemberMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
         Integer groupId = entity.getGroupId();
+        boolean isHistory = entity.getIsHistory();
+        changeOrder("ow_party_member", "group_id=" + groupId
+                + " and is_history=" + isHistory, ORDER_BY_DESC, id, addNum);
+    }
 
-        PartyMemberExample example = new PartyMemberExample();
-        if (addNum > 0) {
+    // 离任/重新任命
+    @Transactional
+    public void dissmiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
 
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
+        PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
+
+        PartyMember record = new PartyMember();
+        record.setId(id);
+        record.setIsHistory(dismiss);
+        record.setDismissDate(dismissDate);
+        record.setAssignDate(assignDate);
+        record.setSortOrder(getNextSortOrder("ow_party_member",
+                "group_id=" + partyMember.getGroupId() + " and is_history=" + dismiss));
+
+        partyMemberMapper.updateByPrimaryKeySelective(record);
+
+        if (dismiss) {
+            if (partyMember.getIsAdmin()) {
+                partyMemberAdminService.toggleAdmin(partyMember);
+            }
         } else {
-
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<PartyMember> overEntities = partyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            PartyMember targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("ow_party_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_party_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
-
-            PartyMember record = new PartyMember();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            partyMemberMapper.updateByPrimaryKeySelective(record);
+            commonMapper.excuteSql("update ow_party_member set dismiss_date=null where id=" + id);
         }
     }
 }

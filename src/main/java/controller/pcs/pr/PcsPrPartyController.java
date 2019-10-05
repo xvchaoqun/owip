@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.gson.GsonUtils;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -174,7 +175,7 @@ public class PcsPrPartyController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
-            return failed("您所在分党委已经报送或组织部已下发名单。");
+            return failed("您所在"+ CmTag.getStringProperty("partyName") + "已经报送或组织部已下发名单。");
         }
 
         pcsPrPartyService.report(partyId, configId, stage);

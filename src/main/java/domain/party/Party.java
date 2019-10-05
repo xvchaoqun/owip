@@ -1,5 +1,8 @@
 package domain.party;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,11 +39,22 @@ public class Party implements Serializable {
 
     private String mailbox;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date foundTime;
 
     private Integer sortOrder;
 
     private Date createTime;
+
+    private Boolean isPycj;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date pycjDate;
+
+    private Boolean isBg;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date bgDate;
 
     private Boolean isDeleted;
 
@@ -196,6 +210,38 @@ public class Party implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsPycj() {
+        return isPycj;
+    }
+
+    public void setIsPycj(Boolean isPycj) {
+        this.isPycj = isPycj;
+    }
+
+    public Date getPycjDate() {
+        return pycjDate;
+    }
+
+    public void setPycjDate(Date pycjDate) {
+        this.pycjDate = pycjDate;
+    }
+
+    public Boolean getIsBg() {
+        return isBg;
+    }
+
+    public void setIsBg(Boolean isBg) {
+        this.isBg = isBg;
+    }
+
+    public Date getBgDate() {
+        return bgDate;
+    }
+
+    public void setBgDate(Date bgDate) {
+        this.bgDate = bgDate;
     }
 
     public Boolean getIsDeleted() {

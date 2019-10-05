@@ -490,7 +490,7 @@ public class MemberApplyService extends MemberBaseMapper {
         memberApplyMapper.deleteByExample(example);
     }
 
-    // 修改党员所属党组织时，党员发展信息保持同步。如果该党员是预备党员，则相应的要修改党员发展里的预备党员所属党组织，目的是为了预备党员正常转正；
+    // 修改党员所在党组织时，党员发展信息保持同步。如果该党员是预备党员，则相应的要修改党员发展里的预备党员所在党组织，目的是为了预备党员正常转正；
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
@@ -524,7 +524,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "更新",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "修改党员所属党组织关系，同时修改党员发展的所属组织关系");
+                    "修改党员所在党组织关系，同时修改党员发展的所属组织关系");
         }
     }
 
@@ -578,7 +578,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     _member.setUserId(userId);
                     _member.setPartyId(record.getPartyId());
                     _member.setBranchId(record.getBranchId());
-                    memberService.updateByPrimaryKeySelective(_member, "党员发展中修改所属党组织");
+                    memberService.updateByPrimaryKeySelective(_member, "党员发展中修改所在党组织");
                 }
             }
         }

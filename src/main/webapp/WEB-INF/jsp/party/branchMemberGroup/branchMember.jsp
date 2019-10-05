@@ -31,10 +31,19 @@
 
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                    <div class="type-select">
+                        <span class="typeCheckbox ${param.isHistory!=1?"checked":""}">
+                        <input ${param.isHistory!=1?"checked onclick='return false'":""} type="checkbox" value="0"> 现任委员
+                        </span>
+                        <span class="typeCheckbox ${param.isHistory==1?"checked":""}">
+                        <input ${param.isHistory==1?"checked onclick='return false'":""} type="checkbox" value="1"> 离任委员
+                        </span>
+                    </div>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
-                        <h4 class="widget-title">搜索</h4>
+                        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
                         <div class="widget-toolbar">
                             <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -44,7 +53,7 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-
+                                <input type="hidden" name="isHistory" value="${empty param.isHistory?0:param.isHistory}">
                                 <div class="form-group">
                                     <label>姓名</label>
                                     <div class="input-group">
@@ -107,7 +116,13 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="../branchMember/branchMember_colModel.jsp"/>
 <script>
+    $(".typeCheckbox").click(function () {
+        if($(this).hasClass("checked")) return;
+        $("#searchForm input[name=isHistory]").val($(":checkbox", this).val());
+        $("#searchForm .jqSearchBtn").click();
+    })
     $.register.multiselect($('#searchForm select[name=typeIds]'), ${cm:toJSONArray(selectedTypeIds)});
     $.register.user_select($('#searchForm select[name=userId]'));
     function _adminCallback(){
@@ -115,66 +130,10 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     $("#jqGrid").jqGrid({
-        url: '${ctx}/branchMember_data?callback=?&isDeleted=0&isPresent=1&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel:[
-            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
-            {
-                label: '姓名', name: 'user.realname', align:'left', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                var str = '<span class="label label-sm label-primary " style="display: inline!important;"> 管理员</span>&nbsp;';
-                return (rowObject.isAdmin?str:'')+ cellvalue;
-            }, frozen: true
-            },
-            <shiro:hasPermission name="branchMember:edit">
-            {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue)
-                    return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
-                else
-                    return '<button data-url="${ctx}/branchMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
-            }},
-            </shiro:hasPermission>
-            {label: '所在单位', name: 'unitId', width: 180,align:'left', formatter: $.jgrid.formatter.unit},
-            {
-                label: '所属组织机构', name: 'party', align: 'left', width: 650,
-                formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.groupPartyId, rowObject.groupBranchId);
-                }, frozen: true
-            },
-            {label: '类别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
-            {label: '是否双带头人', name: 'isDoubleLeader', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.typeId != '${cm:getMetaTypeByCode("mt_branch_secretary").id}') return '--'
-                return $.jgrid.formatter.TRUEFALSE(cellvalue)
-            }},
-            {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {
-                label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
-            },
-            {label: '民族', name: 'nation', width: 60},
-            {label: '身份证号', name: 'idcard', width: 170},
-
-            {
-                label: '出生日期', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}
-            },
-            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '岗位类别', name: 'postClass'},
-            {label: '主岗等级', name: 'mainPostLevel', width: 150},
-            {label: '专业技术职务', name: 'proPost', width: 120},
-            {label: '职称级别', name: 'proPostLevel', width: 150},
-            /*{label: '管理岗位等级', name: 'manageLevel', width: 150},*/
-            { label: '办公电话', name: 'officePhone' },
-            { label: '手机号', name: 'mobile' },
-            {
-                label: '所属党组织',
-                name: 'partyId',
-                align: 'left',
-                width: 550,
-                formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }
-            }
-        ]
+        url: '${ctx}/branchMember_data?callback=?&isDeleted=0'
+            +'&isPresent=1&isHistory=${empty param.isHistory?0:param.isHistory}'
+            +'&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel:colModel
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

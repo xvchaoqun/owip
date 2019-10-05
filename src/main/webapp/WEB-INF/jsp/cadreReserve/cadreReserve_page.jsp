@@ -162,7 +162,7 @@
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
-                                <h4 class="widget-title">搜索</h4>
+                                <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                                 <div class="widget-toolbar">
                                     <a href="javascript:;" data-action="collapse">
@@ -451,7 +451,7 @@
             {label: '电子邮箱', name: 'email', width: 150},
             <c:if test="${_p_hasPartyModule}">
             {
-                label: '所属党组织',
+                label: '所在党组织',
                 name: 'partyId',
                 align: 'left',
                 width: 550,

@@ -29,7 +29,7 @@
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
-                                <h4 class="widget-title">搜索</h4>
+                                <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                                 <div class="widget-toolbar">
                                     <a href="javascript:;" data-action="collapse">
@@ -80,14 +80,6 @@
         padding: 10px 0 0 5px;
         float: left;
         margin-right: 50px;
-    }
-    .type-select .typeCheckbox{
-        padding: 10px;
-        cursor: pointer;
-    }
-    .type-select .typeCheckbox.checked{
-        color: darkred;
-        font-weight: bolder;
     }
     .candidate-table{
         padding-top: 0px !important;

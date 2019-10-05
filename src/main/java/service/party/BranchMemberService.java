@@ -4,7 +4,6 @@ import domain.base.MetaType;
 import domain.party.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,8 @@ public class BranchMemberService extends BaseMapper {
             BranchMemberViewExample example = new BranchMemberViewExample();
             example.createCriteria()
                     .andIsDeletedEqualTo(false)
-                    .andIsPresentEqualTo(true);
+                    .andIsPresentEqualTo(true)
+                    .andIsHistoryEqualTo(false);
             example.setOrderByClause("party_sort_order desc, branch_sort_order desc,sort_order desc");
 
             List<BranchMemberView> branchMemberViews = branchMemberViewMapper.selectByExample(example);
@@ -157,7 +157,9 @@ public class BranchMemberService extends BaseMapper {
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
 
         BranchMemberViewExample example = new BranchMemberViewExample();
-        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andTypeIdEqualTo(secretaryType.getId());
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
+                .andTypeIdEqualTo(secretaryType.getId())
+                    .andIsHistoryEqualTo(false);
 
         List<BranchMemberView> records = branchMemberViewMapper.selectByExample(example);
         return records.size() == 0 ? null : records.get(0);
@@ -199,7 +201,9 @@ public class BranchMemberService extends BaseMapper {
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         record.setIsAdmin(false);
-        record.setSortOrder(getNextSortOrder("ow_branch_member", "group_id=" + record.getGroupId()));
+        record.setIsHistory(false);
+        record.setSortOrder(getNextSortOrder("ow_branch_member",
+                "group_id=" + record.getGroupId()+ " and is_history=0"));
         branchMemberMapper.insertSelective(record);
 
         if (autoAdmin) {
@@ -245,6 +249,7 @@ public class BranchMemberService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(BranchMember record, boolean autoAdmin) {
+
         BranchMember old = branchMemberMapper.selectByPrimaryKey(record.getId());
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(old.getGroupId());
@@ -252,10 +257,11 @@ public class BranchMemberService extends BaseMapper {
         PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
 
         record.setIsAdmin(old.getIsAdmin());
+        record.setIsHistory(null);
         branchMemberMapper.updateByPrimaryKeySelective(record);
 
         // 如果以前不是管理员，但是选择的类别是自动设定为管理员
-        if (!record.getIsAdmin() && autoAdmin) {
+        if (!old.getIsHistory() && !record.getIsAdmin() && autoAdmin) {
             record.setUserId(old.getUserId());
             record.setGroupId(old.getGroupId());
             branchMemberAdminService.toggleAdmin(record);
@@ -273,42 +279,35 @@ public class BranchMemberService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
         BranchMember entity = branchMemberMapper.selectByPrimaryKey(id);
-
-        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(entity.getGroupId());
-        Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
-        PartyHelper.checkAuth(branch.getPartyId(), branch.getId());
-
-        Integer baseSortOrder = entity.getSortOrder();
         Integer groupId = entity.getGroupId();
+        boolean isHistory = entity.getIsHistory();
+        changeOrder("ow_branch_member", "group_id=" + groupId
+                + " and is_history=" + isHistory, ORDER_BY_DESC, id, addNum);
+    }
 
-        BranchMemberExample example = new BranchMemberExample();
-        if (addNum > 0) {
+    // 离任/重新任命
+    @Transactional
+    public void dissmiss(Integer id, boolean dismiss, Date dismissDate, Date assignDate) {
 
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
+        BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
-            example.createCriteria().andGroupIdEqualTo(groupId).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
+        BranchMember record = new BranchMember();
+        record.setId(id);
+        record.setIsHistory(dismiss);
+        record.setDismissDate(dismissDate);
+        record.setAssignDate(assignDate);
+        record.setSortOrder(getNextSortOrder("ow_branch_member",
+                "group_id=" + branchMember.getGroupId() + " and is_history=" + dismiss));
 
-        List<BranchMember> overEntities = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
+        branchMemberMapper.updateByPrimaryKeySelective(record);
 
-            BranchMember targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("ow_branch_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_branch_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
-
-            BranchMember record = new BranchMember();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            branchMemberMapper.updateByPrimaryKeySelective(record);
+        if(dismiss) {
+            if (branchMember.getIsAdmin()) {
+                branchMemberAdminService.toggleAdmin(branchMember);
+            }
+        }else{
+            commonMapper.excuteSql("update ow_branch_member set dismiss_date=null where id="+id);
         }
     }
 }

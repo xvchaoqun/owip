@@ -2,13 +2,12 @@ package persistence.party;
 
 import domain.party.Branch;
 import domain.party.BranchExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface BranchMapper {
-    int countByExample(BranchExample example);
+    long countByExample(BranchExample example);
 
     int deleteByExample(BranchExample example);
 

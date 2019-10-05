@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="types" jdbcType="VARCHAR" property="types" />
     <result column="is_staff" jdbcType="BIT" property="isStaff" />
     <result column="is_prefessional" jdbcType="BIT" property="isPrefessional" />
     <result column="is_base_team" jdbcType="BIT" property="isBaseTeam" />
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, party_id, type_id, is_staff, is_prefessional, is_base_team, 
+    id, code, name, short_name, party_id, types, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
     email, found_time, transfer_count, sort_order, create_time, update_time, is_deleted, 
     party_sort_order, member_count, positive_count, student_member_count, teacher_member_count, 

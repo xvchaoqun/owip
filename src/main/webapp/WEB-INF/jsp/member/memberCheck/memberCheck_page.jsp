@@ -64,7 +64,7 @@
             <c:if test="${cls!=1}">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
-                        <h4 class="widget-title">搜索</h4>
+                        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                         <div class="widget-toolbar">
                             <a href="#" data-action="collapse">
@@ -157,7 +157,7 @@
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }, frozen: true},
             {
-                label: '所属组织机构',
+                label: '所在党组织',
                 name: 'party',
                 align: 'left',
                 width: 450,
