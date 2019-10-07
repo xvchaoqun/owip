@@ -36,6 +36,15 @@ DROP TABLE crs_applicant_adjust;
 DROP VIEW crs_applicant_adjust_view;
 -- 删除以上对应的代码
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1080, 0, '干部竞争上岗2', '', 'menu', '', NULL, 339, '0/1/339/', 0, 'cr:admin', NULL, NULL, NULL, 1, 500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1081, 0, '资格审核模板', '', 'url', '', '/crRequire', 1080, '0/1/339/1080/', 1, 'crRequire:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1082, 0, '招聘管理', '', 'url', '', '/crInfo', 1080, '0/1/339/1080/', 0, 'crInfo:*', NULL, NULL, NULL, 1, 1000);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1083, 0, '岗位管理', '', 'function', '', NULL, 1082, '0/1/339/1080/1082/', 1, 'crPost:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1084, 0, '应聘人管理', '', 'function', '', NULL, 1082, '0/1/339/1080/1082/', 1, 'crApplicant:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1085, 0, '招聘会管理', '', 'function', '', NULL, 1082, '0/1/339/1080/1082/', 1, 'crMeeting:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1086, 0, '干部竞争上岗2', '', 'menu', 'fa fa-crosshairs', NULL, 1, '0/1/', 0, 'cr:menu', NULL, NULL, NULL, 1, 6300);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1087, 0, '招聘信息', '', 'url', '', '/user/crInfo', 1086, '0/1/1086/', 1, 'userCrInfo:*', NULL, NULL, NULL, 1, NULL);
+
 
 20190930
 ALTER TABLE `cet_unit_project`
