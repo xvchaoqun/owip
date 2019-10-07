@@ -366,9 +366,8 @@ public class CrsApplicantService extends CrsBaseMapper {
 
     // 开始采集信息
     @Transactional
-    public int start() {
+    public int start(int userId) {
 
-        int userId = ShiroHelper.getCurrentUserId();
         CadreView cv = cadreService.dbFindByUserId(userId);
 
         // 如果是 干部、考察对象或优秀年轻干部，则直接返回干部ID

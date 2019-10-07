@@ -23,10 +23,6 @@ public class CrsBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CrsApplicantStatViewMapper crsApplicantStatViewMapper;
     @Autowired(required = false)
-    protected CrsApplicantAdjustMapper crsApplicantAdjustMapper;
-    @Autowired(required = false)
-    protected CrsApplicantAdjustViewMapper crsApplicantAdjustViewMapper;
-    @Autowired(required = false)
     protected CrsApplicantCheckMapper crsApplicantCheckMapper;
     @Autowired(required = false)
     protected CrsPostMapper crsPostMapper;

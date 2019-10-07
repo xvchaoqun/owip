@@ -32,9 +32,9 @@ ALTER TABLE `ow_branch`
 更新 ow_party_member_group_view  ow_branch_member_group_view
 
 
-
-ALTER TABLE `crs_post`
-	CHANGE COLUMN `notice` `notice` VARCHAR(255) NULL DEFAULT NULL COMMENT '招聘通知，pdf文件' AFTER `num`;
+DROP TABLE crs_applicant_adjust;
+DROP VIEW crs_applicant_adjust_view;
+-- 删除以上对应的代码
 
 
 20190930

@@ -1,0 +1,46 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cr",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "cr_info",
+      "key": "id",
+      "searchColumns": "year,add_date",
+      "showColumns": "year,add_date,notice,num,requirement,qualification,require_id,start_time,end_time,status,remark",
+      "excludeEditColumns": "id,create_time",
+      "logType": "LogConstants.LOG_CR",
+      "ignore": true
+    },
+    {
+      "table": "cr_post",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,num,duty,remark,status",
+      "excludeEditColumns": "id,create_time",
+      "logType": "LogConstants.LOG_CR",
+      "ignore": true
+    },
+    {
+      "table": "cr_applicant",
+      "key": "id",
+      "searchColumns": "user_id,enroll_time",
+      "showColumns": "user_id,info_id,first_post_id,second_post_id,eva,reason,enroll_time",
+      "excludeEditColumns": "id,first_check_status,first_check_remark,second_check_status,second_check_remark,sort_order,status",
+      "logType": "LogConstants.LOG_CR",
+      "ignore": true
+    },
+    {
+      "table": "cr_meeting",
+      "key": "id",
+      "searchColumns": "meeting_date",
+      "showColumns": "meeting_date,post_ids,apply_count,remark",
+      "excludeEditColumns": "id,create_time",
+      "logType": "LogConstants.LOG_CR",
+      "ignore": false
+    }
+  ]
+}

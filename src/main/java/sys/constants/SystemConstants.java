@@ -329,6 +329,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN = 8; // 上级调训
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_ANNUAL = 9; // 年度学习档案
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN = 10; // 二级党委培训
+    public final static byte SYS_APPROVAL_LOG_TYPE_CR_APPLICANT = 12; // 干部招聘2-报名审核
 
     public final static byte SYS_DP_LOG_TYPE_PARTY = 21;//民主党派操作
 
@@ -337,6 +338,7 @@ public class SystemConstants {
     static {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国境审批");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CR_APPLICANT, "干部招聘2");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_TRAINEE, "参训人");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ, "培训对象");

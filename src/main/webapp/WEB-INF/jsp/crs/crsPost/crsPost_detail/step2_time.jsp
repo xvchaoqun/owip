@@ -59,9 +59,9 @@
                                     <div class="input-group">
                                         <input class="form-control datetime-picker" required type="text" name="endTime"
                                                value="${cm:formatDate(crsPost.endTime, "yyyy-MM-dd HH:mm")}">
-							<span class="input-group-addon">
-                            <i class="fa fa-calendar bigger-110"></i>
-                        </span>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

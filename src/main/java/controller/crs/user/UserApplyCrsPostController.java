@@ -173,9 +173,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
     @ResponseBody
     public Map do_crsPost_start(HttpServletRequest request) {
 
-        int cadreId = crsApplicantService.start();
-
-
+        int cadreId = crsApplicantService.start(ShiroHelper.getCurrentUserId());
         logger.info(addLog(LogConstants.LOG_USER, "干部招聘-开始采集信息"));
 
         boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadreId);
@@ -214,6 +212,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
         //输出文件
         String filename = CmTag.getSysConfig().getSchoolName() + "处级干部应聘人报名表";
         response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");

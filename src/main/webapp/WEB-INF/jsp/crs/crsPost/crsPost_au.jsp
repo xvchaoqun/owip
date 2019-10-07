@@ -18,7 +18,7 @@
                         <div class="input-group date"
                              data-date-format="yyyy" data-date-min-view-mode="2" style="width: 100px">
                             <input required class="form-control" placeholder="请选择" name="year"
-                                   type="text" value="${_thisYear}"/>
+                                   type="text" value="${empty crsPost?_thisYear:crsPost.year}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>

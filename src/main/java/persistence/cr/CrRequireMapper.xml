@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.crs.CrsApplicantAdjustMapper">
-  <resultMap id="BaseResultMap" type="domain.crs.CrsApplicantAdjust">
+<mapper namespace="persistence.cr.CrRequireMapper">
+  <resultMap id="BaseResultMap" type="domain.cr.CrRequire">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="adjust_time" jdbcType="TIMESTAMP" property="adjustTime" />
-    <result column="pre_post_ids" jdbcType="VARCHAR" property="prePostIds" />
-    <result column="after_post_ids" jdbcType="VARCHAR" property="afterPostIds" />
-    <result column="op_user_id" jdbcType="INTEGER" property="opUserId" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, adjust_time, pre_post_ids, after_post_ids, op_user_id, ip
+    id, name, sort_order, remark, status
   </sql>
-  <select id="selectByExample" parameterType="domain.crs.CrsApplicantAdjustExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cr.CrRequireExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from crs_applicant_adjust
+    from cr_require
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,105 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from crs_applicant_adjust
+    from cr_require
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from crs_applicant_adjust
+    delete from cr_require
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.crs.CrsApplicantAdjustExample">
-    delete from crs_applicant_adjust
+  <delete id="deleteByExample" parameterType="domain.cr.CrRequireExample">
+    delete from cr_require
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.crs.CrsApplicantAdjust">
-    insert into crs_applicant_adjust (id, user_id, adjust_time, 
-      pre_post_ids, after_post_ids, op_user_id, 
-      ip)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{adjustTime,jdbcType=TIMESTAMP}, 
-      #{prePostIds,jdbcType=VARCHAR}, #{afterPostIds,jdbcType=VARCHAR}, #{opUserId,jdbcType=INTEGER}, 
-      #{ip,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="domain.cr.CrRequire">
+    insert into cr_require (id, name, sort_order, 
+      remark, status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.crs.CrsApplicantAdjust">
-    insert into crs_applicant_adjust
+  <insert id="insertSelective" parameterType="domain.cr.CrRequire">
+    insert into cr_require
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="name != null">
+        name,
       </if>
-      <if test="adjustTime != null">
-        adjust_time,
+      <if test="sortOrder != null">
+        sort_order,
       </if>
-      <if test="prePostIds != null">
-        pre_post_ids,
+      <if test="remark != null">
+        remark,
       </if>
-      <if test="afterPostIds != null">
-        after_post_ids,
-      </if>
-      <if test="opUserId != null">
-        op_user_id,
-      </if>
-      <if test="ip != null">
-        ip,
+      <if test="status != null">
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="adjustTime != null">
-        #{adjustTime,jdbcType=TIMESTAMP},
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="prePostIds != null">
-        #{prePostIds,jdbcType=VARCHAR},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="afterPostIds != null">
-        #{afterPostIds,jdbcType=VARCHAR},
-      </if>
-      <if test="opUserId != null">
-        #{opUserId,jdbcType=INTEGER},
-      </if>
-      <if test="ip != null">
-        #{ip,jdbcType=VARCHAR},
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.crs.CrsApplicantAdjustExample" resultType="java.lang.Long">
-    select count(*) from crs_applicant_adjust
+  <select id="countByExample" parameterType="domain.cr.CrRequireExample" resultType="java.lang.Long">
+    select count(*) from cr_require
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update crs_applicant_adjust
+    update cr_require
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.adjustTime != null">
-        adjust_time = #{record.adjustTime,jdbcType=TIMESTAMP},
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.prePostIds != null">
-        pre_post_ids = #{record.prePostIds,jdbcType=VARCHAR},
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.afterPostIds != null">
-        after_post_ids = #{record.afterPostIds,jdbcType=VARCHAR},
-      </if>
-      <if test="record.opUserId != null">
-        op_user_id = #{record.opUserId,jdbcType=INTEGER},
-      </if>
-      <if test="record.ip != null">
-        ip = #{record.ip,jdbcType=VARCHAR},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -194,59 +172,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update crs_applicant_adjust
+    update cr_require
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      adjust_time = #{record.adjustTime,jdbcType=TIMESTAMP},
-      pre_post_ids = #{record.prePostIds,jdbcType=VARCHAR},
-      after_post_ids = #{record.afterPostIds,jdbcType=VARCHAR},
-      op_user_id = #{record.opUserId,jdbcType=INTEGER},
-      ip = #{record.ip,jdbcType=VARCHAR}
+      name = #{record.name,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.crs.CrsApplicantAdjust">
-    update crs_applicant_adjust
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cr.CrRequire">
+    update cr_require
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="adjustTime != null">
-        adjust_time = #{adjustTime,jdbcType=TIMESTAMP},
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="prePostIds != null">
-        pre_post_ids = #{prePostIds,jdbcType=VARCHAR},
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="afterPostIds != null">
-        after_post_ids = #{afterPostIds,jdbcType=VARCHAR},
-      </if>
-      <if test="opUserId != null">
-        op_user_id = #{opUserId,jdbcType=INTEGER},
-      </if>
-      <if test="ip != null">
-        ip = #{ip,jdbcType=VARCHAR},
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.crs.CrsApplicantAdjust">
-    update crs_applicant_adjust
-    set user_id = #{userId,jdbcType=INTEGER},
-      adjust_time = #{adjustTime,jdbcType=TIMESTAMP},
-      pre_post_ids = #{prePostIds,jdbcType=VARCHAR},
-      after_post_ids = #{afterPostIds,jdbcType=VARCHAR},
-      op_user_id = #{opUserId,jdbcType=INTEGER},
-      ip = #{ip,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="domain.cr.CrRequire">
+    update cr_require
+    set name = #{name,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsApplicantAdjustExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cr.CrRequireExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from crs_applicant_adjust
+    from cr_require
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

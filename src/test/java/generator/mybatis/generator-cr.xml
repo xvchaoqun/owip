@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--简版干部招聘-->
+        <table tableName="cr_info" domainObjectName="cr.CrInfo" mapperName="cr.CrInfoMapper">
+            <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
+        </table>
+        <!--<table tableName="cr_post" domainObjectName="cr.CrPost" mapperName="cr.CrPostMapper">
+        </table>-->
+        <!--<table tableName="cr_meeting" domainObjectName="cr.CrMeeting" mapperName="cr.CrMeetingMapper">
+        </table>-->
+        <!--<table tableName="cr_applicant" domainObjectName="cr.CrApplicant"  mapperName="cr.CrApplicantMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="reason" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="cr_applicant_check" domainObjectName="cr.CrApplicantCheck"  mapperName="cr.CrApplicantCheckMapper">
+        </table>-->
+        <!--<table tableName="cr_require" domainObjectName="cr.CrRequire" mapperName="cr.CrRequireMapper">
+        </table>
+        <table tableName="cr_require_rule" domainObjectName="cr.CrRequireRule" mapperName="cr.CrRequireRuleMapper">
+        </table>
+        <table tableName="cr_rule_item" domainObjectName="cr.CrRuleItem" mapperName="cr.CrRuleItemMapper">
+        </table>-->
+
+    </context>
+</generatorConfiguration>
