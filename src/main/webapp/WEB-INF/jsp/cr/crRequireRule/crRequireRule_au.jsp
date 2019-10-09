@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/crRequireRule_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${crRequireRule.id}">
-        <input type="hidden" name="postRequireId" value="${crRequire.id}">
+        <input type="hidden" name="requireId" value="${crRequire.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>类别名称</label>
 				<div class="col-xs-6">

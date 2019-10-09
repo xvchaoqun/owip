@@ -80,10 +80,10 @@ pageEncoding="UTF-8" %>
 
                 var num = rowObject.rules.length;
                 if (num==0)
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crRequireRule?postRequireId={0}">编辑</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crRequireRule?requireId={0}">编辑</a>'
                             .format(rowObject.id);
                 else
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crRequireRule?postRequireId={0}">查看({1})</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crRequireRule?requireId={0}">查看({1})</a>'
                             .format(rowObject.id, num);
             }},
             {label: '预览', name: 'rankNum', formatter: function (cellvalue, options, rowObject) {

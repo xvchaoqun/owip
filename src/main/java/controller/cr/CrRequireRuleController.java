@@ -33,9 +33,9 @@ public class CrRequireRuleController extends CrBaseController {
 
     @RequiresPermissions("crRequire:list")
     @RequestMapping("/crRequireRule")
-    public String crRequireRule(int postRequireId, ModelMap modelMap) {
+    public String crRequireRule(int requireId, ModelMap modelMap) {
 
-        modelMap.put("crRequire", crRequireMapper.selectByPrimaryKey(postRequireId));
+        modelMap.put("crRequire", crRequireMapper.selectByPrimaryKey(requireId));
 
         return "cr/crRequireRule/crRequireRule_page";
     }
@@ -43,7 +43,7 @@ public class CrRequireRuleController extends CrBaseController {
     @RequiresPermissions("crRequire:list")
     @RequestMapping("/crRequireRule_data")
     public void crRequireRule_data(HttpServletResponse response,
-                                    int postRequireId,
+                                    int requireId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
@@ -57,7 +57,7 @@ public class CrRequireRuleController extends CrBaseController {
         pageNo = Math.max(1, pageNo);
 
         CrRequireRuleExample example = new CrRequireRuleExample();
-        CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(postRequireId);
+        CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(requireId);
         example.setOrderByClause("sort_order desc");
 
         if (export == 1) {
@@ -108,16 +108,16 @@ public class CrRequireRuleController extends CrBaseController {
 
     @RequiresPermissions("crRequire:edit")
     @RequestMapping("/crRequireRule_au")
-    public String crRequireRule_au(Integer id, Integer postRequireId, ModelMap modelMap) {
+    public String crRequireRule_au(Integer id, Integer requireId, ModelMap modelMap) {
 
         if (id != null) {
             CrRequireRule crRequireRule = crRequireRuleMapper.selectByPrimaryKey(id);
             modelMap.put("crRequireRule", crRequireRule);
 
-            postRequireId = crRequireRule.getRequireId();
+            requireId = crRequireRule.getRequireId();
         }
 
-        modelMap.put("crRequire", crRequireMapper.selectByPrimaryKey(postRequireId));
+        modelMap.put("crRequire", crRequireMapper.selectByPrimaryKey(requireId));
         return "cr/crRequireRule/crRequireRule_au";
     }
 

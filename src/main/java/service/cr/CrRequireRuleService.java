@@ -70,12 +70,12 @@ public class CrRequireRuleService extends CrBaseMapper {
 
     // <规则ID， 规则内容>
     @Cacheable(value = "CrRequireRules")
-    public Map<Integer, CrRequireRule> findAll(int postRequireId) {
+    public Map<Integer, CrRequireRule> findAll(int requireId) {
 
         List<CrRequireRule> crRequireRules = new ArrayList<>();
         {
             CrRequireRuleExample example = new CrRequireRuleExample();
-            example.createCriteria().andRequireIdEqualTo(postRequireId);
+            example.createCriteria().andRequireIdEqualTo(requireId);
             example.setOrderByClause("sort_order desc");
             crRequireRules = crRequireRuleMapper.selectByExample(example);
         }
@@ -109,17 +109,17 @@ public class CrRequireRuleService extends CrBaseMapper {
 
         CrRequireRule entity = crRequireRuleMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
-        Integer postRequireId = entity.getRequireId();
+        Integer requireId = entity.getRequireId();
 
         CrRequireRuleExample example = new CrRequireRuleExample();
         if (addNum > 0) {
 
-            CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(postRequireId);
+            CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(requireId);
             criteria.andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         } else {
 
-            CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(postRequireId);
+            CrRequireRuleExample.Criteria criteria = example.createCriteria().andRequireIdEqualTo(requireId);
             criteria.andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
@@ -130,9 +130,9 @@ public class CrRequireRuleService extends CrBaseMapper {
             CrRequireRule targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cr_require_rule", "require_id=" + postRequireId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cr_require_rule", "require_id=" + requireId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cr_require_rule", "require_id=" + postRequireId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cr_require_rule", "require_id=" + requireId, baseSortOrder, targetEntity.getSortOrder());
 
             CrRequireRule record = new CrRequireRule();
             record.setId(id);

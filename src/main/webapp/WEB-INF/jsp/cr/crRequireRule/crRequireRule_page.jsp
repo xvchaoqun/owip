@@ -21,15 +21,15 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <shiro:hasPermission name="crRequireRule:edit">
+                <shiro:hasPermission name="crRequire:edit">
                     <a class="popupBtn btn btn-info btn-sm"
-                       data-url="${ctx}/crRequireRule_au?postRequireId=${crRequire.id}"><i class="fa fa-plus"></i> 添加规则</a>
+                       data-url="${ctx}/crRequireRule_au?requireId=${crRequire.id}"><i class="fa fa-plus"></i> 添加规则</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/crRequireRule_au"
                        data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改规则</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="crRequireRule:del">
+                <shiro:hasPermission name="crRequire:del">
                     <button data-url="${ctx}/crRequireRule_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"

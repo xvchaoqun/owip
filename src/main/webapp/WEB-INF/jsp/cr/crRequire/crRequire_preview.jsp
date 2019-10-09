@@ -5,7 +5,7 @@
     <h3>岗位要求（${crRequire.name}）</h3>
 </div>
 <div class="modal-body">
-<jsp:include page="postRequire.jsp"/>
+<jsp:include page="require.jsp"/>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
