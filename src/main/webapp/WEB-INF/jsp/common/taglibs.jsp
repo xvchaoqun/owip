@@ -95,4 +95,4 @@
 
 <c:set value="<%=SystemConstants.UNIT_STATUS_RUN%>" var="UNIT_STATUS_RUN"/>
 <c:set value="<%=SystemConstants.UNIT_STATUS_HISTORY%>" var="UNIT_STATUS_HISTORY"/>
-<c:set value="点击此搜索条任意位置可展开/收起搜索框" var="note_searchbar"/>
+<c:set value="点击此搜索条的任意位置可展开/收起搜索框" var="note_searchbar"/>
