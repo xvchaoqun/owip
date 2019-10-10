@@ -174,7 +174,7 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>所任单位及职务</label>
                     <div class="col-xs-7">
-                        <input required class="form-control" type="text" name="post" value="${crpRecord.post}">
+                        <textarea required class="form-control" type="text" name="post" rows="3">${crpRecord.post}</textarea>
                     </div>
                 </div>
                 <div class="form-group">

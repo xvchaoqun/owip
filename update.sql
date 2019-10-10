@@ -3,7 +3,9 @@
 201901010
 南航 -- 北师大
 
-校外挂职： 所任职务 -> 所任单位及职务， 需手动合并一下数据库字段（除南航）
+-- 校外挂职： 所任职务 -> 所任单位及职务， 需手动合并一下数据库字段（除南航）
+-- SELECT unit ,post, CONCAT(unit, post) FROM crp_record WHERE TYPE=1;
+-- UPDATE crp_record SET post=CONCAT(unit, post) WHERE TYPE=1;
 
 ALTER TABLE `cr_meeting`
 	CHANGE COLUMN `apply_count` `require_num` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '招聘会人数要求' AFTER `post_ids`,
@@ -15,12 +17,12 @@ ALTER TABLE `cr_post`
 ALTER TABLE `cr_info`
 	DROP COLUMN `require_id`;
 
-删除 干部竞争上岗-统计分析的 角色
+-- 删除 干部竞争上岗-统计分析的 角色
 
-更新 cadre_view等
+-- 更新 cadre_view等
 
 201901005
-南航 -- 北师大
+南航
 
 ALTER TABLE `ow_party_member`
 	ADD COLUMN `dismiss_date` DATE NULL DEFAULT NULL COMMENT '离任时间' AFTER `assign_date`,
@@ -32,7 +34,7 @@ ALTER TABLE `ow_branch_member`
 	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `mobile`,
 	ADD COLUMN `is_history` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否离任' AFTER `is_admin`;
 
-更新  ow_party_member_view ， ow_branch_member_view
+-- 更新  ow_party_member_view ， ow_branch_member_view
 
 ALTER TABLE `ow_party`
 	ADD COLUMN `is_pycj` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否培育创建单位' AFTER `create_time`,
@@ -47,9 +49,9 @@ ALTER TABLE `ow_branch`
 	DROP INDEX `FK_ow_branch_base_meta_type`,
 	DROP FOREIGN KEY `FK_ow_branch_base_meta_type`;
 
-更新 ow_party_view  ow_branch_view
+-- 更新 ow_party_view  ow_branch_view
 
-更新 ow_party_member_group_view  ow_branch_member_group_view
+-- 更新 ow_party_member_group_view  ow_branch_member_group_view
 
 
 DROP TABLE crs_applicant_adjust;
