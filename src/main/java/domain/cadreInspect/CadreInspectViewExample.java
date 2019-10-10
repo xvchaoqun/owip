@@ -4032,6 +4032,146 @@ public class CadreInspectViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuthorizedTypeIsNull() {
+            addCriterion("authorized_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeIsNotNull() {
+            addCriterion("authorized_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeEqualTo(String value) {
+            addCriterion("authorized_type =", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeNotEqualTo(String value) {
+            addCriterion("authorized_type <>", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeGreaterThan(String value) {
+            addCriterion("authorized_type >", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("authorized_type >=", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeLessThan(String value) {
+            addCriterion("authorized_type <", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeLessThanOrEqualTo(String value) {
+            addCriterion("authorized_type <=", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeLike(String value) {
+            addCriterion("authorized_type like", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeNotLike(String value) {
+            addCriterion("authorized_type not like", value, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeIn(List<String> values) {
+            addCriterion("authorized_type in", values, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeNotIn(List<String> values) {
+            addCriterion("authorized_type not in", values, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeBetween(String value1, String value2) {
+            addCriterion("authorized_type between", value1, value2, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizedTypeNotBetween(String value1, String value2) {
+            addCriterion("authorized_type not between", value1, value2, "authorizedType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeIsNull() {
+            addCriterion("staff_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeIsNotNull() {
+            addCriterion("staff_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeEqualTo(String value) {
+            addCriterion("staff_type =", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeNotEqualTo(String value) {
+            addCriterion("staff_type <>", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeGreaterThan(String value) {
+            addCriterion("staff_type >", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("staff_type >=", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeLessThan(String value) {
+            addCriterion("staff_type <", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeLessThanOrEqualTo(String value) {
+            addCriterion("staff_type <=", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeLike(String value) {
+            addCriterion("staff_type like", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeNotLike(String value) {
+            addCriterion("staff_type not like", value, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeIn(List<String> values) {
+            addCriterion("staff_type in", values, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeNotIn(List<String> values) {
+            addCriterion("staff_type not in", values, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeBetween(String value1, String value2) {
+            addCriterion("staff_type between", value1, value2, "staffType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffTypeNotBetween(String value1, String value2) {
+            addCriterion("staff_type not between", value1, value2, "staffType");
+            return (Criteria) this;
+        }
+
         public Criteria andPostClassIsNull() {
             addCriterion("post_class is null");
             return (Criteria) this;

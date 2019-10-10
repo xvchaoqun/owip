@@ -393,7 +393,16 @@
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                                         </select>
                                                     </td>
-
+                                                    <c:if test="${fn:length(staffTypes)>0}">
+                                                    <td class="name">个人身份</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="staffTypes">
+                                                            <c:forEach items="${staffTypes}" var="staffType">
+                                                                <option value="${staffType}">${staffType}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
+                                                    </c:if>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">民族</td>
@@ -431,6 +440,14 @@
                                                     </c:if>
                                                 </tr>
                                                 <tr>
+                                                    <td class="name">编制类别</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="authorizedTypes">
+                                                            <c:forEach items="${authorizedTypes}" var="authorizedType">
+                                                                <option value="${authorizedType}">${authorizedType}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
                                                     <td class="name">部门属性</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitTypes">
@@ -762,6 +779,8 @@
     $.register.multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
     $.register.multiselect($('#searchForm select[name=leaderTypes]'), ${cm:toJSONArray(selectLeaderTypes)});
     $.register.multiselect($('#searchForm select[name=labels]'), ${cm:toJSONArray(selectLabels)});
+    $.register.multiselect($('#searchForm select[name=staffTypes]'), ${cm:toJSONArray(selectStaffTypes)});
+    $.register.multiselect($('#searchForm select[name=authorizedTypes]'), ${cm:toJSONArray(selectAuthorizedTypes)});
 
     function _reAssignCallback() {
         $.hashchange('', '${ctx}/cadreInspect');

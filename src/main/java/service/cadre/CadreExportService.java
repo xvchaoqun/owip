@@ -297,20 +297,20 @@ public class CadreExportService extends BaseMapper {
                 if(eduId!=null) {
                     //String degree = fulltimeEdu.getDegree();
                     _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                    _fulltimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getSchool())
+                }
+                _fulltimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeEdu.getDep())
                             + StringUtils.trimToEmpty(fulltimeEdu.getMajor());
-                }
             }
             if (onjobEdu != null) {
                 Integer eduId = onjobEdu.getEduId();
                 if(eduId!=null) {
                     //String degree = onjobEdu.getDegree();
                     _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-                    _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getSchool())
+                }
+                _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getSchool())
                             + StringUtils.trimToEmpty(onjobEdu.getDep())
                             + StringUtils.trimToEmpty(onjobEdu.getMajor());
-                }
             }
 
             Unit unit = record.getUnit();

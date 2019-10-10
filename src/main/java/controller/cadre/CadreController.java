@@ -77,6 +77,8 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
                              @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
                              @RequestParam(required = false, value = "labels") Integer[] labels,
+                             @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
+                            @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -147,6 +149,15 @@ public class CadreController extends BaseController {
             modelMap.put("selectLabels", Arrays.asList(labels));
         }
 
+        modelMap.put("staffTypes", iPropertyMapper.staffTypes());
+        modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+        if(staffTypes!=null){
+            modelMap.put("selectStaffTypes", Arrays.asList(staffTypes));
+        }
+        if(authorizedTypes!=null){
+            modelMap.put("selectAuthorizedTypes", Arrays.asList(authorizedTypes));
+        }
+
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
         boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
@@ -197,6 +208,8 @@ public class CadreController extends BaseController {
                            Boolean isPrincipal, // 是否正职
                            @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
                            @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+                           @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
+                           @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
                            Boolean isDep,
@@ -331,6 +344,14 @@ public class CadreController extends BaseController {
 
         if (labels != null) {
             criteria.andLabelsContain(new HashSet<>(Arrays.asList(labels)));
+        }
+
+        if (staffTypes != null) {
+            criteria.andStaffTypeIn(Arrays.asList(staffTypes));
+        }
+
+        if (authorizedTypes != null) {
+            criteria.andAuthorizedTypeIn(Arrays.asList(authorizedTypes));
         }
 
         if (isPrincipal != null) {

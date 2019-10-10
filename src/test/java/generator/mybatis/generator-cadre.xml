@@ -63,17 +63,7 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
       </table>
-    <table tableName="crs_candidate_view" domainObjectName="crs.CrsCandidateView" mapperName="crs.CrsCandidateViewMapper"
-           enableInsert="false" enableUpdateByPrimaryKey="false"
-           enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-           enableDeleteByExample="false">
-        <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-    </table>
+
 
         <!--<table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
         </table>-->
@@ -163,9 +153,9 @@
          </table>-->
         <!--<table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
         </table>-->
-        <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
+        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
         </table>
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">

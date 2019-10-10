@@ -61,6 +61,14 @@ public interface IPropertyMapper {
     @Select("select distinct is_temp from cadre_view where is_temp is not null and is_temp!='' order by is_temp asc")
     List<String> isTemps();
 
+    // 个人身份
+    @Select("select distinct staff_type from cadre_view where staff_type is not null and staff_type!='' order by staff_type asc")
+    List<String> staffTypes();
+
+    // 编制类别
+    @Select("select distinct authorized_type from cadre_view where authorized_type is not null and authorized_type!='' order by authorized_type asc")
+    List<String> authorizedTypes();
+
     // 干部职称级别
     @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
     List<String> teacherProPostLevels();

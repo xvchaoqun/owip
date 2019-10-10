@@ -32,11 +32,13 @@ public class CrConstants {
     public final static byte CR_POST_RULE_TYPE_BXGZ = 9;
     public final static byte CR_POST_RULE_TYPE_BZLB = 10;
     public final static byte CR_POST_RULE_TYPE_GRSF = 11;
+    public final static byte CR_POST_RULE_TYPE_XLXW = 12;
     public static Map<Byte, String> CR_POST_RULE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
 
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_XL, "学历");
+        CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_XLXW, "学历学位");
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_RZNL, "任职最高年龄");
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_ZZMM, "政治面貌和党龄");
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_ZZJS, "专业技术职务及任职年限");

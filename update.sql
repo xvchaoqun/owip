@@ -1,4 +1,5 @@
 
+
 201901010
 南航 -- 北师大
 
@@ -14,6 +15,9 @@ ALTER TABLE `cr_post`
 ALTER TABLE `cr_info`
 	DROP COLUMN `require_id`;
 
+删除 干部竞争上岗-统计分析的 角色
+
+更新 cadre_view等
 
 201901005
 南航 -- 北师大

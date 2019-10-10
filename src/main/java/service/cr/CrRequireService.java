@@ -40,6 +40,9 @@ public class CrRequireService extends CrBaseMapper {
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
         resultMap.put(CrConstants.CR_POST_RULE_TYPE_XL, metaTypeService.getName(cv.getEduId()));
+        resultMap.put(CrConstants.CR_POST_RULE_TYPE_XLXW,
+                StringUtils.defaultIfBlank(metaTypeService.getName(cv.getEduId()), "--")
+                + "," + StringUtils.defaultIfBlank(cv.getDegree(), "--"));
         resultMap.put(CrConstants.CR_POST_RULE_TYPE_RZNL, cv.getBirth() == null ? "" : DateUtils.calAge(cv.getBirth()));
 
         Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",

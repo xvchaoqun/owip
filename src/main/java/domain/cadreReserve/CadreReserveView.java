@@ -150,6 +150,10 @@ public class CadreReserveView implements Serializable {
 
     private String degree;
 
+    private String authorizedType;
+
+    private String staffType;
+
     private String postClass;
 
     private String subPostClass;
@@ -710,6 +714,22 @@ public class CadreReserveView implements Serializable {
 
     public void setDegree(String degree) {
         this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getAuthorizedType() {
+        return authorizedType;
+    }
+
+    public void setAuthorizedType(String authorizedType) {
+        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
+    }
+
+    public String getStaffType() {
+        return staffType;
+    }
+
+    public void setStaffType(String staffType) {
+        this.staffType = staffType == null ? null : staffType.trim();
     }
 
     public String getPostClass() {
