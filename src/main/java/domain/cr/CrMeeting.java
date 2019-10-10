@@ -1,5 +1,7 @@
 package domain.cr;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,11 +10,14 @@ public class CrMeeting implements Serializable {
 
     private Integer infoId;
 
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
     private Date meetingDate;
 
     private String postIds;
 
-    private Integer applyCount;
+    private Integer requireNum;
+
+    private Integer applyNum;
 
     private String remark;
 
@@ -52,12 +57,20 @@ public class CrMeeting implements Serializable {
         this.postIds = postIds == null ? null : postIds.trim();
     }
 
-    public Integer getApplyCount() {
-        return applyCount;
+    public Integer getRequireNum() {
+        return requireNum;
     }
 
-    public void setApplyCount(Integer applyCount) {
-        this.applyCount = applyCount;
+    public void setRequireNum(Integer requireNum) {
+        this.requireNum = requireNum;
+    }
+
+    public Integer getApplyNum() {
+        return applyNum;
+    }
+
+    public void setApplyNum(Integer applyNum) {
+        this.applyNum = applyNum;
     }
 
     public String getRemark() {

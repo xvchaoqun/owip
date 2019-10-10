@@ -36,23 +36,6 @@ pageEncoding="UTF-8"%>
 					<input class="form-control" type="file" name="_notice"/>
 				</div>
 			</div>
-
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 资格审核模板</label>
-				<div class="col-xs-6">
-					<select  class="form-control" name="requireId" data-rel="select2"
-							 data-width="273"
-							 data-placeholder="请选择">
-						<option></option>
-						<c:forEach items="${crRequires}" var="entry">
-							<option value="${entry.id}">${entry.name}</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=requireId]").val('${crInfo.requireId}');
-					</script>
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 报名截止时间</label>
 				<div class="col-xs-6">

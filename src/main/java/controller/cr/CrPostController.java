@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.cr.CrPost;
 import domain.cr.CrPostExample;
 import domain.cr.CrPostExample.Criteria;
+import domain.cr.CrRequire;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -42,6 +43,9 @@ public class CrPostController extends CrBaseController {
     public String crPost(Integer infoId, ModelMap modelMap) {
 
         modelMap.put("crInfo", crInfoMapper.selectByPrimaryKey(infoId));
+
+        Map<Integer, CrRequire> requireMap = crRequireService.findAll();
+        modelMap.put("requireMap", requireMap);
 
         return "cr/crPost/crPost_page";
     }
@@ -132,6 +136,9 @@ public class CrPostController extends CrBaseController {
 
             infoId = crPost.getInfoId();
         }
+
+        Map<Integer, CrRequire> requireMap = crRequireService.findAll();
+        modelMap.put("crRequires", requireMap.values());
 
         modelMap.put("infoId", infoId);
 

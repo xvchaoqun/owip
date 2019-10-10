@@ -382,63 +382,123 @@ public class CrMeetingExample {
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountIsNull() {
-            addCriterion("apply_count is null");
+        public Criteria andRequireNumIsNull() {
+            addCriterion("require_num is null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountIsNotNull() {
-            addCriterion("apply_count is not null");
+        public Criteria andRequireNumIsNotNull() {
+            addCriterion("require_num is not null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountEqualTo(Integer value) {
-            addCriterion("apply_count =", value, "applyCount");
+        public Criteria andRequireNumEqualTo(Integer value) {
+            addCriterion("require_num =", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountNotEqualTo(Integer value) {
-            addCriterion("apply_count <>", value, "applyCount");
+        public Criteria andRequireNumNotEqualTo(Integer value) {
+            addCriterion("require_num <>", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountGreaterThan(Integer value) {
-            addCriterion("apply_count >", value, "applyCount");
+        public Criteria andRequireNumGreaterThan(Integer value) {
+            addCriterion("require_num >", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("apply_count >=", value, "applyCount");
+        public Criteria andRequireNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("require_num >=", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountLessThan(Integer value) {
-            addCriterion("apply_count <", value, "applyCount");
+        public Criteria andRequireNumLessThan(Integer value) {
+            addCriterion("require_num <", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountLessThanOrEqualTo(Integer value) {
-            addCriterion("apply_count <=", value, "applyCount");
+        public Criteria andRequireNumLessThanOrEqualTo(Integer value) {
+            addCriterion("require_num <=", value, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountIn(List<Integer> values) {
-            addCriterion("apply_count in", values, "applyCount");
+        public Criteria andRequireNumIn(List<Integer> values) {
+            addCriterion("require_num in", values, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountNotIn(List<Integer> values) {
-            addCriterion("apply_count not in", values, "applyCount");
+        public Criteria andRequireNumNotIn(List<Integer> values) {
+            addCriterion("require_num not in", values, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountBetween(Integer value1, Integer value2) {
-            addCriterion("apply_count between", value1, value2, "applyCount");
+        public Criteria andRequireNumBetween(Integer value1, Integer value2) {
+            addCriterion("require_num between", value1, value2, "requireNum");
             return (Criteria) this;
         }
 
-        public Criteria andApplyCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("apply_count not between", value1, value2, "applyCount");
+        public Criteria andRequireNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("require_num not between", value1, value2, "requireNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumIsNull() {
+            addCriterion("apply_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumIsNotNull() {
+            addCriterion("apply_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumEqualTo(Integer value) {
+            addCriterion("apply_num =", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumNotEqualTo(Integer value) {
+            addCriterion("apply_num <>", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumGreaterThan(Integer value) {
+            addCriterion("apply_num >", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_num >=", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumLessThan(Integer value) {
+            addCriterion("apply_num <", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_num <=", value, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumIn(List<Integer> values) {
+            addCriterion("apply_num in", values, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumNotIn(List<Integer> values) {
+            addCriterion("apply_num not in", values, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumBetween(Integer value1, Integer value2) {
+            addCriterion("apply_num between", value1, value2, "applyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_num not between", value1, value2, "applyNum");
             return (Criteria) this;
         }
 

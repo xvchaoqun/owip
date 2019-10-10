@@ -3,6 +3,7 @@ package controller.cr;
 import domain.cr.CrMeeting;
 import domain.cr.CrMeetingExample;
 import domain.cr.CrMeetingExample.Criteria;
+import domain.cr.CrPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,6 +39,7 @@ public class CrMeetingController extends CrBaseController {
     public String crMeeting(Integer infoId, ModelMap modelMap) {
 
         modelMap.put("crInfo", crInfoMapper.selectByPrimaryKey(infoId));
+        modelMap.put("postMap", crPostService.getPostMap(infoId));
 
         return "cr/crMeeting/crMeeting_page";
     }
@@ -121,26 +123,47 @@ public class CrMeetingController extends CrBaseController {
 
     @RequiresPermissions("crMeeting:edit")
     @RequestMapping("/crMeeting_au")
-    public String crMeeting_au(Integer id, ModelMap modelMap) {
+    public String crMeeting_au(Integer id, Integer infoId, ModelMap modelMap) {
 
         if (id != null) {
             CrMeeting crMeeting = crMeetingMapper.selectByPrimaryKey(id);
+            infoId = crMeeting.getInfoId();
             modelMap.put("crMeeting", crMeeting);
         }
+
+        modelMap.put("infoId", infoId);
+        List<CrPost> crPosts = crPostService.getPosts(infoId);
+        modelMap.put("crPosts", crPosts);
+
         return "cr/crMeeting/crMeeting_au";
     }
 
-    @RequiresPermissions("crMeeting:del")
-    @RequestMapping(value = "/crMeeting_del", method = RequestMethod.POST)
+    // 下发通知短信
+    @RequiresPermissions("crMeeting:msg")
+    @RequestMapping(value = "/crMeeting_msg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crMeeting_del(HttpServletRequest request, Integer id) {
+    public Map do_crMeeting_msg(int meetingId, String msg, HttpServletRequest request) {
 
-        if (id != null) {
+        Map<String, Integer> result = crMeetingService.sendMsg(meetingId, msg);
+        logger.info(addLog(LogConstants.LOG_CR, "下发通知短信：%s", meetingId));
 
-            crMeetingService.del(id);
-            logger.info(log(LogConstants.LOG_CR, "删除招聘会信息：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("crMeeting:msg")
+    @RequestMapping("/crMeeting_msg")
+    public String crMeeting_msg(int meetingId, ModelMap modelMap) {
+
+        CrMeeting crMeeting = crMeetingMapper.selectByPrimaryKey(meetingId);
+        modelMap.put("crMeeting", crMeeting);
+
+        List<Integer> meetingUserIds = iCrMapper.getMeetingUserIds(meetingId);
+        modelMap.put("meetingUserIds", meetingUserIds);
+
+        return "cr/crMeeting/crMeeting_msg";
     }
 
     @RequiresPermissions("crMeeting:del")
@@ -168,7 +191,7 @@ public class CrMeetingController extends CrBaseController {
             String[] values = {
                     DateUtils.formatDate(record.getMeetingDate(), DateUtils.YYYY_MM_DD),
                     record.getPostIds(),
-                    record.getApplyCount() + "",
+                    record.getRequireNum() + "",
                     record.getRemark()
             };
             valuesList.add(values);

@@ -8,6 +8,8 @@ public class CrPost implements Serializable {
 
     private Integer infoId;
 
+    private Integer requireId;
+
     private String name;
 
     private Integer num;
@@ -36,6 +38,14 @@ public class CrPost implements Serializable {
 
     public void setInfoId(Integer infoId) {
         this.infoId = infoId;
+    }
+
+    public Integer getRequireId() {
+        return requireId;
+    }
+
+    public void setRequireId(Integer requireId) {
+        this.requireId = requireId;
     }
 
     public String getName() {

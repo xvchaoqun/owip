@@ -31,6 +31,7 @@ public class CrConstants {
     public final static byte CR_POST_RULE_TYPE_GZ = 8;
     public final static byte CR_POST_RULE_TYPE_BXGZ = 9;
     public final static byte CR_POST_RULE_TYPE_BZLB = 10;
+    public final static byte CR_POST_RULE_TYPE_GRSF = 11;
     public static Map<Byte, String> CR_POST_RULE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -45,6 +46,7 @@ public class CrConstants {
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_GZ, "参加工作年限");
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_BXGZ, "本校工作年限");
         CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_BZLB, "编制类别");
+        CR_POST_RULE_TYPE_MAP.put(CR_POST_RULE_TYPE_GRSF, "个人身份");
     }
 
     // 招聘岗位 报名人员 资格审核状态，0 待审核 1 通过 2 未通过

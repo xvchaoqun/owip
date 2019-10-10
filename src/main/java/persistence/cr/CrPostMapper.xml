@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cr.CrPost">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="require_id" jdbcType="INTEGER" property="requireId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="duty" jdbcType="VARCHAR" property="duty" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, info_id, name, num, duty, sort_order, remark, create_time
+    id, info_id, require_id, name, num, duty, sort_order, remark, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cr.CrPostExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cr.CrPost">
-    insert into cr_post (id, info_id, name, 
-      num, duty, sort_order, 
+    insert into cr_post (id, info_id, require_id, 
+      name, num, duty, sort_order, 
       remark, create_time)
-    values (#{id,jdbcType=INTEGER}, #{infoId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{num,jdbcType=INTEGER}, #{duty,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{infoId,jdbcType=INTEGER}, #{requireId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{duty,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cr.CrPost">
@@ -118,6 +119,9 @@
       </if>
       <if test="infoId != null">
         info_id,
+      </if>
+      <if test="requireId != null">
+        require_id,
       </if>
       <if test="name != null">
         name,
@@ -144,6 +148,9 @@
       </if>
       <if test="infoId != null">
         #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="requireId != null">
+        #{requireId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -180,6 +187,9 @@
       <if test="record.infoId != null">
         info_id = #{record.infoId,jdbcType=INTEGER},
       </if>
+      <if test="record.requireId != null">
+        require_id = #{record.requireId,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -207,6 +217,7 @@
     update cr_post
     set id = #{record.id,jdbcType=INTEGER},
       info_id = #{record.infoId,jdbcType=INTEGER},
+      require_id = #{record.requireId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       num = #{record.num,jdbcType=INTEGER},
       duty = #{record.duty,jdbcType=VARCHAR},
@@ -222,6 +233,9 @@
     <set>
       <if test="infoId != null">
         info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="requireId != null">
+        require_id = #{requireId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -247,6 +261,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cr.CrPost">
     update cr_post
     set info_id = #{infoId,jdbcType=INTEGER},
+      require_id = #{requireId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       duty = #{duty,jdbcType=VARCHAR},

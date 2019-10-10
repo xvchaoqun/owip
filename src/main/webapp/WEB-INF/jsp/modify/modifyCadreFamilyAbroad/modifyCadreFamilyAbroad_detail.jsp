@@ -85,9 +85,21 @@
                 <input type="hidden" name="id" value="${mta.id}">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">审核意见</label>
-                    <div class="col-xs-8 label-text"  style="font-size: 15px;">
-                        <input type="checkbox" class="big" value="1"/> 通过审核
-                        <input type="checkbox"  class="big" value="2"/> 未通过审核
+                    <div class="col-xs-8">
+                        <div class="input-group">
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="type" id="type1" value="1">
+                                <label for="type1">
+                                    通过审核
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="type" id="type2" value="2">
+                                <label for="type2">
+                                    未通过审核
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -152,18 +164,14 @@
     $("#approvalForm").validate({
         submitHandler: function (form) {
 
-            var type = $('#approvalForm input[type=checkbox]:checked').val();
-            if(type!=1&&type!=2){
-                SysMsg.warning("请选择审核意见");
-                return;
-            }
+            var type = $('#approvalForm input[type=radio]:checked').val();
 
             $(form).ajaxSubmit({
                 data:{status:(type==1)},
                 success:function(ret){
                     if(ret.success){
 
-                        $("#jqGrid_records").trigger("reloadGrid");
+                        $("#jqGrid").trigger("reloadGrid");;
                         $.hideView();
                     }
                 }

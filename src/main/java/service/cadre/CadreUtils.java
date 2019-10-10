@@ -107,8 +107,13 @@ public class CadreUtils {
 
         // 判断是否是学习经历
         r.isEdu = (StringUtils.containsAny(desc,
-                "学习", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
+                "学习", "进修", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
         || desc.endsWith("学生")|| desc.endsWith("本科")|| desc.endsWith("本科生")|| desc.endsWith("研究生"));
+
+        // 博士后算工作经历
+        if(r.isEdu && StringUtils.contains(desc, "博士后")){
+           r.isEdu = false;
+        }
 
         //System.out.println("desc = " + desc + "      "  + r.isEdu);
     }

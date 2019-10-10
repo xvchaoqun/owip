@@ -762,66 +762,6 @@ public class CrInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andRequireIdIsNull() {
-            addCriterion("require_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdIsNotNull() {
-            addCriterion("require_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdEqualTo(Integer value) {
-            addCriterion("require_id =", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdNotEqualTo(Integer value) {
-            addCriterion("require_id <>", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdGreaterThan(Integer value) {
-            addCriterion("require_id >", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("require_id >=", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdLessThan(Integer value) {
-            addCriterion("require_id <", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdLessThanOrEqualTo(Integer value) {
-            addCriterion("require_id <=", value, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdIn(List<Integer> values) {
-            addCriterion("require_id in", values, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdNotIn(List<Integer> values) {
-            addCriterion("require_id not in", values, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdBetween(Integer value1, Integer value2) {
-            addCriterion("require_id between", value1, value2, "requireId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRequireIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("require_id not between", value1, value2, "requireId");
-            return (Criteria) this;
-        }
-
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

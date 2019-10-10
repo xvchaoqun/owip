@@ -28,8 +28,6 @@ public class CrInfo implements Serializable {
 
     private String qualification;
 
-    private Integer requireId;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
@@ -122,14 +120,6 @@ public class CrInfo implements Serializable {
 
     public void setQualification(String qualification) {
         this.qualification = qualification == null ? null : qualification.trim();
-    }
-
-    public Integer getRequireId() {
-        return requireId;
-    }
-
-    public void setRequireId(Integer requireId) {
-        this.requireId = requireId;
     }
 
     public Date getStartTime() {

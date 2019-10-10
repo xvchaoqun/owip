@@ -5,37 +5,46 @@ pageEncoding="UTF-8"%>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${crMeeting!=null?'编辑':'添加'}招聘会信息</h3>
 </div>
-<div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/crMeeting_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+<div class="modal-body overflow-visible">
+    <form class="form-horizontal" action="${ctx}/crMeeting_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crMeeting.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属招聘</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="infoId" value="${crMeeting.infoId}">
-				</div>
-			</div>
+        <input type="hidden" name="infoId" value="${infoId}">
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 招聘会日期</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="meetingDate" value="${crMeeting.meetingDate}">
+					<div class="input-group date" data-date-format="yyyy.mm.dd">
+						<input required class="form-control" autocomplete="off" name="meetingDate" type="text"
+							   value="${empty crInfo.meetingDate?_today_dot:(cm:formatDate(crMeeting.meetingDate,'yyyy.MM.dd'))}"/>
+						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 招聘岗位</label>
+			 <div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>招聘岗位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="postIds" value="${crMeeting.postIds}">
+                    <div class="input-group">
+                        <select required class="multiselect" multiple="" name="postIds" data-width="273" data-placeholder="请选择">
+                            <c:forEach items="${crPosts}" var="post">
+								<option value="${post.id}">${post.name}</option>
+							</c:forEach>
+                        </select>
+                        <script type="text/javascript">
+                            $.register.multiselect($('#modalForm select[name=postIds]'), '${crMeeting.postIds}'.split(","));
+                        </script>
+                    </div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 招聘会人数要求</label>
+			<%--<div class="form-group">
+				<label class="col-xs-3 control-label">招聘会人数要求</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="applyCount" value="${crMeeting.applyCount}">
+					<input class="form-control digits" type="text" name="requireNum" value="${crMeeting.requireNum}">
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
+				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${crMeeting.remark}">
+					<textarea class="form-control limited" name="remark">${crMeeting.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -55,6 +64,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
+                        $("#jqGrid2").trigger("reloadGrid");
                         $("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');

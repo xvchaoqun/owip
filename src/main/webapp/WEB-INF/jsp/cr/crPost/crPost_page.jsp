@@ -87,6 +87,7 @@
     <div id="jqGridPager2"></div>
 </div>
 <script>
+    var requireMap = ${cm:toJSONObject(requireMap)}
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         rownumbers: true,
@@ -97,6 +98,10 @@
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/crPost_changeOrder', frozen:true }},
             {label: '招聘人数', name: 'num'},
             {label: '主要职责', name: 'duty', width:600, align:'left'},
+            { label: '资格审核模板',name: 'requireId', width: 180, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined || requireMap[cellvalue]==undefined) return '--'
+                      return requireMap[cellvalue].name;
+                  }},
             {label: '备注', name: 'remark', width:200, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");

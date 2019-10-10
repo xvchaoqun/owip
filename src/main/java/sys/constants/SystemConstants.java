@@ -290,6 +290,8 @@ public class SystemConstants {
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_OA = 4; // 协同办公
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_CET = 5; // 干部教育培训
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT = 6; // 干部选拔任用-新任干部提交证件
+
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_CR = 10; // 干部招聘
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -299,6 +301,8 @@ public class SystemConstants {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CET, "干部教育培训");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT, "干部选拔任用-新任干部提交证件");
+
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CR, "干部招聘");
     }
 
     // 系统资源类型，备用字段，1 字符串 2 整数 3 布尔值 4 时间 5 图片

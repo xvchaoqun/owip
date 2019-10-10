@@ -1,4 +1,20 @@
 
+201901010
+南航 -- 北师大
+
+校外挂职： 所任职务 -> 所任单位及职务， 需手动合并一下数据库字段（除南航）
+
+ALTER TABLE `cr_meeting`
+	CHANGE COLUMN `apply_count` `require_num` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '招聘会人数要求' AFTER `post_ids`,
+	ADD COLUMN `apply_num` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '应聘人数，汇总岗位对应的应聘人数' AFTER `require_num`;
+
+ALTER TABLE `cr_post`
+	ADD COLUMN `require_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '岗位要求' AFTER `info_id`;
+
+ALTER TABLE `cr_info`
+	DROP COLUMN `require_id`;
+
+
 201901005
 南航 -- 北师大
 

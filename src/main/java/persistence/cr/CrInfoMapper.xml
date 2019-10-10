@@ -12,7 +12,6 @@
     <result column="meeting_num" jdbcType="INTEGER" property="meetingNum" />
     <result column="requirement" jdbcType="VARCHAR" property="requirement" />
     <result column="qualification" jdbcType="VARCHAR" property="qualification" />
-    <result column="require_id" jdbcType="INTEGER" property="requireId" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -79,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, add_date, notice, post_num, require_num, apply_num, meeting_num, requirement, 
-    qualification, require_id, start_time, end_time, create_time, status, remark
+    qualification, start_time, end_time, create_time, status, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cr.CrInfoExample" resultMap="BaseResultMap">
     select
@@ -115,15 +114,15 @@
     insert into cr_info (id, year, add_date, 
       notice, post_num, require_num, 
       apply_num, meeting_num, requirement, 
-      qualification, require_id, start_time, 
-      end_time, create_time, status, 
-      remark)
+      qualification, start_time, end_time, 
+      create_time, status, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{addDate,jdbcType=DATE}, 
       #{notice,jdbcType=VARCHAR}, #{postNum,jdbcType=INTEGER}, #{requireNum,jdbcType=INTEGER}, 
       #{applyNum,jdbcType=INTEGER}, #{meetingNum,jdbcType=INTEGER}, #{requirement,jdbcType=VARCHAR}, 
-      #{qualification,jdbcType=VARCHAR}, #{requireId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{qualification,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cr.CrInfo">
     insert into cr_info
@@ -157,9 +156,6 @@
       </if>
       <if test="qualification != null">
         qualification,
-      </if>
-      <if test="requireId != null">
-        require_id,
       </if>
       <if test="startTime != null">
         start_time,
@@ -207,9 +203,6 @@
       </if>
       <if test="qualification != null">
         #{qualification,jdbcType=VARCHAR},
-      </if>
-      <if test="requireId != null">
-        #{requireId,jdbcType=INTEGER},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -267,9 +260,6 @@
       <if test="record.qualification != null">
         qualification = #{record.qualification,jdbcType=VARCHAR},
       </if>
-      <if test="record.requireId != null">
-        require_id = #{record.requireId,jdbcType=INTEGER},
-      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -302,7 +292,6 @@
       meeting_num = #{record.meetingNum,jdbcType=INTEGER},
       requirement = #{record.requirement,jdbcType=VARCHAR},
       qualification = #{record.qualification,jdbcType=VARCHAR},
-      require_id = #{record.requireId,jdbcType=INTEGER},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -342,9 +331,6 @@
       <if test="qualification != null">
         qualification = #{qualification,jdbcType=VARCHAR},
       </if>
-      <if test="requireId != null">
-        require_id = #{requireId,jdbcType=INTEGER},
-      </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
@@ -374,7 +360,6 @@
       meeting_num = #{meetingNum,jdbcType=INTEGER},
       requirement = #{requirement,jdbcType=VARCHAR},
       qualification = #{qualification,jdbcType=VARCHAR},
-      require_id = #{requireId,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},

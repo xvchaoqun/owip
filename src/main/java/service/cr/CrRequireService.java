@@ -100,6 +100,7 @@ public class CrRequireService extends CrBaseMapper {
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
         if(teacherInfo!=null) {
             resultMap.put(CrConstants.CR_POST_RULE_TYPE_BZLB, teacherInfo.getAuthorizedType());
+            resultMap.put(CrConstants.CR_POST_RULE_TYPE_GRSF, teacherInfo.getStaffType());
         }
 
         return resultMap;

@@ -1,11 +1,13 @@
 package service.sys;
 
+import domain.sys.SysUser;
 import domain.sys.TeacherInfo;
 import domain.sys.TeacherInfoExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 
@@ -13,37 +15,40 @@ import java.util.Arrays;
 public class TeacherInfoService extends BaseMapper {
 
     // 不存在则创建
-    public TeacherInfo get(int userId){
+    public TeacherInfo get(int userId) {
 
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
 
-        if(teacherInfo==null){
-            teacherInfo = new TeacherInfo();
-            teacherInfo.setUserId(userId);
-            teacherInfo.setIsRetire(false);
-            teacherInfoMapper.insertSelective(teacherInfo);
+        if (teacherInfo == null) {
+            SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+            if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
+                teacherInfo = new TeacherInfo();
+                teacherInfo.setUserId(userId);
+                teacherInfo.setIsRetire(false);
+                teacherInfoMapper.insertSelective(teacherInfo);
+            }
         }
 
         return teacherInfo;
     }
 
-    public boolean idDuplicate(Integer userId){
+    public boolean idDuplicate(Integer userId) {
 
         TeacherInfoExample example = new TeacherInfoExample();
         TeacherInfoExample.Criteria criteria = example.createCriteria();
-        if(userId!=null) criteria.andUserIdNotEqualTo(userId);
+        if (userId != null) criteria.andUserIdNotEqualTo(userId);
 
         return teacherInfoMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    public void del(Integer userId){
+    public void del(Integer userId) {
 
         teacherInfoMapper.deleteByPrimaryKey(userId);
     }
 
     @Transactional
-    public void batchDel(Integer[] userIds){
+    public void batchDel(Integer[] userIds) {
 
         TeacherInfoExample example = new TeacherInfoExample();
         example.createCriteria().andUserIdIn(Arrays.asList(userIds));
@@ -51,9 +56,9 @@ public class TeacherInfoService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(TeacherInfo record){
+    public int updateByPrimaryKeySelective(TeacherInfo record) {
 
-        if(BooleanUtils.isNotTrue(record.getIsRetire())){
+        if (BooleanUtils.isNotTrue(record.getIsRetire())) {
             record.setRetireTime(null);
             iMemberMapper.del_retireTime(record.getUserId());
         }

@@ -102,7 +102,6 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    var requireMap = ${cm:toJSONObject(requireMap)}
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/crInfo_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -126,9 +125,7 @@ pageEncoding="UTF-8" %>
                     'data-url="${ctx}/crApplicant?infoId={0}"><i class="fa fa-search"></i> 查看({1})</button>')
                             .format(rowObject.id, rowObject.applyNum);
                 }, frozen: true},
-                { label: '资格审核模板',name: 'requireId', width: 180, formatter: function (cellvalue, options, rowObject) {
-                      return requireMap[cellvalue].name;
-                  }},
+
                 {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
                     return $.date(cellvalue, "yyyy-MM-dd HH:mm");

@@ -3,7 +3,6 @@ package controller.cr;
 import domain.cr.CrInfo;
 import domain.cr.CrInfoExample;
 import domain.cr.CrInfoExample.Criteria;
-import domain.cr.CrRequire;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -43,9 +42,6 @@ public class CrInfoController extends CrBaseController {
     public String crInfo(@RequestParam(required = false, defaultValue ="1" ) Byte cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-
-        Map<Integer, CrRequire> requireMap = crRequireService.findAll();
-        modelMap.put("requireMap", requireMap);
 
         return "cr/crInfo/crInfo_page";
     }
@@ -150,9 +146,6 @@ public class CrInfoController extends CrBaseController {
             modelMap.put("crInfo", crInfo);
         }
 
-        Map<Integer, CrRequire> requireMap = crRequireService.findAll();
-        modelMap.put("crRequires", requireMap.values());
-
         return "cr/crInfo/crInfo_au";
     }
 
@@ -173,7 +166,7 @@ public class CrInfoController extends CrBaseController {
 
         List<CrInfo> records = crInfoMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100","添加日期|100","招聘通知|100","招聘人数|100","基本条件|100","基本资格|100","岗位要求|100","报名开启时间|100","报名关闭时间|100","岗位状态|100","备注|100"};
+        String[] titles = {"年度|100","添加日期|100","招聘通知|100","招聘人数|100","基本条件|100","基本资格|100","报名开启时间|100","报名关闭时间|100","岗位状态|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CrInfo record = records.get(i);
@@ -184,7 +177,6 @@ public class CrInfoController extends CrBaseController {
                             record.getRequireNum()+"",
                             record.getRequirement(),
                             record.getQualification(),
-                            record.getRequireId()+"",
                             DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                             DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                             record.getStatus()+"",

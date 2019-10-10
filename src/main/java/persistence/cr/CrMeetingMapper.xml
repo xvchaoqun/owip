@@ -6,7 +6,8 @@
     <result column="info_id" jdbcType="INTEGER" property="infoId" />
     <result column="meeting_date" jdbcType="DATE" property="meetingDate" />
     <result column="post_ids" jdbcType="VARCHAR" property="postIds" />
-    <result column="apply_count" jdbcType="INTEGER" property="applyCount" />
+    <result column="require_num" jdbcType="INTEGER" property="requireNum" />
+    <result column="apply_num" jdbcType="INTEGER" property="applyNum" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, info_id, meeting_date, post_ids, apply_count, remark, create_time
+    id, info_id, meeting_date, post_ids, require_num, apply_num, remark, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cr.CrMeetingExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cr.CrMeeting">
     insert into cr_meeting (id, info_id, meeting_date, 
-      post_ids, apply_count, remark, 
-      create_time)
+      post_ids, require_num, apply_num, 
+      remark, create_time)
     values (#{id,jdbcType=INTEGER}, #{infoId,jdbcType=INTEGER}, #{meetingDate,jdbcType=DATE}, 
-      #{postIds,jdbcType=VARCHAR}, #{applyCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{postIds,jdbcType=VARCHAR}, #{requireNum,jdbcType=INTEGER}, #{applyNum,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cr.CrMeeting">
     insert into cr_meeting
@@ -124,8 +125,11 @@
       <if test="postIds != null">
         post_ids,
       </if>
-      <if test="applyCount != null">
-        apply_count,
+      <if test="requireNum != null">
+        require_num,
+      </if>
+      <if test="applyNum != null">
+        apply_num,
       </if>
       <if test="remark != null">
         remark,
@@ -147,8 +151,11 @@
       <if test="postIds != null">
         #{postIds,jdbcType=VARCHAR},
       </if>
-      <if test="applyCount != null">
-        #{applyCount,jdbcType=INTEGER},
+      <if test="requireNum != null">
+        #{requireNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null">
+        #{applyNum,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -179,8 +186,11 @@
       <if test="record.postIds != null">
         post_ids = #{record.postIds,jdbcType=VARCHAR},
       </if>
-      <if test="record.applyCount != null">
-        apply_count = #{record.applyCount,jdbcType=INTEGER},
+      <if test="record.requireNum != null">
+        require_num = #{record.requireNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyNum != null">
+        apply_num = #{record.applyNum,jdbcType=INTEGER},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -199,7 +209,8 @@
       info_id = #{record.infoId,jdbcType=INTEGER},
       meeting_date = #{record.meetingDate,jdbcType=DATE},
       post_ids = #{record.postIds,jdbcType=VARCHAR},
-      apply_count = #{record.applyCount,jdbcType=INTEGER},
+      require_num = #{record.requireNum,jdbcType=INTEGER},
+      apply_num = #{record.applyNum,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -218,8 +229,11 @@
       <if test="postIds != null">
         post_ids = #{postIds,jdbcType=VARCHAR},
       </if>
-      <if test="applyCount != null">
-        apply_count = #{applyCount,jdbcType=INTEGER},
+      <if test="requireNum != null">
+        require_num = #{requireNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null">
+        apply_num = #{applyNum,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -235,7 +249,8 @@
     set info_id = #{infoId,jdbcType=INTEGER},
       meeting_date = #{meetingDate,jdbcType=DATE},
       post_ids = #{postIds,jdbcType=VARCHAR},
-      apply_count = #{applyCount,jdbcType=INTEGER},
+      require_num = #{requireNum,jdbcType=INTEGER},
+      apply_num = #{applyNum,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

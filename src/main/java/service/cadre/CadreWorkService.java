@@ -208,20 +208,12 @@ public class CadreWorkService extends BaseMapper {
         List<CrpRecord> crpRecords = crpRecordService.findRecords(cadre.getUserId());
         for (CrpRecord record : crpRecords) {
 
-            String unitStr = "--";
-            if (record.getType() == CrpConstants.CRP_RECORD_TYPE_OUT) {
-                unitStr = record.getUnit();
-            } else {
-                // 校内的post字段为所任单位及职务
-                unitStr = CmTag.getSysConfig().getSchoolName();
-                /*Integer unitId = record.getUnitId();
-                Unit unit = CmTag.getUnit(unitId);
-                if (unit != null) {
-                    unitStr += unit.getName();
-                }*/
+            String post = record.getPost();
+            if (record.getType() != CrpConstants.CRP_RECORD_TYPE_OUT) {
+                post = CmTag.getSysConfig().getSchoolName() + post;
             }
 
-            String detail = String.format("挂职任%s%s", unitStr, record.getPost());
+            String detail = String.format("挂职任%s", post);
             CadreResume crpResume = new CadreResume();
             crpResume.setIsWork(false);
             crpResume.setStartDate(record.getStartDate());

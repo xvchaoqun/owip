@@ -985,7 +985,7 @@ public class CadreAdformService extends BaseMapper {
                 cadreEdu.setEduId(eduId);
                 cadreEdu.setEnrolTime(resumeRow.start);
                 cadreEdu.setFinishTime(resumeRow.end);
-                cadreEdu.setIsGraduated(!StringUtils.contains(resumeRow.desc, "在读"));
+                cadreEdu.setIsGraduated(resumeRow.end!=null && !StringUtils.contains(resumeRow.desc, "在读"));
                 cadreEdu.setIsHighEdu(false);
                 cadreEdu.setIsHighDegree(false); // 导入时默认非最高学位
 

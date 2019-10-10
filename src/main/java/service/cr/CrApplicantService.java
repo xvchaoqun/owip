@@ -108,6 +108,10 @@ public class CrApplicantService extends CrBaseMapper {
             record.setId(crApplicant.getId());
             crApplicantMapper.updateByPrimaryKeySelective(record);
 
+            if(BooleanUtils.isTrue(record.getHasSubmit())) {
+                refreshInfoNum(record.getInfoId());
+            }
+
             if(record.getSecondPostId()==null){
                 commonMapper.excuteSql("update cr_applicant set second_post_id=null where id="+ crApplicant.getId());
             }

@@ -28,6 +28,10 @@ public class CrApplicantCheckController extends CrBaseController {
 
         CrPost crPost = crPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crPost", crPost);
+        if (crPost != null) {
+            CrRequire crRequire = crRequireMapper.selectByPrimaryKey(crPost.getRequireId());
+            modelMap.put("crRequire", crRequire);
+        }
 
         boolean isFirstPost = (crApplicant.getFirstPostId() == postId);
 
@@ -46,12 +50,6 @@ public class CrApplicantCheckController extends CrBaseController {
 
             Map<Integer, CrApplicantCheck> checkMap = crApplicantCheckService.getRuleCheckMap(crApplicant.getId(), isFirstPost);
             modelMap.put("checkMap", checkMap);
-
-            CrInfo crInfo = crInfoMapper.selectByPrimaryKey(crApplicant.getInfoId());
-            if (crInfo != null) {
-                CrRequire crRequire = crRequireMapper.selectByPrimaryKey(crInfo.getRequireId());
-                modelMap.put("crRequire", crRequire);
-            }
 
             modelMap.put("cadre", CmTag.getCadreByUserId(crApplicant.getUserId()));
         }
