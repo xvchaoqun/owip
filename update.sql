@@ -1,7 +1,7 @@
 
 
 201901010
-南航 -- 北师大
+南航
 
 -- 校外挂职： 所任职务 -> 所任单位及职务， 需手动合并一下数据库字段（除南航）
 -- SELECT unit ,post, CONCAT(unit, post) FROM crp_record WHERE TYPE=1;
