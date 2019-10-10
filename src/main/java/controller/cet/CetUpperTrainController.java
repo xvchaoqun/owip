@@ -3,6 +3,7 @@ package controller.cet;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
 import domain.cet.CetUpperTrainExample.Criteria;
@@ -31,12 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -508,7 +507,7 @@ public class CetUpperTrainController extends CetBaseController {
     }
 
     //@RequiresPermissions("cetUpperTrain:*")
-    /*@RequestMapping("/cetUpperTrain_selectCadres_tree")
+    @RequestMapping("/cetUpperTrain_selectCadres_tree")
     @ResponseBody
     public Map cetUpperTrain_selectCadres_tree(Byte addType, byte upperType) throws IOException {
 
@@ -549,7 +548,7 @@ public class CetUpperTrainController extends CetBaseController {
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
         return resultMap;
-    }*/
+    }
 
     @RequiresPermissions("cetUpperTrain:import")
     @RequestMapping("/cetUpperTrain_import")
