@@ -64,7 +64,7 @@ public class CadreFamilyService extends BaseMapper {
             criteria.andCadreIdEqualTo(cadreId);
 
             if (cadreFamilyMapper.countByExample(example) > 0) {
-                CadreView cv = CmTag.getCadreById(cadreId);
+                CadreView cv = iCadreMapper.getCadre(cadreId);
                 throw new OpException((cv.getUserId().intValue()!=ShiroHelper.getCurrentUserId()?"("+cv.getRealname()+")":"")
                         + metaTypeService.getName(title) + "添加重复");
             }
