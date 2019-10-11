@@ -5,8 +5,7 @@
 ALTER TABLE `cr_applicant`
 	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序，弃用' AFTER `second_check_remark`,
 	ADD COLUMN `submit_time` DATETIME NULL DEFAULT NULL COMMENT '提交时间' AFTER `has_submit`,
-	ADD COLUMN `has_report` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '纸质表是否已交' AFTER `submit_time`;
-
+	ADD COLUMN `has_report` TINYINT(1) UNSIGNED NULL DEFAULT 0 COMMENT '纸质表是否已交' AFTER `submit_time`;
 
 201901011
 哈工大/北航/南航

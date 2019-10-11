@@ -103,6 +103,7 @@ public class UserCrInfoController extends CrBaseController {
 
         if(record.getId()==null){
             record.setEnrollTime(new Date());
+            record.setHasReport(false);
         }
         record.setUserId(ShiroHelper.getCurrentUserId());
         if(hasSubmit){
