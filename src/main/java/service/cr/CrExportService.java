@@ -245,6 +245,12 @@ public class CrExportService extends CrBaseMapper {
             if(teacherInfo!=null) {
                  cell.setCellValue(teacherInfo.getAuthorizedType());
             }
+
+            // 个人身份
+            cell = row.getCell(column++);
+            if(teacherInfo!=null) {
+                 cell.setCellValue(teacherInfo.getStaffType());
+            }
         }
 
         String fileName = String.format("干部竞争上岗报名信息表(%s)", addDate);

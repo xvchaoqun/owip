@@ -44,6 +44,10 @@ public class CrApplicant implements Serializable {
 
     private Boolean hasSubmit;
 
+    private Date submitTime;
+
+    private Boolean hasReport;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -156,5 +160,21 @@ public class CrApplicant implements Serializable {
 
     public void setHasSubmit(Boolean hasSubmit) {
         this.hasSubmit = hasSubmit;
+    }
+
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public Boolean getHasReport() {
+        return hasReport;
+    }
+
+    public void setHasReport(Boolean hasReport) {
+        this.hasReport = hasReport;
     }
 }

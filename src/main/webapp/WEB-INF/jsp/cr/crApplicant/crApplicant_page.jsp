@@ -15,7 +15,7 @@
     </div>
     <div class="space-4"></div>
     <c:set var="_query"
-           value="${not empty param.userId ||not empty param.enrollTime || not empty param.code || not empty param.sort}"/>
+           value="${not empty param.userId ||not empty param.enrollTime || not empty param.hasReport || not empty param.sort}"/>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="crApplicant:edit">
             <button class="popupBtn btn btn-info btn-sm"
@@ -49,6 +49,24 @@
                 <i class="fa fa-trash"></i> 删除
             </button>
         </shiro:hasPermission>
+        <shiro:hasPermission name="crApplicant:report">
+            <button data-url="${ctx}/crApplicant_report?infoId=${param.infoId}&hasReport=1"
+                    data-title="已提交纸质表"
+                    data-msg="确定已提交纸质表？（已选{0}条数据）"
+                    data-grid-id="#jqGrid2"
+                    data-callback="_delCallback"
+                    class="jqBatchBtn btn btn-info btn-sm">
+                <i class="fa fa-check"></i> 已交纸质表
+            </button>
+            <button data-url="${ctx}/crApplicant_report?infoId=${param.infoId}&hasReport=0"
+                    data-title="未交纸质表"
+                    data-msg="确定未交纸质表？（已选{0}条数据）"
+                    data-grid-id="#jqGrid2"
+                    data-callback="_delCallback"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-times"></i> 未交纸质表
+            </button>
+        </shiro:hasPermission>
         <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                 data-url="${ctx}/crApplicant_data"
                 data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -70,7 +88,7 @@
                 <form class="form-inline search-form" id="searchForm2">
                     <div class="form-group">
                         <label>应聘人</label>
-                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
+                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                         </select>
@@ -83,6 +101,17 @@
                                    class="form-control date-range-picker" type="text"
                                    name="enrollTime" value="${param.enrollTime}"/>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label>纸质表</label>
+                        <select data-rel="select2" data-width="100" name="hasReport"  data-placeholder="请选择">
+                            <option></option>
+                            <option value="1">已提交</option>
+                            <option value="0">未提交</option>
+                        </select>
+                        <script>
+                            $("#searchForm2 select[name=hasReport]").val('${param.hasReport}')
+                        </script>
                     </div>
                     <div class="clearfix form-actions center">
                         <a class="jqSearchBtn btn btn-default btn-sm"
@@ -123,8 +152,8 @@
                     hideId:'body-content-view'});
             }, frozen: true},
             {label: '工作证号', name: 'user.code', width:120},
-            { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid2',url:'${ctx}/crApplicant_changeOrder', frozen:true }},
+           /* { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid2',url:'${ctx}/crApplicant_changeOrder', frozen:true }},*/
             {label: '第一志愿', name: 'firstPostId', width:280 , align:'left', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined || postMap[cellvalue]==undefined) return '--'
                     return postMap[cellvalue].name
@@ -184,13 +213,15 @@
                     })
             }},
             {label: '竞聘理由', name: 'reason', width:400 , align:'left'},
-            {label: '报名时间', name: 'enrollTime', width:160}
+            {label: '报名时间', name: 'enrollTime', width:160},
+            {label: '纸质表', name: 'hasReport', formatter:$.jgrid.formatter.TRUEFALSE,
+                formatoptions: {on: '已提交', off:'<span class="red">未提交</span>'}},
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm2 [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

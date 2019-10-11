@@ -16,6 +16,8 @@
     <result column="second_check_remark" jdbcType="VARCHAR" property="secondCheckRemark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="has_submit" jdbcType="BIT" property="hasSubmit" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, info_id, first_post_id, second_post_id, eva, reason, enroll_time, first_check_status, 
-    first_check_remark, second_check_status, second_check_remark, sort_order, has_submit
+    first_check_remark, second_check_status, second_check_remark, sort_order, has_submit, 
+    submit_time, has_report
   </sql>
   <select id="selectByExample" parameterType="domain.cr.CrApplicantExample" resultMap="BaseResultMap">
     select
@@ -117,12 +120,14 @@
       second_post_id, eva, reason, 
       enroll_time, first_check_status, first_check_remark, 
       second_check_status, second_check_remark, sort_order, 
-      has_submit)
+      has_submit, submit_time, has_report
+      )
     values (#{userId,jdbcType=INTEGER}, #{infoId,jdbcType=INTEGER}, #{firstPostId,jdbcType=INTEGER}, 
       #{secondPostId,jdbcType=INTEGER}, #{eva,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
       #{enrollTime,jdbcType=TIMESTAMP}, #{firstCheckStatus,jdbcType=TINYINT}, #{firstCheckRemark,jdbcType=VARCHAR}, 
       #{secondCheckStatus,jdbcType=TINYINT}, #{secondCheckRemark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{hasSubmit,jdbcType=BIT})
+      #{hasSubmit,jdbcType=BIT}, #{submitTime,jdbcType=TIMESTAMP}, #{hasReport,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cr.CrApplicant">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -169,6 +174,12 @@
       <if test="hasSubmit != null">
         has_submit,
       </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="hasReport != null">
+        has_report,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -209,6 +220,12 @@
       </if>
       <if test="hasSubmit != null">
         #{hasSubmit,jdbcType=BIT},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasReport != null">
+        #{hasReport,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -263,6 +280,12 @@
       <if test="record.hasSubmit != null">
         has_submit = #{record.hasSubmit,jdbcType=BIT},
       </if>
+      <if test="record.submitTime != null">
+        submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hasReport != null">
+        has_report = #{record.hasReport,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +306,9 @@
       second_check_status = #{record.secondCheckStatus,jdbcType=TINYINT},
       second_check_remark = #{record.secondCheckRemark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      has_submit = #{record.hasSubmit,jdbcType=BIT}
+      has_submit = #{record.hasSubmit,jdbcType=BIT},
+      submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      has_report = #{record.hasReport,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -330,6 +355,12 @@
       <if test="hasSubmit != null">
         has_submit = #{hasSubmit,jdbcType=BIT},
       </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasReport != null">
+        has_report = #{hasReport,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -347,7 +378,9 @@
       second_check_status = #{secondCheckStatus,jdbcType=TINYINT},
       second_check_remark = #{secondCheckRemark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      has_submit = #{hasSubmit,jdbcType=BIT}
+      has_submit = #{hasSubmit,jdbcType=BIT},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      has_report = #{hasReport,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cr.CrApplicantExample" resultMap="BaseResultMap">

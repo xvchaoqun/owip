@@ -1,5 +1,16 @@
 
 
+201901011
+南航
+ALTER TABLE `cr_applicant`
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序，弃用' AFTER `second_check_remark`,
+	ADD COLUMN `submit_time` DATETIME NULL DEFAULT NULL COMMENT '提交时间' AFTER `has_submit`,
+	ADD COLUMN `has_report` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '纸质表是否已交' AFTER `submit_time`;
+
+
+201901011
+哈工大/北航/南航
+
 201901010
 南航
 
@@ -34,7 +45,98 @@ ALTER TABLE `ow_branch_member`
 	CHANGE COLUMN `is_admin` `is_admin` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否管理员' AFTER `mobile`,
 	ADD COLUMN `is_history` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否离任' AFTER `is_admin`;
 
--- 更新  ow_party_member_view ， ow_branch_member_view
+DROP VIEW IF EXISTS `ow_party_member_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_member_view` AS
+select opm.*,
+`ui`.`msg_title` AS `msg_title`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`status` AS `member_status`
+	, opmg.party_id as group_party_id, opmg.is_present, opmg.is_deleted
+	, op.unit_id
+	, op.sort_order as party_sort_order
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	, ow.id as ow_id
+	-- 判断是否是中共党员
+	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+	-- 优先以党员库中的入党时间为准
+	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+	, ow.remark as ow_remark
+	, dp.grow_time as dp_grow_time
+  , dp.class_id as dp_type_id
+	 from  ow_party_member opm  join ow_party_member_group opmg on opm.group_id=opmg.id
+ left join sys_user_info ui on opm.user_id=ui.user_id
+ left join ow_member om on opm.user_id=om.user_id
+ left join ow_party op on opmg.party_id=op.id
+ left join sys_teacher_info t on opm.user_id=t.user_id
+left join cadre_party dp on dp.user_id= opm.user_id and dp.type = 1
+left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
+
+-- ----------------------------
+--  Records
+-- ----------------------------
+
+DROP VIEW IF EXISTS `ow_branch_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
+`ui`.`msg_title` AS `msg_title`
+,`ui`.`email` AS `email`
+,`ui`.`realname` AS `realname`
+,`ui`.`gender` AS `gender`
+,`ui`.`nation` AS `nation`
+,`ui`.`native_place` AS `native_place`
+,`ui`.`idcard` AS `idcard`
+,`ui`.`birth` AS `birth`
+,`om`.`party_id` AS `party_id`
+,`om`.`branch_id` AS `branch_id`
+,`om`.`status` AS `member_status`
+, obmg.branch_id as group_branch_id, obmg.is_present,obmg.is_deleted
+, op.id as group_party_id
+, op.unit_id
+, op.sort_order as party_sort_order
+, ob.sort_order as branch_sort_order
+,`t`.`post_class` AS `post_class`
+,`t`.`sub_post_class` AS `sub_post_class`
+,`t`.`main_post_level` AS `main_post_level`
+,`t`.`pro_post_time` AS `pro_post_time`
+,`t`.`pro_post_level` AS `pro_post_level`
+,`t`.`pro_post_level_time` AS `pro_post_level_time`
+,`t`.`pro_post` AS `pro_post`
+,`t`.`manage_level` AS `manage_level`
+,`t`.`manage_level_time` AS `manage_level_time`
+,`t`.`arrive_time` AS `arrive_time`
+, ow.id as ow_id
+-- 判断是否是中共党员
+, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+-- 优先以党员库中的入党时间为准
+, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+, ow.remark as ow_remark
+, dp.grow_time as dp_grow_time
+, dp.class_id as dp_type_id
+from  ow_branch_member obm  join ow_branch_member_group obmg on obm.group_id=obmg.id
+left join sys_user_info ui on obm.user_id=ui.user_id
+left join ow_member om on obm.user_id=om.user_id
+left join ow_branch ob on obmg.branch_id=ob.id
+left join ow_party op on ob.party_id=op.id
+left join sys_teacher_info t on obm.user_id=t.user_id
+left join cadre_party dp on dp.user_id= obm.user_id and dp.type = 1
+left join cadre_party ow on ow.user_id= obm.user_id and ow.type = 2;
+
 
 ALTER TABLE `ow_party`
 	ADD COLUMN `is_pycj` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否培育创建单位' AFTER `create_time`,
@@ -49,9 +151,48 @@ ALTER TABLE `ow_branch`
 	DROP INDEX `FK_ow_branch_base_meta_type`,
 	DROP FOREIGN KEY `FK_ow_branch_base_meta_type`;
 
--- 更新 ow_party_view  ow_branch_view
+DROP VIEW IF EXISTS `ow_party_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_view` AS
+select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count,
+pmgtmp2.id as present_group_id, pmgtmp2.appoint_time, pmgtmp2.tran_time, pmgtmp2.actual_tran_time from ow_party p
+left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, party_id from ow_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_deleted=0 group by party_id) pmgtmp on pmgtmp.party_id=p.id
+LEFT JOIN ow_party_member_group pmgtmp2 ON pmgtmp2.is_present=1 AND pmgtmp2.is_deleted=0 AND pmgtmp2.party_id=p.id;
 
--- 更新 ow_party_member_group_view  ow_branch_member_group_view
+-- ----------------------------
+--  View definition for `ow_branch_view`
+-- ----------------------------
+DROP VIEW IF EXISTS `ow_branch_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_view` AS
+select b.*, p.sort_order as party_sort_order, mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count,
+gtmp2.id as present_group_id, gtmp2.appoint_time, gtmp2.tran_time, gtmp2.actual_tran_time,bgmp.num as bg_count
+from ow_branch b
+left join ow_party p on b.party_id=p.id
+left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_view where type=1 and status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
+LEFT JOIN ow_branch_member_group gtmp2 on gtmp2.is_deleted=0 and gtmp2.is_present=1 AND gtmp2.branch_id=b.id
+left join (select count(*) as num,branch_id from ow_branch_group group by branch_id) bgmp on bgmp.branch_id = b.id ;
+
+
+DROP VIEW IF EXISTS `ow_party_member_group_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_member_group_view` AS
+select opmg.*, op.sort_order as party_sort_order, count(opm.id) as member_count from ow_party_member_group opmg
+left join ow_party_member opm on opm.is_history=0 and opm.group_id=opmg.id
+left join  ow_party op on opmg.party_id=op.id group by opmg.id;
+DROP VIEW IF EXISTS `ow_branch_member_group_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_member_group_view` AS
+SELECT bmg.`*`, b.party_id, p.sort_order as party_sort_order, b.sort_order as branch_sort_order, count(obm.id) as member_count
+from ow_branch_member_group bmg
+left join ow_branch_member obm on obm.is_history=0 and obm.group_id=bmg.id
+left join ow_branch b on bmg.branch_id=b.id
+left join ow_party p on b.party_id=p.id group by bmg.id;
 
 
 DROP TABLE crs_applicant_adjust;

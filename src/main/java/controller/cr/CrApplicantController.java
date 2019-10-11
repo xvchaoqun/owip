@@ -8,6 +8,7 @@ import domain.cr.CrInfo;
 import domain.cr.CrPost;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -61,6 +62,7 @@ public class CrApplicantController extends CrBaseController {
                                  Integer infoId,
                                  Integer userId,
                                  @RequestDateRange DateRange enrollTime,
+                                 Boolean hasReport,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException, TemplateException {
@@ -75,11 +77,12 @@ public class CrApplicantController extends CrBaseController {
 
         CrApplicantExample example = new CrApplicantExample();
         Criteria criteria = example.createCriteria().andHasSubmitEqualTo(true);
-        example.setOrderByClause("sort_order asc");
+        example.setOrderByClause("submit_time asc");
 
         if (infoId != null) {
             criteria.andInfoIdEqualTo(infoId);
         }
+
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -89,6 +92,10 @@ public class CrApplicantController extends CrBaseController {
 
         if (enrollTime.getEnd() != null) {
             criteria.andEnrollTimeLessThanOrEqualTo(enrollTime.getEnd());
+        }
+
+        if(hasReport!=null){
+            criteria.andHasReportEqualTo(hasReport);
         }
 
         if (export == 1) {
@@ -134,6 +141,7 @@ public class CrApplicantController extends CrBaseController {
 
             record.setHasSubmit(true);
             record.setEnrollTime(new Date());
+            record.setSubmitTime(new Date());
             crApplicantService.insertSelective(record);
             logger.info(log(LogConstants.LOG_CR, "添加报名人员：{0}", record.getId()));
         } else {
@@ -177,6 +185,24 @@ public class CrApplicantController extends CrBaseController {
         if (null != ids && ids.length > 0) {
             crApplicantService.batchDel(ids, infoId);
             logger.info(log(LogConstants.LOG_CR, "批量删除报名人员：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("crApplicant:report")
+    @RequestMapping(value = "/crApplicant_report", method = RequestMethod.POST)
+    @ResponseBody
+    public Map crApplicant_report(HttpServletRequest request, int infoId,
+                                  @RequestParam(value = "ids[]") Integer[] ids,
+                                  Boolean hasReport,
+                                  ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+
+            crApplicantService.report(ids, infoId, BooleanUtils.isTrue(hasReport));
+            logger.info(log(LogConstants.LOG_CR, "提交纸质表：{0}, {1}",
+                    StringUtils.join(ids, ","), BooleanUtils.isTrue(hasReport)));
         }
 
         return success(FormUtils.SUCCESS);

@@ -103,7 +103,6 @@ public class CrApplicantService extends CrBaseMapper {
             }
         }
 
-        record.setEnrollTime(new Date());
         if(crApplicant!=null){
             record.setId(crApplicant.getId());
             crApplicantMapper.updateByPrimaryKeySelective(record);
@@ -116,7 +115,19 @@ public class CrApplicantService extends CrBaseMapper {
                 commonMapper.excuteSql("update cr_applicant set second_post_id=null where id="+ crApplicant.getId());
             }
         }else{
+
             insertSelective(record);
         }
+    }
+
+    @Transactional
+    public void report(Integer[] ids, int infoId, boolean hasReport) {
+
+        CrApplicantExample example = new CrApplicantExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andInfoIdEqualTo(infoId);
+
+        CrApplicant record = new CrApplicant();
+        record.setHasReport(hasReport);
+        crApplicantMapper.updateByExampleSelective(record, example);
     }
 }

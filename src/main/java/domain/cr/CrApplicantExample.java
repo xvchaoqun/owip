@@ -984,6 +984,126 @@ public class CrApplicantExample {
             addCriterion("has_submit not between", value1, value2, "hasSubmit");
             return (Criteria) this;
         }
+
+        public Criteria andSubmitTimeIsNull() {
+            addCriterion("submit_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeIsNotNull() {
+            addCriterion("submit_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeEqualTo(Date value) {
+            addCriterion("submit_time =", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeNotEqualTo(Date value) {
+            addCriterion("submit_time <>", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeGreaterThan(Date value) {
+            addCriterion("submit_time >", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("submit_time >=", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeLessThan(Date value) {
+            addCriterion("submit_time <", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeLessThanOrEqualTo(Date value) {
+            addCriterion("submit_time <=", value, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeIn(List<Date> values) {
+            addCriterion("submit_time in", values, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeNotIn(List<Date> values) {
+            addCriterion("submit_time not in", values, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeBetween(Date value1, Date value2) {
+            addCriterion("submit_time between", value1, value2, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmitTimeNotBetween(Date value1, Date value2) {
+            addCriterion("submit_time not between", value1, value2, "submitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportIsNull() {
+            addCriterion("has_report is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportIsNotNull() {
+            addCriterion("has_report is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportEqualTo(Boolean value) {
+            addCriterion("has_report =", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotEqualTo(Boolean value) {
+            addCriterion("has_report <>", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportGreaterThan(Boolean value) {
+            addCriterion("has_report >", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_report >=", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportLessThan(Boolean value) {
+            addCriterion("has_report <", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_report <=", value, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportIn(List<Boolean> values) {
+            addCriterion("has_report in", values, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotIn(List<Boolean> values) {
+            addCriterion("has_report not in", values, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_report between", value1, value2, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReportNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_report not between", value1, value2, "hasReport");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

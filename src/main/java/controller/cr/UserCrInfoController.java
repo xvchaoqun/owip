@@ -30,10 +30,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -104,10 +101,16 @@ public class UserCrInfoController extends CrBaseController {
 
         boolean hasSubmit = BooleanUtils.isTrue(record.getHasSubmit());
 
+        if(record.getId()==null){
+            record.setEnrollTime(new Date());
+        }
         record.setUserId(ShiroHelper.getCurrentUserId());
+        if(hasSubmit){
+            record.setSubmitTime(new Date());
+        }
         crApplicantService.addOrUpdate(record);
 
-        logger.info(addLog(LogConstants.LOG_USER, "干部应聘报名，{}应聘材料", hasSubmit ? "提交" : "保存"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部应聘报名，%s应聘材料", hasSubmit ? "提交" : "保存"));
         return success(FormUtils.SUCCESS);
     }
 
