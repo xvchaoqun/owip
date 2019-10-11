@@ -15,7 +15,7 @@
     </div>
     <div class="space-4"></div>
     <c:set var="_query"
-           value="${not empty param.userId ||not empty param.enrollTime || not empty param.hasReport || not empty param.sort}"/>
+           value="${not empty param.userId ||not empty param.submitTime || not empty param.hasReport || not empty param.sort}"/>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="crApplicant:edit">
             <button class="popupBtn btn btn-info btn-sm"
@@ -94,12 +94,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>报名时间</label>
-                        <div class="input-group tooltip-success" data-rel="tooltip" title="报名时间范围">
+                        <label>提交时间</label>
+                        <div class="input-group tooltip-success" data-rel="tooltip" title="提交时间范围">
                             <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
-                            <input placeholder="请选择报名时间范围" data-rel="date-range-picker"
+                            <input placeholder="请选择提交时间范围" data-rel="date-range-picker"
                                    class="form-control date-range-picker" type="text"
-                                   name="enrollTime" value="${param.enrollTime}"/>
+                                   name="submitTime" value="${param.submitTime}"/>
                         </div>
                     </div>
                     <div class="form-group">

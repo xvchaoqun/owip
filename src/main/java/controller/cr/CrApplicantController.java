@@ -61,7 +61,7 @@ public class CrApplicantController extends CrBaseController {
     public void crApplicant_data(HttpServletResponse response,
                                  Integer infoId,
                                  Integer userId,
-                                 @RequestDateRange DateRange enrollTime,
+                                 @RequestDateRange DateRange submitTime,
                                  Boolean hasReport,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -86,12 +86,12 @@ public class CrApplicantController extends CrBaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (enrollTime.getStart() != null) {
-            criteria.andEnrollTimeGreaterThanOrEqualTo(enrollTime.getStart());
+        if (submitTime.getStart() != null) {
+            criteria.andSubmitTimeGreaterThanOrEqualTo(submitTime.getStart());
         }
 
-        if (enrollTime.getEnd() != null) {
-            criteria.andEnrollTimeLessThanOrEqualTo(enrollTime.getEnd());
+        if (submitTime.getEnd() != null) {
+            criteria.andSubmitTimeLessThanOrEqualTo(submitTime.getEnd());
         }
 
         if(hasReport!=null){
