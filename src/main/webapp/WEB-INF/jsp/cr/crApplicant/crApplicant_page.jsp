@@ -213,7 +213,8 @@
                     })
             }},
             {label: '竞聘理由', name: 'reason', width:400 , align:'left'},
-            {label: '报名时间', name: 'enrollTime', width:160},
+            {label: '保存时间', name: 'enrollTime', width:160},
+            {label: '提交时间', name: 'submitTime', width:160},
             {label: '纸质表', name: 'hasReport', formatter:$.jgrid.formatter.TRUEFALSE,
                 formatoptions: {on: '已提交', off:'<span class="red">未提交</span>'}},
         ]
