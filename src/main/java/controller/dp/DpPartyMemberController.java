@@ -260,6 +260,42 @@ public class DpPartyMemberController extends DpBaseController {
     }
 
     @RequiresPermissions("dpPartyMember:del")
+    @RequestMapping("/dpPartyMember_cancel")
+    public String dpPartyMember_cancel(){
+
+        return "dp/dpPartyMember/dpPartyMember_cancel";
+    }
+
+    @RequiresPermissions("dpPartyMember:del")
+    @RequestMapping(value = "/dpPartyMember_cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpPartyMember_cancel(@RequestParam(value = "ids[]") Integer[] ids,
+                              String deleteTime){
+
+        if (null != ids && ids.length>0){
+            for (Integer id : ids){
+                DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
+                if (dpPartyMember.getUserId().intValue() == ShiroHelper.getCurrentUserId()){
+                    return failed("不能撤销自己");
+                }
+            }
+            DpPartyMemberExample example = new DpPartyMemberExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
+            for (DpPartyMember dpPartyMember : dpPartyMembers){
+                if (StringUtils.isNotBlank(deleteTime)){
+                    dpPartyMember.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+                }
+                dpPartyMemberMapper.updateByPrimaryKeySelective(dpPartyMember);
+            }
+            dpPartyMemberService.batchDel(ids);
+            logger.info(log( LogConstants.LOG_GROW, "批量撤销分党委委员：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("dpPartyMember:del")
     @RequestMapping(value = "/dpPartyMember_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpPartyMember_del(HttpServletRequest request,

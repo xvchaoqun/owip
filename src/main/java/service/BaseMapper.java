@@ -13,6 +13,13 @@ import persistence.verify.VerifyWorkTimeMapper;
 
 public class BaseMapper extends CoreBaseMapper{
 
+    @Autowired
+    protected PartyPunishMapper partyPunishMapper;
+    @Autowired
+    protected PartyRewardMapper partyRewardMapper;
+    @Autowired
+    protected PartyPostMapper partyPostMapper;
+
     @Autowired(required = false)
     protected CrpRecordMapper crpRecordMapper;
 

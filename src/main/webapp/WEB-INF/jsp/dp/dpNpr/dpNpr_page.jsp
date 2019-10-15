@@ -25,11 +25,11 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="dpNpr:del">
                     <c:if test="${cls==1}">
                     <button data-url="${ctx}/dp/dpNpr_cancel"
-                            data-title="撤销"
-                            data-msg="确定撤销这{0}条数据？"
+                            data-title="离任"
+                            data-msg="确定这{0}条数据离任？"
                             data-grid-id="#jqGrid"
                             class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 撤销
+                        <i class="fa fa-history"></i> 离任
                     </button>
                     </c:if>
                     <c:if test="${cls==2}">

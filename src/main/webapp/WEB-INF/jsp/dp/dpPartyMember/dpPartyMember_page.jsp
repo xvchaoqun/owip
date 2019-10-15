@@ -13,12 +13,12 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpPartyMember:del">
                     <c:if test="${cls==1}">
-                    <button data-url="${ctx}/dp/dpPartyMember_batchDel"
-                            data-title="删除"
-                            data-msg="确定撤销这{0}条数据？"
+                    <button data-url="${ctx}/dp/dpPartyMember_cancel"
+                            data-title="离任"
+                            data-msg="确定这{0}条数据离任？"
                             data-grid-id="#jqGrid2"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 撤销
+                            class="jqOpenViewBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-history"></i> 离任
                     </button>
                     </c:if>
                     <c:if test="${cls==0}">
@@ -55,6 +55,11 @@
             }, frozen: true
             },
              <shiro:hasPermission name="dpPartyMember:edit">
+            <c:if test="${cls!=1}">
+            { label: '离任时间',name: 'deleteTime',width:120,sortable:true,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2', url: "${ctx}/dp/dpPartyMember_changeOrder"}, frozen: true

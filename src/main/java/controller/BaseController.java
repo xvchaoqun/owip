@@ -33,6 +33,12 @@ import sys.HttpResponseMethod;
 public class BaseController extends BaseMapper implements HttpResponseMethod {
 
     @Autowired
+    protected PartyPunishService partyPunishService;
+    @Autowired
+    protected PartyRewardService partyRewardService;
+    @Autowired
+    protected PartyPostService partyPostService;
+    @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
     @Autowired
     protected BranchMemberAdminService branchMemberAdminService;

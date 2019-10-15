@@ -8,6 +8,17 @@ import java.util.Map;
  */
 public class OwConstants {
 
+    //党内奖惩情况
+    public final static byte OW_PARTY_REPU_PARTY = 1;
+    public final static byte OW_PARTY_REPU_BRANCH = 2;
+    public final static byte OW_PARTY_REPU_MEMBER = 3;
+    public final static Map<Byte, String> OW_PARTY_REPU_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_PARTY_REPU_MAP.put(OW_PARTY_REPU_PARTY, "分党委");
+        OW_PARTY_REPU_MAP.put(OW_PARTY_REPU_BRANCH, "党支部");
+        OW_PARTY_REPU_MAP.put(OW_PARTY_REPU_MEMBER, "个人");
+    }
 
     // 党组织管理员类别，1 分党委管理员  2 支部管理员  3 民主党派管理员
     public final static byte OW_ORG_ADMIN_PARTY = 1;

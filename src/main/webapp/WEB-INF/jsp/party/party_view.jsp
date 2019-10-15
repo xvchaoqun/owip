@@ -14,6 +14,16 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/party_base?id=${param.id}">基本信息</a>
                         </li>
+                        <shiro:hasPermission name="partyReward:list">
+                        <li>
+                            <a href="javascript:;" data-url="${ctx}/party/partyReward?partyId=${param.id}&type=1">党内奖励</a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="partyPunish:list">
+                        <li>
+                            <a href="javascript:;" data-url="${ctx}/party/partyPunish?partyId=${param.id}&type=1">党内惩罚</a>
+                        </li>
+                        </shiro:hasPermission>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/partyMemberGroup_view?partyId=${param.id}">${_p_partyName}领导班子</a>
                         </li>

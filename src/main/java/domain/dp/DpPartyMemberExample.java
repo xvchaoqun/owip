@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class DpPartyMemberExample {
-
     protected String orderByClause;
 
     protected boolean distinct;
@@ -363,7 +362,7 @@ public class DpPartyMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdsIn(List<Integer> values) {
+        public Criteria andTypeIdsIn(List<String> values) {
             addCriterion("type_ids in", values, "typeIds");
             return (Criteria) this;
         }
@@ -820,6 +819,66 @@ public class DpPartyMemberExample {
 
         public Criteria andPresentMemberNotBetween(Boolean value1, Boolean value2) {
             addCriterion("present_member not between", value1, value2, "presentMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeIsNull() {
+            addCriterion("delete_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeIsNotNull() {
+            addCriterion("delete_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("delete_time =", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("delete_time <>", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("delete_time >", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("delete_time >=", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeLessThan(Date value) {
+            addCriterionForJDBCDate("delete_time <", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("delete_time <=", value, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("delete_time in", values, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("delete_time not in", values, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("delete_time between", value1, value2, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("delete_time not between", value1, value2, "deleteTime");
             return (Criteria) this;
         }
     }

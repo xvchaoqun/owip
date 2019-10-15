@@ -37,6 +37,8 @@ public class DpPartyMemberView implements Serializable {
 
     private Boolean presentMember;
 
+    private Date deleteTime;
+
     private Integer groupPartyId;
 
     private Boolean isPresent;
@@ -135,6 +137,14 @@ public class DpPartyMemberView implements Serializable {
 
     public void setPresentMember(Boolean presentMember) {
         this.presentMember = presentMember;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     public Integer getGroupPartyId() {
