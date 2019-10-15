@@ -31,10 +31,10 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div id="infoDiv">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">证件号码</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>证件号码</label>
 
 			<div class="col-xs-6">
-				<input class="form-control" type="text" name="code" value="${scPassport.code}">
+				<input required class="form-control" type="text" name="code" value="${scPassport.code}">
 			</div>
 		</div>
 		<div class="form-group">
@@ -117,8 +117,10 @@ pageEncoding="UTF-8"%>
 
 	function isExistChange(){
 		if(!$("input[name=isExist]").bootstrapSwitch("state")) {
+			$("#modalForm input[name=code]").requireField(false);
 			$("#infoDiv").hide();
 		}else {
+			$("#modalForm input[name=code]").requireField(true);
 			$("#infoDiv").show();
 		}
 	}
@@ -141,6 +143,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid2").trigger("reloadGrid");
+                        //$("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });

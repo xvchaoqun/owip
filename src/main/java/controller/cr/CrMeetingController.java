@@ -1,9 +1,7 @@
 package controller.cr;
 
-import domain.cr.CrMeeting;
-import domain.cr.CrMeetingExample;
+import domain.cr.*;
 import domain.cr.CrMeetingExample.Criteria;
-import domain.cr.CrPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -159,9 +157,18 @@ public class CrMeetingController extends CrBaseController {
 
         CrMeeting crMeeting = crMeetingMapper.selectByPrimaryKey(meetingId);
         modelMap.put("crMeeting", crMeeting);
+        int infoId = crMeeting.getInfoId();
+        modelMap.put("postMap", crPostService.getPostMap(infoId));
 
-        List<Integer> meetingUserIds = iCrMapper.getMeetingUserIds(meetingId);
-        modelMap.put("meetingUserIds", meetingUserIds);
+        List<Integer> meetingUserIds = iCrMapper.getMeetingUserIdsFromFirstPosts(meetingId);
+        if(meetingUserIds.size()>0) {
+            CrApplicantExample example = new CrApplicantExample();
+            example.createCriteria().andInfoIdEqualTo(infoId)
+                    .andUserIdIn(meetingUserIds);
+            example.setOrderByClause("submit_time asc");
+            List<CrApplicant> crApplicants = crApplicantMapper.selectByExample(example);
+            modelMap.put("crApplicants", crApplicants);
+        }
 
         return "cr/crMeeting/crMeeting_msg";
     }

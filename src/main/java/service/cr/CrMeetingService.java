@@ -77,7 +77,7 @@ public class CrMeetingService extends CrBaseMapper {
 
         int sendUserId = ShiroHelper.getCurrentUserId();
 
-        List<Integer> meetingUserIds = iCrMapper.getMeetingUserIds(meetingId);
+        List<Integer> meetingUserIds = iCrMapper.getMeetingUserIdsFromFirstPosts(meetingId);
         String ip = ContextHelper.getRealIp();
 
         int total = meetingUserIds.size();

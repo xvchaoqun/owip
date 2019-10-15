@@ -63,6 +63,22 @@ public class CadreService extends BaseMapper {
     @Autowired(required = false)
     protected CmMemberService cmMemberService;
 
+    // 添加临时干部（无角色）
+    @Transactional
+    public Cadre addTempCadre(int userId) {
+
+        Cadre record = new Cadre();
+        record.setUserId(userId);
+        record.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
+        // 其他干部
+        if (record.getType() == null) {
+            record.setType(CadreConstants.CADRE_TYPE_OTHER);
+        }
+        insertSelective(record);
+
+        return record;
+    }
+
     /*
         直接添加干部时执行的检查
      */
@@ -239,6 +255,14 @@ public class CadreService extends BaseMapper {
         }
     }
 
+    public Cadre getByUserId(int userId) {
+        CadreExample example = new CadreExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<Cadre> cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if (cadres.size() > 0) return cadres.get(0);
+        return null;
+    }
+
     public CadreView dbFindByUserId(int userId) {
 
         CadreViewExample example = new CadreViewExample();
@@ -323,7 +347,7 @@ public class CadreService extends BaseMapper {
             CadreView cv = dbFindByUserId(userId);
             if (cv == null) {
                 // 默认是处级干部
-                if(record.getType()==null){
+                if (record.getType() == null) {
                     record.setType(CadreConstants.CADRE_TYPE_CJ);
                 }
                 insertSelective(record);
@@ -532,7 +556,7 @@ public class CadreService extends BaseMapper {
     @Transactional
     public void changeCode(int userId, int newUserId, String remark) {
 
-        if(userId==newUserId) return;
+        if (userId == newUserId) return;
 
         SysUserView user = sysUserService.findById(userId);
         String oldCode = user.getCode();
@@ -592,6 +616,6 @@ public class CadreService extends BaseMapper {
         int cadreId = cv.getId();
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
-                        CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
+                CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
     }
 }

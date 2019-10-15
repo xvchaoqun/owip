@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group date" data-date-format="yyyy.mm.dd">
 						<input required class="form-control" autocomplete="off" name="meetingDate" type="text"
-							   value="${empty crInfo.meetingDate?_today_dot:(cm:formatDate(crMeeting.meetingDate,'yyyy.MM.dd'))}"/>
+							   value="${empty crMeeting.meetingDate?_today_dot:(cm:formatDate(crMeeting.meetingDate,'yyyy.MM.dd'))}"/>
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
@@ -72,6 +72,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+    $.register.date($('.input-group.date'));
     //$("#modalForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#modalForm [data-rel="select2"]').select2();

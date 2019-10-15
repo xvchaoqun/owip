@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadre.CadreService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
@@ -31,6 +32,8 @@ public class BranchMemberService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private CadreService cadreService;
 
     public TreeNode getTree(Set<Integer> selectIdSet) {
 
@@ -208,6 +211,9 @@ public class BranchMemberService extends BaseMapper {
 
         if (autoAdmin) {
             branchMemberAdminService.toggleAdmin(record);
+        }
+        if(CmTag.getCadre(record.getUserId())==null) {
+            cadreService.addTempCadre(record.getUserId());
         }
         return 1;
     }

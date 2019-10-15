@@ -1,5 +1,8 @@
 package domain.cr;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -282,6 +285,13 @@ public class CrApplicantExample {
 
         public Criteria andInfoIdNotBetween(Integer value1, Integer value2) {
             addCriterion("info_id not between", value1, value2, "infoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdIn(List<Integer> values) {
+
+            addCriterion(MessageFormat.format("(first_post_id in({0}) or second_post_id in({0}))",
+                    StringUtils.join(values, ",")));
             return (Criteria) this;
         }
 

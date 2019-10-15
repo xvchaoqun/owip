@@ -1,7 +1,6 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.Cadre;
 import domain.cadre.CadreParty;
 import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
@@ -130,14 +129,7 @@ public class CadrePartyService extends BaseMapper {
 
         if (cv == null) {
             // 不在干部库中，需要添加为临时干部
-            Cadre _cadre = new Cadre();
-            _cadre.setUserId(userId);
-            _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
-            // 标记类型为其他干部
-            if(_cadre.getType()==null){
-                _cadre.setType(CadreConstants.CADRE_TYPE_OTHER);
-            }
-            cadreService.insertSelective(_cadre);
+            cadreService.addTempCadre(userId);
         }
     }
 

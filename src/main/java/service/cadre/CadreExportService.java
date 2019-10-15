@@ -513,6 +513,12 @@ public class CadreExportService extends BaseMapper {
             String edu = "";
             Integer eduId = cv.getEduId();
             if (eduId != null) {
+                edu = CmTag.getEduName(eduId);
+            }
+            if (StringUtils.isNotBlank(cv.getDegree())) {
+                edu += "\r\n" + StringUtils.trimToEmpty(cv.getDegree());
+            }
+            /*if (eduId != null) {
 
                 MetaType metaType = metaTypeMapper.selectByPrimaryKey(eduId);
                 if (StringUtils.equals(metaType.getCode(), "mt_edu_doctor")) {
@@ -531,7 +537,7 @@ public class CadreExportService extends BaseMapper {
                 } else {
                     edu += metaType.getName();
                 }
-            }
+            }*/
             cell = row.getCell(column++);
             cell.setCellValue(edu);
 

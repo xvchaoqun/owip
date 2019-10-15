@@ -30,29 +30,33 @@
                 <textarea required class="form-control" name="msg" rows="12"></textarea>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">应聘人(${fn:length(meetingUserIds)}人)</label>
-            <div class="col-xs-8" style="max-height: 300px">
+            <div class="col-xs-12" style="max-height: 300px">
                 <table class="table table-actived table-striped table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="col-xs-5">工号</th>
-                        <th class="col-xs-5">姓名</th>
+                        <th colspan="5">应聘人(总共${fn:length(crApplicants)}人)</th>
+                    </tr>
+                    <tr>
+                        <th>工号</th>
+                        <th>姓名</th>
                         <th>手机号码</th>
+                        <th>第一志愿</th>
+                        <th>第二志愿</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${meetingUserIds}" var="userId">
-                        <c:set var="sysUser" value="${cm:getUserById(userId)}"/>
+                    <c:forEach items="${crApplicants}" var="crApplicant">
+                        <c:set var="sysUser" value="${crApplicant.user}"/>
                         <tr>
                             <td>${sysUser.code}</td>
                             <td>${sysUser.realname}</td>
                             <td>${sysUser.mobile}</td>
+                            <td>${postMap.get(crApplicant.firstPostId).name}</td>
+                            <td>${postMap.get(crApplicant.secondPostId).name}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
         </div>
     </form>
 </div>

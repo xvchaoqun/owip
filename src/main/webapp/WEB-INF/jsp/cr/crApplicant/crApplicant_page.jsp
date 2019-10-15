@@ -15,7 +15,9 @@
     </div>
     <div class="space-4"></div>
     <c:set var="_query"
-           value="${not empty param.userId ||not empty param.submitTime || not empty param.hasReport || not empty param.sort}"/>
+           value="${not empty param.userId ||not empty param.submitTime
+            ||not empty param.postId ||not empty param.firstPostId ||not empty param.secondPostId
+            || not empty param.hasReport || not empty param.sort}"/>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="crApplicant:edit">
             <button class="popupBtn btn btn-info btn-sm"
@@ -101,6 +103,41 @@
                                    class="form-control date-range-picker" type="text"
                                    name="submitTime" value="${param.submitTime}"/>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label>报名岗位</label>
+                        <select required name="postId" class="multiselect" multiple="" data-width="273">
+                            <c:forEach items="${postMap}" var="post">
+                                <option value="${post.value.id}">${post.value.name}</option>
+                            </c:forEach>
+                        </select>
+                         <script>
+                            $.register.multiselect($('#searchForm2 select[name=postId]'), ${cm:toJSONArray(selectPostIds)});
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <label>第一志愿</label>
+                        <select required name="firstPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
+                            <option></option>
+                            <c:forEach items="${postMap}" var="post">
+                                <option value="${post.value.id}">${post.value.name}</option>
+                            </c:forEach>
+                        </select>
+                         <script>
+                            $("#searchForm2 select[name=firstPostId]").val('${param.firstPostId}')
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <label>第二志愿</label>
+                        <select required name="secondPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
+                            <option></option>
+                            <c:forEach items="${postMap}" var="post">
+                                <option value="${post.value.id}">${post.value.name}</option>
+                            </c:forEach>
+                        </select>
+                        <script>
+                            $("#searchForm2 select[name=secondPostId]").val('${param.secondPostId}')
+                        </script>
                     </div>
                     <div class="form-group">
                         <label>纸质表</label>

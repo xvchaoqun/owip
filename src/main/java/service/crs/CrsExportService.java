@@ -1,6 +1,5 @@
 package service.crs;
 
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
@@ -40,7 +39,7 @@ import java.util.Map;
  * Created by lm on 2017/10/14.
  */
 @Service
-public class CrsExportService extends CrsBaseMapper{
+public class CrsExportService extends CrsBaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;
@@ -124,6 +123,12 @@ public class CrsExportService extends CrsBaseMapper{
                 String edu = "";
                 Integer eduId = cv.getEduId();
                 if (eduId != null) {
+                    edu = CmTag.getEduName(eduId);
+                }
+                if (StringUtils.isNotBlank(cv.getDegree())) {
+                    edu += "\r\n" + StringUtils.trimToEmpty(cv.getDegree());
+                }
+                /*if (eduId != null) {
 
                     MetaType metaType = metaTypeMapper.selectByPrimaryKey(eduId);
                     if (StringUtils.equals(metaType.getCode(), "mt_edu_doctor")) {
@@ -142,7 +147,7 @@ public class CrsExportService extends CrsBaseMapper{
                     } else {
                         edu += metaType.getName();
                     }
-                }
+                }*/
             /*if(StringUtils.isNotBlank(cv.getDegree())) {
                 edu += "\r\n" + StringUtils.trimToEmpty(cv.getDegree());
             }*/

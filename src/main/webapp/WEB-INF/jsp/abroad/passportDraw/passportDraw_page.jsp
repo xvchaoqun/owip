@@ -313,10 +313,12 @@
                 name: 'applyId',
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--'
                     return '<a class="openView" href="javascript:;" ' +
                         'data-url="${ctx}/abroad/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
                 }, title: false, cellattr: function (rowId, val, rawObject, cm, rdata) {
 
+                    if(rawObject.applySelf==undefined) return;
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
                         + $.date(rawObject.applySelf.startDate, 'yyyy.MM.dd') + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
                         + '<br> 出国境事由：' + $.replace(rawObject.applySelf.reason, /\+\+\+/g, ',') + '"';

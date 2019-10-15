@@ -136,16 +136,8 @@ public class CadreSearchController  extends BaseController {
         Integer cadreId = null;
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if(cadre==null) {
-            Cadre record = new Cadre();
-            record.setUserId(userId);
-            record.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
-            // 其他干部
-            if(record.getType()==null){
-                record.setType(CadreConstants.CADRE_TYPE_OTHER);
-            }
-            cadreService.insertSelective(record);
-
-            cadreId = record.getId();
+            Cadre tempCadre = cadreService.addTempCadre(userId);
+            cadreId = tempCadre.getId();
         }else{
             cadreId = cadre.getId();
         }

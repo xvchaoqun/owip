@@ -755,11 +755,21 @@ var _modal_width;
                 if (params == '_blank') {
                     return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')
                         .format(cadreId, realname, ctx);
-                } else if ($.isJson(params) && params.hideId != undefined && params.loadId != undefined) {
+                } else if ($.isJson(params)) {
 
-                    return ('<a href="javascript:;" class="openView" data-hide-el="#{3}"  data-load-el="#{4}" ' +
-                        'data-url="{2}/cadre_view?cadreId={0}&hideEl={4}&loadEl={3}">{1}</a>')
-                        .format(cadreId, realname, ctx, params.hideId, params.loadId);
+                    var attrs = "";
+                    var url ="{0}/cadre_view?cadreId={1}".format(ctx, cadreId);
+                    if(params.hideId != undefined && params.loadId != undefined){
+                        url += "&hideEl={1}&loadEl={0}".format(params.hideId, params.loadId)
+                        attrs = 'data-hide-el="#{0}"  data-load-el="#{1}"'.format(params.hideId, params.loadId)
+                    }
+                    if(params.params != undefined){
+                        url += "&" + params.params;
+                    }
+
+                    return ('<a href="javascript:;" class="openView" {2} ' +
+                        'data-url="{0}">{1}</a>')
+                        .format(url, realname, attrs);
 
                 } else {
                     return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
@@ -1730,12 +1740,12 @@ $.extend($.register, {
                 var $element = $(this.element);
                 var fancyboxType = $element.data('fancybox-type');
                 if (fancyboxType == 'image') {
-                    this.title = '<div class="title">' + this.title
+                    this.title = '<div class="title">' + decodeURI(this.title)
                         + '<div class="download">【<a href="javascript:;" class="downloadBtn" data-type="download" ' +
                         'data-url="{2}/attach_download?path={0}&filename={1}">点击下载</a>】</div></div>'
                             .format($element.data('path'), this.title, ctx);
                 } else if (fancyboxType == 'iframe') {
-                    this.title = '<div class="title">' + this.title + '</div>';
+                    this.title = '<div class="title">' + decodeURI(this.title) + '</div>';
                 }
             }
         });

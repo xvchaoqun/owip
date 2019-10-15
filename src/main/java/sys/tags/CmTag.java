@@ -17,6 +17,8 @@ import domain.sys.SysConfig;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import ext.service.ExtService;
+import ext.service.SyncService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,8 +36,6 @@ import service.cadre.*;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchTypeService;
-import ext.service.ExtService;
-import ext.service.SyncService;
 import service.global.CacheService;
 import service.leader.LeaderService;
 import service.member.RetireApplyService;
@@ -329,6 +329,11 @@ public class CmTag {
 
         Map<Integer, Unit> unitMap = unitService.findAll();
         return unitMap.get(id);
+    }
+
+    public static Cadre getCadre(Integer userId){
+        if(userId==null) return null;
+        return cadreService.getByUserId(userId);
     }
 
     public static CadreView getCadreById(Integer id) {

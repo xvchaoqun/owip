@@ -1,5 +1,6 @@
 package domain.party;
 
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
@@ -7,6 +8,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PartyMemberView implements Serializable {
+
+    public Cadre getCadre(){
+        return CmTag.getCadre(userId);
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }

@@ -1,6 +1,5 @@
 package service.cr;
 
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cr.CrApplicant;
 import domain.cr.CrApplicantExample;
@@ -176,23 +175,7 @@ public class CrExportService extends CrBaseMapper {
             String edu = "";
             Integer eduId = cv.getEduId();
             if (eduId != null) {
-                MetaType metaType = metaTypeMapper.selectByPrimaryKey(eduId);
-                if (StringUtils.equals(metaType.getCode(), "mt_edu_doctor")) {
-                    edu += "博士";
-                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_master")
-                        || StringUtils.equals(metaType.getCode(), "mt_edu_sstd")) {
-                    edu += "硕士";
-                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_yjskcb")) {
-                    edu += "研究生课程班";
-                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_bk")) {
-                    edu += "学士";
-                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zk")) {
-                    edu += "大专";
-                } else if (StringUtils.equals(metaType.getCode(), "mt_edu_zz")) {
-                    edu += "中专";
-                } else {
-                    edu += metaType.getName();
-                }
+                edu = CmTag.getEduName(eduId);
             }
             if (StringUtils.isNotBlank(cv.getDegree())) {
                 edu += "\r\n" + StringUtils.trimToEmpty(cv.getDegree());

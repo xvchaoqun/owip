@@ -596,6 +596,7 @@ public class CadreController extends BaseController {
     public String cadre_view(HttpServletResponse response,
                              int cadreId,
                              String to, // 默认跳转到基本信息
+                             Byte cls, // 1 党委委员 或 2 支委委员 档案页
                              ModelMap modelMap) {
 
         if (StringUtils.isBlank(to)) {
@@ -614,6 +615,20 @@ public class CadreController extends BaseController {
         }
 
         modelMap.put("cadre", cadre);
+
+        if(cls!=null){
+            // 判断权限
+            if(cls==1){ // 党委
+                //partyMemberService.get
+
+            }else if(cls==2){
+
+            }else{
+                throw new UnauthorizedException();
+            }
+            return "cadre/cadre_view_party";
+        }
+
         return "cadre/cadre_view";
     }
 

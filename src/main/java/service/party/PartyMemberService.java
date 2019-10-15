@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadre.CadreService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -32,6 +33,8 @@ public class PartyMemberService extends BaseMapper {
     protected PartyMemberGroupService partyMemberGroupService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected CadreService cadreService;
 
     public TreeNode getTree(Set<Integer> selectIdSet) {
 
@@ -248,6 +251,9 @@ public class PartyMemberService extends BaseMapper {
 
         if (autoAdmin) {
             partyMemberAdminService.toggleAdmin(record);
+        }
+        if(CmTag.getCadre(record.getUserId())==null) {
+            cadreService.addTempCadre(record.getUserId());
         }
         return 1;
     }

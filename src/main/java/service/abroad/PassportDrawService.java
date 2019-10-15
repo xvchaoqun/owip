@@ -343,14 +343,16 @@ public class PassportDrawService extends AbroadBaseMapper {
             String reason = passportDraw.getReason();
 
             if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
-                xingcheng = "S" + applySelf.getId();
-                if (passport.getClassId().intValue() != normalPassport.getId()) {
-                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
+                if(applySelf!=null) {
+                    xingcheng = "S" + applySelf.getId();
+                    if (passport.getClassId().intValue() != normalPassport.getId()) {
+                        needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
+                    }
+                    startDate = DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD);
+                    endDate = DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD);
+                    toCountry = applySelf.getToCountry();
+                    reason = applySelf.getReason();
                 }
-                startDate = DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD);
-                endDate = DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD);
-                toCountry = applySelf.getToCountry();
-                reason = applySelf.getReason();
             } else if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
                 //xingcheng = "T"+passportDraw.getId();
                 if (passport.getClassId().intValue() != normalPassport.getId()) {

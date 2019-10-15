@@ -43,10 +43,17 @@ public class CrApplicantController extends CrBaseController {
 
     @RequiresPermissions("crApplicant:list")
     @RequestMapping("/crApplicant")
-    public String crApplicant(Integer infoId, Integer userId, ModelMap modelMap) {
+    public String crApplicant(Integer infoId, Integer userId,
+                              @RequestParam(required = false, value = "postId") Integer[] postId,
+                              ModelMap modelMap) {
 
         modelMap.put("crInfo", crInfoMapper.selectByPrimaryKey(infoId));
         modelMap.put("postMap", crPostService.getPostMap(infoId));
+
+        if (postId != null) {
+            List<Integer> selectPostIds = Arrays.asList(postId);
+            modelMap.put("selectPostIds", selectPostIds);
+        }
 
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
@@ -62,7 +69,10 @@ public class CrApplicantController extends CrBaseController {
                                  Integer infoId,
                                  Integer userId,
                                  @RequestDateRange DateRange submitTime,
+                                 Integer firstPostId,
+                                 Integer secondPostId,
                                  Boolean hasReport,
+                                 @RequestParam(required = false, value = "postId") Integer[] postId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException, TemplateException {
@@ -92,6 +102,18 @@ public class CrApplicantController extends CrBaseController {
 
         if (submitTime.getEnd() != null) {
             criteria.andSubmitTimeLessThanOrEqualTo(submitTime.getEnd());
+        }
+
+        if (postId != null) {
+            List<Integer> selectPostIds = Arrays.asList(postId);
+            criteria.andPostIdIn(selectPostIds);
+        }
+
+        if(firstPostId!=null){
+            criteria.andFirstPostIdEqualTo(firstPostId);
+        }
+        if(secondPostId!=null){
+            criteria.andSecondPostIdEqualTo(secondPostId);
         }
 
         if(hasReport!=null){
