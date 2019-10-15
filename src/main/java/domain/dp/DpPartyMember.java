@@ -40,6 +40,8 @@ public class DpPartyMember implements Serializable {
 
     private Boolean presentMember;
 
+    private Date deleteTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -128,5 +130,13 @@ public class DpPartyMember implements Serializable {
 
     public void setPresentMember(Boolean presentMember) {
         this.presentMember = presentMember;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 }

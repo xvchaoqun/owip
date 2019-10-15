@@ -1,41 +1,6 @@
 
 
--- 20191011 李阳 组织处理管理
-
-DROP TABLE IF EXISTS `report_superior`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `report_superior` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `report_time` date NOT NULL COMMENT '报送日期',
-  `report_post` varchar(50) NOT NULL COMMENT '报送上级单位',
-  `start_time` date NOT NULL COMMENT '数据统计时间区间开始时间',
-  `end_time` date NOT NULL COMMENT '数据统计时间区间截止时间',
-  `report_data` varchar(50) NOT NULL COMMENT '报送材料',
-  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报送上级部门';
-DROP TABLE IF EXISTS `org_treat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `org_treat` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `start_time` date NOT NULL COMMENT '执行开始时间',
-  `end_time` date NOT NULL COMMENT '执行截止时间',
-  `code` varchar(50) NOT NULL COMMENT '工作证号',
-  `obj_level` varchar(50) DEFAULT NULL COMMENT '对象级别',
-  `post` varchar(50) DEFAULT NULL COMMENT '时任职务',
-  `treat_way` int(10) unsigned NOT NULL COMMENT '组织处理方式 1提醒 2函询 3、诫勉',
-  `develop_way` int(10) unsigned NOT NULL COMMENT '开展方式 1书面方式 2谈话方式 3既采用书面方式也采用谈话方式',
-  `talker_type` int(10) unsigned NOT NULL COMMENT '谈话人类型 1党委主要负责人 2组织部门主要负责人 3其他人',
-  `talker` varchar(50) NOT NULL COMMENT '具体谈话人',
-  `problem` int(10) unsigned NOT NULL COMMENT '针对问题',
-  `ecclosure` varchar(200) NOT NULL COMMENT '附件',
-  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织处理';
-
---201910 李阳 分党委和党支部
+--20191015 李阳 分党委和党支部
 -- 更新了dp_party_member_view视图
 
 ALTER TABLE `dp_party_member`
