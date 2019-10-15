@@ -113,12 +113,12 @@ public class PartyRewardController extends BaseController {
             criteria.andUnitLike(SqlUtils.like(unit));
         }
 
-        if (export == 1) {
+        /*if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
             partyReward_export(example, response);
             return;
-        }
+        }*/
 
         long count = partyRewardMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -217,23 +217,10 @@ public class PartyRewardController extends BaseController {
         return "party/partyReward/partyReward_au";
     }
 
-    @RequestMapping(value = "/partyReward_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_partyReward_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            partyRewardService.del(id);
-            logger.info(log( LogConstants.LOG_PARTY, "删除党内奖励信息：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("partyReward:edit")
     @RequestMapping(value = "/party/partyReward_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyReward_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
 
         if (null != ids && ids.length>0){
             partyRewardService.batchDel(ids);
@@ -241,87 +228,5 @@ public class PartyRewardController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequestMapping(value = "/partyReward_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_partyReward_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-
-        partyRewardService.changeOrder(id, addNum);
-        logger.info(log( LogConstants.LOG_PARTY, "党内奖励信息调序：{0}, {1}", id, addNum));
-        return success(FormUtils.SUCCESS);
-    }
-    public void partyReward_export(PartyRewardExample example, HttpServletResponse response) {
-
-        List<PartyReward> records = partyRewardMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"类型|100","party_id|100","branch_id|100","user_id|100","获奖日期|100","获奖类型|100","获得奖项|100","颁奖单位|100","获奖证书|100","获奖证书文件名|100","备注|100","排序|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            PartyReward record = records.get(i);
-            String[] values = {
-                record.getType()+"",
-                            record.getPartyId()+"",
-                            record.getBranchId()+"",
-                            record.getUserId()+"",
-                            DateUtils.formatDate(record.getRewardTime(), DateUtils.YYYY_MM_DD),
-                            record.getRewardType()+"",
-                            record.getName(),
-                            record.getUnit(),
-                            record.getProof(),
-                            record.getProofFilename(),
-                            record.getRemark(),
-                            record.getSortOrder()+""
-            };
-            valuesList.add(values);
-        }
-        String fileName = String.format("党内奖励信息(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequestMapping("/partyReward_selects")
-    @ResponseBody
-    public Map partyReward_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        PartyRewardExample example = new PartyRewardExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }
-
-        long count = partyRewardMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<PartyReward> records = partyRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(PartyReward record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getName());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

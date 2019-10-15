@@ -20,14 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -52,14 +54,14 @@ public class PartyPostController extends BaseController {
     @RequestMapping("/party/partyPost_data")
     @ResponseBody
     public void partyPost_data(HttpServletResponse response,
-                                    Integer id,
-                                    Integer userId,
-                                    Date startDate,
-                                    Date endDate,
-                                
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                               Integer id,
+                               Integer userId,
+                               Date startDate,
+                               Date endDate,
+
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -73,32 +75,32 @@ public class PartyPostController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
-        if (id!=null) {
+        if (id != null) {
             criteria.andIdEqualTo(id);
         }
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (startDate != null){
+        if (startDate != null) {
             criteria.andStartDateGreaterThan(startDate);
         }
-        if (endDate != null){
+        if (endDate != null) {
             criteria.andEndDateGreaterThan(endDate);
         }
 
-        if (export == 1) {
-            if(ids!=null && ids.length>0)
+        /*if (export == 1) {
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             partyPost_export(example, response);
             return;
-        }
+        }*/
 
         long count = partyPostMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyPost> records= partyPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PartyPost> records = partyPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -124,21 +126,21 @@ public class PartyPostController extends BaseController {
 
         Integer id = record.getId();
 
-        if (StringUtils.isNotBlank(startDate)){
-            record.setStartDate(DateUtils.parseDate(startDate,DateUtils.YYYYMMDD_DOT));
+        if (StringUtils.isNotBlank(startDate)) {
+            record.setStartDate(DateUtils.parseDate(startDate, DateUtils.YYYYMMDD_DOT));
         }
-        if (StringUtils.isNotBlank(endDate)){
-            record.setEndDate(DateUtils.parseDate(endDate,DateUtils.YYYYMMDD_DOT));
+        if (StringUtils.isNotBlank(endDate)) {
+            record.setEndDate(DateUtils.parseDate(endDate, DateUtils.YYYYMMDD_DOT));
         }
         record.setUserId(userId);
         if (id == null) {
-            
+
             partyPostService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "添加党内任职经历：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "添加党内任职经历：{0}", record.getId()));
         } else {
 
             partyPostService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "更新党内任职经历：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "更新党内任职经历：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,94 +164,17 @@ public class PartyPostController extends BaseController {
         return "party/partyPost/partyPost_au";
     }
 
-
-    @RequestMapping(value = "/party/partyPost_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_partyPost_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            partyPostService.del(id);
-            logger.info(log( LogConstants.LOG_PARTY, "删除党内任职经历：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("partyPost:edit")
     @RequestMapping(value = "/party/partyPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             partyPostService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_PARTY, "批量删除党内任职经历：{0}", StringUtils.join(ids, ",")));
+            logger.info(log(LogConstants.LOG_PARTY, "批量删除党内任职经历：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
-    }
-    public void partyPost_export(PartyPostExample example, HttpServletResponse response) {
-
-        List<PartyPost> records = partyPostMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"所属党员|100","工作单位及担任职务|100","备注|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            PartyPost record = records.get(i);
-            String[] values = {
-                record.getUserId()+"",
-                            record.getDetail(),
-                            record.getRemark()
-            };
-            valuesList.add(values);
-        }
-        String fileName = String.format("党内任职经历(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequestMapping("/partyPost_selects")
-    @ResponseBody
-    public Map partyPost_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        PartyPostExample example = new PartyPostExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            //criteria.andNameLike(SqlUtils.like(searchStr));
-        }
-
-        long count = partyPostMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<PartyPost> records = partyPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(PartyPost record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getUserId());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

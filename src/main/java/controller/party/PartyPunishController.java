@@ -98,12 +98,12 @@ public class PartyPunishController extends BaseController {
             criteria.andUnitLike(SqlUtils.like(unit));
         }
 
-        if (export == 1) {
+        /*if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
             partyPunish_export(example, response);
             return;
-        }
+        }*/
 
         long count = partyPunishMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -193,19 +193,6 @@ public class PartyPunishController extends BaseController {
         return "party/partyPunish/partyPunish_au";
     }
 
-
-    @RequestMapping(value = "/partyPunish_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_partyPunish_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            partyPunishService.del(id);
-            logger.info(log( LogConstants.LOG_PARTY, "删除党内惩罚信息：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("partyPunish:edit")
     @RequestMapping(value = "/party/partyPunish_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -218,85 +205,5 @@ public class PartyPunishController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequestMapping(value = "/partyPunish_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_partyPunish_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-
-        partyPunishService.changeOrder(id, addNum);
-        logger.info(log( LogConstants.LOG_PARTY, "党内惩罚信息调序：{0}, {1}", id, addNum));
-        return success(FormUtils.SUCCESS);
-    }
-    public void partyPunish_export(PartyPunishExample example, HttpServletResponse response) {
-
-        List<PartyPunish> records = partyPunishMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"类型|100","party_id|100","branch_id|100","user_id|100","处分日期|100","处分期限|100","受何种处分|100","处分单位|100","排序|100","备注|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            PartyPunish record = records.get(i);
-            String[] values = {
-                record.getType()+"",
-                            record.getPartyId()+"",
-                            record.getBranchId()+"",
-                            record.getUserId()+"",
-                            DateUtils.formatDate(record.getPunishTime(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD),
-                            record.getName(),
-                            record.getUnit(),
-                            record.getSortOrder()+"",
-                            record.getRemark()
-            };
-            valuesList.add(values);
-        }
-        String fileName = String.format("党内惩罚信息(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequestMapping("/partyPunish_selects")
-    @ResponseBody
-    public Map partyPunish_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        PartyPunishExample example = new PartyPunishExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike(SqlUtils.like(searchStr));
-        }
-
-        long count = partyPunishMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<PartyPunish> records = partyPunishMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(PartyPunish record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getName());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

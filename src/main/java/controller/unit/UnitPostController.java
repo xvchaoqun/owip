@@ -81,22 +81,13 @@ public class UnitPostController extends BaseController {
 
         List<UnitPost> records = new ArrayList<>();
         int row = 1;
+        int addCount = 0;
+        int totalCount = 0;
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             UnitPost record = new UnitPost();
             row++;
             String code = StringUtils.trimToNull(xlsRow.get(0));
-            if(StringUtils.isBlank(code)){
-                throw new OpException("第{0}行岗位编号为空", row);
-            }
-            record.setCode(code);
-
-            String name = StringUtils.trimToNull(xlsRow.get(1));
-             if(StringUtils.isBlank(name)){
-                throw new OpException("第{0}行岗位名称为空", row);
-            }
-            record.setName(name);
-
             String unitCode = StringUtils.trimToNull(xlsRow.get(2));
             if(StringUtils.isBlank(unitCode)){
                 throw new OpException("第{0}行单位编码为空", row);
@@ -105,6 +96,17 @@ public class UnitPostController extends BaseController {
             if(unit==null){
                 throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
             }
+            if(StringUtils.isBlank(code)){
+                code = unitPostService.generateCode(unitCode);
+                //throw new OpException("第{0}行岗位编号为空", row);
+            }
+            record.setCode(code);
+
+            String name = StringUtils.trimToNull(xlsRow.get(1));
+             if(StringUtils.isBlank(name)){
+                throw new OpException("第{0}行岗位名称为空", row);
+            }
+            record.setName(name);
             record.setUnitId(unit.getId());
 
             record.setJob(StringUtils.trimToNull(xlsRow.get(3)));
@@ -128,13 +130,10 @@ public class UnitPostController extends BaseController {
             record.setPostClass(postClassType.getId());
 
             record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-            records.add(record);
+            addCount += unitPostService.singleImport(record);
+            totalCount++;
         }
 
-        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
-
-        int addCount = unitPostService.bacthImport(records);
-        int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);
         resultMap.put("total", totalCount);
