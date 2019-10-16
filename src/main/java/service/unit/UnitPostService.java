@@ -41,6 +41,8 @@ public class UnitPostService extends BaseMapper {
 
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private UnitService unitService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -127,8 +129,81 @@ public class UnitPostService extends BaseMapper {
         unitPostMapper.insertSelective(record);
     }
 
+    //根据单位编码生成岗位编码
+    @Transactional
+    public String generateCode(String unitCode){
+        int num = 0;
+        UnitPostExample example = new UnitPostExample();
+        example.createCriteria().andUnitIdEqualTo(unitService.findUnitByCode(unitCode).getId());
+        example.setOrderByClause("right(code,3) desc");
+        List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+        if (unitPosts.size() > 0){
+            for (int i = 0; i <=unitPosts.size(); i++) {
+                String code = unitPosts.get(i).getCode();
+                String _code = code.substring(code.length() - 3);
+                try {
+                    num = Integer.parseInt(_code) + 1;
+                    break;
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+            }
+        }else {
+            num = 1;
+        }
+        return unitCode + String.format("%03d", num);
+    }
+
+    //批量插入，读一条插入一条
+    @Transactional
+    public int singleImport(UnitPost record){
+
+        String name = record.getName();
+        int addCount = 0;
+        Integer unitId = record.getUnitId();
+        if (record.getId() != null) {
+            Byte status = 1;
+            UnitPostExample example = new UnitPostExample();
+            example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andUnitIdEqualTo(record.getUnitId()).andStatusEqualTo(status);
+            List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+            if (unitPosts.size() == 0) {
+                insertSelective(record);
+                addCount++;
+            } else {
+                updateByPrimaryKeySelective(record);
+            }
+        }else {
+            insertSelective(record);
+            addCount++;
+        }
+        return addCount;
+    }
+
     @Transactional
     public int bacthImport(List<UnitPost> records) {
+
+        int addCount = 0;
+        for (UnitPost record : records) {
+            String name = record.getName();
+            Integer unitId = record.getUnitId();
+            Byte status = 1;
+            UnitPostExample example = new UnitPostExample();
+            example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andStatusEqualTo(status);
+            List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+            if (unitPosts.size() == 0){
+                insertSelective(record);
+                addCount++;
+            }else {
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
+    }
+
+    //原来的按岗位编码批量导入岗位信息
+    @Transactional
+    public int bacthImportByCode(List<UnitPost> records) {
 
         int addCount = 0;
         for (UnitPost record : records) {

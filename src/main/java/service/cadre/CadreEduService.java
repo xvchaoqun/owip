@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaClassService;
 import service.base.MetaTypeService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
@@ -31,6 +34,56 @@ public class CadreEduService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private MetaClassService metaClassService;
+
+    //根据code找到领导干部的学习经历中，对应的学历学位，同时更新最高学历和最高学位
+    public void updateHighEdu(String code){
+
+        SysUserView vu = sysUserService.findByCode(code);
+        Integer userId = vu.getUserId();
+        CadreExample cadreExample = new CadreExample();
+        cadreExample.createCriteria().andUserIdEqualTo(userId);
+        List<Cadre> cadres = cadreMapper.selectByExample(cadreExample);
+        Byte status = 0;
+        List<Integer> eduIds = new ArrayList<>();
+        eduIds.add(159);
+        eduIds.add(182);
+        List<Integer> cadreIds = new ArrayList<>();
+        for (Cadre cadre : cadres){
+            Integer cadreId = cadre.getId();
+            CadreEduExample example = new CadreEduExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(status);
+            List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+            example.createCriteria().andEduIdIn(eduIds);
+            cadreEdus.remove(example);
+            Date latestTime = cadreEdus.get(0).getFinishTime();
+            Integer cadreEduId = cadreEdus.get(0).getId();
+            for (CadreEdu cadreEdu : cadreEdus){
+                Date time = cadreEdu.getFinishTime();
+                if (time != null) {
+                    if (time.after(latestTime)) {
+                        latestTime = time;
+                        cadreEduId = cadreEdu.getId();
+                    }
+                }
+            }
+            CadreEdu _cadreEdu = cadreEduMapper.selectByPrimaryKey(cadreEduId);
+            CadreEdu record = new CadreEdu();
+            record.setId(cadreEduId);
+            if (_cadreEdu.getIsGraduated() != null) {
+                if (_cadreEdu.getIsGraduated()) {
+                    record.setIsHighDegree(true);
+                }
+            }
+            if (_cadreEdu.getHasDegree()) {
+                record.setIsHighEdu(true);
+            }
+            cadreEduMapper.updateByPrimaryKeySelective(record);
+        }
+    }
 
     // 根据起始时间读取学习经历（用于任免审批表导入时）
     public CadreEdu getByEduTime(int cadreId, Date enrolTime, Date finishTime) {

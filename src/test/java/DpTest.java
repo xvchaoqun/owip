@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import service.cadre.CadreEduService;
 import service.dp.dpCommon.PmdOrderLogService;
 
 import java.io.File;
@@ -19,6 +20,8 @@ public class DpTest {
     public static final String openFileStyle = "r";
     @Autowired
     private PmdOrderLogService pmdOrderLogService;
+    @Autowired
+    private CadreEduService cadreEduService;
 
     @Test
     public void excute() {
@@ -36,5 +39,12 @@ public class DpTest {
             }
         }
         logger.info("总计：" + count + "条记录");
+    }
+
+    //根据code更新领导干部的学习经历中，最高学历最高学位（可以去掉code,直接全部更新）
+    @Test
+    public void updateEdu(){
+        String code = 99038 + "";
+        cadreEduService.updateHighEdu(code);
     }
 }
