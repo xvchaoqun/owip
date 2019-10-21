@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--七一表彰-->
+
+        <!--<table tableName="qy_reward" domainObjectName="qy.QyReward" mapperName="qy.QyRewardMapper">-->
+        <!--</table>-->
+
+        <table tableName="qy_year" domainObjectName="qy.QyYear" mapperName="qy.QyYearMapper">
+        </table>
+
+        <!--<table tableName="qy_year_reward" domainObjectName="qy.QyYearReward" mapperName="qy.QyYearRewardMapper">-->
+        <!--</table>-->
+
+        <!--<table tableName="qy_reward_record" domainObjectName="qy.QyRewardRecord" mapperName="qy.QyRewardRecordMapper">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+      <!--  <table tableName="qy_reward_record_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="qy.QyRewardRecordView" mapperName="qy.QyRewardRecordViewMapper">
+        </table>-->
+
+        <!--<table tableName="qy_reward_obj" domainObjectName="qy.QyRewardObj" mapperName="qy.QyRewardObjMapper">-->
+        <!--</table>-->
+
+      <!--  <table tableName="qy_reward_obj_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="qy.QyRewardObjView" mapperName="qy.QyRewardObjViewMapper">
+        </table>-->
+
+    </context>
+</generatorConfiguration>

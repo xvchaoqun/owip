@@ -22,6 +22,7 @@ public class LogConstants {
     public static final int LOG_PCS = 70; // 党代会
     public static final int LOG_OA = 80; // 协同办公
     public static final int LOG_PMD = 90; // 党费收缴
+    public static final int LOG_QY = 94; // 七一表彰
     public static final int LOG_PM = 95; // 三会一课
     public static final int LOG_CPC = 100; // 干部职数
     public static final int LOG_CRS = 110; // 干部竞争上岗
@@ -62,7 +63,9 @@ public class LogConstants {
         LOG_MAP.put(LOG_CLA, "干部请假");
         LOG_MAP.put(LOG_PCS, "党代会");
         LOG_MAP.put(LOG_OA, "协同办公");
-        LOG_MAP.put(LOG_PMD, "党费收缴");
+        LOG_MAP.put(LOG_QY, "党费收缴");
+        LOG_MAP.put(LOG_PMD, "七一表彰");
+        LOG_MAP.put(LOG_PM, "三会一课");
         LOG_MAP.put(LOG_CPC, "干部职数");
 
         LOG_MAP.put(LOG_CRS, "干部竞争上岗");
