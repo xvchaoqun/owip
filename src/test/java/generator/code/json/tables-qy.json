@@ -1,0 +1,54 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "qy",
+  "tables": [
+    {
+      "table": "qy_reward",
+      "key": "id",
+      "searchColumns": "name,type",
+      "showColumns": "name,type,year",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_QY",
+      "ignore": true
+    },
+    {
+      "table": "qy_year",
+      "key": "id",
+      "searchColumns": "year",
+      "showColumns": "year,plan_pdf,result_pdf,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_QY",
+      "ignore": true
+    },
+    {
+      "table": "qy_year_reward",
+      "key": "id",
+      "searchColumns": "year_id,reward_id",
+      "showColumns": "year_id,reward_id,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_QY",
+      "ignore": true
+    },
+    {
+      "table": "qy_reward_obj",
+      "key": "id",
+      "searchColumns": "party_id,branch_id,user_id,meeting_name",
+      "showColumns": "party_name,party_id,branch_name,branch_id,user_id,meeting_name,sort_order",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_QY",
+      "ignore": true
+    },
+    {
+      "table": "qy_reward_record",
+      "key": "id",
+      "searchColumns": "year_reward_id",
+      "showColumns": "year_reward_id",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_QY",
+      "ignore": false
+    }
+  ]
+}
