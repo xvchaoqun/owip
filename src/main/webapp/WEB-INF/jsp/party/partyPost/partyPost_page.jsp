@@ -8,12 +8,12 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-plus"></i> 添加任职经历</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/party/partyPost_au?userId=${param.userId}"
-                       data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                       data-grid-id="#jqGrid_post"><i class="fa fa-edit"></i>
                         修改</button>
                     <button data-url="${ctx}/party/partyPost_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid2"
+                            data-grid-id="#jqGrid_post"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
@@ -24,16 +24,17 @@ pageEncoding="UTF-8" %>
             </div>
 </shiro:hasPermission>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <table id="jqGrid_post" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager2"></div>
 <script>
-    $("#jqGrid2").jqGrid({
+    $("#jqGrid_post").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager2",
         url: '${ctx}/party/partyPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '所属党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
+            { label: '学工号',name: 'user.code',frozen:true,width:120},
+                { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
                         return $.trim(cellvalue);
                     },frozen:true},
                 { label: '任职开始时间',name:'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},

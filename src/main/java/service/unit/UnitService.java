@@ -22,6 +22,8 @@ import java.util.*;
 @Service
 public class UnitService extends BaseMapper {
 
+    public static final String TABLE_NAME = "unit";
+
     @Autowired
     protected MetaTypeService metaTypeService;
 
@@ -330,5 +332,20 @@ public class UnitService extends BaseMapper {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", success);
         return resultMap;
+    }
+
+    @Transactional
+    @CacheEvict(value = "Unit:ALL", allEntries = true)
+    public void unit_batchSort(byte status, List<Integer> unitIdList){
+
+        commonMapper.excuteSql("update unit set sort_order=null where status=" + status
+                + " and id in(" + StringUtils.join(unitIdList, ",") + ")");
+        for (Integer unitId : unitIdList){
+            Unit record= new Unit();
+            record.setId(unitId);
+            record.setSortOrder(getNextSortOrder(TABLE_NAME,"status=" + status));
+
+            unitMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

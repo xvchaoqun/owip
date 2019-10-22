@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/party/partyReward_au?partyId=${param.partyId}"
-                       data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                       data-grid-id="#jqGrid_reward"><i class="fa fa-edit"></i>
                         修改</button>
                  </c:if>
                  <c:if test="${cls==OW_PARTY_REPU_BRANCH}">
@@ -21,7 +21,7 @@ pageEncoding="UTF-8" %>
                      <i class="fa fa-plus"></i> 添加</button>
                  <button class="jqOpenViewBtn btn btn-primary btn-sm"
                          data-url="${ctx}/party/partyReward_au?branchId=${param.branchId}&cls=2"
-                         data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                         data-grid-id="#jqGrid_reward"><i class="fa fa-edit"></i>
                      修改</button>
                  </c:if>
                  <c:if test="${cls==OW_PARTY_REPU_MEMBER}">
@@ -30,13 +30,13 @@ pageEncoding="UTF-8" %>
                          <i class="fa fa-plus"></i> 添加</button>
                      <button class="jqOpenViewBtn btn btn-primary btn-sm"
                              data-url="${ctx}/party/partyReward_au?userId=${param.userId}&cls=3"
-                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                             data-grid-id="#jqGrid_reward"><i class="fa fa-edit"></i>
                          修改</button>
                  </c:if>
                     <button data-url="${ctx}/party/partyReward_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid2"
+                            data-grid-id="#jqGrid_reward"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
@@ -47,17 +47,17 @@ pageEncoding="UTF-8" %>
             </div>
 </shiro:hasPermission>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <table id="jqGrid_reward" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager2"></div>
 <script>
-    $("#jqGrid2").jqGrid({
+    $("#jqGrid_reward").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager2",
         url: '${ctx}/party/partyReward_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${cls==OW_PARTY_REPU_PARTY}">
-                { label: '分党委',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
+                { label: '${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
 
                         var party = _cMap.partyMap[cellvalue];
                         var _partyView = null;
@@ -90,6 +90,7 @@ pageEncoding="UTF-8" %>
                     },frozen:true},
             </c:if>
             <c:if test="${cls==OW_PARTY_REPU_MEMBER}">
+            { label: '学工号',name: 'user.code',frozen:true,width:120},
                 { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
                         return $.trim(cellvalue);
                     },frozen:true},

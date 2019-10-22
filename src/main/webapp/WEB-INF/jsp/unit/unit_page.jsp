@@ -40,6 +40,7 @@
                             </shiro:hasPermission>
 
                             <div class="btn-group">
+
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
                                         title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
@@ -57,6 +58,22 @@
                                            data-url="${ctx}/unit_data?export=2">
                                             <i class="fa fa-file-excel-o"></i> 导出单位列表</a>
                                     </li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button data-toggle="dropdown"
+                                        data-rel="tooltip" data-placement="top" data-html="true"
+                                        title="<div style='width:180px'>批量内设机构入口</div>"
+                                        class="btn btn-warning btn-sm dropdown-toggle tooltip-success">
+                                    <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                    <li>
+                                        <a href="javascript:;" class="popupBtn"
+                                           data-url="${ctx}/unit_batchSort?status=${status}">
+                                            <i class="fa fa-file-excel-o"></i> 批量排序</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
                                 </ul>
                             </div>
                                 <shiro:hasPermission name="unit:abolish">

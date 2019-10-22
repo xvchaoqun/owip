@@ -1,3 +1,6 @@
+
+-- 201910 李阳 党内奖惩、党内任职 三张视图创建
+
 -- 10.15 李阳
 
 replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩、党内任职', '', 'function', '', NULL, 260, '0/1/260/', 0, 'party:function', NULL, NULL, NULL, 1, NULL);
