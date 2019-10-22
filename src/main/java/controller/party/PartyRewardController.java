@@ -1,11 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.party.PartyReward;
-import domain.party.PartyRewardExample;
-import domain.party.PartyRewardExample.Criteria;
+import domain.party.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +31,32 @@ import java.util.*;
 public class PartyRewardController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("RePu:function")
+    @RequestMapping("/party/partyRePu_page")
+    public String partyReward_menu(Integer type,
+                                   Integer cls,
+                                   @RequestParam(defaultValue = "1")Integer clss,
+                                   Integer partyId,
+                                   Integer branchId,
+                                   Integer userId,
+                                   ModelMap modelMap){
+
+        Party party = partyMapper.selectByPrimaryKey(partyId);
+        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+        SysUserView user = new SysUserView();
+        if (userId != null) {
+            user = sysUserService.findById(userId);
+        }
+        modelMap.put("user", user);
+        modelMap.put("branch", branch);
+        modelMap.put("party", party);
+        cls = type;
+        modelMap.put("cls", cls);
+        modelMap.put("clss", clss);
+
+        return "/party/partyReward/partyRePu_page";
+    }
 
     @RequiresPermissions("partyReward:list")
     @RequestMapping("/party/partyReward")
@@ -72,6 +94,8 @@ public class PartyRewardController extends BaseController {
                                     Date rewardTime,
                                     Integer rewardType,
                                     String unit,
+                                 Integer userPartyId,
+                                 Byte type,
                                  @RequestParam(required = false, defaultValue = "1") Integer cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -85,13 +109,29 @@ public class PartyRewardController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartyRewardExample example = new PartyRewardExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        PartyRewardViewExample example = new PartyRewardViewExample();
+        PartyRewardViewExample.Criteria criteria = example.createCriteria();
+        if (type == 1){
+            example.setOrderByClause("party_sort_order desc");
+        }
+        if (type == 2){
+            example.setOrderByClause("branch_sort_order desc");
+        }
+        if (type == 3){
+            example.setOrderByClause("user_id asc");
+        }
 
+
+        modelMap.put("cls", cls);
 
         if (id!=null) {
             criteria.andIdEqualTo(id);
+        }
+        if (type != null){
+            criteria.andTypeEqualTo(type);
+        }
+        if (userPartyId != null){
+            criteria.andUserPartyIdEqualTo(userPartyId);
         }
 
         if (partyId!=null) {
@@ -120,12 +160,12 @@ public class PartyRewardController extends BaseController {
             return;
         }*/
 
-        long count = partyRewardMapper.countByExample(example);
+        long count = partyRewardViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyReward> records= partyRewardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PartyRewardView> records= partyRewardViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -200,19 +240,35 @@ public class PartyRewardController extends BaseController {
                                  ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        Party party = partyMapper.selectByPrimaryKey(partyId);
-        Branch branch = branchMapper.selectByPrimaryKey(branchId);
-        SysUserView user = new SysUserView();
-        if (userId != null) {
-            user = sysUserService.findById(userId);
+        PartyRewardView partyRewardView = new PartyRewardView();
+        if (partyId != null || branchId != null || userId != null) {
+            Party party = partyMapper.selectByPrimaryKey(partyId);
+            Branch branch = branchMapper.selectByPrimaryKey(branchId);
+            SysUserView user = new SysUserView();
+            if (userId != null) {
+                user = sysUserService.findById(userId);
+            }
+            modelMap.put("user", user);
+            modelMap.put("branch", branch);
+            modelMap.put("party", party);
+        }else if (id != null){
+            partyRewardView = partyRewardService.getById(id);
+            Party party = partyMapper.selectByPrimaryKey(partyRewardView.getPartyId());
+            if (partyRewardView.getBranchId() != null){
+                Party branchParty = partyMapper.selectByPrimaryKey(partyRewardView.getBranchPartyId());
+                modelMap.put("branchParty", branchParty);
+            }
+            Branch branch = branchMapper.selectByPrimaryKey(partyRewardView.getBranchId());
+            SysUserView user = new SysUserView();
+            if (partyRewardView.getUserId() != null) {
+                user = sysUserService.findById(partyRewardView.getUserId());
+            }
+            modelMap.put("user", user);
+            modelMap.put("branch", branch);
+            modelMap.put("party", party);
         }
-        modelMap.put("user", user);
-        modelMap.put("branch", branch);
-        modelMap.put("party", party);
-        if (id != null) {
-            PartyReward partyReward = partyRewardMapper.selectByPrimaryKey(id);
-            modelMap.put("partyReward", partyReward);
-        }
+        modelMap.put("partyReward", partyRewardView);
+
 
         return "party/partyReward/partyReward_au";
     }

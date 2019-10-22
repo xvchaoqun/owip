@@ -1,7 +1,6 @@
 package service.party;
 
-import domain.party.PartyPunish;
-import domain.party.PartyPunishExample;
+import domain.party.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +26,17 @@ public class PartyPunishService extends BaseMapper {
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return partyPunishMapper.countByExample(example) > 0;
+    }
+
+    public PartyPunishView getById(Integer id){
+        PartyPunishViewExample example = new PartyPunishViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<PartyPunishView> partyPunishViews = partyPunishViewMapper.selectByExample(example);
+        PartyPunishView record = new PartyPunishView();
+        if (partyPunishViews.size() > 0)
+            record=partyPunishViews.get(0);
+
+        return record;
     }
 
     @Transactional

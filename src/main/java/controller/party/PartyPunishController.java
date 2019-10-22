@@ -1,11 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.party.PartyPunish;
-import domain.party.PartyPunishExample;
-import domain.party.PartyPunishExample.Criteria;
+import domain.party.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,12 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -59,7 +61,8 @@ public class PartyPunishController extends BaseController {
                                     Date punishTime,
                                     Date endTime,
                                     String unit,
-                                
+                                    Byte type,
+                                 Integer userPartyId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -72,12 +75,26 @@ public class PartyPunishController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartyPunishExample example = new PartyPunishExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        PartyPunishViewExample example = new PartyPunishViewExample();
+        PartyPunishViewExample.Criteria criteria = example.createCriteria();
+        if (type == 1){
+            example.setOrderByClause("party_sort_order desc");
+        }
+        if (type == 2){
+            example.setOrderByClause("branch_sort_order desc");
+        }
+        if (type == 3){
+            example.setOrderByClause("user_id asc");
+        }
 
         if (id!=null) {
             criteria.andIdEqualTo(id);
+        }
+        if (type != null){
+            criteria.andTypeEqualTo(type);
+        }
+        if (userPartyId != null){
+            criteria.andUserPartyIdEqualTo(userPartyId);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -105,12 +122,12 @@ public class PartyPunishController extends BaseController {
             return;
         }*/
 
-        long count = partyPunishMapper.countByExample(example);
+        long count = partyPunishViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyPunish> records= partyPunishMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PartyPunishView> records= partyPunishViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -177,19 +194,34 @@ public class PartyPunishController extends BaseController {
                                  ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        Party party = partyMapper.selectByPrimaryKey(partyId);
-        Branch branch = branchMapper.selectByPrimaryKey(branchId);
-        SysUserView user = new SysUserView();
-        if (userId != null) {
-            user = sysUserService.findById(userId);
+        PartyPunishView partyPunishView = new PartyPunishView();
+        if (partyId != null || branchId != null || userId != null) {
+            Party party = partyMapper.selectByPrimaryKey(partyId);
+            Branch branch = branchMapper.selectByPrimaryKey(branchId);
+            SysUserView user = new SysUserView();
+            if (userId != null) {
+                user = sysUserService.findById(userId);
+            }
+            modelMap.put("user", user);
+            modelMap.put("branch", branch);
+            modelMap.put("party", party);
+        }else if (id != null){
+            partyPunishView = partyPunishService.getById(id);
+            Party party = partyMapper.selectByPrimaryKey(partyPunishView.getPartyId());
+            if (partyPunishView.getBranchId() != null){
+                Party branchParty = partyMapper.selectByPrimaryKey(partyPunishView.getBranchPartyId());
+                modelMap.put("branchParty", branchParty);
+            }
+            Branch branch = branchMapper.selectByPrimaryKey(partyPunishView.getBranchId());
+            SysUserView user = new SysUserView();
+            if (partyPunishView.getUserId() != null) {
+                user = sysUserService.findById(partyPunishView.getUserId());
+            }
+            modelMap.put("user", user);
+            modelMap.put("branch", branch);
+            modelMap.put("party", party);
         }
-        modelMap.put("user", user);
-        modelMap.put("branch", branch);
-        modelMap.put("party", party);
-        if (id != null) {
-            PartyPunish partyPunish = partyPunishMapper.selectByPrimaryKey(id);
-            modelMap.put("partyPunish", partyPunish);
-        }
+        modelMap.put("partyPunish", partyPunishView);
         return "party/partyPunish/partyPunish_au";
     }
 

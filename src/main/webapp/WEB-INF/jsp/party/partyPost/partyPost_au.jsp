@@ -8,13 +8,26 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party/partyPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${partyPost.id}">
-		<input type="hidden" name="userId" value="${user.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属党员</label>
+		<div class="form-group">
+			<c:if test="${user!=null}">
+				<label class="col-xs-3 control-label">党员姓名</label>
 				<div class="col-xs-6 label-text">
-					${user.realname}
+					<input type="hidden" name="userId" value="${user.id}">
+						${user.realname}
 				</div>
-			</div>
+			</c:if>
+			<c:if test="${user==null}">
+				<label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
+				<div class="col-xs-6">
+					<select required class="form-control" data-rel="select2-ajax"
+							data-ajax-url="${ctx}/member_selects"
+							name="userId" data-width="270"
+							data-placeholder="请输入账号或姓名或学工号">
+						<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+					</select>
+				</div>
+			</c:if>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 开始日期</label>
 				<div class="col-xs-6">
@@ -66,7 +79,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        $("#jqGrid_post").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

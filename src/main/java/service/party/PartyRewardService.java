@@ -1,7 +1,6 @@
 package service.party;
 
-import domain.party.PartyReward;
-import domain.party.PartyRewardExample;
+import domain.party.*;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,17 @@ public class PartyRewardService extends BaseMapper {
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return partyRewardMapper.countByExample(example) > 0;
+    }
+
+    public PartyRewardView getById(Integer id){
+        PartyRewardViewExample example = new PartyRewardViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<PartyRewardView> partyRewardViews = partyRewardViewMapper.selectByExample(example);
+        PartyRewardView record = new PartyRewardView();
+        if (partyRewardViews.size() > 0)
+            record=partyRewardViews.get(0);
+
+        return record;
     }
 
     @Transactional
