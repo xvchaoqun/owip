@@ -83,7 +83,7 @@ public class XmlTest {
 
         String resume = getNodeText(doc, "//Person/JianLi");
 
-        List<ResumeRow> resumeRows = CadreUtils.parseResume(resume);
+        List<ResumeRow> resumeRows = CadreUtils.parseResume(resume, null);
         for (ResumeRow resumeRow : resumeRows) {
             System.out.println(resumeRow);
         }

@@ -1,6 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.dispatch.DispatchUnit;
 import domain.dispatch.DispatchUnitView;
@@ -165,6 +166,10 @@ public class UnitController extends BaseController {
                 criteria.andIdIn(Arrays.asList(ids));
 
             unit_export(example, response);
+            return;
+        }else if (export == 3){
+            //批量排序表
+            unit_sort_export(status, response);
             return;
         }
 
@@ -525,6 +530,73 @@ public class UnitController extends BaseController {
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
         return resultMap;
+    }
+
+    @RequiresPermissions("unit:edit")
+    @RequestMapping("/unit_batchSort")
+    public String unit_batchSort(byte status, ModelMap modelMap){
+        modelMap.put("status", status);
+
+        return "unit/unit_batchSort";
+    }
+
+    @RequiresPermissions("unit:edit")
+    @RequestMapping(value = "/unit_batchSort", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unit_batchSort(byte status, HttpServletRequest request) throws InvalidFormatException, IOException{
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<Integer> unitList = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows){
+            row++;
+            String unitCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(unitCode)) {
+                throw new OpException("第{0}行单位编码为空", row);
+            }
+            Unit unit = unitService.findUnitByCode(unitCode);
+            if (unit == null){
+                throw new OpException("第{0}行单位[{1}]不存在", row, unit.getName());
+            }
+            unitList.add(unit.getId());
+        }
+
+        unitService.unit_batchSort(status, unitList);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        return resultMap;
+    }
+
+    @RequiresPermissions("unit:edit")
+    @RequestMapping("/unit_sort_export")
+    public void unit_sort_export(byte status, HttpServletResponse response){
+
+        UnitViewExample example = new UnitViewExample();
+        example.createCriteria().andStatusEqualTo(status);
+        example.setOrderByClause("sort_order desc");
+        List<UnitView> records = unitViewMapper.selectByExample(example);
+
+        int rownum = records.size();
+        String[] titles = {"单位编号|120","单位名称|220","单位类型|150"};
+        List<String[]> valueList = new ArrayList<>();
+        for (int i = 0; i< rownum; i++){
+            UnitView unitView = records.get(i);
+            String[] values = {
+                    unitView.getCode(),
+                    unitView.getName(),
+                    metaTypeService.getName(unitView.getTypeId()),
+            };
+            valueList.add(values);
+        }
+        String fileName = String.format("正在运转单位批量排序表");
+        ExportHelper.export(titles, valueList, fileName, response);
     }
 
 }

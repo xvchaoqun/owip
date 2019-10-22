@@ -809,7 +809,7 @@ public class CadreAdformService extends BaseMapper {
         ui.setResume(resume);
         if (importResume) {
             // 导入简历部分
-            importResume(cadreId, resume);
+            importResume(cadreId, resume, realname);
         }
 
         sysUserInfoMapper.updateByPrimaryKeySelective(ui);
@@ -943,9 +943,9 @@ public class CadreAdformService extends BaseMapper {
      * @param cadreId
      * @param resume  中组部任免审批表简历内容
      */
-    private void importResume(int cadreId, String resume) {
+    private void importResume(int cadreId, String resume, String realname) {
 
-        List<ResumeRow> resumeRows = CadreUtils.parseResume(resume);
+        List<ResumeRow> resumeRows = CadreUtils.parseResume(resume, realname);
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         // <row, 主要工作经历或学习经历的ID> 辅助数组，用于其间工作
         Map<Integer, Integer> fidMap = new HashMap<>();
