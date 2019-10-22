@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.party.PartyRewardViewMapper">
+  <resultMap id="BaseResultMap" type="domain.party.PartyRewardView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="reward_time" jdbcType="DATE" property="rewardTime" />
+    <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="proof" jdbcType="VARCHAR" property="proof" />
+    <result column="proof_filename" jdbcType="VARCHAR" property="proofFilename" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
+    <result column="branch_sort_order" jdbcType="INTEGER" property="branchSortOrder" />
+    <result column="branch_party_id" jdbcType="INTEGER" property="branchPartyId" />
+    <result column="user_party_id" jdbcType="INTEGER" property="userPartyId" />
+    <result column="user_branch_id" jdbcType="INTEGER" property="userBranchId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, party_id, branch_id, user_id, reward_time, reward_type, name, unit, proof, 
+    proof_filename, remark, sort_order, party_sort_order, branch_sort_order, branch_party_id, 
+    user_party_id, user_branch_id
+  </sql>
+  <select id="selectByExample" parameterType="domain.party.PartyRewardViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_party_reward_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="domain.party.PartyRewardViewExample">
+    delete from ow_party_reward_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.party.PartyRewardView">
+    insert into ow_party_reward_view (id, type, party_id, 
+      branch_id, user_id, reward_time, 
+      reward_type, name, unit, 
+      proof, proof_filename, remark, 
+      sort_order, party_sort_order, branch_sort_order, 
+      branch_party_id, user_party_id, user_branch_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{rewardTime,jdbcType=DATE}, 
+      #{rewardType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{proof,jdbcType=VARCHAR}, #{proofFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{partySortOrder,jdbcType=INTEGER}, #{branchSortOrder,jdbcType=INTEGER}, 
+      #{branchPartyId,jdbcType=INTEGER}, #{userPartyId,jdbcType=INTEGER}, #{userBranchId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.party.PartyRewardView">
+    insert into ow_party_reward_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="rewardTime != null">
+        reward_time,
+      </if>
+      <if test="rewardType != null">
+        reward_type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="proof != null">
+        proof,
+      </if>
+      <if test="proofFilename != null">
+        proof_filename,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="partySortOrder != null">
+        party_sort_order,
+      </if>
+      <if test="branchSortOrder != null">
+        branch_sort_order,
+      </if>
+      <if test="branchPartyId != null">
+        branch_party_id,
+      </if>
+      <if test="userPartyId != null">
+        user_party_id,
+      </if>
+      <if test="userBranchId != null">
+        user_branch_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="rewardTime != null">
+        #{rewardTime,jdbcType=DATE},
+      </if>
+      <if test="rewardType != null">
+        #{rewardType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="proof != null">
+        #{proof,jdbcType=VARCHAR},
+      </if>
+      <if test="proofFilename != null">
+        #{proofFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="partySortOrder != null">
+        #{partySortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="branchSortOrder != null">
+        #{branchSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="branchPartyId != null">
+        #{branchPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="userPartyId != null">
+        #{userPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="userBranchId != null">
+        #{userBranchId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.party.PartyRewardViewExample" resultType="java.lang.Long">
+    select count(*) from ow_party_reward_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ow_party_reward_view
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rewardTime != null">
+        reward_time = #{record.rewardTime,jdbcType=DATE},
+      </if>
+      <if test="record.rewardType != null">
+        reward_type = #{record.rewardType,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proof != null">
+        proof = #{record.proof,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proofFilename != null">
+        proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.partySortOrder != null">
+        party_sort_order = #{record.partySortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchSortOrder != null">
+        branch_sort_order = #{record.branchSortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchPartyId != null">
+        branch_party_id = #{record.branchPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userPartyId != null">
+        user_party_id = #{record.userPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userBranchId != null">
+        user_branch_id = #{record.userBranchId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ow_party_reward_view
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      reward_time = #{record.rewardTime,jdbcType=DATE},
+      reward_type = #{record.rewardType,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      proof = #{record.proof,jdbcType=VARCHAR},
+      proof_filename = #{record.proofFilename,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      party_sort_order = #{record.partySortOrder,jdbcType=INTEGER},
+      branch_sort_order = #{record.branchSortOrder,jdbcType=INTEGER},
+      branch_party_id = #{record.branchPartyId,jdbcType=INTEGER},
+      user_party_id = #{record.userPartyId,jdbcType=INTEGER},
+      user_branch_id = #{record.userBranchId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.party.PartyRewardViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ow_party_reward_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -13,9 +13,6 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party/partyReward_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${partyReward.id}">
-		<input type="hidden" name="partyId" value="${party.id}">
-        <input type="hidden" name="branchId" value="${branch.id}">
-        <input type="hidden" name="userId" value="${user.id}">
 		<c:if test="${cls==OW_PARTY_REPU_PARTY}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">类型</label>
@@ -28,10 +25,23 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">分党委名称</label>
+				<c:if test="${party!=null}">
+				<label class="col-xs-3 control-label">${_p_partyName}名称</label>
 				<div class="col-xs-6 label-text">
+					<input type="hidden" name="partyId" value="${party.id}">
 					${party.name}
 				</div>
+				</c:if>
+				<c:if test="${party==null}">
+				<label class="col-xs-3 control-label"><span class="star">*</span>${_p_partyName}名称</label>
+				<div class="col-xs-6">
+					<select required class="form-control" data-rel="select2-ajax"
+							data-ajax-url="${ctx}/party_selects?auth=1"
+							name="partyId" data-placeholder="请选择" data-width="270">
+						<option value="${party.id}">${party.name}</option>
+					</select>
+				</div>
+				</c:if>
 			</div>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_BRANCH}">
@@ -45,12 +55,111 @@ pageEncoding="UTF-8"%>
 					</c:forEach>
 				</div>
 			</div>
-			<div class="form-group">
+				<c:if test="${branch!=null}">
+					<div class="form-group">
+					<label class="col-xs-3 control-label">${_p_partyName}名称</label>
+					<div class="col-xs-6 label-text">
+						<input type="hidden" name="branchPartyId" value="${branchParty.id}">
+							${branchParty.name}
+					</div>
+					</div>
+				<div class="form-group">
 				<label class="col-xs-3 control-label">党支部名称</label>
 				<div class="col-xs-6 label-text">
+					<input type="hidden" name="branchId" value="${branch.id}">
                     ${branch.name}
 				</div>
-			</div>
+				</div>
+				</c:if>
+				<c:if test="${branch==null}">
+					<div class="form-group">
+						<label class="col-xs-3 control-label"><span class="star">*</span>所属${_p_partyName}</label>
+						<div class="col-xs-6">
+							<select required class="form-control" data-rel="select2-ajax"
+									data-ajax-url="${ctx}/party_selects?auth=1"
+									name="branchPartyId" data-placeholder="请选择" data-width="270">
+								<option value="${branchParty.id}">${branchParty.name}</option>
+							</select>
+						</div>
+					</div>
+				<div class="form-group" id="branchDiv">
+				<label class="col-xs-3 control-label"><span class="star">*</span>党支部名称</label>
+				<div class="col-xs-6">
+					<select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
+							name="branchId" data-placeholder="请选择" data-width="270">
+						<option value="${branch.id}">${branch.name}</option>
+					</select>
+				</div>
+				</div>
+					<script>
+
+						function func($container, branchDivId, mt_direct_branch_id,
+								  init_party_id, init_party_class, partyId, branchId, branchIsNotEmpty){
+
+							var $container = $("#modalForm");
+							var branchDivId = "branchDiv";
+							var mt_direct_branch_id = '${cm:getMetaTypeByCode("mt_direct_branch").id}';
+							partyId = partyId || "branchPartyId";
+							branchId = branchId || "branchId";
+							$('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
+								templateResult: function (state) {
+									//console.log("-----------")
+									return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
+								},
+								templateSelection: function (state) {
+									//console.log($(state.element).attr('delete'))
+									return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", state.text);
+								},
+								escapeMarkup: function (markup) {
+									return markup;
+								},
+								ajax: {
+									dataType: 'json',
+									delay: 300,
+									data: function (params) {
+										return {
+											searchStr: params.term,
+											pageSize: 10,
+											pageNo: params.page,
+											partyId: $('select[name=' + partyId + ']', $container).val()
+										};
+									},
+									processResults: function (data, params) {
+										params.page = params.page || 1;
+										return {
+											results: data.options, pagination: {
+												more: (params.page * 10) < data.totalCount
+											}
+										};
+									},
+									cache: true
+								}
+							});
+							$('select[name=' + partyId + ']', $container).on("change", function () {
+
+								$("#" + branchDivId + " select", $container).removeAttr("required");
+
+								var partyOption = $(this).select2("data")[0];
+								var $party_class = (partyOption ? $(this).select2("data")[0]['class'] : null) || init_party_class;
+								//alert("${party.id}")
+								if ($(this).val() != init_party_id)
+									$('select[name=' + branchId + ']', $container).val(null).trigger("change");
+								if ($(this).val() > 0 && $party_class != mt_direct_branch_id) {
+									$("#" + branchDivId, $container).show();
+									if (branchIsNotEmpty != undefined && branchIsNotEmpty)
+										$("#" + branchDivId + " select", $container).attr("required", "required");
+								} else {
+									$('select[name=' + branchId + ']', $container).val(null).trigger("change");
+									$("#" + branchDivId, $container).hide();
+								}
+							}).change();
+							$('select[name=' + partyId + ']', $container).on("select2:unselect", function () {
+								$('select[name=' + branchId + ']', $container).val(null).trigger("change");
+								$("#" + branchDivId, $container).hide();
+							})
+						};
+					</script>
+				</c:if>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_MEMBER}">
 			<div class="form-group">
@@ -64,10 +173,24 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<c:if test="${user!=null}">
 				<label class="col-xs-3 control-label">党员姓名</label>
 				<div class="col-xs-6 label-text">
+					<input type="hidden" name="userId" value="${user.id}">
                      ${user.realname}
 				</div>
+				</c:if>
+				<c:if test="${user==null}">
+				<label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
+				<div class="col-xs-6">
+				<select required class="form-control" data-rel="select2-ajax"
+																			   data-ajax-url="${ctx}/member_selects"
+																			   name="userId" data-width="270"
+																			   data-placeholder="请输入账号或姓名或学工号">
+					<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+				</select>
+				</div>
+				</c:if>
 			</div>
 		</c:if>
 			<div class="form-group">
@@ -119,12 +242,6 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖证书文件名</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="proofFilename" value="${partyReward.proofFilename}">
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
                         <input class="form-control" type="text" name="remark" value="${partyReward.remark}">
@@ -147,8 +264,8 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
-                    }2
+                        $("#jqGrid_reward").trigger("reloadGrid");
+                    }
                     $btn.button('reset');
                 }
             });
