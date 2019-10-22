@@ -72,7 +72,7 @@
       "showColumns": "type,party_id,pub_date,party_name,email,phone,mailbox,user_id,is_publish",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_PARTY",
-      "ignore": false
+      "ignore": true
     },{
       "table": "party_public_user",
       "key": "id",
@@ -80,7 +80,7 @@
       "showColumns": "public_id,user_id,party_id,branch_id,party_name,branch_name",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_PARTY",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "organizer_group",
@@ -89,13 +89,31 @@
       "showColumns": "year,start_sn,end_sn,remark",
       "excludeEditColumns": "id,sort_order",
       "logType":"LogConstants.LOG_PARTY",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "organizer",
       "key": "id",
       "searchColumns": "year,type,status,user_id,party_id",
       "showColumns": "year,type,user_id,party_id,units,appoint_date,dismiss_date,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": true
+    },
+    {
+      "table": "branch_group",
+      "key": "id",
+      "searchColumns": "name,user_id",
+      "showColumns": "name,branch_id,user_id,create_date",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_PARTY",
+      "ignore": false
+    },
+    {
+      "table": "branch_group_member",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "group_id,user_id,is_leader,",
       "excludeEditColumns": "id,sort_order",
       "logType":"LogConstants.LOG_PARTY",
       "ignore": false

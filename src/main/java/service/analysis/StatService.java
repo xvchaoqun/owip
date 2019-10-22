@@ -109,4 +109,55 @@ public class StatService extends BaseMapper{
 
         return ageMap;
     }
+
+    //统计支部类型
+    public Map branchTypeMap(){
+
+        Map<Integer,Integer> branchTypeMap = new HashMap();
+        List<String> branchTypes = statMemberMapper.getBranchTypes();
+        for (String branchType : branchTypes){
+
+            for (String type : branchType.split(",")){
+
+                Integer key = Integer.parseInt(type);
+                Integer value = branchTypeMap.get(key);
+
+                if (value == null){
+
+                    branchTypeMap.put(key,1);
+                }else {
+
+                    branchTypeMap.put(key,value+1);
+                }
+            }
+        }
+        return branchTypeMap;
+    }
+
+    //党员其他类型统计 1.性别 2.民族
+    public Map otherMap(Integer type){
+
+        Map otherMap = new LinkedHashMap();
+        if (type == 1){
+            List<StatIntBean> others = statMemberMapper.member_countGroupByGender();
+
+            for (StatIntBean other : others){
+
+                if (other.getGroupBy()==null){
+                    otherMap.put("无数据",other.getNum());
+                }else if (other.getGroupBy()==1){
+                    otherMap.put("男",other.getNum());
+                }else {
+                    otherMap.put("女",other.getNum());
+                }
+            }
+        }if (type == 2){
+
+            otherMap.put("汉族",statMemberMapper.countHan());
+            otherMap.put("少数民族",statMemberMapper.countMinority());
+            otherMap.put("无数据",statMemberMapper.countNull());
+        }
+
+        return otherMap;
+    }
 }

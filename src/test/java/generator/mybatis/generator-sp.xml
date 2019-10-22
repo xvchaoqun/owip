@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="spring.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--八类代表-->
+         <table tableName="sp_cg" domainObjectName="sp.SpCg" mapperName="sp.SpCgMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+
+         <table tableName="sp_dp" domainObjectName="sp.SpDp" mapperName="sp.SpDpMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="sp_npc" domainObjectName="sp.SpNpc" mapperName="sp.SpNpcMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+          <table tableName="sp_retire" domainObjectName="sp.SpRetire" mapperName="sp.SpRetireMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+
+        <table tableName="sp_talent" domainObjectName="sp.SpTalent" mapperName="sp.SpTalentMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <table tableName="sp_teach" domainObjectName="sp.SpTeach" mapperName="sp.SpTeachMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

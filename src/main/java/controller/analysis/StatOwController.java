@@ -41,8 +41,12 @@ public class StatOwController extends BaseController {
 
     // 党员数量统计
     @RequestMapping("/stat_member_count")
-    public String stat_member_count(Integer partyId, Integer branchId, ModelMap modelMap) {
+    public String stat_member_count(Integer type,Integer partyId, Integer branchId, ModelMap modelMap) {
 
+        if (type != null){
+            modelMap.put("otherMap",statService.otherMap(type));
+        }
+        modelMap.put("type",type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
         modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
         modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
@@ -90,5 +94,15 @@ public class StatOwController extends BaseController {
         modelMap.put("teachers",teachers);
         modelMap.put("students",students);
         return "analysis/ow/stat_member_party";
+    }
+
+    //支部类型统计
+    @RequestMapping("/stat_branch_type")
+    public String stat_branch_type(ModelMap modelMap){
+
+        modelMap.put("metaTypes",CmTag.getMetaTypes("mc_branch_type"));
+        modelMap.put("branchTypeMap",statService.branchTypeMap());
+
+        return "analysis/ow/stat_branch_type";
     }
 }

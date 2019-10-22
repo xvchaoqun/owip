@@ -77,7 +77,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-base.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-abroad.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-unit.json";
-
+        //String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-sp.json";
 		excute(pathname);
 	}
 

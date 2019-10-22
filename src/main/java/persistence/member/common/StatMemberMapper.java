@@ -3,6 +3,7 @@ package persistence.member.common;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,4 +35,21 @@ public interface StatMemberMapper {
 
     // 统计分党委下各党支部党员人数
     List<StatIntBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
+
+    //统计支部类型
+    @Select("select types from ow_branch where is_deleted = 0")
+    List<String> getBranchTypes();
+
+    // 按性别统计党员人数
+    List<StatIntBean> member_countGroupByGender();
+
+    // 统计党员中汉族的人数
+    @Select("select count(*) from ow_member_view where status=1 and nation like '汉%'")
+    Integer countHan();
+
+    @Select("select count(*) from ow_member_view where status=1 and nation not like '汉%' and nation is not null")
+    Integer countMinority();
+
+    @Select("select count(*) from ow_member_view where status=1 and nation is null")
+    Integer countNull();
 }

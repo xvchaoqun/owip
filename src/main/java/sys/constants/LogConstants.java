@@ -48,6 +48,7 @@ public class LogConstants {
     public static final int LOG_DPPARTY= 521; //民主党派党建
     public static final int LOG_DPMEMBER = 525;//民主党派成员信息
     public static final int LOG_CG = 550; // 委员会和领导小组
+    public static final int LOG_SP = 560;//八类代表
 
     public final static Map<Integer, String> LOG_MAP = new LinkedHashMap<>();
     static {
@@ -94,5 +95,7 @@ public class LogConstants {
         LOG_MAP.put(LOG_DPPARTY, "民主党派党建");
         LOG_MAP.put(LOG_DPMEMBER, "民主党派成员");
         LOG_MAP.put(LOG_CG, "委员会和领导小组");
+
+        LOG_MAP.put(LOG_SP,"八类代表");
     }
 }
