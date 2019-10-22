@@ -879,7 +879,7 @@ public class PmdMonthService extends PmdBaseMapper {
         return root;
     }
 
-    @Transactional
+    /*@Transactional
     public void del(Integer id) {
 
         pmdMonthMapper.deleteByPrimaryKey(id);
@@ -893,7 +893,7 @@ public class PmdMonthService extends PmdBaseMapper {
         PmdMonthExample example = new PmdMonthExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pmdMonthMapper.deleteByExample(example);
-    }
+    }*/
 
     @Transactional
     public int updateByPrimaryKeySelective(PmdMonth record) {

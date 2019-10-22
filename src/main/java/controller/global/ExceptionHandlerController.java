@@ -101,17 +101,17 @@ public class ExceptionHandlerController {
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         String msg = "数据请求错误，请稍后重试";
-        if (ex instanceof FileNotFoundException) {
-            msg = "文件不存在";
-        } else if (ex instanceof OpException) {
+        if (ex instanceof OpException) {
             msg = ex.getMessage();
-        } else if (ex instanceof HttpRequestMethodNotSupportedException) {
-
-            ModelAndView mv = new ModelAndView();
-            mv.setViewName("404");
-            return mv;
-        } else {
+        }else{
             logger.error(getMsg(request, ex), ex);
+            if (ex instanceof FileNotFoundException) {
+                msg = "文件不存在";
+            } else if (ex instanceof HttpRequestMethodNotSupportedException) {
+                ModelAndView mv = new ModelAndView();
+                mv.setViewName("404");
+                return mv;
+            }
         }
 
         //logger.error("异常", ex);

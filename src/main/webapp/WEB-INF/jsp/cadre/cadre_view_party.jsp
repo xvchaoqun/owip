@@ -66,6 +66,21 @@
                            data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="partyPost:list">
+                    <li>
+                        <a href="javascript:;" data-url="${ctx}/party/partyPost?userId=${cadre.userId}">党内任职经历</a>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="partyReward:list">
+                    <li>
+                        <a href="javascript:;" data-url="${ctx}/party/partyReward?userId=${cadre.userId}&type=3">党内奖励</a>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="partyPunish:list">
+                    <li>
+                        <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${cadre.userId}&type=3">党内惩罚</a>
+                    </li>
+                </shiro:hasPermission>
             </ul>
 
         </div>

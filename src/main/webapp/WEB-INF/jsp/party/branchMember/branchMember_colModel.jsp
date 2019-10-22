@@ -9,7 +9,21 @@
 
                     //var str = '<span class="label label-sm label-primary " style="display: inline!important;"> 管理员</span>&nbsp;';
                     var str = '<i class="fa fa-user-circle-o purple" title="管理员"></i> ';
-                    return (rowObject.isAdmin?str:'')+ cellvalue;
+                    <shiro:lacksPermission name="partyMember:archive">
+                        return (rowObject.isAdmin?str:'')+ cellvalue;
+                    </shiro:lacksPermission>
+                    <shiro:hasPermission name="partyMember:archive">
+                    if(rowObject.cadre==undefined)
+                        return (rowObject.isAdmin?str:'')+ cellvalue;
+
+                    var params = {params:'cls=2'};
+                    <c:if test="${empty param.isHistory}">
+                    params.loadId = 'body-content-view2';
+                    params.hideId = 'body-content-view';
+                    </c:if>
+                    return (rowObject.isAdmin?str:'')+ $.cadre(rowObject.cadre.id, cellvalue, params);
+                    </shiro:hasPermission>
+
                 }, frozen: true
             },
             <c:if test="${empty param.isHistory}">

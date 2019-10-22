@@ -13,8 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.*;
@@ -201,9 +201,14 @@ public class FileController extends BaseController {
 
     // 手写签名
     @RequestMapping("/sign")
-    public void sign(@CurrentUser SysUserView loginUser, HttpServletResponse response) throws IOException {
+    public void sign(Integer userId, HttpServletResponse response) throws IOException {
 
-        ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + loginUser.getSign()), response);
+        if(userId==null || ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN)){
+            userId = ShiroHelper.getCurrentUserId();
+        }
+        SysUserView uv = CmTag.getUserById(userId);
+
+        ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + uv.getSign()), response);
     }
 
     //二维码

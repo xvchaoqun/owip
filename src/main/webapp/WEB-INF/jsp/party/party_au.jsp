@@ -155,7 +155,7 @@
                     <label class="col-xs-6 control-label">评选培育创建单位时间</label>
                     <div class="col-xs-6" style="width: 180px">
                         <div class="input-group date" data-date-format="yyyy.mm.dd">
-                            <input required class="form-control date-picker" name="pycjDate" type="text"
+                            <input class="form-control date-picker" name="pycjDate" type="text"
                                    placeholder="yyyy.mm.dd"
                                    value="${cm:formatDate(party.pycjDate,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -173,7 +173,7 @@
                     <label class="col-xs-6 control-label">评选标杆院系时间</label>
                     <div class="col-xs-6" style="width: 180px">
                         <div class="input-group date" data-date-format="yyyy.mm.dd">
-                            <input required class="form-control date-picker" name="bgDate" type="text"
+                            <input class="form-control date-picker" name="bgDate" type="text"
                                    placeholder="yyyy.mm.dd"
                                    value="${cm:formatDate(party.bgDate,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

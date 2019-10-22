@@ -471,7 +471,7 @@ public class MemberOutController extends MemberBaseController {
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
                                MemberOut record, String _payTime,
-                               Boolean reapply,
+                               Boolean reapply, //  添加或 重新申请 时传入 true
                                String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
@@ -501,10 +501,16 @@ public class MemberOutController extends MemberBaseController {
         Integer id = record.getId();
         if(id==null) {
             MemberOut memberOut = memberOutService.getLatest(record.getUserId());
-            if (memberOut != null
-                    && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
-                return failed(String.format("存在未完成审批的记录（状态：%s）",
-                        MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus())));
+            if (memberOut != null) {
+                if(memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY){
+                    // 保证打回或撤销的，可以重新提交
+                    id = memberOut.getId();
+                    record.setId(id);
+                }else if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_APPLY
+                        && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+                    return failed(String.format("存在未完成审批的记录（状态：%s）",
+                            MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus())));
+                }
             }
         }
 

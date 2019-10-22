@@ -16,3 +16,8 @@ select * from licdc_zg.v_jzg_rs_jzg_jbxx where zgh in('11312015250', '1111201504
 select count(*) from licdc_zg.v_bks_xjjbsjxx t
 
 select xh from licdc_zg.v_bks_xjjbsjxx group by xh having count(*)>1;
+
+
+##### 测试系统
+http://219.224.31.45/
+（219.224.31.45 -> 219.224.21.144（师大组织部））

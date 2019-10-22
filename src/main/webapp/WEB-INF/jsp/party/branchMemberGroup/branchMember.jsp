@@ -116,7 +116,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
-<jsp:include page="../branchMember/branchMember_colModel.jsp"/>
+<jsp:include page="../branchMember/branchMember_colModel.jsp?isHistory=${empty param.isHistory?0:param.isHistory}"/>
 <script>
     $(".typeCheckbox").click(function () {
         if($(this).hasClass("checked")) return;

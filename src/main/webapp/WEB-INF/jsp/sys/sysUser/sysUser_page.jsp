@@ -18,15 +18,15 @@
                         <a class="editBtn btn btn-info btn-sm">
                             <i class="fa fa-plus"></i> 添加账号
                         </a>
-                        <button class="jqEditBtn btn btn-primary btn-sm">
-                            <i class="fa fa-edit"></i> 修改账号
+                        <button class="jqEditBtn btn btn-default btn-sm">
+                            <i class="fa fa-edit"></i> 修改账号信息
                         </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="sysUser:editInfo">
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/sysUserInfo_au"
                                 data-open-by="page" data-id-name="userId">
-                            <i class="fa fa-info-circle"></i> 修改基本信息
+                            <i class="fa fa-info-circle"></i> 修改人员信息
                         </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="sysUser:del">

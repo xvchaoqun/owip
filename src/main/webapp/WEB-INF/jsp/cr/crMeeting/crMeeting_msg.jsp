@@ -41,18 +41,16 @@
                         <th>姓名</th>
                         <th>手机号码</th>
                         <th>第一志愿</th>
-                        <th>第二志愿</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${crApplicants}" var="crApplicant">
                         <c:set var="sysUser" value="${crApplicant.user}"/>
                         <tr>
-                            <td>${sysUser.code}</td>
-                            <td>${sysUser.realname}</td>
-                            <td>${sysUser.mobile}</td>
+                            <td nowrap>${sysUser.code}</td>
+                            <td nowrap>${sysUser.realname}</td>
+                            <td nowrap>${sysUser.mobile}</td>
                             <td>${postMap.get(crApplicant.firstPostId).name}</td>
-                            <td>${postMap.get(crApplicant.secondPostId).name}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

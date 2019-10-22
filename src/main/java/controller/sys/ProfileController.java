@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,6 @@ import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,18 +37,6 @@ public class ProfileController extends BaseController {
     public Map do_profile_sign(@CurrentUser SysUserView loginUser, String mobile, String phone,
                                      MultipartFile sign) throws IOException {
 
-        String savePath = null;
-        if (sign != null && !sign.isEmpty()) {
-            savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR + loginUser.getId()+".png";
-
-            FileUtils.mkdirs(springProps.uploadPath + savePath);
-            Thumbnails.of(sign.getInputStream())
-                    .size(750, 500)
-                    //.outputFormat("png")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + savePath);
-        }
-
         if (StringUtils.isBlank(phone)) {
             return failed("请填写办公电话");
         }
@@ -62,7 +48,7 @@ public class ProfileController extends BaseController {
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(loginUser.getId());
-        record.setSign(savePath);
+        record.setSign(sysUserService.uploadSign(loginUser.getUserId(), sign));
         record.setMobile(mobile);
         record.setPhone(phone);
 

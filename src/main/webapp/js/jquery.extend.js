@@ -1063,7 +1063,7 @@ var _modal_width;
                     } else {
                         $show.show(0, function () {
                             //$(window).resize(); // 解决jqgrid不显示的问题
-                            $(".jqGrid").jqGrid('resizeGrid')
+                            $(".jqGrid").trigger("reloadGrid").jqGrid('resizeGrid')
                         });
                     }
                 });

@@ -124,11 +124,13 @@ public class MemberConstants {
     public final static byte MEMBER_QUIT_TYPE_SELF = 1;
     public final static byte MEMBER_QUIT_TYPE_DISMISS = 2;
     public final static byte MEMBER_QUIT_TYPE_WITHGOD = 3;
+    public final static byte MEMBER_QUIT_TYPE_DENY = 4;
     public final static Map<Byte, String> MEMBER_QUIT_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         MEMBER_QUIT_TYPE_MAP.put(MEMBER_QUIT_TYPE_SELF, "自动退党");
         MEMBER_QUIT_TYPE_MAP.put(MEMBER_QUIT_TYPE_DISMISS, "开除党籍");
+        MEMBER_QUIT_TYPE_MAP.put(MEMBER_QUIT_TYPE_DENY, "不予承认党员身份");
         MEMBER_QUIT_TYPE_MAP.put(MEMBER_QUIT_TYPE_WITHGOD, "党员去世");
     }
 

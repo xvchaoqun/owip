@@ -3,6 +3,7 @@ package service.cadre;
 import bean.CadreInfoForm;
 import bean.ResumeRow;
 import controller.global.OpException;
+import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
 import domain.sys.*;
@@ -832,9 +833,18 @@ public class CadreAdformService extends BaseMapper {
 
         List<Node> nodeList = doc.selectNodes("//Person/JiaTingChengYuan/Item");
 
+        MetaClass mcFamilyTitle = CmTag.getMetaClassByCode("mc_family_title");
         for (Node node : nodeList) {
             String _title = XmlUtils.getChildNodeText(node, "ChengWei");
             MetaType familyTitle = CmTag.getMetaTypeByName("mc_family_title", _title);
+            // 不存在的称谓，则创建一个新的元数据类型
+            if(familyTitle==null && StringUtils.isNotBlank(_title)){
+                familyTitle = new MetaType();
+                familyTitle.setClassId(mcFamilyTitle.getId());
+                familyTitle.setCode(metaTypeService.genCode());
+                familyTitle.setName(_title);
+                metaTypeService.insertSelective(familyTitle);
+            }
 
             CadreFamily cf = new CadreFamily();
             cf.setCadreId(cadreId);

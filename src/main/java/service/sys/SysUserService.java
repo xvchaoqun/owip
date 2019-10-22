@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import service.abroad.ApplySelfService;
@@ -26,7 +28,9 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -38,6 +42,24 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private CacheHelper cacheHelper;
+
+    public String uploadSign(int userId, MultipartFile sign) throws IOException {
+
+        if (sign == null || sign.isEmpty()) {
+            return null;
+        }
+
+        String savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR + userId + ".png";
+
+        FileUtils.mkdirs(springProps.uploadPath + savePath);
+        Thumbnails.of(sign.getInputStream())
+                .size(750, 500)
+                //.outputFormat("png")
+                .outputQuality(1.0f)
+                .toFile(springProps.uploadPath + savePath);
+
+        return savePath;
+    }
 
     @Transactional
     public void changeRoleGuestToMember(int userId) {
@@ -56,7 +78,7 @@ public class SysUserService extends BaseMapper {
         return sysUserMapper.countByExample(example) > 0;
     }
 
-     // 自动生成学工号, prefix开头+6位数字
+    // 自动生成学工号, prefix开头+6位数字
     public String genCode(String prefix) {
 
         String code = prefix + RandomStringUtils.randomNumeric(6);
@@ -71,7 +93,7 @@ public class SysUserService extends BaseMapper {
     public String buildRoleIds(String roleStr) {
 
         SysRole sysRole = sysRoleService.getByRole(roleStr);
-        if(sysRole==null){
+        if (sysRole == null) {
             throw new OpException("角色[{0}]不存在，请联系管理员。", roleStr);
         }
         return SystemConstants.USER_ROLEIDS_SEPARTOR + sysRole.getId() + SystemConstants.USER_ROLEIDS_SEPARTOR;
@@ -99,9 +121,10 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    public void insertOrUpdateUserInfoSelective(SysUserInfo record){
+    public void insertOrUpdateUserInfoSelective(SysUserInfo record) {
         insertOrUpdateUserInfoSelective(record, null);
     }
+
     @Transactional
     public void insertOrUpdateUserInfoSelective(SysUserInfo record, TeacherInfo teacherInfo) {
 
@@ -116,7 +139,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 
-        if(teacherInfo!=null){
+        if (teacherInfo != null) {
             teacherInfoMapper.updateByPrimaryKeySelective(teacherInfo);
             cacheHelper.clearUserCache(_sysUser);
         }
@@ -288,9 +311,9 @@ public class SysUserService extends BaseMapper {
         SysRole sysRole = sysRoleService.getByRole(role);
         SysRole toSysRole = sysRoleService.getByRole(toRole);
         Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
-        if(sysRole!=null)
+        if (sysRole != null)
             roleIdSet.remove(sysRole.getId());
-        if(toSysRole!=null)
+        if (toSysRole != null)
             roleIdSet.add(toSysRole.getId());
 
         SysUser record = new SysUser();
@@ -523,7 +546,7 @@ public class SysUserService extends BaseMapper {
                 userPermissions.remove("userPassportApply:*"); // 因私出国境证件（干部）
             }
 
-            if (cadre != null && CmTag.getLeader(cadre.getUserId())!=null) {
+            if (cadre != null && CmTag.getLeader(cadre.getUserId()) != null) {
 
                 // 校领导没有(userApplySelf:*， userPassportDraw:*)
                 userPermissions.remove("userApplySelf:*");

@@ -39,7 +39,7 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="${pay_url}" target="_blank" method="post">
+    <form id="payForm" action="${devMode?null:pay_url}" target="_blank" method="post">
         <input type="hidden" name="orderDate" value="${payFormBean.orderDate}"/>
         <input type="hidden" name="orderNo" value="${payFormBean.orderNo}"/>
         <input type="hidden" name="amount" value="${payFormBean.amount}"/>

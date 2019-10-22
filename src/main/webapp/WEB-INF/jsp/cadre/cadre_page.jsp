@@ -321,7 +321,7 @@
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
-                                <div class="pull-right">
+                                <div class="pull-right hidden-sm hidden-xs">
                                     <select id="sortBy" data-placeholder="请选择排序方式">
                                         <option></option>
                                         <option value="birth">按出生日期排序</option>
@@ -334,7 +334,9 @@
                                     <script>
                                         $("#sortBy").val('${param.sortBy}');
                                         $("#searchForm input[name=sortBy]").val('${param.sortBy}');
-                                        $("#sortBy").select2().change(function () {
+                                        $("#sortBy").select2({
+                                          theme: "default"
+                                        }).change(function () {
                                             $("#searchForm input[name=sortBy]").val($(this).val());
                                             $("#searchForm .jqSearchBtn").click();
                                             if($(this).val()==''){

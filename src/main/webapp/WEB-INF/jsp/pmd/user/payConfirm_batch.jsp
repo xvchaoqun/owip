@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="modal-header">
     <button id="closeBtn" type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>批量代缴信息确认</h3>
@@ -17,7 +18,7 @@
             <td>${duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="<%=PayUtils.payURL%>" target="_blank" method="post"></form>
+    <form id="payForm" action="${devMode?null:_payURL}" target="_blank" method="post"></form>
 </div>
 <div class="modal-footer">
     <%--<div id="tip">提示：由于校园卡支付平台出于安全性考虑，只要点了“去支付”按钮，必须支付完成，不可再换人代缴操作，请谨慎操作。</div>--%>

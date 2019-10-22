@@ -361,12 +361,12 @@ public class SysUserController extends BaseController {
     public Map do_sysUserInfo_au(int userId,
                                  SysUserInfo record,
                                  String proPost,
-                                 MultipartFile _avatar) throws IOException {
+                                 MultipartFile _avatar,
+                                 MultipartFile _sign) throws IOException {
 
         record.setUserId(userId);
-        //SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
-        String avatar = avatarService.uploadAvatar(_avatar);
-        record.setAvatar(avatar);
+        record.setAvatar(avatarService.uploadAvatar(_avatar));
+        record.setSign(sysUserService.uploadSign(userId, _sign));
 
         TeacherInfo teacherInfo = null;
         if(proPost!=null){

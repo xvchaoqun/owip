@@ -238,6 +238,8 @@ pageEncoding="UTF-8" %>
             </c:if>
             </shiro:hasPermission>
             { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
+                    return 1;
                 return cellvalue==undefined?0:cellvalue;
             }},
             { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){

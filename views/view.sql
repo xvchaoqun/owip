@@ -591,7 +591,7 @@ sum(if(POSITION('硕博' in bmt.name)=1, 1, 0)) as sb_branch,
 sum(if(locate('本硕博',bmt.name), 1, 0)) as bsb_branch,
 sum(if(locate('在职',bmt.name), 1, 0)) as teacher_branch,
 sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
-from ow_branch b, base_meta_type bmt where b.is_deleted=0 and b.type_id=bmt.id group by b.party_id
+from ow_branch b, base_meta_type bmt where b.is_deleted=0 and find_in_set(bmt.id, b.types) group by b.party_id
 )b on b.party_id = p.id
 left join
 (select p.id as party_id, sum(if(type=1, 1, 0)) as teacher_apply_count, sum(if(type=2, 1, 0)) as student_apply_count from ow_member_apply oma

@@ -1,5 +1,52 @@
 
 
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
+                             `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                             `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                              VALUES (192, 0, '查看分党委、支部委员档案', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'partyMember:archive', 2, NULL, NULL, 1, NULL);
+
+ALTER TABLE `pmd_branch`
+	DROP FOREIGN KEY `FK_pmd_branch_pmd_month`;
+ALTER TABLE `pmd_branch`
+	ADD CONSTRAINT `FK_pmd_branch_pmd_month` FOREIGN KEY (`month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `pmd_member_pay`
+	DROP FOREIGN KEY `FK_pmd_member_real_pay_pmd_month`;
+ALTER TABLE `pmd_member_pay`
+	ADD CONSTRAINT `FK_pmd_member_real_pay_pmd_month` FOREIGN KEY (`pay_month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `pmd_party`
+	DROP FOREIGN KEY `FK_pmd_party_pmd_month`;
+ALTER TABLE `pmd_party`
+	ADD CONSTRAINT `FK_pmd_party_pmd_month` FOREIGN KEY (`month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `pmd_pay_party`
+	DROP FOREIGN KEY `FK_pmd_pay_party_pmd_month`;
+ALTER TABLE `pmd_pay_party`
+	ADD CONSTRAINT `FK_pmd_pay_party_pmd_month` FOREIGN KEY (`month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `pmd_member`
+	DROP FOREIGN KEY `pmd_member_ibfk_1`;
+ALTER TABLE `pmd_member`
+	ADD CONSTRAINT `pmd_member_ibfk_1` FOREIGN KEY (`month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `pmd_pay_branch`
+	DROP FOREIGN KEY `pmd_pay_branch_ibfk_1`;
+ALTER TABLE `pmd_pay_branch`
+	ADD CONSTRAINT `pmd_pay_branch_ibfk_1` FOREIGN KEY (`month_id`) REFERENCES `pmd_month` (`id`) ON DELETE CASCADE;
+
+-- 更新 ow_party_static_view
+
+
+ALTER TABLE `cet_annual_obj`
+	ADD CONSTRAINT `FK_cet_annual_obj_cet_annual` FOREIGN KEY (`annual_id`) REFERENCES `cet_annual` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cet_annual_require`
+	ADD CONSTRAINT `FK_cet_annual_require_cet_annual` FOREIGN KEY (`annual_id`) REFERENCES `cet_annual` (`id`) ON DELETE CASCADE;
+
+201901015
+南航  -- 北师大
+
 201901011
 南航
 ALTER TABLE `cr_applicant`

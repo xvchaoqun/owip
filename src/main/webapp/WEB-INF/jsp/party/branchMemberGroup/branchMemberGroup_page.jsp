@@ -163,6 +163,7 @@
                 </div>
             </div>
         <div id="body-content-view"></div>
+        <div id="body-content-view2"></div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>

@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 
     <form class="form-horizontal" action="${ctx}/memberOut_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOut.id}">
-        <input type="hidden" name="reapply" value="${param.reapply}">
+        <input type="hidden" name="reapply" value="${empty memberOut?1:param.reapply}">
 		<div class="row">
 			<div class="col-xs-4">
 			<div class="form-group">
