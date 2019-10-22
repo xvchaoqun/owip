@@ -129,7 +129,7 @@
        </table>-->
 
 
-        <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
+       <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
@@ -140,7 +140,6 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="is_history" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
 
         <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
@@ -191,15 +190,14 @@
                enableDeleteByExample="false"></table>-->
         <!--<table tableName="ow_party_member" domainObjectName="party.PartyMember">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-           <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
+        </table>-->
+           <!--<table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
                   enableInsert="false" enableUpdateByPrimaryKey="false"
                   enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                   enableDeleteByExample="false">
                <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-               <columnOverride column="is_history" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
            </table>-->
 
         <!--<table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
@@ -208,7 +206,7 @@
                enableDeleteByExample="false">
         </table>-->
 
-        <table tableName="ow_branch" domainObjectName="party.Branch">
+        <!--<table tableName="ow_branch" domainObjectName="party.Branch">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         <ignoreColumn column="update_time"/>
         </table>

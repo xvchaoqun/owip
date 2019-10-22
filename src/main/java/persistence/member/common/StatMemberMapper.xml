@@ -52,4 +52,9 @@
     <select id="memberApply_groupByBranchId" resultType="bean.StatIntBean" parameterType="map">
         select count(*) as num, branch_id as groupBy from ow_member where status=1 and party_id=#{partyId} group by groupBy
     </select>
+
+    <!-- 统计党员性别分布情况 -->
+    <select id="member_countGroupByGender" resultType="bean.StatIntBean" parameterType="map">
+        select gender as groupBy,count(*) as num from ow_member_view where status=1 group by gender order by num desc;
+    </select>
 </mapper>

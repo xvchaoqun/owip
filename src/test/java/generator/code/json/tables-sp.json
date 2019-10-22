@@ -1,0 +1,64 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sp",
+  "resFolder": "sp",
+  "tables": [
+    {
+      "table": "sp_cg",
+      "key": "id",
+      "searchColumns": "user_id,post,is_cadre",
+      "showColumns": "post,seat,user_id,unit_id,arrive_date,politics_status,pro_post,manage_level,is_cadre,admin_post,phone,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": true
+    },
+    {
+      "table": "sp_dp",
+      "key": "id",
+      "searchColumns": "dp,user_id,is_cadre",
+      "showColumns": "dp,post,user_id,unit_id,pro_post,is_cadre,admin_post,phone,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": true
+    },
+    {
+      "table": "sp_npc",
+      "key": "id",
+      "searchColumns": "type,th,user_id",
+      "showColumns": "type,th,user_id,politics_status,npc_post,unit_id,,elected_post,post,is_cadre,phone,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": true
+    },
+    {
+      "table": "sp_retire",
+      "key": "id",
+      "searchColumns": "unit_id,user_id,is_cadre",
+      "showColumns": "unit_id,user_id,politics_status,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": true
+    },
+    {
+      "table": "sp_teach",
+      "key": "id",
+      "searchColumns": "post,user_id,is_cadre",
+      "showColumns": "th,post,user_id,unit_id,pro_post,is_cadre,admin_post,phone,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": true
+    },
+    {
+      "table": "sp_talent",
+      "key": "id",
+      "searchColumns": "user_id,talent_title,is_cadre",
+      "showColumns": "user_id,unit_id,authorized_type,staff_type,politics_status,pro_post,pro_post_level,first_subject,talent_title,is_cadre,admin_post,award_date,phone,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType": "LogConstants.LOG_SP",
+      "ignore": false
+    }
+  ]
+}

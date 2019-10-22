@@ -26,6 +26,7 @@
                                 <c:import url="/stat_member_count"/>
                                 <c:import url="/stat_member_age"/>
                                 <c:import url="/stat_member_apply"/>
+                                <c:import url="/stat_branch_type"/>
                             </div>
                         </div><!-- /.widget-main -->
                     </div><!-- /.widget-body -->

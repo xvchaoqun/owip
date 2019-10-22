@@ -86,6 +86,7 @@ public class CacheHelper {
             @CacheEvict(value = "SysResources", allEntries = true),
             @CacheEvict(value = "UserRoles", allEntries = true),
             @CacheEvict(value = "SysRoles", allEntries = true),
+            @CacheEvict(value = "LayerTypes:ALL", allEntries = true),
             @CacheEvict(value = "MetaType:ALL", allEntries = true),
             @CacheEvict(value = "MetaType:Code:ALL", allEntries = true),
             @CacheEvict(value = "MetaTyes", allEntries = true),

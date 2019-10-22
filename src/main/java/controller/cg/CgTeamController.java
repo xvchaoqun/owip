@@ -293,8 +293,7 @@ public class CgTeamController extends CgBaseController {
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
-                option.put("id", record.getId() + "");
-
+                option.put("id", record.getId());
                 options.add(option);
             }
         }
