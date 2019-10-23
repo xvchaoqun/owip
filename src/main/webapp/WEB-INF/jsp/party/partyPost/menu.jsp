@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.id ||not empty param.userId || not empty param.code || not empty param.partyId}"/>
+            <c:set var="_query" value="${not empty param.id ||not empty param.userId || not empty param.code || not empty param.partyId || not empty param.detail} "/>
                 <div class="tabble">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="active">
@@ -62,6 +62,11 @@
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label>工作单位及任职职务</label>
+                                <input class="form-control search-query" name="detail" type="text" value="${param.detail}"
+                                       placeholder="请输入工作单位及任职职务">
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"

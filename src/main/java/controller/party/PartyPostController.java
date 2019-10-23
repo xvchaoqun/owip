@@ -22,6 +22,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,6 +67,7 @@ public class PartyPostController extends BaseController {
                                Date startDate,
                                Date endDate,
                                Integer partyId,
+                               String detail,
 
                                @RequestParam(required = false, defaultValue = "0") int export,
                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -97,6 +99,9 @@ public class PartyPostController extends BaseController {
         }
         if (endDate != null) {
             criteria.andEndDateGreaterThan(endDate);
+        }
+        if (detail != null){
+            criteria.andDetailLike(SqlUtils.like(detail));
         }
 
         /*if (export == 1) {
@@ -167,7 +172,8 @@ public class PartyPostController extends BaseController {
         if (userId != null) {
             user = sysUserService.findById(userId);
             modelMap.put("user", user);
-        }else if (id != null) {
+        }
+        if (id != null) {
             PartyPost partyPost = partyPostMapper.selectByPrimaryKey(id);
             userId = partyPost.getUserId();
             user = sysUserService.findById(userId);

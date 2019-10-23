@@ -48,12 +48,12 @@ pageEncoding="UTF-8" %>
 </shiro:hasPermission>
             <div class="space-4"></div>
             <table id="jqGrid_reward" class="jqGrid2 table-striped"></table>
-            <div id="jqGridPager2"></div>
+            <div id="jqGridPager_reward"></div>
 <script>
     $("#jqGrid_reward").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "jqGridPager2",
+        pager: "jqGridPager_reward",
         url: '${ctx}/party/partyReward_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${cls==OW_PARTY_REPU_PARTY}">

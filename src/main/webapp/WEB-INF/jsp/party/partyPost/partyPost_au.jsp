@@ -80,6 +80,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid_post").trigger("reloadGrid");
+						$("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

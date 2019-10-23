@@ -38,11 +38,21 @@ public class PartyRewardController extends BaseController {
                                    Integer cls,
                                    @RequestParam(defaultValue = "1")Integer clss,
                                    Integer partyId,
+                                   Integer userPartyId,
                                    Integer branchId,
                                    Integer userId,
                                    ModelMap modelMap){
 
-        Party party = partyMapper.selectByPrimaryKey(partyId);
+        Party party = new Party();
+        if (partyId != null){
+
+            party = partyMapper.selectByPrimaryKey(partyId);
+        }
+        if (userPartyId != null){
+
+            party = partyMapper.selectByPrimaryKey(userPartyId);
+        }
+        
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
         SysUserView user = new SysUserView();
         if (userId != null) {
@@ -55,7 +65,7 @@ public class PartyRewardController extends BaseController {
         modelMap.put("cls", cls);
         modelMap.put("clss", clss);
 
-        return "/party/partyReward/partyRePu_page";
+        return "party/partyReward/partyRewardList_page";
     }
 
     @RequiresPermissions("partyReward:list")
@@ -96,6 +106,8 @@ public class PartyRewardController extends BaseController {
                                     String unit,
                                  Integer userPartyId,
                                  Byte type,
+                                 String name,
+                                 String proofFilename,
                                  @RequestParam(required = false, defaultValue = "1") Integer cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -151,6 +163,12 @@ public class PartyRewardController extends BaseController {
         }
         if (StringUtils.isNotBlank(unit)) {
             criteria.andUnitLike(SqlUtils.like(unit));
+        }
+        if (StringUtils.isNotBlank(name)){
+            criteria.andNameLike(SqlUtils.like(name));
+        }
+        if (StringUtils.isNotBlank(proofFilename)){
+            criteria.andProofFilenameLike(SqlUtils.like(proofFilename));
         }
 
         /*if (export == 1) {
@@ -240,18 +258,8 @@ public class PartyRewardController extends BaseController {
                                  ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        PartyRewardView partyRewardView = new PartyRewardView();
-        if (partyId != null || branchId != null || userId != null) {
-            Party party = partyMapper.selectByPrimaryKey(partyId);
-            Branch branch = branchMapper.selectByPrimaryKey(branchId);
-            SysUserView user = new SysUserView();
-            if (userId != null) {
-                user = sysUserService.findById(userId);
-            }
-            modelMap.put("user", user);
-            modelMap.put("branch", branch);
-            modelMap.put("party", party);
-        }else if (id != null){
+        PartyRewardView partyRewardView = null;
+        if (id != null){
             partyRewardView = partyRewardService.getById(id);
             Party party = partyMapper.selectByPrimaryKey(partyRewardView.getPartyId());
             if (partyRewardView.getBranchId() != null){
@@ -266,9 +274,19 @@ public class PartyRewardController extends BaseController {
             modelMap.put("user", user);
             modelMap.put("branch", branch);
             modelMap.put("party", party);
+        }else if (partyId != null || branchId != null || userId != null) {
+            Party party = partyMapper.selectByPrimaryKey(partyId);
+            Branch branch = branchMapper.selectByPrimaryKey(branchId);
+            SysUserView user = new SysUserView();
+            if (userId != null) {
+                user = sysUserService.findById(userId);
+            }
+            modelMap.put("user", user);
+            modelMap.put("branch", branch);
+            modelMap.put("party", party);
         }
-        modelMap.put("partyReward", partyRewardView);
 
+        modelMap.put("partyReward", partyRewardView);
 
         return "party/partyReward/partyReward_au";
     }

@@ -11,10 +11,13 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:if test="${clss==1}">
             <c:set var="_query"
-                   value="${not empty param.id ||not empty param.partyId ||not empty param.branchId ||not empty param.userId ||not empty param.rewardTime ||not empty param.rewardType ||not empty param.unit || not empty param.code || not empty param.sort || not empty type || not empty userPartyId}"/>
+                   value="${not empty param.id ||not empty param.partyId ||not empty param.branchId ||not empty param.userId ||not empty param.rewardTime ||not empty param.rewardType ||not empty param.unit || not empty param.code || not empty param.sort|| not empty param.userPartyId || not empty param.name}"/>
             </c:if>
             <c:if test="${clss==2}">
                 <c:set var="_query" value="${not empty param.id ||not empty param.partyId ||not empty param.branchId ||not empty param.userId ||not empty param.punishTime ||not empty param.endTime ||not empty param.unit || not empty param.code || not empty param.sort || not empty userPartyId}"/>
+            </c:if>
+            <c:if test="${clss==3}">
+                <c:set var="_query" value="${not empty param.userPartyId || not empty param.userId || not empty param.unit}"/>
             </c:if>
                 <div class="tabble">
                 <jsp:include page="menu.jsp"/>
@@ -190,6 +193,11 @@
                                                 </script>
                                             </div>
                                             </c:if>
+                                            <div class="form-group">
+                                                <label>获得奖项</label>
+                                                <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                                       placeholder="请输入获得奖项">
+                                            </div>
                                         <div class="form-group">
                                             <label>颁奖单位</label>
                                             <input class="form-control search-query" name="unit" type="text"

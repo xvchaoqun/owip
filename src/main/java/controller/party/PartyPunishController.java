@@ -63,6 +63,7 @@ public class PartyPunishController extends BaseController {
                                     String unit,
                                     Byte type,
                                  Integer userPartyId,
+                                 String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -113,6 +114,9 @@ public class PartyPunishController extends BaseController {
         }
         if (StringUtils.isNotBlank(unit)) {
             criteria.andUnitLike(SqlUtils.like(unit));
+        }
+        if (StringUtils.isNotBlank(name)){
+            criteria.andNameLike(SqlUtils.like(name));
         }
 
         /*if (export == 1) {
@@ -205,7 +209,8 @@ public class PartyPunishController extends BaseController {
             modelMap.put("user", user);
             modelMap.put("branch", branch);
             modelMap.put("party", party);
-        }else if (id != null){
+        }
+        if (id != null){
             partyPunishView = partyPunishService.getById(id);
             Party party = partyMapper.selectByPrimaryKey(partyPunishView.getPartyId());
             if (partyPunishView.getBranchId() != null){
