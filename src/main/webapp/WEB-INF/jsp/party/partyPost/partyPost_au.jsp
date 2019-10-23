@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 			<c:if test="${user!=null}">
 				<label class="col-xs-3 control-label">党员姓名</label>
 				<div class="col-xs-6 label-text">
-
+					<input type="hidden" name="userId" value="${user.id}">
 						${user.realname}
 				</div>
 			</c:if>

@@ -175,9 +175,11 @@ public class PartyPostController extends BaseController {
     @RequiresPermissions("partyPost:edit")
     @RequestMapping("/party/partyPost_au")
     public String partyPost_au(Integer id,
+                               Integer list,
                                Integer userId,
                                ModelMap modelMap) {
 
+        modelMap.put("list", list);
         SysUserView user = new SysUserView();
         if (userId != null) {
             user = sysUserService.findById(userId);

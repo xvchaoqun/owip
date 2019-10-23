@@ -5,16 +5,12 @@
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.id ||not empty param.userId || not empty param.code || not empty param.partyId || not empty param.detail} "/>
-                <div class="tabble">
-
-                    <div class="tab-content">
-                        <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <button class="popupBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/party/partyPost_au?userId=${param.userId}">
+                                        data-url="${ctx}/party/partyPost_au?userId=${param.userId}&list=1">
                                     <i class="fa fa-plus"></i> 添加任职经历</button>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                        data-url="${ctx}/party/partyPost_au?userId=${param.userId}"
+                                        data-url="${ctx}/party/partyPost_au?userId=${param.userId}&list=1"
                                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     修改</button>
                                 <button data-url="${ctx}/party/partyPost_batchDel"
@@ -101,12 +97,13 @@
                 return {'class': 'success'}
             }
         }
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid", function () {
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    $('[data-rel="tooltip"]').tooltip();
     $.register.fancybox();
     function _reload() {
         $("#modal").modal('hide');
