@@ -13,6 +13,13 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party/partyReward_au" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${partyReward.id}">
+		<c:if test="${list!=1}">
+			<input type="hidden" name="partyId" value="${party.id}">
+			<input type="hidden" name="branchPartyId" value="${branchParty.id}">
+			<input type="hidden" name="branchId" value="${branch.id}">
+			<input type="hidden" name="userId" value="${user.id}">
+		</c:if>
+		<c:if test="${list==1}">
 		<c:if test="${cls==OW_PARTY_REPU_PARTY}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">类型</label>
@@ -72,25 +79,28 @@ pageEncoding="UTF-8"%>
 				</div>
 				</c:if>
 				<c:if test="${branch==null}">
-					<div class="form-group">
-						<label class="col-xs-3 control-label"><span class="star">*</span>所属${_p_partyName}</label>
-						<div class="col-xs-6">
-							<select required class="form-control" data-rel="select2-ajax"
-									data-ajax-url="${ctx}/party_selects?auth=1"
-									name="branchPartyId" data-placeholder="请选择" data-width="270">
-								<option value="${branchParty.id}">${branchParty.name}</option>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"><span class="star">*</span>所属党支部</label>
+					<div class="col-xs-6">
+						<select class="form-control" data-width="270" data-rel="select2-ajax"
+								data-ajax-url="${ctx}/party_selects?auth=1"
+								name="partyId" data-placeholder="请选择所属${_p_partyName}">
+							<option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+						</select>
+						<div style="padding-top: 5px;${(empty branch)?'display: none':''}" id="branchDiv">
+							<select class="form-control" data-rel="select2-ajax"
+									data-ajax-url="${ctx}/branch_selects?auth=1" data-width="270"
+									name="branchId" data-placeholder="请选择党支部">
+								<option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
 							</select>
 						</div>
+						<script>
+							$.register.party_branch_select($("#modalForm"), "branchDiv",
+									'${cm:getMetaTypeByCode("mt_direct_branch").id}'
+									, "${party.id}", "${party.classId}", null, null ,true);
+						</script>
 					</div>
-				<div class="form-group" id="branchDiv">
-				<label class="col-xs-3 control-label"><span class="star">*</span>党支部名称</label>
-				<div class="col-xs-6">
-					<select class="form-control" data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
-							name="branchId" data-placeholder="请选择" data-width="270">
-						<option value="${branch.id}">${branch.name}</option>
-					</select>
-				</div>
-				</div>
+		</div>
 				</c:if>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_MEMBER}">
@@ -124,6 +134,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				</c:if>
 			</div>
+		</c:if>
 		</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖日期</label>
@@ -206,7 +217,6 @@ pageEncoding="UTF-8"%>
     });
 	$.fileInput($('#modalForm input[type=file]'));
     $("#modalForm :checkbox").bootstrapSwitch();
-    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));

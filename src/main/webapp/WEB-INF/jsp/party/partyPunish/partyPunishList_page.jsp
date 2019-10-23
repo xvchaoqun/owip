@@ -12,54 +12,56 @@
             <c:set var="_query"
                    value="${not empty param.id ||not empty param.partyId ||not empty param.branchId ||not empty param.userId ||not empty param.rewardTime ||not empty param.rewardType ||not empty param.unit || not empty param.code || not empty param.sort|| not empty param.userPartyId || not empty param.name}"/>
             </c:if>
+            <c:if test="${clss==2}">
+                <c:set var="_query" value="${not empty param.id ||not empty param.partyId ||not empty param.branchId ||not empty param.userId ||not empty param.punishTime ||not empty param.endTime ||not empty param.unit || not empty param.code || not empty param.sort || not empty userPartyId}"/>
+            </c:if>
+            <c:if test="${clss==3}">
+                <c:set var="_query" value="${not empty param.userPartyId || not empty param.userId || not empty param.unit}"/>
+            </c:if>
                 <div class="tabble">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${clss==1}">
-                            <shiro:hasPermission name="partyReward:edit">
+                            <c:if test="${clss==2}">
                                 <c:if test="${cls==OW_PARTY_REPU_PARTY}">
                                     <button class="popupBtn btn btn-info btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?partyId=${param.partyId}&list=1">
+                                            data-url="${ctx}/party/partyPunish_au?partyId=${param.partyId}&list=1">
                                         <i class="fa fa-plus"></i> 添加</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?partyId=${param.partyId}&list=1"
+                                            data-url="${ctx}/party/partyPunish_au?partyId=${param.partyId}&list=1"
                                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改</button>
                                 </c:if>
                                 <c:if test="${cls==OW_PARTY_REPU_BRANCH}">
                                     <button class="popupBtn btn btn-info btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?branchId=${param.branchId}&cls=2&list=1">
+                                            data-url="${ctx}/party/partyPunish_au?branchId=${param.branchId}&cls=2&list=1">
                                         <i class="fa fa-plus"></i> 添加</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?branchId=${param.branchId}&cls=2&list=1"
+                                            data-url="${ctx}/party/partyPunish_au?branchId=${param.branchId}&cls=2&list=1"
                                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改</button>
                                 </c:if>
                                 <c:if test="${cls==OW_PARTY_REPU_MEMBER}">
                                     <button class="popupBtn btn btn-info btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?userId=${param.userId}&cls=3&list=1">
+                                            data-url="${ctx}/party/partyPunish_au?userId=${param.userId}&cls=3&list=1">
                                         <i class="fa fa-plus"></i> 添加</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/party/partyReward_au?userId=${param.userId}&cls=3&list=1"
+                                            data-url="${ctx}/party/partyPunish_au?userId=${param.userId}&cls=3&list=1"
                                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改</button>
                                 </c:if>
-                            </shiro:hasPermission>
-
-                            <button data-url="${ctx}/party/partyReward_batchDel"
-                                    data-title="删除"
-                                    data-msg="确定删除这{0}条数据？"
-                                    data-grid-id="#jqGrid"
-                                    class="jqBatchBtn btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i> 删除
-                            </button>
-                           <%-- <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                    data-url="${ctx}/party/partyReward_data"
-                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出
-                            </button>--%>
+                                <button data-url="${ctx}/party/partyPunish_batchDel"
+                                        data-title="删除"
+                                        data-msg="确定删除这{0}条数据？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i> 删除
+                                </button>
+                                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-url="${ctx}/partyPunish_data"
+                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                                    <i class="fa fa-download"></i> 导出</button>--%>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -177,7 +179,7 @@
                                                     <label>${_p_partyName}</label>
                                                     <select name="partyId" data-rel="select2-ajax" data-width="350"
                                                             data-ajax-url="${ctx}/party_selects"
-                                                            data-placeholder="请选择奖励的${_p_partyName}">
+                                                            data-placeholder="请选择${_p_partyName}">
                                                         <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                                                     </select>
                                                     <script>
@@ -240,12 +242,12 @@
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                                   data-url="${ctx}/party/partyRePu_page?type=${param.type}&clss=2"
+                                                   data-url="${ctx}/party/partyPunishList_page?type=${param.type}&clss=2"
                                                    data-target="#page-content"
                                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-url="${ctx}/party/partyRePu_page?type=${param.type}&clss=2"
+                                                            data-url="${ctx}/party/partyPunishList_page?type=${param.type}&clss=2"
                                                             data-target="#page-content">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
@@ -266,14 +268,14 @@
         <div id="body-content-view"></div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/party/partyReward/colModels.jsp?list=1"/>
+<jsp:include page="/WEB-INF/jsp/party/partyPunish/colModels.jsp?list=1"/>
 <script>
     $("#jqGrid").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager",
-        url: '${ctx}/party/partyReward_data?callback=?&type=${param.type}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.partyReward,
+        url: '${ctx}/party/partyPunish_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: colModels.partyPunish,
         rowattr: function (rowData, currentObj, rowId) {
             if (rowData.isPresent) {
                 //console.log(rowData)
@@ -289,7 +291,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/party/partyRePu_page?type=${type}&clss=${clss}&${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/party/partyPunishList_page?type=${type}&clss=${clss}&${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
 </script>

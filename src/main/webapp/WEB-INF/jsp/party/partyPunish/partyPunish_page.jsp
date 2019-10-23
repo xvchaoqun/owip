@@ -49,60 +49,14 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid_punish" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager2"></div>
+<jsp:include page="/WEB-INF/jsp/party/partyPunish/colModels.jsp"/>
 <script>
     $("#jqGrid_punish").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager2",
         url: '${ctx}/party/partyPunish_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            <c:if test="${cls==OW_PARTY_REPU_PARTY}">
-            { label: '${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-                    var party = _cMap.partyMap[cellvalue];
-                    var _partyView = null;
-                    if (party != undefined) {
-                        _partyView = party.name;
-                        if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
-                            _partyView = $.trim('{0}'.format(party.name));
-                    }
-                    if (_partyView != null) {
-                        return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
-                    }
-                    return '--';
-                },frozen:true},
-            </c:if>
-            <c:if test="${cls==OW_PARTY_REPU_BRANCH}">
-            { label: '党支部',name: 'branchId',width:400,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-                    var branch = (cellvalue == undefined) ? undefined : _cMap.branchMap[cellvalue];
-                    var _branchView = null;
-                    if (branch != undefined) {
-                        var _branchView = branch.name;
-                        if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
-                            _branchView = $.trim('{0}'.format(branch.name))
-                            ;
-                    }
-                    if (_branchView != null) { // 仅显示党支部
-                        return '<span class="{0}">{1}</span>'
-                            .format(branch.isDeleted ? "delete" : "", _branchView);
-                    }
-                    return '--';
-                },frozen:true},
-            </c:if>
-            <c:if test="${cls==OW_PARTY_REPU_MEMBER}">
-            { label: '学工号',name: 'user.code',frozen:true,width:120},
-            { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
-                    return $.trim(cellvalue);
-                },frozen:true},
-            </c:if>
-                { label: '处分日期',name: 'punishTime',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-                { label: '处分截止日期',name: 'endTime',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-                { label: '受何种处分',name: 'name',width:180},
-                { label: '处分单位',name: 'unit',width: 180, width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
-                        if($.trim(val)=='')
-                            return "class='danger'";
-                    }},
-                { label: '备注',name: 'remark',width:200}, {hidden: true, key: true, name: 'id'}, {hidden: true, name: 'userId'}
-        ]
+        colModel:  colModels.partyPunish,
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $('#searchForm [data-rel="select2"]').select2();
@@ -110,6 +64,6 @@ pageEncoding="UTF-8" %>
     $.register.fancybox();
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/party/partyPunish?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/party/partyPunishList_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

@@ -26,22 +26,14 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid_post" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager2"></div>
+<jsp:include page="/WEB-INF/jsp/party/partyPost/colModels.jsp"/>
 <script>
     $("#jqGrid_post").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager2",
         url: '${ctx}/party/partyPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label: '学工号',name: 'user.code',frozen:true,width:120},
-                { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
-                        return $.trim(cellvalue);
-                    },frozen:true},
-                { label: '任职开始时间',name:'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-                { label: '任职结束时间',name:'endDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-                { label: '工作单位及担任职务',name: 'detail',width:280},
-                { label: '备注',name: 'remark',width:200},{ hidden: true, key: true,name: 'id'}
-        ],
+        colModel: colModels.partyPost,
         rowattr: function (rowData, currentObj, rowId) {
             if (rowData.isPresent) {
                 //console.log(rowData)

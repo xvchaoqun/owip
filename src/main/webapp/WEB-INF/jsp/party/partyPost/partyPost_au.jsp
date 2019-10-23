@@ -8,11 +8,15 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party/partyPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${partyPost.id}">
+		<c:if test="${list!=1}">
+			<input type="hidden" name="userId" value="${user.id}">
+		</c:if>
+		<c:if test="${list==1}">
 		<div class="form-group">
 			<c:if test="${user!=null}">
 				<label class="col-xs-3 control-label">党员姓名</label>
 				<div class="col-xs-6 label-text">
-					<input type="hidden" name="userId" value="${user.id}">
+
 						${user.realname}
 				</div>
 			</c:if>
@@ -28,6 +32,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</c:if>
 		</div>
+		</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 开始日期</label>
 				<div class="col-xs-6">

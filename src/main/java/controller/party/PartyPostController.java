@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.party.Party;
 import domain.party.PartyPost;
 import domain.party.PartyPostView;
 import domain.party.PartyPostViewExample;
@@ -40,7 +41,16 @@ public class PartyPostController extends BaseController {
 
     @RequiresPermissions("partyPost:menu")
     @RequestMapping("/party/partyPostList_page")
-    public String partyPostList_page(){
+    public String partyPostList_page(@RequestParam(defaultValue = "1") Integer list,
+                                     Integer partyId,
+                                     ModelMap modelMap){
+
+        Party party = new Party();
+        if (partyId != null){
+            party = partyMapper.selectByPrimaryKey(partyId);
+        }
+        modelMap.put("party", party);
+        modelMap.put("list", list);
 
         return "/party/partyPost/partyPostList_page";
     }

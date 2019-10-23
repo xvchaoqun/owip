@@ -36,6 +36,44 @@ public class PartyPunishController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("RePu:function")
+    @RequestMapping("/party/partyPunishList_page")
+    public String partyReward_menu(Integer type,
+                                   Integer cls,
+                                   @RequestParam(defaultValue = "2")Integer clss,
+                                   @RequestParam(defaultValue = "1")Integer list,
+                                   Integer partyId,
+                                   Integer userPartyId,
+                                   Integer branchId,
+                                   Integer userId,
+                                   ModelMap modelMap) {
+
+        Party party = new Party();
+        if (partyId != null) {
+
+            party = partyMapper.selectByPrimaryKey(partyId);
+        }
+        if (userPartyId != null) {
+
+            party = partyMapper.selectByPrimaryKey(userPartyId);
+        }
+
+        Branch branch = branchMapper.selectByPrimaryKey(branchId);
+        SysUserView user = new SysUserView();
+        if (userId != null) {
+            user = sysUserService.findById(userId);
+        }
+        modelMap.put("user", user);
+        modelMap.put("branch", branch);
+        modelMap.put("party", party);
+        cls = type;
+        modelMap.put("cls", cls);
+        modelMap.put("list", list);
+        modelMap.put("clss", clss);
+
+        return "party/partyPunish/partyPunishList_page";
+    }
+
     @RequiresPermissions("partyPunish:list")
     @RequestMapping("/party/partyPunish")
     public String partyPunish(@RequestParam(defaultValue = "1") Integer cls,
@@ -158,13 +196,13 @@ public class PartyPunishController extends BaseController {
                                  HttpServletRequest request) {
 
         Integer id = record.getId();
-        Integer pbu = partyId != null ? partyId : (branchId != null ? branchId : userId);
+        Integer pbu = branchId != null ? branchId : (partyId != null ? partyId : userId);
 
         Byte type = 0;
-        if (partyId != null){
-            type = 1;
-        }else if (branchId != null){
+        if (branchId != null){
             type = 2;
+        }else if (partyId != null){
+            type = 1;
         }else if (userId != null){
             type = 3;
         }
@@ -194,9 +232,11 @@ public class PartyPunishController extends BaseController {
                                  Integer partyId,
                                  Integer branchId,
                                  Integer userId,
+                                 Integer list,
                                  @RequestParam(defaultValue = "1")int cls,
                                  ModelMap modelMap) {
 
+        modelMap.put("list", list);
         modelMap.put("cls", cls);
         PartyPunishView partyPunishView = new PartyPunishView();
         if (partyId != null || branchId != null || userId != null) {

@@ -66,12 +66,12 @@
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/party/partyPost_menu"
+                                   data-url="${ctx}/party/partyPostList_page?"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/party/partyPost_menu"
+                                            data-url="${ctx}/party/partyPostList_page"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -88,51 +88,13 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/party/partyPost/colModels.jsp?list=1"/>
 <script>
     $("#jqGrid").jqGrid({ondblClickRow: function () {
         },
         pager: "jqGridPager",
         url: '${ctx}/party/partyPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label: '学工号',name: 'user.code',frozen:true,width:120},
-            { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
-                    return $.trim(cellvalue);
-                },frozen:true},
-            { label: '所属${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-
-                    var party = _cMap.partyMap[cellvalue];
-                    var _partyView = null;
-                    if (party != undefined) {
-                        _partyView = party.name;
-                        if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
-                            _partyView = $.trim('{0}'.format(party.name));
-                    }else {
-
-                    }
-                    if (_partyView != null) {
-                        return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
-                    }
-                },frozen:true},
-            { label: '所属党支部',name: 'branchId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-                    var branch = (cellvalue == undefined) ? undefined : _cMap.branchMap[cellvalue];
-                    var _branchView = null;
-                    if (branch != undefined) {
-                        var _branchView = branch.name;
-                        if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
-                            _branchView = $.trim('{0}'.format(branch.name))
-                            ;
-                    }
-                    if (_branchView != null) { // 仅显示党支部
-                        return '<span class="{0}">{1}</span>'
-                            .format(branch.isDeleted ? "delete" : "", _branchView);
-                    }
-                    return '--';
-                },frozen:true},
-            { label: '任职开始时间',name:'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-            { label: '任职结束时间',name:'endDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-            { label: '工作单位及担任职务',name: 'detail',width:280},
-            { label: '备注',name: 'remark',width:200},{ hidden: true, key: true,name: 'id'}
-        ],
+        colModel: colModels.partyPost,
         rowattr: function (rowData, currentObj, rowId) {
             if (rowData.isPresent) {
                 //console.log(rowData)
@@ -148,6 +110,6 @@
     $.register.fancybox();
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/party/partyPost_menu?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/party/partyPostList_page?list=1?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

@@ -49,68 +49,14 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid_reward" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager_reward"></div>
+<jsp:include page="/WEB-INF/jsp/party/partyReward/colModels.jsp"/>
 <script>
     $("#jqGrid_reward").jqGrid({
         ondblClickRow: function () {
         },
         pager: "jqGridPager_reward",
         url: '${ctx}/party/partyReward_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            <c:if test="${cls==OW_PARTY_REPU_PARTY}">
-                { label: '${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-
-                        var party = _cMap.partyMap[cellvalue];
-                        var _partyView = null;
-                        if (party != undefined) {
-                            _partyView = party.name;
-                            if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
-                                _partyView = $.trim('{0}'.format(party.name));
-                        }
-                        if (_partyView != null) {
-                            return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
-                        }
-                        return '--';
-                    },frozen:true},
-            </c:if>
-            <c:if test="${cls==OW_PARTY_REPU_BRANCH}">
-                { label: '党支部',name: 'branchId',width:400,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
-                        var branch = (cellvalue == undefined) ? undefined : _cMap.branchMap[cellvalue];
-                        var _branchView = null;
-                        if (branch != undefined) {
-                            var _branchView = branch.name;
-                            if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
-                                _branchView = $.trim('{0}'.format(branch.name))
-                                    ;
-                        }
-                      if (_branchView != null) { // 仅显示党支部
-                            return '<span class="{0}">{1}</span>'
-                                .format(branch.isDeleted ? "delete" : "", _branchView);
-                        }
-                        return '--';
-                    },frozen:true},
-            </c:if>
-            <c:if test="${cls==OW_PARTY_REPU_MEMBER}">
-            { label: '学工号',name: 'user.code',frozen:true,width:120},
-                { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
-                        return $.trim(cellvalue);
-                    },frozen:true},
-            </c:if>
-                { label: '获奖日期',name: 'rewardTime',formatter: $.jgrid.formatter.date,formatoptions:{newformat: 'Y.m.d'}},
-            <c:if test="${cls==OW_PARTY_REPU_PARTY||cls==OW_PARTY_REPU_BRANCH}">
-                { label: '获奖类型',name: 'rewardType',width: 150,formatter:$.jgrid.formatter.MetaType},
-            </c:if>
-                { label: '获得奖项',name: 'name',width: 150},
-                { label: '颁奖单位',name: 'unit',width: 180, width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
-                        if($.trim(val)=='')
-                            return "class='danger'";
-                    }},
-                { label: '获奖证书',name: 'proof',width: 250,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return $.imgPreview(rowObject.proof, rowObject.proofFilename);
-                    }},
-                { label: '获奖证书文件名',name: 'proofFilename',width: 280},
-                { label: '备注',name: 'remark',width: 200}, {hidden: true, key: true, name: 'id'}, {hidden: true, name: 'userId'}
-        ],
+        colModel: colModels.partyReward,
         rowattr: function (rowData, currentObj, rowId) {
             if (rowData.isPresent) {
                 //console.log(rowData)

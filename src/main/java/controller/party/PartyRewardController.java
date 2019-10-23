@@ -37,22 +37,23 @@ public class PartyRewardController extends BaseController {
     public String partyReward_menu(Integer type,
                                    Integer cls,
                                    @RequestParam(defaultValue = "1")Integer clss,
+                                   @RequestParam(defaultValue = "1")Integer list,
                                    Integer partyId,
                                    Integer userPartyId,
                                    Integer branchId,
                                    Integer userId,
-                                   ModelMap modelMap){
+                                   ModelMap modelMap) {
 
         Party party = new Party();
-        if (partyId != null){
+        if (partyId != null) {
 
             party = partyMapper.selectByPrimaryKey(partyId);
         }
-        if (userPartyId != null){
+        if (userPartyId != null) {
 
             party = partyMapper.selectByPrimaryKey(userPartyId);
         }
-        
+
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
         SysUserView user = new SysUserView();
         if (userId != null) {
@@ -63,6 +64,7 @@ public class PartyRewardController extends BaseController {
         modelMap.put("party", party);
         cls = type;
         modelMap.put("cls", cls);
+        modelMap.put("list", list);
         modelMap.put("clss", clss);
 
         return "party/partyReward/partyRewardList_page";
@@ -210,13 +212,13 @@ public class PartyRewardController extends BaseController {
                                  HttpServletRequest request) {
 
         Integer id = record.getId();
-        Integer pbu = partyId != null ? partyId : (branchId != null ? branchId : userId);
+        Integer pbu = branchId != null ? branchId : (partyId != null ? partyId : userId);
 
         Byte type = 0;
-        if (partyId != null){
-            type = 1;
-        }else if (branchId != null){
+        if (branchId != null){
             type = 2;
+        }else if (partyId != null){
+            type = 1;
         }else if (userId != null){
             type = 3;
         }
@@ -254,9 +256,11 @@ public class PartyRewardController extends BaseController {
                                  Integer partyId,
                                  Integer branchId,
                                  Integer userId,
+                                 Integer list,
                                  @RequestParam(defaultValue = "1")int cls,
                                  ModelMap modelMap) {
 
+        modelMap.put("list", list);
         modelMap.put("cls", cls);
         PartyRewardView partyRewardView = null;
         if (id != null){
