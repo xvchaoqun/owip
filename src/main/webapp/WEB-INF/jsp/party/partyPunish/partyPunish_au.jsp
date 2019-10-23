@@ -46,6 +46,9 @@ pageEncoding="UTF-8"%>
 							name="partyId" data-placeholder="请选择" data-width="270">
 						<option value="${party.id}">${party.name}</option>
 					</select>
+					<script>
+						$.register.ajax_select($('#modal [data-rel="select2-ajax"]'))
+					</script>
 				</div>
 			</c:if>
 		</div>
@@ -147,10 +150,10 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 处分截止日期</label>
+				<label class="col-xs-3 control-label">处分截止日期</label>
 				<div class="col-xs-6">
                      <div class="input-group date" data-date-format="yyyy.mm.dd">
-						 <input reqired class="form-control date-picker" name="endTime" type="text" data-width="270"
+						 <input class="form-control date-picker" name="endTime" type="text" data-width="270"
 								placeholder="格式：yyyy.mm.dd"
 								value="${cm:formatDate(partyPunish.endTime, 'yyyy.MM.dd')}"/>
 						 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -202,6 +205,7 @@ pageEncoding="UTF-8"%>
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
+
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();

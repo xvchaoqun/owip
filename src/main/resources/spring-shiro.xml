@@ -169,7 +169,6 @@
                 /favicon.ico = anon
                 /cadre_selects = kickout, user, currentUser
                 /cadreParty* = kickout, user, currentUser
-                /cadreCompany* = kickout, user, currentUser
                 /cadreReserve* = kickout, user, currentUser
                 /cadreInspect* = kickout, user, currentUser
                 /cadre* = kickout, user, cadreAuth, currentUser

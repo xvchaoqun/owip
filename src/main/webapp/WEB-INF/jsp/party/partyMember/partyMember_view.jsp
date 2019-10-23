@@ -53,13 +53,6 @@
                            data-url="${ctx}/cadreTrain_page?cadreId=${param.cadreId}&_auth=${param._auth}">培训情况</a>
                     </li>
                 </shiro:hasPermission>
-
-                <shiro:hasPermission name="cadreFamily:*">
-                    <li class="${to=='cadreFamily_page'?'active':''}">
-                        <a href="javascript:;"
-                           data-url="${ctx}/cadreFamily_page?cadreId=${param.cadreId}&_auth=${param._auth}">家庭成员信息</a>
-                    </li>
-                </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCompany:*">
                     <li class="${to=='cadreCompany'?'active':''}">
                         <a href="javascript:;"
@@ -81,6 +74,12 @@
                         <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${cadre.userId}&type=3">党内惩罚</a>
                     </li>
                 </shiro:hasPermission>
+                 <shiro:hasPermission name="partyMemberInfoForm:*">
+                <li>
+                    <a href="javascript:;"
+                       data-url="${ctx}/partyMemberInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">信息采集表</a>
+                </li>
+                 </shiro:hasPermission>
             </ul>
 
         </div>

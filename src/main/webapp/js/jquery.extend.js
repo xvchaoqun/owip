@@ -750,7 +750,9 @@ var _modal_width;
                 return $.trim(realname);
             }
             //console.log("==="+$.inArray("cadre:archive", _permissions))
-            if ($.trim(realname) != '' && $.inArray("cadre:archive", _permissions) >= 0) {
+            var adminCadreArchive = $.inArray("cadre:archive", _permissions)>=0;
+            var adminMemberArchive = $.inArray("partyMember:archive", _permissions)>=0;
+            if ($.trim(realname) != '' && (adminCadreArchive || adminMemberArchive)) {
 
                 if (params == '_blank') {
                     return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')

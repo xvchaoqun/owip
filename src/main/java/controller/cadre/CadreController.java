@@ -610,8 +610,12 @@ public class CadreController extends BaseController {
         modelMap.put("to", to);
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
-            SecurityUtils.getSubject().checkPermission("cadre:archive");
+        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()
+                && !ShiroHelper.isPermittedAny(new String[]{
+                    SystemConstants.PERMISSION_CADREARCHIVE,
+                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})){
+
+            throw new UnauthorizedException();
         }
 
         modelMap.put("cadre", cadre);
@@ -626,7 +630,7 @@ public class CadreController extends BaseController {
             }else{
                 throw new UnauthorizedException();
             }
-            return "cadre/cadre_view_party";
+            return "party/partyMember/partyMember_view";
         }
 
         return "cadre/cadre_view";
@@ -638,8 +642,12 @@ public class CadreController extends BaseController {
     public String cadre_base(int cadreId, ModelMap modelMap) {
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
-        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
-            SecurityUtils.getSubject().checkPermission("cadre:archive");
+        if(cadre.getUserId().intValue()!=ShiroHelper.getCurrentUserId()
+                && !ShiroHelper.isPermittedAny(new String[]{
+                    SystemConstants.PERMISSION_CADREARCHIVE,
+                    SystemConstants.PERMISSION_PARTYMEMBERARCHIVE})){
+
+            throw new UnauthorizedException();
         }
 
         cadreCommonService.cadreBase(cadreId, modelMap);

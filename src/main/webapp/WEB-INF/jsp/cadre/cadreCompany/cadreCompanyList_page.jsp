@@ -58,12 +58,21 @@
                 </shiro:hasPermission>
 
                 <c:if test="${cls==1}">
+                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                        <shiro:hasPermission name="cadreCompanyList:import">
+                            <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                    data-url="${ctx}/cadreCompany_import"
+                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                批量导入
+                            </button>
+                        </shiro:hasPermission>
+                    </shiro:lacksPermission>
                     <c:if test="${module==1}">
                         <div class="btn-group">
                             <button data-toggle="dropdown"
                                     data-rel="tooltip" data-placement="top" data-html="true"
                                     title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                    class="btn btn-info btn-sm dropdown-toggle tooltip-info">
+                                    class="btn btn-success btn-sm dropdown-toggle tooltip-info">
                                 <i class="fa fa-download"></i> 导出 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-success" role="menu">
@@ -83,15 +92,7 @@
                         </div>
                     </c:if>
                     <c:if test="${module==2}">
-                         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                        <shiro:hasPermission name="cadreCompanyList:import">
-                            <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                                    data-url="${ctx}/cadreCompany_import"
-                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                批量导入
-                            </button>
-                        </shiro:hasPermission>
-                        </shiro:lacksPermission>
+
                         <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                            data-url="${ctx}/cadreCompany_data"
                            data-querystr="module=${module}"

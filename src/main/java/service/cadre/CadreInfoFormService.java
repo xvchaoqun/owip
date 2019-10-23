@@ -175,6 +175,61 @@ public class CadreInfoFormService extends BaseMapper {
         }
     }
 
+    public void export3(Integer[] cadreIds, HttpServletRequest request,
+                       HttpServletResponse response) throws IOException, TemplateException {
+
+        if (cadreIds == null) return;
+
+        if (cadreIds.length == 1) {
+
+            int cadreId = cadreIds[0];
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            //输出文件
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + " 信息采集表 " + cadre.getUser().getRealname()  + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            process3(cadreId, response.getWriter());
+        }else {
+
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
+            FileUtils.mkdirs(tmpdir, false);
+
+            Set<String> filenameSet = new HashSet<>();
+            for (int cadreId : cadreIds) {
+                CadreView cadre = iCadreMapper.getCadre(cadreId);
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 信息采集表 " + cadre.getRealname() + ".doc";
+
+                // 保证文件名不重复
+                if(filenameSet.contains(filename)){
+                    filename = cadre.getCode() + filename;
+                }
+                filenameSet.add(filename);
+
+                String filepath = tmpdir + FILE_SEPARATOR + filename;
+                FileOutputStream output = new FileOutputStream(new File(filepath));
+                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                process3(cadreId, osw);
+
+                fileMap.put(filename, new File(filepath));
+            }
+
+            String filename = String.format("%s信息采集表.xlsx",
+                    CmTag.getSysConfig().getSchoolName());
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            DownloadUtils.zip(fileMap, filename, request, response);
+            FileUtils.deleteDir(new File(tmpdir));
+        }
+    }
+
     // 获取干部信息采集表属性值
     public CadreInfoForm getCadreInfoForm(int cadreId) {
 
@@ -653,6 +708,13 @@ public class CadreInfoFormService extends BaseMapper {
         Map<String, Object> dataMap = getDataMap2(cadreId);
 
         freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
+    }
+    // 输出党委委员信息采集表
+    public void process3(int cadreId, Writer out) throws IOException, TemplateException {
+
+        Map<String, Object> dataMap = getDataMap2(cadreId);
+
+        freemarkerService.process("/infoform/infoform3.ftl", dataMap, out);
     }
 
     private String getCompanySeg(CadreCompany bean, String ftlPath) throws IOException, TemplateException {

@@ -47,6 +47,9 @@ pageEncoding="UTF-8"%>
 							name="partyId" data-placeholder="请选择" data-width="270">
 						<option value="${party.id}">${party.name}</option>
 					</select>
+					<script>
+						$.register.ajax_select($('#modal [data-rel="select2-ajax"]'))
+					</script>
 				</div>
 				</c:if>
 			</div>
@@ -151,7 +154,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖类型</label>
 				<div class="col-xs-6">
 					<select ${cls==OW_PARTY_REPU_MEMBER?'':'required'} data-rel="select2" name="rewardType" data-width="270"
-							data-placehoder="请选择">
+							data-placeholder="请选择">
 						<option></option>
 						<c:if test="${cls==OW_PARTY_REPU_PARTY}">
 						<c:import url="/metaTypes?__code=mt_party_reward"/>

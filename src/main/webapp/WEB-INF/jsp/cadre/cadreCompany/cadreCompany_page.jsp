@@ -13,6 +13,7 @@ pageEncoding="UTF-8" %>
            data-load-el="#view-box .tab-content"
            data-url="${ctx}/cadreCompany?cls=2&cadreId=${param.cadreId}"><i class="fa fa-history"></i> 历史兼职</a>
     </li>
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <div class="buttons" style="position:absolute;left:250px;">
             <a class="popupBtn btn btn-warning btn-sm"
@@ -21,6 +22,7 @@ pageEncoding="UTF-8" %>
                 <i class="fa fa-info-circle"></i> 填写说明</a>
         </div>
     </shiro:lacksPermission>
+    </c:if>
 </ul>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">

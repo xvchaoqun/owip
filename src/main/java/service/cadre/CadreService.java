@@ -63,6 +63,10 @@ public class CadreService extends BaseMapper {
     @Autowired(required = false)
     protected CmMemberService cmMemberService;
 
+    public CadreView getCadre(int id){
+        return iCadreMapper.getCadre(id);
+    }
+
     // 添加临时干部（无角色）
     @Transactional
     public Cadre addTempCadre(int userId) {

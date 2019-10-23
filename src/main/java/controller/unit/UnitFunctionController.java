@@ -58,6 +58,7 @@ public class UnitFunctionController extends BaseController {
 
             if(!isEdit){
                 modelMap.put("unitId", unitId);
+                modelMap.put("unit", unitService.findAll().get(unitId));
                 modelMap.put("currentId", currentId);
                 return "unit/unitFunction/unitFunction_view";
             }

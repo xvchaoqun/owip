@@ -44,6 +44,13 @@ ALTER TABLE `cet_annual_obj`
 ALTER TABLE `cet_annual_require`
 	ADD CONSTRAINT `FK_cet_annual_require_cet_annual` FOREIGN KEY (`annual_id`) REFERENCES `cet_annual` (`id`) ON DELETE CASCADE;
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES
+                            (202, 0, '分党委、支部委员信息采集表', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'partyMemberInfoForm:*', NULL, NULL, NULL, 1, NULL);
+
+
+
 201901015
 南航  -- 北师大
 

@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职能确定时间</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>职能确定时间</label>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 150px">
 						<input required class="form-control date-picker"
