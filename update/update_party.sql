@@ -15,10 +15,6 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 
 -- 201910 李阳 党内奖惩、党内任职 三张视图创建
 
--- 10.15 李阳
-
-replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩、党内任职', '', 'function', '', NULL, 260, '0/1/260/', 0, 'party:function', NULL, NULL, NULL, 1, NULL);
-
 -- 10.15 李阳 党内奖惩、党内任职 三张表
 
 DROP TABLE IF EXISTS `ow_party_post`;
@@ -77,14 +73,4 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '国家级先进党支部', 'mt_cko3mg', NULL, '', '', 3, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '校级红色“1+1”', 'mt_37xxui', NULL, '', '', 4, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2597, '省部级红色“1+1”', 'mt_krnrhg', NULL, '', '', 5, 1);
-
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩、党内任职', '', 'function', '', NULL, 260, '0/1/260/', 0, 'party:function', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2501, 0, '查看党内奖励', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyReward:list', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2502, 0, '编辑党内奖励', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyReward:edit', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2503, 0, '查看党内惩罚', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPunish:list', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2504, 0, '编辑党内惩罚', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPunish:edit', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2505, 0, '查看党内任职', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPost:list', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2506, 0, '编辑党内任职', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyPost:edit', NULL, NULL, NULL, 1, NULL);
-
-
 

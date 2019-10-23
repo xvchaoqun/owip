@@ -1,5 +1,6 @@
 package controller.cadre;
 
+import bean.CadreInfoForm;
 import controller.BaseController;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -62,7 +63,14 @@ public class CadreInfoFormController extends BaseController {
     @RequestMapping("/partyMemberInfoForm_page")
     public String partyMemberInfoForm_page(int cadreId, ModelMap modelMap) {
 
-        modelMap.put("bean", cadreInfoFormService.getCadreInfoForm(cadreId));
+        CadreInfoForm cadreInfoForm = cadreInfoFormService.getCadreInfoForm(cadreId);
+        cadreInfoForm.setCadreFamilys(null);
+        cadreInfoForm.setCadreFamilyAbroads(null);
+        cadreInfoForm.setTrainDesc(null);
+        cadreInfoForm.setReward(null);
+        cadreInfoForm.setCes(null);
+
+        modelMap.put("bean", cadreInfoForm);
         return "cadre/cadreInfoForm/partyMemberInfoForm_page";
     }
 

@@ -213,28 +213,32 @@
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
                     return $.party(rowObject.partyId);
                 }},
-            { label: '所属党支部',  name: 'branchId',align:'left', width: 300,formatter:function(cellvalue, options, rowObject){
+            { label: '所属党支部',  name: 'branchId',align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
 
                     return $.party(null, rowObject.branchId);
                 }, frozen:true },
-            {label: '计划时间', name: 'planDate', width:150, align:'left'},
-            {label: '实际时间', name: 'date', width:150, align:'left'},
-            {label: '会议名称', name: 'name', width:250,align:'left',frozen:true},
-            {label: '会议议题', name: 'issue', width:250, align:'left', formatter:function(cellvalue, options, rowObject){
+            {label: '计划时间', name: 'planDate', width:150,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
+            {label: '实际时间', name: 'date', width:150,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
+            {label: '会议名称', name: 'name', width:350,align:'left',frozen:true},
+            {label: '会议议题', name: 'issue', width:350, align:'left', formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined) return '--';
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,cellvalue);
                 }
             },
 
-            {label: '应到人数', name: 'dueNum', align:'left'},
-            {label: '实到人数', name: 'attendNum', align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '应到人数', name: 'dueNum'},
+            {label: '实到人数', name: 'attendNum',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==0) return '--'
                     return ('<a href="javascript:;" class="popupBtn bolder" ' +
                         'data-url="${ctx}/pmMeeting_user?id={0}&type=1"><u>{1}</u></a>')
                         .format(rowObject.id, cellvalue);
                 }
             },
-            {label: '请假人数', name: 'absentNum', align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '请假人数', name: 'absentNum',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==0) return '--'
                     return ('<a href="javascript:;" class="popupBtn bolder" ' +
                         'data-url="${ctx}/pmMeeting_user?id={0}&type=2"><u>{1}</u></a>')
@@ -244,7 +248,7 @@
             {label: '主持人', name: 'presenterName.realname', align:'left'},
             {label: '记录人', name: 'recorderName.realname', align:'left'},
             {label: '会议地点', name: 'address', align:'left'},
-            {label: '参会人员', name: 'attendList', align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '参会人员', name: 'attendList', align:'left', width: 280,formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
                     return $.map(cellvalue, function(u){
                         return u.realname;

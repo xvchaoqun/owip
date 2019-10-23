@@ -330,7 +330,7 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("partyMember:changeOrder")
+    @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {

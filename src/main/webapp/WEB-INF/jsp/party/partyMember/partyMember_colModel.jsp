@@ -30,7 +30,7 @@
                 formatoptions:{on:'<span class="red bolder">是</span>', off:"否"}, frozen: true},
             </c:if>
             <c:if test="${not empty param.groupId}">
-             <shiro:hasPermission name="partyMember:changeOrder">
+             <shiro:hasPermission name="partyMember:edit">
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2', url: "${ctx}/partyMember_changeOrder"}, frozen: true

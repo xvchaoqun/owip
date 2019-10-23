@@ -713,6 +713,11 @@ public class CadreInfoFormService extends BaseMapper {
     public void process3(int cadreId, Writer out) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = getDataMap2(cadreId);
+        dataMap.put("familys", null);
+        dataMap.put("trainDesc", null);
+        dataMap.put("familys", null);
+        dataMap.put("ces", null);
+        dataMap.put("reward", null);
 
         freemarkerService.process("/infoform/infoform3.ftl", dataMap, out);
     }
