@@ -1,5 +1,8 @@
 package domain.unit;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ public class UnitFunction implements Serializable {
 
     private Boolean isCurrent;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date confirmTime;
 
     private String content;

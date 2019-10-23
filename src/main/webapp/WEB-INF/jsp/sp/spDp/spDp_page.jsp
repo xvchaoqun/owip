@@ -46,20 +46,39 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                        <div class="form-group">
+                        <div class="form-group" id="search_first">
                             <label>民主党派机构</label>
-                            <input class="form-control search-query" name="dp" type="text" value="${param.dp}"
-                                   placeholder="请输入民主党派机构">
+                            <select data-rel="select2" name="dp"
+                                    data-placeholder="请选择">
+                                <option></option>
+                            </select>
                         </div>
+                            <script>
+                                $.register.layer_type_select("search_first", "secondDiv",
+                                    ${cm:toJSONArrayWithFilter(cm:getLayerTypes("lt_spDp"), "id,name,children,children.id,children.name")}
+                                    , '${spDp.dp}', '${spDp.dpPost}');
+                            </script>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=dp]").val(${param.dp});
+                            </script>
                         <div class="form-group">
                             <label>姓名</label>
-                            <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                                   placeholder="请输入姓名">
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>是否领导干部</label>
-                            <input class="form-control search-query" name="isCadre" type="text" value="${param.isCadre}"
-                                   placeholder="请输入是否领导干部">
+                            <select name="isCadre" data-width="100" data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=isCadre]").val('${param.isCadre}');
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -111,8 +130,8 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

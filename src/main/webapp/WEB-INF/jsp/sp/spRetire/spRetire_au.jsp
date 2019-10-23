@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 姓名</label>
 				<div class="col-xs-6">
-					<select name="userId"
+					<select required name="userId"
 							class="form-control"
 							data-rel="select2-ajax"
 							data-width="270"
@@ -58,19 +58,19 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"> 岗位类别</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="postClass" value="${spRetire.postClass}">
+				<input class="form-control" type="text" name="postClass" value="${spRetire.postClass}">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"> 专业技术职务</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="proPost" value="${spRetire.proPost}">
+				<input class="form-control" type="text" name="proPost" value="${spRetire.proPost}">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">管理岗位等级</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="manageLevel" value="${spRetire.manageLevel}">
+				<input class="form-control" type="text" name="manageLevel" value="${spRetire.manageLevel}">
 			</div>
 		</div>
 			<div class="form-group">
@@ -94,25 +94,22 @@ pageEncoding="UTF-8"%>
 
 		var userId = $(this).val();
 		$.post("${ctx}/sp/spRetire_details",{userId:userId},function (ret) {
-			var cadre = ret.cadre;
+			var teacherInfo = ret.teacherInfo;
 
-			if (cadre != null){
+			if (teacherInfo != null){
 
-				$("input[name=authorizedType]").val(cadre.authorizedType);
-				$("input[name=staffType]").val(cadre.staffType);
-				$("input[name=proPost]").val(cadre.proPost);
-				$("input[name=proPostLevel]").val(cadre.proPostLevel);
-				$("input[name=talentTitle]").val(cadre.talentTitle);
-				$("input[name=phone]").val(cadre.mobile);
+				$("input[name=staffStatus]").val(teacherInfo.staffStatus);
+				$("input[name=onJob]").val(teacherInfo.onJob);
+				$("input[name=postClass]").val(teacherInfo.postClass);
+				$("input[name=proPost]").val(teacherInfo.proPost);
+				$("input[name=manageLevel]").val(teacherInfo.manageLevel);
 			}else {
 
-				$("input[name=arriveDate]").val(null);
-				$("input[name=authorizedType]").val(null);
-				$("input[name=staffType]").val(null);
+				$("input[name=staffStatus]").val(null);
+				$("input[name=onJob]").val(null);
+				$("input[name=postClass]").val(null);
 				$("input[name=proPost]").val(null);
-				$("input[name=proPostLevel]").val(null);
-				$("input[name=talentTitle]").val(null);
-				$("input[name=phone]").val(null);
+				$("input[name=manageLevel]").val(null);
 			}
 		})
 	});

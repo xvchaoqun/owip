@@ -34,7 +34,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职能内容</label>
 				<div class="col-xs-6">
-					<textarea class="form-control" name="content" rows="8">${unitFunction.content}</textarea>
+					<textarea class="form-control" id="content">${unitFunction.content}</textarea>
+					<input type="hidden" name="content">
 				</div>
 			</div>
 			<div class="form-group">
@@ -65,6 +66,8 @@ pageEncoding="UTF-8"%>
     $("#funForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitFunFormBtn").button('loading');
+
+			$("input[name=content]", form).val(ke.html());
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -86,6 +89,28 @@ pageEncoding="UTF-8"%>
         no_file:'请上传pdf文件',
         allowExt: ['pdf']
     })
+
+	var ke = KindEditor.create('#content', {
+		filterMode: false,
+		allowFileManager: true,
+		items: [
+			'source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste',
+			'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+			'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+			'superscript', 'clearhtml', 'quickformat', 'selectall',
+			'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+			'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+			'flash', 'media', 'insertfile', 'table', 'hr',
+			'anchor', 'link', 'unlink', '|', 'fullscreen'
+		],
+		uploadJson: '${ctx}/ke/upload_json',
+		fileManagerJson: '${ctx}/ke/file_manager_json',
+		height: '300px',
+		width: '600px',
+		minWidth: 400,
+		cssPath: '${ctx}/assets/css/font-awesome.css'
+	});
+
     $("#funForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#modalForm [data-rel="select2"]').select2();

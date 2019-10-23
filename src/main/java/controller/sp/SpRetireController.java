@@ -1,9 +1,9 @@
 package controller.sp;
 
-import domain.cadre.CadreView;
 import domain.sp.SpRetire;
 import domain.sp.SpRetireExample;
 import domain.sp.SpRetireExample.Criteria;
+import domain.sys.TeacherInfo;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.sys.TeacherInfoService;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -29,20 +30,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-
 @Controller
 @RequestMapping("/sp")
 public class SpRetireController extends SpBaseController {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
-    private service.sys.TeacherInfoService TeacherInfoService;
+    private TeacherInfoService teacherInfoService;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("sp:list")
     @RequestMapping("/spRetire")
-    public String spRetire() {
+    public String spRetire(Integer userId,Integer unitId, ModelMap modelMap) {
 
+        modelMap.put("unit",CmTag.getUnitById(unitId));
+        modelMap.put("sysUser",CmTag.getUserById(userId));
         return "sp/spRetire/spRetire_page";
     }
 
@@ -110,20 +112,19 @@ public class SpRetireController extends SpBaseController {
     @RequiresPermissions("sp:edit")
     @RequestMapping(value = "/spRetire_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_spRetire_au(@RequestParam(value = "userIdsList[]", required = false) Integer[] userIds,
-                              SpRetire record, HttpServletRequest request) {
+    public Map do_spRetire_au(SpRetire record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        /*if (spRetireService.idDuplicate(id, null)) {
+        if (spRetireService.idDuplicate(id, record.getUserId())) {
             return failed("添加重复");
-        }*/
+        }
+
+        spRetireService.updateRecord(record);
+
         if (id == null) {
 
-            if (userIds.length==0 && record.getUserId()!=null)
-                userIds[0]=record.getUserId();
-
-                spRetireService.insert(userIds,record.getRemark());
+                spRetireService.insertSelective(record);
             logger.info(log( LogConstants.LOG_SP, "添加离退休教师代表：{0}", record.getId()));
         } else {
 
@@ -142,6 +143,7 @@ public class SpRetireController extends SpBaseController {
             SpRetire spRetire = spRetireMapper.selectByPrimaryKey(id);
             modelMap.put("spRetire", spRetire);
             modelMap.put("sysUser", CmTag.getUserById(spRetire.getUserId()));
+            modelMap.put("unit",CmTag.getUnitById(spRetire.getUnitId()));
         }
         return "sp/spRetire/spRetire_au";
     }
@@ -252,14 +254,12 @@ public class SpRetireController extends SpBaseController {
     public Map do_spRetire_details(Integer userId){
 
         Map dateilsMap = new HashMap();
-        CadreView cadre = CmTag.getCadreByUserId(userId);
 
-        if (cadre == null) return null;
+        TeacherInfo teacherInfo = teacherInfoService.get(userId);
 
-        if (spTalentService.isCurrentCadre(cadre.getStatus())){
+        if (teacherInfo == null) return null;
+        dateilsMap.put("teacherInfo",teacherInfo);
 
-            dateilsMap.put("cadre",cadre);
-        }
         return dateilsMap;
     }
 }

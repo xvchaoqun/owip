@@ -33,8 +33,9 @@ public class SpTeachController extends SpBaseController {
 
     @RequiresPermissions("sp:list")
     @RequestMapping("/spTeach")
-    public String spTeach() {
+    public String spTeach(Integer userId,ModelMap modelMap) {
 
+        modelMap.put("sysUser",CmTag.getUserById(userId));
         return "sp/spTeach/spTeach_page";
     }
 

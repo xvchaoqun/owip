@@ -1,9 +1,11 @@
 package service.sp;
 
+import domain.cadre.CadreView;
 import domain.sp.SpRetire;
 import domain.sp.SpRetireExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -13,10 +15,11 @@ import java.util.Map;
 @Service
 public class SpRetireService extends SpBaseMapper {
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer id, Integer userId){
 
         SpRetireExample example = new SpRetireExample();
         SpRetireExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return spRetireMapper.countByExample(example) > 0;
@@ -76,21 +79,14 @@ public class SpRetireService extends SpBaseMapper {
     }
 
     @Transactional
-    public void insert(Integer[] userIds,String remark){
+    public void updateRecord(SpRetire spRetire){
 
-        for (Integer userId : userIds){
+        spRetire.setIsCadre(false);
+        CadreView cadre = CmTag.getCadreByUserId(spRetire.getUserId());
 
-            SpRetire spRetire = new SpRetire();
-            spRetire.setSortOrder(getNextSortOrder("sp_retire", null));
-            spRetire.setUserId(userId);
-            spRetire.setRemark(remark);
-            insertSelective(spRetire);
+        if (cadre !=null){
+
+            spRetire.setIsCadre(isCurrentCadre(cadre.getStatus()));
         }
-    }
-
-    @Transactional
-    public void UpdateRecord(){
-
-
     }
 }

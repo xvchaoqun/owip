@@ -42,8 +42,9 @@ public class SpDpController extends SpBaseController {
 
     @RequiresPermissions("sp:list")
     @RequestMapping("/spDp")
-    public String spDp() {
+    public String spDp(Integer userId,ModelMap modelMap) {
 
+        modelMap.put("sysUser",CmTag.getUserById(userId));
         return "sp/spDp/spDp_page";
     }
 

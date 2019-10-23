@@ -42,18 +42,35 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>职务</label>
-                            <input class="form-control search-query" name="post" type="text" value="${param.post}"
-                                   placeholder="请输入职务">
+
+                            <select class="col-xs-6" name="post" data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_sp_teach"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=post]").val(${param.post});
+                            </script>
                         </div>
                         <div class="form-group">
                             <label>姓名</label>
-                            <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                                   placeholder="请输入姓名">
+                            <select data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/sysUser_selects"
+                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>是否领导干部</label>
-                            <input class="form-control search-query" name="isCadre" type="text" value="${param.isCadre}"
-                                   placeholder="请输入是否领导干部">
+                            <select name="isCadre" data-width="100" data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=isCadre]").val('${param.isCadre}');
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -105,8 +122,8 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

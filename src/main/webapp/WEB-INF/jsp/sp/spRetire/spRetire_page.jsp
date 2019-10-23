@@ -44,18 +44,32 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>所在单位</label>
-                            <input class="form-control search-query" name="unitId" type="text" value="${param.unitId}"
-                                   placeholder="请输入所在单位">
+                            <select name="unitId" data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/unit_selects"
+                                    data-placeholder="请选择">
+                                <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>姓名</label>
-                            <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                                   placeholder="请输入姓名">
+                            <select name="userId" class="form-control"
+                                    data-rel="select2-ajax"
+                                    data-ajax-url="${ctx}/sysUser_selects"
+                                    data-placeholder="请输入账号或姓名或学工号">
+                                <option value="${sysUser.userId}">${sysUser.realname}-${sysUser.code}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>是否离任领导干部</label>
-                            <input class="form-control search-query" name="isCadre" type="text" value="${param.isCadre}"
-                                   placeholder="请输入是否离任领导干部">
+                            <select name="isCadre" data-width="100" data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=isCadre]").val('${param.isCadre}');
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -86,9 +100,13 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/sp/spRetire_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '工作证号',name: 'user.code',width: 150},
-                { label: '姓名',name: 'user.realname'},
-                { label: '所在单位',name: 'unitId',width: 200},
+                { label: '工作证号',name: 'user.code',width: 150,frozen: true},
+                { label: '姓名',name: 'user.realname',frozen: true},
+                { label: '所在单位',name: 'unitId',width: 200,formatter: $.jgrid.formatter.unit,frozen: true},
+            <shiro:hasPermission name="sp:edit">
+                    { label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                    formatoptions:{url: "${ctx}/sp/spRetire_changeOrder"},frozen: true},
+            </shiro:hasPermission>
                 { label: '性别',name: 'user.gender',formatter: $.jgrid.formatter.GENDER},
                 { label: '出生日期',name: 'user.birth',formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat:'Y.m.d'}},
@@ -96,17 +114,17 @@ pageEncoding="UTF-8" %>
                 { label: '政治面貌',name: 'politicsStatus',formatter: $.jgrid.formatter.MetaType},
                 { label: '人员状态',name: 'teacherInfo.staffStatus'},
                 { label: '在岗情况',name: 'teacherInfo.onJob'},
-                { label: '岗位类别',name: 'teacherInfo.postClass'},
-                { label: '专业技术职务',name: 'teacherInfo.proPost'},
-                { label: '管理岗位等级',name: 'teacherInfo.manageLevel'},
-                { label: '是否离任领导干部',name: 'isCadre',formatter: $.jgrid.formatter.TRUEFALSE},
+                { label: '岗位类别',name: 'teacherInfo.postClass',width: 150},
+                { label: '专业技术职务',name: 'teacherInfo.proPost',width: 150},
+                { label: '管理岗位等级',name: 'teacherInfo.manageLevel',width: 150},
+                { label: '是否离任领导干部',name: 'isCadre',width: 150,formatter: $.jgrid.formatter.TRUEFALSE},
                 { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

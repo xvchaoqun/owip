@@ -1,4 +1,25 @@
 2019-10-22
+
+-- 添加源数据类别 桑文帅
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (3000, NULL, '人大代表和政协委员类型', '干部其他信息', '八类代表信息', 'mc_sp_npc_type', '', '', '', 2601, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (3001, NULL, '教代会执委会职务', '干部其他信息', '八大代表类型', 'mc_sp_teach', '', '', '', 2602, 1);
+
+-- 添加源数据 桑文帅
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3000, '全国人大代表', 'mt_ojrkge', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3000, '全国政协委员', 'mt_fuycth', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3000, '北京市人大代表', 'mt_s1ekoy', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3000, '北京市政协委员', 'mt_xqxw5u', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3001, '主任', 'mt_4y6m8p', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3001, '副主任', 'mt_bek2ea', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3001, '委员', 'mt_u59vlh', NULL, '', '', 3, 1);
+
+-- 添加二级数据 桑文帅
+INSERT INTO `base_layer_type` (`id`, `fid`, `code`, `name`, `first_level`, `second_level`, `num`, `sort_order`, `remark`) VALUES (3000, NULL, 'lt_spDp', '民主党派机构目录', '民主党派机构', '民主党派机构职务', 1, 14, '');
+INSERT INTO `base_layer_type` (`id`, `fid`, `code`, `name`, `first_level`, `second_level`, `num`, `sort_order`, `remark`) VALUES (3001, 3000, '01', '民革支部', NULL, NULL, 3, 1, '');
+INSERT INTO `base_layer_type` (`id`, `fid`, `code`, `name`, `first_level`, `second_level`, `num`, `sort_order`, `remark`) VALUES (3002, 3001, '0101', '主委', NULL, NULL, 0, 1, '');
+INSERT INTO `base_layer_type` (`id`, `fid`, `code`, `name`, `first_level`, `second_level`, `num`, `sort_order`, `remark`) VALUES (3003, 3001, '0102', '副主委', NULL, NULL, 0, 2, '');
+INSERT INTO `base_layer_type` (`id`, `fid`, `code`, `name`, `first_level`, `second_level`, `num`, `sort_order`, `remark`) VALUES (3004, 3001, '0103', '委员', NULL, NULL, 0, 3, '');
+
 -- 添加资源数据 桑文帅
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3009, 0, '八类代表信息', '', 'menu', '', NULL, 314, '0/1/314/', 0, 'sp:menu', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3010, 0, '人大代表和政协委员', '', 'url', '', '/sp/spNpc', 3009, '0/1/314/3009/', 1, 'spNpc:list', NULL, NULL, NULL, 1, NULL);
@@ -11,7 +32,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3018, 0, '离退休教师代表', '', 'url', '', '/sp/spRetire', 3009, '0/1/314/3009/', 1, 'spRetire:list', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3029, 0, '八类代表操作', '', 'function', '', NULL, 3009, '0/1/314/3009/', 1, 'sp:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3030, 0, '八类代表查看', '', 'function', '', NULL, 3009, '0/1/314/3009/', 1, 'sp:list', NULL, NULL, NULL, 1, NULL);
-
 
 --建表语句
 
