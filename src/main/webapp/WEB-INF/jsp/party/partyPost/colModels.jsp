@@ -10,11 +10,11 @@
     colModels.partyPost = [
         <c:if test="${list==1}">
         { label: '学工号',name: 'user.code',frozen:true,width:120},
-        { label: '党员',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
+        { label: '姓名',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
                 return $.trim(cellvalue);
             },frozen:true},
         </c:if>
-        { label: '所属${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
+        { label: '所属${_p_partyName}',name: 'partyId', align:'left', width:380,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
 
                 var party = _cMap.partyMap[cellvalue];
                 var _partyView = null;
@@ -28,8 +28,8 @@
                 if (_partyView != null) {
                     return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
                 }
-            },frozen:true},
-        { label: '所属党支部',name: 'branchId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
+            }},
+        { label: '所属党支部',name: 'branchId', align:'left',width:380,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
                 var branch = (cellvalue == undefined) ? undefined : _cMap.branchMap[cellvalue];
                 var _branchView = null;
                 if (branch != undefined) {
@@ -43,10 +43,10 @@
                         .format(branch.isDeleted ? "delete" : "", _branchView);
                 }
                 return '--';
-            },frozen:true},
+            }},
         { label: '任职开始时间',name:'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
         { label: '任职结束时间',name:'endDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-        { label: '工作单位及担任职务',name: 'detail',width:280},
-        { label: '备注',name: 'remark',width:200},{ hidden: true, key: true,name: 'id'}
+        { label: '工作单位及担任职务', align:'left',name: 'detail',width:280},
+        { label: '备注',name: 'remark', align:'left',width:200},{ hidden: true, key: true,name: 'id'}
     ];
 </script>

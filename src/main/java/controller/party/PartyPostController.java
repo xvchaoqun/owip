@@ -93,7 +93,7 @@ public class PartyPostController extends BaseController {
 
         PartyPostViewExample example = new PartyPostViewExample();
         PartyPostViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("user_id desc");
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, id asc");
 
         if (id != null) {
             criteria.andIdEqualTo(id);

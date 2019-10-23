@@ -116,15 +116,8 @@ public class PartyPunishController extends BaseController {
 
         PartyPunishViewExample example = new PartyPunishViewExample();
         PartyPunishViewExample.Criteria criteria = example.createCriteria();
-        if (type == 1){
-            example.setOrderByClause("party_sort_order desc");
-        }
-        if (type == 2){
-            example.setOrderByClause("branch_sort_order desc");
-        }
-        if (type == 3){
-            example.setOrderByClause("user_id asc");
-        }
+        example.setOrderByClause("party_sort_order desc, branch_sort_order desc, id asc");
+
 
         if (id!=null) {
             criteria.andIdEqualTo(id);

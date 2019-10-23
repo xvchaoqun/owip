@@ -241,7 +241,7 @@
             }, frozen:true },
             <shiro:hasPermission name="branchGroup:*">
             {
-                label: '党小组', name: 'bgCount', formatter: function (cellvalue, options, rowObject) {
+                label: '党小组管理', name: 'bgCount', formatter: function (cellvalue, options, rowObject) {
 
                     return ('<button class="openView btn btn-warning btn-xs" ' +
                         'data-url="${ctx}/branchGroup?branchId={0}">'
