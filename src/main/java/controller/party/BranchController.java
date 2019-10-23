@@ -71,7 +71,10 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_view")
-    public String branch_show_page(HttpServletResponse response, ModelMap modelMap) {
+    public String branch_view(int id, HttpServletResponse response, ModelMap modelMap) {
+
+        Branch branch = branchMapper.selectByPrimaryKey(id);
+        modelMap.put("branch", branch);
 
         return "party/branch/branch_view";
     }

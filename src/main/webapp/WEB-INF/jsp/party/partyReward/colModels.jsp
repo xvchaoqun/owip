@@ -8,6 +8,7 @@
     var colModels = function () {
     };
     colModels.partyReward = [
+        <c:if test="${param.list==1}">
         <c:if test="${cls==OW_PARTY_REPU_PARTY}">
         { label: '${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
 
@@ -92,6 +93,7 @@
                 }
                 return '--';
             },frozen:true},
+        </c:if>
         </c:if>
         { label: '获奖日期',name: 'rewardTime',formatter: $.jgrid.formatter.date,formatoptions:{newformat: 'Y.m.d'}},
         <c:if test="${cls==OW_PARTY_REPU_PARTY||cls==OW_PARTY_REPU_BRANCH}">
@@ -110,6 +112,7 @@
         { label: '备注',name: 'remark',width: 200}, {hidden: true, key: true, name: 'id'}, {hidden: true, name: 'userId'}
     ];
     colModels.partyPunish = [
+        <c:if test="${param.list==1}">
         <c:if test="${cls==OW_PARTY_REPU_PARTY}">
         { label: '${_p_partyName}',name: 'partyId',width:280,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
                 var party = _cMap.partyMap[cellvalue];
@@ -192,6 +195,7 @@
                 }
                 return '--';
             },frozen:true},
+        </c:if>
         </c:if>
         { label: '处分日期',name: 'punishTime',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
         { label: '处分截止日期',name: 'endTime',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},

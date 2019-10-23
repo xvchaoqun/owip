@@ -2,29 +2,29 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset buttons">
-    <button class="popupBtn btn btn-primary btn-xs"
+    <button class="popupBtn btn btn-info btn-sm"
             data-url="${ctx}/branchMemberGroup_au?type=view&branchId=${param.branchId}">
-        <i class="fa fa-users"></i> 添加支部委员会
+        <i class="fa fa-plus"></i> 添加
     </button>
     <a href="javascript:;"
        data-url="${ctx}/branchMemberGroup_au"
        data-grid-id="#jqGrid2"
        data-querystr="&type=view&branchId=${param.branchId}"
-       class="jqOpenViewBtn btn btn-primary btn-xs" >
-        <i class="fa fa-edit"></i> 修改信息</a>
+       class="jqOpenViewBtn btn btn-primary btn-sm" >
+        <i class="fa fa-edit"></i> 修改</a>
 
-    <a href="javascript:;"
+    <%--<a href="javascript:;"
        data-url="${ctx}/branch_member"
        data-grid-id="#jqGrid2"
        class="jqOpenViewBtn btn btn-warning btn-xs" >
-        <i class="fa fa-user"></i> 编辑委员</a>
+        <i class="fa fa-user"></i> 编辑委员</a>--%>
 
     <shiro:hasPermission name="branchMemberGroup:del">
         <button data-url="${ctx}/branchMemberGroup_batchDel"
                 data-title="删除"
                 data-msg="确定删除这{0}条数据？"
                 data-grid-id="#jqGrid2"
-                class="jqBatchBtn btn btn-danger btn-xs">
+                class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除
         </button>
     </shiro:hasPermission>

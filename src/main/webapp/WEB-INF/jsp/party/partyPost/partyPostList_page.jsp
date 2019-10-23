@@ -6,11 +6,7 @@
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.id ||not empty param.userId || not empty param.code || not empty param.partyId || not empty param.detail} "/>
                 <div class="tabble">
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="active">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/party/partyPost_menu"><i class="fa fa-circle-o-notch"></i> 党内任职情况</a>
-                        </li>
-                    </ul>
+
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">

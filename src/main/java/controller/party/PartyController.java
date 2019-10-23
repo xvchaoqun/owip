@@ -73,7 +73,10 @@ public class PartyController extends BaseController {
 
     @RequiresPermissions("party:list")
     @RequestMapping("/party_view")
-    public String party_show_page(HttpServletResponse response,  ModelMap modelMap) {
+    public String party_view(int id, HttpServletResponse response,  ModelMap modelMap) {
+
+        Party party = partyMapper.selectByPrimaryKey(id);
+        modelMap.put("party", party);
 
         return "party/party_view";
     }

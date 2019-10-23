@@ -39,10 +39,10 @@ public class PartyPostController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("partyPost:menu")
-    @RequestMapping("/party/partyPost_menu")
-    public String partyPost_menu(){
+    @RequestMapping("/party/partyPostList_page")
+    public String partyPostList_page(){
 
-        return "/party/partyPost/menu";
+        return "/party/partyPost/partyPostList_page";
     }
 
     @RequiresPermissions("partyPost:list")
