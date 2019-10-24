@@ -1,4 +1,6 @@
 
+201901023
+北邮  -- 北师大
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
                              `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,

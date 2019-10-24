@@ -25,13 +25,13 @@ pageEncoding="UTF-8" %>
 </shiro:hasPermission>
             <div class="space-4"></div>
             <table id="jqGrid_post" class="jqGrid2 table-striped"></table>
-            <div id="jqGridPager2"></div>
+            <div id="jqGridPager_post"></div>
 <jsp:include page="/WEB-INF/jsp/party/partyPost/colModels.jsp"/>
 <script>
     $("#jqGrid_post").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "jqGridPager2",
+        pager: "jqGridPager_post",
         url: '${ctx}/party/partyPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.partyPost,
         rowattr: function (rowData, currentObj, rowId) {

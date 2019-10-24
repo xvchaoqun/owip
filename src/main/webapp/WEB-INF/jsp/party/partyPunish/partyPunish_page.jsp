@@ -48,13 +48,13 @@ pageEncoding="UTF-8" %>
 </shiro:hasPermission>
             <div class="space-4"></div>
             <table id="jqGrid_punish" class="jqGrid2 table-striped"></table>
-            <div id="jqGridPager2"></div>
+            <div id="jqGridPager_punish"></div>
 <jsp:include page="/WEB-INF/jsp/party/partyPunish/colModels.jsp"/>
 <script>
     $("#jqGrid_punish").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "jqGridPager2",
+        pager: "jqGridPager_punish",
         url: '${ctx}/party/partyPunish_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:  colModels.partyPunish,
     }).jqGrid("setFrozenColumns");

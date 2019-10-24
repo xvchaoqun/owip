@@ -2,40 +2,35 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
-<c:if test="${param._auth!='self'}">
-    <div id="cadreTitleDiv" class="breadcrumb-title hidden-xs hidden-sm" title="${cadre.title}">
-        【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
-    </div>
-    <script>
-        $("#breadcrumbs").show();
-        //console.log('$("#breadcrumbs").position().left=' + $("#breadcrumbs").position().left)
-        //console.log('$("#breadcrumbs ul.breadcrumb").outerWidth(true)=' + $("#breadcrumbs ul.breadcrumb").outerWidth(true))
-        var _w = $("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true);
-        $("#cadreTitleDiv").css("left", _w + "px")
-    </script>
-    <c:if test="${param.hideBack!=1}">
-    <h4 class="widget-title lighter smaller breadcrumb-back">
-        <a href="javascript:;"
-           data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
-           class="hideView btn btn-xs btn-success">
-            <i class="ace-icon fa fa-reply"></i>
-            返回</a>
-    </h4>
-    </c:if>
-</c:if>
-<c:if test="${param._auth=='self'}">
-    <div id="body-content-view">
-</c:if>
-
+<div id="cadreTitleDiv" class="breadcrumb-title hidden-xs hidden-sm" title="${cadre.title}">
+    【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
+</div>
+<script>
+    $("#breadcrumbs").show();
+    //console.log('$("#breadcrumbs").position().left=' + $("#breadcrumbs").position().left)
+    //console.log('$("#breadcrumbs ul.breadcrumb").outerWidth(true)=' + $("#breadcrumbs ul.breadcrumb").outerWidth(true))
+    var _w = $("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true);
+    $("#cadreTitleDiv").css("left", _w + "px")
+</script>
 <div class="widget-box transparent cadreView" id="view-box">
     <div class="widget-header" style="border-bottom:none">
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
+
             <ul class="nav nav-tabs">
+                <li>
+                    <h4 class="widget-title lighter smaller" style="padding-right: 20px;margin-bottom: 0">
+                        <a href="javascript:;"
+                           data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
+                           class="hideView btn btn-xs btn-success">
+                            <i class="ace-icon fa fa-reply"></i>
+                            返回</a>
+                    </h4>
+                </li>
                 <li class="${to=='cadre_base'?'active':''}">
                     <a href="javascript:;" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
                 </li>
-                <shiro:hasPermission name="cadreEdu:*">
+                <%--<shiro:hasPermission name="cadreEdu:*">
                     <li class="${to=='cadreEdu_page'?'active':''}">
                         <a href="javascript:;"
                            data-url="${ctx}/cadreEdu_page?cadreId=${param.cadreId}&_auth=${param._auth}">学习经历</a>
@@ -58,7 +53,7 @@
                         <a href="javascript:;"
                            data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
                 <shiro:hasPermission name="partyPost:list">
                     <li>
                         <a href="javascript:;" data-url="${ctx}/party/partyPost?userId=${cadre.userId}">党内任职经历</a>
