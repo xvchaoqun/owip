@@ -1,8 +1,8 @@
 201901024
-南航-- 北师大
+南航
 
 201901023
-北邮  -- 北师大
+北邮
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`,
                              `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
@@ -56,7 +56,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 执行 /test/party_cadre.jsp
 
 201901015
-南航  -- 北师大
+南航
 
 201901011
 南航
