@@ -439,8 +439,11 @@ public class CadreController extends BaseController {
             JSONUtils.jsonp(resultMap);
         } else {
             // 没有干部管理员的权限，只能看到部分字段
-            JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname", "gender",
-                    "idcard", "birth", "eduId", "proPost", "lpWorkTime", "unitId",
+            JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname",
+                    "leaderType", "gender", "nation", "nativePlace",
+                    "idcard", "birth", "eduId", "proPost", "lpWorkTime",
+                    "npWorkTime", "cadrePostYear", "sWorkTime", "adminLevelYear",
+                    "unitId",
                     "unit", "unit.unitType", "unit.unitType.name",
                     "unit.name", "title", "adminLevel", "postType", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email");
         }

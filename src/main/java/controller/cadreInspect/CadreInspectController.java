@@ -223,6 +223,19 @@ public class CadreInspectController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cadreInspect:abolish")
+    @RequestMapping(value = "/cadreInspect_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cadreInspect_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            cadreInspectService.batchDel(ids);
+            logger.info(log( LogConstants.LOG_CG, "批量删除考察对象：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cadreInspect:changeOrder")
     @RequestMapping(value = "/cadreInspect_changeOrder", method = RequestMethod.POST)
     @ResponseBody

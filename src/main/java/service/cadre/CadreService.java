@@ -576,9 +576,9 @@ public class CadreService extends BaseMapper {
                     CadreConstants.CADRE_STATUS_MAP.get(checkCadre.getStatus()));
         }
 
-        if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
+        /*if (!StringUtils.equals(user.getIdcard(), newUser.getIdcard())) {
             throw new OpException("身份证号码不相同，无法更换");
-        }
+        }*/
 
         Byte type = newUser.getType();
         if (type != SystemConstants.USER_TYPE_JZG) {

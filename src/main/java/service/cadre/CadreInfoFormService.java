@@ -718,6 +718,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("familys", null);
         dataMap.put("ces", null);
         dataMap.put("reward", null);
+        dataMap.put("resumeDesc", null);
 
         freemarkerService.process("/infoform/infoform3.ftl", dataMap, out);
     }

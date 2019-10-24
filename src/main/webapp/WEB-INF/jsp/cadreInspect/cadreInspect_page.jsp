@@ -66,6 +66,15 @@ pageEncoding="UTF-8" %>
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                         </shiro:hasPermission>
                         </c:if>
+                        <c:if test="${status==CADRE_INSPECT_STATUS_ABOLISH}">
+                            <shiro:hasPermission name="cadreInspect:abolish">
+                            <button data-url="${ctx}/cadreInspect_batchDel"
+                                    data-title="删除"
+                                    data-msg="确定删除这{0}条数据？（删除后无法恢复，请谨慎操作！）"
+                                    class="jqBatchBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i>
+                                删除</button>
+                        </shiro:hasPermission>
+                            </c:if>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/cadreAdLog"
                                 data-id-name="inspectId"

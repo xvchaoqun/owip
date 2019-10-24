@@ -38,7 +38,7 @@
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '是否<br/>正职', name: 'isPrincipal', width: 60, formatter: $.jgrid.formatter.TRUEFALSE},
-        { label: '是否<br/>班子负责人',name: 'leaderType', width: 80, formatter:function(cellvalue, options, rowObject){
+        { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
             if(cellvalue==undefined) return '--';
             return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
         }},
@@ -225,7 +225,13 @@
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-        {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
+        { label: '是否<br/>班子负责人',name: 'leaderType', width: 120, formatter:function(cellvalue, options, rowObject){
+            if(cellvalue==undefined) return '--';
+            return _cMap.UNIT_POST_LEADER_TYPE_MAP[cellvalue];
+        }},
+        {label: '性别', name: 'gender', width: 60, formatter:$.jgrid.formatter.GENDER},
+        {label: '民族', name: 'nation', width: 60},
+        {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
@@ -236,6 +242,35 @@
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m.d'}
+        },
+        {
+            label: '现职务<br/>始任时间',
+            name: 'npWorkTime',
+            formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m.d'}
+        },
+        {
+            label: '现职务<br/>始任年限',
+            name: 'cadrePostYear',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '--';
+                return cellvalue == 0 ? "未满一年" : cellvalue;
+            }
+        },
+        {
+            label: '现职级<br/>始任时间',
+            name: 'sWorkTime',
+            formatter: $.jgrid.formatter.date,
+            formatoptions: {newformat: 'Y.m.d'}
+        },
+        {
+            label: '任现职级<br/>年限',
+            width: 80,
+            name: 'adminLevelYear',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '--';
+                return cellvalue == 0 ? "未满一年" : cellvalue;
+            }
         },
         {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},

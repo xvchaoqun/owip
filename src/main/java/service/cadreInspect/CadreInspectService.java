@@ -24,6 +24,7 @@ import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -346,6 +347,20 @@ public class CadreInspectService extends BaseMapper {
             }
         }
 
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        CadreInspectExample example = new CadreInspectExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cadreInspectMapper.deleteByExample(example);
     }
 
     @Transactional
