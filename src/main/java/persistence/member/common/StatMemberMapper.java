@@ -37,7 +37,7 @@ public interface StatMemberMapper {
     List<StatIntBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
 
     //统计支部类型
-    @Select("select types from ow_branch where is_deleted = 0")
+    @Select("select types from ow_branch where is_deleted = 0 and types is not null")
     List<String> getBranchTypes();
 
     // 按性别统计党员人数

@@ -1,5 +1,7 @@
 package shiro.filter;
 
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -14,6 +16,7 @@ import service.sys.SysLoginLogService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -73,6 +76,14 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         if (deque == null) {
             deque = new LinkedList<Serializable>();
             cache.put(username, deque);
+        }
+
+        SysUserView uv = CmTag.getUserByUsername(username);
+        if(uv==null || BooleanUtils.isTrue(uv.getLocked())){
+            logger.info(sysLoginLogService.log(shiroUser.getId(), username,
+                        null, false, "用户不存在或被锁定"));
+            subject.logout();
+            return false;
         }
 
         Boolean kickout = (Boolean) session.getAttribute("kickout");

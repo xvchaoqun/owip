@@ -63,7 +63,7 @@ public class SysLoginLogService extends BaseMapper {
     }
 
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
-    public String log(Integer userId, String username, byte type, boolean isSuccess, String remark) {
+    public String log(Integer userId, String username, Byte type, boolean isSuccess, String remark) {
 
         Serializable sessionId = SecurityUtils.getSubject().getSession().getId();
         OnlineSession session = (OnlineSession) sessionDAO.readSession(sessionId);

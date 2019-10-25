@@ -1,3 +1,10 @@
+
+
+
+ALTER TABLE `oa_task_user_file`
+	CHANGE COLUMN `file_name` `file_name` VARCHAR(50) NULL AFTER `user_id`,
+	CHANGE COLUMN `file_path` `file_path` VARCHAR(100) NULL AFTER `file_name`;
+
 201901024
 南航
 

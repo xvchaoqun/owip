@@ -114,11 +114,7 @@
                     return $.trim(cellvalue);
                 }
             },
-            {
-                label: '类别', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.LOGIN_TYPE_MAP[cellvalue];
-            }
-            },
+            {label: '类别', name: 'type', formatter: $.jgrid.formatter.MAP, formatoptions:{mapKey:'LOGIN_TYPE_MAP'}},
             {
                 label: '结果', name: 'success', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "登录成功" : "登录失败";
