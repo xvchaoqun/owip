@@ -1,4 +1,5 @@
-
+201901023
+北邮 -- 北师大
 
 ALTER TABLE `ow_party_reward`
 	ADD COLUMN `reward_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '奖励级别' AFTER `reward_time`;
