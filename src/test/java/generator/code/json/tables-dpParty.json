@@ -1,0 +1,118 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "dp",
+
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "grow_stage",
+      "key": "id",
+      "searchColumns": "name,type",
+      "showColumns": "name,type,sort_order,note,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_GROW",
+      "ignore": true
+    },{
+      "table": "grow_stage_event",
+      "key": "id",
+      "searchColumns": "stage_id,name",
+      "showColumns": "stage_id,name,handle_type,confirm_content,note,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "grow",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id",
+      "showColumns": "user_id,party_id,branch_id,current_stage_id,status,apply_date,confirm_date,talk_date,active_date,active_train_date,candidate_date,total_train_date,plan_date,draw_date,first_meeting_date,grow_date,positive_apply_date,positive_date,create_time",
+      "excludeEditColumns": "id,create_time,status,ip",
+      "logType":"LogConstants.LOG_GROW",
+      "ignore": true
+    },
+    {
+      "table": "grow_log",
+      "key": "id",
+      "searchColumns": "grow_id,stage_id,event_id",
+      "showColumns": "grow_id,stage_id,event_id,code,label,handle_type,confirm_content,status,remark,op_user_id,op_time,ip",
+      "excludeEditColumns": "id,op_user_id,op_time,ip",
+      "logType":"LogConstants.LOG_GROW",
+      "ignore": true
+    },
+    {
+      "table": "dp_party",
+      "key": "id",
+      "searchColumns": "id,code,unit_id,class_id,phone",
+      "showColumns": "code,name,short_name,class_id,fax,phone,email,found_time,sort_order,create_time,update_time,is_deleted",
+      "excludeEditColumns": "id,code,phone,found_time,create_time,update_time,is_deleted,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_party_member",
+      "key": "id",
+      "searchColumns": "id,group_id,post_id,user_id,is_admin",
+      "showColumns": "id,group_id,user_id,post_id,assign_date,office_phone,mobile,is_admin",
+      "excludeEditColumns": "id,assign_date,mobile,office_phone,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_party_member_group",
+      "key": "id",
+      "searchColumns": "id,party_id,user_id",
+      "showColumns": "name,party_id,is_present,tran_time,actual_tran_time,appoint_time,dispatch_unit_id",
+      "excludeEditColumns": "id,is_present,tran_time,actual_tran_time,appoint_time,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_member",
+      "key": "user_id",
+      "searchColumns": "user_id,party_id,political_status,type,status,source,party_post",
+      "showColumns": "name,code,party_id,political_status,type,status,source,party_post,add_type,grow_time,create_time,mobile",
+      "excludeEditColumns": "id,code,grow_time,create_time,status,is_deleted,party_post,mobile,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_npm",
+      "key": "id",
+      "searchColumns": "user_id,post,education,degree,unit_id,authorized_type",
+      "showColumns": "post,add_time,education,degree,authorized_type,pro_post,unit_id,phone,mobile,transfer_time",
+      "excludeEditColumns": "add_time,transfer_time,mobile,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_om",
+      "key": "id",
+      "searchColumns": "user_id,type,work_time",
+      "showColumns": "user_id,type,work_time,education,degree,school,major,phone,mobile,transfer_time",
+      "excludeEditColumns": "work_time,sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_npr",
+      "key": "id",
+      "searchColumns": "user_id,work_time,type,level,transfer_time",
+      "showColumns": "user_id,type,level,work_time,education,degree,school,major,phone,mobile,transfer_time",
+      "excludeEditColumns": "sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_pr_cm",
+      "key": "id",
+      "searchColumns": "user_id,work_time,type,status,transfer_time,elect_time,end_time,elect_session",
+      "showColumns": "user_id,work_time,education,degree,school,majortransfer_time,elect_time,end_time,elect_session",
+      "excludeEditColumns": "sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    }
+  ]
+}

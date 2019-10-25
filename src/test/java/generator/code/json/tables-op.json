@@ -1,0 +1,38 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "op",
+
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "op_attatch",
+      "key": "id",
+      "searchColumns": "id,record_id,file_name",
+      "showColumns": "record_id,file_name,file_path,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_OP",
+      "ignore": true
+    },
+    {
+      "table": "op_record",
+      "key": "id",
+      "searchColumns": "id,start_date,user_id,admin_level,type,way,talk_user_id,issue",
+      "showColumns": "start_date,user_id,admin_level,post,type,way,talk_type,talk_user_id,issue,issue_other,remark",
+      "excludeEditColumns": "id,remark,type",
+      "logType": "LogConstants.LOG_OP",
+      "ignore": true
+    },
+    {
+      "table": "op_report",
+      "key": "id",
+      "searchColumns": "id,report_date,unit",
+      "showColumns": "report_date,unit,start_date,end_date,remark",
+      "excludeEditColumns": "id,remark,report_date",
+      "logType": "LogConstants.LOG_OP",
+      "ignore": false
+    }
+  ]
+}

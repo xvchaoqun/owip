@@ -101,21 +101,30 @@
       "ignore": true
     },
     {
-      "table": "branch_group",
+      "table": "party_reward",
       "key": "id",
-      "searchColumns": "name,user_id",
-      "showColumns": "name,branch_id,user_id,create_date",
+      "searchColumns": "id,party_id,branch_id,user_id,reward_time,reward_type,unit",
+      "showColumns": "type,party_id,branch_id,user_id,reward_time,reward_type,name,unit,proof,proof_filename,remark,sort_order",
       "excludeEditColumns": "id,sort_order",
-      "logType":"LogConstants.LOG_PARTY",
+      "logType": "LogConstants.LOG_PARTY",
       "ignore": false
     },
     {
-      "table": "branch_group_member",
+      "table": "party_punish",
       "key": "id",
-      "searchColumns": "user_id",
-      "showColumns": "group_id,user_id,is_leader,",
+      "searchColumns": "id,party_id,branch_id,user_id,punish_time,end_time,unit",
+      "showColumns": "type,party_id,branch_id,user_id,punish_time,end_time,name,unit,remark,sort_order",
       "excludeEditColumns": "id,sort_order",
-      "logType":"LogConstants.LOG_PARTY",
+      "logType": "LogConstants.LOG_PARTY",
+      "ignore": false
+    },
+    {
+      "table": "party_post",
+      "key": "id",
+      "searchColumns": "id,user_id,start_time,end_time",
+      "showColumns": "user_id,start_time,end_time,detail,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_PARTY",
       "ignore": false
     }
   ]
