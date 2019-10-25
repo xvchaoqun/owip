@@ -25,6 +25,8 @@ public class PartyReward implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date rewardTime;
 
+    private Integer rewardLevel;
+
     private Integer rewardType;
 
     private String name;
@@ -87,6 +89,14 @@ public class PartyReward implements Serializable {
 
     public void setRewardTime(Date rewardTime) {
         this.rewardTime = rewardTime;
+    }
+
+    public Integer getRewardLevel() {
+        return rewardLevel;
+    }
+
+    public void setRewardLevel(Integer rewardLevel) {
+        this.rewardLevel = rewardLevel;
     }
 
     public Integer getRewardType() {

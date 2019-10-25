@@ -13,7 +13,7 @@
         { label: '姓名',name: 'user.realname',formatter:function (cellvalue, options, rowObject) {
                 return $.trim(cellvalue);
             },frozen:true},
-        </c:if>
+
         { label: '所属${_p_partyName}',name: 'partyId', align:'left', width:380,formatter:function (cellvalue, optinons, rowObject) { // 显示组织名称
 
                 var party = _cMap.partyMap[cellvalue];
@@ -44,6 +44,7 @@
                 }
                 return '--';
             }},
+        </c:if>
         { label: '任职开始时间',name:'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
         { label: '任职结束时间',name:'endDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
         { label: '工作单位及担任职务', align:'left',name: 'detail',width:280},

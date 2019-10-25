@@ -168,9 +168,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">处分单位</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>处分单位</label>
 				<div class="col-xs-6">
-					<textarea class="form-control" name="unit">${partyPunish.unit}</textarea>
+					<textarea required class="form-control" name="unit">${partyPunish.unit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">

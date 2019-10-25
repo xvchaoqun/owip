@@ -146,6 +146,11 @@
 		<function-signature>java.lang.String displayParty(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
+		<name>displayBranch</name>
+		<function-class>sys.helper.PartyHelper</function-class>
+		<function-signature>java.lang.String displayBranch(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
+	<function>
 		<name>getUserById</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.sys.SysUserView getUserById(java.lang.Integer)</function-signature>

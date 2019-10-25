@@ -1,6 +1,9 @@
 package service.party;
 
-import domain.party.*;
+import domain.party.PartyPunish;
+import domain.party.PartyPunishExample;
+import domain.party.PartyPunishView;
+import domain.party.PartyPunishViewExample;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +19,16 @@ import java.util.Map;
 
 @Service
 public class PartyPunishService extends BaseMapper {
+
+    // 受处分情况（用于任免审批表）
+    public List<PartyPunish> list(int userId) {
+
+        PartyPunishExample example = new PartyPunishExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("punish_time desc");
+
+        return partyPunishMapper.selectByExample(example);
+    }
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -40,7 +53,6 @@ public class PartyPunishService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyPunish:ALL", allEntries = true)
     public void insertSelective(PartyPunish record){
 
         //Assert.isTrue(!idDuplicate(null, record.getName()), "duplicate");
@@ -49,14 +61,12 @@ public class PartyPunishService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyPunish:ALL", allEntries = true)
     public void del(Integer id){
 
         partyPunishMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="PartyPunish:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -67,14 +77,12 @@ public class PartyPunishService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyPunish:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(PartyPunish record){
         //if(StringUtils.isNotBlank(record.getName()))
             //Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "duplicate");
         partyPunishMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="PartyPunish:ALL")
     public Map<Integer, PartyPunish> findAll() {
 
         PartyPunishExample example = new PartyPunishExample();
@@ -94,7 +102,6 @@ public class PartyPunishService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "PartyPunish:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("ow_party_punish", null, ORDER_BY_DESC, id, addNum);

@@ -39,6 +39,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected PartyPostService partyPostService;
     @Autowired
+    protected PartyEvaService partyEvaService;
+    @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
     @Autowired
     protected BranchMemberAdminService branchMemberAdminService;

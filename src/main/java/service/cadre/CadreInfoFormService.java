@@ -1,10 +1,18 @@
 package service.cadre;
 
 import bean.CadreInfoForm;
+import bean.CadreResume;
+import bean.PartyMemberInfoForm;
 import domain.base.MetaType;
 import domain.cadre.*;
+import domain.party.Branch;
+import domain.party.BranchMember;
+import domain.party.PartyEva;
+import domain.party.PartyEvaExample;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +21,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
-import service.party.MemberService;
+import service.party.*;
 import service.sys.SysConfigService;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
@@ -64,6 +72,14 @@ public class CadreInfoFormService extends BaseMapper {
     protected CadrePostService cadrePostService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected BranchService branchService;
+    @Autowired
+    protected PartyPostService partyPostService;
+    @Autowired
+    protected PartyRewardService partyRewardService;
+    @Autowired
+    protected PartyPunishService partyPunishService;
 
     public void export(Integer[] cadreIds, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, TemplateException {
@@ -175,59 +191,22 @@ public class CadreInfoFormService extends BaseMapper {
         }
     }
 
-    public void export3(Integer[] cadreIds, HttpServletRequest request,
+    // 支部书记
+    public void exportPartyMember(Integer cadreId, int branchId, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, TemplateException {
 
-        if (cadreIds == null) return;
+        if (cadreId == null) return;
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        //输出文件
+        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                + " 信息采集表 " + cadre.getUser().getRealname()  + ".doc";
+        response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+        response.setContentType("application/msword;charset=UTF-8");
 
-        if (cadreIds.length == 1) {
-
-            int cadreId = cadreIds[0];
-            CadreView cadre = iCadreMapper.getCadre(cadreId);
-            //输出文件
-            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 信息采集表 " + cadre.getUser().getRealname()  + ".doc";
-            response.reset();
-            DownloadUtils.addFileDownloadCookieHeader(response);
-            response.setHeader("Content-Disposition",
-                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
-            response.setContentType("application/msword;charset=UTF-8");
-
-            process3(cadreId, response.getWriter());
-        }else {
-
-            Map<String, File> fileMap = new LinkedHashMap<>();
-            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
-                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
-            FileUtils.mkdirs(tmpdir, false);
-
-            Set<String> filenameSet = new HashSet<>();
-            for (int cadreId : cadreIds) {
-                CadreView cadre = iCadreMapper.getCadre(cadreId);
-                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 信息采集表 " + cadre.getRealname() + ".doc";
-
-                // 保证文件名不重复
-                if(filenameSet.contains(filename)){
-                    filename = cadre.getCode() + filename;
-                }
-                filenameSet.add(filename);
-
-                String filepath = tmpdir + FILE_SEPARATOR + filename;
-                FileOutputStream output = new FileOutputStream(new File(filepath));
-                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
-
-                process3(cadreId, osw);
-
-                fileMap.put(filename, new File(filepath));
-            }
-
-            String filename = String.format("%s信息采集表.xlsx",
-                    CmTag.getSysConfig().getSchoolName());
-            DownloadUtils.addFileDownloadCookieHeader(response);
-            DownloadUtils.zip(fileMap, filename, request, response);
-            FileUtils.deleteDir(new File(tmpdir));
-        }
+        processPartyMember(cadreId, branchId, response.getWriter());
     }
 
     // 获取干部信息采集表属性值
@@ -419,6 +398,76 @@ public class CadreInfoFormService extends BaseMapper {
         }
 
         return bean;
+    }
+
+    public PartyMemberInfoForm getPartyMemberInfoForm (int cadreId, int branchId){
+
+        CadreInfoForm cadreInfoForm = getCadreInfoForm(cadreId);
+        PartyMemberInfoForm partyMemberInfoForm = new PartyMemberInfoForm();
+        try {
+            PropertyUtils.copyProperties(partyMemberInfoForm, cadreInfoForm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        int userId = cadre.getUserId();
+        Branch branch = branchService.findAll().get(branchId);
+        if (branch != null) {
+            partyMemberInfoForm.setBranchName(branch.getName());
+        }
+
+        MetaType branchSecretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+        BranchMember branchSecretary = iPartyMapper.findBranchMember(branchSecretaryType.getId(), branchId, userId);
+        // 是否一线教师支部书记
+        partyMemberInfoForm.setIsPrefessionalSecretary(BooleanUtils.isTrue(branch.getIsPrefessional())
+                && branchSecretary != null);
+
+        if (branchSecretary != null) {
+            partyMemberInfoForm.setAssignDate(DateUtils.formatDate(branchSecretary.getAssignDate(), DateUtils.YYYYMM));
+        }
+
+        List<CadreResume> resumes = partyPostService.resume(userId);
+        String resume = StringUtils.trimToNull(freemarkerService.freemarker(resumes, "cadreResumes",
+                "/cadre/cadreResume.ftl"));
+        partyMemberInfoForm.setResume(resume);
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("partyRewards", partyRewardService.list(userId));
+        dataMap.put("partyPunishes", partyPunishService.list(userId));
+        String reward = StringUtils.defaultIfBlank(freemarkerService.freemarker(dataMap,
+                "/party/partyReward.ftl"), "无");
+        partyMemberInfoForm.setReward(reward);
+
+        //年度考核结果
+        Integer evaYears = CmTag.getIntProperty("evaYears");
+        if (evaYears == null) evaYears = 3;
+        Integer currentYear = DateUtils.getCurrentYear();
+        List<Integer> years = new ArrayList<>();
+        for (Integer i = 0; i < evaYears; i++) {
+            years.add(currentYear - evaYears + i);
+        }
+        String evaResult = StringUtils.join(years, "、") + "年均为合格"; // 默认
+        {
+            Map<Integer, String> evaMap = new LinkedHashMap<>();
+            PartyEvaExample example = new PartyEvaExample();
+            example.createCriteria().andUserIdEqualTo(userId)
+                    .andYearBetween(currentYear - evaYears, currentYear);
+            example.setOrderByClause("year desc");
+            List<PartyEva> partyEvas = partyEvaMapper.selectByExampleWithRowbounds(example, new RowBounds(0, evaYears));
+            if (partyEvas.size() > 0) {
+                for (PartyEva partyEva : partyEvas) {
+                    int year = partyEva.getYear();
+                    int type = partyEva.getType();
+                    evaMap.put(year, year + "年：" + metaTypeService.getName(type));
+                }
+                ArrayList<String> evaList = new ArrayList<>(evaMap.values());
+                Collections.reverse(evaList);
+                evaResult = StringUtils.join(evaList, "；");
+            }
+        }
+        partyMemberInfoForm.setCes(evaResult);
+
+        return partyMemberInfoForm;
     }
 
     public Map<String, Object> getDataMap(int cadreId) throws IOException, TemplateException {
@@ -691,6 +740,73 @@ public class CadreInfoFormService extends BaseMapper {
         return dataMap;
     }
 
+    public Map<String, Object> getDataMapOfPartyMember(int cadreId, int branchId) throws IOException, TemplateException {
+
+        PartyMemberInfoForm bean = getPartyMemberInfoForm(cadreId, branchId);
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("code", bean.getCode());
+        dataMap.put("name", bean.getRealname());
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM));
+        dataMap.put("age", bean.getAge());
+
+        dataMap.put("nativePlace", bean.getNativePlace());
+        dataMap.put("homeplace", bean.getHomeplace());
+
+        dataMap.put("avatar", bean.getAvatar());
+        dataMap.put("avatarWidth", bean.getAvatarWidth());
+        dataMap.put("avatarHeight", bean.getAvatarHeight());
+        dataMap.put("nation", bean.getNation());
+        dataMap.put("np", bean.getNativePlace());
+        dataMap.put("hp", bean.getHomeplace());
+
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));
+
+        dataMap.put("isOw", bean.getIsOw());
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
+        if (bean.getDpTypeId() != null && bean.getDpTypeId() > 0) {
+            // 民主党派
+            MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
+            String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+            dataMap.put("dpPartyName", dpPartyName);
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
+        }
+
+        // 专业技术职务及评定时间
+        dataMap.put("proPost", bean.getProPost());
+        dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM));
+        dataMap.put("specialty", bean.getSpecialty());
+
+        dataMap.put("edu", bean.getEdu());
+        dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));
+        dataMap.put("inEdu", bean.getInEdu());
+        dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));
+
+        dataMap.put("sameSchool", bean.isSameSchool());
+        dataMap.put("schoolDepMajor1", bean.getSchoolDepMajor1());
+        dataMap.put("schoolDepMajor2", bean.getSchoolDepMajor2());
+
+        dataMap.put("sameInSchool", bean.isSameInSchool());
+        dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
+        dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
+
+        dataMap.put("title", bean.getTitle());
+
+        dataMap.put("isPrefessionalSecretary", bean.getIsPrefessionalSecretary());
+        dataMap.put("branchName", bean.getBranchName());
+        dataMap.put("assignDate", bean.getAssignDate());
+        dataMap.put("post", bean.getPost());
+
+        dataMap.put("resumeDesc", freemarkerService.genTitleEditorSegment(bean.getResume(), true, false, 440));
+        dataMap.put("rewardDesc", freemarkerService.genTitleEditorSegment(bean.getReward(), true, false, 440));
+        dataMap.put("ces", bean.getCes());
+
+        dataMap.put("mobile", bean.getMobile());
+
+        return dataMap;
+    }
+
     // 输出干部信息采集表
     public void process(int cadreId, Writer out) throws IOException, TemplateException {
 
@@ -709,18 +825,13 @@ public class CadreInfoFormService extends BaseMapper {
 
         freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
     }
-    // 输出党委委员信息采集表
-    public void process3(int cadreId, Writer out) throws IOException, TemplateException {
 
-        Map<String, Object> dataMap = getDataMap2(cadreId);
-        dataMap.put("familys", null);
-        dataMap.put("trainDesc", null);
-        dataMap.put("familys", null);
-        dataMap.put("ces", null);
-        dataMap.put("reward", null);
-        dataMap.put("resumeDesc", null);
+    // 输出支部书记信息采集表
+    public void processPartyMember(int cadreId, int branchId, Writer out) throws IOException, TemplateException {
 
-        freemarkerService.process("/infoform/infoform3.ftl", dataMap, out);
+        Map<String, Object> dataMap = getDataMapOfPartyMember(cadreId, branchId);
+
+        freemarkerService.process("/party/partyMemberInfoForm.ftl", dataMap, out);
     }
 
     private String getCompanySeg(CadreCompany bean, String ftlPath) throws IOException, TemplateException {

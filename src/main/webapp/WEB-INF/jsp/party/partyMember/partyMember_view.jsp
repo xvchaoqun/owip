@@ -69,12 +69,20 @@
                         <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${cadre.userId}&type=3">党内惩罚</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="partyEva:*">
+                <li>
+                    <a href="javascript:;"
+                       data-url="${ctx}/partyEva_page?userId=${cadre.userId}">年度考核记录</a>
+                </li>
+                </shiro:hasPermission>
+                <c:if test="${not empty branchSecretary}">
                  <shiro:hasPermission name="partyMemberInfoForm:*">
                 <li>
                     <a href="javascript:;"
-                       data-url="${ctx}/partyMemberInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">信息采集表</a>
+                       data-url="${ctx}/partyMemberInfoForm_page?cadreId=${param.cadreId}&branchId=${param.branchId}&_auth=${param._auth}">支部书记信息采集表</a>
                 </li>
                  </shiro:hasPermission>
+                    </c:if>
             </ul>
 
         </div>

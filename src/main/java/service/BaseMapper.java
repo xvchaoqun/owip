@@ -25,6 +25,8 @@ public class BaseMapper extends CoreBaseMapper{
     protected PartyRewardMapper partyRewardMapper;
     @Autowired
     protected PartyPostMapper partyPostMapper;
+    @Autowired
+    protected PartyEvaMapper partyEvaMapper;
 
     @Autowired(required = false)
     protected CrpRecordMapper crpRecordMapper;

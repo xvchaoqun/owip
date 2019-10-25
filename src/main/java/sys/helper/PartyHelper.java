@@ -80,8 +80,6 @@ public class PartyHelper {
     // 用于jsp页面显示党组织名称
     public static String displayParty(Integer partyId, Integer branchId) {
 
-
-
         String html = "<span class=\"{0}\">{1}<span><span class=\"{2}\">{3}<span>";
         Party party = null;
         Branch branch = null;
@@ -96,6 +94,27 @@ public class PartyHelper {
 
         return MessageFormat.format(html, (party != null && party.getIsDeleted()) ? "delete" : "", party != null ? party.getName() : "",
                 (branch != null && branch.getIsDeleted()) ? "delete" : "", branch != null ? (party != null ? " - " : "") + branch.getName() : "");
+    }
+    // 用于jsp页面显示支部名称
+    public static String displayBranch(Integer partyId, Integer branchId) {
+
+        String html = "<span class=\"{0}\">{1}<span>";
+        String branchName = null;
+        boolean isDeleted = false;
+        Branch branch = null;
+        if (branchId != null) {
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            branch = branchMap.get(branchId);
+            branchName = branch.getName();
+            isDeleted = branch.getIsDeleted();
+        }else{
+            Map<Integer, Party> partyMap = partyService.findAll();
+           Party party = partyMap.get(partyId);
+           branchName = party.getName();
+           isDeleted = party.getIsDeleted();
+        }
+
+        return MessageFormat.format(html, isDeleted ? "delete" : "", branchName);
     }
 
     public static String getApplyStatus(MemberApplyView memberApplyView) {

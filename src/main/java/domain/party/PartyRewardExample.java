@@ -492,6 +492,66 @@ public class PartyRewardExample {
             return (Criteria) this;
         }
 
+        public Criteria andRewardLevelIsNull() {
+            addCriterion("reward_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelIsNotNull() {
+            addCriterion("reward_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelEqualTo(Integer value) {
+            addCriterion("reward_level =", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelNotEqualTo(Integer value) {
+            addCriterion("reward_level <>", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelGreaterThan(Integer value) {
+            addCriterion("reward_level >", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("reward_level >=", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelLessThan(Integer value) {
+            addCriterion("reward_level <", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("reward_level <=", value, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelIn(List<Integer> values) {
+            addCriterion("reward_level in", values, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelNotIn(List<Integer> values) {
+            addCriterion("reward_level not in", values, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelBetween(Integer value1, Integer value2) {
+            addCriterion("reward_level between", value1, value2, "rewardLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("reward_level not between", value1, value2, "rewardLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andRewardTypeIsNull() {
             addCriterion("reward_type is null");
             return (Criteria) this;

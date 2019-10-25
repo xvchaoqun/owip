@@ -8,6 +8,7 @@
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="reward_time" jdbcType="DATE" property="rewardTime" />
+    <result column="reward_level" jdbcType="INTEGER" property="rewardLevel" />
     <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, party_id, branch_id, user_id, reward_time, reward_type, name, unit, proof, 
-    proof_filename, remark, sort_order
+    id, type, party_id, branch_id, user_id, reward_time, reward_level, reward_type, name, 
+    unit, proof, proof_filename, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyRewardExample" resultMap="BaseResultMap">
     select
@@ -111,14 +112,14 @@
   <insert id="insert" parameterType="domain.party.PartyReward">
     insert into ow_party_reward (id, type, party_id, 
       branch_id, user_id, reward_time, 
-      reward_type, name, unit, 
-      proof, proof_filename, remark, 
-      sort_order)
+      reward_level, reward_type, name, 
+      unit, proof, proof_filename, 
+      remark, sort_order)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{rewardTime,jdbcType=DATE}, 
-      #{rewardType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{proof,jdbcType=VARCHAR}, #{proofFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{rewardLevel,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{proof,jdbcType=VARCHAR}, #{proofFilename,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.PartyReward">
     insert into ow_party_reward
@@ -140,6 +141,9 @@
       </if>
       <if test="rewardTime != null">
         reward_time,
+      </if>
+      <if test="rewardLevel != null">
+        reward_level,
       </if>
       <if test="rewardType != null">
         reward_type,
@@ -181,6 +185,9 @@
       </if>
       <if test="rewardTime != null">
         #{rewardTime,jdbcType=DATE},
+      </if>
+      <if test="rewardLevel != null">
+        #{rewardLevel,jdbcType=INTEGER},
       </if>
       <if test="rewardType != null">
         #{rewardType,jdbcType=INTEGER},
@@ -232,6 +239,9 @@
       <if test="record.rewardTime != null">
         reward_time = #{record.rewardTime,jdbcType=DATE},
       </if>
+      <if test="record.rewardLevel != null">
+        reward_level = #{record.rewardLevel,jdbcType=INTEGER},
+      </if>
       <if test="record.rewardType != null">
         reward_type = #{record.rewardType,jdbcType=INTEGER},
       </if>
@@ -266,6 +276,7 @@
       branch_id = #{record.branchId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       reward_time = #{record.rewardTime,jdbcType=DATE},
+      reward_level = #{record.rewardLevel,jdbcType=INTEGER},
       reward_type = #{record.rewardType,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
@@ -294,6 +305,9 @@
       </if>
       <if test="rewardTime != null">
         reward_time = #{rewardTime,jdbcType=DATE},
+      </if>
+      <if test="rewardLevel != null">
+        reward_level = #{rewardLevel,jdbcType=INTEGER},
       </if>
       <if test="rewardType != null">
         reward_type = #{rewardType,jdbcType=INTEGER},
@@ -326,6 +340,7 @@
       branch_id = #{branchId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       reward_time = #{rewardTime,jdbcType=DATE},
+      reward_level = #{rewardLevel,jdbcType=INTEGER},
       reward_type = #{rewardType,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},

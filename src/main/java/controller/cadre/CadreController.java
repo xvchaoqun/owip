@@ -7,6 +7,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.party.BranchMember;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
@@ -600,6 +601,7 @@ public class CadreController extends BaseController {
                              int cadreId,
                              String to, // 默认跳转到基本信息
                              Byte cls, // 1 党委委员 或 2 支委委员 档案页
+                             Integer branchId,
                              ModelMap modelMap) {
 
         if (StringUtils.isBlank(to)) {
@@ -633,6 +635,14 @@ public class CadreController extends BaseController {
             }else{
                 throw new UnauthorizedException();
             }
+            int userId = cadre.getUserId();
+            if(branchId !=null) {
+                MetaType branchSecretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+                BranchMember branchSecretary =
+                        iPartyMapper.findBranchMember(branchSecretaryType.getId(), branchId, userId);
+                 modelMap.put("branchSecretary", branchSecretary);
+            }
+
             return "party/partyMember/partyMember_view";
         }
 

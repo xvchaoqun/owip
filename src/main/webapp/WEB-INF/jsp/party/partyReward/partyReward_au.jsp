@@ -169,6 +169,19 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>奖励级别</label>
+				<div class="col-xs-6">
+					<select required data-rel="select2" name="rewardLevel"
+							data-placeholder="请选择">
+						<option></option>
+						<c:import url="/metaTypes?__code=mc_party_reward_level"/>
+					</select>
+					<script type="text/javascript">
+						$("#modalForm select[name=rewardLevel]").val(${partyReward.rewardLevel});
+					</script>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 获得奖项</label>
 				<div class="col-xs-6">
 					<textarea required class="form-control" name="name">${partyReward.name}</textarea>

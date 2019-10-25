@@ -1,19 +1,45 @@
 package service.party;
 
-import domain.party.*;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import domain.base.MetaType;
+import domain.party.PartyReward;
+import domain.party.PartyRewardExample;
+import domain.party.PartyRewardView;
+import domain.party.PartyRewardViewExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import sys.constants.OwConstants;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PartyRewardService extends BaseMapper {
+
+    @Autowired
+    private MetaTypeService metaTypeService;
+
+    // 获取情况（用于信息采集表）
+    public List<PartyReward> list(int userId) {
+
+        Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+        MetaType gjj = codeKeyMap.get("mc_party_reward_gjj"); // 国家级
+        MetaType sbj = codeKeyMap.get("mc_party_reward_sbj"); // 省部级
+        MetaType dtj = codeKeyMap.get("mc_party_reward_dtj"); // 地厅级
+        List<Integer> rewardLevels = new ArrayList<>();
+        rewardLevels.add(gjj.getId());
+        rewardLevels.add(sbj.getId());
+        rewardLevels.add(dtj.getId());
+
+        PartyRewardExample example = new PartyRewardExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andTypeEqualTo(OwConstants.OW_PARTY_REPU_MEMBER)
+                .andRewardLevelIn(rewardLevels);
+        example.setOrderByClause("reward_time desc");
+
+        return partyRewardMapper.selectByExample(example);
+    }
 
     public boolean idDuplicate(Integer id, Integer pbu){
 
@@ -36,7 +62,6 @@ public class PartyRewardService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyReward:ALL", allEntries = true)
     public void insertSelective(PartyReward record){
 
         //Assert.isTrue(!idDuplicate(record.getId(), null), "duplicate");
@@ -45,14 +70,12 @@ public class PartyRewardService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyReward:ALL", allEntries = true)
     public void del(Integer id){
 
         partyRewardMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="PartyReward:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -63,14 +86,12 @@ public class PartyRewardService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="PartyReward:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(PartyReward record){
         //if(StringUtils.isNotBlank(record.getName()))
             //Assert.isTrue(!idDuplicate(record.getId(), null), "duplicate");
         partyRewardMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="PartyReward:ALL")
     public Map<Integer, PartyReward> findAll() {
 
         PartyRewardExample example = new PartyRewardExample();
@@ -90,7 +111,6 @@ public class PartyRewardService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "PartyReward:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         changeOrder("ow_party_reward", null, ORDER_BY_DESC, id, addNum);

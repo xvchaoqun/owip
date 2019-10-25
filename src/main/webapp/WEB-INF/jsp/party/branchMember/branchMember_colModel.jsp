@@ -16,7 +16,7 @@
                     if(rowObject.cadre==undefined)
                         return (rowObject.isAdmin?str:'')+ cellvalue;
 
-                    var params = {params:'cls=2'};
+                    var params = {params:'cls=2&branchId='+rowObject.groupBranchId};
                     <c:if test="${empty param.isHistory}">
                     params.loadId = 'body-content-view2';
                     params.hideId = 'body-content-view';

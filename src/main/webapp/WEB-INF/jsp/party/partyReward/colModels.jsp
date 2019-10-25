@@ -99,6 +99,12 @@
         <c:if test="${cls==OW_PARTY_REPU_PARTY||cls==OW_PARTY_REPU_BRANCH}">
         { label: '获奖类型',name: 'rewardType',width: 150,formatter:$.jgrid.formatter.MetaType},
         </c:if>
+        {label: '奖励级别', name: 'rewardLevel', width: 90,
+            formatter: $.jgrid.formatter.MetaType,
+            cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.trim(rowObject.rewardLevel)=='')
+                return "class='danger'";
+        }},
         { label: '获得奖项',name: 'name', align:'left',width: 150},
         { label: '颁奖单位',name: 'unit', width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
                 if($.trim(val)=='')

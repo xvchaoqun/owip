@@ -240,22 +240,23 @@
         </table>-->
         <!--<table tableName="ow_party_punish" domainObjectName="party.PartyPunish" mapperName="party.PartyPunishMapper">
 
+        </table>-->
+        <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
+
         </table>
         <table tableName="ow_party_reward" domainObjectName="party.PartyReward" mapperName="party.PartyRewardMapper">
 
         </table>
-        <table tableName="ow_party_post" domainObjectName="party.PartyPost" mapperName="party.PartyPostMapper">
-
-        </table>-->
-        <table tableName="ow_party_punish_view" domainObjectName="party.PartyPunishView" mapperName="party.PartyPunishViewMapper">
-
+        <!--<table tableName="ow_party_post" domainObjectName="party.PartyPost" mapperName="party.PartyPostMapper">
         </table>
+        <table tableName="ow_party_punish_view" domainObjectName="party.PartyPunishView" mapperName="party.PartyPunishViewMapper">
+        </table>-->
         <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
 
         </table>
-        <table tableName="ow_party_post_view" domainObjectName="party.PartyPostView" mapperName="party.PartyPostViewMapper">
+        <!--<table tableName="ow_party_post_view" domainObjectName="party.PartyPostView" mapperName="party.PartyPostViewMapper">
 
-        </table>
+        </table>-->
 
 
     </context>
