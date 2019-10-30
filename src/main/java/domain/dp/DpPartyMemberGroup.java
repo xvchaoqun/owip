@@ -1,6 +1,8 @@
 package domain.dp;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.helper.DpPartyHelper;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,10 +22,13 @@ public class DpPartyMemberGroup implements Serializable {
 
     private Boolean isPresent;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date tranTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date actualTranTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date appointTime;
 
     private Integer dispatchUnitId;

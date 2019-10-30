@@ -76,10 +76,10 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
             <div class="col-xs-6" style="width: 223px">
-                <div class="input-group date" data-date-format="yyyy-mm-dd">
+                <div class="input-group date" data-date-format="yyyy.mm.dd">
                     <input required class="form-control date-picker" name="_foundTime" type="text"
                            placeholder="格式：yyyy.mm.dd"
-                           value="${cm:formatDate(dpParty.foundTime,'yyyy-MM-dd')}"/>
+                           value="${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -88,10 +88,10 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>撤销时间</label>
 			<div class="col-xs-6" style="width: 223px">
-				<div class="input-group date" data-date-format="yyyy-mm-dd">
+				<div class="input-group date" data-date-format="yyyy.mm.dd">
 					<input required class="form-control date-picker" name="deleteTime" type="text"
 						   placeholder="格式：yyyy.mm.dd"
-						   value="${cm:formatDate(dpParty.deleteTime,'yyyy-MM-dd')}"/>
+						   value="${cm:formatDate(dpParty.deleteTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>

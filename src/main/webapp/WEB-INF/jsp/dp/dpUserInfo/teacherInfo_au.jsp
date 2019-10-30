@@ -40,7 +40,7 @@
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" name="_birth" type="text"
-                                   data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}"/>
+                                   data-date-format="yyyy.mm.dd" value="${cm:formatDate(sysUser.birth,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -112,8 +112,8 @@
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" name="_degreeTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(teacherInfo.degreeTime, "yyyy-MM-dd")}"/>
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(teacherInfo.degreeTime, "yyyy.MM.dd")}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -150,8 +150,8 @@
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" name="_arriveTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}"/>
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(teacherInfo.arriveTime, "yyyy.MM.dd")}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -292,8 +292,8 @@
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" name="_retireTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(teacherInfo.retireTime,'yyyy-MM-dd')}"/>
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(teacherInfo.retireTime,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>

@@ -16,7 +16,7 @@ public class DpNpr implements Serializable {
 
     private Integer userId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date workTime;
 
     private String unitPost;
@@ -27,7 +27,7 @@ public class DpNpr implements Serializable {
 
     private Boolean isDeleted;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date transferTime;
 
     private String education;

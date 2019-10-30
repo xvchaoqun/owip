@@ -284,7 +284,7 @@ public class DpPartyMemberController extends DpBaseController {
             List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
             for (DpPartyMember dpPartyMember : dpPartyMembers){
                 if (StringUtils.isNotBlank(deleteTime)){
-                    dpPartyMember.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+                    dpPartyMember.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpPartyMemberMapper.updateByPrimaryKeySelective(dpPartyMember);
             }
@@ -343,7 +343,7 @@ public class DpPartyMemberController extends DpBaseController {
         DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
         DpParty dpParty = dpPartyService.findAll().get(dpPartyMemberGroup.getPartyId());
         XSSFWorkbook wb = statDpPartyMemberService.toXlsx(groupId);
-        String fileName = dpParty.getName() + "委员及分工统计表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = dpParty.getName() + "的委员及分工统计表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
@@ -390,8 +390,8 @@ public class DpPartyMemberController extends DpBaseController {
                     sysUserView.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUserView.getGender()),
                     sysUserView.getNation(),
                     sysUserView.getIdcard(),
-                    DateUtils.formatDate(sysUserView.getBirth(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(sysUserView.getBirth(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYYMMDD_DOT),
                     teacherInfo.getPostClass(),
 
                     teacherInfo.getMainPostLevel(),

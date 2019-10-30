@@ -201,7 +201,7 @@ public class DpNpmController extends DpBaseController {
         }
 
         if (StringUtils.isNotBlank(addTime)){
-            record.setAddTime(DateUtils.parseDate(addTime,DateUtils.YYYY_MM_DD));
+            record.setAddTime(DateUtils.parseDate(addTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(post)){
             record.setPost(post);
@@ -315,7 +315,7 @@ public class DpNpmController extends DpBaseController {
             for (DpNpm dpNpm : dpNpms){
                 dpNpm.setStatus(DpConstants.DP_NPM_OUT);
                 if (StringUtils.isNotBlank(outTime)){
-                    dpNpm.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYY_MM_DD));
+                    dpNpm.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpNpmService.updateByPrimaryKeySelective(dpNpm);
                 logger.info(log( LogConstants.LOG_DPPARTY, "无党派人士退出信息：%s", dpNpm.getUserId()));
@@ -359,7 +359,7 @@ public class DpNpmController extends DpBaseController {
             for (DpNpm dpNpm : dpNpms){
                 dpNpm.setStatus(DpConstants.DP_NPM_TRANSFER);
                 if (StringUtils.isNotBlank(transferTime)){
-                    dpNpm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
+                    dpNpm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpNpmService.updateByPrimaryKeySelective(dpNpm);
                 logger.info(log( LogConstants.LOG_DPPARTY, "转出无党派人士信息：%s", dpNpm.getUserId()));

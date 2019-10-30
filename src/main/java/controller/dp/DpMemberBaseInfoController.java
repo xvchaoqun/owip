@@ -134,7 +134,7 @@ public class DpMemberBaseInfoController extends MemberBaseController {
         }
 
         if (StringUtils.isNotBlank(_birth)) {
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
+            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYYMMDD_DOT));
         }
 
         record.setIsFullTime(BooleanUtils.isTrue(record.getIsFullTime()));
@@ -170,17 +170,17 @@ public class DpMemberBaseInfoController extends MemberBaseController {
         }
 
         if (StringUtils.isNotBlank(_birth)) {
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
+            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYYMMDD_DOT));
         }
 
         if (StringUtils.isNotBlank(_degreeTime)) {
-            record.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYY_MM_DD));
+            record.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_arriveTime)) {
-            record.setArriveTime(DateUtils.parseDate(_arriveTime, DateUtils.YYYY_MM_DD));
+            record.setArriveTime(DateUtils.parseDate(_arriveTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_retireTime)) {
-            record.setRetireTime(DateUtils.parseDate(_retireTime, DateUtils.YYYY_MM_DD));
+            record.setRetireTime(DateUtils.parseDate(_retireTime, DateUtils.YYYYMMDD_DOT));
         }
         record.setIsRetire((record.getIsRetire() == null) ? false : record.getIsRetire());
         record.setIsHonorRetire((record.getIsHonorRetire() == null) ? false : record.getIsHonorRetire());

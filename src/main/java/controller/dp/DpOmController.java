@@ -193,10 +193,10 @@ public class DpOmController extends DpBaseController {
         }
 
         if (StringUtils.isNotBlank(workTime)){
-            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYY_MM_DD));
+            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(transferTime)){
-            record.setTransferTime(DateUtils.parseDate(transferTime,DateUtils.YYYY_MM_DD));
+            record.setTransferTime(DateUtils.parseDate(transferTime,DateUtils.YYYYMMDD_DOT));
         }
         if (id == null) {
             record.setIsDeleted(false);
@@ -260,7 +260,7 @@ public class DpOmController extends DpBaseController {
             for (DpOm dpOm : dpOms){
                 dpOm.setIsDeleted(true);
                 if (StringUtils.isNotBlank(transferTime)){
-                    dpOm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
+                    dpOm.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpOmService.updateByPrimaryKeySelective(dpOm);
                 logger.info(log( LogConstants.LOG_DPPARTY, "撤销其他统战人员：{0}", dpOm.getUserId()));

@@ -65,8 +65,8 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_transferTime" type="text"
-                               data-date-format="yyyy-mm-dd"
-                               value="${cm:formatDate(dpMember.transferTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(dpMember.transferTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_applyTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(dpMember.applyTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.applyTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_activeTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(dpMember.activeTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.activeTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -96,8 +96,8 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_candidateTime" type="text"
-                               data-date-format="yyyy-mm-dd"
-                               value="${cm:formatDate(dpMember.candidateTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(dpMember.candidateTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input ${dpMember_needGrowTime?'required':''} class="form-control date-picker" name="_growTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(dpMember.growTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm-.dd" value="${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -125,8 +125,8 @@
                 <div class="col-xs-8">
                     <div ${dpMember_needGrowTime&&dpMember.politicalStatus==DP_MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="input-group" style="width: 150px">
                         <input class="form-control date-picker" name="_positiveTime" type="text"
-                               data-date-format="yyyy-mm-dd"
-                               value="${cm:formatDate(dpMember.positiveTime,'yyyy-MM-dd')}"/>
+                               data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(dpMember.positiveTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

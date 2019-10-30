@@ -27,12 +27,15 @@ public class DpParty implements Serializable {
 
     private String mailbox;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date foundTime;
 
     private Integer sortOrder;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date createTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date updateTime;
 
     private Boolean isDeleted;

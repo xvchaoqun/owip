@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>转出党派成员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dp/dpMember_transfer" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/dp/dpMember_out" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<input type="hidden" name="ids[]" value="${param['ids[]']}">
 		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
 		<c:if test="${count>=1}">
@@ -22,9 +22,9 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label"><span class="star">*</span> 转出时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input required class="form-control date-picker" name="transferTime" type="text"
-						   data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(dpMember.transferTime, 'yyyy-MM-dd')}"/>
+					<input required class="form-control date-picker" name="outTime" type="text"
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(dpMember.outTime, 'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>

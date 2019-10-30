@@ -23,8 +23,8 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
 					<input required class="form-control date-picker" name="transferTime" type="text"
-						   data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(dpNpr.transferTime, 'yyyy-MM-dd')}"/>
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(dpNpr.transferTime, 'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>

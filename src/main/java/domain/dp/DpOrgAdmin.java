@@ -1,8 +1,10 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,6 +28,7 @@ public class DpOrgAdmin implements Serializable {
 
     private String remark;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date createTime;
 
     private String code;

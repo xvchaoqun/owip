@@ -305,7 +305,7 @@ public class DpMemberController extends DpBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andUserIdIn(Arrays.asList(ids));
-            if (cls == 2 || cls == 3 || cls == 7){
+            if (cls == 2 || cls == 3 || cls == 7 || cls == 10){
                 teacher_export(cls, example, cols, response);
             }
             return;
@@ -384,22 +384,22 @@ public class DpMemberController extends DpBaseController {
         Integer userId = record.getUserId();
 
         if (StringUtils.isNotBlank(_applyTime)){
-            record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+            record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_activeTime)) {
-            record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+            record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_candidateTime)) {
-            record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
+            record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_growTime)) {
-            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
+            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_positiveTime)) {
-            record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
+            record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_transferTime)) {
-            record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYY_MM_DD));
+            record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYYMMDD_DOT));
         }
         SysUserView sysUser = sysUserService.findById(record.getUserId());
         DpMember dpMember = dpMemberService.get(userId);
@@ -480,18 +480,18 @@ public class DpMemberController extends DpBaseController {
     }
 
     @RequiresPermissions("dpMember:del")
-    @RequestMapping("/dpMember_transfer")
-    public String dpMember_transfer(){
+    @RequestMapping("/dpMember_out")
+    public String dpMember_out(){
 
-        return "dp/dpMember/dpMember_transfer";
+        return "dp/dpMember/dpMember_out";
     }
 
     @RequiresPermissions("dpMember:del")
-    @RequestMapping(value = "/dpMember_transfer", method = RequestMethod.POST)
+    @RequestMapping(value = "/dpMember_out", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpMember_transfer(@RequestParam(value = "ids[]") Integer[] userIds,
+    public Map do_dpMember_out(@RequestParam(value = "ids[]") Integer[] userIds,
                               Byte stasus,
-                              String transferTime){
+                              String outTime){
 
         if (null != userIds && userIds.length>0){
             DpMemberExample example = new DpMemberExample();
@@ -500,8 +500,8 @@ public class DpMemberController extends DpBaseController {
             stasus = DpConstants.DP_MEMBER_STATUS_TRANSFER;
             for (DpMember dpMember : dpMembers){
                 dpMember.setStatus(stasus);
-                if (StringUtils.isNotBlank(transferTime)){
-                    dpMember.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
+                if (StringUtils.isNotBlank(outTime)){
+                    dpMember.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpMemberService.updateByPrimaryKeySelective(dpMember);
                 logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpMember.getUserId()));
@@ -591,7 +591,7 @@ public class DpMemberController extends DpBaseController {
                             record.getStatus()+"",
                             record.getSource()+"",
                             record.getAddType()+"",
-                            DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                            DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                             record.getPartyPost()
             };
@@ -1074,8 +1074,10 @@ public class DpMemberController extends DpBaseController {
         List<DpMemberView> records = dpMemberViewMapper.selectByExample(example);
 
         List<String> exportTitles = getTeacherExportTitles();
-        if (cls == 3) {
+        if (cls == 3 || cls == 10) {
             exportTitles.add(6, "离退休时间|80");
+        }else if (cls == 7){
+            exportTitles.add(6, "转出时间|80");
         }
 
         if (cols != null && cols.length > 0) {
@@ -1161,8 +1163,10 @@ public class DpMemberController extends DpBaseController {
                     sysUserView.getMobile()//手机号码
             }));
 
-            if (cls == 3) {
-                values.add(6, DateUtils.formatDate(record.getRetireTime(), DateUtils.YYYY_MM_DD));
+            if (cls == 3 || cls == 10) {
+                values.add(6, DateUtils.formatDate(record.getRetireTime(), DateUtils.YYYYMMDD_DOT));
+            }else if (cls == 7){
+                values.add(6, DateUtils.formatDate(record.getOutTime(), DateUtils.YYYYMMDD_DOT));
             }
 
             if (cols != null && cols.length > 0) {
@@ -1177,7 +1181,7 @@ public class DpMemberController extends DpBaseController {
 
             valuesList.add(values);
         }
-        String fileName = (cls == 7 ? "已转出" : (cls == 3 ? "离退休" : "在职")) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = (cls == 7 ? "已转出" : (cls == 3 ? "离退休" : (cls == 10 ? "全部" : "在职"))) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }

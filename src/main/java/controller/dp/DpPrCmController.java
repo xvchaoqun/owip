@@ -204,17 +204,17 @@ public class DpPrCmController extends DpBaseController {
 
         if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
             return failed("非教职工账号");
-        }else if (dpPrCmService.idDuplicate(id, record.getUserId(), record.getElectSession())) {
+        }else if (dpPrCmService.idDuplicate(id, record.getUserId(), record.getType(), record.getElectSession())) {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(workTime)){
-            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYY_MM_DD));
+            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(electTime)){
-            record.setElectTime(DateUtils.parseDate(electTime,DateUtils.YYYY_MM_DD));
+            record.setElectTime(DateUtils.parseDate(electTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(endTime)){
-            record.setEndTime(DateUtils.parseDate(endTime,DateUtils.YYYY_MM_DD));
+            record.setEndTime(DateUtils.parseDate(endTime,DateUtils.YYYYMMDD_DOT));
         }
         if (id == null) {
             record.setStatus(true);
@@ -287,7 +287,7 @@ public class DpPrCmController extends DpBaseController {
             for (DpPrCm dpPrCm : dpPrCms){
                 dpPrCm.setStatus(false);
                 if (StringUtils.isNotBlank(endTime)){
-                    dpPrCm.setEndTime(DateUtils.parseDate(endTime, DateUtils.YYYY_MM_DD));
+                    dpPrCm.setEndTime(DateUtils.parseDate(endTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpPrCmService.updateByPrimaryKeySelective(dpPrCm);
                 logger.info(log( LogConstants.LOG_DPPARTY, "人大代表、政协委员离任：{0}", dpPrCm.getUserId()));

@@ -188,10 +188,10 @@ public class DpNprController extends DpBaseController {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(workTime)){
-            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYY_MM_DD));
+            record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_transferTime)){
-            record.setTransferTime(DateUtils.parseDate(_transferTime,DateUtils.YYYY_MM_DD));
+            record.setTransferTime(DateUtils.parseDate(_transferTime,DateUtils.YYYYMMDD_DOT));
         }
         if (id == null) {
 
@@ -226,7 +226,7 @@ public class DpNprController extends DpBaseController {
     }
 
     @RequiresPermissions("dpNpr:del")
-    @RequestMapping(value = "/dpNpr_rcover", method = RequestMethod.POST)
+    @RequestMapping(value = "/dpNpr_recover", method = RequestMethod.POST)
     @ResponseBody
     public Map dpNpr_rcover(@RequestParam(value = "ids[]") Integer[] ids,
                             HttpServletRequest request){
@@ -261,7 +261,7 @@ public class DpNprController extends DpBaseController {
             for (DpNpr dpNpr : dpNprs){
                 dpNpr.setIsDeleted(true);
                 if (StringUtils.isNotBlank(transferTime)){
-                    dpNpr.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYY_MM_DD));
+                    dpNpr.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpNprService.updateByPrimaryKeySelective(dpNpr);
                 logger.info(log( LogConstants.LOG_DPPARTY, "撤销党外代表人士：{0}", dpNpr.getUserId()));

@@ -4,13 +4,13 @@
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="dpPartyMemberGroup:edit">
         <button class="popupBtn btn btn-primary btn-xs"
-                data-url="${ctx}/dp/dpPartyMemberGroup_au?type=view&partyId=${param.partyId}">
+                data-url="${ctx}/dp/dpPartyMemberGroup_au?partyId=${param.partyId}">
             <i class="fa fa-users"></i> 添加党派委员会
         </button>
         <a href="javascript:;"
            data-url="${ctx}/dp/dpPartyMemberGroup_au"
            data-grid-id="#jqGrid2"
-           data-querystr="&type=view&partyId=${param.partyId}"
+           data-querystr="&partyId=${param.partyId}"
            class="jqOpenViewBtn btn btn-primary btn-xs">
             <i class="fa fa-edit"></i> 修改信息</a>
     </shiro:hasPermission>

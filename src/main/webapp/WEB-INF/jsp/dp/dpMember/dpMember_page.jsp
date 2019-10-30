@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls!=7}">
                     <shiro:hasPermission name="dpMember:del">
                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpMember_transfer" data-title="转出民主党派"
+                           data-url="${ctx}/dp/dpMember_out" data-title="转出民主党派"
                            data-msg="确定转出这{0}个党派成员吗？"><i class="fa fa-history"></i> 转出</a>
                     </shiro:hasPermission>
                 </c:if>
@@ -312,7 +312,7 @@ pageEncoding="UTF-8" %>
             <c:if test="${cls==7}">
             {
                 label: '转出时间',
-                name: 'transferTime',
+                name: 'outTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },

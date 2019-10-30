@@ -19,7 +19,6 @@ import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DpPartyHelper;
-import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -168,10 +167,10 @@ public class DpOrgAdminController extends DpBaseController {
         SysUserView uv = sysUserService.findById(record.getUserId());
 
         Integer partyId = record.getPartyId();
+        DpParty dpParty = new DpParty();
         if ( partyId!= null) {
-
-            PartyHelper.checkAuth(partyId);
-            DpParty dpParty = dpPartyService.findAll().get(partyId);
+            DpPartyHelper.checkAuth(partyId);
+            dpParty = dpPartyService.findAll().get(partyId);
             dpOrgAdminService.addDpPartyAdmin(record.getUserId(), partyId);
             logger.info(addLog(LogConstants.LOG_DPPARTY, "添加党派管理员：%s， %s", uv.getCode(), dpParty.getName()));
         }

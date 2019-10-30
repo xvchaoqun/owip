@@ -37,7 +37,7 @@
                 <label class="col-xs-4 control-label">出生日期</label>
 
                 <div class="col-xs-6 label-text">
-                    ${cm:formatDate(ui.birth,'yyyy-MM-dd')}
+                    ${cm:formatDate(ui.birth,'yyyy.MM.dd')}
                 </div>
             </div>
             <div class="form-group">

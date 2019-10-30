@@ -179,13 +179,13 @@ public class DpPartyMemberGroupController extends DpBaseController {
         Integer id = record.getId();
 
         if (StringUtils.isNotBlank(_tranTime)) {
-            record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
+            record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_actualTranTime)) {
-            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
+            record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(_appointTime)) {
-            record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
+            record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(groupSession)){
             record.setGroupSession(groupSession);
@@ -211,7 +211,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
     @RequiresPermissions("dpPartyMemberGroup:edit")
     @RequestMapping("/dpPartyMemberGroup_au")
-    public String dpPartyMemberGroup_au(int status, Integer id, Integer partyId, ModelMap modelMap) {
+    public String dpPartyMemberGroup_au(@RequestParam(defaultValue = "1") int status, Integer id, Integer partyId, ModelMap modelMap) {
 
         Map<Integer, DpParty> dpPartyMap = dpPartyService.findAll();
         modelMap.put("dpPartyMap", dpPartyMap);
@@ -260,7 +260,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
                 dpPartyMemberGroup.setIsDeleted(true);
                 if (StringUtils.isNotBlank(actualTranTime)){
-                    dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYY_MM_DD));
+                    dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpPartyMemberGroupService.updateByPrimaryKeySelective(dpPartyMemberGroup);
                 logger.info(log( LogConstants.LOG_DPPARTY, "撤销委员会：{0}", dpPartyMemberGroup.getName()));

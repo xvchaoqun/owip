@@ -16,7 +16,7 @@ public class DpNpm implements Serializable {
 
     private Integer userId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date addTime;
 
     private String post;
@@ -33,10 +33,10 @@ public class DpNpm implements Serializable {
 
     private Byte status;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date outTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date transferTime;
 
     private Integer sortOrder;

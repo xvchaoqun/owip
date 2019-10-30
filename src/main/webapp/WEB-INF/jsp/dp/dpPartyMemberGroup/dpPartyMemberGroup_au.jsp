@@ -66,8 +66,8 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-8">
 				<div class="input-group" style="width: 150px">
 					<input required class="form-control date-picker" name="_appointTime" type="text"
-						   data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(dpPartyMemberGroup.appointTime,'yyyy-MM-dd')}"/>
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(dpPartyMemberGroup.appointTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
@@ -77,8 +77,8 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-8">
 				<div class="input-group" style="width: 150px">
 					<input required class="form-control date-picker" name="_tranTime" type="text"
-						   data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(dpPartyMemberGroup.tranTime,'yyyy-MM-dd')}"/>
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(dpPartyMemberGroup.tranTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
@@ -124,6 +124,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
+						$("#jqGrid2").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

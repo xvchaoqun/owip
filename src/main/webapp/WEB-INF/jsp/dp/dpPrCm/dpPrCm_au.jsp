@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label"><span class="star">*</span> 参加工作时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy-mm-dd" value="${cm:formatDate(dpPrCm.workTime,'yyyy-MM-dd')}"/>
+					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.workTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label"><span class="star">*</span> 当选时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input required class="form-control date-picker" type="text" name="electTime" data-date-format="yyyy-mm-dd" value="${cm:formatDate(dpPrCm.electTime,'yyyy-MM-dd')}"/>
+					<input required class="form-control date-picker" type="text" name="electTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.electTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>

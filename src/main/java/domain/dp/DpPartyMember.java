@@ -40,6 +40,7 @@ public class DpPartyMember implements Serializable {
 
     private Boolean presentMember;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date deleteTime;
 
     private static final long serialVersionUID = 1L;

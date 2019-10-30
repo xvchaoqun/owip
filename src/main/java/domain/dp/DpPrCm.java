@@ -20,7 +20,7 @@ public class DpPrCm implements Serializable {
 
     private String executiveLevel;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date workTime;
 
     private String education;
@@ -35,10 +35,10 @@ public class DpPrCm implements Serializable {
 
     private Integer electSession;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date electTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endTime;
 
     private Boolean status;

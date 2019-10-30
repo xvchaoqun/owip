@@ -18,7 +18,7 @@ public class DpOm implements Serializable {
 
     private Integer type;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date workTime;
 
     private String unitPost;
@@ -33,7 +33,7 @@ public class DpOm implements Serializable {
 
     private Boolean isDeleted;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date transferTime;
 
     private Integer sortOrder;

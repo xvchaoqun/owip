@@ -161,10 +161,10 @@ public class DpPartyController extends DpBaseController {
             return failed("添加重复");
         }
         if (StringUtils.isNotBlank(_foundTime)){
-            record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
+            record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYYMMDD_DOT));
         }
         if (StringUtils.isNotBlank(deleteTime)){
-            record.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+            record.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYYMMDD_DOT));
         }
         if (partyId == null) {
             SecurityUtils.getSubject().checkPermission("dpParty:add");
@@ -219,7 +219,7 @@ public class DpPartyController extends DpBaseController {
             for (DpParty dpParty : dpParties){
                 dpParty.setIsDeleted(true);
                 if (StringUtils.isNotBlank(deleteTime)){
-                    dpParty.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYY_MM_DD));
+                    dpParty.setDeleteTime(DateUtils.parseDate(deleteTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpPartyService.updateByPrimaryKeySelective(dpParty);
                 logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派：{0}", dpParty.getName()));
