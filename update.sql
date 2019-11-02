@@ -1,6 +1,12 @@
 201901102
 北邮 -- 北师大
 
+-- 删除 controller.global.ExportController
+
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('birthToDay', '干部出生日期精确到日', 'true', 3, 46, '');
+REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('postTimeToDay', '任职(职级)日期精确到日', 'true', 3, 47, '');
+
+
 201901023
 北邮 -- 北师大
 
