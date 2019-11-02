@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:;" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
@@ -221,7 +222,7 @@
                 label: '任职日期',
                 name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
             },
             {
                 label: '现任职务年限',
@@ -249,7 +250,7 @@
                 width: 150,
                 name: 'npWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
             },
             {
                 label: '现任职务始任年限',
@@ -326,7 +327,7 @@
                 width: 150,
                 name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
             },
             {
                 label: '兼任职务年限',
@@ -354,7 +355,7 @@
                 width: 150,
                 name: 'npWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
             },
             {
                 label: '兼任职务始任年限',
@@ -456,7 +457,7 @@
                 width: 120,
                 name: 'sWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}, frozen:true
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}, frozen:true
             },
             {label: '职级始任职务', width: 200, align:'left', name: 'sPost', frozen:true},
             {
@@ -474,7 +475,7 @@
                 width: 120,
                 name: 'eWorkTime',
                 formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
+                formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
             },
             {
                 label: '职级结束文件', width: 150, name: 'eDispatch', formatter: function (cellvalue, options, rowObject) {

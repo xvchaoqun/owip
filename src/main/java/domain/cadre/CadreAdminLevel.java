@@ -1,9 +1,7 @@
 package domain.cadre;
 
 import domain.dispatch.Dispatch;
-import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,12 +24,10 @@ public class CadreAdminLevel implements Serializable {
 
     private Integer sDispatchId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date sWorkTime;
 
     private Integer eDispatchId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date eWorkTime;
 
     private String sPost;

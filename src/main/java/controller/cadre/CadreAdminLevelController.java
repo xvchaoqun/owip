@@ -46,9 +46,17 @@ public class CadreAdminLevelController extends BaseController {
     @RequiresPermissions("cadreAdminLevel:edit")
     @RequestMapping(value = "/cadreAdminLevel_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreAdminLevel_au(CadreAdminLevel record, String _startTime, String _endTime, HttpServletRequest request) {
+    public Map do_cadreAdminLevel_au(CadreAdminLevel record,
+                                     String _sWorkTime,
+                                     String _eWorkTime,
+                                     HttpServletRequest request) {
 
         Integer id = record.getId();
+
+        record.setsWorkTime(DateUtils.parseDate(_sWorkTime,
+                CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM));
+        record.seteWorkTime(DateUtils.parseDate(_eWorkTime,
+                CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM));
 
         if (id == null) {
             cadreAdminLevelMapper.insertSelective(record);

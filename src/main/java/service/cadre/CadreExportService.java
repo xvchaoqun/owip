@@ -221,18 +221,18 @@ public class CadreExportService extends BaseMapper {
             }
 
             if(record.getNpWorkTime()!=null) {
-                postStartTime = DateUtils.formatDate(record.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                postStartTime = DateUtils.formatDate(record.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
                 Integer year = DateUtils.intervalYearsUntilNow(record.getNpWorkTime());
                 if (year == 0) postYear = "未满一年";
                 else postYear = year + "";
             }
 
             if(record.getLpWorkTime()!=null) {
-                postTime = DateUtils.formatDate(record.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                postTime = DateUtils.formatDate(record.getLpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
             }
 
             if(record.getsWorkTime()!=null) {
-                adminLevelStartTime = DateUtils.formatDate(record.getsWorkTime(), DateUtils.YYYYMMDD_DOT);
+                adminLevelStartTime = DateUtils.formatDate(record.getsWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
                 Date eWorkTime = record.geteWorkTime();
                 Integer monthDiff = DateUtils.monthDiff(record.getsWorkTime(), eWorkTime == null ? new Date() : eWorkTime);
                 int year = monthDiff / 12;
@@ -282,8 +282,8 @@ public class CadreExportService extends BaseMapper {
                 }
                 subPost += StringUtils.trimToEmpty(cadrePost.getPost());
 
-                subPostTime = DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT);
-                subPostStartTime = DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT);
+                subPostTime = DateUtils.formatDate(cadrePost.getLpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+                subPostStartTime = DateUtils.formatDate(cadrePost.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
             }
 
             String _fulltimeEdu = "";
@@ -336,7 +336,7 @@ public class CadreExportService extends BaseMapper {
 
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getBirth(), CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
                     record.getBirth() == null ? "" : DateUtils.yearOffNow(record.getBirth()) + "",
                     StringUtils.trimToEmpty(partyName),
 

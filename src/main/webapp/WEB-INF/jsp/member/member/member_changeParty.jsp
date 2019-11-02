@@ -9,14 +9,14 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/member_changeParty" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">转移人数</label>
+				<label class="col-xs-4 control-label">转移人数</label>
 				<div class="col-xs-6 label-text">
                     ${fn:length(fn:split(param['ids[]'],","))}
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>转入${_p_partyName}</label>
-            <div class="col-xs-9">
+            <label class="col-xs-4 control-label"><span class="star">*</span>转入${_p_partyName}</label>
+            <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax"
                         data-width="360"
                         data-ajax-url="${ctx}/party_selects"
@@ -26,8 +26,8 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group" style="display: none" id="branchDiv">
-            <label class="col-xs-3 control-label"><span class="star">*</span>转入党支部</label>
-            <div class="col-xs-9">
+            <label class="col-xs-4 control-label"><span class="star">*</span>转入党支部</label>
+            <div class="col-xs-6">
                 <select required class="form-control"  data-rel="select2-ajax"
                         data-width="360"
                         data-ajax-url="${ctx}/branch_selects"

@@ -2,6 +2,7 @@
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
+<c:set value="${_pMap['postTimeToDay']=='true'}" var="_p_postTimeToDay"/>
 <div class="modal-header">
 	<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 	<h3><c:if test="${cadrePost!=null}">编辑</c:if><c:if test="${cadrePost==null}">添加</c:if>兼任职务</h3>
@@ -90,9 +91,14 @@
                     <label class="col-xs-3 control-label">任职日期</label>
                     <div class="col-xs-6">
                         <div class="input-group">
-                            <input class="form-control date-picker" name="lpWorkTime" type="text"
-                                   data-date-format="yyyy.mm.dd"
-                                   value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM.dd')}"/>
+							<c:if test="${_p_postTimeToDay}">
+                                <input class="form-control date-picker" name="_lpWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM.dd')}"/>
+                            </c:if>
+                            <c:if test="${!_p_postTimeToDay}">
+                                <input class="form-control date-picker" name="_lpWorkTime" type="text"
+                                    data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM')}"/>
+                            </c:if>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -101,9 +107,14 @@
                     <label class="col-xs-3 control-label">任职始任日期</label>
                     <div class="col-xs-6">
                         <div class="input-group">
-                            <input class="form-control date-picker" name="npWorkTime" type="text"
-                                   data-date-format="yyyy.mm.dd"
-                                   value="${cm:formatDate(cadrePost.npWorkTime,'yyyy.MM.dd')}"/>
+							<c:if test="${_p_postTimeToDay}">
+                                <input class="form-control date-picker" name="_npWorkTime" type="text"
+                                   data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadrePost.npWorkTime,'yyyy.MM.dd')}"/>
+                            </c:if>
+                            <c:if test="${!_p_postTimeToDay}">
+                                <input class="form-control date-picker" name="_npWorkTime" type="text"
+                                    data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${cm:formatDate(cadrePost.npWorkTime,'yyyy.MM')}"/>
+                            </c:if>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>

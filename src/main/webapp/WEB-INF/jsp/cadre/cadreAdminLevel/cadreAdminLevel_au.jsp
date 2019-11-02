@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['postTimeToDay']=='true'}" var="_p_postTimeToDay"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadreAdminLevel!=null}">编辑</c:if><c:if test="${cadreAdminLevel==null}">添加</c:if>任职级经历</h3>
@@ -36,9 +37,14 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">职级始任日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="sWorkTime" type="text"
-                               data-date-format="yyyy.mm.dd"
-                               value="${cm:formatDate(cadreAdminLevel.sWorkTime,'yyyy.MM.dd')}"/>
+                        <c:if test="${_p_postTimeToDay}">
+                            <input class="form-control date-picker" name="_sWorkTime" type="text"
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreAdminLevel.sWorkTime,'yyyy.MM.dd')}"/>
+                        </c:if>
+                        <c:if test="${!_p_postTimeToDay}">
+                            <input class="form-control date-picker" name="_sWorkTime" type="text"
+                                data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${cm:formatDate(cadreAdminLevel.sWorkTime,'yyyy.MM')}"/>
+                        </c:if>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -47,9 +53,14 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">职级结束日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="eWorkTime" type="text"
-                               data-date-format="yyyy.mm.dd"
-                               value="${cm:formatDate(cadreAdminLevel.eWorkTime,'yyyy.MM.dd')}"/>
+                        <c:if test="${_p_postTimeToDay}">
+                            <input class="form-control date-picker" name="_eWorkTime" type="text"
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreAdminLevel.eWorkTime,'yyyy.MM.dd')}"/>
+                        </c:if>
+                        <c:if test="${!_p_postTimeToDay}">
+                            <input class="form-control date-picker" name="_eWorkTime" type="text"
+                                data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${cm:formatDate(cadreAdminLevel.eWorkTime,'yyyy.MM')}"/>
+                        </c:if>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

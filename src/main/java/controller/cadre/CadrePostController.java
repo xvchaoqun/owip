@@ -118,17 +118,19 @@ public class CadrePostController extends BaseController {
     @RequestMapping(value = "/cadrePost_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadrePost_au(CadrePost record,
+                               String _lpWorkTime,
+                               String _npWorkTime,
                                Boolean isCpc,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (record.getUnitPostId() != null) {
-            CadrePost byUnitPostId = cadrePostService.getByUnitPostId(record.getUnitPostId());
-            if (byUnitPostId != null && (id == null || id != byUnitPostId.getId().intValue())) {
+            CadrePost cadrePost = cadrePostService.getByUnitPostId(record.getUnitPostId());
+            if (cadrePost != null && (id == null || id != cadrePost.getId().intValue())) {
                 return failed("岗位已被{0}({1})使用。",
-                        byUnitPostId.getCadre().getRealname(),
-                        byUnitPostId.getIsMainPost() ? "主职" : "兼职");
+                        cadrePost.getCadre().getRealname(),
+                        cadrePost.getIsMainPost() ? "主职" : "兼职");
             }
         }
 
@@ -137,6 +139,11 @@ public class CadrePostController extends BaseController {
 
         record.setIsMainPost(BooleanUtils.isTrue(record.getIsMainPost()));
         record.setIsFirstMainPost(BooleanUtils.isTrue(record.getIsFirstMainPost()));
+
+        record.setLpWorkTime(DateUtils.parseDate(_lpWorkTime,
+                CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM));
+        record.setNpWorkTime(DateUtils.parseDate(_npWorkTime,
+                CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM));
 
         if (id == null) {
             cadrePostService.insertSelective(record);

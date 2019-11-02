@@ -3,11 +3,9 @@ package domain.cadre;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreRelate;
-import org.springframework.format.annotation.DateTimeFormat;
 import persistence.dispatch.common.DispatchCadreRelateBean;
 import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -47,12 +45,10 @@ public class CadrePost implements Serializable {
 
     private Integer lpDispatchId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date lpWorkTime;
 
     private Integer npDispatchId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date npWorkTime;
 
     private Integer postType;

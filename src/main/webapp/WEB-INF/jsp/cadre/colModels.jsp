@@ -2,6 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['rewardOnlyYear']=='true'}" var="_p_rewardOnlyYear"/>
+<c:set value="${_pMap['birthToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_birthToDayFormat"/>
+<c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
 <c:set value="${_pMap['proPostTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_proPostTimeFormat"/>
 <c:set var="_cadreEdu_needSubject" value="${_pMap['cadreEdu_needSubject']=='true'}"/>
 <script>
@@ -47,7 +49,7 @@
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '出生地', name: 'user.homeplace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
@@ -138,13 +140,13 @@
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'npWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任年限',
@@ -158,7 +160,7 @@
             label: '现职级<br/>始任时间',
             name: 'sWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '任现职级<br/>年限',
@@ -233,7 +235,7 @@
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
-        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+        {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '专业技术职务', name: 'proPost', width: 120},
@@ -241,13 +243,13 @@
             label: '任现职时间',
             name: 'lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'npWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任年限',
@@ -261,7 +263,7 @@
             label: '现职级<br/>始任时间',
             name: 'sWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '任现职级<br/>年限',
@@ -315,7 +317,7 @@
 
         }, frozen: true
         },
-        {label: '离任日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+        {label: '离任日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_postTimeToDayFormat}'}},
         </c:if>
         {label: '原行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '原职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},

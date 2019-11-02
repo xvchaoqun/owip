@@ -203,7 +203,7 @@
                                                                 <c:forEach items="${titles}" var="title" varStatus="vs">
                                                                     <div style="padding-left:5px;float: left;width:220px">
                                                                         <input class="big" type="checkbox"
-                                                                               value="${vs.index}" checked>
+                                                                               value="${vs.index}">
                                                                             ${fn:split(title, "|")[0]}</div>
                                                                 </c:forEach>
                                                                 <div style="clear: both"/>

@@ -10,20 +10,20 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="partyId" value="${party.id}">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">转移人数</label>
+				<label class="col-xs-4 control-label">转移人数</label>
 				<div class="col-xs-6 label-text">
                     ${fn:length(fn:split(param['ids[]'],","))}
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">所属${_p_partyName}</label>
+				<label class="col-xs-4 control-label">所属${_p_partyName}</label>
 				<div class="col-xs-6 label-text">
                     ${party.name}
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>选择党支部</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>选择党支部</label>
 				<div class="col-xs-6">
                     <select required class="form-control"  data-rel="select2-ajax"
                             data-ajax-url="${ctx}/branch_selects?partyId=${party.id}"
