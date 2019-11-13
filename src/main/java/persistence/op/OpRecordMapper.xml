@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.op.OpRecordMapper">
+  <resultMap id="BaseResultMap" type="domain.op.OpRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="way" jdbcType="INTEGER" property="way" />
+    <result column="talk_type" jdbcType="INTEGER" property="talkType" />
+    <result column="talk_user_id" jdbcType="INTEGER" property="talkUserId" />
+    <result column="issue" jdbcType="INTEGER" property="issue" />
+    <result column="issue_other" jdbcType="VARCHAR" property="issueOther" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, start_date, user_id, admin_level, post, type, way, talk_type, talk_user_id, issue, 
+    issue_other, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.op.OpRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from op_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from op_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from op_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.op.OpRecordExample">
+    delete from op_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.op.OpRecord">
+    insert into op_record (id, start_date, user_id, 
+      admin_level, post, type, 
+      way, talk_type, talk_user_id, 
+      issue, issue_other, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{userId,jdbcType=INTEGER}, 
+      #{adminLevel,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{way,jdbcType=INTEGER}, #{talkType,jdbcType=INTEGER}, #{talkUserId,jdbcType=INTEGER}, 
+      #{issue,jdbcType=INTEGER}, #{issueOther,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.op.OpRecord">
+    insert into op_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="adminLevel != null">
+        admin_level,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="way != null">
+        way,
+      </if>
+      <if test="talkType != null">
+        talk_type,
+      </if>
+      <if test="talkUserId != null">
+        talk_user_id,
+      </if>
+      <if test="issue != null">
+        issue,
+      </if>
+      <if test="issueOther != null">
+        issue_other,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="way != null">
+        #{way,jdbcType=INTEGER},
+      </if>
+      <if test="talkType != null">
+        #{talkType,jdbcType=INTEGER},
+      </if>
+      <if test="talkUserId != null">
+        #{talkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="issue != null">
+        #{issue,jdbcType=INTEGER},
+      </if>
+      <if test="issueOther != null">
+        #{issueOther,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.op.OpRecordExample" resultType="java.lang.Long">
+    select count(*) from op_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update op_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.post != null">
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.way != null">
+        way = #{record.way,jdbcType=INTEGER},
+      </if>
+      <if test="record.talkType != null">
+        talk_type = #{record.talkType,jdbcType=INTEGER},
+      </if>
+      <if test="record.talkUserId != null">
+        talk_user_id = #{record.talkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.issue != null">
+        issue = #{record.issue,jdbcType=INTEGER},
+      </if>
+      <if test="record.issueOther != null">
+        issue_other = #{record.issueOther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update op_record
+    set id = #{record.id,jdbcType=INTEGER},
+      start_date = #{record.startDate,jdbcType=DATE},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post = #{record.post,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      way = #{record.way,jdbcType=INTEGER},
+      talk_type = #{record.talkType,jdbcType=INTEGER},
+      talk_user_id = #{record.talkUserId,jdbcType=INTEGER},
+      issue = #{record.issue,jdbcType=INTEGER},
+      issue_other = #{record.issueOther,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.op.OpRecord">
+    update op_record
+    <set>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="way != null">
+        way = #{way,jdbcType=INTEGER},
+      </if>
+      <if test="talkType != null">
+        talk_type = #{talkType,jdbcType=INTEGER},
+      </if>
+      <if test="talkUserId != null">
+        talk_user_id = #{talkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="issue != null">
+        issue = #{issue,jdbcType=INTEGER},
+      </if>
+      <if test="issueOther != null">
+        issue_other = #{issueOther,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.op.OpRecord">
+    update op_record
+    set start_date = #{startDate,jdbcType=DATE},
+      user_id = #{userId,jdbcType=INTEGER},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post = #{post,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      way = #{way,jdbcType=INTEGER},
+      talk_type = #{talkType,jdbcType=INTEGER},
+      talk_user_id = #{talkUserId,jdbcType=INTEGER},
+      issue = #{issue,jdbcType=INTEGER},
+      issue_other = #{issueOther,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.op.OpRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from op_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

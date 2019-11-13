@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="modal-header">
+    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <h3>上报材料</h3>
+</div>
+<div class="modal-body">
+    <div class="popTableDiv"
+         data-url-page="${ctx}/op/opReportFiles?reportId=${opReport.id}">
+        <table class="table table-actived table-striped table-bordered table-hover">
+            <tbody>
+            <c:forEach items="${opAttatchs}" var="opAttatch" varStatus="st">
+                <tr>
+                    <td nowrap width="400">${opAttatch.fileName}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    //$.fileInput($('#modalForm input[type=file]'));
+    $.fileInput($("#modalForm input[type=file]"),{
+        no_file:'请选择pdf或word文件',
+        allowExt: ['pdf', 'doc', 'docx'],
+        allowMime: ['application/pdf','application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    });
+
+    function _pop_reload(){
+        pop_reload();
+        $(window).triggerHandler('resize.jqGrid');
+    }
+    $("#submitBtn", "#modalForm").click(function () {
+        $("#modalForm").submit();
+        return false;
+    })
+    $("#modalForm").validate({
+        submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
+            $(form).ajaxSubmit({
+                success: function (ret) {
+                    if (ret.success) {
+                        _pop_reload();
+                    }
+                     $btn.button('reset');
+                }
+            });
+        }
+    });
+</script>
