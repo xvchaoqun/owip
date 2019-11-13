@@ -65,7 +65,16 @@
     $(function () {
         $("#stat_member_other ul li").click(function () {
 
-            $.get("${ctx}/stat_member_count", {type: $(this).data('type')}, function (html) {
+            var partyId = "${partyId}";
+
+            //console.log(partyId);
+            var url = "${ctx}/stat_member_count";
+
+            <shiro:hasPermission name="stat:party">
+                url = "${ctx}/stat_party_member_count";
+            </shiro:hasPermission>
+
+            $.get(url, {type: $(this).data('type'),partyId: partyId}, function (html) {
                 $("#stat_member_other").replaceWith(html);
             });
         });

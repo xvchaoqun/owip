@@ -3,7 +3,6 @@ package persistence.member.common;
 import bean.StatByteBean;
 import bean.StatIntBean;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,22 +33,20 @@ public interface StatMemberMapper {
     List<MemberStatByPartyBean> memberApply_groupByPartyId(@Param("top")int top);
 
     // 统计分党委下各党支部党员人数
-    List<StatIntBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
+    List<MemberStatByBranchBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
 
     //统计支部类型
-    @Select("select types from ow_branch where is_deleted = 0 and types is not null")
-    List<String> getBranchTypes();
+    List<String> getBranchTypes(@Param("partyId")Integer partyId);
 
     // 按性别统计党员人数
-    List<StatIntBean> member_countGroupByGender();
+    List<StatIntBean> member_countGroupByGender(@Param("partyId")Integer partyId);
 
     // 统计党员中汉族的人数
-    @Select("select count(*) from ow_member_view where status=1 and nation like '汉%'")
-    Integer countHan();
+    Integer countHan(@Param("partyId")Integer partyId);
 
-    @Select("select count(*) from ow_member_view where status=1 and nation not like '汉%' and nation is not null")
-    Integer countMinority();
+    //统计党员中少数民族的人数
+    Integer countMinority(@Param("partyId")Integer partyId);
 
-    @Select("select count(*) from ow_member_view where status=1 and nation is null")
-    Integer countNull();
+    //统计党员中民族为空的人数
+    Integer countNull(@Param("partyId")Integer partyId);
 }

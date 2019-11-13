@@ -44,7 +44,7 @@ public class StatOwController extends BaseController {
     public String stat_member_count(Integer type,Integer partyId, Integer branchId, ModelMap modelMap) {
 
         if (type != null){
-            modelMap.put("otherMap",statService.otherMap(type));
+            modelMap.put("otherMap",statService.otherMap(type,partyId));
         }
         modelMap.put("type",type);
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
@@ -98,10 +98,10 @@ public class StatOwController extends BaseController {
 
     //支部类型统计
     @RequestMapping("/stat_branch_type")
-    public String stat_branch_type(ModelMap modelMap){
+    public String stat_branch_type(ModelMap modelMap,Integer partyId){
 
         modelMap.put("metaTypes",CmTag.getMetaTypes("mc_branch_type"));
-        modelMap.put("branchTypeMap",statService.branchTypeMap());
+        modelMap.put("branchTypeMap",statService.branchTypeMap(partyId));
 
         return "analysis/ow/stat_branch_type";
     }

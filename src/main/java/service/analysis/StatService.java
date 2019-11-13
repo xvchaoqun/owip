@@ -1,5 +1,6 @@
 package service.analysis;
 
+import persistence.member.common.MemberStatByBranchBean;
 import persistence.member.common.MemberStatByPartyBean;
 import bean.StatByteBean;
 import bean.StatIntBean;
@@ -20,10 +21,16 @@ import java.util.Map;
 @Service
 public class StatService extends BaseMapper{
 
-    // 党员总数（默认前二十）
+    // 以分党委分类的党员总数（默认前二十）
     public List<MemberStatByPartyBean> partyMap(Integer top){
         if(top==null) top = 20;
         return statMemberMapper.memberApply_groupByPartyId(top);
+    }
+
+    //分党委下党支部分类的党员总数
+    public List<MemberStatByBranchBean> branchMap(Integer partyId){
+
+        return statMemberMapper.memberApply_groupByBranchId(partyId);
     }
 
     // 按阶段统计党员发展
@@ -111,10 +118,10 @@ public class StatService extends BaseMapper{
     }
 
     //统计支部类型
-    public Map branchTypeMap(){
+    public Map branchTypeMap(Integer partyId){
 
         Map<Integer,Integer> branchTypeMap = new HashMap();
-        List<String> branchTypes = statMemberMapper.getBranchTypes();
+        List<String> branchTypes = statMemberMapper.getBranchTypes(partyId);
         for (String branchType : branchTypes){
 
             for (String type : branchType.split(",")){
@@ -135,11 +142,11 @@ public class StatService extends BaseMapper{
     }
 
     //党员其他类型统计 1.性别 2.民族
-    public Map otherMap(Integer type){
+    public Map otherMap(Integer type,Integer partyId){
 
         Map otherMap = new LinkedHashMap();
         if (type == 1){
-            List<StatIntBean> others = statMemberMapper.member_countGroupByGender();
+            List<StatIntBean> others = statMemberMapper.member_countGroupByGender(partyId);
 
             for (StatIntBean other : others){
 
@@ -153,9 +160,9 @@ public class StatService extends BaseMapper{
             }
         }if (type == 2){
 
-            otherMap.put("汉族",statMemberMapper.countHan());
-            otherMap.put("少数民族",statMemberMapper.countMinority());
-            otherMap.put("无数据",statMemberMapper.countNull());
+            otherMap.put("汉族",statMemberMapper.countHan(partyId));
+            otherMap.put("少数民族",statMemberMapper.countMinority(partyId));
+            otherMap.put("无数据",statMemberMapper.countNull(partyId));
         }
 
         return otherMap;

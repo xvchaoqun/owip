@@ -36,14 +36,14 @@ public interface IPartyMapper {
                            @Param("type") Byte type);
 
     // 查询用户管理的分党委ID（现任分党委管理员）
-    @Select("select distinct pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +
+    @Select("select distinct party_id from (select pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +
             "where pmg.is_deleted=0 and pm.user_id=#{userId} and pm.is_history=0 and pm.is_admin=1 and pmg.is_present=1 and pm.group_id=pmg.id " +
-            "union all select distinct oa.party_id from ow_org_admin oa,ow_party p where oa.user_id=#{userId} and oa.party_id is not null and oa.party_id=p.id and p.is_deleted=0")
+            "union all select oa.party_id from ow_org_admin oa,ow_party p where oa.user_id=#{userId} and oa.party_id is not null and oa.party_id=p.id and p.is_deleted=0) t")
     List<Integer> adminPartyIdList(@Param("userId") int userId);
     // 判断用户是否是现任分党委班子管理员(>0)
-    @Select("select sum(tmpcount) from (select count(distinct pmg.party_id) as tmpcount from ow_party_member_group pmg, ow_party_member pm " +
+    @Select("select count(distinct party_id) from (select pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +
             "where pmg.is_deleted=0 and pm.user_id=#{userId} and pm.is_history=0 and pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id " +
-            "union all select count(distinct oa.party_id) as tmpcount from ow_org_admin oa,ow_party p where oa.user_id=#{userId} and oa.party_id=#{partyId} and oa.party_id=p.id and p.is_deleted=0) tmp")
+            "union all select oa.party_id from ow_org_admin oa,ow_party p where oa.user_id=#{userId} and oa.party_id=#{partyId} and oa.party_id=p.id and p.is_deleted=0) tmp")
     int isPartyAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
 
     // 查询现任分党委的所有管理员(委员中的)(仅用于管理员删除或添加)
@@ -62,15 +62,15 @@ public interface IPartyMapper {
     List<Integer> findPartyAdmin(@Param("partyId") int partyId);
 
     // 查询用户管理的支部ID（现任支部管理员）
-    @Select("select distinct bmg.branch_id from ow_branch_member_group bmg, ow_branch_member bm " +
+    @Select("select distinct branch_id from (select bmg.branch_id from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bmg.is_deleted=0 and bm.user_id=#{userId} and bm.is_history=0 and bm.is_admin=1 and bmg.is_present=1 and bm.group_id=bmg.id " +
-            "union all select distinct oa.branch_id from ow_org_admin oa, ow_branch b, ow_party p where oa.user_id=#{userId} " +
-            "and oa.branch_id is not null and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0")
+            "union all select oa.branch_id from ow_org_admin oa, ow_branch b, ow_party p where oa.user_id=#{userId} " +
+            "and oa.branch_id is not null and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0) t")
     List<Integer> adminBranchIdList(@Param("userId") int userId);
     // 判断用户是否是现任支部委员会管理员(>0)
-    @Select("select sum(tmpcount) from (select count(distinct bmg.branch_id) as tmpcount from ow_branch_member_group bmg, ow_branch_member bm " +
+    @Select("select count(distinct branch_id) from (select bmg.branch_id from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bm.user_id=#{userId} and bm.is_history=0 and bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id " +
-            "union all select count(distinct oa.branch_id) as tmpcount from ow_org_admin oa, ow_branch b, ow_party p where oa.user_id=#{userId} " +
+            "union all select oa.branch_id from ow_org_admin oa, ow_branch b, ow_party p where oa.user_id=#{userId} " +
             "and oa.branch_id=#{branchId} and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0) tmp")
     int isBranchAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
 

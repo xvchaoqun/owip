@@ -16,7 +16,6 @@
                         ${empty type?"全部":(type==MEMBER_TYPE_TEACHER)?"教职工":"学生"}
                          <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                     </button>
-
                     <ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
                         <li class="${empty type?'active':''}">
                             <a href="javascript:;" class="blue">
@@ -54,7 +53,15 @@
     $(function () {
         $("#stat_member_age ul li").click(function () {
 
-            $.get("${ctx}/stat_member_age", {type: $(this).data('type')}, function (html) {
+            var partyId = "${partyId}";
+            var url = "${ctx}/stat_member_age";
+
+            //console.log(partyId);
+            <shiro:hasPermission name="stat:party">
+            url = "${ctx}/stat_party_member_age";
+            </shiro:hasPermission>
+
+            $.get(url, {type: $(this).data('type'),partyId: partyId}, function (html) {
                 $("#stat_member_age").replaceWith(html);
             });
         });
@@ -100,8 +107,7 @@
                     position: position || "ne",
                     labelBoxBorderColor: null,
                     margin: [-30, 0]
-                }
-                ,
+                },
                 grid: {
                     hoverable: true,
                     clickable: true

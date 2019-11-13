@@ -31,6 +31,11 @@
                         <a href="javascript:;" data-url="${ctx}/stat_sys_page">系统信息统计</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="stat:party">
+                    <li>
+                        <a href="javascript:;" data-url="${ctx}/stat_party_page">分党委信息统计</a>
+                    </li>
+                </shiro:hasPermission>
             </ul>
         </div>
     </div>

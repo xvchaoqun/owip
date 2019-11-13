@@ -416,4 +416,9 @@ public class SystemConstants {
     static {
         ANNUAL_TYPE_MODULE_MAP.put(ANNUAL_TYPE_MODULE_SUBSIDY, "文号");
     }
+
+    //系统提醒状态 1.未读 2.已读
+    public final static byte SYS_MSG_STATUS_UNREAD = 1;
+    public final static byte SYS_MSG_STATUS_READ = 2;
+
 }
