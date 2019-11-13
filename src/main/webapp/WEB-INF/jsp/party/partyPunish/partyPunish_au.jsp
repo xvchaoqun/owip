@@ -175,8 +175,8 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="remark" value="${partyPunish.remark}">
+				<div class="col-xs-6" style="width: 295px">
+					<textarea class="form-control" name="remark">${partyPunish.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -205,10 +205,10 @@ pageEncoding="UTF-8"%>
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
-
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
 	$.register.date($('.input-group.date'));
+	$.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

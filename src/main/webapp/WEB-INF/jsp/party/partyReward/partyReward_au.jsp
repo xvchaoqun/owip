@@ -126,15 +126,15 @@ pageEncoding="UTF-8"%>
 				</div>
 				</c:if>
 				<c:if test="${user==null}">
-				<label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
-				<div class="col-xs-6">
-				<select required class="form-control" data-rel="select2-ajax"
-																			   data-ajax-url="${ctx}/member_selects"
-																			   name="userId" data-width="270"
-																			   data-placeholder="请输入账号或姓名或学工号">
-					<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-				</select>
-				</div>
+					<label class="col-xs-3 control-label"><span class="star">*</span> 账号</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2-ajax"
+																						 data-ajax-url="${ctx}/member_selects"
+																						 name="userId" data-width="270"
+																						 data-placeholder="请输入账号或姓名或学工号">
+							<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+						</select>
+					</div>
 				</c:if>
 			</div>
 		</c:if>
@@ -171,7 +171,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>奖励级别</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="rewardLevel"
+					<select required data-rel="select2" name="rewardLevel" data-width="270"
 							data-placeholder="请选择">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_party_reward_level"/>
@@ -202,8 +202,8 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="remark" value="${partyReward.remark}">
+				<div class="col-xs-6" style="width: 295px">
+					<textarea class="form-control" name="remark">${partyReward.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -237,4 +237,5 @@ pageEncoding="UTF-8"%>
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
 	$.register.date($('.input-group.date'));
+	$.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

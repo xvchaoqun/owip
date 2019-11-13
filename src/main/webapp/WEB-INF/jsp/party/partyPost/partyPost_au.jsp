@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6" style="width: 295px">
 					<textarea class="form-control" name="remark">${partyPost.remark}</textarea>
 				</div>
 			</div>
