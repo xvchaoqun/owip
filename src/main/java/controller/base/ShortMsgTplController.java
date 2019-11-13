@@ -351,8 +351,7 @@ public class ShortMsgTplController extends BaseController {
 
 	@RequestMapping("/shortMsgTpl_selects")
     @ResponseBody
-    public Map shortMsgTpl_selects(Integer pageSize,Integer pageNo,
-                                  Short year, String searchStr) throws IOException {
+    public Map shortMsgTpl_selects(Integer pageSize,Integer pageNo, String searchStr) throws IOException {
 
 
         if (null == pageSize) {

@@ -324,7 +324,11 @@ public class CadreController extends BaseController {
             criteria.andAdminLevelIn(Arrays.asList(adminLevels));
         }
         if (maxEdus != null) {
-            criteria.andEduIdIn(Arrays.asList(maxEdus));
+            if(new HashSet<>(Arrays.asList(maxEdus)).contains(-1)){
+                criteria.andEduIdIsNull();
+            }else {
+                criteria.andEduIdIn(Arrays.asList(maxEdus));
+            }
         }
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));

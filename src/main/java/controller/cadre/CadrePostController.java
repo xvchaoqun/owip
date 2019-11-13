@@ -210,6 +210,7 @@ public class CadrePostController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 任职信息关联任命文件
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping("/cadrePost_addDispatchs")
     public String cadrePost_addDispatchs(HttpServletResponse response,
@@ -236,7 +237,7 @@ public class CadrePostController extends BaseController {
             modelMap.put("type", "edit");
 
             List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
-            modelMap.put("dispatchCadres", dispatchCadres);
+            modelMap.put("dispatchCadres", dispatchCadres); // 任命文件
 
             // 去掉：主职和兼职的任免文件改为可以重复，因为有时主职和兼职是放在一个文件中的
             //Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);

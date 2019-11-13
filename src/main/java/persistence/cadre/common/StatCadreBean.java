@@ -9,6 +9,7 @@ public class StatCadreBean {
     public Byte gender;
     public String nation;
     public Byte degreeType;
+    public Integer eduId;
     public int num;
     public int num1;
     public int num2;
@@ -48,6 +49,14 @@ public class StatCadreBean {
 
     public void setDegreeType(Byte degreeType) {
         this.degreeType = degreeType;
+    }
+
+    public Integer getEduId() {
+        return eduId;
+    }
+
+    public void setEduId(Integer eduId) {
+        this.eduId = eduId;
     }
 
     public int getNum() {

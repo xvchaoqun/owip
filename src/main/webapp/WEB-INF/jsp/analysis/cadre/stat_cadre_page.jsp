@@ -38,7 +38,7 @@
             </ul>
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table id="statTable" border=0 cellpadding=0 cellspacing=0
-                       style='border-collapse:collapse;table-layout:fixed;width:860pt'>
+                       style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=14 height=41 class=xl97>${_school}${CADRE_TYPE_MAP.get(cadreType)}情况统计表
                             <c:if test="${empty param.unitTypeGroup}">（所有${CADRE_TYPE_MAP.get(cadreType)}）</c:if>
@@ -250,6 +250,22 @@
                             <jsp:param name="row" value="25"/>
                         </jsp:include>
                     </tr>
+                    <c:set var="eduCount" value="${fn:length(eduRowMap)}"/>
+                    <c:forEach items="${eduRowMap}" var="entity" varStatus="vs">
+                    <tr>
+                        <c:if test="${vs.first}">
+                        <td rowspan=${eduCount} height=92 class=xl94>学历分布</td>
+                        </c:if>
+                        <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
+                        </td>
+                        <jsp:include page="row.jsp">
+                            <jsp:param name="row" value="${25+vs.index+1}"/>
+                        </jsp:include>
+                        <%--<c:forEach items="${entity.value}" var="col">
+                            <td>${col}</td>
+                        </c:forEach>--%>
+                    </tr>
+                    </c:forEach>
                 </table>
             </div>
         </div>

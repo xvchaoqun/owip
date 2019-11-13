@@ -6,6 +6,7 @@
         <result column="gender" property="gender" jdbcType="TINYINT" />
         <result column="nation" property="nation" jdbcType="VARCHAR" />
         <result column="degree_type" property="degreeType" jdbcType="TINYINT" />
+        <result column="edu_id" property="eduId" jdbcType="INTEGER" />
         <result column="num" property="num" jdbcType="INTEGER" />
         <result column="num_1" property="num1" jdbcType="INTEGER" />
         <result column="num_2" property="num2" jdbcType="INTEGER" />
@@ -203,6 +204,26 @@
         <include refid="andSql" />
          and degree_type is not null and gender is not null  group by degree_type, gender
     </select>
+
+    <!-- 学历 -->
+    <select id="cadre_stat_edu" resultMap="BaseResultMap" parameterType="map">
+        select edu_id, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+        and edu_id is not null group by edu_id
+    </select>
+    <!-- 学历-行政级别 -->
+    <select id="cadre_stat_edu_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        select edu_id, admin_level_code, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and edu_id is not null and admin_level_code is not null  group by edu_id, admin_level_code
+    </select>
+    <!-- 学历-性别 -->
+    <select id="cadre_stat_edu_gender" resultMap="BaseResultMap" parameterType="map">
+        select edu_id, gender, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and edu_id is not null and gender is not null  group by edu_id, gender
+    </select>
+
     <!-- 专职 -->
     <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">
         select sum(if(is_double, 0,1)) as num from cadre_view where status=1 <include refid="andSql" />

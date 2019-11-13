@@ -2,6 +2,7 @@ package service.analysis;
 
 import bean.MetaClassOption;
 import domain.base.MetaClass;
+import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Header;
@@ -36,7 +37,7 @@ public class StatCadreService extends BaseMapper {
     public XSSFWorkbook toXlsx(byte cadreType) throws IOException {
 
         InputStream is = getClass().getResourceAsStream("/xlsx/cadre/cadre_template.xlsx");
-        XSSFWorkbook wb=new XSSFWorkbook(is);
+        XSSFWorkbook wb = new XSSFWorkbook(is);
 
         renderSheetData(wb, null, cadreType, "所有"
                 + CadreConstants.CADRE_TYPE_MAP.get(cadreType)); // 汇总
@@ -55,7 +56,7 @@ public class StatCadreService extends BaseMapper {
         return wb;
     }
 
-    private void renderSheetData(XSSFWorkbook wb, String unitTypeGroup, byte cadreType, String typeName)  {
+    private void renderSheetData(XSSFWorkbook wb, String unitTypeGroup, byte cadreType, String typeName) {
 
         XSSFSheet sheet = wb.cloneSheet(0, typeName);
         XSSFPrintSetup ps = sheet.getPrintSetup();
@@ -81,9 +82,9 @@ public class StatCadreService extends BaseMapper {
 
         row = sheet.getRow(3);
         cell = row.getCell(4);
-        cell.setCellValue(cadreType==CadreConstants.CADRE_TYPE_CJ?"正处":"正科");
+        cell.setCellValue(cadreType == CadreConstants.CADRE_TYPE_CJ ? "正处" : "正科");
         cell = row.getCell(6);
-        cell.setCellValue(cadreType==CadreConstants.CADRE_TYPE_CJ?"副处":"副科");
+        cell.setCellValue(cadreType == CadreConstants.CADRE_TYPE_CJ ? "副处" : "副科");
 
         int rowNum = 4;
         Map<String, List> dataMap = stat(unitTypeGroup, cadreType);
@@ -95,19 +96,19 @@ public class StatCadreService extends BaseMapper {
         }
     }
 
-    private static void readerCellData(int startColumnNum, Row row, List data){
+    private static void readerCellData(int startColumnNum, Row row, List data) {
 
         NumberFormat nf = NumberFormat.getPercentInstance();
         int size = data.size();
         for (int i = 0; i < size; i++) {
 
-            Cell cell=row.getCell(startColumnNum);
-            if(i%2==0) {
-                if(data.get(i)!=null && StringUtils.isNotBlank(data.get(i).toString()))
+            Cell cell = row.getCell(startColumnNum);
+            if (i % 2 == 0) {
+                if (data.get(i) != null && StringUtils.isNotBlank(data.get(i).toString()))
                     cell.setCellValue((Integer) data.get(i));
-            }else {
+            } else {
                 try {
-                    if(data.get(i)!=null && StringUtils.isNotBlank(data.get(i).toString()))
+                    if (data.get(i) != null && StringUtils.isNotBlank(data.get(i).toString()))
                         cell.setCellValue(nf.parse((String) data.get(i)).doubleValue());
                 } catch (ParseException e) {
                     logger.error("异常", e);
@@ -119,13 +120,13 @@ public class StatCadreService extends BaseMapper {
     }
 
     // 干部统计
-    public Map<String, List> stat(String unitTypeGroup, byte cadreType){
+    public Map<String, List> stat(String unitTypeGroup, byte cadreType) {
 
         unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
 
         int cadreCount = statCadreMapper.countCadre(null, cadreType);
         int count = cadreCount;
-        if(unitTypeGroup !=null) {
+        if (unitTypeGroup != null) {
             // 总人数
             count = statCadreMapper.countCadre(unitTypeGroup, cadreType);
         }
@@ -152,7 +153,7 @@ public class StatCadreService extends BaseMapper {
     }
 
     public void row1(Map<String, List> result, int cadreCount, int count,
-                     String unitTypeGroup, byte cadreType){
+                     String unitTypeGroup, byte cadreType) {
 
         List row = new ArrayList<>();
         row.add(count);
@@ -163,11 +164,11 @@ public class StatCadreService extends BaseMapper {
 
         int mainCount = 0, viceCount = 0, noneCount = 0;
         for (StatCadreBean bean : adminLevelList) {
-            if(StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))){
+            if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                 mainCount = bean.getNum();
-            }else if(StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))){
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
                 viceCount = bean.getNum();
-            }else if(StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")){
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                 noneCount = bean.getNum();
             }
         }
@@ -182,9 +183,9 @@ public class StatCadreService extends BaseMapper {
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_gender(unitTypeGroup, cadreType);
         int male = 0, female = 0;
         for (StatCadreBean bean : genderList) {
-            if(bean.getGender()== SystemConstants.GENDER_MALE){
+            if (bean.getGender() == SystemConstants.GENDER_MALE) {
                 male = bean.getNum();
-            }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+            } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                 female = bean.getNum();
             }
         }
@@ -196,7 +197,7 @@ public class StatCadreService extends BaseMapper {
         result.put("row1", row);
     }
 
-    public void row234(Map<String, List> result, String unitTypeGroup, byte cadreType){
+    public void row234(Map<String, List> result, String unitTypeGroup, byte cadreType) {
 
         List row1 = result.get("row1");
 
@@ -206,7 +207,7 @@ public class StatCadreService extends BaseMapper {
         row2.add(row1.get(2));
         row2.add(row1.get(3));
         row2.add(row1.get(2));
-        row2.add(percent((int)row1.get(2), row2));
+        row2.add(percent((int) row1.get(2), row2));
         row2.add(0);
         row2.add(percent(0, 0));
         row2.add(0);
@@ -217,7 +218,7 @@ public class StatCadreService extends BaseMapper {
         row3.add(0);
         row3.add(percent(0, 0));
         row3.add(row1.get(4));
-        row3.add(percent((int)row1.get(4), row3));
+        row3.add(percent((int) row1.get(4), row3));
         row3.add(0);
         row3.add(percent(0, 0));
 
@@ -228,7 +229,7 @@ public class StatCadreService extends BaseMapper {
         row4.add(0);
         row4.add(percent(0, 0));
         row4.add(row1.get(6));
-        row4.add(percent((int)row1.get(6), row4));
+        row4.add(percent((int) row1.get(6), row4));
 
         // 行政级别
         List<StatCadreBean> adminLevelGenderList = statCadreMapper.cadre_stat_adminLevel_gender(unitTypeGroup, cadreType);
@@ -236,22 +237,22 @@ public class StatCadreService extends BaseMapper {
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0; // 男
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0; // 女
         for (StatCadreBean bean : adminLevelGenderList) {
-            if(StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))){
-                if(bean.getGender()== SystemConstants.GENDER_MALE){
+            if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     mainCount1 += bean.getNum();
-                }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     mainCount2 += bean.getNum();
                 }
-            }else if(StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))){
-                if(bean.getGender()== SystemConstants.GENDER_MALE){
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     viceCount1 += bean.getNum();
-                }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     viceCount2 += bean.getNum();
                 }
-            }else if(StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")){
-                if(bean.getGender()== SystemConstants.GENDER_MALE){
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     noneCount1 += bean.getNum();
-                }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     noneCount2 += bean.getNum();
                 }
             }
@@ -276,7 +277,7 @@ public class StatCadreService extends BaseMapper {
         result.put("row4", row4);
     }
 
-    public void row56(Map<String, List> result, int count, String unitTypeGroup, byte cadreType){
+    public void row56(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
 
 
         List row5 = new ArrayList<>();
@@ -286,9 +287,9 @@ public class StatCadreService extends BaseMapper {
 
         int nation1 = 0, nation2 = 0;
         for (StatCadreBean bean : nationList) {
-            if(StringUtils.contains(bean.getNation(), "汉")){
+            if (StringUtils.contains(bean.getNation(), "汉")) {
                 nation1 += bean.getNum();
-            }else {
+            } else {
                 nation2 += bean.getNum();
             }
         }
@@ -304,20 +305,20 @@ public class StatCadreService extends BaseMapper {
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
         for (StatCadreBean bean : adminLevelList) {
-            if(StringUtils.contains(bean.getNation(), "汉")){
-                if(StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))){
+            if (StringUtils.contains(bean.getNation(), "汉")) {
+                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount1 += bean.getNum();
-                }else if(StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))){
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
                     viceCount1 += bean.getNum();
-                }else if(StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")){
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                     noneCount1 += bean.getNum();
                 }
-            }else {
-                if(StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))){
+            } else {
+                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount2 += bean.getNum();
-                }else if(StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))){
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
                     viceCount2 += bean.getNum();
-                }else if(StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")){
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                     noneCount2 += bean.getNum();
                 }
             }
@@ -340,16 +341,16 @@ public class StatCadreService extends BaseMapper {
         int male1 = 0, female1 = 0;
         int male2 = 0, female2 = 0;
         for (StatCadreBean bean : genderList) {
-            if(StringUtils.contains(bean.getNation(), "汉")){
-                if(bean.getGender()== SystemConstants.GENDER_MALE){
+            if (StringUtils.contains(bean.getNation(), "汉")) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male1 += bean.getNum();
-                }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     female1 += bean.getNum();
                 }
-            }else {
-                if(bean.getGender()== SystemConstants.GENDER_MALE){
+            } else {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male2 += bean.getNum();
-                }else if(bean.getGender()== SystemConstants.GENDER_FEMALE){
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     female2 += bean.getNum();
                 }
             }
@@ -375,16 +376,16 @@ public class StatCadreService extends BaseMapper {
         List row8 = new ArrayList<>();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(unitTypeGroup, cadreType);
-        row8.add(totalBean==null?"":totalBean.getNum1());
+        row8.add(totalBean == null ? "" : totalBean.getNum1());
         row8.add(totalBean == null ? "" : percent(totalBean.getNum1(), count));
-        row7.add(totalBean==null?"":totalBean.getNum2());
-        row7.add(totalBean==null?"":percent(totalBean.getNum2(), count));
+        row7.add(totalBean == null ? "" : totalBean.getNum2());
+        row7.add(totalBean == null ? "" : percent(totalBean.getNum2(), count));
 
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_dp_adminLevel(unitTypeGroup, cadreType);
 
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
-        if(adminLevelList!=null) {
+        if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
                 if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount1 += bean.getNum1();
@@ -415,7 +416,7 @@ public class StatCadreService extends BaseMapper {
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_dp_gender(unitTypeGroup, cadreType);
         int male1 = 0, female1 = 0;
         int male2 = 0, female2 = 0;
-        if(genderList!=null) {
+        if (genderList != null) {
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male1 += bean.getNum1();
@@ -451,26 +452,26 @@ public class StatCadreService extends BaseMapper {
         List row15 = new ArrayList<>();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_age(unitTypeGroup, cadreType);
-        row9.add(totalBean==null?"":totalBean.getNum1());
+        row9.add(totalBean == null ? "" : totalBean.getNum1());
         row9.add(totalBean == null ? "" : percent(totalBean.getNum1(), count));
 
-        row10.add(totalBean==null?"":totalBean.getNum2());
-        row10.add(totalBean==null?"":percent(totalBean.getNum2(), count));
+        row10.add(totalBean == null ? "" : totalBean.getNum2());
+        row10.add(totalBean == null ? "" : percent(totalBean.getNum2(), count));
 
-        row11.add(totalBean==null?"":totalBean.getNum3());
-        row11.add(totalBean==null?"":percent(totalBean.getNum3(), count));
+        row11.add(totalBean == null ? "" : totalBean.getNum3());
+        row11.add(totalBean == null ? "" : percent(totalBean.getNum3(), count));
 
-        row12.add(totalBean==null?"":totalBean.getNum4());
-        row12.add(totalBean==null?"":percent(totalBean.getNum4(), count));
+        row12.add(totalBean == null ? "" : totalBean.getNum4());
+        row12.add(totalBean == null ? "" : percent(totalBean.getNum4(), count));
 
-        row13.add(totalBean==null?"":totalBean.getNum5());
-        row13.add(totalBean==null?"":percent(totalBean.getNum5(), count));
+        row13.add(totalBean == null ? "" : totalBean.getNum5());
+        row13.add(totalBean == null ? "" : percent(totalBean.getNum5(), count));
 
-        row14.add(totalBean==null?"":totalBean.getNum6());
-        row14.add(totalBean==null?"":percent(totalBean.getNum6(), count));
+        row14.add(totalBean == null ? "" : totalBean.getNum6());
+        row14.add(totalBean == null ? "" : percent(totalBean.getNum6(), count));
 
-        row15.add(totalBean==null?"":totalBean.getNum7());
-        row15.add(totalBean==null?"":percent(totalBean.getNum7(), count));
+        row15.add(totalBean == null ? "" : totalBean.getNum7());
+        row15.add(totalBean == null ? "" : percent(totalBean.getNum7(), count));
 
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_age_adminLevel(unitTypeGroup, cadreType);
 
@@ -481,7 +482,7 @@ public class StatCadreService extends BaseMapper {
         int mainCount5 = 0, viceCount5 = 0, noneCount5 = 0;
         int mainCount6 = 0, viceCount6 = 0, noneCount6 = 0;
         int mainCount7 = 0, viceCount7 = 0, noneCount7 = 0;
-        if(adminLevelList!=null) {
+        if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
                 if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount1 += bean.getNum1();
@@ -567,7 +568,7 @@ public class StatCadreService extends BaseMapper {
         int male5 = 0, female5 = 0;
         int male6 = 0, female6 = 0;
         int male7 = 0, female7 = 0;
-        if(genderList!=null) {
+        if (genderList != null) {
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male1 += bean.getNum1();
@@ -642,23 +643,23 @@ public class StatCadreService extends BaseMapper {
         List row21 = new ArrayList<>();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_post(unitTypeGroup, cadreType);
-        row16.add(totalBean==null?"":totalBean.getNum1());
+        row16.add(totalBean == null ? "" : totalBean.getNum1());
         row16.add(totalBean == null ? "" : percent(totalBean.getNum1(), count));
 
-        row17.add(totalBean==null?"":totalBean.getNum2());
-        row17.add(totalBean==null?"":percent(totalBean.getNum2(), count));
+        row17.add(totalBean == null ? "" : totalBean.getNum2());
+        row17.add(totalBean == null ? "" : percent(totalBean.getNum2(), count));
 
-        row18.add(totalBean==null?"":totalBean.getNum3());
-        row18.add(totalBean==null?"":percent(totalBean.getNum3(), count));
+        row18.add(totalBean == null ? "" : totalBean.getNum3());
+        row18.add(totalBean == null ? "" : percent(totalBean.getNum3(), count));
 
-        row19.add(totalBean==null?"":totalBean.getNum4());
-        row19.add(totalBean==null?"":percent(totalBean.getNum4(), count));
+        row19.add(totalBean == null ? "" : totalBean.getNum4());
+        row19.add(totalBean == null ? "" : percent(totalBean.getNum4(), count));
 
-        row20.add(totalBean==null?"":totalBean.getNum5());
-        row20.add(totalBean==null?"":percent(totalBean.getNum5(), count));
+        row20.add(totalBean == null ? "" : totalBean.getNum5());
+        row20.add(totalBean == null ? "" : percent(totalBean.getNum5(), count));
 
-        row21.add(totalBean==null?"":totalBean.getNum6());
-        row21.add(totalBean==null?"":percent(totalBean.getNum6(), count));
+        row21.add(totalBean == null ? "" : totalBean.getNum6());
+        row21.add(totalBean == null ? "" : percent(totalBean.getNum6(), count));
 
 
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_post_adminLevel(unitTypeGroup, cadreType);
@@ -669,7 +670,7 @@ public class StatCadreService extends BaseMapper {
         int mainCount4 = 0, viceCount4 = 0, noneCount4 = 0;
         int mainCount5 = 0, viceCount5 = 0, noneCount5 = 0;
         int mainCount6 = 0, viceCount6 = 0, noneCount6 = 0;
-        if(adminLevelList!=null) {
+        if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
                 if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount1 += bean.getNum1();
@@ -745,7 +746,7 @@ public class StatCadreService extends BaseMapper {
         int male4 = 0, female4 = 0;
         int male5 = 0, female5 = 0;
         int male6 = 0, female6 = 0;
-        if(genderList!=null) {
+        if (genderList != null) {
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male1 += bean.getNum1();
@@ -810,9 +811,9 @@ public class StatCadreService extends BaseMapper {
 
         int bs = 0, ss = 0, xs = 0;
         List<StatCadreBean> eduList = statCadreMapper.cadre_stat_degree(unitTypeGroup, cadreType);
-        if(eduList!=null) {
+        if (eduList != null) {
             for (StatCadreBean bean : eduList) {
-                if(bean.getDegreeType()==null) continue;
+                if (bean.getDegreeType() == null) continue;
                 if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_BS) {
                     bs += bean.getNum();
                 } else if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_SS) {
@@ -836,10 +837,10 @@ public class StatCadreService extends BaseMapper {
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
         int mainCount3 = 0, viceCount3 = 0, noneCount3 = 0;
-        if(adminLevelList!=null) {
+        if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
 
-                if(bean.getDegreeType()==null) continue;
+                if (bean.getDegreeType() == null) continue;
                 if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_BS) {
                     if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                         mainCount1 += bean.getNum();
@@ -892,10 +893,10 @@ public class StatCadreService extends BaseMapper {
         int male1 = 0, female1 = 0;
         int male2 = 0, female2 = 0;
         int male3 = 0, female3 = 0;
-        if(genderList!=null) {
+        if (genderList != null) {
             for (StatCadreBean bean : genderList) {
 
-                if(bean.getDegreeType()==null) continue;
+                if (bean.getDegreeType() == null) continue;
                 if (bean.getDegreeType() == SystemConstants.DEGREE_TYPE_BS) {
                     if (bean.getGender() == SystemConstants.GENDER_MALE) {
                         male1 += bean.getNum();
@@ -941,14 +942,14 @@ public class StatCadreService extends BaseMapper {
 
         StatCadreBean doubleBean = statCadreMapper.cadre_stat_double(unitTypeGroup, cadreType);
         List row = new ArrayList<>();
-        row.add(doubleBean==null?"":doubleBean.getNum());
+        row.add(doubleBean == null ? "" : doubleBean.getNum());
         row.add(doubleBean == null ? "" : percent(doubleBean.getNum(), count));
 
         // 行政级别
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_double_adminLevel(unitTypeGroup, cadreType);
 
         int mainCount = 0, viceCount = 0, noneCount = 0;
-        if(adminLevelList!=null) {
+        if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
                 if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount = bean.getNum();
@@ -969,7 +970,7 @@ public class StatCadreService extends BaseMapper {
         // 男女
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_double_gender(unitTypeGroup, cadreType);
         int male = 0, female = 0;
-        if(genderList!=null) {
+        if (genderList != null) {
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male = bean.getNum();
@@ -986,17 +987,95 @@ public class StatCadreService extends BaseMapper {
         result.put("row25", row);
     }
 
-    public static String percent(Integer count , List row){
-        
-        if(row==null || row.size()==0 || !(row.get(0) instanceof Integer)) return "0.0%";
-        return percent(count, (int)row.get(0));
+    public Map<Integer, List> eduRowMap(String unitTypeGroup, byte cadreType) {
+
+        unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
+
+        int count = statCadreMapper.countCadre(unitTypeGroup, cadreType);
+
+        List<StatCadreBean> statCadreBeans = statCadreMapper.cadre_stat_edu(unitTypeGroup, cadreType);
+
+        Map<Integer, MetaType> eduTypes = CmTag.getMetaTypes("mc_edu");
+        Map<Integer, List> rowMap = new TreeMap<Integer, List>(
+                new Comparator<Integer>() {
+                    public int compare(Integer obj1, Integer obj2) {
+                        // 降序排序
+                        return eduTypes.get(obj2).getSortOrder().compareTo(eduTypes.get(obj1).getSortOrder());
+                    }
+                });
+        for (StatCadreBean statCadreBean : statCadreBeans) {
+
+            int num = statCadreBean.getNum();
+            List row = new ArrayList();
+            row.add(num);
+            row.add(percent(num, count));
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+            row.add(0);
+
+            rowMap.put(statCadreBean.getEduId(), row);
+        }
+
+        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_edu_adminLevel(unitTypeGroup, cadreType);
+        for (StatCadreBean bean : adminLevelList) {
+
+            int eduId = bean.getEduId();
+            List row = rowMap.get(eduId);
+
+            if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
+                int mainCount = bean.getNum();
+                row.set(2, mainCount);
+                row.set(3, percent(mainCount, count));
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
+                int viceCount = bean.getNum();
+                row.set(4, viceCount);
+                row.set(5, percent(viceCount, count));
+            } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
+                int noneCount = bean.getNum();
+                row.set(6, noneCount);
+                row.set(7, percent(noneCount, count));
+            }
+        }
+
+        List<StatCadreBean> genderList = statCadreMapper.cadre_stat_edu_gender(unitTypeGroup, cadreType);
+        for (StatCadreBean bean : genderList) {
+
+            int eduId = bean.getEduId();
+            List row = rowMap.get(eduId);
+
+            if (bean.getGender() == SystemConstants.GENDER_MALE) {
+                int male = bean.getNum();
+                row.set(8, male);
+                row.set(9, percent(male, count));
+
+            } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
+                int female = bean.getNum();
+                row.set(10, female);
+                row.set(11, percent(female, count));
+            }
+        }
+
+        return rowMap;
     }
-    
-    public static String percent(Integer count , Integer total){
 
-        if(count==null || total==null || count<=0 || total<=0) return "0.0%";
+    public static String percent(Integer count, List row) {
 
-        return NumberUtils.formatDoubleFixed((count*100.0)/total, 1) + "%";
+        if (row == null || row.size() == 0 || !(row.get(0) instanceof Integer)) return "0.0%";
+        return percent(count, (int) row.get(0));
+    }
+
+    public static String percent(Integer count, Integer total) {
+
+        if (count == null || total == null || count <= 0 || total <= 0) return "0.0%";
+
+        return NumberUtils.formatDoubleFixed((count * 100.0) / total, 1) + "%";
     }
 
 }

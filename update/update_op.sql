@@ -1,5 +1,5 @@
 
---2019.11.13 ly 组织处理管理 三张表
+-- 2019.11.13 ly 组织处理管理 三张表
 
 DROP TABLE IF EXISTS `op_attatch`;
 CREATE TABLE IF NOT EXISTS `op_attatch` (
@@ -55,8 +55,8 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2518, 0, '组织处理附件查看', '', 'function', '', NULL, 2511, '0/1/2511/', 1, 'opAttatch:list', NULL, NULL, NULL, 1, NULL);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2519, 0, '组织处理附件编辑', '', 'function', '', NULL, 2511, '0/1/2511/', 1, 'opAttatch:edit', NULL, NULL, NULL, 1, NULL);
 
---sys_role
---REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('op_admin', '组织处理管理员', '', '-1', NULL, 0, 0, 61, '');
+-- sys_role
+-- REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('op_admin', '组织处理管理员', '', '-1', NULL, 0, 0, 61, '');
 
 -- base_meta_class
 

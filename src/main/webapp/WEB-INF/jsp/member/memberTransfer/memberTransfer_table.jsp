@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
-
-
+<c:set var="MEMBER_TRANSFER_STATUS_APPLY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_APPLY%>"/>
 <tr>
     <td class="bg-right">
         姓名
@@ -110,7 +109,7 @@
     <td class="bg-left" style="min-width: 80px" colspan="3">
         <c:if test="${empty memberTransfer.status}"><span style="color:red">未提交</span></c:if>
         ${MEMBER_TRANSFER_STATUS_MAP.get(memberTransfer.status)}
-        <c:if test="${_user.id==memberStay.userId}">
+        <c:if test="${_user.id==memberTransfer.userId}">
           &nbsp;
             <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_APPLY}">
                 <small>

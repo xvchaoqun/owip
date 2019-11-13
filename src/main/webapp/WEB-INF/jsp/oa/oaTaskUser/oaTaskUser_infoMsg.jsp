@@ -21,7 +21,7 @@
 					name="relateId" data-placeholder="请选择">
 					<option value=""></option>
 				</select>
-				<span class="help-block">从定向消息模板中获取通知内容</span>
+				<span class="help-block">注：从[系统管理-定向消息-消息模板]中选择</span>
 			</div>
 		</div>
 		<div class="form-group">

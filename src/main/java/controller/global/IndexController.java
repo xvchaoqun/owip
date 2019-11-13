@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
+import ext.utils.CasUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -15,8 +16,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.MemberRegService;
+import service.sys.SysMsgService;
 import shiro.ShiroHelper;
-import ext.utils.CasUtils;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -24,15 +25,37 @@ import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IndexController extends BaseController {
 
 	@Autowired(required = false)
 	private MemberRegService memberRegService;
-	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+
+	@Autowired(required = false)
+	private SysMsgService sysMsgService;
+
+	// 系统消息数量
+	@RequestMapping("/info")
+	@ResponseBody
+	public Map info(HttpServletRequest request) {
+
+		Map<String, Integer> menuCountMap = new HashMap<>();
+		int sysMsgCount = sysMsgService.getSysMsgCount(ShiroHelper.getCurrentUserId());
+		if(sysMsgCount>0){
+			menuCountMap.put("sysMsg:list", sysMsgCount);
+		}
+
+		Map<String, Map> infoMap = new HashMap<>();
+		infoMap.put("menuCountMap", menuCountMap);
+
+		return infoMap;
+	}
+
 	@RequestMapping("/monitor")
 	@ResponseBody
 	public void monitor(HttpServletRequest request, String type) {

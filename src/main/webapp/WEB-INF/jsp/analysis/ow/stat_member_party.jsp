@@ -12,7 +12,7 @@ var mychart= {
         exporting: {
         	enabled:false,
             url: '${ctx}/export',    // 导出图表的服务端处理地址
-            filename: '${survey.surveyName}'    // 返回下载的文件名
+            filename: ''    // 返回下载的文件名
         },
         title: null,
 		credits: { enabled: false }, // 版权信息

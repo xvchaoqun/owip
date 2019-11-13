@@ -459,6 +459,10 @@ public class CadreEduService extends BaseMapper {
 
         checkUpdate(record);
 
+        if(!record.getHasDegree()){
+            record.setIsSecondDegree(false);
+        }
+
         //record.setStatus(null);
         CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(record.getId());
         record.setSubWorkCount(cadreEdu.getSubWorkCount()); // 保留原来的其间工作数量
@@ -503,7 +507,7 @@ public class CadreEduService extends BaseMapper {
         record.setStatus(null);
         if (cadreEduMapper.updateByExampleSelective(record, example) > 0) {
             if (!record.getHasDegree()) { // 没有获得学位，清除学位名称等字段
-                commonMapper.excuteSql("update cadre_edu set degree=null, is_high_degree=null," +
+                commonMapper.excuteSql("update cadre_edu set degree=null, is_high_degree=null,is_second_degree=0," +
                         " degree_country=null, degree_unit=null, degree_time=null where id=" + id);
             }
 

@@ -23,13 +23,11 @@
         <%
             menuStack.push(menu);
         %>
-        <li class="<c:if test="${parentIdSet.contains(menu.id)}">active open</c:if> ">
+        <li data-permission="${menu.permission}" class="<c:if test="${parentIdSet.contains(menu.id)}">active open</c:if> ">
         <a href="javascript:;" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
-            <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
-            <span class="badge badge-danger">${cacheCount}</span>
-            </c:if>
+            <span class="badge badge-danger">${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))?cacheCount:''}</span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
@@ -37,19 +35,16 @@
         <ul class="submenu">
     </c:if>
     <c:if test="${menu.type eq 'url'}">
-        <li class="<c:if test="${parentIdSet.contains(menu.id)}">active</c:if>">
+        <li data-permission="${menu.permission}" class="<c:if test="${parentIdSet.contains(menu.id)}">active</c:if>">
             <c:if test="${menu.url=='/'}">
                 <a href="#" data-url="#">
             </c:if>
             <c:if test="${menu.url!='/'}">
                 <a href="javascript:;" class="hashchange" data-url="${menu.url}">
             </c:if>
-
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>
-                <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
-                    <span class="badge badge-warning">${cacheCount}</span>
-                </c:if>
+                <span class="badge badge-warning">${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))?cacheCount:''}</span>
             </a>
             <b class="arrow"></b>
         </li>

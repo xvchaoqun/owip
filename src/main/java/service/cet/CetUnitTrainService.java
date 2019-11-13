@@ -47,6 +47,22 @@ public class CetUnitTrainService extends CetBaseMapper {
     @Transactional
     public void insertSelective(CetUnitTrain record) {
 
+        int userId = record.getUserId();
+        CadreView cv = CmTag.getCadreByUserId(userId);
+        if (cv != null) {
+            if(StringUtils.isBlank(record.getTitle())) {
+                record.setTitle(cv.getTitle());
+            }
+            if(record.getPostType()==null) {
+                record.setPostType(cv.getPostType());
+            }
+        } else {
+            UserBean userBean = userBeanService.get(userId);
+            if (userBean != null && StringUtils.isBlank(record.getTitle())) {
+                record.setTitle(userBean.getUnit());
+            }
+        }
+
         cetUnitTrainMapper.insertSelective(record);
         updateTotalCount(record.getProjectId());
     }

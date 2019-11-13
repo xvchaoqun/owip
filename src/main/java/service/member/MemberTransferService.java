@@ -182,7 +182,12 @@ public class MemberTransferService extends MemberBaseMapper {
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
-        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+
+        if(memberTransfer.getPartyId().intValue()==memberTransfer.getToPartyId()){
+            record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+        }else {
+            record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+        }
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
     }

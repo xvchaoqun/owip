@@ -320,9 +320,9 @@ public class MemberTransferController extends MemberBaseController {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
-        if(member.getPartyId().byteValue() == record.getToPartyId()){
+        /*if(member.getPartyId().byteValue() == record.getToPartyId()){
             return failed("转入不能是当前所在分党委");
-        }
+        }*/
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 

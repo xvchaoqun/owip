@@ -261,6 +261,17 @@
         })
     })
     </shiro:hasPermission>
+     <shiro:lacksRole name="reg">
+
+        $.getJSON('${ctx}/info', function (ret) {
+            var menuCountMap = ret.menuCountMap;
+            //console.log(menuCountMap)
+            $.each(menuCountMap, function(key, val){
+                console.log(key+"="+ val)
+                $("#sidebar ul li[data-permission='"+ key +"'] .badge").html(val);
+            })
+        })
+    </shiro:lacksRole>
 </script>
 <!-- inline scripts related to this page -->
 <script src="${ctx}/assets/js/flot/jquery.flot.js"></script>

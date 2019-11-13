@@ -3106,7 +3106,7 @@
 						</w:tcPr>
 						<w:p wsp:rsidR="00563A30" wsp:rsidRPr="009B666C" wsp:rsidRDefault="001E452B" wsp:rsidP="009B666C">
 							<w:pPr>
-								<w:spacing w:line="300" w:line-rule="exact"/>
+								<w:spacing w:line="400" w:line-rule="exact"/>
 								<w:jc w:val="center"/>
 								<w:rPr>
 									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>

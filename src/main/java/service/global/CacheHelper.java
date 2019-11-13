@@ -98,4 +98,7 @@ public class CacheHelper {
     public void clearSysBaseCache() {
     }
 
+    @CacheEvict(value = "SysMsgCount", key = "#userId")
+    public void clearSysMsgCount(int userId) {}
+
 }

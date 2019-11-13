@@ -1,3 +1,27 @@
+
+201901113
+北邮 -- 北师大
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1100, 0, '各类工作总结', '', 'url', '', '/dispatchWorkFile?type=15', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:15', NULL, NULL, NULL, 1, NULL);
+
+-- 党建文件：各类工作总结
+
+CREATE TABLE IF NOT EXISTS `sys_msg` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '接收人',
+  `send_user_id` int(10) unsigned NOT NULL COMMENT '发送人',
+  `title` varchar(200) DEFAULT NULL COMMENT '标题',
+  `content` text NOT NULL COMMENT '内容',
+  `create_time` datetime NOT NULL COMMENT '通知发送时间',
+  `ip` varchar(50) NOT NULL COMMENT 'ip',
+  `status` tinyint(3) unsigned NOT NULL COMMENT '状态 1.未读 2.已读',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='系统提醒';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3031, 0, '系统消息', '', 'url', 'fa fa-info-circle', '/sysMsg?type=2', 1, '0/1/', 1, 'sysMsg:list', NULL, NULL, NULL, 1, 800);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3032, 0, '系统消息管理', '', 'url', '', '/sysMsg?type=1', 21, '0/1/21/', 1, 'sysMsg:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3033, 0, '分党委信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:party', NULL, NULL, NULL, 1, NULL);
+
 201901102
 北邮 -- 北师大
 
@@ -6,6 +30,7 @@
 REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('birthToDay', '干部出生日期精确到日', 'true', 3, 46, '');
 REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('postTimeToDay', '任职(职级)日期精确到日', 'true', 3, 47, '');
 
+-- update base_meta_type SET NAME='xxxx' WHERE NAME = '北京师范大学';
 
 201901023
 北邮 -- 北师大

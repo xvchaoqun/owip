@@ -531,6 +531,7 @@
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="maxEdus">
                                                             <c:import url="/metaTypes?__code=mc_edu"/>
+                                                            <option value="-1">无(仅查询无最高学历的干部)</option>
                                                         </select>
                                                     </td>
                                                     <td class="name">最高学位</td>

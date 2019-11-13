@@ -140,19 +140,6 @@ public class SysMsgController extends BaseController {
     }
 
     @RequiresPermissions("sysMsg:edit")
-    @RequestMapping(value = "/sysMsg_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_sysMsg_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            sysMsgService.del(id);
-            logger.info(log( LogConstants.LOG_USER, "删除系统提醒：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("sysMsg:edit")
     @RequestMapping(value = "/sysMsg_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map sysMsg_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -218,7 +205,7 @@ public class SysMsgController extends BaseController {
             if (type == 2){
 
                 sysMsg.setStatus(SystemConstants.SYS_MSG_STATUS_READ);
-                sysMsgMapper.updateByPrimaryKeySelective(sysMsg);
+                sysMsgService.updateByPrimaryKeySelective(sysMsg);
             }
         }
         return "sys/sysMsg/sysMsg_view";

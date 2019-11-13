@@ -48,11 +48,12 @@ public class DispatchConstants {
     public static final byte DISPATCH_WORK_FILE_TYPE_DWJS = 4;
     public static final byte DISPATCH_WORK_FILE_TYPE_KHGZ = 5;
     public static final byte DISPATCH_WORK_FILE_TYPE_JYPX = 6;
-    // 党建工作文件 类别 11 专题教育活动 12 基层党组织建设 13 党员队伍建设 14 党内民主建设
+    // 党建工作文件 类别 11 专题教育活动 12 基层党组织建设 13 党员队伍建设 14 党内民主建设 15各类工作总结
     public static final byte DISPATCH_WORK_FILE_TYPE_ZTJY = 11;
     public static final byte DISPATCH_WORK_FILE_TYPE_JCDJ = 12;
     public static final byte DISPATCH_WORK_FILE_TYPE_DYDW = 13;
     public static final byte DISPATCH_WORK_FILE_TYPE_DNMZ = 14;
+    public static final byte DISPATCH_WORK_FILE_TYPE_GZZJ = 15;
     public final static Map<Byte, String> DISPATCH_WORK_FILE_TYPE_MAP = new HashMap();
 
     static {
@@ -67,5 +68,6 @@ public class DispatchConstants {
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_JCDJ, "基层党组织建设");
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DYDW, "党员队伍建设");
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DNMZ, "党内民主建设");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_GZZJ, "各类工作总结");
     }
 }

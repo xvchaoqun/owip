@@ -28,6 +28,7 @@ pageEncoding="UTF-8"%>
                             </c:forEach>
                         </select>
                     </div>
+                    <span class="help-block">注：如果需要打回给本人，请选择“${MEMBER_TRANSFER_STATUS_MAP.get(MEMBER_TRANSFER_STATUS_BACK)}”</span>
 				</div>
 			</div>
         <div class="form-group">

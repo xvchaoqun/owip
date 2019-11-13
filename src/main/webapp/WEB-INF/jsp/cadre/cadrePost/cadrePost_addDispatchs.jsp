@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>关联任免文件</h3>
+    <h3>关联任免文件（从“任命”记录中选择）</h3>
 </div>
 <div class="modal-body" style="overflow-x: scroll;">
     <c:if test="${fn:length(dispatchCadres)>0}">

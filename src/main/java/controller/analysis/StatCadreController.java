@@ -55,6 +55,14 @@ public class StatCadreController extends BaseController {
         }
 
         Map<String, List> rs = statCadreService.stat(unitTypeGroup, cadreType);
+
+        Map<Integer, List> eduRowMap = statCadreService.eduRowMap(unitTypeGroup, cadreType);
+        modelMap.put("eduRowMap", eduRowMap);
+        int s = rs.size();
+        for (Map.Entry<Integer, List> entry : eduRowMap.entrySet()) {
+            rs.put("row"+(++s), entry.getValue());
+        }
+
         modelMap.put("rs", rs);
 
         MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
