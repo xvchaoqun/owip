@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.SYS_MSG_STATUS_UNREAD%>" var="SYS_MSG_STATUS_UNREAD"/>
+<c:set value="<%=SystemConstants.SYS_MSG_STATUS_MAP%>" var="SYS_MSG_STATUS_MAP"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -19,9 +21,7 @@ pageEncoding="UTF-8" %>
                             删除</button>
                     </shiro:hasPermission>
                 </div>
-            </c:if>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <c:if test="${type == 1}">
+                <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <span class="widget-note">${note_searchbar}</span>
@@ -58,10 +58,10 @@ pageEncoding="UTF-8" %>
                             </form>
                         </div>
                     </div>
-                </c:if>
-            </div>
+                </div>
+            </c:if>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid2 table-striped"></table>
+            <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
         </div>
         <div id="body-content-view"></div>
@@ -75,8 +75,9 @@ pageEncoding="UTF-8" %>
         colModel: [
             <c:if test="${type == 1}">
                 { label: '接收人',name: 'user.realname'},
+                { label: '学工号',name: 'user.code',width:120},
             </c:if>
-                { label: '标题', name: 'title',width: 150},
+                { label: '标题', name: 'title',width: 250,align: 'left'},
                 { label: '内容',name: 'content',formatter: function (cellvalue, options, rowObject) {
 
                     return ('<button class="popupBtn btn btn-primary btn-xs"' +
@@ -89,11 +90,16 @@ pageEncoding="UTF-8" %>
                 { label: 'ip',name: 'ip'},
             </c:if>
                 { label: '状态', name: 'status',formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue ==1?'未读':'已读';
+
+                   return ${cm:toJSONObject(SYS_MSG_STATUS_MAP)}[cellvalue];
+                    }, cellattr: function (rowId, val, rowObject) {
+
+                        if (rowObject.status == ${SYS_MSG_STATUS_UNREAD})
+                            return "class='danger'";
                     }}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid2');
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

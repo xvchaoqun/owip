@@ -208,6 +208,8 @@ public class SysMsgController extends BaseController {
                 sysMsgService.updateByPrimaryKeySelective(sysMsg);
             }
         }
+
+        modelMap.put("type",type);
         return "sys/sysMsg/sysMsg_view";
     }
 }

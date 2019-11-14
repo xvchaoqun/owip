@@ -1,4 +1,9 @@
 2019-11-13
+
+-- 修改资源名称 桑文帅
+UPDATE `db_owip`.`sys_resource` SET `name`='系统消息' WHERE  `id`=3031;
+UPDATE `db_owip`.`sys_resource` SET `name`='系统消息' WHERE  `id`=3032;
+
 -- 添加资源数据 桑文帅
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3031, 0, '系统提醒', '', 'url', '', '/sysMsg?type=2', 1, '0/1/', 1, 'sysMsg:list', NULL, NULL, NULL, 1, 800);

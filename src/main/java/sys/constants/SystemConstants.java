@@ -420,5 +420,10 @@ public class SystemConstants {
     //系统提醒状态 1.未读 2.已读
     public final static byte SYS_MSG_STATUS_UNREAD = 1;
     public final static byte SYS_MSG_STATUS_READ = 2;
+    public final static Map<Byte, String> SYS_MSG_STATUS_MAP = new LinkedHashMap<>();
 
+    static {
+        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_UNREAD,"未读");
+        SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_READ,"已读");
+    }
 }
