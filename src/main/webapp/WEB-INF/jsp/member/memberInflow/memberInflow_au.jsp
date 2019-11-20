@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/memberInflow_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberInflow.id}">
 		<div class="row">
-			<div class="col-xs-6">
+			<div class="col-xs-10">
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>用户</label>
 				<div class="col-xs-6">
@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-10">
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label"><span class="star">*</span>流入时间</label>

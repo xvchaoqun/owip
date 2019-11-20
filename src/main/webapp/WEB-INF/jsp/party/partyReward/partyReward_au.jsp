@@ -22,8 +22,8 @@ pageEncoding="UTF-8"%>
 		<c:if test="${list==1}">
 		<c:if test="${cls==OW_PARTY_REPU_PARTY}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">类型</label>
+				<div class="col-xs-8 label-text">
 					<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 						<c:if test="${_type.key==cls}">
 							奖励<span>${_type.value}</span>
@@ -33,15 +33,15 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<c:if test="${party!=null}">
-				<label class="col-xs-3 control-label">${_p_partyName}名称</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">${_p_partyName}名称</label>
+				<div class="col-xs-8 label-text">
 					<input type="hidden" name="partyId" value="${party.id}">
 					${party.name}
 				</div>
 				</c:if>
 				<c:if test="${party==null}">
-				<label class="col-xs-3 control-label"><span class="star">*</span>${_p_partyName}名称</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>${_p_partyName}名称</label>
+				<div class="col-xs-8">
 					<select required class="form-control" data-rel="select2-ajax"
 							data-ajax-url="${ctx}/party_selects?auth=1"
 							name="partyId" data-placeholder="请选择" data-width="270">
@@ -56,8 +56,8 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_BRANCH}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">类型</label>
+				<div class="col-xs-8 label-text">
 					<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 						<c:if test="${_type.key==cls}">
 							奖励<span>${_type.value}</span>
@@ -67,15 +67,15 @@ pageEncoding="UTF-8"%>
 			</div>
 				<c:if test="${branch!=null}">
 					<div class="form-group">
-					<label class="col-xs-3 control-label">${_p_partyName}名称</label>
-					<div class="col-xs-6 label-text">
+					<label class="col-xs-4 control-label">${_p_partyName}名称</label>
+					<div class="col-xs-8 label-text">
 						<input type="hidden" name="branchPartyId" value="${branchParty.id}">
 							${branchParty.name}
 					</div>
 					</div>
 				<div class="form-group">
-				<label class="col-xs-3 control-label">党支部名称</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">党支部名称</label>
+				<div class="col-xs-8 label-text">
 					<input type="hidden" name="branchId" value="${branch.id}">
                     ${branch.name}
 				</div>
@@ -83,8 +83,8 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<c:if test="${branch==null}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>所属党支部</label>
-					<div class="col-xs-6">
+			<label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
+					<div class="col-xs-8">
 						<select class="form-control" data-width="270" data-rel="select2-ajax"
 								data-ajax-url="${ctx}/party_selects?auth=1"
 								name="partyId" data-placeholder="请选择所属${_p_partyName}">
@@ -108,8 +108,8 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_MEMBER}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">类型</label>
+				<div class="col-xs-8 label-text">
 					<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 						<c:if test="${_type.key==cls}">
 							奖励<span>${_type.value}</span>
@@ -119,15 +119,15 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<c:if test="${user!=null}">
-				<label class="col-xs-3 control-label">党员姓名</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">党员姓名</label>
+				<div class="col-xs-8 label-text">
 					<input type="hidden" name="userId" value="${user.id}">
                      ${user.realname}
 				</div>
 				</c:if>
 				<c:if test="${user==null}">
-					<label class="col-xs-3 control-label"><span class="star">*</span> 账号</label>
-					<div class="col-xs-6">
+					<label class="col-xs-4 control-label"><span class="star">*</span> 账号</label>
+					<div class="col-xs-8">
 						<select required data-rel="select2-ajax"
 																						 data-ajax-url="${ctx}/member_selects"
 																						 name="userId" data-width="270"
@@ -140,7 +140,7 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		</c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖日期</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 获奖日期</label>
 				<div class="col-xs-6">
 					<div class="input-group date" data-date-format="yyyy.mm.dd">
 						<input required class="form-control date-picker" name="rewardTime" type="text" data-width="270"
@@ -151,8 +151,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group ${cls==OW_PARTY_REPU_MEMBER?'hidden':''}">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖类型</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span> 获奖类型</label>
+				<div class="col-xs-8">
 					<select ${cls==OW_PARTY_REPU_MEMBER?'':'required'} data-rel="select2" name="rewardType" data-width="270"
 							data-placeholder="请选择">
 						<option></option>
@@ -169,8 +169,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>奖励级别</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>奖励级别</label>
+				<div class="col-xs-8">
 					<select required data-rel="select2" name="rewardLevel" data-width="270"
 							data-placeholder="请选择">
 						<option></option>
@@ -182,27 +182,27 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 获得奖项</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 获得奖项</label>
 				<div class="col-xs-6">
 					<textarea required class="form-control" name="name">${partyReward.name}</textarea>
 					<span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">颁奖单位</label>
+				<label class="col-xs-4 control-label">颁奖单位</label>
 				<div class="col-xs-6">
 						<textarea class="form-control" name="unit">${partyReward.unit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 获奖证书</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 获奖证书</label>
 				<div class="col-xs-6">
 					<input ${ empty partyReward.proof?'required':''} class="form-control" type="file" name="_proof"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6" style="width: 295px">
+				<label class="col-xs-4 control-label">备注</label>
+				<div class="col-xs-8" style="width: 295px">
 					<textarea class="form-control" name="remark">${partyReward.remark}</textarea>
 				</div>
 			</div>

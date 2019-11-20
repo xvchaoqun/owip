@@ -11,7 +11,7 @@
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">转移支部</label>
+                <label class="col-xs-4 control-label">转移支部</label>
 
                 <div class="col-xs-4 label-text">
                         ${count} 个
@@ -19,7 +19,7 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">选择${_p_partyName}</label>
+            <label class="col-xs-4 control-label">选择${_p_partyName}</label>
 
             <div class="col-xs-4">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1&notDirect=1&notBranchAdmin=1"
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">转移原因</label>
+            <label class="col-xs-4 control-label">转移原因</label>
             <div class="col-xs-4">
 						<textarea class="form-control limited" type="text"
                                   name="remark" rows="3" style="width: 300px;"></textarea>

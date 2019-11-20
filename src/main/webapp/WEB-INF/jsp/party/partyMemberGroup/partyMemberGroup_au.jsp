@@ -10,7 +10,7 @@
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${partyMemberGroup.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>所属${_p_partyName}</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>所属${_p_partyName}</label>
             <c:if test="${empty partyMemberGroup}">
                 <div class="col-xs-8">
                     <select required data-rel="select2-ajax" data-width="292"
@@ -28,7 +28,7 @@
             </c:if>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">上一届班子</label>
+            <label class="col-xs-4 control-label">上一届班子</label>
             <div class="col-xs-8">
                 <div class="help-block">
                     <select class="form-control" name="fid" data-width="292"
@@ -40,13 +40,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>名称</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>名称</label>
             <div class="col-xs-8" style="width: 312px">
                 <textarea required class="form-control" name="name">${partyMemberGroup.name}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">是否现任班子</label>
+            <label class="col-xs-4 control-label">是否现任班子</label>
             <div class="col-xs-8">
                 <label>
                     <input name="isPresent" ${partyMemberGroup.isPresent?"checked":""} type="checkbox"/>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>任命时间</label>
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_appointTime" type="text"
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>应换届时间</label>
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_tranTime" type="text"
@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">实际换届时间</label>
+            <label class="col-xs-4 control-label">实际换届时间</label>
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input class="form-control date-picker" name="_actualTranTime" type="text"
@@ -90,7 +90,7 @@
             </div>
         </div>
         <%--<div class="form-group">
-            <label class="col-xs-3 control-label">发文</label>
+            <label class="col-xs-4 control-label">发文</label>
             <div class="col-xs-8">
                 <select data-rel="select2-ajax" data-width="272" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
                         name="dispatchUnitId" data-placeholder="请选择单位发文">

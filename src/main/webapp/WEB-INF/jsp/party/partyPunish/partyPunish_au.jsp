@@ -21,8 +21,8 @@ pageEncoding="UTF-8"%>
 		<c:if test="${list==1}">
 		<c:if test="${cls==OW_PARTY_REPU_PARTY}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">类型</label>
-			<div class="col-xs-6 label-text">
+			<label class="col-xs-4 control-label">类型</label>
+			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
 						惩罚<span>${_type.value}</span>
@@ -32,15 +32,15 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="form-group">
 			<c:if test="${party!=null}">
-				<label class="col-xs-3 control-label">${_p_partyName}名称</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">${_p_partyName}名称</label>
+				<div class="col-xs-8 label-text">
 					<input type="hidden" name="partyId" value="${party.id}">
 						${party.name}
 				</div>
 			</c:if>
 			<c:if test="${party==null}">
-				<label class="col-xs-3 control-label"><span class="star">*</span>${_p_partyName}名称</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>${_p_partyName}名称</label>
+				<div class="col-xs-8">
 					<select required class="form-control" data-rel="select2-ajax"
 							data-ajax-url="${ctx}/party_selects?auth=1"
 							name="partyId" data-placeholder="请选择" data-width="270">
@@ -55,8 +55,8 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_BRANCH}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">类型</label>
-			<div class="col-xs-6 label-text">
+			<label class="col-xs-4 control-label">类型</label>
+			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
 						惩罚<span>${_type.value}</span>
@@ -66,15 +66,15 @@ pageEncoding="UTF-8"%>
 		</div>
 			<c:if test="${branch!=null}">
 				<div class="form-group">
-					<label class="col-xs-3 control-label">${_p_partyName}名称</label>
-					<div class="col-xs-6 label-text">
+					<label class="col-xs-4 control-label">${_p_partyName}名称</label>
+					<div class="col-xs-8 label-text">
 						<input type="hidden" name="branchPartyId" value="${branchParty.id}">
 							${branchParty.name}
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">党支部名称</label>
-					<div class="col-xs-6 label-text">
+					<label class="col-xs-4 control-label">党支部名称</label>
+					<div class="col-xs-8 label-text">
 						<input type="hidden" name="branchId" value="${branch.id}">
 							${branch.name}
 					</div>
@@ -82,8 +82,8 @@ pageEncoding="UTF-8"%>
 			</c:if>
 			<c:if test="${branch==null}">
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><span class="star">*</span>所属党支部</label>
-					<div class="col-xs-6">
+					<label class="col-xs-4 control-label"><span class="star">*</span>所属党支部</label>
+					<div class="col-xs-8">
 						<select class="form-control" data-width="270" data-rel="select2-ajax"
 								data-ajax-url="${ctx}/party_selects?auth=1"
 								name="partyId" data-placeholder="请选择所属${_p_partyName}">
@@ -107,8 +107,8 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${cls==OW_PARTY_REPU_MEMBER}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">类型</label>
-			<div class="col-xs-6 label-text">
+			<label class="col-xs-4 control-label">类型</label>
+			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
 						惩罚<span>${_type.value}</span>
@@ -118,15 +118,15 @@ pageEncoding="UTF-8"%>
 		</div>
 		<div class="form-group">
 			<c:if test="${user!=null}">
-				<label class="col-xs-3 control-label">党员姓名</label>
-				<div class="col-xs-6 label-text">
+				<label class="col-xs-4 control-label">党员姓名</label>
+				<div class="col-xs-8 label-text">
 					<input type="hidden" name="userId" value="${user.id}">
 						${user.realname}
 				</div>
 			</c:if>
 			<c:if test="${user==null}">
-				<label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>账号</label>
+				<div class="col-xs-8">
 					<select required class="form-control" data-rel="select2-ajax"
 							data-ajax-url="${ctx}/member_selects"
 							name="userId" data-width="270"
@@ -139,7 +139,7 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 处分日期</label>
+			<label class="col-xs-4 control-label"><span class="star">*</span> 处分日期</label>
 			<div class="col-xs-6">
 				<div class="input-group date" data-date-format="yyyy.mm.dd">
 					<input required class="form-control date-picker" name="punishTime" type="text" data-width="270"
@@ -150,7 +150,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">处分截止日期</label>
+				<label class="col-xs-4 control-label">处分截止日期</label>
 				<div class="col-xs-6">
                      <div class="input-group date" data-date-format="yyyy.mm.dd">
 						 <input class="form-control date-picker" name="endTime" type="text" data-width="270"
@@ -161,21 +161,21 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 受何种处分</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 受何种处分</label>
 				<div class="col-xs-6">
 					<textarea required class="form-control" name="name">${partyPunish.name}</textarea>
 					<span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>处分单位</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>处分单位</label>
 				<div class="col-xs-6">
 					<textarea required class="form-control" name="unit">${partyPunish.unit}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6" style="width: 295px">
+				<label class="col-xs-4 control-label">备注</label>
+				<div class="col-xs-8" style="width: 295px">
 					<textarea class="form-control" name="remark">${partyPunish.remark}</textarea>
 				</div>
 			</div>

@@ -14,14 +14,14 @@ pageEncoding="UTF-8"%>
 		<c:if test="${list==1}">
 		<div class="form-group">
 			<c:if test="${user!=null}">
-				<label class="col-xs-3 control-label">党员姓名</label>
+				<label class="col-xs-4 control-label">党员姓名</label>
 				<div class="col-xs-6 label-text">
 					<input type="hidden" name="userId" value="${user.id}">
 						${user.realname}
 				</div>
 			</c:if>
 			<c:if test="${user==null}">
-				<label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>账号</label>
 				<div class="col-xs-6">
 					<select required class="form-control" data-rel="select2-ajax"
 							data-ajax-url="${ctx}/member_selects"
@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 		</div>
 		</c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 开始日期</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 开始日期</label>
 				<div class="col-xs-6">
 					<div class="input-group date" data-date-format="yyyy.mm.dd">
 						<input required class="form-control date-picker" name="startDate" type="text" data-width="270"
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结束日期</label>
+				<label class="col-xs-4 control-label">结束日期</label>
 				<div class="col-xs-6">
 					<div class="input-group date" data-date-format="yyyy.mm.dd">
 						<input class="form-control date-picker" name="endDate" type="text" data-width="270"
@@ -56,13 +56,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 工作单位及担任职务</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 工作单位及担任职务</label>
 				<div class="col-xs-6">
 					<textarea class="form-control" name="detail">${partyPost.detail}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6" style="width: 295px">
 					<textarea class="form-control" name="remark">${partyPost.remark}</textarea>
 				</div>
