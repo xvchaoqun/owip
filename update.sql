@@ -1,4 +1,7 @@
 
+
+UPDATE `sys_resource` SET `name`='禁用/解禁账号/赋权', `permission`='sysUser:auth' WHERE  `permission`='sysUser:del';
+
 201901113
 北邮 -- 北师大
 

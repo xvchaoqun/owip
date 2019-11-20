@@ -58,6 +58,7 @@
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                <shiro:hasPermission name="unitPost:edit">
                 <div class="btn-group">
                     <button data-toggle="dropdown"
                             data-rel="tooltip" data-placement="top" data-html="true"
@@ -83,19 +84,17 @@
                         </li>
                     </ul>
                 </div>
-
-                <shiro:hasPermission name="unitPost:del">
-                     <button data-url="${ctx}/unitPost_batchDel"
-                             data-title="删除"
-                             data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
-                             data-grid-id="#jqGrid"
-                             class="jqBatchBtn btn btn-danger btn-sm">
-                         <i class="fa fa-trash"></i> 删除
-                     </button>
-                 </shiro:hasPermission>
+                 <button data-url="${ctx}/unitPost_batchDel"
+                         data-title="删除"
+                         data-msg="确定删除这{0}个岗位？<br/>（删除后不可恢复，请谨慎操作！）"
+                         data-grid-id="#jqGrid"
+                         class="jqBatchBtn btn btn-danger btn-sm">
+                     <i class="fa fa-trash"></i> 删除
+                 </button>
                 <c:if test="${cls==1}">
                 <span class="text-primary" style="padding-left: 10px">【注：岗位的维护也可在单位档案页中进行操作】</span>
                 </c:if>
+                </shiro:hasPermission>
             </div>
             <div style="clear: both"></div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

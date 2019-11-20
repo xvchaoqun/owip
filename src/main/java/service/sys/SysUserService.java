@@ -330,7 +330,7 @@ public class SysUserService extends BaseMapper {
     }
 
     // 根据账号查找所有的角色（对象）
-    private Set<SysRole> _findRoles(String username) {
+    public Set<SysRole> findAllRoles(String username) {
 
         Set<SysRole> roles = new HashSet<>();
 
@@ -356,7 +356,7 @@ public class SysUserService extends BaseMapper {
     private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
-        Set<SysRole> roles = _findRoles(username);
+        Set<SysRole> roles = findAllRoles(username);
         List<Integer> resourceIds = new ArrayList<Integer>();
 
         for (SysRole role : roles) {
@@ -433,7 +433,7 @@ public class SysUserService extends BaseMapper {
     @Cacheable(value = "UserRoles", key = "#username")
     public Set<String> findRoles(String username) {
 
-        Set<SysRole> _roles = _findRoles(username);
+        Set<SysRole> _roles = findAllRoles(username);
         Set<String> roleCodes = new HashSet<String>();
         for (SysRole role : _roles) {
             roleCodes.add(role.getCode());

@@ -271,10 +271,12 @@ public class CadreInspectService extends BaseMapper {
         _cadre.setId(cadreId);
         _cadre.setStatus(status);
         _cadre.setUserId(null);
-        // 转变为处级干部
-        if(status==CadreConstants.CADRE_STATUS_MIDDLE){
+
+        // 默认为处级干部
+        if(status==CadreConstants.CADRE_STATUS_MIDDLE && _cadre.getType()==null){
             _cadre.setType(CadreConstants.CADRE_TYPE_CJ);
         }
+
         _cadre.setIsDouble(cadre.getIsDouble());
         _cadre.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(_cadre);

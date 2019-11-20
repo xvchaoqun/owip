@@ -62,7 +62,7 @@
             <button type="button" class="jqBatchBtn btn btn-danger btn-sm"
                                     data-grid-id="#jqGrid_popup"
                                     data-callback="_reload2"
-                                   data-url="${ctx}/sysUser_updateRole?roleId=${param.roleId}&del=1" data-title="删除人员"
+                                   data-url="${ctx}/sysUser_addOrDelRole?roleId=${param.roleId}&del=1" data-title="删除人员"
                                    data-msg="确定删除这{0}个人员吗？"><i class="fa fa-times"></i> 删除</button>
          </div>
         </c:if>
@@ -85,7 +85,7 @@
             return;
         }
         var $btn = $(btn).button('loading');
-        $.post("${ctx}/sysUser_updateRole?roleId=${param.roleId}",{'ids[]':userId}, function (ret) {
+        $.post("${ctx}/sysUser_addOrDelRole?roleId=${param.roleId}",{'ids[]':userId}, function (ret) {
             if(ret.success){
                 _reload2()
             }

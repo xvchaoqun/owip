@@ -425,10 +425,11 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_menu";
     }
 
-    @RequiresPermissions("sysUser:del")
-    @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
+    // 禁用/解禁账号
+    @RequiresPermissions("sysUser:auth")
+    @RequestMapping(value = "/sysUser_lock", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
+    public Map do_sysUser_lock(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
 
         for (Integer id : ids) {
             SysUserView sysUser = sysUserService.findById(id);
@@ -440,38 +441,11 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 更新角色
-    @RequiresPermissions("sysUser:edit")
-    @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_sysUserRole(SysUser record,
-                              @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
-                              HttpServletRequest request) {
-
-        if (rIds == null || rIds.length == 0) {
-            rIds = new Integer[1];
-            rIds[0] = -1;
-        }
-        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        int userId = record.getId();
-        SysUserView uv = sysUserService.findById(userId);
-        // 不允许非超管更新超管的角色
-        if (!superAccount && ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
-                && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
-            return failed("该账号不允许更新。");
-        }
-
-        sysUserService.updateUserRoles(userId, "," + StringUtils.join(rIds, ",") + ",");
-
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
-        return success(FormUtils.SUCCESS);
-    }
-
     // 为账号添加/删除一个角色
-    @RequiresPermissions("sysUser:edit")
-    @RequestMapping(value = "/sysUser_updateRole", method = RequestMethod.POST)
+    @RequiresPermissions("sysUser:auth")
+    @RequestMapping(value = "/sysUser_addOrDelRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_updateRole( @RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public Map do_sysUser_addOrDelRole( @RequestParam(required = false, value = "ids[]") Integer[] ids,
                                       int roleId, Boolean del) {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
@@ -504,8 +478,8 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresPermissions("sysUser:list")
-    @RequestMapping("/sysUserRole")
-    public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
+    @RequestMapping("/sysUser_updateRoles")
+    public String sysUser_updateRoles(Integer id, ModelMap modelMap) throws IOException {
 
         Set<Integer> selectIdSet = new HashSet<Integer>();
         if (id != null) {
@@ -519,7 +493,63 @@ public class SysUserController extends BaseController {
         TreeNode tree = sysRoleService.getTree(selectIdSet, true);
         modelMap.put("tree", JSONUtils.toString(tree));
 
-        return "sys/sysUser/sysUserRole";
+        return "sys/sysUser/sysUser_updateRoles";
+    }
+
+    // 更新角色
+    @RequiresPermissions("sysUser:auth")
+    @RequestMapping(value = "/sysUser_updateRoles", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_updateRoles(SysUser record,
+                              @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
+                              HttpServletRequest request) {
+
+        List<Integer> roleIds = new ArrayList<>();
+        if (rIds != null && rIds.length > 0) {
+            roleIds.addAll(Arrays.asList(rIds));
+        }
+        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        int userId = record.getId();
+        SysUserView uv = sysUserService.findById(userId);
+
+        if (!superAccount){
+
+            // 不允许非超管更新超管的角色
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_SUPER)
+                    && CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_SUPER)) {
+                return failed("该账号不允许更新。");
+            }
+
+            List<Integer> filterRoleIds = new ArrayList<>();
+            Map<Integer, SysRole> roleMap = sysRoleService.findAll();
+            for (int roleId : roleIds) {
+                SysRole sysRole = roleMap.get(roleId);
+                 if(sysRole!=null && BooleanUtils.isNotTrue(sysRole.getIsSysHold())){
+                    // 非系统自动维护角色，才允许修改
+                    filterRoleIds.add(roleId);
+                }
+            }
+
+            Set<SysRole> curRoles = sysUserService.findAllRoles(uv.getUsername());
+            for (SysRole curRole : curRoles) {
+                if(BooleanUtils.isTrue(curRole.getIsSysHold())){
+                    // 系统自动维护角色，仅允许超级管理员修改
+                    filterRoleIds.add(curRole.getId());
+                }
+            }
+
+            roleIds.clear();
+            roleIds.addAll(filterRoleIds);
+        }
+
+        if(roleIds.size()==0){
+            roleIds.add(-1); // 超管全部未选择的情况下，清空所有的角色
+        }
+
+        sysUserService.updateUserRoles(userId, "," + StringUtils.join(roleIds, ",") + ",");
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
+        return success(FormUtils.SUCCESS);
     }
 
     // 抽取工号，根据姓名或身份证号导出带工号的列表

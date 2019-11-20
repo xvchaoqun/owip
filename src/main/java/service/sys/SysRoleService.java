@@ -204,9 +204,7 @@ public class SysRoleService extends BaseMapper {
 			if(BooleanUtils.isTrue(sysRole.getIsSysHold())) {
 				if (checkIsSysHold) {
 					node.addClass = "unselectable";
-					if (!superAccount) {
-						//node.unselectable = true;
-					} else {
+					if (superAccount){
 						// 系统自动维护角色，仅允许超级管理员修改
 						root.children.add(node);
 					}

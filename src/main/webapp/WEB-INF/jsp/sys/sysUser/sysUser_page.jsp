@@ -29,18 +29,18 @@
                             <i class="fa fa-info-circle"></i> 修改人员信息
                         </button>
                         </shiro:hasPermission>
-                        <shiro:hasPermission name="sysUser:del">
+                        <shiro:hasPermission name="sysUser:auth">
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/sysUserRole">
+                                data-url="${ctx}/sysUser_updateRoles">
                             <i class="fa fa-user-circle"></i> 修改角色
                         </button>
                         <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
-                                data-url="${ctx}/sysUser_del" data-title="账号解禁"
+                                data-url="${ctx}/sysUser_lock" data-title="账号解禁"
                                 data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
                             <i class="fa fa-unlock"></i> 解禁
                         </button>
                         <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
-                                data-url="${ctx}/sysUser_del" data-title="账号禁用"
+                                data-url="${ctx}/sysUser_lock" data-title="账号禁用"
                                 data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
                             <i class="fa fa-lock"></i> 禁用
                         </button>
@@ -52,7 +52,7 @@
                                 <i class="fa fa-search"></i> 菜单预览
                             </button>
                         </shiro:hasPermission>
-                    <shiro:hasPermission name="sysUser:del">
+                    <shiro:hasPermission name="sysUser:edit">
                     <div class="btn-group">
                         <button data-toggle="dropdown"
                                 data-rel="tooltip" data-placement="top" data-html="true"
@@ -79,14 +79,12 @@
                                 </li>
                                 <li role="separator" class="divider"></li>
                             </shiro:hasPermission>
-                            <shiro:hasPermission name="sysUser:edit">
-                                <li>
-                                    <a href="javascript:;" class="popupBtn"
-                                       data-url="${ctx}/sysUser_batchUpdate">
-                                        <i class="fa fa-refresh"></i> 批量更新账号信息</a>
-                                </li>
-                                <li role="separator" class="divider"></li>
-                            </shiro:hasPermission>
+                            <li>
+                                <a href="javascript:;" class="popupBtn"
+                                   data-url="${ctx}/sysUser_batchUpdate">
+                                    <i class="fa fa-refresh"></i> 批量更新账号信息</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="javascript:;" class="jqExportBtn"
                                    data-url="${ctx}/sysUser_data">

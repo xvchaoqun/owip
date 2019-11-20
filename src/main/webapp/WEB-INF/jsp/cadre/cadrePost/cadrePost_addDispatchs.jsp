@@ -78,6 +78,11 @@ pageEncoding="UTF-8" %>
     </c:if>
 </div>
 <div class="modal-footer">
+    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+        <div class="note">注：此处可选择一条或多条任命记录</div>
+    </shiro:lacksPermission>
+    </shiro:hasPermission>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">

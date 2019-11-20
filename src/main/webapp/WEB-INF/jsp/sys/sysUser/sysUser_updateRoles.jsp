@@ -6,12 +6,15 @@
     <h4>修改账号角色</h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/sysUserRole" method="post">
+  <form class="form-horizontal"  action="${ctx}/sysUser_updateRoles" method="post">
   	<input type="hidden" name="id" value="${sysUser.id}">
   	<div id="tree3"></div>
   </form>
   </div>
   <div class="modal-footer">
+    <c:if test="${!cm:isSuperAccount(_user.username)}">
+    <div class="note">注：系统自动赋予的角色不在此显示</div>
+      </c:if>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="修改"/></div>
   <style>

@@ -60,6 +60,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            <shiro:hasPermission name="unit:edit">
                             <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
@@ -76,6 +77,7 @@
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </div>
+                            </shiro:hasPermission>
                                 <shiro:hasPermission name="unit:abolish">
                                     <c:if test="${status==1}">
                                         <button class="jqBatchBtn btn btn-warning btn-sm"

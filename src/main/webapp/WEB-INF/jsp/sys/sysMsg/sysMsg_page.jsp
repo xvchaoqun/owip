@@ -84,7 +84,7 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/sysMsg_view?id={0}&type=${type}">'+
                         '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
     }},
-                { label: '通知发送时间',name: 'createTime', width:150, formatter: $.jgrid.formatter.date,
+                { label: '发送时间',name: 'createTime', width:150, formatter: $.jgrid.formatter.date,
                     formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             <c:if test="${type == 1}">
                 { label: 'ip',name: 'ip'},
