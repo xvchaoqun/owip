@@ -45,6 +45,7 @@
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         url: '${ctx}/dp/dpPartyMember_data?callback=?&groupId=${param.groupId}&cls=${cls}',
+        pager: "jqGridPager2",
         colModel: [
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {

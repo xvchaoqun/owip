@@ -21,9 +21,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span> 简称</label>
+            <label class="col-xs-3 control-label"> 简称</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="shortName" value="${dpParty.shortName}">
+                <input class="form-control" type="text" name="shortName" value="${dpParty.shortName}">
             </div>
         </div>
 		<div class="form-group">
@@ -47,6 +47,17 @@ pageEncoding="UTF-8"%>
 				<script>
 					$("#modalForm select[name=classId]").val('${dpParty.classId}');
 				</script>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
+			<div class="col-xs-6" style="width: 295px">
+				<div class="input-group date" data-date-format="yyyy.mm.dd">
+					<input required class="form-control date-picker" name="_foundTime" type="text"
+						   placeholder="格式：yyyy.mm.dd"
+						   value="${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}"/>
+					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+				</div>
 			</div>
 		</div>
         <div class="form-group">
@@ -73,17 +84,6 @@ pageEncoding="UTF-8"%>
                         <input class="form-control" type="text" name="mailbox" value="${dpParty.mailbox}">
 				</div>
 			</div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
-            <div class="col-xs-6" style="width: 223px">
-                <div class="input-group date" data-date-format="yyyy.mm.dd">
-                    <input required class="form-control date-picker" name="_foundTime" type="text"
-                           placeholder="格式：yyyy.mm.dd"
-                           value="${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}"/>
-                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
-            </div>
-        </div>
 		<c:if test="${cls==2}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>撤销时间</label>

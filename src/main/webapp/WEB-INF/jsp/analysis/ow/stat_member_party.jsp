@@ -62,7 +62,9 @@ var mychart= {
 				color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
 				style: {
 					textShadow: '0 0 3px black'
-				}
+                },
+                x:0,
+                y:-9
 			}
 		}
 	},

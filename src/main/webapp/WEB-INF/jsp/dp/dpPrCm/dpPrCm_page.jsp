@@ -137,7 +137,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>当选时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="当选时间范围">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar bigger-110"></i>
                                                     </span>

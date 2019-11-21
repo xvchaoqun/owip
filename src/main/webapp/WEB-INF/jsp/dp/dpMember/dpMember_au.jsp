@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label"><span class="star">*</span>党籍状态</label>
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="120">
+                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="150">
                         <option></option>
                         <c:forEach items="${DP_MEMBER_POLITICAL_STATUS_MAP}" var="_status">
                             <option value="${_status.key}">${_status.value}</option>
@@ -113,7 +113,7 @@
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
                         <input ${dpMember_needGrowTime?'required':''} class="form-control date-picker" name="_growTime" type="text"
-                               data-date-format="yyyy.mm-.dd" value="${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}"/>
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

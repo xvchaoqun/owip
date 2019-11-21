@@ -9,9 +9,9 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/dp/dpPartyMemberGroup_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${dpPartyMemberGroup.id}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>所属民主党派</label>
-			<c:if test="${empty dpPartyMemberGroup}">
 
+			<c:if test="${empty dpParty}">
+				<label class="col-xs-3 control-label"><span class="star">*</span>所属民主党派</label>
 				<div class="col-xs-8">
 					<select required data-rel="select2-ajax" data-width="292"
 							data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
@@ -20,7 +20,8 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</c:if>
-			<c:if test="${not empty dpPartyMemberGroup}">
+			<c:if test="${not empty dpParty}">
+				<label class="col-xs-3 control-label">所属民主党派</label>
 				<div class="col-xs-8 label-text">
 					<input type="hidden" name="partyId" value="${dpParty.id}">
 						${dpParty.name}
@@ -48,23 +49,13 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">委员会届数</label>
 			<div class="col-xs-8" style="width: 312px">
-				<textarea class="form-control" name="groupSession">${dpPartyMemberGroup.groupSession}</textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">是否现任班子</label>
-			<div class="col-xs-8">
-				<label>
-					<input name="isPresent" ${dpPartyMemberGroup.isPresent?"checked":""} type="checkbox"/>
-					<span class="lbl"></span>
-				</label>
-				<span class="help-block">注：每个民主党派必须设定一个“委员会”</span>
+				<input class="form-control" type="text" name="groupSession" value="${dpPartyMemberGroup.groupSession}"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>任命时间</label>
 			<div class="col-xs-8">
-				<div class="input-group" style="width: 150px">
+				<div class="input-group" style="width: 290px">
 					<input required class="form-control date-picker" name="_appointTime" type="text"
 						   data-date-format="yyyy.mm.dd"
 						   value="${cm:formatDate(dpPartyMemberGroup.appointTime,'yyyy.MM.dd')}"/>
@@ -75,7 +66,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
 			<div class="col-xs-8">
-				<div class="input-group" style="width: 150px">
+				<div class="input-group" style="width: 290px">
 					<input required class="form-control date-picker" name="_tranTime" type="text"
 						   data-date-format="yyyy.mm.dd"
 						   value="${cm:formatDate(dpPartyMemberGroup.tranTime,'yyyy.MM.dd')}"/>
@@ -87,16 +78,26 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>实际换届时间</label>
 			<div class="col-xs-8">
-				<div class="input-group" style="width: 150px">
+				<div class="input-group" style="width: 290px">
 					<input required class="form-control date-picker" name="_actualTranTime" type="text"
-						   data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(dpPartyMemberGroup.actualTranTime,'yyyy-MM-dd')}"/>
+						   data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(dpPartyMemberGroup.actualTranTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 				<span class="help-block">注：实际换届时填写，即将现任班子改为历任班子时</span>
 			</div>
 		</div>
 		</c:if>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">是否现任班子</label>
+			<div class="col-xs-8">
+				<label>
+					<input name="isPresent" ${dpPartyMemberGroup.isPresent?"checked":""} type="checkbox"/>
+					<span class="lbl"></span>
+				</label>
+				<span class="help-block">注：每个民主党派必须设定一个“委员会”</span>
+			</div>
+		</div>
 		<%--<div class="form-group">
             <label class="col-xs-3 control-label">发文</label>
             <div class="col-xs-8">

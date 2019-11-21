@@ -80,7 +80,12 @@ public class DpOrgAdminController extends DpBaseController {
 
         criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
-        if(type== OwConstants.OW_ORG_ADMIN_DPPARTY){
+
+        if(type == OwConstants.OW_ORG_ADMIN_DPPARTY){
+            DpOrgAdmin dpOrgAdmin = dpOrgAdminService.findByUserId(ShiroHelper.getCurrentUserId());
+            if (dpOrgAdmin != null) {
+                partyId = dpOrgAdmin.getPartyId();
+            }
             if(partyId!=null){
                 criteria.andPartyIdEqualTo(partyId);
             }

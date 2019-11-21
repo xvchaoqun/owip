@@ -264,7 +264,7 @@ public class DpNprController extends DpBaseController {
                     dpNpr.setTransferTime(DateUtils.parseDate(transferTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpNprService.updateByPrimaryKeySelective(dpNpr);
-                logger.info(log( LogConstants.LOG_DPPARTY, "撤销党外代表人士：{0}", dpNpr.getUserId()));
+                logger.info(log( LogConstants.LOG_DPPARTY, "离任党外代表人士：{0}", dpNpr.getUserId()));
             }
 
         }
@@ -416,7 +416,7 @@ public class DpNprController extends DpBaseController {
                 "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100"};
         String[] cancelTitles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
                 "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","所属级别|100","最高学历|100",
-                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100","撤销时间|100"};
+                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100","离任时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 1){
             for (int i = 0; i < rownum; i++) {
@@ -486,7 +486,7 @@ public class DpNprController extends DpBaseController {
             String fileName = String.format("党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(titles, valuesList, fileName, response);
         }else {
-            String fileName = String.format("已撤销党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("离任的党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(cancelTitles, valuesList, fileName, response);
         }
     }

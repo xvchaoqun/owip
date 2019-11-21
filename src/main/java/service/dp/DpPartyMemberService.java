@@ -66,7 +66,18 @@ public class DpPartyMemberService extends DpBaseMapper {
         return partyId;
     }
 
-    public boolean idDuplicate(Integer id,  int userId, int groupId, int postId) {
+    public boolean isNpm(Integer userId){
+        DpNpmExample example = new DpNpmExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<DpNpm> dpNpms = dpNpmMapper.selectByExample(example);
+
+        if (dpNpms.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isDuplicate(Integer id,  int userId, int groupId, int postId) {
 
         //同一个人可能存在兼职情况
         {
@@ -82,7 +93,7 @@ public class DpPartyMemberService extends DpBaseMapper {
         MetaType metaType = metaTypeService.findAll().get(postId);
         if (StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_dp_zw")){
 
-            //每个委员会只有一个委员
+            //每个委员会只有一个主委
             DpPartyMemberExample example = new DpPartyMemberExample();
             DpPartyMemberExample.Criteria criteria = example.createCriteria()
                   .andPostIdEqualTo(postId).andGroupIdEqualTo(groupId);

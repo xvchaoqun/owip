@@ -482,7 +482,7 @@ public class DpOmController extends DpBaseController {
             String fileName = String.format("其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(titles, valuesList, fileName, response);
         }else {
-            String fileName = String.format("已撤销其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("离任的其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(cancelTitles, valuesList, fileName, response);
         }
     }

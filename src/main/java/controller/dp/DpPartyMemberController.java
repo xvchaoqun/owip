@@ -189,7 +189,9 @@ public class DpPartyMemberController extends DpBaseController {
         Integer id = record.getId();
         if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
             return failed("非教职工账号");
-        }else if (dpPartyMemberService.idDuplicate(id, record.getUserId(),record.getGroupId(),record.getPostId())){
+        }else if (dpPartyMemberService.isDuplicate(id, record.getUserId(),record.getGroupId(), record.getPostId())){
+            return failed("添加重复【该委员已添加，并且主委只能有一个】");
+        }else if (dpPartyMemberService.isNpm(record.getUserId())){
             return failed("该成员已是无党派人士");
         }
 
@@ -198,15 +200,13 @@ public class DpPartyMemberController extends DpBaseController {
             Integer groupId = record.getGroupId();
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
             Integer partyId = dpPartyMemberGroup.getPartyId();
-            //要求是党派管理员
+            /*//要求是党派管理员
             if (!dpPartyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(),partyId)){
                 throw new UnauthorizedException();
-            }
+            }*/
         }
 
-        if (dpPartyMemberService.idDuplicate(id, record.getUserId(),record.getGroupId(), record.getPostId())){
-            return failed("添加重复【该委员已添加，并且主委只能有一个】");
-        }
+
         boolean autoAdmin = false;
         {
             Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_dp_party_member_post");

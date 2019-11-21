@@ -12,7 +12,7 @@ public interface IDpPartyMapper {
     //查询用户管理的党派ID(现任党派管理员)
     @Select("select distinct pmg.party_id from dp_party_member_group pmg, dp_party_member pm " +
             "where pmg.is_deleted=0 and pm.user_id=#{userId} and pm.is_admin=1 and pmg.is_present=1 and pm.group_id=pmg.id " +
-            "union all select distinct oa.party_id from dp_org_admin oa,dp_party p where oa.user_id=#{userId} and oa.party_id is not null and oa.party_id=p.id and p.is_deleted=0")
+            "union all select distinct oa.party_id from dp_org_admin oa,dp_party p where oa.user_id=#{userId} and oa.party_id is not null and oa.party_id=p.id")
     List<Integer> adminDpPartyIdList(@Param("userId") int userId);
     // 判断用户是否是现任党派委员会管理员(>0)
     @Select("select sum(tmpcount) from (select count(distinct pmg.party_id) as tmpcount from dp_party_member_group pmg, dp_party_member pm " +

@@ -58,7 +58,7 @@ public class StatDpPartyMemberService extends DpBaseMapper {
 
         {//从第四行开始填充数据
             DpPartyMemberExample example = new DpPartyMemberExample();
-            example.createCriteria().andGroupIdEqualTo(groupId);
+            example.createCriteria().andGroupIdEqualTo(groupId).andPresentMemberEqualTo(true);
             example.setOrderByClause("sort_order desc");
             List<DpPartyMember> dpPartyMemberViews = dpPartyMemberMapper.selectByExample(example);
             Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();

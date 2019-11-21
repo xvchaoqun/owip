@@ -63,6 +63,7 @@ public class DpMemberController extends DpBaseController {
     public String dpMember(HttpServletResponse response,
                             Integer userId,
                            Integer partyId,
+                           Integer unitId,
                            //2 教职工 3 离退休 6 已转出学生 7 已转出教职工 10 全部
                            @RequestParam(defaultValue = "2")Integer cls,
                            @RequestParam(required = false, value = "nation") String[] nation,
@@ -71,6 +72,9 @@ public class DpMemberController extends DpBaseController {
 
         modelMap.put("cls", cls);
 
+        if (unitId != null){
+            modelMap.put("unit", unitMapper.selectByPrimaryKey(unitId));
+        }
         //查询登录用户管理的民主党派
         boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL);
         List<Integer> adminDpPartyIdList = dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId());

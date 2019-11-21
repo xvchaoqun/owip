@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.id ||not empty param.code ||not empty param.unitId ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort
+            <c:set var="_query" value="${not empty param.id || not empty param.name || not empty param.code ||not empty param.unitId ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort
             ||not empty param._foundTime ||not empty param.presentGroupCount}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -77,12 +77,12 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${cls}">
                             <div class="form-group">
-                                <label>所在民主党派</label>
+                                <label>民主党派名称</label>
                                 <div class="input-group">
                                     <select  data-width="300" data-rel="select2-ajax"
                                              data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
                                              name="id" data-placeholder="请选择">
-                                        <option value="${param.id}" title="${param.isDeleted}">${param.name}</option>
+                                        <option value="${dpParty.id}" title="${dpParty.isDeleted}">${dpParty.name}</option>
                                     </select>
                                 </div>
                                 <script>         $("#searchForm select[name=name]").val('${param.id}');     </script>

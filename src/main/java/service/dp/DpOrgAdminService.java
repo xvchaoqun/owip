@@ -97,4 +97,13 @@ public class DpOrgAdminService extends DpBaseMapper {
             del(dpOrgAdmin.getId(),dpOrgAdmin.getUserId());
         }
     }
+
+    public DpOrgAdmin findByUserId(Integer userId){
+
+        DpOrgAdminExample example = new DpOrgAdminExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<DpOrgAdmin> dpOrgAdmins = dpOrgAdminMapper.selectByExample(example);
+
+        return dpOrgAdmins.size() > 0 ?dpOrgAdmins.get(0) : null;
+    }
 }

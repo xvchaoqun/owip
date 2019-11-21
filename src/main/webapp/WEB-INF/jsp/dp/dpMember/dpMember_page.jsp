@@ -105,6 +105,9 @@ pageEncoding="UTF-8" %>
                                         <option value="${unit.key}">${unit.value.name}</option>
                                     </c:forEach>
                                 </select>
+                                <script>
+                                    $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                </script>
                             </div>
                             <div class="form-group">
                                 <label>性别</label>
@@ -334,7 +337,7 @@ pageEncoding="UTF-8" %>
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
                             .format(rowObject.partyId, cellvalue, ctx);
                     if (cellvalue != undefined){
-                        return '<span class="{0}">{1}</span>'.format(rowObject.isDeleted ? "delete" : "", _dpPartyView);
+                        return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
                     }
                     return "--";
                 }, sortable: true

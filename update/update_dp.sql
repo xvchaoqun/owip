@@ -1,6 +1,10 @@
 
 
---20191015 李阳 分党委和党支部
+-- 20191118 李阳 统战信息管理的bug和角色
+REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('role_dp_party', '民主党派管理员', '2574,2575,2578,2576,2580,2581,2582,2583,2584,2588,2592,2577,2585,2586,2602,2605,2587', '-1', NULL, 0, 1, 59, '');
+
+
+-- 20191015 李阳 统战
 -- 更新了dp_party_member_view视图
 
 ALTER TABLE `dp_party_member`

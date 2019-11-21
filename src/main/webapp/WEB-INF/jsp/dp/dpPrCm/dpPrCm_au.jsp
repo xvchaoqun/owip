@@ -106,7 +106,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"> 备注</label>
 			<div class="col-xs-6">
-				<input class="form-control" type="text" name="remark" value="${dpPrCm.remark}">
+				<textarea class="form-control" rows="3" name="remark">${dpPrCm.remark}</textarea>
 			</div>
 		</div>
     </form>

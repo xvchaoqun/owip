@@ -49,8 +49,12 @@ public class DpPartyController extends DpBaseController {
     @RequiresPermissions("dp:list")
     @RequestMapping("/dpParty")
     public String dpParty(HttpServletResponse response,
+                            Integer id,
                             ModelMap modelMap,
                             @RequestParam(required = false, defaultValue = "1") Byte cls) throws Exception{
+
+        DpParty dpParty = dpPartyMapper.selectByPrimaryKey(id);
+        modelMap.put("dpParty", dpParty);
         modelMap.put("cls",cls);
 
         return "dp/dpParty/dpParty_page";
@@ -313,7 +317,7 @@ public class DpPartyController extends DpBaseController {
                 };
                 valuesList.add(values);
             }
-            String fileName = String.format("已撤销民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已撤销的民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(deleteTitles, valuesList, fileName, response);
         }
     }
@@ -411,7 +415,11 @@ public class DpPartyController extends DpBaseController {
 
     @RequiresPermissions("dp:list")
     @RequestMapping("/dpParty_view")
-    public String dpParty_show_view(){
+    public String dpParty_show_view(Integer id,
+                                    ModelMap modelMap){
+
+        DpParty dpParty = dpPartyMapper.selectByPrimaryKey(id);
+        modelMap.put("dpParty", dpParty);
 
         return "dp/dpParty/dpParty_view";
     }

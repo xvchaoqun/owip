@@ -123,17 +123,11 @@ public class DpPrCmController extends DpBaseController {
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (workTime.getStart()!=null) {
-            criteria.andWorkTimeGreaterThanOrEqualTo(workTime.getStart());
-        }
-        if (workTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
-        }
         if (growTime.getStart()!=null){
             criteria.andGrowTimeGreaterThanOrEqualTo(growTime.getStart());
         }
         if (growTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(growTime.getEnd());
+            criteria.andGrowTimeLessThanOrEqualTo(growTime.getEnd());
         }
         if (type!=null) {
             criteria.andTypeEqualTo(type);
@@ -142,19 +136,19 @@ public class DpPrCmController extends DpBaseController {
             criteria.andWorkTimeGreaterThanOrEqualTo(workTime.getStart());
         }
         if (workTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
+            criteria.andWorkTimeLessThanOrEqualTo(workTime.getEnd());
         }
         if (electTime.getStart()!=null){
-            criteria.andGrowTimeGreaterThanOrEqualTo(electTime.getStart());
+            criteria.andElectTimeGreaterThanOrEqualTo(electTime.getStart());
         }
         if (electTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(electTime.getEnd());
+            criteria.andElectTimeLessThanOrEqualTo(electTime.getEnd());
         }
         if (endTime.getStart()!=null){
-            criteria.andGrowTimeGreaterThanOrEqualTo(endTime.getStart());
+            criteria.andEndTimeGreaterThanOrEqualTo(endTime.getStart());
         }
         if (endTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(endTime.getEnd());
+            criteria.andEndTimeLessThanOrEqualTo(endTime.getEnd());
         }
         if (electSession!=null) {
             criteria.andElectSessionEqualTo(electSession);
