@@ -33,7 +33,7 @@
 
             <button type="button" class="downloadBtn btn btn-info btn-sm tooltip-success"
                     data-grid-id="#jqGrid_popup"
-                    data-url="${ctx}/dispatchCadre_data?unitPostId=${param.unitPostId}&asc=1&export=2"
+                    data-url="${ctx}/dispatchCadre_data?unitPostIds=${param.unitPostId}&asc=1&export=2"
                data-rel="tooltip" data-placement="top" title="导出该岗位历史任职信息">
                 <i class="fa fa-download"></i> 导出</button>
         </div>
@@ -52,7 +52,7 @@
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
-        url: "${ctx}/dispatchCadre_data?callback=?&unitPostId=${param.unitPostId}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/dispatchCadre_data?callback=?&unitPostIds=${param.unitPostId}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel:colModel
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");

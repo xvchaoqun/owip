@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5ba0fea0-f621-45cc-886a-bd33e13835c5">
 	<property name="ireport.zoom" value="0.5644739300537773"/>
-	<property name="ireport.x" value="96"/>
-	<property name="ireport.y" value="192"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="288"/>
 	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="新宋体" fontSize="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 	<field name="drawTime" class="java.lang.String"/>
 	<field name="passportName" class="java.lang.String"/>
@@ -29,29 +29,29 @@
 				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1739" y="753" width="329" height="97" uuid="4cf55882-1422-4fa1-904e-6c5cbded6978"/>
+				<reportElement style="zh_CN" x="1685" y="756" width="380" height="97" uuid="4cf55882-1422-4fa1-904e-6c5cbded6978"/>
 				<textElement textAlignment="Center">
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="463" y="753" width="627" height="91" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
+				<reportElement style="zh_CN" x="439" y="708" width="651" height="136" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1193" y="993" width="555" height="117" uuid="ef85ef20-0113-41bd-b577-23c3f932442e"/>
-				<textElement>
+				<reportElement style="zh_CN" x="1187" y="993" width="498" height="146" uuid="ef85ef20-0113-41bd-b577-23c3f932442e"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{toCountry}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1787" y="993" width="403" height="112" uuid="5a0cebcd-da4c-4314-ba86-cbb9cf98ce0a"/>
-				<textElement textAlignment="Left">
+				<reportElement style="zh_CN" x="1722" y="993" width="483" height="146" uuid="5a0cebcd-da4c-4314-ba86-cbb9cf98ce0a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="宋体" size="50" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{reason}]]></textFieldExpression>
@@ -64,14 +64,14 @@
 				<textFieldExpression><![CDATA[$F{printTime}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="439" y="892" width="482" height="80" uuid="da7f3835-94f4-4c3e-b126-fbc551ff444b"/>
+				<reportElement style="zh_CN" x="439" y="863" width="493" height="109" uuid="da7f3835-94f4-4c3e-b126-fbc551ff444b"/>
 				<textElement textAlignment="Center">
 					<font fontName="宋体" size="55" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{drawTime}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1395" y="879" width="596" height="93" uuid="41d813af-e1f6-4cda-be45-4c71f7fd4ad0"/>
+				<reportElement style="zh_CN" x="1282" y="844" width="869" height="149" uuid="41d813af-e1f6-4cda-be45-4c71f7fd4ad0"/>
 				<textElement>
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>

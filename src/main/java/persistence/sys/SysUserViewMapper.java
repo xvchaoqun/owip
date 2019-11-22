@@ -8,6 +8,10 @@ import org.apache.ibatis.session.RowBounds;
 public interface SysUserViewMapper {
     long countByExample(SysUserViewExample example);
 
+    List<SysUserView> selectByExampleWithBLOBsWithRowbounds(SysUserViewExample example, RowBounds rowBounds);
+
+    List<SysUserView> selectByExampleWithBLOBs(SysUserViewExample example);
+
     List<SysUserView> selectByExampleWithRowbounds(SysUserViewExample example, RowBounds rowBounds);
 
     List<SysUserView> selectByExample(SysUserViewExample example);

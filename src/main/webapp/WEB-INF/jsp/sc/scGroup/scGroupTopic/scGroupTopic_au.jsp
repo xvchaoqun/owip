@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=SystemConstants.UNIT_POST_STATUS_DELETE%>" var="UNIT_POST_STATUS_DELETE"/>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
 <c:set value="<%=ScConstants.SC_RECORD_STATUS_INIT%>" var="SC_RECORD_STATUS_INIT"/>
 <div class="widget-box transparent">
     <div class="widget-header">
@@ -182,7 +182,7 @@
                                                     data-ajax-url="${ctx}/unitPost_selects" data-width="400"
                                                     data-placeholder="请选择">
                                                 <option value="${unitPost.id}"
-                                                        delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+                                                        delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
                                             </select>
                                             <script>
                                                 $.register.del_select($("#modalForm select[name=unitPostId]"))

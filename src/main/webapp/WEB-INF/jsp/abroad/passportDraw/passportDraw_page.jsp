@@ -139,6 +139,10 @@
                                    data-url="${ctx}/abroad/passportDraw_data?export=1&exportType=${type}"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
+                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                                   data-url="${ctx}/abroad/passportDraw_data?export=1&exportType=-1"
+                                   data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                        class="fa fa-download"></i> 导出签字页</a>
                             </c:if>
                         </div>
                         <div class="myTableDiv"
@@ -152,7 +156,7 @@
                                    ||not empty param.status ||not empty param.drawStatus || not empty param.code}"/>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
+                                    <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
                                         <a href="javascript:;" data-action="collapse">

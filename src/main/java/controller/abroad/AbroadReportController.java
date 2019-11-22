@@ -142,7 +142,7 @@ public class AbroadReportController extends AbroadBaseController {
         map.put("locate", CmTag.getSysConfig().getCity());
         map.put("idcard", user.getIdcard());
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
+        map.put("unit", unit.startsWith(schoolName) ? unit : (schoolName + unit));
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR
                 + "abroadApply" + FILE_SEPARATOR + to + ".jpg");
@@ -153,10 +153,10 @@ public class AbroadReportController extends AbroadBaseController {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
 
-                if(CmTag.getBoolProperty("abroadContactUseSign")) {
+                if (CmTag.getBoolProperty("abroadContactUseSign")) {
                     if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
                         sign = springProps.uploadPath + _user.getSign();
-                }else{
+                } else {
                     map.put("contactName", _user.getRealname());
                 }
 
@@ -218,7 +218,7 @@ public class AbroadReportController extends AbroadBaseController {
         map.put("locate", CmTag.getSysConfig().getCity());
         map.put("idcard", user.getIdcard());
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
+        map.put("unit", unit.startsWith(schoolName) ? unit : (schoolName + unit));
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR
                 + "abroadApply" + FILE_SEPARATOR + to + ".jpg");
@@ -229,10 +229,10 @@ public class AbroadReportController extends AbroadBaseController {
             if (passportApply.getStatus() != null && passportApply.getStatus() == AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportApply.getUserId()); // 审核人
 
-                if(CmTag.getBoolProperty("abroadContactUseSign")) {
+                if (CmTag.getBoolProperty("abroadContactUseSign")) {
                     if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
                         sign = springProps.uploadPath + _user.getSign();
-                }else{
+                } else {
                     map.put("contactName", _user.getRealname());
                 }
 
@@ -304,18 +304,36 @@ public class AbroadReportController extends AbroadBaseController {
         String code = cadre.getCode();
         String unit = cadre.getUnit().getName();
 
+        Map<String, Object> map = new HashMap<String, Object>();
+
         String passportName = passportDraw.getPassportClass().getName();
         ApplySelf applySelf = passportDraw.getApplySelf();
-        String toCountry = applySelf.getToCountry();
-        Date startDate = applySelf.getStartDate();
-        Date endDate = applySelf.getEndDate();
-        String travelTime = DateUtils.formatDate(startDate, DateUtils.YYYY_MM_DD_CHINA);
-        if (DateUtils.getYear(startDate).intValue() == DateUtils.getYear(endDate)) {
-            travelTime += "-" + DateUtils.formatDate(endDate, "MM月dd日");
-        } else {
-            travelTime += "-" + DateUtils.formatDate(endDate, DateUtils.YYYY_MM_DD_CHINA);
+        if (applySelf != null) {
+            String toCountry = applySelf.getToCountry();
+            Date startDate = applySelf.getStartDate();
+            Date endDate = applySelf.getEndDate();
+            String travelTime = DateUtils.formatDate(startDate, DateUtils.YYYY_MM_DD_CHINA);
+            if (DateUtils.getYear(startDate).intValue() == DateUtils.getYear(endDate)) {
+                travelTime += "-" + DateUtils.formatDate(endDate, "MM月dd日");
+            } else {
+                travelTime += "-" + DateUtils.formatDate(endDate, DateUtils.YYYY_MM_DD_CHINA);
+            }
+            String reason = applySelf.getReason();
+
+            map.put("travelTime", travelTime);
+            map.put("toCountry", toCountry);
+
+            List<String> reasonList = new ArrayList<>();
+            String[] reasons = reason.split("\\+\\+\\+");
+            for (String r : reasons) {
+                if (r.startsWith("其他:")) {
+                    reasonList.add(r.substring(3));
+                } else {
+                    reasonList.add(r);
+                }
+            }
+            map.put("reason", StringUtils.join(reasonList, "，"));
         }
-        String reason = applySelf.getReason();
 
         /*if(passportDraw.getDrawTime()==null){
             new OpException("证件还未领取");
@@ -324,26 +342,14 @@ public class AbroadReportController extends AbroadBaseController {
         String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD_CHINA);
         String printTime = DateUtils.getCurrentDateTime(DateUtils.YYYY_MM_DD_CHINA);
 
-        Map<String, Object> map = new HashMap<String, Object>();
+
         map.put("title", CmTag.getSysConfig().getSchoolName() + "处级干部因私出国（境）备案证明");
         map.put("realname", realname);
         map.put("code", code);
         map.put("unit", unit);
         map.put("drawTime", drawTime);
         map.put("passportName", passportName);
-        map.put("travelTime", travelTime);
-        map.put("toCountry", toCountry);
 
-        List<String> reasonList = new ArrayList<>();
-        String[] reasons = reason.split("\\+\\+\\+");
-        for (String r : reasons) {
-            if(r.startsWith("其他:")){
-                reasonList.add(r.substring(3));
-            }else{
-                reasonList.add(r);
-            }
-        }
-        map.put("reason", StringUtils.join(reasonList, "，"));
         map.put("printTime", printTime);
 
         return map;

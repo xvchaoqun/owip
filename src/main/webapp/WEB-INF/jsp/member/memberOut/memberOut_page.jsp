@@ -3,6 +3,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="JASPER_PRINT_TYPE_LETTER_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_PRINT%>"/>
 <c:set var="JASPER_PRINT_TYPE_LETTER_FILL_PRINT" value="<%=SystemConstants.JASPER_PRINT_TYPE_LETTER_FILL_PRINT%>"/>
+<c:set value="${_pMap['memberOutNeedOwCheck']=='true'}" var="_p_memberOutNeedOwCheck"/>
+
 <div class="row">
     <div class="col-xs-12">
 
@@ -27,14 +29,17 @@
                                 <li>
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
                                 </li>
+                                <c:if test="${_p_memberOutNeedOwCheck}">
                                 <li>
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=4"><i class="fa fa-hand-o-right"></i> 返回修改</a>
                                 </li>
+                                </c:if>
                                 <li>
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=5"><i class="fa fa-hand-o-right"></i> 已审核</a>
                                 </li>
                             </ul>
                         </li>
+                        <c:if test="${_p_memberOutNeedOwCheck}">
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                             <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
@@ -50,8 +55,8 @@
                                     </li>
                                 </ul>
                             </li>
-
                         </shiro:hasAnyRoles>
+                            </c:if>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=2"}><i class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
@@ -153,12 +158,12 @@
                                             <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
                                         </button>
                                         </c:forEach>
-                                        <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL)}">
+                                        <shiro:hasPermission name="memberOut:abolish">
                                             <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                     data-url="${ctx}/memberOut_abolish">
                                                 <i class="fa fa-reply"></i> 撤销
                                             </button>
-                                        </c:if>
+                                        </shiro:hasPermission>
                                     </c:if>
                                 </c:if>
                             </div>

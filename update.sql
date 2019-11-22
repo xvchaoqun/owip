@@ -1,5 +1,24 @@
 
 
+删除ExportController
+
+-- 北邮组织关系转出不需要组织部审批
+-- update ow_member_out set status=2 where status=1;
+
+UPDATE sys_resource SET permission='memberOut:list' WHERE permission='memberOut:*';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (910, 0, '编辑组织关系转出', '', 'function', '', NULL, 252, '0/1/105/252/', 1, 'memberOut:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (911, 0, '撤销组织关系转出', '', 'function', '', NULL, 252, '0/1/105/252/', 1, 'memberOut:abolish', NULL, NULL, NULL, 1, NULL);
+-- 重新分配转出的权限给 组织部管理员及分党委管理员
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `post` VARCHAR(200) NULL DEFAULT NULL COMMENT '行政职务，针对非干部' AFTER `mobile`;
+DROP VIEW IF EXISTS `sys_user_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+201901120
+北邮 -- 北师大
+
 UPDATE `sys_resource` SET `name`='禁用/解禁账号/赋权', `permission`='sysUser:auth' WHERE  `permission`='sysUser:del';
 
 201901113

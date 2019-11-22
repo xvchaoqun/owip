@@ -30,6 +30,7 @@
     <result column="health" jdbcType="INTEGER" property="health" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="msg_mobile" jdbcType="VARCHAR" property="msgMobile" />
     <result column="not_send_msg" jdbcType="BIT" property="notSendMsg" />
     <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
@@ -39,6 +40,9 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sys.SysUserView">
+    <result column="resume" jdbcType="LONGVARCHAR" property="resume" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,9 +77,28 @@
     id, username, passwd, salt, role_ids, code, type, create_time, source, locked, timeout, 
     user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
-    msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
+    post, msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
     msg_title
   </sql>
+  <sql id="Blob_Column_List">
+    resume
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.sys.SysUserViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.sys.SysUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -94,6 +117,22 @@
     select count(*) from sys_user_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sys.SysUserViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysUserViewExample" resultMap="BaseResultMap">

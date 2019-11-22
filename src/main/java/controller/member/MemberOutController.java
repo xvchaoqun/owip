@@ -82,25 +82,25 @@ public class MemberOutController extends MemberBaseController {
             MemberOut record = new MemberOut();
 
             String userCode = StringUtils.trim(xlsRow.get(0));
-            if(StringUtils.isBlank(userCode)){
+            if (StringUtils.isBlank(userCode)) {
                 continue;
             }
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null){
+            if (uv == null) {
                 throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
             }
             record.setUserId(uv.getId());
 
             Member member = memberService.get(uv.getId());
-            if(member==null){
+            if (member == null) {
                 throw new OpException("第{0}行学工号[{1}]不在党员库中", row, userCode);
             }
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
 
-            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
-                if(!adminPartyIdSet.contains(member.getPartyId())
-                    && (member.getBranchId()==null || !adminBranchIdSet.contains(member.getBranchId()))){
+            if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                if (!adminPartyIdSet.contains(member.getPartyId())
+                        && (member.getBranchId() == null || !adminBranchIdSet.contains(member.getBranchId()))) {
 
                     throw new OpException("第{0}行学工号[{1}]没有权限导入", row, userCode);
                 }
@@ -124,10 +124,10 @@ public class MemberOutController extends MemberBaseController {
 
             Integer days = null;
             String _days = StringUtils.trimToNull(xlsRow.get(rowNum++));
-            if(_days!=null){
+            if (_days != null) {
                 try {
                     days = Integer.valueOf(_days);
-                }catch (Exception e){
+                } catch (Exception e) {
                     throw new OpException("第{0}行介绍信有效期天数[{1}]有误", row, _type);
                 }
             }
@@ -149,7 +149,7 @@ public class MemberOutController extends MemberBaseController {
 
         logger.info(log(LogConstants.LOG_ADMIN,
                 "导入组织关系转出记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount-addCount));
+                totalCount, addCount, totalCount - addCount));
 
         return resultMap;
     }
@@ -204,14 +204,14 @@ public class MemberOutController extends MemberBaseController {
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 2, cls));
         }
 
-        if(cls==3){
+        if (cls == 3) {
             List<MetaType> printTypeList = new ArrayList<>(); // 打印类别
             List<MetaType> fillPrintTypeList = new ArrayList<>(); // 套打类别
             Map<Integer, MetaType> typeMap = CmTag.getMetaTypes("mc_member_in_out_type");
             for (MetaType type : typeMap.values()) {
-                if(BooleanUtils.isTrue(type.getBoolAttr())){
+                if (BooleanUtils.isTrue(type.getBoolAttr())) {
                     fillPrintTypeList.add(type);
-                }else{
+                } else {
                     printTypeList.add(type);
                 }
             }
@@ -257,9 +257,9 @@ public class MemberOutController extends MemberBaseController {
         MemberOutViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-        if(cls==3) {
+        if (cls == 3) {
             example.setOrderByClause("print_count asc, id desc");
-        }else {
+        } else {
             example.setOrderByClause("apply_time desc");
         }
 
@@ -272,14 +272,14 @@ public class MemberOutController extends MemberBaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(userType!=null){
-            if(userType==1){
+        if (userType != null) {
+            if (userType == 1) {
                 criteria.andMemberTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
-            }else{
+            } else {
                 criteria.andMemberTypeEqualTo(MemberConstants.MEMBER_TYPE_TEACHER);
-                if(userType==3){
+                if (userType == 3) {
                     criteria.andIsRetireEqualTo(true);
-                }else {
+                } else {
                     criteria.andIsBackNotEqualTo(true);
                 }
             }
@@ -417,7 +417,7 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_approval";
     }
 
-    @RequiresPermissions("memberOut:update")
+    @RequiresPermissions("memberOut:edit")
     @RequestMapping("/memberOut_deny")
     public String memberOut_deny(Integer id, ModelMap modelMap) {
 
@@ -429,11 +429,11 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_deny";
     }
 
-    @RequiresPermissions("memberOut:update")
+    @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                  byte type, // 1:分党委审核 3：组织部审核
+                                  byte type, // 1:分党委审核 2：组织部审核
                                   @RequestParam(value = "ids[]") Integer[] ids) {
 
 
@@ -444,14 +444,14 @@ public class MemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("memberOut:update")
+    @RequiresPermissions("memberOut:edit")
     @RequestMapping("/memberOut_back")
     public String memberOut_back() {
 
         return "member/memberOut/memberOut_back";
     }
 
-    @RequiresPermissions("memberOut:update")
+    @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_back(@CurrentUser SysUserView loginUser,
@@ -499,14 +499,14 @@ public class MemberOutController extends MemberBaseController {
         }
 
         Integer id = record.getId();
-        if(id==null) {
+        if (id == null) {
             MemberOut memberOut = memberOutService.getLatest(record.getUserId());
             if (memberOut != null) {
-                if(memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY){
+                if (memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY) {
                     // 保证打回或撤销的，可以重新提交
                     id = memberOut.getId();
                     record.setId(id);
-                }else if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_APPLY
+                } else if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_APPLY
                         && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
                     return failed(String.format("存在未完成审批的记录（状态：%s）",
                             MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus())));
@@ -523,7 +523,19 @@ public class MemberOutController extends MemberBaseController {
 
         if (id == null) {
             record.setApplyTime(new Date());
-            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
+
+            if (partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId)) {
+                boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
+                if (memberOutNeedOwCheck) {
+                    record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+                } else {
+                    record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+                }
+            } else {
+
+                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
+            }
+
             memberOutService.insertOrUpdateSelective(record);
 
             applyApprovalLogService.add(record.getId(),
@@ -569,8 +581,8 @@ public class MemberOutController extends MemberBaseController {
                         MemberOutModify _modifyRecord = new MemberOutModify();
                         try {
                             PropertyUtils.copyProperties(_modifyRecord, before);
-                        }catch (Exception e) {
-                           logger.error("异常", e);
+                        } catch (Exception e) {
+                            logger.error("异常", e);
                         }
                         _modifyRecord.setId(null);
                         _modifyRecord.setOutId(_memberOut.getId());
@@ -585,8 +597,8 @@ public class MemberOutController extends MemberBaseController {
                         MemberOutModify _modifyRecord = new MemberOutModify();
                         try {
                             PropertyUtils.copyProperties(_modifyRecord, _memberOut);
-                        }catch (Exception e) {
-                           logger.error("异常", e);
+                        } catch (Exception e) {
+                            logger.error("异常", e);
                         }
 
                         _modifyRecord.setId(null);
@@ -658,7 +670,7 @@ public class MemberOutController extends MemberBaseController {
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
         List<Integer> adminBranchIdList = null;
-        if (BooleanUtils.isNotTrue(noAuth)){
+        if (BooleanUtils.isNotTrue(noAuth)) {
             addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
@@ -666,22 +678,22 @@ public class MemberOutController extends MemberBaseController {
 
         long count = iMemberMapper.countMemberOutList(searchStr, type,
                 addPermits, adminPartyIdList, adminBranchIdList);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
         List<MemberOutView> records = iMemberMapper.selectMemberOutList(searchStr, type,
                 addPermits, adminPartyIdList, adminBranchIdList,
-                new RowBounds((pageNo-1)*pageSize, pageSize));
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        if (null != records && records.size() > 0) {
 
-            for(MemberOutView record:records){
+            for (MemberOutView record : records) {
                 SysUserView uv = record.getUser();
                 int userId = uv.getId();
                 Map<String, Object> option = new HashMap<>();
-                option.put("id",  userId + "");
+                option.put("id", userId + "");
                 option.put("text", uv.getRealname());
                 option.put("username", uv.getUsername());
                 option.put("code", uv.getCode());
@@ -699,7 +711,7 @@ public class MemberOutController extends MemberBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions({"memberOut:abolish", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequiresPermissions("memberOut:abolish")
     @RequestMapping("/memberOut_abolish")
     public String memberOut_abolish(Integer id, ModelMap modelMap) {
 
@@ -710,7 +722,7 @@ public class MemberOutController extends MemberBaseController {
         return "member/memberOut/memberOut_abolish";
     }
 
-    @RequiresPermissions({"memberOut:abolish", SystemConstants.PERMISSION_PARTYVIEWALL})
+    @RequiresPermissions("memberOut:abolish")
     @RequestMapping(value = "/memberOut_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_abolish(HttpServletRequest request, Integer id, String remark) {
@@ -777,7 +789,7 @@ public class MemberOutController extends MemberBaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                    sysUser.getGender()==null?"": SystemConstants.GENDER_MAP.get(sysUser.getGender()),
+                    sysUser.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUser.getGender()),
                     memberTypeName,
                     record.getPhone(),
                     record.getType() == null ? "" : metaTypeService.getName(record.getType()),

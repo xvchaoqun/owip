@@ -6,15 +6,20 @@ import domain.abroad.*;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.PrintSetup;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ext.service.ShortMsgService;
+import org.springframework.web.util.HtmlUtils;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
@@ -61,7 +66,7 @@ public class PassportDrawService extends AbroadBaseMapper {
             record.setCreateTime(new Date());
 
             Passport passport = record.getPassport();
-            if(record.getDrawStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW){
+            if(record.getDrawStatus()== AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW){
                 if(BooleanUtils.isTrue(passport.getIsLent())){
                     throw new OpException("添加失败：证件已借出，还未归还");
                 }
@@ -296,13 +301,13 @@ public class PassportDrawService extends AbroadBaseMapper {
     // 使用记录导出
     public void passportDraw_export(byte exportType, PassportDrawExample example, HttpServletResponse response) {
 
-        String type = "因私出国（境）";
+        String type = "";
         if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
             type = "因公赴台、长期因公出国";
         } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
             type = "处理其他事务";
-        } else {
-            exportType = AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF;
+        } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
+            type = "因私出国（境）";
         }
 
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
@@ -325,6 +330,9 @@ public class PassportDrawService extends AbroadBaseMapper {
             titles = new String[]{"序号|100", "工作证号|100", "姓名|100", "所在单位及职务|250|left", "证件名称|100",
                     "证件号码|100", "申请日期|100", "申请编码|100", "使用时间|100", "归还时间|100",
                     "使用天数|80", "事由|180", "借出日期|100", "归还日期|100"};
+        }else if(exportType==-1){
+            titles = new String[]{"序号|50", "工作证号|100", "姓名|90", "所在单位及职务|150|left", "证件名称|100",
+                    "证件号码|100", "申请日期|100", "申请编码|80", "领取签字|100"};
         }
 
         MetaType normalPassport = CmTag.getMetaTypeByCode("mt_passport_normal");
@@ -434,11 +442,38 @@ public class PassportDrawService extends AbroadBaseMapper {
                         DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
                 };
+            }else if (exportType == -1) {
+
+                values = new String[]{
+                        String.valueOf(i + 1),
+                        uv.getCode(),
+                        uv.getRealname(),
+                        cadre.getTitle(),
+                        passport.getPassportClass().getName(),
+
+                        passport.getCode(),
+                        DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
+                        String.format("D%s", passportDraw.getId()),
+                        ""
+                };
             }
+
             valueList.add(values);
         }
 
         String fileName = type + "证件使用记录";
-        ExportHelper.export(titles, valueList, fileName, response);
+        if(exportType==-1) {
+            fileName = HtmlUtils.htmlUnescape(fileName);
+            SXSSFWorkbook wb = new SXSSFWorkbook(500);
+            ExportHelper.createSheet(null, wb, titles, valueList);
+            SXSSFSheet sheet = wb.getSheetAt(0);
+            PrintSetup ps = sheet.getPrintSetup();
+            ps.setLandscape(true); // 打印方向，true：横向，false：纵向
+            ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE); //纸张
+
+            ExportHelper.output(wb, fileName + ".xlsx", ContextHelper.getRequest(), response);
+        }else{
+            ExportHelper.export(titles, valueList, fileName, response);
+        }
     }
 }

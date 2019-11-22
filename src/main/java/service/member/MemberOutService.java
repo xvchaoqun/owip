@@ -19,6 +19,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -214,22 +215,30 @@ public class MemberOutService extends MemberBaseMapper {
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
             throw new OpException("状态异常");
+        int userId = memberOut.getUserId();
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
-        record.setUserId(memberOut.getUserId());
-        record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        //record.setBranchId(memberOut.getBranchId());
+        record.setUserId(userId);
+
+        boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
+        if(memberOutNeedOwCheck){
+            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+        }else{
+            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+        }
         updateByPrimaryKeySelective(record);
+        if(!memberOutNeedOwCheck) {
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+        }
     }
 
     @Transactional
-    public void check2(int id, boolean isDirect) {
+    public void check2(int id) {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         Integer userId = memberOut.getUserId();
-        if (isDirect && memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)  // 分党委直接通过的情况（已弃用）
-            throw new OpException("状态异常");
-        if (!isDirect && memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) // 组织部审核通过
+
+        if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) // 组织部审核通过
             throw new OpException("状态异常");
 
         MemberOut record = new MemberOut();
@@ -349,7 +358,7 @@ public class MemberOutService extends MemberBaseMapper {
                 SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
-                check2(memberOut.getId(), false);
+                check2(memberOut.getId());
             }
 
             int userId = memberOut.getUserId();

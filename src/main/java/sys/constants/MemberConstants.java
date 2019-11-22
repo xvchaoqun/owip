@@ -157,7 +157,7 @@ public class MemberConstants {
         MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_DENY, "不通过");
         MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_APPLY, "申请");
         MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_BRANCH_VERIFY, "支部审核通过");
-        MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_PARTY_VERIFY, "分党委审核通过");
+        MEMBER_RETURN_STATUS_MAP.put(MEMBER_RETURN_STATUS_PARTY_VERIFY, "审核通过");
     }
 
     // 党员出党状态
@@ -175,7 +175,7 @@ public class MemberConstants {
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_APPLY, "申请");
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_BRANCH_VERIFY, "支部审核通过");
         MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_PARTY_VERIFY, "分党委审核通过");
-        MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_QUIT_STATUS_MAP.put(MEMBER_QUIT_STATUS_OW_VERIFY, "审核通过");
     }
 
     // 党员转出状态
@@ -189,12 +189,12 @@ public class MemberConstants {
     public final static Map<Byte, String> MEMBER_OUT_STATUS_MAP = new LinkedHashMap<>();
 
     static {
-        MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ABOLISH, "组织部撤销已完成的审批");
+        MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ABOLISH, "撤销已完成的审批");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_SELF_BACK, "本人撤回");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_BACK, "返回修改");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_APPLY, "申请");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_PARTY_VERIFY, "分党委审核通过");
-        MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_OW_VERIFY, "审核通过");
         MEMBER_OUT_STATUS_MAP.put(MEMBER_OUT_STATUS_ARCHIVE, "已归档");
     }
 
@@ -211,7 +211,7 @@ public class MemberConstants {
         MEMBER_IN_STATUS_MAP.put(MEMBER_IN_STATUS_BACK, "返回修改");
         MEMBER_IN_STATUS_MAP.put(MEMBER_IN_STATUS_APPLY, "申请");
         MEMBER_IN_STATUS_MAP.put(MEMBER_IN_STATUS_PARTY_VERIFY, "分党委审核通过");
-        MEMBER_IN_STATUS_MAP.put(MEMBER_IN_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_IN_STATUS_MAP.put(MEMBER_IN_STATUS_OW_VERIFY, "审核通过");
     }
 
     // 校内组织关系互转状态，-1返回修改 0申请 1转出分党委审批 2转入分党委审批
@@ -314,7 +314,7 @@ public class MemberConstants {
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_APPLY, "申请");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_BRANCH_VERIFY, "党支部审核通过");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_PARTY_VERIFY, "分党委审核通过");
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "审核通过");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_ARCHIVE, "已归档");
     }
 }

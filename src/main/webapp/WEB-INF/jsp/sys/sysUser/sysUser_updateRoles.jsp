@@ -13,7 +13,7 @@
   </div>
   <div class="modal-footer">
     <c:if test="${!cm:isSuperAccount(_user.username)}">
-    <div class="note">注：系统自动赋予的角色不在此显示</div>
+    <div class="help-block text-left">注：系统自动赋予的角色不在此显示（如：党员、非党员、教职工等）</div>
       </c:if>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="修改"/></div>

@@ -53,19 +53,19 @@ public class UnitPostService extends BaseMapper {
         return unitPostMapper.countByExample(example) > 0;
     }
 
-    public UnitPost getByCode(String code){
+    public UnitPost getByCode(String code) {
 
         UnitPostExample example = new UnitPostExample();
         example.createCriteria().andCodeEqualTo(code);
         List<UnitPost> records = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return records.size()==1?records.get(0):null;
+        return records.size() == 1 ? records.get(0) : null;
     }
 
     // 单位的现有岗位中， 行政班子负责人和党委班子负责人，分别最多一个
     public boolean leaderTypeDuplicate(Integer id, int unitId, Byte leaderType) {
 
-        if(leaderType==null || leaderType== SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+        if (leaderType == null || leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
             return false;
 
         UnitPostExample example = new UnitPostExample();
@@ -77,9 +77,9 @@ public class UnitPostService extends BaseMapper {
         return unitPostMapper.countByExample(example) > 0;
     }
 
-    public UnitPostView getByLeaderType(int unitId, Byte leaderType){
+    public UnitPostView getByLeaderType(int unitId, Byte leaderType) {
 
-         if(leaderType==null || leaderType== SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
+        if (leaderType == null || leaderType == SystemConstants.UNIT_POST_LEADER_TYPE_NOT)
             return null;
 
         UnitPostViewExample example = new UnitPostViewExample();
@@ -87,9 +87,9 @@ public class UnitPostService extends BaseMapper {
                 .andLeaderTypeEqualTo(leaderType);
         List<UnitPostView> records = unitPostViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return records.size()==1?records.get(0):null;
+        return records.size() == 1 ? records.get(0) : null;
     }
-    
+
     // 查询某单位下的所有岗位（包含已撤销）
     public List<UnitPost> list(int unitId) {
 
@@ -113,7 +113,7 @@ public class UnitPostService extends BaseMapper {
                 .andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
         example.setOrderByClause("sort_order asc");
 
-        if(BooleanUtils.isTrue(displayEmpty)){
+        if (BooleanUtils.isTrue(displayEmpty)) {
             criteria.andCadreIdIsNull();
         }
         return unitPostViewMapper.selectByExample(example);
@@ -131,14 +131,14 @@ public class UnitPostService extends BaseMapper {
 
     //根据单位编码生成岗位编码
     @Transactional
-    public String generateCode(String unitCode){
+    public String generateCode(String unitCode) {
         int num = 0;
         UnitPostExample example = new UnitPostExample();
         example.createCriteria().andUnitIdEqualTo(unitService.findUnitByCode(unitCode).getId());
         example.setOrderByClause("right(code,3) desc");
         List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
-        if (unitPosts.size() > 0){
-            for (int i = 0; i <=unitPosts.size(); i++) {
+        if (unitPosts.size() > 0) {
+            for (int i = 0; i <= unitPosts.size(); i++) {
                 String code = unitPosts.get(i).getCode();
                 String _code = code.substring(code.length() - 3);
                 try {
@@ -148,7 +148,7 @@ public class UnitPostService extends BaseMapper {
                     continue;
                 }
             }
-        }else {
+        } else {
             num = 1;
         }
         return unitCode + String.format("%03d", num);
@@ -156,7 +156,7 @@ public class UnitPostService extends BaseMapper {
 
     //批量插入，读一条插入一条
     @Transactional
-    public int singleImport(UnitPost record){
+    public int singleImport(UnitPost record) {
 
         String name = record.getName();
         int addCount = 0;
@@ -172,7 +172,7 @@ public class UnitPostService extends BaseMapper {
             } else {
                 updateByPrimaryKeySelective(record);
             }
-        }else {
+        } else {
             insertSelective(record);
             addCount++;
         }
@@ -190,10 +190,10 @@ public class UnitPostService extends BaseMapper {
             UnitPostExample example = new UnitPostExample();
             example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andStatusEqualTo(status);
             List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
-            if (unitPosts.size() == 0){
+            if (unitPosts.size() == 0) {
                 insertSelective(record);
                 addCount++;
-            }else {
+            } else {
                 updateByPrimaryKeySelective(record);
             }
         }
@@ -209,10 +209,10 @@ public class UnitPostService extends BaseMapper {
         for (UnitPost record : records) {
             String code = record.getCode();
             UnitPost unitPost = getByCode(code);
-            if(unitPost==null){
+            if (unitPost == null) {
                 insertSelective(record);
                 addCount++;
-            }else{
+            } else {
                 record.setId(unitPost.getId());
                 updateByPrimaryKeySelective(record);
             }
@@ -239,6 +239,14 @@ public class UnitPostService extends BaseMapper {
         Assert.isTrue(!leaderTypeDuplicate(record.getId(), record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
 
         return unitPostMapper.updateByPrimaryKeySelective(record);
+    }
+
+    public List<UnitPostView> findAll() {
+
+        UnitPostViewExample example = new UnitPostViewExample();
+        example.setOrderByClause("status asc, unit_status asc, unit_sort_order asc, sort_order asc");
+
+        return unitPostViewMapper.selectByExample(example);
     }
 
     /**
@@ -291,10 +299,10 @@ public class UnitPostService extends BaseMapper {
         UnitPostExample example = new UnitPostExample();
         UnitPostExample.Criteria criteria =
                 example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
-        if(unitId!=null){
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
-        example.setOrderByClause("code " + (asc?"asc":"desc"));
+        example.setOrderByClause("code " + (asc ? "asc" : "desc"));
         List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
         int sortOrder = 1;
         for (UnitPost unitPost : unitPosts) {
@@ -376,10 +384,10 @@ public class UnitPostService extends BaseMapper {
     public void exportOpenList(Byte displayType, UnitPostViewExample example, HttpServletResponse response) throws IOException {
 
         String filename = "岗位列表";
-        if(displayType!=null){
-            if(displayType==1){
+        if (displayType != null) {
+            if (displayType == 1) {
                 filename = "待补充的岗位列表";
-            }else if(displayType==2){
+            } else if (displayType == 2) {
                 filename = "待调整的岗位列表";
             }
         }
@@ -409,7 +417,7 @@ public class UnitPostService extends BaseMapper {
             row = sheet.getRow(startRow++);
 
             cell = row.getCell(column++);
-            cell.setCellValue(i+1);
+            cell.setCellValue(i + 1);
 
             cell = row.getCell(column++);
             cell.setCellValue(record.getName());
@@ -424,7 +432,7 @@ public class UnitPostService extends BaseMapper {
             cell.setCellValue(record.getJob());
 
             cell = row.getCell(column++);
-            cell.setCellValue(BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否");
+            cell.setCellValue(BooleanUtils.isTrue(record.getIsPrincipal()) ? "是" : "否");
 
             cell = row.getCell(column++);
             cell.setCellValue(metaTypeService.getName(record.getAdminLevel()));
@@ -433,7 +441,7 @@ public class UnitPostService extends BaseMapper {
             cell.setCellValue(metaTypeService.getName(record.getPostType()));
 
             cell = row.getCell(column++);
-            cell.setCellValue(BooleanUtils.isTrue(record.getIsCpc())?"是":"否");
+            cell.setCellValue(BooleanUtils.isTrue(record.getIsCpc()) ? "是" : "否");
 
             cell = row.getCell(column++);
             cell.setCellValue(DateUtils.formatDate(record.getOpenDate(), DateUtils.YYYY_MM_DD));

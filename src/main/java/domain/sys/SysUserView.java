@@ -73,6 +73,8 @@ public class SysUserView implements Serializable {
 
     private String mobile;
 
+    private String post;
+
     private String msgMobile;
 
     private Boolean notSendMsg;
@@ -90,6 +92,8 @@ public class SysUserView implements Serializable {
     private String mailingAddress;
 
     private String msgTitle;
+
+    private String resume;
 
     private static final long serialVersionUID = 1L;
 
@@ -317,6 +321,14 @@ public class SysUserView implements Serializable {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
+    }
+
     public String getMsgMobile() {
         return msgMobile;
     }
@@ -387,5 +399,13 @@ public class SysUserView implements Serializable {
 
     public void setMsgTitle(String msgTitle) {
         this.msgTitle = msgTitle == null ? null : msgTitle.trim();
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume == null ? null : resume.trim();
     }
 }

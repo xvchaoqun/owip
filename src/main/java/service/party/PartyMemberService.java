@@ -207,7 +207,8 @@ public class PartyMemberService extends BaseMapper {
             // 但同一个人不可以在同一个委员会任同一个职务
             PartyMemberExample example = new PartyMemberExample();
             PartyMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId)
+                    .andUserIdEqualTo(userId).andIsHistoryEqualTo(false);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (partyMemberMapper.countByExample(example) > 0) return true;
@@ -219,7 +220,8 @@ public class PartyMemberService extends BaseMapper {
             // 每个委员会只有一个书记
             PartyMemberExample example = new PartyMemberExample();
             PartyMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId);
+                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId)
+                    .andIsHistoryEqualTo(false);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (partyMemberMapper.countByExample(example) > 0) return true;

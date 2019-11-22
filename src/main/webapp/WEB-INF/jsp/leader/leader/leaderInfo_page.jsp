@@ -36,6 +36,13 @@
                     <div class="tab-content">
                         <div class="tab-pane in active rownumbers multi-row-head-table">
                             <div class="jqgrid-vertical-offset buttons">
+                                <shiro:hasPermission name="cadre:changeCode">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                       data-url="${ctx}/cadre_changeCode"
+                                       data-id-name="cadreId">
+                                        <i class="fa fa-refresh"></i> 更换工号</a>
+                                </shiro:hasPermission>
+
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
                                        data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>

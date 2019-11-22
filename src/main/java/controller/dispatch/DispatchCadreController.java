@@ -4,6 +4,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.dispatch.*;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import domain.unit.UnitPostView;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
@@ -24,10 +25,7 @@ import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +85,7 @@ public class DispatchCadreController extends DispatchBaseController {
     public String dispatchCadre(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
-                                     Integer unitPostId,
+                                     @RequestParam(required = false, value = "unitPostIds")Integer[] unitPostIds,
                                      @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                      @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
                                      @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
@@ -103,8 +101,9 @@ public class DispatchCadreController extends DispatchBaseController {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
-        if(unitPostId!=null){
-            modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+        if (unitPostIds!=null) {
+            List<Integer> selectedUnitPostIds = Arrays.asList(unitPostIds);
+            modelMap.put("selectedUnitPostIds", selectedUnitPostIds);
         }
 
         if (cadreId!=null) {
@@ -129,8 +128,30 @@ public class DispatchCadreController extends DispatchBaseController {
             modelMap.put("selectedAdminLevels", selectedAdminLevels);
         }
 
+
+        {
+            List<UnitPostView> unitPostViews = unitPostService.findAll();
+            // MAP<unitId, List<UnitPostView>>
+            Map<Integer, List<UnitPostView>> unitPostMap = new LinkedHashMap<>();
+            List<Unit> units = new ArrayList<>();
+            for (UnitPostView unitPostView : unitPostViews) {
+                int unitId = unitPostView.getUnitId();
+                List<UnitPostView> unitPosts = unitPostMap.get(unitId);
+                if (unitPosts == null) {
+                    unitPosts = new ArrayList<>();
+                    unitPostMap.put(unitId, unitPosts);
+                    units.add(CmTag.getUnit(unitId));
+                }
+                unitPosts.add(unitPostView);
+            }
+
+            modelMap.put("units", units);
+            modelMap.put("unitPostMap", unitPostMap);
+        }
+
         return "dispatch/dispatchCadre/dispatchCadre_page";
     }
+
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre_data")
     @ResponseBody
@@ -144,14 +165,14 @@ public class DispatchCadreController extends DispatchBaseController {
                                    String code,
                                     Integer dispatchId,
                                     Byte type,
-
+                                    String post,
                                    @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                    @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
                                    @RequestParam(required = false, value = "adminLevel")Integer[] adminLevel,
                                     Integer cadreId,
                                     /*String name,*/
                                     Integer unitId,
-                                   Integer unitPostId,
+                                   @RequestParam(required = false, value = "unitPostIds")Integer[] unitPostIds,
                                    Boolean asc,
                                    String postTeam,
                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeStart,
@@ -198,29 +219,26 @@ public class DispatchCadreController extends DispatchBaseController {
         }
 
         if (wayId!=null) {
-            List<Integer> selects = Arrays.asList(wayId);
-            criteria.andWayIdIn(selects);
+            criteria.andWayIdIn(Arrays.asList(wayId));
         }
         if (procedureId!=null) {
-            List<Integer> selects = Arrays.asList(procedureId);
-            criteria.andProcedureIdIn(selects);
+            criteria.andProcedureIdIn(Arrays.asList(procedureId));
         }
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        /*if (StringUtils.isNotBlank(name)) {
-            criteria.andNameLike(SqlUtils.like(name));
-        }*/
+        if (StringUtils.isNotBlank(post)) {
+            criteria.andPostLike(SqlUtils.like(post));
+        }
         if (adminLevel!=null) {
-            List<Integer> selects = Arrays.asList(adminLevel);
-            criteria.andAdminLevelIn(selects);
+            criteria.andAdminLevelIn(Arrays.asList(adminLevel));
         }
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
         }
 
-        if(unitPostId!=null){
-            criteria.andUnitPostIdEqualTo(unitPostId);
+        if(unitPostIds!=null){
+            criteria.andUnitPostIdIn(Arrays.asList(unitPostIds));
         }
         
         if(StringUtils.isNotBlank(postTeam)){
@@ -238,9 +256,9 @@ public class DispatchCadreController extends DispatchBaseController {
                 criteria.andIdIn(Arrays.asList(ids));
             dispatchCadre_export(example, response);
             return;
-        }else if(unitPostId!=null && export==2){ // 历史任职干部导出
+        }else if(unitPostIds!=null && export==2){ // 历史任职干部导出
 
-            unitPostService.exportCadres(unitPostId, example, response);
+            unitPostService.exportCadres(unitPostIds[0], example, response);
             return ;
         }
 

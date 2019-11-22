@@ -187,7 +187,7 @@ public class BranchMemberService extends BaseMapper {
             // 每个委员会只有一个书记
             BranchMemberExample example = new BranchMemberExample();
             BranchMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId);
+                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(typeId).andIsHistoryEqualTo(false);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (branchMemberMapper.countByExample(example) > 0) return true;

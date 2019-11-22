@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=SystemConstants.UNIT_POST_STATUS_DELETE%>" var="UNIT_POST_STATUS_DELETE"/>
+<c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${scMotion!=null}">编辑</c:if><c:if test="${scMotion==null}">添加</c:if>动议</h3>
@@ -92,7 +92,7 @@
                 <select required name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
                         data-width="273"
                         data-placeholder="请选择">
-                    <option value="${unitPost.id}" delete="${unitPost.status==UNIT_POST_STATUS_DELETE}">${unitPost.code}-${unitPost.name}</option>
+                    <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
                 </select>
                 <script>
                     $.register.del_select($("#modalForm select[name=unitPostId]"))
@@ -179,7 +179,7 @@
             var unitPost = data.unitPost;
             if (unitPost != undefined) {
                 $("#modalForm select[name=unitPostId]").html('<option value="{0}" delete="{2}">{1}</option>'
-                    .format(unitPost.id, unitPost.code + "-" + unitPost.name, unitPost.status == '${UNIT_POST_STATUS_DELETE}'))
+                    .format(unitPost.id, unitPost.code + "-" + unitPost.name, unitPost.status != '${UNIT_POST_STATUS_NORMAL}'))
                     .trigger("change");
             }
             $("#modalForm select[name=scType]").val(data.scType).trigger("change");

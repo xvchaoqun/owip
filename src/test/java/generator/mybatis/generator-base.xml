@@ -44,9 +44,9 @@
         <!--<table tableName="base_meta_type" domainObjectName="base.MetaType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="base_layer_type" domainObjectName="base.LayerType">
+        <!--<table tableName="base_layer_type" domainObjectName="base.LayerType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
 
         <!--<table tableName="base_annual_type" domainObjectName="base.AnnualType"
                mapperName="base.AnnualTypeMapper">
@@ -88,15 +88,15 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!--<table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+        <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+        </table>
+         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
          <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
-          </table>-->
+          </table>
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
