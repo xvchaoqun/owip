@@ -2,6 +2,7 @@ package service.member;
 
 import controller.global.OpException;
 import domain.member.*;
+import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -787,6 +788,14 @@ public class MemberApplyOpService extends MemberBaseMapper {
             record.setUserId(userId);
             record.setIsRemove(isRemove);
             memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            EnterApply enterApply = enterApplyService.getCurrentApply(userId);
+            if(enterApply!=null){
+                EnterApply _record = new EnterApply();
+                _record.setId(enterApply.getId());
+                _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApplyMapper.updateByPrimaryKeySelective(_record);
+            }
 
              String applySnOp = "";
             // 清除已使用的志愿书编码，如果有的话

@@ -1,4 +1,5 @@
 
+20191122
 
 删除ExportController
 
@@ -16,13 +17,17 @@ DROP VIEW IF EXISTS `sys_user_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
 AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 
+-- 移除的入党申请，应该允许再次提交入党申请或转入申请
+-- SELECT user_id FROM ow_enter_apply WHERE TYPE=1 AND STATUS=0 AND user_id IN(SELECT user_id FROM ow_member_apply WHERE is_remove=1 AND stage>=0);
+update ow_enter_apply SET STATUS=2 WHERE TYPE=1 AND STATUS=0 AND user_id IN(SELECT user_id FROM ow_member_apply WHERE is_remove=1 AND stage>=0);
+
 201901120
-北邮 -- 北师大
+北邮
 
 UPDATE `sys_resource` SET `name`='禁用/解禁账号/赋权', `permission`='sysUser:auth' WHERE  `permission`='sysUser:del';
 
 201901113
-北邮 -- 北师大
+北邮
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1100, 0, '各类工作总结', '', 'url', '', '/dispatchWorkFile?type=15', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:15', NULL, NULL, NULL, 1, NULL);
 
@@ -45,7 +50,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3033, 0, '分党委信息统计', '', 'function', '', NULL, 108, '0/1/108/', 1, 'stat:party', NULL, NULL, NULL, 1, NULL);
 
 201901102
-北邮 -- 北师大
+北邮
 
 -- 删除 controller.global.ExportController
 
@@ -55,9 +60,9 @@ REPLACE INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `r
 -- update base_meta_type SET NAME='xxxx' WHERE NAME = '北京师范大学';
 
 201901023
-北邮 -- 北师大
+北邮
 
-ALTER TABLE `ow_party_reward`
+/*ALTER TABLE `ow_party_reward`
 	ADD COLUMN `reward_level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '奖励级别' AFTER `reward_time`;
 
 DROP VIEW IF EXISTS `ow_party_reward_view`;
@@ -66,7 +71,7 @@ SELECT opr.*,op.sort_order as party_sort_order,ob.sort_order as branch_sort_orde
 from ow_party_reward opr
 left join ow_party op ON opr.party_id=op.id
 left join ow_branch ob ON opr.branch_id=ob.id
-left join ow_member om on opr.user_id=om.user_id;
+left join ow_member om on opr.user_id=om.user_id;*/
 
 CREATE TABLE `ow_party_eva` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
