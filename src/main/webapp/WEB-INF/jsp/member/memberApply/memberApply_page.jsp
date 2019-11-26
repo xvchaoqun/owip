@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
+<c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
 <c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
 <c:set var="OW_APPLY_TYPE_TEACHER" value="<%=OwConstants.OW_APPLY_TYPE_TEACHER%>"/>
@@ -52,8 +53,8 @@
                                                  <i class="fa fa-list"></i>  全部申请
                                             </a>
                                         </li>
-                                        <li class="<c:if test="${stage==-3}">active</c:if>">
-                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=-3'>
+                                        <li class="<c:if test="${stage==OW_APPLY_STAGE_REMOVE}">active</c:if>">
+                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${OW_APPLY_STAGE_REMOVE}'>
                                                 <i class="fa fa-eraser"></i> 已移除的申请
                                             </a>
                                         </li>
@@ -161,6 +162,8 @@
                                                                     data-grid-id="#jqGrid">
                                                                 <i class="fa fa-check-circle-o"></i> 提交申请
                                                             </button>
+                                                            </c:if>
+                                                            <c:if test="${stage==OW_APPLY_STAGE_DENY || stage==OW_APPLY_STAGE_REMOVE}">
                                                             <button class="jqBatchBtn btn btn-danger btn-sm"
                                                                     data-url="${ctx}/memberApply_batchDel"
                                                                     data-title="删除"
@@ -370,7 +373,7 @@
                                                                         <i class="fa fa-minus"></i> 移除（批量）
                                                                     </button>
                                                                 </c:if>
-                                                                <c:if test="${stage==-3}">
+                                                                <c:if test="${stage==OW_APPLY_STAGE_REMOVE}">
                                                                     <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_remove"
                                                                             data-querystr="isRemove=0">
@@ -524,7 +527,7 @@
                     return $.member(rowObject.user.id, cellvalue);
                 </c:if>
             },frozen:true },
-            <c:if test="${stage<=-3}">
+            <c:if test="${stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){
                     if(rowObject.stage==1) return '申请通过'

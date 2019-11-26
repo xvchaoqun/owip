@@ -791,10 +791,22 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             EnterApply enterApply = enterApplyService.getCurrentApply(userId);
             if(enterApply!=null){
-                EnterApply _record = new EnterApply();
-                _record.setId(enterApply.getId());
-                _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApplyMapper.updateByPrimaryKeySelective(_record);
+                if(isRemove) { // 移除
+                    EnterApply _record = new EnterApply();
+                    _record.setId(enterApply.getId());
+                    _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                    enterApplyMapper.updateByPrimaryKeySelective(_record);
+                }
+            }else{
+                if(!isRemove) { // 撤销移除
+                    EnterApply _record = new EnterApply();
+                    _record.setUserId(userId);
+                    _record.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+                    _record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
+                    _record.setCreateTime(new Date());
+
+                    enterApplyMapper.insertSelective(_record);
+                }
             }
 
              String applySnOp = "";
@@ -841,7 +853,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
-    //删除记录（只允许删除未通过的）
+    //删除记录（只允许删除未通过或已移除的）
     @Transactional
     public void batchDel(Integer[] userIds) {
 
@@ -852,7 +864,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
-            if(stage!=OwConstants.OW_APPLY_STAGE_DENY ){
+            if(stage!=OwConstants.OW_APPLY_STAGE_DENY && BooleanUtils.isNotTrue(memberApply.getIsRemove())){
                 throw new OpException("{0}已进入发展流程，不可删除。", memberApply.getUser().getRealname());
             }
 
