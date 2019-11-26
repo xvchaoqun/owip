@@ -75,6 +75,7 @@ public class CetUnitProjectService extends CetBaseMapper {
         cetUnitProjectMapper.updateByExampleSelective(record, example);
     }
 
+    // 返回待报送
     @Transactional
     public void back(Integer[] ids) {
 
@@ -96,8 +97,7 @@ public class CetUnitProjectService extends CetBaseMapper {
         }
 
         CetUnitProjectExample example = new CetUnitProjectExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusEqualTo(CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS);
+        example.createCriteria().andIdIn(Arrays.asList(ids));
 
         CetUnitProject record = new CetUnitProject();
         record.setStatus(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);

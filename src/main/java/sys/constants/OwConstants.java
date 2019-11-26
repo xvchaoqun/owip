@@ -86,7 +86,7 @@ public class OwConstants {
     public final static Map<Byte, String> OW_APPLY_STAGE_MAP = new LinkedHashMap<>();
 
     static {
-        OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_REMOVE, "已移除");
+        //OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_REMOVE, "已移除");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_DENY, "未通过");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_INIT, "申请");
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_ACTIVE, "入党积极分子");

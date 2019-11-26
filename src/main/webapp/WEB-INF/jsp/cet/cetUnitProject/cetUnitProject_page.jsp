@@ -63,9 +63,10 @@ pageEncoding="UTF-8" %>
                         修改</button>
                 </shiro:hasPermission>
                 </c:if>
-                <c:if test="${cls==4}">
+                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <c:if test="${cls!=2}">
                 <shiro:hasPermission name="cetUnitProject:edit">
-                    <button class="jqBatchBtn btn btn-success btn-sm"
+                    <button class="jqBatchBtn btn btn-warning btn-sm"
                             data-title="返回待报送"
                             data-msg="确定返回待报送？（已选{0}条数据）"
                        data-url="${ctx}/cet/cetUnitProject_back"
@@ -74,14 +75,13 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
                 </c:if>
                 <c:if test="${cls==3}">
-                    <shiro:hasRole name="${ROLE_CET_ADMIN}">
                     <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                     data-url="${ctx}/cet/cetUnitProject_check"
                                     data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     审批
                     </button>
-                    </shiro:hasRole>
                 </c:if>
+                </shiro:hasRole>
                 <shiro:lacksRole name="${ROLE_CET_ADMIN}">
                 <c:if test="${cls==2}">
                     <button data-url="${ctx}/cet/cetUnitProject_del"
