@@ -56,17 +56,17 @@
 </tr>
 <tr>
     <td class="bg-right">
-        转入组织机构
+        转出组织机构
     </td>
     <td class="bg-left" style="min-width: 80px">
         ${cm:displayParty(memberTransfer.partyId, memberTransfer.branchId)}
     </td>
 
     <td class="bg-right" nowrap>
-        转出组织机构
+        转入组织机构
     </td>
     <td class="bg-left" style="min-width: 120px" colspan="5">
-        ${cm:displayParty(userBean.partyId, userBean.branchId)}
+        ${cm:displayParty(memberTransfer.toPartyId, memberTransfer.toBranchId)}
     </td>
 </tr>
 <tr>

@@ -3,6 +3,8 @@
 
 删除ExportController
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('memberOutNeedOwCheck', '组织关系转出需要组织部审批', 'false', 3, 48, '');
 -- 北邮组织关系转出不需要组织部审批
 -- update ow_member_out set status=2 where status=1;
 
