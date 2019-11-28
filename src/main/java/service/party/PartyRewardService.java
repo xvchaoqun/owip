@@ -27,10 +27,14 @@ public class PartyRewardService extends BaseMapper {
         MetaType gjj = codeKeyMap.get("mc_party_reward_gjj"); // 国家级
         MetaType sbj = codeKeyMap.get("mc_party_reward_sbj"); // 省部级
         MetaType dtj = codeKeyMap.get("mc_party_reward_dtj"); // 地厅级
+        MetaType xj = codeKeyMap.get("mc_party_reward_xj"); //校级奖励
+        MetaType mj = codeKeyMap.get("mc_party_reward_mj"); //其他奖励
         List<Integer> rewardLevels = new ArrayList<>();
         rewardLevels.add(gjj.getId());
         rewardLevels.add(sbj.getId());
         rewardLevels.add(dtj.getId());
+        rewardLevels.add(xj.getId());
+        rewardLevels.add(mj.getId());
 
         PartyRewardExample example = new PartyRewardExample();
         example.createCriteria().andUserIdEqualTo(userId)

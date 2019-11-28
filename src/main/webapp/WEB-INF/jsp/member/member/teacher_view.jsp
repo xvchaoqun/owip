@@ -33,6 +33,10 @@
                             </li>
                         </shiro:hasPermission>
                         <li>
+                            <a href="javascript:;"
+                               data-url="${ctx}/memberInfoForm_page?userId=${param.userId}">党员信息采集表</a>
+                        </li>
+                        <li>
                             <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
                         </li>
                         <li>
@@ -51,7 +55,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4">
-                    <div class="tab-content padding-8">
+                    <div class="tab-content padding-8" id="partyMemberViewContent">
                     <c:import url="/member_base"/>
                     </div>
                 </div><!-- /.widget-main -->

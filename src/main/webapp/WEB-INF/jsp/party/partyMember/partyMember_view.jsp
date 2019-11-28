@@ -83,6 +83,10 @@
                 </li>
                  </shiro:hasPermission>
                     </c:if>
+                <li>
+                    <a href="javascript:;"
+                       data-url="${ctx}/memberInfoForm_page?cadreId=${param.cadreId}">党员信息采集表</a>
+                </li>
             </ul>
 
         </div>
@@ -90,7 +94,7 @@
     </div>
     <div class="widget-body" style="clear:left">
         <div class="widget-main no-padding">
-            <div class="tab-content">
+            <div class="tab-content" id="partyMemberViewContent">
                 <c:import url="/${to}"/>
             </div>
         </div>

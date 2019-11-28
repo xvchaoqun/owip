@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="modal-header">
+    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <h3>修改行政职务和联系电话</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" action="${ctx}/memberInfoForm_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <input type="hidden" name="userId" value="${uv.userId}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label">行政职务</label>
+			<div class="col-xs-6">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+								  name="post" rows="3">${uv.post}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">联系电话</label>
+			<div class="col-xs-6">
+                <c:if test="${cadreView!=null}">
+                    <input readonly="readonly" class="form-control" type="text" name="mobile" value="${cadreView.mobile}" placeholder="请填写手机号">
+                    <div class="note">注：该党员是干部，此处不能变更干部手机号。</div>
+                </c:if>
+                <c:if test="${cadreView==null}">
+				    <input class="form-control" type="text" name="mobile" value="${uv.mobile}" placeholder="请填写手机号">
+                </c:if>
+			</div>
+		</div>
+    </form>
+</div>
+<div class="modal-footer">
+    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <button id="submitBtn"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpParty?'确定':'提交'}</button>
+</div>
+<script>
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
+        submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
+            $(form).ajaxSubmit({
+                success: function (ret) {
+                    if (ret.success) {
+                        $("#modal").modal("hide");
+                        $("#partyMemberViewContent").loadPage("${ctx}/memberInfoForm_page?userId=${uv.userId}");
+                    }
+                    $btn.button('reset');
+                }
+            });
+        }
+    });
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#modalForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
+</script>

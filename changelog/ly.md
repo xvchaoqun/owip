@@ -1,4 +1,8 @@
 
+20191122
+mysql文本替换
+update base_content_tpl set content = replace(content, 'http://nhzg.nuaa.edu.cn', 'https://zg.nuaa.edu.cn');
+
 20191120
 北邮添加页面的样式问题
 

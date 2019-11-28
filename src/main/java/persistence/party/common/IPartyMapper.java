@@ -109,4 +109,9 @@ public interface IPartyMapper {
     @Update("update ow_branch ob , (select branch_id, count(*) num from ow_branch_transfer_log " +
             "where branch_id in(${brachIds}) group by branch_id) tmp set ob.transfer_count=tmp.num where ob.id=tmp.branch_id")
     void updateBranchTransferCount(@Param("brachIds") String brachIds);
+
+    // 根据委员类别、用户ID查询现任支部委员会委员
+    @Select("SELECT type_id FROM ow_branch_member WHERE user_id=${userId}" +
+            " UNION ALL SELECT post_id FROM ow_party_member WHERE user_id=${userId}")
+    List<Integer> findIsMember(@Param("userId") int userId);
 }
