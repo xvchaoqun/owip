@@ -33,7 +33,7 @@
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmMeeting:approve">
                             <button class="popupBtn btn btn-success btn-sm tooltip-info"
-                                    data-url="${ctx}/pmMeeting_import"
+                                    data-url="${ctx}/pmMeeting_import?type=${type}"
                                     data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                 批量导入
                             </button>
@@ -61,7 +61,7 @@
                             <shiro:hasPermission name="pmMeeting:edit">
                                 <c:if test="${cls==2||cls==4}">
                                     <a class="jqOpenViewBtn btn btn-info btn-sm"
-                                       data-url="${ctx}/pmMeeting_au?edit=true&reedit=1"
+                                       data-url="${ctx}/pmMeeting_au?edit=true&reedit=1?type=${type}"
                                        data-grid-id="#jqGrid"
                                        data-open-by="page"><i class="fa fa-edit"></i>
                                         重新提交</a>
@@ -69,7 +69,7 @@
 
                               <c:if test="${cls==1||addPermits==false&&cls==3}">
                                   <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                               data-url="${ctx}/pmMeeting_au?edit=true"
+                                               data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
                                                data-grid-id="#jqGrid"
                                                data-open-by="page"><i class="fa fa-edit"></i>
                                         修改</a>
@@ -77,6 +77,13 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                                <a class="jqLinkItemBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/pmMeeting_exportWord"
+                                   data-grid-id="#jqGrid"
+                                   data-open-by="page"><i class="fa fa-download"></i>
+                                    导出工作记录</a>
+
                                 <c:if test="${cls!=3}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
@@ -223,10 +230,10 @@
             {label: '实际时间', name: 'date', width:150,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}},
-            {label: '会议名称', name: 'name', width:350,align:'left',frozen:true},
-            {label: '会议议题', name: 'issue', width:350, align:'left', formatter:function(cellvalue, options, rowObject){
+            {label: '${param.type!=5?"会议":"主题党日活动"}名称', name: 'name', width:350,align:'left',frozen:true},
+            {label: '${param.type!=5?"会议议题":"活动主题"}', name: 'issue', width:350, align:'left', formatter:function(cellvalue, options, rowObject){
                     if(cellvalue==undefined) return '--';
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,cellvalue);
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting_au?edit=false&id={0}&type={2}">{1}</a>'.format( rowObject.id,cellvalue,rowObject.type);
                 }
             },
 
@@ -239,15 +246,17 @@
                 }
             },
             {label: '请假人数', name: 'absentNum',formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '--'
+                    if(cellvalue==0||cellvalue==undefined) return '--'
                     return ('<a href="javascript:;" class="popupBtn bolder" ' +
                         'data-url="${ctx}/pmMeeting_user?id={0}&type=2"><u>{1}</u></a>')
                         .format(rowObject.id, cellvalue);
                 }
             },
-            {label: '主持人', name: 'presenterName.realname', align:'left'},
+            <c:if test="${param.type!=5}">
+               {label: '主持人', name: 'presenterName.realname', align:'left'},
+            </c:if>
             {label: '记录人', name: 'recorderName.realname', align:'left'},
-            {label: '会议地点', name: 'address', align:'left'},
+            {label: '${param.type!=5?"会议":"活动"}地点', name: 'address', align:'left'},
             {label: '参会人员', name: 'attendList', align:'left', width: 280,formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--'
                     return $.map(cellvalue, function(u){

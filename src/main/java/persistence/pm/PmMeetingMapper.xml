@@ -21,8 +21,10 @@
     <result column="due_num" jdbcType="INTEGER" property="dueNum" />
     <result column="attend_num" jdbcType="INTEGER" property="attendNum" />
     <result column="absent_num" jdbcType="INTEGER" property="absentNum" />
+    <result column="absent_reason" jdbcType="VARCHAR" property="absentReason" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="is_public" jdbcType="BIT" property="isPublic" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
@@ -92,7 +94,7 @@
   <sql id="Base_Column_List">
     id, party_id, branch_id, type, plan_date, date, year, quarter, name, issue, address, 
     presenter, recorder, attends, absents, Invitee, due_num, attend_num, absent_num, 
-    content, is_public, status, is_back, reason, is_delete
+    absent_reason, content, is_public, remark, status, is_back, reason, is_delete
   </sql>
   <sql id="Blob_Column_List">
     decision
@@ -155,8 +157,9 @@
       address, presenter, recorder, 
       attends, absents, Invitee, 
       due_num, attend_num, absent_num, 
-      content, is_public, status, 
-      is_back, reason, is_delete, decision
+      absent_reason, content, is_public, 
+      remark, status, is_back, 
+      reason, is_delete, decision
       )
     values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{planDate,jdbcType=TIMESTAMP}, #{date,jdbcType=TIMESTAMP}, #{year,jdbcType=INTEGER}, 
@@ -164,8 +167,9 @@
       #{address,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
       #{attends,jdbcType=VARCHAR}, #{absents,jdbcType=VARCHAR}, #{invitee,jdbcType=VARCHAR}, 
       #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, #{absentNum,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
-      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{decision,jdbcType=LONGVARCHAR}
+      #{absentReason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
+      #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{decision,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.pm.PmMeeting">
@@ -228,11 +232,17 @@
       <if test="absentNum != null">
         absent_num,
       </if>
+      <if test="absentReason != null">
+        absent_reason,
+      </if>
       <if test="content != null">
         content,
       </if>
       <if test="isPublic != null">
         is_public,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="status != null">
         status,
@@ -305,11 +315,17 @@
       <if test="absentNum != null">
         #{absentNum,jdbcType=INTEGER},
       </if>
+      <if test="absentReason != null">
+        #{absentReason,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="isPublic != null">
         #{isPublic,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -394,11 +410,17 @@
       <if test="record.absentNum != null">
         absent_num = #{record.absentNum,jdbcType=INTEGER},
       </if>
+      <if test="record.absentReason != null">
+        absent_reason = #{record.absentReason,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.isPublic != null">
         is_public = #{record.isPublic,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -441,8 +463,10 @@
       due_num = #{record.dueNum,jdbcType=INTEGER},
       attend_num = #{record.attendNum,jdbcType=INTEGER},
       absent_num = #{record.absentNum,jdbcType=INTEGER},
+      absent_reason = #{record.absentReason,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       is_public = #{record.isPublic,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
@@ -473,8 +497,10 @@
       due_num = #{record.dueNum,jdbcType=INTEGER},
       attend_num = #{record.attendNum,jdbcType=INTEGER},
       absent_num = #{record.absentNum,jdbcType=INTEGER},
+      absent_reason = #{record.absentReason,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       is_public = #{record.isPublic,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
@@ -540,11 +566,17 @@
       <if test="absentNum != null">
         absent_num = #{absentNum,jdbcType=INTEGER},
       </if>
+      <if test="absentReason != null">
+        absent_reason = #{absentReason,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="isPublic != null">
         is_public = #{isPublic,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -584,8 +616,10 @@
       due_num = #{dueNum,jdbcType=INTEGER},
       attend_num = #{attendNum,jdbcType=INTEGER},
       absent_num = #{absentNum,jdbcType=INTEGER},
+      absent_reason = #{absentReason,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       is_public = #{isPublic,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
@@ -613,8 +647,10 @@
       due_num = #{dueNum,jdbcType=INTEGER},
       attend_num = #{attendNum,jdbcType=INTEGER},
       absent_num = #{absentNum,jdbcType=INTEGER},
+      absent_reason = #{absentReason,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       is_public = #{isPublic,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},

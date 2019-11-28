@@ -87,9 +87,13 @@ public class PmMeeting implements Serializable {
 
     private Integer absentNum;
 
+    private String absentReason;
+
     private String content;
 
     private Boolean isPublic;
+
+    private String remark;
 
     private Byte status;
 
@@ -255,6 +259,14 @@ public class PmMeeting implements Serializable {
         this.absentNum = absentNum;
     }
 
+    public String getAbsentReason() {
+        return absentReason;
+    }
+
+    public void setAbsentReason(String absentReason) {
+        this.absentReason = absentReason == null ? null : absentReason.trim();
+    }
+
     public String getContent() {
         return content;
     }
@@ -269,6 +281,14 @@ public class PmMeeting implements Serializable {
 
     public void setIsPublic(Boolean isPublic) {
         this.isPublic = isPublic;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Byte getStatus() {

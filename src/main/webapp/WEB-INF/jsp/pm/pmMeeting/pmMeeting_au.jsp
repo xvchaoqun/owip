@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                                     <%--<label class="col-xs-3 control-label">选择党支部</label>--%>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-5" style="padding-left: 25px;">
                                         <select class="form-control"  data-rel="select2-ajax"
                                                 data-ajax-url="${ctx}/branch_selects?del=0&auth=1"
                                                 name="branchId" data-placeholder="请选择党支部" data-width="250">
@@ -67,7 +67,7 @@
                 </td>
                 </c:if>
                 <tr>
-                    <td width="100"><span class="star">*</span>会议名称</td>
+                    <td width="100"><span class="star">*</span>${param.type!=5?"会议":"主题党日活动"}名称</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.name}
@@ -80,7 +80,7 @@
                 </tr>
                 <tr>
                     <td><span class="star">*</span>计划时间</td>
-                    <td>
+                    <td ${param.type!=5?'':'colspan="3"'}>
                         <c:if test="${!edit}">
                             ${cm:formatDate(pmMeeting.planDate, "yyyy-MM-dd HH:mm")}
                         </c:if>
@@ -94,21 +94,21 @@
                             </div>
                         </c:if>
                     </td>
-
-                    <td><span class="star">*</span>主持人</td>
-                    <td>
-                        <c:if test="${!edit}">
-                            ${pmMeeting.presenterName.realname}
-                        </c:if>
-                        <c:if test="${edit}">
-                        <select  ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
-                                required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
-                                data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
-                            <option value="${pmMeeting.presenter}">${pmMeeting.presenterName.realname}-${pmMeeting.presenterName.code}</option>
-                        </select>
-                        </c:if>
-                    </td>
-
+                    <c:if test="${param.type!=5}">
+                        <td><span class="star">*</span>主持人</td>
+                        <td>
+                            <c:if test="${!edit}">
+                                ${pmMeeting.presenterName.realname}
+                            </c:if>
+                            <c:if test="${edit}">
+                            <select  ${empty pmMeeting.partyId&&empty pmMeeting.branchId?'disabled="disabled"':''}
+                                    required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${pmMeeting.partyId}&branchId=${pmMeeting.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                                    data-width="270" id="presenter" name="presenter" data-placeholder="请选择">
+                                <option value="${pmMeeting.presenter}">${pmMeeting.presenterName.realname}-${pmMeeting.presenterName.code}</option>
+                            </select>
+                            </c:if>
+                        </td>
+                    </c:if>
                 </tr>
                 <tr>
                     <td><span class="star">*</span>实际时间</td>
@@ -146,7 +146,7 @@
                 </tr>
 
                 <tr>
-                    <td><span class="star">*</span>会议地点</td>
+                    <td><span class="star">*</span>${param.type!=5?"会议":"活动"}地点</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.address}
@@ -236,17 +236,30 @@
                                    value="${pmMeeting.attendNum}">
                         </c:if>
                     </td>
-                    <td><span class="star">*</span>请假人数</td>
+                    <td>请假人数</td>
                     <td>
                         <c:if test="${!edit}">
                             ${pmMeeting.absentNum}
                         </c:if>
                         <c:if test="${edit}">
-                            <input  required class="form-control" type="text" name="absentNum"
+                            <input class="form-control" type="text" name="absentNum"
                                     value="${pmMeeting.absentNum}">
                         </c:if>
                     </td>
                 </tr>
+                <tr>
+                    <td>请假原因</td>
+                    <td colspan="3">
+                        <c:if test="${!edit}">
+                            ${pmMeeting.absentReason}
+                        </c:if>
+                        <c:if test="${edit}">
+                            <input class="form-control" type="text" name="absentReason"
+                                    value="${pmMeeting.absentReason}">
+                        </c:if>
+                    </td>
+                </tr>
+
                 <tr>
                     <td><span class="star">*</span>应到人数</td>
                     <td>
@@ -271,7 +284,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="star">*</span>会议议题</td>
+                    <td><span class="star">*</span>${param.type!=5?"会议议题":"活动主题"}</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.issue}
@@ -284,7 +297,7 @@
                 </tr>
 
                 <tr>
-                    <td style="padding: 80px"><span class="star">*</span>会议内容</td>
+                    <td style="padding: 80px"><span class="star">*</span>${param.type!=5?"会议内容":"主要内容及特色"}</td>
                     <td colspan="3">
                         <c:if test="${!edit}">
                             ${pmMeeting.content}
@@ -295,18 +308,20 @@
                         </c:if>
                     </td>
                 </tr>
-                <tr>
-                    <td style="padding: 80px">会议决议</td>
-                    <td colspan="3">
-                    <c:if test="${!edit}">
-                        ${pmMeeting.decision}
-                    </c:if>
-                    <c:if test="${edit}">
-                        <textarea  name="decision" rows="10"
-                                  style="width: 100%">${pmMeeting.decision}</textarea>
-                    </c:if>
-                    </td>
-                </tr>
+                <c:if test="${param.type!=5}">
+                    <tr>
+                        <td style="padding: 80px">会议决议</td>
+                        <td colspan="3">
+                        <c:if test="${!edit}">
+                            ${pmMeeting.decision}
+                        </c:if>
+                        <c:if test="${edit}">
+                            <textarea  name="decision" rows="10"
+                                      style="width: 100%">${pmMeeting.decision}</textarea>
+                        </c:if>
+                        </td>
+                    </tr>
+                </c:if>
                 <tr>
                     <td>是否公开</td>
                     <td colspan="3">
@@ -347,6 +362,17 @@
                             </div>
                             </div>
                         </div>
+                        </c:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td colspan="3">
+                        <c:if test="${!edit}">
+                            ${pmMeeting.remark}
+                        </c:if>
+                        <c:if test="${edit}">
+                            <textarea class="form-control" type="text" name="remark">${pmMeeting.remark}</textarea>
                         </c:if>
                     </td>
                 </tr>
@@ -552,6 +578,7 @@
                         $("#modal").modal('hide');
                         SysMsg.success("保存成功。", function () {
                             $.hideView();
+                            $("#jqGrid").trigger("reloadGrid");
                         });
                     }
                 }

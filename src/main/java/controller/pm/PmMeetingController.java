@@ -45,6 +45,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
@@ -170,7 +171,7 @@ public class PmMeetingController extends PmBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            pmMeeting_export(example, response);
+            pmMeeting_export(example,type ,response);
             return;
         }
 
@@ -361,7 +362,7 @@ public class PmMeetingController extends PmBaseController {
     @RequiresPermissions("pmMeeting:approve")
     @RequestMapping(value = "/pmMeeting_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_import(HttpServletRequest request) throws InvalidFormatException, IOException, InterruptedException {
+    public Map do_member_import(Byte type,HttpServletRequest request) throws InvalidFormatException, IOException, InterruptedException {
 
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<String, Party> runPartyMap = new HashMap<>();
@@ -394,9 +395,11 @@ public class PmMeetingController extends PmBaseController {
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
         Map<String, Object> resultMap = null;
-
-        resultMap = importMeeting(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
-
+       if(type!=PARTY_MEETING_BRANCH_ACTIVITY){
+          resultMap = importMeeting(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
+       }else{
+           resultMap = importMeeting_Activity(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
+       }
         int successCount = (int) resultMap.get("successCount");
         int totalCount = (int) resultMap.get("total");
 
@@ -408,9 +411,9 @@ public class PmMeetingController extends PmBaseController {
     }
 
     private Map<String, Object> importMeeting(List<Map<Integer, String>> xlsRows,
-                                                     Map<String, Party> runPartyMap,
-                                                     Map<String, Branch> runBranchMap,
-                                                     Map<String, Byte> partyMeetingMap) throws InterruptedException {
+                                                  Map<String, Party> runPartyMap,
+                                                  Map<String, Branch> runBranchMap,
+                                                  Map<String, Byte> partyMeetingMap) throws InterruptedException {
 
         //Date now = new Date();
         List<PmMeeting> records = new ArrayList<>();
@@ -503,36 +506,169 @@ public class PmMeetingController extends PmBaseController {
         return resultMap;
     }
 
-    public void pmMeeting_export(PmMeetingExample example, HttpServletResponse response) {
+
+    private Map<String, Object> importMeeting_Activity(List<Map<Integer, String>> xlsRows,
+                                              Map<String, Party> runPartyMap,
+                                              Map<String, Branch> runBranchMap,
+                                              Map<String, Byte> partyMeetingMap) throws InterruptedException {
+
+        //Date now = new Date();
+        List<PmMeeting> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            PmMeeting record = new PmMeeting();
+            record.setType(PARTY_MEETING_BRANCH_ACTIVITY);
+            String partyCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+                throw new OpException("您没有权限导入第{0}行党支部数据", row);
+            }
+            record.setPartyId(party.getId());
+            if (!partyService.isDirectBranch(party.getId())) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(2));
+                if (StringUtils.isBlank(branchCode)) {
+                    throw new OpException("第{0}行党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null) {
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            String recorderCode = StringUtils.trim(xlsRow.get(4));
+            if (StringUtils.isBlank(recorderCode)) {
+                continue;
+            }
+            SysUserView recorder = sysUserService.findByCode(recorderCode);
+            if (recorder == null) {
+                throw new OpException("第{0}行记录人学工号[{1}]不存在", row, recorderCode);
+            }
+            record.setRecorder(recorder.getId());
+
+            int col = 6;
+            record.setName(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPlanDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setIssue(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setContent(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDueNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setAttendNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setAbsentNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setInvitee(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            records.add(record);
+        }
+
+        int successCount = pmMeetingService.pmMeetingImport(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
+    }
+
+    public void pmMeeting_export(PmMeetingExample example,Byte type, HttpServletResponse response) {
 
         List<PmMeeting> records = pmMeetingMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度","季度","所属"+CmTag.getStringProperty("partyName")+"|250|left","所属党支部|250|left","计划时间|100","实际时间|100","会议名称|150|left","会议议题|250|left","会议地点|100","审核情况|100",
-                "主持人","记录人","应到人数","实到人数","请假人数"};
         List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            PmMeeting record = records.get(i);
-            String[] values = {
-                    String.valueOf(record.getYear()),
-                    String.valueOf(record.getQuarter()),
-                    CmTag.getParty(record.getPartyId()).getName(),
-                    record.getBranchId()==null?"":CmTag.getBranch(record.getBranchId()).getName(),
-                    DateUtils.formatDate(record.getPlanDate(), DateUtils.YYYY_MM_DD_HH_MM),
-                    DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
-                    record.getName(),
-                    record.getIssue(),
-                    record.getAddress(),
-                    PM_MEETING_STATUS_MAP.get(record.getStatus()),
-                    CmTag.getUserById(record.getPresenter()).getRealname(),
-                    CmTag.getUserById(record.getRecorder()).getRealname(),
-                    String.valueOf(record.getDueNum()),
-                    String.valueOf(record.getAttendNum()),
-                    String.valueOf(record.getAbsentNum()),
-                  //  DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
-            };
-            valuesList.add(values);
+
+        if(type!=null&&type!=PARTY_MEETING_BRANCH_ACTIVITY){
+            String[] titles = {"年度","季度","所属"+CmTag.getStringProperty("partyName")+"|250|left","所属党支部|250|left","计划时间|100","实际时间|100","会议名称|150|left","会议议题|250|left","会议地点|100","审核情况|100",
+                    "主持人","记录人","应到人数","实到人数","请假人数"};
+            for (int i = 0; i < rownum; i++) {
+                PmMeeting record = records.get(i);
+
+                String[] values = {
+                        String.valueOf(record.getYear()),
+                        String.valueOf(record.getQuarter()),
+                        CmTag.getParty(record.getPartyId()).getName(),
+                        record.getBranchId()==null?"":CmTag.getBranch(record.getBranchId()).getName(),
+                        DateUtils.formatDate(record.getPlanDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                        DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                        record.getName(),
+                        record.getIssue(),
+                        record.getAddress(),
+                        PM_MEETING_STATUS_MAP.get(record.getStatus()),
+                        CmTag.getUserById(record.getPresenter()).getRealname(),
+                        CmTag.getUserById(record.getRecorder()).getRealname(),
+                        record.getDueNum()==null?"": String.valueOf(record.getDueNum()),
+                        record.getAttendNum()==null?"": String.valueOf(record.getAttendNum()),
+                        record.getAbsentNum()==null?"":String.valueOf(record.getAbsentNum()),
+                      //  DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
+                };
+
+                valuesList.add(values);
+            }
+            String fileName = "会议列表(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
+            ExportHelper.export(titles, valuesList, fileName, response);
+        }else{
+            String[] titles= {"年度","季度","所属"+CmTag.getStringProperty("partyName")+"|250|left","所属党支部|250|left","计划时间|100","实际时间|100","活动地点|100","主题党日活动名称|150|left","活动主题|250|left","主要内容及特色|250|left","审核情况|100",
+                    "记录人","应到人数","实到人数","请假人数"};
+            for (int i = 0; i < rownum; i++) {
+                PmMeeting record = records.get(i);
+
+                String[] values = {
+                        String.valueOf(record.getYear()),
+                        String.valueOf(record.getQuarter()),
+                        CmTag.getParty(record.getPartyId()).getName(),
+                        record.getBranchId()==null?"":CmTag.getBranch(record.getBranchId()).getName(),
+                        DateUtils.formatDate(record.getPlanDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                        DateUtils.formatDate(record.getDate(), DateUtils.YYYY_MM_DD_HH_MM),
+                        record.getAddress(),
+                        record.getName(),
+                        record.getIssue(),
+                        record.getContent(),
+                        PM_MEETING_STATUS_MAP.get(record.getStatus()),
+                        CmTag.getUserById(record.getRecorder()).getRealname(),
+                        String.valueOf(record.getDueNum()),
+                        String.valueOf(record.getAttendNum()),
+                        String.valueOf(record.getAbsentNum()),
+                        //  DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
+                };
+
+                valuesList.add(values);
+            }
+            String fileName = "主题党日活动列表(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
+            ExportHelper.export(titles, valuesList, fileName, response);
         }
-        String fileName = "会议列表(" + DateUtils.formatDate(new Date(), "yyyyMMddHH") + ")";
-        ExportHelper.export(titles, valuesList, fileName, response);
+
+    }
+    // 导入会议
+   // @RequiresPermissions("pmMeeting:approve")
+    @RequestMapping("/pmMeeting_exportWord")
+    @ResponseBody
+    public void pmMeeting_exportWord(Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
+        String partyName="";
+        String branchName="";
+        PmMeeting pmMeeting = pmMeetingMapper.selectByPrimaryKey(id);
+        partyName=pmMeeting.getParty().getName();
+        if(pmMeeting.getBranch()!=null){
+          branchName=pmMeeting.getBranch().getName();
+        }
+        //输出文件
+        String filename = String.format("党支部工作记录(%s)", partyName+branchName);
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+        try {
+            pmMeetingService.getExportWord(id,response.getWriter());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

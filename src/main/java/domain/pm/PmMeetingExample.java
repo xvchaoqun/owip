@@ -1309,6 +1309,76 @@ public class PmMeetingExample {
             return (Criteria) this;
         }
 
+        public Criteria andAbsentReasonIsNull() {
+            addCriterion("absent_reason is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonIsNotNull() {
+            addCriterion("absent_reason is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonEqualTo(String value) {
+            addCriterion("absent_reason =", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonNotEqualTo(String value) {
+            addCriterion("absent_reason <>", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonGreaterThan(String value) {
+            addCriterion("absent_reason >", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("absent_reason >=", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonLessThan(String value) {
+            addCriterion("absent_reason <", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonLessThanOrEqualTo(String value) {
+            addCriterion("absent_reason <=", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonLike(String value) {
+            addCriterion("absent_reason like", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonNotLike(String value) {
+            addCriterion("absent_reason not like", value, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonIn(List<String> values) {
+            addCriterion("absent_reason in", values, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonNotIn(List<String> values) {
+            addCriterion("absent_reason not in", values, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonBetween(String value1, String value2) {
+            addCriterion("absent_reason between", value1, value2, "absentReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbsentReasonNotBetween(String value1, String value2) {
+            addCriterion("absent_reason not between", value1, value2, "absentReason");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;
@@ -1436,6 +1506,76 @@ public class PmMeetingExample {
 
         public Criteria andIsPublicNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_public not between", value1, value2, "isPublic");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
 

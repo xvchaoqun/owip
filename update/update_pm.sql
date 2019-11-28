@@ -1,3 +1,13 @@
+2019-11-28
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2781, 0, '主题党日活动', '', 'url', '', '/pmMeeting?type=5', 2772, '0/1/2772/', 1, 'pmMeeting:list:5', NULL, NULL, NULL, 1, 75);
+
+ALTER TABLE `pm_meeting`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '会议类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5 主题党日活动' AFTER `branch_id`;
+
+ALTER TABLE `pm_meeting`
+	ADD COLUMN `absent_reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '请假原因' AFTER `absent_num`,
+	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `is_public`;
+
 2019-09-27
 
 -- 更新三会一课录入模板.xlsx (sample_pm_Meeting)

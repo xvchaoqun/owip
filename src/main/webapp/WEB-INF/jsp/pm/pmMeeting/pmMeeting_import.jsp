@@ -7,7 +7,7 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
-          enctype="multipart/form-data" action="${ctx}/pmMeeting_import" method="post">
+          enctype="multipart/form-data" action="${ctx}/pmMeeting_import?type=${param.type}" method="post">
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
@@ -17,8 +17,14 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
+            <c:if test="${param.type!=5}">
             <a href="${ctx}/attach?code=sample_pm_Meeting">
                 三会一课录入样表.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
+            <c:if test="${param.type==5}">
+            <a href="${ctx}/attach?code=sample_pm_Activity">
+                主题党日活动录入样表.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
         </div>
   </div>
   <div class="modal-footer">

@@ -13,6 +13,7 @@ public class PmConstants {
     public final static byte PARTY_MEETING_BRANCH_COMMITTEE = 2;
     public final static byte PARTY_MEETING_BRANCH_GROUP = 3;
     public final static byte PARTY_MEETING_BRANCH_CLASS = 4;
+    public final static byte PARTY_MEETING_BRANCH_ACTIVITY = 5;
     public final static Map<Byte, String> PARTY_MEETING_MAP = new LinkedHashMap<>();
 
     static {
@@ -20,6 +21,7 @@ public class PmConstants {
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_COMMITTEE, "支部委员会");
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_GROUP, "党小组会");
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_CLASS, "党课");
+        PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_ACTIVITY, "主题党日活动");
     }
 
     //季度汇总类型

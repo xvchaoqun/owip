@@ -11,16 +11,17 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.common.FreemarkerService;
 import service.party.BranchMemberService;
 import service.party.MemberService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 
+import java.io.Writer;
 import java.util.*;
 
-import static sys.constants.PmConstants.PM_MEETING_STATUS_INIT;
-import static sys.constants.PmConstants.PM_MEETING_STATUS_PASS;
+import static sys.constants.PmConstants.*;
 
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
@@ -29,6 +30,8 @@ public class PmMeetingService extends PmBaseMapper {
     MemberService memberService;
     @Autowired
     BranchMemberService branchMemberService;
+    @Autowired
+    FreemarkerService freemarkerService;
 
     @Transactional
     public void insertSelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles) throws InterruptedException {
@@ -60,6 +63,8 @@ public class PmMeetingService extends PmBaseMapper {
         }
 
     }
+
+    @Transactional
     public void updateByPrimaryKeySelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles){
 
         if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
@@ -179,5 +184,34 @@ public class PmMeetingService extends PmBaseMapper {
                 break;
         }
         return season;
+    }
+
+
+    //导出word
+    @Transactional
+    public void getExportWord(Integer id, Writer out)throws Exception {
+
+        StringBuffer absends=new StringBuffer();
+        String path=null;
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        PmMeeting pmMeeting=new PmMeeting();
+
+        pmMeeting = pmMeetingMapper.selectByPrimaryKey(id);
+        if(pmMeeting.getType()!=PARTY_MEETING_BRANCH_ACTIVITY){
+            path="pm/pmExportWord.ftl";
+        }else{
+            path="pm/pmWordActivity.ftl";
+        }
+        List<MemberView> records= pmMeeting.getAbsentList();
+            if(records!=null){
+              for(MemberView record: records) {
+                  absends.append(record.getRealname());
+                  absends.append(",");
+              }
+            }
+        dataMap.put("absends",absends);
+        dataMap.put("pmMeeting",pmMeeting);
+        freemarkerService.process(path, dataMap, out);
+        out.close();
     }
 }
