@@ -8,6 +8,7 @@ import domain.member.Member;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import service.common.FreemarkerService;
 import service.member.MemberInfoFormService;
 import service.party.MemberService;
 import sys.constants.MemberConstants;
+import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
@@ -42,9 +44,10 @@ public class PartyMemberInfoFormController extends BaseController {
     private MemberService memberService;
 
     //党员信息采集表（班子成员即党委委员、支部委员、普通党员）
+    @RequiresPermissions("memberInfoForm:list")
     @RequestMapping("/memberInfoForm_page")
-    public String memberInfoForm_page(Integer cadreId, Integer userId,
-                                      Integer partyId, ModelMap modelMap) {
+    public String memberInfoForm_page(@CurrentUser SysUserView loginUser, Integer cadreId, Integer userId,
+                                      ModelMap modelMap) {
 
         Integer cls = 1;
         if (userId == null) {
@@ -59,6 +62,11 @@ public class PartyMemberInfoFormController extends BaseController {
             //学生
             cls = 2;
         }
+
+        Integer loginUserId = loginUser.getId();
+        if (!branchMemberService.hasAdminAuth(loginUserId, member.getPartyId(), member.getBranchId()))
+            throw new UnauthorizedException();
+
         SysUserView uv = CmTag.getUserById(userId);
         modelMap.put("cls", cls);
         modelMap.put("userId", userId);
@@ -70,6 +78,7 @@ public class PartyMemberInfoFormController extends BaseController {
         return "party/partyMember/memberInfoForm_page";
     }
 
+    @RequiresPermissions("memberInfoForm:edit")
     @RequestMapping("/memberInfoForm_au")
     public String memberInfoForm_au(Integer userId, ModelMap modelMap){
 
@@ -81,6 +90,7 @@ public class PartyMemberInfoFormController extends BaseController {
         return "party/partyMember/memberInfoForm_au";
     }
 
+    @RequiresPermissions("memberInfoForm:edit")
     @RequestMapping(value = "/memberInfoForm_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInfoForm_au(Integer userId,
@@ -96,7 +106,9 @@ public class PartyMemberInfoFormController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+
     // 党员信息采集表下载
+    @RequiresPermissions("memberInfoForm:edit")
     @RequestMapping("/memberInfoForm_download")
     public void memberInfoForm_download(Integer cadreId, Integer userId, HttpServletRequest request,
                                              HttpServletResponse response) throws IOException, TemplateException {

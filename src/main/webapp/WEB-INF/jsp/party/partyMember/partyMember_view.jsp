@@ -83,10 +83,12 @@
                 </li>
                  </shiro:hasPermission>
                     </c:if>
+                <shiro:hasPermission name="memberInfoForm:*">
                 <li>
                     <a href="javascript:;"
                        data-url="${ctx}/memberInfoForm_page?cadreId=${param.cadreId}">党员信息采集表</a>
                 </li>
+                </shiro:hasPermission>
             </ul>
 
         </div>

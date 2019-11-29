@@ -1,4 +1,7 @@
 
+20191125-201911328
+党员信息采集表、修改、导出
+
 20191122
 mysql文本替换
 update base_content_tpl set content = replace(content, 'http://nhzg.nuaa.edu.cn', 'https://zg.nuaa.edu.cn');

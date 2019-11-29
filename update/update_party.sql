@@ -1,4 +1,12 @@
 
+
+-- 20191129
+
+REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('odAdmin', '党建工作管理员', '1042,1043,1044,312,260,106,183,184,185,1021,181,186,187,188,189,190,191,192,202,2520,1001,182,1063,1064,392,193,194,195,200,201,203,196,197,198,199,204,205,206,1000,2500,2501,2502,2503,2504,2508,2509,2510,2505,2506,2507,1150,105,107,1026,1065,299,300,376,220,1072,1035,1036,1037,1038,1039,211,1027,213,214,1018,1019,1020,252,910,911,1181,253,254,251,246,249,250,291,247,296,440,290,1028,1029,1030,1031,1004,2700,2705,2701,2702,2703,2704,2706,2707,2772,2774,2775,2776,2777,2778,2780,61,435,436,437,550,553,557,558,559,1100,554,556,552,67,72,112,113,114,116,117,118,233,21,22,853,1034,1040,414,3032,298,294,297,75,416,207,208,209', '-1', 13, NULL, 0, 4, '');
+REPLACE INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('partyAdmin', '分党委管理员', '108,3033,260,106,183,181,186,187,188,189,190,191,192,202,2520,182,1063,193,194,195,200,201,203,196,197,198,199,204,205,206,2500,2501,2502,2503,2504,2508,2509,2510,2505,2506,2507,240,105,107,1026,299,300,220,1072,211,1027,214,252,910,911,1181,253,254,251,246,249,250,291,247,296,440,290,1028,1029,1031,2772,2774,2775,2776,2777,2778,2779,2780,384,869,880,881,416,207,208,209', '-1', 188, NULL, 1, 11, '');
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', NULL, NULL, NULL, 1, NULL);
+
 -- 20191023 李阳 资源文件
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2500, 0, '党内奖惩情况', '', 'menu', '', NULL, 260, '0/1/260/', 0, 'RePu:function', NULL, NULL, NULL, 1, 99);
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2501, 0, '查看党内奖励', '', 'function', '', NULL, 2500, '0/1/260/2500/', 1, 'partyReward:list', NULL, NULL, NULL, 1, NULL);
@@ -42,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `ow_party_punish` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='党内惩罚信息';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='党内处分信息';
 
 DROP TABLE IF EXISTS `ow_party_reward`;
 CREATE TABLE IF NOT EXISTS `ow_party_reward` (
