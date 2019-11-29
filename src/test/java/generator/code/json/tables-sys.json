@@ -38,6 +38,14 @@
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": false
+    },{
+      "table": "sys_msg",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,content,create_time,ip",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_USER",
+      "ignore": false
     }
   ]
 }

@@ -136,5 +136,9 @@
            <!--<table tableName="sys_scheduler_log" domainObjectName="sys.SchedulerLog"  mapperName="sys.SchedulerLogMapper">
            </table>-->
 
+        <table tableName="sys_msg" domainObjectName="sys.SysMsg" mapperName="sys.SysMsgMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>
+
     </context>
 </generatorConfiguration>

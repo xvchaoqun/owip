@@ -240,4 +240,84 @@
         <include refid="andSql" />
          and gender is not null group by gender
     </select>
+
+    <!-- 全部类型 -->
+    <select id="allCadreList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+    </select>
+
+    <!-- 行政级别 -->
+    <select id="adminLevelList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        and admin_level_code is not null
+        and admin_level_code =#{adminLevelCode}
+    </select>
+
+    <!-- 民族 -->
+    <select id="nationList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        <if test="isHan">
+            and nation like '汉%' and nation is not null and nation!=''
+        </if>
+        <if test="!isHan">
+            and nation not like '汉%' and nation is not null and nation!=''
+        </if>
+    </select>
+
+    <!-- 政治面貌 -->
+    <select id="PsList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        <if test="isOw!=null">
+            and is_ow=#{isOw}
+        </if>
+        <if test="dpTypeId!=null">
+            and dp_type_id>0
+        </if>
+    </select>
+
+    <!-- 年龄 -->
+    <select id="ageList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        and TIMESTAMPDIFF(YEAR, birth,now())>=#{startNum}
+        <if test="endNum!=null">
+          and #{endNum}>=TIMESTAMPDIFF(YEAR, birth,now())
+        </if>
+        and birth is not null
+    </select>
+
+    <!-- 学位 -->
+    <select id="degreeList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        and degree_type =#{degreeType}
+        and degree_type is not null
+    </select>
+
+    <!-- 专职干部 -->
+    <select id="isDoubleList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        and (is_double =#{isDouble} or is_double is null)
+    </select>
+
+    <!-- 学历分布 -->
+    <select id="educationList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where status=1
+        <include refid="andSql" />
+        and edu_id =#{eduId}
+        and edu_id is not null
+    </select>
 </mapper>

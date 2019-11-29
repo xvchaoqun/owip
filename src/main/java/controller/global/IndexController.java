@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.MemberRegService;
+import service.oa.OaTaskUserService;
 import service.sys.SysMsgService;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
@@ -38,6 +39,8 @@ public class IndexController extends BaseController {
 
 	@Autowired(required = false)
 	private SysMsgService sysMsgService;
+	@Autowired
+	private OaTaskUserService oaTaskUserService;
 
 	// 系统消息数量
 	@RequestMapping("/info")
@@ -46,8 +49,12 @@ public class IndexController extends BaseController {
 
 		Map<String, Integer> menuCountMap = new HashMap<>();
 		int sysMsgCount = sysMsgService.getSysMsgCount(ShiroHelper.getCurrentUserId());
+		int oaTaskUserCount = oaTaskUserService.getTaskUserCount(ShiroHelper.getCurrentUserId());
 		if(sysMsgCount>0){
 			menuCountMap.put("sysMsg:list", sysMsgCount);
+		}
+		if (oaTaskUserCount>0){
+			menuCountMap.put("userOaTask:*",oaTaskUserCount);
 		}
 
 		Map<String, Map> infoMap = new HashMap<>();

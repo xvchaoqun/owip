@@ -101,4 +101,6 @@ public class CacheHelper {
     @CacheEvict(value = "SysMsgCount", key = "#userId")
     public void clearSysMsgCount(int userId) {}
 
+    @CacheEvict(value = "OaTaskUserCount", key = "#userId")
+    public void clearOaTaskUserCount(int userId){}
 }

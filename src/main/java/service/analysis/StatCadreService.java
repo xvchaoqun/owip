@@ -3,6 +3,7 @@ package service.analysis;
 import bean.MetaClassOption;
 import domain.base.MetaClass;
 import domain.base.MetaType;
+import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Header;
@@ -1078,4 +1079,138 @@ public class StatCadreService extends BaseMapper {
         return NumberUtils.formatDoubleFixed((count * 100.0) / total, 1) + "%";
     }
 
+    //全部类型
+    public List<CadreView> allCadreList(String unitTypeGroup,Byte cadreType,Integer secondNum){
+
+        List<CadreView> cadreViewList = statCadreMapper.allCadreList(unitTypeGroup,cadreType);
+        return groupByCadre(cadreViewList,secondNum);
+    };
+
+    //行政级别
+    public List<CadreView> adminLevelList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+        String adminLevelCode = null;
+        if (firstTypeNum == 1) //正处
+            adminLevelCode = "mt_admin_level_main";
+        if (firstTypeNum == 2)//副处
+            adminLevelCode = "mt_admin_level_vice";
+        if (firstTypeNum == 3)//无行政级别
+            adminLevelCode = "mt_admin_level_none";
+
+        List<CadreView> cadreViewList = statCadreMapper.adminLevelList(unitTypeGroup,cadreType,adminLevelCode);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //民族
+    public List<CadreView> nationList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+
+        boolean isHan = true;// 汉族
+
+        if (firstTypeNum == 2)//少数民族
+             isHan = false;
+        List<CadreView> cadreViewList = statCadreMapper.nationList(unitTypeGroup,cadreType,isHan);
+        return groupByCadre(cadreViewList, secondNum);
+    }
+
+    //政治面貌
+    public List<CadreView> psList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+        Boolean isOw = null;
+        Integer dpTypeId = null;
+        if (firstTypeNum == 1)
+            isOw=true;
+        if (firstTypeNum == 2)
+            dpTypeId = 1;
+        List<CadreView> cadreViewList = statCadreMapper.PsList(unitTypeGroup,cadreType,isOw,dpTypeId);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //年龄
+    public List<CadreView> ageList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+
+        Integer startNum=null;
+        Integer endNum=null;
+        switch(firstTypeNum){
+            case 1://30岁及以下
+                startNum = 0;endNum = 30;
+                break;
+            case 2://31-35岁
+                startNum = 31;endNum = 35;
+                break;
+            case 3://36-40岁
+                startNum = 36;endNum = 40;
+                break;
+            case 4://41-45岁
+                startNum = 41;endNum = 45;
+                break;
+            case 5://46-50岁
+                startNum = 46;endNum = 50;
+                break;
+            case 6://51-55岁
+                startNum = 51;endNum = 55;
+                break;
+            case 7://56及以上
+                startNum = 56;
+        }
+
+        List<CadreView> cadreViewList = statCadreMapper.ageList(unitTypeGroup,cadreType,startNum,endNum);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //学位
+    public List<CadreView> degreeTypeList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+
+        List<CadreView> cadreViewList = statCadreMapper.degreeList(unitTypeGroup,cadreType,firstTypeNum);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //专职干部
+    public List<CadreView> isDoubleList(String unitTypeGroup,Byte cadreType,Integer secondNum){
+
+        List<CadreView> cadreViewList = statCadreMapper.isDoubleList(unitTypeGroup,cadreType,false);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //学历
+    public List<CadreView> educationList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+
+        List<CadreView> cadreViewList = statCadreMapper.educationList(unitTypeGroup,cadreType,firstTypeNum);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
+    //判断第二个参数的类型
+    public List<CadreView> groupByCadre(List<CadreView> cadreViewList,Integer secondNum){
+        List<CadreView> cadreViews = new ArrayList<>();
+        for (CadreView cadreView : cadreViewList){
+
+            String adminLevelCode = cadreView.getAdminLevelCode();
+            if (secondNum == 1){//总体
+                cadreViews.add(cadreView);
+            }else if (secondNum == 2){//行政级别 正处
+
+                if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_main"))
+                    cadreViews.add(cadreView);
+                continue;
+            }else if (secondNum == 3){//行政级别 副处
+
+                if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_vice"))
+                    cadreViews.add(cadreView);
+                continue;
+            }else if (secondNum == 4){//行政级别 无级别
+
+                if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_none"))
+                    cadreViews.add(cadreView);
+                continue;
+            } else if (secondNum == 5){//性别 男
+
+                    if (cadreView.getGender() == SystemConstants.GENDER_MALE)
+                        cadreViews.add(cadreView);
+                    continue;
+                }else if (secondNum == 6){//性别 女
+
+                if (cadreView.getGender() == SystemConstants.GENDER_FEMALE)
+                    cadreViews.add(cadreView);
+                continue;
+            }
+        }
+        return cadreViews;
+    }
 }

@@ -8,9 +8,13 @@ import ext.service.ShortMsgService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.oa.common.IOaTaskUserMapper;
+import service.global.CacheHelper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
@@ -31,6 +35,10 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     private ShortMsgService shortMsgService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private IOaTaskUserMapper iOaTaskUserMapper;
+    @Autowired
+    private CacheHelper cacheHelper;
 
     // 读取任务的任务对象或指定负责人, 不包含已删除
     public OaTaskUserView getRealTaskUser(int taskId, int userId) {
@@ -192,6 +200,8 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
         record.setReportTime(new Date());
         record.setStatus(OaConstants.OA_TASK_USER_STATUS_INIT);
         record.setIsBack(false);
+
+        cacheHelper.clearOaTaskUserCount(userId);
         oaTaskUserMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -473,5 +483,17 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
             // 删除角色
             sysUserService.delRole(userId, RoleConstants.ROLE_OA_USER);
         }
+    }
+
+    @Cacheable(value = "OaTaskUserCount", key = "#userId")
+    public int getTaskUserCount(Integer userId){
+
+        return iOaTaskUserMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
+    }
+
+    @CachePut(value = "OaTaskUserCount", key = "#userId")
+    public int updateTaskUserCount(Integer userId){
+
+        return iOaTaskUserMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
     }
 }

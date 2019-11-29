@@ -267,7 +267,7 @@
             var menuCountMap = ret.menuCountMap;
             //console.log(menuCountMap)
             $.each(menuCountMap, function(key, val){
-                console.log(key+"="+ val)
+                //console.log(key+"="+ val)
                 $("#sidebar ul li[data-permission='"+ key +"'] .badge").html(val);
             })
         })

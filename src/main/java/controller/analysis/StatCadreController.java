@@ -7,6 +7,7 @@ import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -70,6 +71,9 @@ public class StatCadreController extends BaseController {
         modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
 
         modelMap.put("cadreType", cadreType);
+
+        modelMap.put("unitTypeGroup",unitTypeGroup);
+        modelMap.put("cadreType",cadreType);
 
         return "analysis/cadre/stat_cadre_page";
     }
@@ -369,5 +373,47 @@ public class StatCadreController extends BaseController {
         }
         String fileName = "具有国（境）外学习经历的干部(截止" + DateUtils.formatDate(new Date(), "yyyyMMdd")+")";
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("statCadreCategory:list")
+    @RequestMapping("/stat_cadre_list")
+    public String do_stat_cadre_list(String unitTypeGroup,//单位类型
+                                     @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,//干部类别
+                                     String firstTypeCode,//类别
+                                     Integer firstTypeNum,//类别分类
+                                     Integer secondNum,
+                                     ModelMap modelMap, HttpServletResponse response){
+
+        List<CadreView> cadreViews = new ArrayList<>();
+
+        unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
+        firstTypeCode = StringUtils.trimToNull(firstTypeCode);
+
+        if (firstTypeCode == null)//全部类型
+            cadreViews = statCadreService.allCadreList(unitTypeGroup,cadreType,secondNum);
+
+        if (StringUtils.equals(firstTypeCode,"adminLevel"))//行政级别
+            cadreViews = statCadreService.adminLevelList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"nation"))//民族
+            cadreViews = statCadreService.nationList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"politicsStatus"))//政治面貌
+             cadreViews = statCadreService.psList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"age"))//年龄分布
+             cadreViews = statCadreService.ageList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"degree"))//学位分布
+             cadreViews = statCadreService.degreeTypeList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"isDouble"))//专职干部
+             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"education"))//学历
+             cadreViews = statCadreService.educationList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+        modelMap.put("cadreViews",cadreViews);
+        return "analysis/cadre/cadres";
     }
 }

@@ -85,18 +85,24 @@
                         <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="2"/>
+                            <jsp:param name="firstTypeCode" value="adminLevel"/>
+                            <jsp:param name="firstTypeNum" value="1"/>
                         </jsp:include>
                     </tr>
                     <tr>
                         <td colspan=2 height=23 class=xl70>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="3"/>
+                            <jsp:param name="firstTypeCode" value="adminLevel"/>
+                            <jsp:param name="firstTypeNum" value="2"/>
                         </jsp:include>
                     </tr>
                     <tr>
                         <td colspan=2 height=23 class=xl70>聘任制（无级别）</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="4"/>
+                            <jsp:param name="firstTypeCode" value="adminLevel"/>
+                            <jsp:param name="firstTypeNum" value="3"/>
                         </jsp:include>
                     </tr>
                     <tr>
@@ -104,12 +110,16 @@
                         <td class=xl70>汉族</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="5"/>
+                            <jsp:param name="firstTypeCode" value="nation" />
+                            <jsp:param name="firstTypeNum" value="1" />
                         </jsp:include>
                     </tr>
                     <tr>
                         <td height=23 class=xl70>少数民族</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="6"/>
+                            <jsp:param name="firstTypeCode" value="nation" />
+                            <jsp:param name="firstTypeNum" value="2" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -118,6 +128,8 @@
                         <td class=xl70>中共党员</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="7"/>
+                            <jsp:param name="firstTypeCode" value="politicsStatus" />
+                            <jsp:param name="firstTypeNum" value="1" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -125,6 +137,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="8"/>
+                            <jsp:param name="firstTypeCode" value="politicsStatus" />
+                            <jsp:param name="firstTypeNum" value="2" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -133,6 +147,8 @@
                         <td class=xl70 style="white-space: nowrap">30岁及以下</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="9"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="1" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -140,6 +156,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="10"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="2" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -147,6 +165,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="11"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="3" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -154,6 +174,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="12"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="4" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -161,6 +183,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="13"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="5" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -168,6 +192,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="14"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="6" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -175,6 +201,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="15"/>
+                            <jsp:param name="firstTypeCode" value="age" />
+                            <jsp:param name="firstTypeNum" value="7" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -227,6 +255,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="22"/>
+                            <jsp:param name="firstTypeCode" value="degree" />
+                            <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_BS%>" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -234,6 +264,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="23"/>
+                            <jsp:param name="firstTypeCode" value="degree" />
+                            <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_SS%>" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -241,6 +273,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="24"/>
+                            <jsp:param name="firstTypeCode" value="degree" />
+                            <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_XS%>" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -248,6 +282,7 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="25"/>
+                            <jsp:param name="firstTypeCode" value="isDouble"/>
                         </jsp:include>
                     </tr>
                     <c:set var="eduCount" value="${fn:length(eduRowMap)}"/>
@@ -260,6 +295,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="${25+vs.index+1}"/>
+                            <jsp:param name="firstTypeCode" value="education"/>
+                            <jsp:param name="firstTypeNum" value="${entity.key}"/>
                         </jsp:include>
                         <%--<c:forEach items="${entity.value}" var="col">
                             <td>${col}</td>
