@@ -5,6 +5,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/party/partyRePu_page?type=${param.type}&clss=1"><i class="fa fa-circle-o-notch"></i> 党内奖励</a>
     </li>
     <li class="<c:if test="${clss==2}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/party/partyPunishList_page?type=${param.type}&clss=2"><i class="fa fa-history"></i> 党内惩罚</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/party/partyPunishList_page?type=${param.type}&clss=2"><i class="fa fa-history"></i> 党内处分</a>
     </li>
 </ul>

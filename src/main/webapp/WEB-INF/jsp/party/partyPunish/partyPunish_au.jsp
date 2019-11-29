@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <c:set var="OW_PARTY_REPU_MEMBER" value="<%=OwConstants.OW_PARTY_REPU_MEMBER%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-	<h3><c:if test="${partyReward!=null}">修改</c:if><c:if test="${partyReward==null}">添加</c:if>党内惩罚信息</h3>
+	<h3><c:if test="${partyReward!=null}">修改</c:if><c:if test="${partyReward==null}">添加</c:if>党内处分信息</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/party/partyPunish_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
-						惩罚<span>${_type.value}</span>
+						处分<span>${_type.value}</span>
 					</c:if>
 				</c:forEach>
 			</div>
@@ -59,7 +59,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
-						惩罚<span>${_type.value}</span>
+						处分<span>${_type.value}</span>
 					</c:if>
 				</c:forEach>
 			</div>
@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-8 label-text">
 				<c:forEach items="${OW_PARTY_REPU_MAP}" var="_type">
 					<c:if test="${_type.key==cls}">
-						惩罚<span>${_type.value}</span>
+						处分<span>${_type.value}</span>
 					</c:if>
 				</c:forEach>
 			</div>

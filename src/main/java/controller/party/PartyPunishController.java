@@ -209,11 +209,11 @@ public class PartyPunishController extends BaseController {
         if (id == null) {
             
             partyPunishService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "添加党内惩罚信息：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_PARTY, "添加党内处分信息：{0}", record.getId()));
         } else {
 
             partyPunishService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_PARTY, "更新党内惩罚信息：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_PARTY, "更新党内处分信息：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -271,7 +271,7 @@ public class PartyPunishController extends BaseController {
 
         if (null != ids && ids.length>0){
             partyPunishService.batchDel(ids);
-            logger.info(log( LogConstants.LOG_PARTY, "批量删除党内惩罚信息：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_PARTY, "批量删除党内处分信息：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -5,7 +5,7 @@
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
-                ||not empty param.postTypes || not empty param.code || not empty param.sort}"/>
+                ||not empty param.postTypes || not empty param.code || not empty param.sort || not empty param.finishPeriod}"/>
 <div class="jqgrid-vertical-offset buttons">
     <div class="type-select">
         <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
@@ -467,6 +467,14 @@
                         <c:import url="/metaTypes?__code=mc_democratic_party"/>
                     </select>
                 </div>
+                <c:if test="${cls==1}">
+                <div class="form-group">
+                    <label>已完成学时数</label>
+                    <input class="form-control search-query" name="finishPeriod" type="text"
+                           value="${param.finishPeriod}"
+                           placeholder="请输入已完成学时数">
+                </div>
+                </c:if>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-target="#detail-content-view"

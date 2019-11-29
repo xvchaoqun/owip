@@ -66,7 +66,7 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="partyPunish:list">
                     <li>
-                        <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${cadre.userId}&type=3">党内惩罚</a>
+                        <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${cadre.userId}&type=3">党内处分</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="partyEva:*">
