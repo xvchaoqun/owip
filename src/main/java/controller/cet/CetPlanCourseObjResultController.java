@@ -100,6 +100,7 @@ public class CetPlanCourseObjResultController extends CetBaseController {
     @ResponseBody
     public Map do_cetPlanCourseObjResult_au(CetPlanCourseObj cetPlanCourseObj, HttpServletRequest request) {
 
+        cetPlanCourseObj.setIsFinished(BooleanUtils.isTrue(cetPlanCourseObj.getIsFinished()));
         cetPlanCourseObjResultService.add(cetPlanCourseObj, request);
 
         logger.info(addLog(LogConstants.LOG_CET, "添加上级网上专题班完成结果, %s",

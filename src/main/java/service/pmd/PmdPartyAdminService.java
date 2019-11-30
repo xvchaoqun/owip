@@ -155,7 +155,7 @@ public class PmdPartyAdminService extends PmdBaseMapper {
 
         Byte type = PmdConstants.PMD_ADMIN_TYPE_ADD;
 
-        if(partyMemberService.isPresentAdmin(userId, partyId)){
+        if(partyMemberService.hasAdminAuth(userId, partyId)){
             type = PmdConstants.PMD_ADMIN_TYPE_OW;
         }
 

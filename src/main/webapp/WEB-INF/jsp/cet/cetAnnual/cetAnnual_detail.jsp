@@ -28,12 +28,6 @@
                        data-url="${ctx}/cet/cetAnnualObj?annualId=${param.annualId}&isQuit=1">
                         <i class="green ace-icon fa fa-user-secret bigger-120"></i> 退出培训人员</a>
                 </li>
-                <li>
-                    <a href="javascript:;" class="loadPage"
-                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetAnnualRequire?annualId=${param.annualId}">
-                        <i class="green ace-icon fa fa-history bigger-120"></i> 年度学习任务批量设定记录</a>
-                </li>
             </ul>
         </div>
     </div>

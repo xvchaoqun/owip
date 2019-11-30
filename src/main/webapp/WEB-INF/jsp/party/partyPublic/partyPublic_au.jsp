@@ -140,17 +140,14 @@
 
                     <div style="clear: both"></div>
                     <div class="clearfix form-actions center" style="margin-top: 5px">
-                        <%--<button class="btn btn-info" type="button" onclick="_preview()">
-                            <i class="ace-icon fa fa-search bigger-110"></i>
-                            预览
-                        </button>
-                        &nbsp;--%>
+                        <c:if test="${cm:hasRole(ROLE_ODADMIN) || !partyPublic.isPublish}">
                         <button class="submitBtn btn btn-primary" type="button"
                                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
                                 data-publish="${partyPublic.isPublish?1:0}">
                             <i class="ace-icon fa ${partyPublic!=null?"fa-edit":"fa-save"} bigger-110"></i>
                             ${partyPublic!=null?"修改":"保存"}<c:if test="${!partyPublic.isPublish}">（暂存）</c:if>
                         </button>
+                         </c:if>
                         <c:if test="${!partyPublic.isPublish}">
                         &nbsp;
                         <button class="submitBtn btn btn-success" type="button"

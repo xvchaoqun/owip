@@ -4,7 +4,7 @@
 
 <c:set var="_query"
        value="${not empty param.userId ||not empty param.adminLevels
-        || not empty param.postTypes || not empty param.isFinished || not empty param.needUpdateRequire}"/>
+        || not empty param.postTypes || not empty param.isFinishedOffline || not empty param.isFinishedOnline || not empty param.needUpdateRequire}"/>
 <div class="jqgrid-vertical-offset buttons">
 
      <div class="type-select">
@@ -12,13 +12,21 @@
         <input ${param.sortByFinished==1?"checked":""}  data-name="sortByFinished"
                 type="checkbox" value="1"> 按照已完成学时数排序
         </span>
-        <span class="typeCheckbox ${param.displayFinished==1?"checked":""}">
-        <input ${param.displayFinished==1?"checked":""}  data-name="displayFinished"
-                type="checkbox" value="1"> 只显示完成
+        <span class="typeCheckbox ${param.displayFinishedOffline==1?"checked":""}">
+        <input ${param.displayFinishedOffline==1?"checked":""}  data-name="displayFinishedOffline"
+                type="checkbox" value="1"> 线下已完成
         </span>
-        <span class="typeCheckbox ${param.displayUnfinished==1?"checked":""}">
-        <input ${param.displayUnfinished==1?"checked":""}  data-name="displayUnfinished"
-                type="checkbox" value="1"> 只显示未完成
+        <span class="typeCheckbox ${param.displayUnfinishedOffline==1?"checked":""}">
+        <input ${param.displayUnfinishedOffline==1?"checked":""}  data-name="displayUnfinishedOffline"
+                type="checkbox" value="1"> 线下未完成
+        </span>
+        <span class="typeCheckbox ${param.displayFinishedOnline==1?"checked":""}">
+        <input ${param.displayFinishedOnline==1?"checked":""}  data-name="displayFinishedOnline"
+                type="checkbox" value="1"> 网络已完成
+        </span>
+        <span class="typeCheckbox ${param.displayUnfinishedOnline==1?"checked":""}">
+        <input ${param.displayUnfinishedOnline==1?"checked":""}  data-name="displayUnfinishedOnline"
+                type="checkbox" value="1"> 网络未完成
         </span>
     </div>
 
@@ -36,16 +44,10 @@
                 class="jqBatchBtn btn btn-primary btn-sm">
             <i class="fa fa-sign-out"></i> 退出
         </button>
-
-        <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_batchRequire?annualId=${param.annualId}">
-            <i class="fa fa-users"></i>
-            批量设定年度学习任务
-        </button>
-        <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_singleRequire"
-                data-grid-id="#jqGrid2"><i class="fa fa-user"></i>
-            修改年度学习任务
+        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                data-url="${ctx}/cet/cetAnnualObj_updateRequire"
+                data-grid-id="#jqGrid2"><i class="fa fa-clock-o"></i>
+            设定年度学习任务
         </button>
 
          <button data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}"
@@ -122,8 +124,10 @@
         <div class="widget-main no-padding">
             <form class="form-inline search-form" id="searchForm2">
                 <input type="hidden" name="sortByFinished" value="${param.sortByFinished}">
-                <input type="hidden" name="displayFinished" value="${param.displayFinished}">
-                <input type="hidden" name="displayUnfinished" value="${param.displayUnfinished}">
+                <input type="hidden" name="displayFinishedOffline" value="${param.displayFinishedOffline}">
+                <input type="hidden" name="displayFinishedOnline" value="${param.displayFinishedOnline}">
+                <input type="hidden" name="displayUnfinishedOffline" value="${param.displayUnfinishedOffline}">
+                <input type="hidden" name="displayUnfinishedOnline" value="${param.displayUnfinishedOnline}">
 
                 <div class="form-group">
                     <label>姓名</label>
@@ -146,14 +150,25 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label>完成情况(查询归档学时)</label>
-                    <select data-rel="select2" name="isFinished" data-width="160" data-placeholder="请选择">
+                    <label>线下培训完成情况(查询归档学时)</label>
+                    <select data-rel="select2" name="isFinishedOffline" data-width="160" data-placeholder="请选择">
                         <option></option>
                         <option value="1">完成(>=100%)</option>
                         <option value="0">未完成(<100%)</option>
                     </select>
                     <script>
-                        $("#searchForm2 select[name=isFinished]").val('${param.isFinished}')
+                        $("#searchForm2 select[name=isFinishedOffline]").val('${param.isFinishedOffline}')
+                    </script>
+                </div>
+                <div class="form-group">
+                    <label>网络培训完成情况(查询归档学时)</label>
+                    <select data-rel="select2" name="isFinishedOnline" data-width="160" data-placeholder="请选择">
+                        <option></option>
+                        <option value="1">完成(>=100%)</option>
+                        <option value="0">未完成(<100%)</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=isFinishedOnline]").val('${param.isFinishedOnline}')
                     </script>
                 </div>
                 <div class="form-group">
@@ -199,10 +214,14 @@
         var $input = $(this);
         var name = $(this).data("name");
         var isChecked = $input.is(":checked");
-        if(name=='displayFinished'&& isChecked){
-            $("#searchForm2 input[name=displayUnfinished]").val("");
-        }else if(name=='displayUnfinished'&& isChecked){
-            $("#searchForm2 input[name=displayFinished]").val("");
+        if(name=='displayFinishedOffline'&& isChecked){
+            $("#searchForm2 input[name=displayUnfinishedOffline]").val("");
+        }else if(name=='displayUnfinishedOffline'&& isChecked){
+            $("#searchForm2 input[name=displayFinishedOffline]").val("");
+        }else if(name=='displayFinishedOnline'&& isChecked){
+            $("#searchForm2 input[name=displayUnfinishedOnline]").val("");
+        }else if(name=='displayUnfinishedOnline'&& isChecked){
+            $("#searchForm2 input[name=displayFinishedOnline]").val("");
         }
         $("#searchForm2 input[name="+name+"]").val(isChecked?$input.val():"");
         $("#searchForm2 .jqSearchBtn").click();
@@ -244,62 +263,58 @@
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
             {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '年度学习任务', name: 'period'},
+            {label: '年度学习任务<br/>(线下)', name: 'periodOffline'},
             {
-                label: '已完成学时数<br/>/归档学时', name: '_finishPeriod', formatter: function (cellvalue, options, rowObject) {
+                label: '线下已完成<br/>/归档学时', name: '_finishPeriodOffline', formatter: function (cellvalue, options, rowObject) {
 
-                    return getFinishPeriod(rowObject) + "/" + rowObject.finishPeriod;
+                    return getFinishPeriodOffline(rowObject) + "/" + rowObject.finishPeriodOffline;
                 }
             },
-            { label: '完成百分比',name: '_finish',formatter: function (cellvalue, options, rowObject) {
-                if(Math.trimToZero(rowObject.period)==0) return '--'
-                var progress = Math.formatFloat(getFinishPeriod(rowObject)*100/rowObject.period, 1) + "%";
+            { label: '完成百分比<br/>(线下)',name: '_finishOffline',formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(rowObject.periodOffline)==0) return '--'
+                var progress = Math.formatFloat(getFinishPeriodOffline(rowObject)*100/rowObject.periodOffline, 1) + "%";
+               return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
+            }},
+            {label: '年度学习任务<br/>(网络)', name: 'periodOnline'},
+            {
+                label: '网络已完成<br/>/归档学时', name: '_finishPeriodOnline', formatter: function (cellvalue, options, rowObject) {
+
+                    return getFinishPeriodOnline(rowObject) + "/" + rowObject.finishPeriodOnline;
+                }
+            },
+            { label: '完成百分比<br/>(网络)',name: '_finishOnline',formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(rowObject.periodOnline)==0) return '--'
+                var progress = Math.formatFloat(getFinishPeriodOnline(rowObject)*100/rowObject.periodOnline, 1) + "%";
                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
             {
                 label: '党校专题培训<br/>完成学时数', name: 'specialPeriod', width: 110
                 , formatter: function (cellvalue, options, rowObject) {
-                    var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
+                    return (rowObject.hasArchived)?Math.trimToZero(cellvalue)
                         :Math.trimToZero(rowObject.r.specialPeriod);
-                    var max = Math.trimToZero(rowObject.maxSpecialPeriod);
-                    return _overflow(finish, max)
                 }
             },
             {
                 label: '党校日常培训<br/>完成学时数', name: 'dailyPeriod', width: 110
                 , formatter: function (cellvalue, options, rowObject) {
-                    var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
+                    return (rowObject.hasArchived)?Math.trimToZero(cellvalue)
                         :Math.trimToZero(rowObject.r.dailyPeriod);
-                    var max = Math.trimToZero(rowObject.maxDailyPeriod);
-                    return _overflow(finish, max)
                 }
             },
             {
-                label: '二级党委培训<br/>完成学时数', name: 'partyPeriod', width: 130
+                label: '二级党委培训<br/>完成学时数', name: 'unitPeriod'
                 , formatter: function (cellvalue, options, rowObject) {
-                    var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
-                        :Math.trimToZero(rowObject.r.partyPeriod);
-                    var max = Math.trimToZero(rowObject.maxPartyPeriod);
-                    return _overflow(finish, max)
-                }
-            },
-            {
-                label: '二级单位培训<br/>完成学时数', name: 'unitPeriod'
-                , formatter: function (cellvalue, options, rowObject) {
-                    var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
+                    return (rowObject.hasArchived)?Math.trimToZero(cellvalue)
                         :Math.trimToZero(rowObject.r.unitPeriod);
-                    var max = Math.trimToZero(rowObject.maxUnitPeriod);
-                    return _overflow(finish, max)
                 }
             },
             {
                 label: '上级调训<br/>完成学时数', name: 'upperPeriod'
                 , formatter: function (cellvalue, options, rowObject) {
-                    var finish = (rowObject.hasArchived)?Math.trimToZero(cellvalue)
+                    return (rowObject.hasArchived)?Math.trimToZero(cellvalue)
                         :Math.trimToZero(rowObject.r.upperPeriod);
-                    var max = Math.trimToZero(rowObject.maxUpperPeriod);
-                    return _overflow(finish, max)
                 }
             },
             {label: '联系方式', name: 'user.mobile', width: 110},
@@ -314,50 +329,28 @@
         }
     }).jqGrid("setFrozenColumns");
 
-    function _overflow(finish, max) {
-        if(max<=0) return finish;
-        return '<span class="'+ (finish>max?"overflow":"") +'" title="完成学时数/上限">' + finish + "/" + max + '</span>'
-    }
+    function getFinishPeriodOffline(rowObject){
 
-    function getFinishPeriod(rowObject){
-
-        var finish = Math.trimToZero(rowObject.finishPeriod);
+        var finish = Math.trimToZero(rowObject.finishPeriodOffline);
         if (!rowObject.hasArchived) {
             //console.log(rowObject.r)
             finish = 0;
-            if (rowObject.maxSpecialPeriod > 0)
-                finish += Math.min(Math.trimToZero(rowObject.r.specialPeriod),
-                    Math.trimToZero(rowObject.maxSpecialPeriod));
-            else
-                finish += Math.trimToZero(rowObject.r.specialPeriod);
-
-            if (rowObject.maxDailyPeriod > 0)
-                finish += Math.min(Math.trimToZero(rowObject.r.dailyPeriod),
-                    Math.trimToZero(rowObject.maxDailyPeriod));
-            else
-                finish += Math.trimToZero(rowObject.r.dailyPeriod);
-
-
-            if (rowObject.maxPartyPeriod > 0)
-                finish += Math.min(Math.trimToZero(rowObject.r.partyPeriod),
-                    Math.trimToZero(rowObject.maxPartyPeriod));
-            else
-                finish += Math.trimToZero(rowObject.r.partyPeriod);
-
-            if (rowObject.maxUnitPeriod > 0)
-                finish += Math.min(Math.trimToZero(rowObject.r.unitPeriod),
-                    Math.trimToZero(rowObject.maxUnitPeriod));
-            else
-                finish += Math.trimToZero(rowObject.r.unitPeriod);
-
-            if (rowObject.maxUpperPeriod > 0)
-                finish += Math.min(Math.trimToZero(rowObject.r.upperPeriod),
-                    Math.trimToZero(rowObject.maxUpperPeriod));
-            else
-                finish += Math.trimToZero(rowObject.r.upperPeriod);
+            finish += Math.trimToZero(rowObject.r.specialPeriod);
+            finish += Math.trimToZero(rowObject.r.dailyPeriod);
+            finish += Math.trimToZero(rowObject.r.unitPeriod);
+            finish += Math.trimToZero(rowObject.r.upperPeriod);
         }
 
-        return finish;
+        return finish - getFinishPeriodOnline(rowObject);
+    }
+
+    function getFinishPeriodOnline(rowObject){
+
+        if (!rowObject.hasArchived) {
+            return rowObject.r.onlinePeriod
+        }else{
+            return Math.trimToZero(rowObject.finishPeriodOnline);
+        }
     }
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");

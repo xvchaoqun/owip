@@ -1,4 +1,33 @@
 
+
+-- 删除 RetireApplyController
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', NULL, NULL, NULL, 1, NULL);
+
+-- 添加定时任务 桑文帅
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('更新协同任务统计缓存', '', 'job.oa.SyncOaTaskUser', '0 0/2 * * * ?', 1, 1, 29, '2019-11-29 11:03:31');
+
+ALTER TABLE `cet_annual_obj`
+	CHANGE COLUMN `period` `period_offline` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '年度学习任务（线下）' AFTER `lp_work_time`,
+	ADD COLUMN `period_online` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '年度学习任务（网络）' AFTER `period_offline`,
+	CHANGE COLUMN `finish_period` `finish_period_offline` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '已完成学时数（线下）' AFTER `period_online`,
+	ADD COLUMN `finish_period_online` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '已完成学时数（网络）' AFTER `finish_period_offline`,
+	CHANGE COLUMN `max_unit_period` `max_unit_period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '二级党委培训学时上限' AFTER `max_daily_period`,
+	CHANGE COLUMN `unit_period` `unit_period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '二级党委培训完成学时' AFTER `daily_period`,
+	DROP COLUMN `max_party_period`,
+	DROP COLUMN `party_period`;
+
+ALTER TABLE `cet_annual_obj`
+	DROP COLUMN `max_special_period`,
+	DROP COLUMN `max_daily_period`,
+	DROP COLUMN `max_unit_period`,
+	DROP COLUMN `max_upper_period`;
+
+DROP TABLE `cet_annual_require`;
+
+
+-- 20191128 jx update
+
 20191122
 
 删除ExportController
@@ -104,7 +133,7 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 
 
 201901024
-南航
+南航/ 北航
 
 ALTER TABLE `oa_task_user_file`
 	CHANGE COLUMN `file_name` `file_name` VARCHAR(50) NULL AFTER `user_id`,

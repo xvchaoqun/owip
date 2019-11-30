@@ -42,15 +42,13 @@
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
         </table>-->
-       <!--<table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="cet_annual_require" domainObjectName="cet.CetAnnualRequire" mapperName="cet.CetAnnualRequireMapper">
-        </table>-->
-
-        <table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
+       <table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+
+        <!--<table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
         <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
         </table>-->
         <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"

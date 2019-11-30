@@ -111,7 +111,7 @@ public class PartyPublicService extends BaseMapper {
 
             // 权限控制
             Integer partyId = partyPublic.getPartyId();
-            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+            if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId)) {
                 throw new UnauthorizedException();
             }
 

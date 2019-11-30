@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>岗位列表</h3>
+    <h3>${param.displayEmpty==1?'空缺':''}岗位列表</h3>
 </div>
 <div class="modal-body">
     <table class="table table-striped table-bordered table-condensed table-center table-unhover2">
@@ -30,5 +30,8 @@
     </table>
 </div>
 <div class="modal-footer">
+    <c:if test="${param.displayEmpty==1}">
+        <div class="note">注：须在干部档案页的任职情况中进行相关岗位的关联之后（如果存在关联），此处才可正确显示空缺岗位</div>
+    </c:if>
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>

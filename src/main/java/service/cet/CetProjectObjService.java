@@ -405,11 +405,9 @@ public class CetProjectObjService extends CetBaseMapper {
                     cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
                 }
             } else {
-                if (ctc.getIsFinished()) {
-                    //SysUserView uv = sysUserService.findById(userId);
-                    //throw new OpException("学员{0}已上课签到，无法操作。", uv.getRealname());
+                /*if (ctc.getIsFinished()) {
                     continue;
-                }
+                }*/
 
                 if (!ctc.getCanQuit()) { // 目前是必选
 
@@ -538,59 +536,6 @@ public class CetProjectObjService extends CetBaseMapper {
 
         return null;
     }
-    // 获取所有培训对象在一个培训方案中已完成的学时 <objId, BigDecimal>
-    /*public Map<Integer, BigDecimal> getPlanFinishPeriods(CetProjectPlan cetProjectPlan) {
-
-        List<FinishPeriodBean> beans = new ArrayList<>();
-
-        int planId = cetProjectPlan.getId();
-        byte planType = cetProjectPlan.getType();
-        switch (planType){
-            case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
-            case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
-            case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
-                beans = iCetMapper.getPlanFinishPeriods(planId);
-                break;
-            case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
-                beans = iCetMapper.getSelfFinishPeriods(planId);
-                break;
-            case CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL: // 上级网上专题班
-                beans = iCetMapper.getSpecialFinishPeriods(planId);
-                break;
-            case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
-                beans = iCetMapper.getGroupFinishPeriods(planId);
-                break;
-            case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE: // 撰写心得体会
-                beans = iCetMapper.getWriteFinishPeriods(planId);
-                break;
-        }
-
-        Map<Integer, BigDecimal> resultMap = new HashMap<>();
-        for (FinishPeriodBean bean : beans) {
-
-            resultMap.put(bean.getObjId(), bean.getPeriod());
-        }
-
-        return resultMap;
-    }*/
-
-    /*// 获取培训对象在一个培训中已完成的学时
-    public ICetProjectObj getICetProjectObj(int projectId, int userId) {
-
-        ICetProjectObj cetProjectObj = new ICetProjectObj();
-        try {
-            ConvertUtils.register(new BigDecimalConverter(null), java.math.BigDecimal.class);
-            BeanUtils.copyProperties(cetProjectObj, get(userId, projectId));
-        } catch (IllegalAccessException e) {
-            logger.error("异常", e);
-        } catch (InvocationTargetException e) {
-            logger.error("异常", e);
-        }
-        int objId = cetProjectObj.getId();
-        cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId).get(0));
-
-        return cetProjectObj;
-    }*/
 
     // 获取培训对象的已完成学时(实时）
     // <planId, BigDecimal>  planId=0是汇总
@@ -688,34 +633,6 @@ public class CetProjectObjService extends CetBaseMapper {
 
         return periodMap;
     }
-
-    // <objId, Map<planId, period>> planId=0是汇总
-    /*public Map<Integer, Map<Integer, BigDecimal>> getObjFinishPeriodMap(int projectId){
-
-        Map<Integer, Map<Integer, BigDecimal>> objFinishPeriodMap = new HashMap<>();
-        Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
-
-        for (CetProjectPlan cetProjectPlan : cetProjectPlanMap.values()) {
-
-            Map<Integer, BigDecimal> planFinishPeriods = getPlanFinishPeriods(cetProjectPlan);
-            for (Map.Entry<Integer, BigDecimal> entry : planFinishPeriods.entrySet()) {
-                Integer objId = entry.getKey();
-                BigDecimal period = entry.getValue();
-
-                Map<Integer, BigDecimal> periodMap = objFinishPeriodMap.get(objId);
-                if(periodMap==null){
-                    periodMap = new HashMap<>();
-                    periodMap.put(0, BigDecimal.ZERO);
-                    objFinishPeriodMap.put(objId, periodMap);
-                }
-                periodMap.put(cetProjectPlan.getId(), period);
-                periodMap.put(0, periodMap.get(0).add(period)); // 汇总
-            }
-
-        }
-
-        return objFinishPeriodMap;
-    }*/
 
     // 设置应完成学时
     @Transactional

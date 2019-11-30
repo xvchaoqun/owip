@@ -11,16 +11,12 @@
     <result column="need_update_require" jdbcType="BIT" property="needUpdateRequire" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
-    <result column="period" jdbcType="DECIMAL" property="period" />
-    <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
-    <result column="max_special_period" jdbcType="DECIMAL" property="maxSpecialPeriod" />
-    <result column="max_daily_period" jdbcType="DECIMAL" property="maxDailyPeriod" />
-    <result column="max_party_period" jdbcType="DECIMAL" property="maxPartyPeriod" />
-    <result column="max_unit_period" jdbcType="DECIMAL" property="maxUnitPeriod" />
-    <result column="max_upper_period" jdbcType="DECIMAL" property="maxUpperPeriod" />
+    <result column="period_offline" jdbcType="DECIMAL" property="periodOffline" />
+    <result column="period_online" jdbcType="DECIMAL" property="periodOnline" />
+    <result column="finish_period_offline" jdbcType="DECIMAL" property="finishPeriodOffline" />
+    <result column="finish_period_online" jdbcType="DECIMAL" property="finishPeriodOnline" />
     <result column="special_period" jdbcType="DECIMAL" property="specialPeriod" />
     <result column="daily_period" jdbcType="DECIMAL" property="dailyPeriod" />
-    <result column="party_period" jdbcType="DECIMAL" property="partyPeriod" />
     <result column="unit_period" jdbcType="DECIMAL" property="unitPeriod" />
     <result column="upper_period" jdbcType="DECIMAL" property="upperPeriod" />
     <result column="has_archived" jdbcType="BIT" property="hasArchived" />
@@ -88,9 +84,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, annual_id, user_id, title, admin_level, need_update_require, post_type, 
-    lp_work_time, period, finish_period, max_special_period, max_daily_period, max_party_period, 
-    max_unit_period, max_upper_period, special_period, daily_period, party_period, unit_period, 
-    upper_period, has_archived, is_quit, sort_order, remark
+    lp_work_time, period_offline, period_online, finish_period_offline, finish_period_online, 
+    special_period, daily_period, unit_period, upper_period, has_archived, is_quit, sort_order, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetAnnualObjExample" resultMap="BaseResultMap">
     select
@@ -128,22 +124,18 @@
     </selectKey>
     insert into cet_annual_obj (year, annual_id, user_id, 
       title, admin_level, need_update_require, 
-      post_type, lp_work_time, period, 
-      finish_period, max_special_period, max_daily_period, 
-      max_party_period, max_unit_period, max_upper_period, 
-      special_period, daily_period, party_period, 
-      unit_period, upper_period, has_archived, 
-      is_quit, sort_order, remark
-      )
+      post_type, lp_work_time, period_offline, 
+      period_online, finish_period_offline, finish_period_online, 
+      special_period, daily_period, unit_period, 
+      upper_period, has_archived, is_quit, 
+      sort_order, remark)
     values (#{year,jdbcType=INTEGER}, #{annualId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{needUpdateRequire,jdbcType=BIT}, 
-      #{postType,jdbcType=INTEGER}, #{lpWorkTime,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
-      #{finishPeriod,jdbcType=DECIMAL}, #{maxSpecialPeriod,jdbcType=DECIMAL}, #{maxDailyPeriod,jdbcType=DECIMAL}, 
-      #{maxPartyPeriod,jdbcType=DECIMAL}, #{maxUnitPeriod,jdbcType=DECIMAL}, #{maxUpperPeriod,jdbcType=DECIMAL}, 
-      #{specialPeriod,jdbcType=DECIMAL}, #{dailyPeriod,jdbcType=DECIMAL}, #{partyPeriod,jdbcType=DECIMAL}, 
-      #{unitPeriod,jdbcType=DECIMAL}, #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, 
-      #{isQuit,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{postType,jdbcType=INTEGER}, #{lpWorkTime,jdbcType=DATE}, #{periodOffline,jdbcType=DECIMAL}, 
+      #{periodOnline,jdbcType=DECIMAL}, #{finishPeriodOffline,jdbcType=DECIMAL}, #{finishPeriodOnline,jdbcType=DECIMAL}, 
+      #{specialPeriod,jdbcType=DECIMAL}, #{dailyPeriod,jdbcType=DECIMAL}, #{unitPeriod,jdbcType=DECIMAL}, 
+      #{upperPeriod,jdbcType=DECIMAL}, #{hasArchived,jdbcType=BIT}, #{isQuit,jdbcType=BIT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetAnnualObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -175,35 +167,23 @@
       <if test="lpWorkTime != null">
         lp_work_time,
       </if>
-      <if test="period != null">
-        period,
+      <if test="periodOffline != null">
+        period_offline,
       </if>
-      <if test="finishPeriod != null">
-        finish_period,
+      <if test="periodOnline != null">
+        period_online,
       </if>
-      <if test="maxSpecialPeriod != null">
-        max_special_period,
+      <if test="finishPeriodOffline != null">
+        finish_period_offline,
       </if>
-      <if test="maxDailyPeriod != null">
-        max_daily_period,
-      </if>
-      <if test="maxPartyPeriod != null">
-        max_party_period,
-      </if>
-      <if test="maxUnitPeriod != null">
-        max_unit_period,
-      </if>
-      <if test="maxUpperPeriod != null">
-        max_upper_period,
+      <if test="finishPeriodOnline != null">
+        finish_period_online,
       </if>
       <if test="specialPeriod != null">
         special_period,
       </if>
       <if test="dailyPeriod != null">
         daily_period,
-      </if>
-      <if test="partyPeriod != null">
-        party_period,
       </if>
       <if test="unitPeriod != null">
         unit_period,
@@ -249,35 +229,23 @@
       <if test="lpWorkTime != null">
         #{lpWorkTime,jdbcType=DATE},
       </if>
-      <if test="period != null">
-        #{period,jdbcType=DECIMAL},
+      <if test="periodOffline != null">
+        #{periodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="finishPeriod != null">
-        #{finishPeriod,jdbcType=DECIMAL},
+      <if test="periodOnline != null">
+        #{periodOnline,jdbcType=DECIMAL},
       </if>
-      <if test="maxSpecialPeriod != null">
-        #{maxSpecialPeriod,jdbcType=DECIMAL},
+      <if test="finishPeriodOffline != null">
+        #{finishPeriodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="maxDailyPeriod != null">
-        #{maxDailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxPartyPeriod != null">
-        #{maxPartyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxUnitPeriod != null">
-        #{maxUnitPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxUpperPeriod != null">
-        #{maxUpperPeriod,jdbcType=DECIMAL},
+      <if test="finishPeriodOnline != null">
+        #{finishPeriodOnline,jdbcType=DECIMAL},
       </if>
       <if test="specialPeriod != null">
         #{specialPeriod,jdbcType=DECIMAL},
       </if>
       <if test="dailyPeriod != null">
         #{dailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="partyPeriod != null">
-        #{partyPeriod,jdbcType=DECIMAL},
       </if>
       <if test="unitPeriod != null">
         #{unitPeriod,jdbcType=DECIMAL},
@@ -335,35 +303,23 @@
       <if test="record.lpWorkTime != null">
         lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
       </if>
-      <if test="record.period != null">
-        period = #{record.period,jdbcType=DECIMAL},
+      <if test="record.periodOffline != null">
+        period_offline = #{record.periodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="record.finishPeriod != null">
-        finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
+      <if test="record.periodOnline != null">
+        period_online = #{record.periodOnline,jdbcType=DECIMAL},
       </if>
-      <if test="record.maxSpecialPeriod != null">
-        max_special_period = #{record.maxSpecialPeriod,jdbcType=DECIMAL},
+      <if test="record.finishPeriodOffline != null">
+        finish_period_offline = #{record.finishPeriodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="record.maxDailyPeriod != null">
-        max_daily_period = #{record.maxDailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="record.maxPartyPeriod != null">
-        max_party_period = #{record.maxPartyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="record.maxUnitPeriod != null">
-        max_unit_period = #{record.maxUnitPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="record.maxUpperPeriod != null">
-        max_upper_period = #{record.maxUpperPeriod,jdbcType=DECIMAL},
+      <if test="record.finishPeriodOnline != null">
+        finish_period_online = #{record.finishPeriodOnline,jdbcType=DECIMAL},
       </if>
       <if test="record.specialPeriod != null">
         special_period = #{record.specialPeriod,jdbcType=DECIMAL},
       </if>
       <if test="record.dailyPeriod != null">
         daily_period = #{record.dailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="record.partyPeriod != null">
-        party_period = #{record.partyPeriod,jdbcType=DECIMAL},
       </if>
       <if test="record.unitPeriod != null">
         unit_period = #{record.unitPeriod,jdbcType=DECIMAL},
@@ -399,16 +355,12 @@
       need_update_require = #{record.needUpdateRequire,jdbcType=BIT},
       post_type = #{record.postType,jdbcType=INTEGER},
       lp_work_time = #{record.lpWorkTime,jdbcType=DATE},
-      period = #{record.period,jdbcType=DECIMAL},
-      finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
-      max_special_period = #{record.maxSpecialPeriod,jdbcType=DECIMAL},
-      max_daily_period = #{record.maxDailyPeriod,jdbcType=DECIMAL},
-      max_party_period = #{record.maxPartyPeriod,jdbcType=DECIMAL},
-      max_unit_period = #{record.maxUnitPeriod,jdbcType=DECIMAL},
-      max_upper_period = #{record.maxUpperPeriod,jdbcType=DECIMAL},
+      period_offline = #{record.periodOffline,jdbcType=DECIMAL},
+      period_online = #{record.periodOnline,jdbcType=DECIMAL},
+      finish_period_offline = #{record.finishPeriodOffline,jdbcType=DECIMAL},
+      finish_period_online = #{record.finishPeriodOnline,jdbcType=DECIMAL},
       special_period = #{record.specialPeriod,jdbcType=DECIMAL},
       daily_period = #{record.dailyPeriod,jdbcType=DECIMAL},
-      party_period = #{record.partyPeriod,jdbcType=DECIMAL},
       unit_period = #{record.unitPeriod,jdbcType=DECIMAL},
       upper_period = #{record.upperPeriod,jdbcType=DECIMAL},
       has_archived = #{record.hasArchived,jdbcType=BIT},
@@ -446,35 +398,23 @@
       <if test="lpWorkTime != null">
         lp_work_time = #{lpWorkTime,jdbcType=DATE},
       </if>
-      <if test="period != null">
-        period = #{period,jdbcType=DECIMAL},
+      <if test="periodOffline != null">
+        period_offline = #{periodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="finishPeriod != null">
-        finish_period = #{finishPeriod,jdbcType=DECIMAL},
+      <if test="periodOnline != null">
+        period_online = #{periodOnline,jdbcType=DECIMAL},
       </if>
-      <if test="maxSpecialPeriod != null">
-        max_special_period = #{maxSpecialPeriod,jdbcType=DECIMAL},
+      <if test="finishPeriodOffline != null">
+        finish_period_offline = #{finishPeriodOffline,jdbcType=DECIMAL},
       </if>
-      <if test="maxDailyPeriod != null">
-        max_daily_period = #{maxDailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxPartyPeriod != null">
-        max_party_period = #{maxPartyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxUnitPeriod != null">
-        max_unit_period = #{maxUnitPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="maxUpperPeriod != null">
-        max_upper_period = #{maxUpperPeriod,jdbcType=DECIMAL},
+      <if test="finishPeriodOnline != null">
+        finish_period_online = #{finishPeriodOnline,jdbcType=DECIMAL},
       </if>
       <if test="specialPeriod != null">
         special_period = #{specialPeriod,jdbcType=DECIMAL},
       </if>
       <if test="dailyPeriod != null">
         daily_period = #{dailyPeriod,jdbcType=DECIMAL},
-      </if>
-      <if test="partyPeriod != null">
-        party_period = #{partyPeriod,jdbcType=DECIMAL},
       </if>
       <if test="unitPeriod != null">
         unit_period = #{unitPeriod,jdbcType=DECIMAL},
@@ -507,16 +447,12 @@
       need_update_require = #{needUpdateRequire,jdbcType=BIT},
       post_type = #{postType,jdbcType=INTEGER},
       lp_work_time = #{lpWorkTime,jdbcType=DATE},
-      period = #{period,jdbcType=DECIMAL},
-      finish_period = #{finishPeriod,jdbcType=DECIMAL},
-      max_special_period = #{maxSpecialPeriod,jdbcType=DECIMAL},
-      max_daily_period = #{maxDailyPeriod,jdbcType=DECIMAL},
-      max_party_period = #{maxPartyPeriod,jdbcType=DECIMAL},
-      max_unit_period = #{maxUnitPeriod,jdbcType=DECIMAL},
-      max_upper_period = #{maxUpperPeriod,jdbcType=DECIMAL},
+      period_offline = #{periodOffline,jdbcType=DECIMAL},
+      period_online = #{periodOnline,jdbcType=DECIMAL},
+      finish_period_offline = #{finishPeriodOffline,jdbcType=DECIMAL},
+      finish_period_online = #{finishPeriodOnline,jdbcType=DECIMAL},
       special_period = #{specialPeriod,jdbcType=DECIMAL},
       daily_period = #{dailyPeriod,jdbcType=DECIMAL},
-      party_period = #{partyPeriod,jdbcType=DECIMAL},
       unit_period = #{unitPeriod,jdbcType=DECIMAL},
       upper_period = #{upperPeriod,jdbcType=DECIMAL},
       has_archived = #{hasArchived,jdbcType=BIT},

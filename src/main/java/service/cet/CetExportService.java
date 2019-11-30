@@ -338,25 +338,35 @@ public class CetExportService extends CetBaseMapper {
             cell.setCellValue(metaTypeService.getName(obj.getPostType()));
             
             // 年度学习任务
-            BigDecimal period = NumberUtils.trimToZero(obj.getPeriod());
+            BigDecimal periodOffline = NumberUtils.trimToZero(obj.getPeriodOffline());
+            BigDecimal periodOnline = NumberUtils.trimToZero(obj.getPeriodOnline());
             cell = row.getCell(column++);
-            cell.setCellValue(period.toString());
+            cell.setCellValue(periodOffline.toString() + "/" + periodOnline);
             
             // 已完成学时数
             BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(obj, r));
+            BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(obj));
+            BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
             cell = row.getCell(column++);
-            cell.setCellValue(finishPeriod.toString());
+            cell.setCellValue(finishPeriodOffline.toString() + "/" + finishPeriodOnline);
     
             // 完成百分比
-            String rate = "--";
-            if(period.compareTo(BigDecimal.ZERO)>0) {
-                BigDecimal divide = finishPeriod.divide(period, 5, RoundingMode.HALF_UP );
+            String rateOffline = "--";
+            if(periodOffline.compareTo(BigDecimal.ZERO)>0) {
+                BigDecimal divide = finishPeriodOffline.divide(periodOffline, 5, RoundingMode.HALF_UP );
                 NumberFormat percent = NumberFormat.getPercentInstance();
                 percent.setMaximumFractionDigits(1);
-                rate = percent.format(divide.doubleValue());
+                rateOffline = percent.format(divide.doubleValue());
+            }
+            String rateOnline = "--";
+            if(periodOffline.compareTo(BigDecimal.ZERO)>0) {
+                BigDecimal divide = finishPeriodOnline.divide(periodOnline, 5, RoundingMode.HALF_UP );
+                NumberFormat percent = NumberFormat.getPercentInstance();
+                percent.setMaximumFractionDigits(1);
+                rateOnline = percent.format(divide.doubleValue());
             }
             cell = row.getCell(column++);
-            cell.setCellValue(rate);
+            cell.setCellValue(rateOffline + "/" + rateOnline);
             
             // 党校专题
             cell = row.getCell(column++);
@@ -365,12 +375,8 @@ public class CetExportService extends CetBaseMapper {
             // 党校日常
             cell = row.getCell(column++);
             cell.setCellValue(cetAnnualObjService.getDailyPeriod(obj, r).toString());
-            
+
             // 二级党校
-            cell = row.getCell(column++);
-            cell.setCellValue(cetAnnualObjService.getPartyPeriod(obj, r).toString());
-            
-            // 二级单位
             cell = row.getCell(column++);
             cell.setCellValue(cetAnnualObjService.getUnitPeriod(obj, r).toString());
             
@@ -397,14 +403,25 @@ public class CetExportService extends CetBaseMapper {
         int year = cetAnnual.getYear();
     
         BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj, cetAnnualObj.getR()));
-        BigDecimal period = NumberUtils.trimToZero(cetAnnualObj.getPeriod());
-        String rate = "--";
-            if(period.compareTo(BigDecimal.ZERO)>0) {
-                BigDecimal divide = finishPeriod.divide(period, 5, RoundingMode.HALF_UP );
-                NumberFormat percent = NumberFormat.getPercentInstance();
-                percent.setMaximumFractionDigits(1);
-                rate = percent.format(divide.doubleValue());
-            }
+        BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(cetAnnualObj));
+        BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
+
+        BigDecimal periodOffline = NumberUtils.trimToZero(cetAnnualObj.getPeriodOffline());
+        String rateOffline = "--";
+        if(periodOffline.compareTo(BigDecimal.ZERO)>0) {
+            BigDecimal divide = finishPeriodOffline.divide(periodOffline, 5, RoundingMode.HALF_UP );
+            NumberFormat percent = NumberFormat.getPercentInstance();
+            percent.setMaximumFractionDigits(1);
+            rateOffline = percent.format(divide.doubleValue());
+        }
+        BigDecimal periodOnline = NumberUtils.trimToZero(cetAnnualObj.getPeriodOnline());
+        String rateOnline = "--";
+        if(periodOnline.compareTo(BigDecimal.ZERO)>0) {
+            BigDecimal divide = finishPeriodOnline.divide(periodOnline, 5, RoundingMode.HALF_UP );
+            NumberFormat percent = NumberFormat.getPercentInstance();
+            percent.setMaximumFractionDigits(1);
+            rateOnline = percent.format(divide.doubleValue());
+        }
             
         SysUserView uv = cetAnnualObj.getUser();
     
@@ -429,9 +446,9 @@ public class CetExportService extends CetBaseMapper {
         cell.setCellValue(str);
         cell = row.getCell(3);
         str = cell.getStringCellValue()
-                .replace("period", period.toString())
-                .replace("finishPeriod", finishPeriod.toString())
-                .replace("finishRate", rate);
+                .replace("period", periodOffline.toString() + "/" + periodOnline.toString())
+                .replace("finishPeriod", finishPeriodOffline.toString() + "/" + finishPeriodOnline.toString())
+                .replace("finishRate", rateOffline + "/" + rateOnline);
         cell.setCellValue(str);
         
         List<TrainRecord> records = cetAnnualObjService.getTrainRecords(userId, year, true);

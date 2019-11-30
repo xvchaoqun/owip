@@ -5,7 +5,8 @@
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
-                ||not empty param.postTypes || not empty param.code || not empty param.sort || not empty param.finishPeriod}"/>
+                ||not empty param.postTypes || not empty param.code || not empty param.sort
+                || not empty param.finishPeriodStart || not empty param.finishPeriodEnd}"/>
 <div class="jqgrid-vertical-offset buttons">
     <div class="type-select">
         <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
@@ -470,8 +471,12 @@
                 <c:if test="${cls==1}">
                 <div class="form-group">
                     <label>已完成学时数</label>
-                    <input class="form-control search-query" name="finishPeriod" type="text"
-                           value="${param.finishPeriod}"
+                    <input class="form-control search-query" name="finishPeriodStart" style="width: 50px" type="text"
+                           value="${param.finishPeriodStart}"
+                           placeholder="请输入已完成学时数">
+                    ~
+                    <input class="form-control search-query" name="finishPeriodEnd" style="width: 50px" type="text"
+                           value="${param.finishPeriodEnd}"
                            placeholder="请输入已完成学时数">
                 </div>
                 </c:if>
@@ -548,7 +553,7 @@
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return cellvalue?"是":"否"
             },frozen: true},
-            { label: '完成学时情况',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
+            { label: '完成学时/总学时',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '--'
                 return "{0}/{1}".format(Math.trimToZero(rowObject.objInfo.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
             }, frozen: true},

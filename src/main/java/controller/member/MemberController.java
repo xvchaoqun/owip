@@ -708,7 +708,7 @@ public class MemberController extends MemberBaseController {
             Member member = memberService.get(userId);
             if (_partyId == null) _partyId = member.getPartyId();
             if (_partyId != null && _partyId.intValue() != member.getPartyId()) {
-                throw new OpException("只允许在同一个"+CmTag.getStringProperty("partyName") + "内部进行批量转移。");
+                throw new OpException("只允许在同一个"+ CmTag.getStringProperty("partyName") + "内部进行批量转移。");
             }
             if (partyService.isDirectBranch(member.getPartyId())) {
                 throw new OpException("直属党支部不能进行内部转移。");
@@ -876,6 +876,7 @@ public class MemberController extends MemberBaseController {
                 titles.add(6, "离退休时间|80");
             }
 
+            modelMap.put("staffStatuses", iPropertyMapper.staffStatuses());
             modelMap.put("teacherEducationTypes", iPropertyMapper.teacherEducationTypes());
             modelMap.put("teacherPostClasses", iPropertyMapper.teacherPostClasses());
             modelMap.put("nations", iPropertyMapper.teacherNations());
@@ -927,8 +928,9 @@ public class MemberController extends MemberBaseController {
                             /** 教职工党员**/
                             String education,
                             String postClass,
-                            @RequestDateRange DateRange _retireTime,
-                            Boolean isHonorRetire,
+                            String staffStatus,
+                            //@RequestDateRange DateRange _retireTime,
+                            //Boolean isHonorRetire,
 
                             @RequestParam(required = false, defaultValue = "0") int export,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -1026,8 +1028,10 @@ public class MemberController extends MemberBaseController {
         if (StringUtils.isNotBlank(postClass)) {
             criteria.andPostClassEqualTo(postClass);
         }
-
-        if (_retireTime.getStart() != null) {
+        if (StringUtils.isNotBlank(staffStatus)) {
+            criteria.andStaffStatusEqualTo(staffStatus);
+        }
+        /*if (_retireTime.getStart() != null) {
             criteria.andRetireTimeGreaterThanOrEqualTo(_retireTime.getStart());
         }
 
@@ -1037,7 +1041,7 @@ public class MemberController extends MemberBaseController {
 
         if (isHonorRetire != null) {
             criteria.andIsHonorRetireEqualTo(isHonorRetire);
-        }
+        }*/
 
         if (_growTime.getStart() != null) {
             criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());

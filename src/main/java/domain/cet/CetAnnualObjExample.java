@@ -625,11 +625,20 @@ public class CetAnnualObjExample {
             return (Criteria) this;
         }
 
-        public Criteria isFinished(Boolean isFinished) {
+        public Criteria isFinishedOffline(Boolean isFinished) {
             if(BooleanUtils.isTrue(isFinished)) {
-                addCriterion("finish_period >= period");
+                addCriterion("finish_period_offline >= period_offline");
             }else{
-                addCriterion("finish_period < period");
+                addCriterion("finish_period_offline < period_offline");
+            }
+            return (Criteria) this;
+        }
+
+        public Criteria isFinishedOnline(Boolean isFinished) {
+            if(BooleanUtils.isTrue(isFinished)) {
+                addCriterion("finish_period_online >= period_online");
+            }else{
+                addCriterion("finish_period_online < period_online");
             }
             return (Criteria) this;
         }
@@ -694,423 +703,243 @@ public class CetAnnualObjExample {
             return (Criteria) this;
         }
 
-        public Criteria andPeriodIsNull() {
-            addCriterion("period is null");
+        public Criteria andPeriodOfflineIsNull() {
+            addCriterion("period_offline is null");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodIsNotNull() {
-            addCriterion("period is not null");
+        public Criteria andPeriodOfflineIsNotNull() {
+            addCriterion("period_offline is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodEqualTo(BigDecimal value) {
-            addCriterion("period =", value, "period");
+        public Criteria andPeriodOfflineEqualTo(BigDecimal value) {
+            addCriterion("period_offline =", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("period <>", value, "period");
+        public Criteria andPeriodOfflineNotEqualTo(BigDecimal value) {
+            addCriterion("period_offline <>", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodGreaterThan(BigDecimal value) {
-            addCriterion("period >", value, "period");
+        public Criteria andPeriodOfflineGreaterThan(BigDecimal value) {
+            addCriterion("period_offline >", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("period >=", value, "period");
+        public Criteria andPeriodOfflineGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("period_offline >=", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodLessThan(BigDecimal value) {
-            addCriterion("period <", value, "period");
+        public Criteria andPeriodOfflineLessThan(BigDecimal value) {
+            addCriterion("period_offline <", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("period <=", value, "period");
+        public Criteria andPeriodOfflineLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("period_offline <=", value, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodIn(List<BigDecimal> values) {
-            addCriterion("period in", values, "period");
+        public Criteria andPeriodOfflineIn(List<BigDecimal> values) {
+            addCriterion("period_offline in", values, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("period not in", values, "period");
+        public Criteria andPeriodOfflineNotIn(List<BigDecimal> values) {
+            addCriterion("period_offline not in", values, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("period between", value1, value2, "period");
+        public Criteria andPeriodOfflineBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period_offline between", value1, value2, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("period not between", value1, value2, "period");
+        public Criteria andPeriodOfflineNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period_offline not between", value1, value2, "periodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodIsNull() {
-            addCriterion("finish_period is null");
+        public Criteria andPeriodOnlineIsNull() {
+            addCriterion("period_online is null");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodIsNotNull() {
-            addCriterion("finish_period is not null");
+        public Criteria andPeriodOnlineIsNotNull() {
+            addCriterion("period_online is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodEqualTo(BigDecimal value) {
-            addCriterion("finish_period =", value, "finishPeriod");
+        public Criteria andPeriodOnlineEqualTo(BigDecimal value) {
+            addCriterion("period_online =", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("finish_period <>", value, "finishPeriod");
+        public Criteria andPeriodOnlineNotEqualTo(BigDecimal value) {
+            addCriterion("period_online <>", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodGreaterThan(BigDecimal value) {
-            addCriterion("finish_period >", value, "finishPeriod");
+        public Criteria andPeriodOnlineGreaterThan(BigDecimal value) {
+            addCriterion("period_online >", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("finish_period >=", value, "finishPeriod");
+        public Criteria andPeriodOnlineGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("period_online >=", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodLessThan(BigDecimal value) {
-            addCriterion("finish_period <", value, "finishPeriod");
+        public Criteria andPeriodOnlineLessThan(BigDecimal value) {
+            addCriterion("period_online <", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("finish_period <=", value, "finishPeriod");
+        public Criteria andPeriodOnlineLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("period_online <=", value, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodIn(List<BigDecimal> values) {
-            addCriterion("finish_period in", values, "finishPeriod");
+        public Criteria andPeriodOnlineIn(List<BigDecimal> values) {
+            addCriterion("period_online in", values, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("finish_period not in", values, "finishPeriod");
+        public Criteria andPeriodOnlineNotIn(List<BigDecimal> values) {
+            addCriterion("period_online not in", values, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("finish_period between", value1, value2, "finishPeriod");
+        public Criteria andPeriodOnlineBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period_online between", value1, value2, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andFinishPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("finish_period not between", value1, value2, "finishPeriod");
+        public Criteria andPeriodOnlineNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period_online not between", value1, value2, "periodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodIsNull() {
-            addCriterion("max_special_period is null");
+        public Criteria andFinishPeriodOfflineIsNull() {
+            addCriterion("finish_period_offline is null");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodIsNotNull() {
-            addCriterion("max_special_period is not null");
+        public Criteria andFinishPeriodOfflineIsNotNull() {
+            addCriterion("finish_period_offline is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodEqualTo(BigDecimal value) {
-            addCriterion("max_special_period =", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineEqualTo(BigDecimal value) {
+            addCriterion("finish_period_offline =", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("max_special_period <>", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineNotEqualTo(BigDecimal value) {
+            addCriterion("finish_period_offline <>", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodGreaterThan(BigDecimal value) {
-            addCriterion("max_special_period >", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineGreaterThan(BigDecimal value) {
+            addCriterion("finish_period_offline >", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_special_period >=", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period_offline >=", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodLessThan(BigDecimal value) {
-            addCriterion("max_special_period <", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineLessThan(BigDecimal value) {
+            addCriterion("finish_period_offline <", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_special_period <=", value, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period_offline <=", value, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodIn(List<BigDecimal> values) {
-            addCriterion("max_special_period in", values, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineIn(List<BigDecimal> values) {
+            addCriterion("finish_period_offline in", values, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("max_special_period not in", values, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineNotIn(List<BigDecimal> values) {
+            addCriterion("finish_period_offline not in", values, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_special_period between", value1, value2, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period_offline between", value1, value2, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxSpecialPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_special_period not between", value1, value2, "maxSpecialPeriod");
+        public Criteria andFinishPeriodOfflineNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period_offline not between", value1, value2, "finishPeriodOffline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodIsNull() {
-            addCriterion("max_daily_period is null");
+        public Criteria andFinishPeriodOnlineIsNull() {
+            addCriterion("finish_period_online is null");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodIsNotNull() {
-            addCriterion("max_daily_period is not null");
+        public Criteria andFinishPeriodOnlineIsNotNull() {
+            addCriterion("finish_period_online is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodEqualTo(BigDecimal value) {
-            addCriterion("max_daily_period =", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineEqualTo(BigDecimal value) {
+            addCriterion("finish_period_online =", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("max_daily_period <>", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineNotEqualTo(BigDecimal value) {
+            addCriterion("finish_period_online <>", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodGreaterThan(BigDecimal value) {
-            addCriterion("max_daily_period >", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineGreaterThan(BigDecimal value) {
+            addCriterion("finish_period_online >", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_daily_period >=", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period_online >=", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodLessThan(BigDecimal value) {
-            addCriterion("max_daily_period <", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineLessThan(BigDecimal value) {
+            addCriterion("finish_period_online <", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_daily_period <=", value, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period_online <=", value, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodIn(List<BigDecimal> values) {
-            addCriterion("max_daily_period in", values, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineIn(List<BigDecimal> values) {
+            addCriterion("finish_period_online in", values, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("max_daily_period not in", values, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineNotIn(List<BigDecimal> values) {
+            addCriterion("finish_period_online not in", values, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_daily_period between", value1, value2, "maxDailyPeriod");
+        public Criteria andFinishPeriodOnlineBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period_online between", value1, value2, "finishPeriodOnline");
             return (Criteria) this;
         }
 
-        public Criteria andMaxDailyPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_daily_period not between", value1, value2, "maxDailyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodIsNull() {
-            addCriterion("max_party_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodIsNotNull() {
-            addCriterion("max_party_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodEqualTo(BigDecimal value) {
-            addCriterion("max_party_period =", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("max_party_period <>", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodGreaterThan(BigDecimal value) {
-            addCriterion("max_party_period >", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_party_period >=", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodLessThan(BigDecimal value) {
-            addCriterion("max_party_period <", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_party_period <=", value, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodIn(List<BigDecimal> values) {
-            addCriterion("max_party_period in", values, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("max_party_period not in", values, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_party_period between", value1, value2, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxPartyPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_party_period not between", value1, value2, "maxPartyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodIsNull() {
-            addCriterion("max_unit_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodIsNotNull() {
-            addCriterion("max_unit_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodEqualTo(BigDecimal value) {
-            addCriterion("max_unit_period =", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("max_unit_period <>", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodGreaterThan(BigDecimal value) {
-            addCriterion("max_unit_period >", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_unit_period >=", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodLessThan(BigDecimal value) {
-            addCriterion("max_unit_period <", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_unit_period <=", value, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodIn(List<BigDecimal> values) {
-            addCriterion("max_unit_period in", values, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("max_unit_period not in", values, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_unit_period between", value1, value2, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUnitPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_unit_period not between", value1, value2, "maxUnitPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodIsNull() {
-            addCriterion("max_upper_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodIsNotNull() {
-            addCriterion("max_upper_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodEqualTo(BigDecimal value) {
-            addCriterion("max_upper_period =", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("max_upper_period <>", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodGreaterThan(BigDecimal value) {
-            addCriterion("max_upper_period >", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_upper_period >=", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodLessThan(BigDecimal value) {
-            addCriterion("max_upper_period <", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("max_upper_period <=", value, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodIn(List<BigDecimal> values) {
-            addCriterion("max_upper_period in", values, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("max_upper_period not in", values, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_upper_period between", value1, value2, "maxUpperPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andMaxUpperPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("max_upper_period not between", value1, value2, "maxUpperPeriod");
+        public Criteria andFinishPeriodOnlineNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period_online not between", value1, value2, "finishPeriodOnline");
             return (Criteria) this;
         }
 
@@ -1231,66 +1060,6 @@ public class CetAnnualObjExample {
 
         public Criteria andDailyPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("daily_period not between", value1, value2, "dailyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodIsNull() {
-            addCriterion("party_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodIsNotNull() {
-            addCriterion("party_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodEqualTo(BigDecimal value) {
-            addCriterion("party_period =", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodNotEqualTo(BigDecimal value) {
-            addCriterion("party_period <>", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodGreaterThan(BigDecimal value) {
-            addCriterion("party_period >", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("party_period >=", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodLessThan(BigDecimal value) {
-            addCriterion("party_period <", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("party_period <=", value, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodIn(List<BigDecimal> values) {
-            addCriterion("party_period in", values, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodNotIn(List<BigDecimal> values) {
-            addCriterion("party_period not in", values, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("party_period between", value1, value2, "partyPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartyPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("party_period not between", value1, value2, "partyPeriod");
             return (Criteria) this;
         }
 

@@ -40,7 +40,7 @@
     <c:if test="${not empty cetAnnualObj}">
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
-            <div class="jqgrid-vertical-offset panel panel-default" style="margin-bottom: 0">
+            <div class="jqgrid-vertical-offset panel panel-default" style="margin-bottom: 5px">
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="text-primary bolder"><i
                                 class="fa fa-info-circle"></i>   基本信息</span>
@@ -66,6 +66,47 @@
                         </div>
                     </div>
                 </div>
+
+            <div class="jqgrid-vertical-offset panel panel-default" style="margin-bottom: 5px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="text-primary bolder"><i
+                                class="fa fa-line-chart"></i>   年度学习情况汇总</span>
+                        </h3>
+                    </div>
+                    <div class="collapse in">
+                        <div class="panel-body">
+                            <div>
+                            <label>年度学习任务（线下）：</label>
+                            <span class="result">${cetAnnualObj.periodOffline}</span>
+                            <label>已完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetAnnualObj.finishPeriodOffline)}</span>
+                            <label>完成百分比：</label>
+                            <c:set var="progress" value="0%"/>
+                            <c:if test="${cetAnnualObj.finishPeriodOffline>0 && cetAnnualObj.periodOffline>0}">
+                                <fmt:formatNumber var="progress" value="${(cm:divide(cetAnnualObj.finishPeriodOffline, cetAnnualObj.periodOffline, 3))}"
+                                                  type="percent" pattern="#0.0%"/>
+                            </c:if>
+                            <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
+                                <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
+                            </div>
+                            </div>
+                            <div>
+                            <label>年度学习任务（网络）：</label>
+                            <span class="result">${cetAnnualObj.periodOnline}</span>
+                            <label>已完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetAnnualObj.finishPeriodOnline)}</span>
+                            <label>完成百分比：</label>
+                            <c:set var="progress" value="0%"/>
+                            <c:if test="${cetAnnualObj.finishPeriodOnline>0 && cetAnnualObj.periodOnline>0}">
+                                <fmt:formatNumber var="progress" value="${(cm:divide(cetAnnualObj.finishPeriodOnline, cetAnnualObj.periodOnline, 3))}"
+                                                  type="percent" pattern="#0.0%"/>
+                            </c:if>
+                            <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
+                                <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
             <li class="active">
                 <a href="javascript:;" class="loadPage"

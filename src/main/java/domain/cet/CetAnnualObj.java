@@ -10,19 +10,19 @@ import java.util.Date;
 import java.util.Map;
 
 public class CetAnnualObj implements Serializable {
-    
+
     public Map<String, BigDecimal> getR(){
-        
+
         if(hasArchived) return null;
-        
+
         CetAnnualObjService cetAnnualObjService = CmTag.getBean(CetAnnualObjService.class);
-        return cetAnnualObjService.getFinishPeriodMap(userId, year);
+        return cetAnnualObjService.getDbFinishPeriodMap(userId, year);
     }
-    
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    
+
     private Integer id;
 
     private Integer year;
@@ -41,25 +41,17 @@ public class CetAnnualObj implements Serializable {
 
     private Date lpWorkTime;
 
-    private BigDecimal period;
+    private BigDecimal periodOffline;
 
-    private BigDecimal finishPeriod;
+    private BigDecimal periodOnline;
 
-    private BigDecimal maxSpecialPeriod;
+    private BigDecimal finishPeriodOffline;
 
-    private BigDecimal maxDailyPeriod;
-
-    private BigDecimal maxPartyPeriod;
-
-    private BigDecimal maxUnitPeriod;
-
-    private BigDecimal maxUpperPeriod;
+    private BigDecimal finishPeriodOnline;
 
     private BigDecimal specialPeriod;
 
     private BigDecimal dailyPeriod;
-
-    private BigDecimal partyPeriod;
 
     private BigDecimal unitPeriod;
 
@@ -147,60 +139,36 @@ public class CetAnnualObj implements Serializable {
         this.lpWorkTime = lpWorkTime;
     }
 
-    public BigDecimal getPeriod() {
-        return period;
+    public BigDecimal getPeriodOffline() {
+        return periodOffline;
     }
 
-    public void setPeriod(BigDecimal period) {
-        this.period = period;
+    public void setPeriodOffline(BigDecimal periodOffline) {
+        this.periodOffline = periodOffline;
     }
 
-    public BigDecimal getFinishPeriod() {
-        return finishPeriod;
+    public BigDecimal getPeriodOnline() {
+        return periodOnline;
     }
 
-    public void setFinishPeriod(BigDecimal finishPeriod) {
-        this.finishPeriod = finishPeriod;
+    public void setPeriodOnline(BigDecimal periodOnline) {
+        this.periodOnline = periodOnline;
     }
 
-    public BigDecimal getMaxSpecialPeriod() {
-        return maxSpecialPeriod;
+    public BigDecimal getFinishPeriodOffline() {
+        return finishPeriodOffline;
     }
 
-    public void setMaxSpecialPeriod(BigDecimal maxSpecialPeriod) {
-        this.maxSpecialPeriod = maxSpecialPeriod;
+    public void setFinishPeriodOffline(BigDecimal finishPeriodOffline) {
+        this.finishPeriodOffline = finishPeriodOffline;
     }
 
-    public BigDecimal getMaxDailyPeriod() {
-        return maxDailyPeriod;
+    public BigDecimal getFinishPeriodOnline() {
+        return finishPeriodOnline;
     }
 
-    public void setMaxDailyPeriod(BigDecimal maxDailyPeriod) {
-        this.maxDailyPeriod = maxDailyPeriod;
-    }
-
-    public BigDecimal getMaxPartyPeriod() {
-        return maxPartyPeriod;
-    }
-
-    public void setMaxPartyPeriod(BigDecimal maxPartyPeriod) {
-        this.maxPartyPeriod = maxPartyPeriod;
-    }
-
-    public BigDecimal getMaxUnitPeriod() {
-        return maxUnitPeriod;
-    }
-
-    public void setMaxUnitPeriod(BigDecimal maxUnitPeriod) {
-        this.maxUnitPeriod = maxUnitPeriod;
-    }
-
-    public BigDecimal getMaxUpperPeriod() {
-        return maxUpperPeriod;
-    }
-
-    public void setMaxUpperPeriod(BigDecimal maxUpperPeriod) {
-        this.maxUpperPeriod = maxUpperPeriod;
+    public void setFinishPeriodOnline(BigDecimal finishPeriodOnline) {
+        this.finishPeriodOnline = finishPeriodOnline;
     }
 
     public BigDecimal getSpecialPeriod() {
@@ -217,14 +185,6 @@ public class CetAnnualObj implements Serializable {
 
     public void setDailyPeriod(BigDecimal dailyPeriod) {
         this.dailyPeriod = dailyPeriod;
-    }
-
-    public BigDecimal getPartyPeriod() {
-        return partyPeriod;
-    }
-
-    public void setPartyPeriod(BigDecimal partyPeriod) {
-        this.partyPeriod = partyPeriod;
     }
 
     public BigDecimal getUnitPeriod() {

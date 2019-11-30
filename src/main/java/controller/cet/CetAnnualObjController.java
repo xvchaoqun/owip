@@ -1,8 +1,10 @@
 package controller.cet;
 
-import domain.cadre.CadreView;
-import domain.cet.*;
+import domain.cet.CetAnnual;
+import domain.cet.CetAnnualObj;
+import domain.cet.CetAnnualObjExample;
 import domain.cet.CetAnnualObjExample.Criteria;
+import domain.cet.CetTraineeType;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -34,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -136,11 +139,14 @@ public class CetAnnualObjController extends CetBaseController {
                                   @RequestParam(defaultValue = "0") Boolean isQuit,
                                   @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                   @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-                                  Boolean isFinished,
+                                  Boolean isFinishedOffline,
+                                  Boolean isFinishedOnline,
                                   Boolean needUpdateRequire,
                                   Boolean sortByFinished,
-                                  Boolean displayFinished,
-                                  Boolean displayUnfinished,
+                                  Boolean displayFinishedOffline,
+                                  Boolean displayFinishedOnline,
+                                  Boolean displayUnfinishedOffline,
+                                  Boolean displayUnfinishedOnline,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -158,7 +164,7 @@ public class CetAnnualObjController extends CetBaseController {
                 .andAnnualIdEqualTo(annualId)
                 .andIsQuitEqualTo(isQuit);
         if (BooleanUtils.isTrue(sortByFinished)) {
-            example.setOrderByClause("finish_period desc, sort_order desc");
+            example.setOrderByClause("finish_period_offline desc, finish_period_online desc, sort_order desc");
         } else {
             example.setOrderByClause("sort_order desc");
         }
@@ -173,14 +179,24 @@ public class CetAnnualObjController extends CetBaseController {
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));
         }
-        if (isFinished != null) {
-            criteria.isFinished(BooleanUtils.isTrue(isFinished));
+        if (isFinishedOffline != null) {
+            criteria.isFinishedOffline(BooleanUtils.isTrue(isFinishedOffline));
         }
-        if (BooleanUtils.isTrue(displayFinished)) {
-            criteria.isFinished(true);
+        if (BooleanUtils.isTrue(displayFinishedOffline)) {
+            criteria.isFinishedOffline(true);
         }
-        if (BooleanUtils.isTrue(displayUnfinished)) {
-            criteria.isFinished(false);
+        if (BooleanUtils.isTrue(displayUnfinishedOffline)) {
+            criteria.isFinishedOffline(false);
+        }
+
+        if (isFinishedOnline != null) {
+            criteria.isFinishedOnline(BooleanUtils.isTrue(isFinishedOnline));
+        }
+        if (BooleanUtils.isTrue(displayFinishedOnline)) {
+            criteria.isFinishedOnline(true);
+        }
+        if (BooleanUtils.isTrue(displayUnfinishedOnline)) {
+            criteria.isFinishedOnline(false);
         }
         
         if (needUpdateRequire != null) {
@@ -322,51 +338,24 @@ public class CetAnnualObjController extends CetBaseController {
     }
     
     @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping(value = "/cetAnnualObj_singleRequire", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetAnnualObj_updateRequire", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetAnnualObj_singleRequire(int objId, CetAnnualRequire record, HttpServletRequest request) {
+    public Map do_cetAnnualObj_updateRequire(BigDecimal periodOffline, BigDecimal periodOnline,
+                                             @RequestParam(value = "ids[]") Integer[] ids) {
         
-        cetAnnualObjService.singleRequire(objId, record);
-        logger.info(addLog(LogConstants.LOG_CET, "个别设定年度学习任务：objId=%s", objId));
+        cetAnnualObjService.updateRequire(periodOffline, periodOnline, ids);
+        logger.info(addLog(LogConstants.LOG_CET, "设定年度学习任务：periodOffline=%s, periodOnline=%s, %s",
+                periodOffline, periodOnline,
+                StringUtils.join(ids, ",")));
         
         return success(FormUtils.SUCCESS);
     }
     
     @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping("/cetAnnualObj_singleRequire")
-    public String cetAnnualObj_singleRequire(int id, ModelMap modelMap) {
+    @RequestMapping("/cetAnnualObj_updateRequire")
+    public String cetAnnualObj_updateRequire() {
         
-        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(id);
-        modelMap.put("cetAnnualObj", cetAnnualObj);
-        
-        if (cetAnnualObj.getNeedUpdateRequire()) {
-            
-            Integer userId = cetAnnualObj.getUserId();
-            CadreView cv = CmTag.getCadreByUserId(userId);
-            modelMap.put("latestAdminLevel", cv.getAdminLevel());
-            
-            return "cet/cetAnnualObj/cetAnnualObj_adminLevelChanged";
-        }
-        
-        return "cet/cetAnnualObj/cetAnnualObj_singleRequire";
-    }
-    
-    @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping(value = "/cetAnnualObj_batchRequire", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetAnnualObj_batchRequire(CetAnnualRequire record, HttpServletRequest request) {
-        
-        cetAnnualObjService.batchRequire(record);
-        logger.info(addLog(LogConstants.LOG_CET, "设定年度学习任务：annualId=%s", record.getAnnualId()));
-        
-        return success(FormUtils.SUCCESS);
-    }
-    
-    @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping("/cetAnnualObj_batchRequire")
-    public String cetAnnualObj_batchRequire(int annualId, ModelMap modelMap) {
-        
-        return "cet/cetAnnualObj/cetAnnualObj_batchRequire";
+        return "cet/cetAnnualObj/cetAnnualObj_updateRequire";
     }
     
     @RequiresPermissions("cetAnnualObj:del")

@@ -12,7 +12,7 @@
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
              ||not empty param.age ||not empty param.gender||not empty selectNations||not empty param.nativePlace
              ||not empty param.eduLevel ||not empty param.eduType
-             ||not empty param.education ||not empty param.postClass
+             ||not empty param.education ||not empty param.postClass||not empty param.staffStatus
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
@@ -243,9 +243,21 @@
                                                     $("#searchForm select[name=postClass]").val('${param.postClass}');
                                                 </script>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label>人员状态</label>
+                                                <select name="staffStatus" data-width="150" data-rel="select2"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <c:forEach items="${staffStatuses}" var="staffStatus">
+                                                        <option value="${staffStatus}">${staffStatus}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=staffStatus]").val('${param.staffStatus}');
+                                                </script>
+                                            </div>
                                             <c:if test="${cls==3 || cls==7}">
-                                                <div class="form-group">
+                                                <%--<div class="form-group">
                                                     <label>退休时间</label>
                                                     <div class="input-group tooltip-success" data-rel="tooltip"
                                                          title="退休时间范围">
@@ -257,8 +269,8 @@
                                                                type="text" name="_retireTime"
                                                                value="${param._retireTime}"/>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
+                                                </div>--%>
+                                                <%--<div class="form-group">
                                                     <label>是否离休</label>
                                                     <select name="isHonorRetire" data-width="100" data-rel="select2"
                                                             data-placeholder="请选择">
@@ -269,7 +281,7 @@
                                                     <script>
                                                         $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
                                                     </script>
-                                                </div>
+                                                </div>--%>
                                             </c:if>
                                         </c:if>
 
@@ -487,10 +499,8 @@
                 formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
-
-            <c:if test="${cls==3||cls==7}">
-            {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
+            <c:if test="${cls==2 || cls==3||cls==7}">
+            {label: '人员状态', name: 'staffStatus', width: 120},
             </c:if>
             {label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
             {label: '所在院系', name: 'unit', width: 180, align: 'left'},

@@ -17,8 +17,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CetAnnualObjMapper cetAnnualObjMapper;
     @Autowired(required = false)
-    protected CetAnnualRequireMapper cetAnnualRequireMapper;
-    @Autowired(required = false)
     protected CetUnitProjectMapper cetUnitProjectMapper;
     @Autowired(required = false)
     protected CetUnitTrainMapper cetUnitTrainMapper;

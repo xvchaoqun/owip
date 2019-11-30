@@ -1,8 +1,10 @@
 package service.cet;
 
-import controller.global.OpException;
 import domain.cadre.CadreView;
-import domain.cet.*;
+import domain.cet.CetAnnual;
+import domain.cet.CetAnnualObj;
+import domain.cet.CetAnnualObjExample;
+import domain.cet.CetTraineeType;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.cet.common.TrainRecord;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
-import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
 import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
@@ -79,6 +80,7 @@ public class CetAnnualObjService extends CetBaseMapper {
         if (specialRecords != null) trainRecords.addAll(specialRecords);
         List<TrainRecord> dailyRecords = iCetMapper.getProjectRecords(userId, year, (byte) 2, isValid);
         if (dailyRecords != null) trainRecords.addAll(dailyRecords);
+        // 二级党委培训
         List<TrainRecord> unitRecords = iCetMapper.getUnitRecords(userId, year, isValid);
         if (unitRecords != null) trainRecords.addAll(unitRecords);
         List<TrainRecord> upperRecords = iCetMapper.getUpperRecords(userId, year, isValid);
@@ -155,68 +157,40 @@ public class CetAnnualObjService extends CetBaseMapper {
         cetAnnualMapper.updateByPrimaryKeySelective(record);
     }
     
-    // 党校专题培训完成学时数、 党校日常培训完成学时数、 二级党校/党委培训完成学时数、 二级单位培训完成学时数、 上级调训完成学时数
-    public Map<String, BigDecimal> getFinishPeriodMap(int userId, int year) {
+    // 党校专题培训完成学时数、 党校日常培训完成学时数、 二级党委培训完成学时数、 上级调训完成学时数
+    public Map<String, BigDecimal> getDbFinishPeriodMap(int userId, int year) {
         
         BigDecimal specialFinishPeriod = iCetMapper.getProjectFinishPeriod(userId, year, (byte) 1);
         BigDecimal dailyFinishPeriod = iCetMapper.getProjectFinishPeriod(userId, year, (byte) 2);
-        BigDecimal upperFinishPeriod = iCetMapper.getUpperFinishPeriod(userId, year);
-        BigDecimal unitFinishPeriod = iCetMapper.getUnitFinishPeriod(userId, year);
-        
+        BigDecimal unitFinishPeriod = iCetMapper.getUnitFinishPeriod(userId, year); // 二级党委
+        BigDecimal upperFinishPeriod = iCetMapper.getUpperFinishPeriod(userId, year); // 上级调训
+
         Map<String, BigDecimal> resultMap = new HashMap<>();
         resultMap.put("specialPeriod", specialFinishPeriod);
         resultMap.put("dailyPeriod", dailyFinishPeriod);
-        resultMap.put("partyPeriod", BigDecimal.ZERO); // 待定
-        resultMap.put("upperPeriod", upperFinishPeriod);
         resultMap.put("unitPeriod", unitFinishPeriod);
-        
+        resultMap.put("upperPeriod", upperFinishPeriod);
+
+        resultMap.put("onlinePeriod", getDbFinishPeriodOnline(userId, year));
+
         return resultMap;
     }
-    
-    /*// 正式归档培训对象
-    public void archiveOne(CetAnnualObj cetAnnualObj) {
-        
-        int userId = cetAnnualObj.getUserId();
-        int year = cetAnnualObj.getYear();
-        Map<String, BigDecimal> finishPeriodMap = getFinishPeriodMap(userId, year);
-        
-        CetAnnualObj record = new CetAnnualObj();
-        record.setId(cetAnnualObj.getId());
-        record.setSpecialPeriod(finishPeriodMap.get("specialPeriod"));
-        record.setDailyPeriod(finishPeriodMap.get("dailyPeriod"));
-        record.setPartyPeriod(finishPeriodMap.get("partyPeriod"));
-        record.setUpperPeriod(finishPeriodMap.get("upperPeriod"));
-        record.setUnitPeriod(finishPeriodMap.get("unitPeriod"));
-        record.setHasArchived(true);
-        
-        cetAnnualObjMapper.updateByPrimaryKeySelective(record);
+
+    // 网络培训完成学时数
+    public BigDecimal getDbFinishPeriodOnline(int userId, int year){
+
+        BigDecimal yearPlanFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                .getYearPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, year));
+        BigDecimal yearSpecialFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                .getYearSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, year));
+
+        BigDecimal planFinishPeriodOnline = yearPlanFinishPeriod.add(yearSpecialFinishPeriod);
+
+        BigDecimal unitFinishPeriodOnline = NumberUtils.trimToZero(iCetMapper.getUnitFinishPeriodOnline(userId, year));
+
+        return planFinishPeriodOnline.add(unitFinishPeriodOnline);
     }
-    
-    // 正式归档某一类培训对象
-    @Transactional
-    public void archive(int annualId) {
-        
-        CetAnnualObjExample example = new CetAnnualObjExample();
-        example.createCriteria().andAnnualIdEqualTo(annualId).andIsQuitEqualTo(false);
-        
-        List<CetAnnualObj> cetAnnualObjs = cetAnnualObjMapper.selectByExample(example);
-        for (CetAnnualObj cetAnnualObj : cetAnnualObjs) {
-            archiveOne(cetAnnualObj);
-        }
-    }
-    
-    // 取消归档某一类培训对象
-    @Transactional
-    public void unarchive(int annualId) {
-        
-        CetAnnualObjExample example = new CetAnnualObjExample();
-        example.createCriteria().andAnnualIdEqualTo(annualId).andIsQuitEqualTo(false);
-        
-        CetAnnualObj record = new CetAnnualObj();
-        record.setHasArchived(false);
-        cetAnnualObjMapper.updateByExampleSelective(record, example);
-    }*/
-    
+
     // 退出
     @Transactional
     public void quit(boolean isQuit, Integer[] ids) {
@@ -238,20 +212,6 @@ public class CetAnnualObjService extends CetBaseMapper {
         }
     }
     
-    /*public Map<Integer, CetAnnualObj> findAll() {
-
-        CetAnnualObjExample example = new CetAnnualObjExample();
-        example.createCriteria().andStatusEqualTo(true);
-        example.setOrderByClause("sort_order desc");
-        List<CetAnnualObj> cetAnnualObjes = cetAnnualObjMapper.selectByExample(example);
-        Map<Integer, CetAnnualObj> map = new LinkedHashMap<>();
-        for (CetAnnualObj cetAnnualObj : cetAnnualObjes) {
-            map.put(cetAnnualObj.getId(), cetAnnualObj);
-        }
-
-        return map;
-    }*/
-    
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      *
@@ -267,84 +227,19 @@ public class CetAnnualObjService extends CetBaseMapper {
     
     // 设定年度学习任务（批量设定）
     @Transactional
-    public void batchRequire(CetAnnualRequire record) {
-        
-        checkReuire(record);
-        
-        int annualId = record.getAnnualId();
-        int adminLevel = record.getAdminLevel();
-        
-        CetAnnualObjExample example = new CetAnnualObjExample();
-        example.createCriteria().andAnnualIdEqualTo(annualId).andAdminLevelEqualTo(adminLevel);
-        List<CetAnnualObj> cetAnnualObjs = cetAnnualObjMapper.selectByExample(example);
-        record.setRelateCount(cetAnnualObjs.size());
-        
-        List<Integer> objIds = new ArrayList<>();
-        for (CetAnnualObj obj : cetAnnualObjs) {
-            
-            objIds.add(obj.getId());
-            sysApprovalLogService.add(obj.getId(), obj.getUserId(),
+    public void updateRequire(BigDecimal periodOffline, BigDecimal periodOnline, Integer[] objIds) {
+
+        for (Integer objId : objIds) {
+            CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+            sysApprovalLogService.add(cetAnnualObj.getId(), cetAnnualObj.getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_ANNUAL,
                     "设定年度学习任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "批量设定");
         }
-        iCetMapper.batchRequire(record, StringUtils.join(objIds, ","));
-        
-        record.setOpUserId(ShiroHelper.getCurrentUserId());
-        record.setOpTime(new Date());
-        record.setIp(ContextHelper.getRealIp());
-        cetAnnualRequireMapper.insertSelective(record);
+
+        iCetMapper.batchRequire(periodOffline, periodOnline, StringUtils.join(objIds, ","));
     }
-    
-    // 设定年度学习任务（个别设定）
-    @Transactional
-    public void singleRequire(int objId, CetAnnualRequire record) {
-        
-        checkReuire(record);
-        
-        CetAnnualObj obj = cetAnnualObjMapper.selectByPrimaryKey(objId);
-        
-        sysApprovalLogService.add(obj.getId(), obj.getUserId(),
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_ANNUAL,
-                "设定年度学习任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                "个别设定");
-        
-        if (obj.getNeedUpdateRequire()) {
-            CetAnnualObj update = new CetAnnualObj();
-            update.setId(objId);
-            
-            CadreView cv = CmTag.getCadreByUserId(obj.getUserId());
-            update.setTitle(cv.getTitle());
-            update.setAdminLevel(cv.getAdminLevel());
-            update.setPostType(cv.getPostType());
-            update.setLpWorkTime(cv.getLpWorkTime());
-            // 重置状态
-            update.setNeedUpdateRequire(false);
-            
-            cetAnnualObjMapper.updateByPrimaryKeySelective(update);
-        }
-        
-        iCetMapper.batchRequire(record, objId + "");
-    }
-    
-    private void checkReuire(CetAnnualRequire record) {
-        
-        BigDecimal period = NumberUtils.trimToZero(record.getPeriod());
-        BigDecimal maxSpecialPeriod = NumberUtils.trimToZero(record.getMaxSpecialPeriod());
-        BigDecimal maxDailyPeriod = NumberUtils.trimToZero(record.getMaxDailyPeriod());
-        BigDecimal maxPartyPeriod = NumberUtils.trimToZero(record.getMaxPartyPeriod());
-        BigDecimal maxUnitPeriod = NumberUtils.trimToZero(record.getMaxUnitPeriod());
-        BigDecimal maxUpperPeriod = NumberUtils.trimToZero(record.getMaxUpperPeriod());
-        
-        if (period.compareTo(maxSpecialPeriod.add(maxDailyPeriod)
-                .add(maxPartyPeriod).add(maxUnitPeriod).add(maxUpperPeriod)) < 0) {
-            
-            throw new OpException("上限之和不允许大于年度学习任务。");
-        }
-    }
-    
     
     // 最终的党校专题学时
     public BigDecimal getSpecialPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r) {
@@ -355,9 +250,8 @@ public class CetAnnualObjService extends CetBaseMapper {
         } else {
             period = NumberUtils.trimToZero(r.get("specialPeriod"));
         }
-        
-        BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxSpecialPeriod());
-        return (max.compareTo(BigDecimal.ZERO) > 0 && period.compareTo(max) > 0) ? max : period;
+
+        return period;
     }
     
     // 最终的党校日常学时
@@ -370,25 +264,10 @@ public class CetAnnualObjService extends CetBaseMapper {
             period = NumberUtils.trimToZero(r.get("dailyPeriod"));
         }
         
-        BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxDailyPeriod());
-        return (max.compareTo(BigDecimal.ZERO) > 0 && period.compareTo(max) > 0) ? max : period;
+        return period;
     }
     
     // 最终的二级党委学时
-    public BigDecimal getPartyPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r) {
-        
-        BigDecimal period = null;
-        if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
-            period = NumberUtils.trimToZero(cetAnnualObj.getPartyPeriod());
-        } else {
-            period = NumberUtils.trimToZero(r.get("partyPeriod"));
-        }
-        
-        BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxPartyPeriod());
-        return (max.compareTo(BigDecimal.ZERO) > 0 && period.compareTo(max) > 0) ? max : period;
-    }
-    
-    // 最终的二级单位学时
     public BigDecimal getUnitPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r) {
         
         BigDecimal period = null;
@@ -397,9 +276,7 @@ public class CetAnnualObjService extends CetBaseMapper {
         } else {
             period = NumberUtils.trimToZero(r.get("unitPeriod"));
         }
-        
-        BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxUnitPeriod());
-        return (max.compareTo(BigDecimal.ZERO) > 0 && period.compareTo(max) > 0) ? max : period;
+        return period;
     }
     
     // 最终的上级调训学时
@@ -411,31 +288,42 @@ public class CetAnnualObjService extends CetBaseMapper {
         } else {
             period = NumberUtils.trimToZero(r.get("upperPeriod"));
         }
-        
-        BigDecimal max = NumberUtils.trimToZero(cetAnnualObj.getMaxUpperPeriod());
-        return (max.compareTo(BigDecimal.ZERO) > 0 && period.compareTo(max) > 0) ? max : period;
+        return period;
     }
     
-    // 最终的已完成学时
+    // 最终的已完成学时（线下+网络）
     public BigDecimal getFinishPeriod(CetAnnualObj cetAnnualObj, Map<String, BigDecimal> r) {
         
         BigDecimal finishPeriod = BigDecimal.ZERO;
         
         finishPeriod = finishPeriod.add(getSpecialPeriod(cetAnnualObj, r));
         finishPeriod = finishPeriod.add(getDailyPeriod(cetAnnualObj, r));
-        finishPeriod = finishPeriod.add(getPartyPeriod(cetAnnualObj, r));
         finishPeriod = finishPeriod.add(getUnitPeriod(cetAnnualObj, r));
         finishPeriod = finishPeriod.add(getUpperPeriod(cetAnnualObj, r));
         
         return finishPeriod;
     }
+    // 最终的已完成学时（网络）
+    public BigDecimal getFinishPeriodOnline(CetAnnualObj cetAnnualObj) {
+
+        if (BooleanUtils.isTrue(cetAnnualObj.getHasArchived())) {
+            return cetAnnualObj.getFinishPeriodOnline();
+        }else{
+            return getDbFinishPeriodOnline(cetAnnualObj.getUserId(), cetAnnualObj.getYear());
+        }
+    }
     
-    // 最终的已完成学时
+    // 最终的已完成学时（线下+网络）
     public BigDecimal getFinishPeriod(int objId) {
         
         CetAnnualObj obj = cetAnnualObjMapper.selectByPrimaryKey(objId);
-        
         return getFinishPeriod(obj, obj.getR());
+    }
+    // 最终的已完成学时（网络）
+    public BigDecimal getFinishPeriodOnline(int objId) {
+
+        CetAnnualObj obj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+        return getFinishPeriodOnline(obj);
     }
     
     // 归档已完成学时
@@ -452,11 +340,14 @@ public class CetAnnualObjService extends CetBaseMapper {
     }
     
     public void archiveObjFinishPeriod(int objId) {
-        
+
+        BigDecimal finishPeriod = getFinishPeriod(objId);
+        BigDecimal finishPeriodOnline = getFinishPeriodOnline(objId);
         CetAnnualObj record = new CetAnnualObj();
         record.setId(objId);
-        record.setFinishPeriod(getFinishPeriod(objId));
-        
+        record.setFinishPeriodOffline(finishPeriod.subtract(finishPeriodOnline));
+        record.setFinishPeriodOnline(finishPeriodOnline);
+
         cetAnnualObjMapper.updateByPrimaryKeySelective(record);
     }
     

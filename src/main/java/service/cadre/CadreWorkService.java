@@ -119,6 +119,8 @@ public class CadreWorkService extends BaseMapper {
                 eduResume.setEndDate(cadreEdu.getFinishTime());
 
                 String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYYMM);
+                if(enrolTime==null) continue; // 忽略没有起始时间的学习经历
+
                 //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 

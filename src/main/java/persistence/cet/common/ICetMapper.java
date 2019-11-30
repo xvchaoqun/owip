@@ -38,10 +38,9 @@ public interface ICetMapper {
     public CetAnnualObj getCetAnnualObj(@Param("userId") Integer userId, @Param("year") Integer year);
 
     // 设定年度学习任务
-    @Update("update cet_annual_obj set period=#{r.period}, max_special_period=#{r.maxSpecialPeriod}, " +
-            "max_daily_period=#{r.maxDailyPeriod}, max_party_period=#{r.maxPartyPeriod}, " +
-            "max_unit_period=#{r.maxUnitPeriod}, max_upper_period=#{r.maxUpperPeriod} where id in(${ids})")
-    public void batchRequire(@Param("r") CetAnnualRequire cetAnnualRequire,
+    @Update("update cet_annual_obj set period_offline=#{periodOffline}, period_online=#{periodOnline} where id in(${ids})")
+    public void batchRequire(@Param("periodOffline") BigDecimal periodOffline,
+                             @Param("periodOnline") BigDecimal periodOnline,
                              @Param("ids") String ids);
 
     // 党校专题培训/日常培训完成学时数（统计 计入年度学习任务、未退出的记录 的总学时）
@@ -66,28 +65,31 @@ public interface ICetMapper {
     );
 
     // 上级调训完成学时数（统计 计入年度学习任务 的总学时，默认已结业）
-    @Select("select sum(period) from cet_upper_train where user_id=#{userId} and year=${year} and upper_type=1 and is_valid=1")
+    @Select("select sum(period) from cet_upper_train where user_id=#{userId} and year=${year} " +
+            "and upper_type=1 and is_deleted=0 and is_valid=1")
     public BigDecimal getUpperFinishPeriod(@Param("userId") Integer userId,
                                            @Param("year") Integer year);
 
+    // 上级调训年度统计
     @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
-    @Select("select cut.start_date, cut.end_date, cut.train_name as name, 5 as type, " +
+    @Select("select cut.start_date, cut.end_date, cut.train_name as name, 4 as type, " +
             "if(cut.organizer=0, cut.other_organizer, bmt.name) as organizer, cut.period, 1 as is_graduate " +
             "from cet_upper_train cut left join base_meta_type bmt on cut.organizer= bmt.id " +
-            "where cut.user_id=#{userId} and cut.year=${year} and cut.upper_type=1 and cut.is_valid=#{isValid}")
+            "where cut.user_id=#{userId} and cut.year=${year} and cut.upper_type=1 and cut.is_deleted=0 and cut.is_valid=#{isValid}")
     public List<TrainRecord> getUpperRecords(@Param("userId") Integer userId,
                                              @Param("year") Integer year,
                                              @Param("isValid") Boolean isValid  // 是否计入年度学习任务
     );
 
-    // 二级单位培训完成学时数
+    // 二级党委培训完成学时数
     @Select("select sum(cut.period) from cet_unit_train cut, cet_unit_project cup " +
             "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1")
     public BigDecimal getUnitFinishPeriod(@Param("userId") Integer userId,
                                           @Param("year") Integer year);
 
+    // 二级党委培训年度统计
     @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
-    @Select("select cup.start_date, cup.end_date, cup.project_name as name, 4 as type, u.name as organizer, cut.period, 1 as is_graduate " +
+    @Select("select cup.start_date, cup.end_date, cup.project_name as name, 3 as type, u.name as organizer, cut.period, 1 as is_graduate " +
             "from cet_unit_train cut, cet_unit_project cup left join unit u on u.id=cup.unit_id " +
             "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1")
     public List<TrainRecord> getUnitRecords(@Param("userId") Integer userId,
@@ -95,9 +97,17 @@ public interface ICetMapper {
                                             @Param("isValid") Boolean isValid  // 是否计入年度学习任务
     );
 
+    // 二级党委培训完成学时数（网络）
+    @Select("select sum(cut.period) from cet_unit_train cut, cet_unit_project cup " +
+            "LEFT JOIN base_meta_type tt ON tt.id=cup.project_type " +
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1 AND tt.bool_attr=1")
+    public BigDecimal getUnitFinishPeriodOnline(@Param("userId") Integer userId,
+                                          @Param("year") Integer year);
+
     // 上级培训单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
-    @Select("select distinct u.* from cet_upper_train_admin cuta, unit u where cuta.upper_type=#{upperType} and cuta.unit_id is not null and cuta.unit_id=u.id")
+    @Select("select distinct u.* from cet_upper_train_admin cuta, " +
+            "unit u where cuta.upper_type=#{upperType} and cuta.unit_id is not null and cuta.unit_id=u.id")
     public List<Unit> findUpperUnits(@Param("upperType") byte upperType);
 
     // 培训计划的参训人类型
@@ -253,9 +263,20 @@ public interface ICetMapper {
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
-    @Select("select sum(finish_period) from cet_trainee_view where plan_id=#{planId} and obj_id=#{objId}")
+    @Select("select sum(ctv.finish_period) from cet_trainee_view ctv" +
+            "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
+            "where cp.is_valid=1 and ctv.plan_id=#{planId} and ctv.obj_id=#{objId}")
     public BigDecimal getPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
+
+    // 获取培训对象在每年培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
+    @Select("select sum(finish_period) from cet_trainee_view ctv " +
+            "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
+            "LEFT JOIN cet_project_plan cpp ON ctv.plan_id=cpp.id " +
+            "WHERE cp.year=#{year} and cp.is_valid=1 and cpp.type=${type} and ctv.user_id=#{userId}")
+    public BigDecimal getYearPlanFinishPeriod(@Param("type") byte planType,
+                                          @Param("userId") int userId,
+                                          @Param("year") int year);
 
     @Select("select obj_id as objId, sum(finish_period) as period from cet_trainee_view where plan_id=#{planId} group by obj_id")
     public List<FinishPeriodBean> getPlanFinishPeriods(@Param("planId") int planId);
@@ -294,6 +315,19 @@ public interface ICetMapper {
             "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
     public BigDecimal getSpecialFinishPeriod(@Param("planId") int planId,
                                              @Param("objId") int objId);
+
+    // 获取培训对象在每年培训方案中的已完成学时（针对上级网上专题）
+    @Select("select sum(cci.period) from cet_plan_course_obj_result cpcor " +
+            "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
+            "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
+            "left join cet_project_obj cpo on cpo.id = cpco.obj_id " +
+            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
+            "LEFT JOIN cet_project_plan cpp ON cpc.plan_id=cpp.id " +
+            "LEFT JOIN cet_project cp ON cpp.project_id=cp.id " +
+            "where cp.year=#{year} and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId} and cpco.is_finished=1")
+    public BigDecimal getYearSpecialFinishPeriod(@Param("type") byte planType,
+                                             @Param("userId") int userId,
+                                             @Param("year") int year);
 
     @Select("select cpco.obj_id as objId, sum(cci.period) as period from cet_plan_course_obj_result cpcor " +
             "left join cet_course_item cci on cci.id=cpcor.course_item_id " +

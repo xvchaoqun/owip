@@ -129,7 +129,8 @@ public class CetProjectObjController extends CetBaseController {
                                    Integer planCourseId, // 培训方案选课页面时传入
                                    Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
                                    Integer userId,
-                                   BigDecimal finishPeriod,
+                                   BigDecimal finishPeriodStart,
+                                   BigDecimal finishPeriodEnd,
                                    Boolean hasChosen, // 是否选课 （线下、线上、实践）
                                    Boolean isCurrentGroup, // 是否本组 （分组讨论）
                                    Boolean isFinish, // 学习情况 （自主学习）、分组讨论（是否参会）
@@ -238,8 +239,11 @@ public class CetProjectObjController extends CetBaseController {
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (finishPeriod != null) {
-            criteria.andFinishPeriodLessThanOrEqualTo(finishPeriod);
+        if (finishPeriodStart != null) {
+            criteria.andFinishPeriodGreaterThanOrEqualTo(finishPeriodStart);
+        }
+        if (finishPeriodEnd != null) {
+            criteria.andFinishPeriodLessThanOrEqualTo(finishPeriodEnd);
         }
 
         List<CetProjectObj> records;
