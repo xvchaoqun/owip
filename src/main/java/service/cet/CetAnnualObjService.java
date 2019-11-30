@@ -175,16 +175,6 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         return resultMap;
     }
-    // 完成学习汇总
-    public BigDecimal getDbFinishPeriod(int userId, int year) {
-
-        BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 1));
-        BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 2));
-        BigDecimal unitFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUnitFinishPeriod(userId, year)); // 二级党委
-        BigDecimal upperFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUpperFinishPeriod(userId, year)); // 上级调训
-
-        return specialFinishPeriod.add(dailyFinishPeriod).add(unitFinishPeriod).add(upperFinishPeriod);
-    }
 
     // 网络培训完成学时数
     public BigDecimal getDbFinishPeriodOnline(int userId, int year){
@@ -347,10 +337,23 @@ public class CetAnnualObjService extends CetBaseMapper {
         CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         int userId = cetAnnualObj.getUserId();
         int year = cetAnnualObj.getYear();
-        BigDecimal finishPeriod = getDbFinishPeriod(userId, year);
+
+        BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 1));
+        BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 2));
+        BigDecimal unitFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUnitFinishPeriod(userId, year)); // 二级党委
+        BigDecimal upperFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUpperFinishPeriod(userId, year)); // 上级调训
+        // 总数
+        BigDecimal finishPeriod = specialFinishPeriod.add(dailyFinishPeriod).add(unitFinishPeriod).add(upperFinishPeriod);
+
         BigDecimal finishPeriodOnline = getDbFinishPeriodOnline(userId, year);
         CetAnnualObj record = new CetAnnualObj();
         record.setId(objId);
+
+        record.setSpecialPeriod(specialFinishPeriod);
+        record.setDailyPeriod(dailyFinishPeriod);
+        record.setUnitPeriod(unitFinishPeriod);
+        record.setUpperPeriod(upperFinishPeriod);
+
         record.setFinishPeriodOffline(finishPeriod.subtract(finishPeriodOnline));
         record.setFinishPeriodOnline(finishPeriodOnline);
         record.setHasArchived(true);

@@ -879,6 +879,13 @@ $(document).on("click", ".jqBatchBtn", function (e) {
     //title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
     //msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
     SysMsg.confirm(msg.format(ids.length), title, function () {
+
+        var $btn = $this.button('loading');
+        var text = $this.data("loading-text");
+        if($.trim(text)==''){
+            $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 操作中')
+        }
+
         $.post(url, {ids: ids}, function (ret) {
             if (ret.success) {
                 if (callback) {
@@ -888,6 +895,7 @@ $(document).on("click", ".jqBatchBtn", function (e) {
                     grid.trigger("reloadGrid");
                 }
             }
+            $btn.button('reset');
         });
     });
 });
