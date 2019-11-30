@@ -64,10 +64,9 @@
                 data-title="归档已完成学时"
                 data-msg="确定归档已完成学时？"
                 data-grid-id="#jqGrid2"
-                data-id-name="objId"
                  data-callback="_archive_callback"
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
-                class="jqItemBtn btn btn-warning btn-sm">
+                class="jqBatchBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
     </shiro:hasPermission>
@@ -331,17 +330,15 @@
 
     function getFinishPeriodOffline(rowObject){
 
-        var finish = Math.trimToZero(rowObject.finishPeriodOffline);
         if (!rowObject.hasArchived) {
-            //console.log(rowObject.r)
-            finish = 0;
-            finish += Math.trimToZero(rowObject.r.specialPeriod);
-            finish += Math.trimToZero(rowObject.r.dailyPeriod);
-            finish += Math.trimToZero(rowObject.r.unitPeriod);
-            finish += Math.trimToZero(rowObject.r.upperPeriod);
+            var finish = Math.trimToZero(rowObject.r.specialPeriod);
+             + Math.trimToZero(rowObject.r.dailyPeriod);
+             + Math.trimToZero(rowObject.r.unitPeriod);
+             + Math.trimToZero(rowObject.r.upperPeriod);
+            return finish - getFinishPeriodOnline(rowObject);
+        }else{
+            return Math.trimToZero(rowObject.finishPeriodOffline);
         }
-
-        return finish - getFinishPeriodOnline(rowObject);
     }
 
     function getFinishPeriodOnline(rowObject){

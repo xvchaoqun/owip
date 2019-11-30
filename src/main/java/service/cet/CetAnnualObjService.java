@@ -175,6 +175,16 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         return resultMap;
     }
+    // 完成学习汇总
+    public BigDecimal getDbFinishPeriod(int userId, int year) {
+
+        BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 1));
+        BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.getProjectFinishPeriod(userId, year, (byte) 2));
+        BigDecimal unitFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUnitFinishPeriod(userId, year)); // 二级党委
+        BigDecimal upperFinishPeriod = NumberUtils.trimToZero(iCetMapper.getUpperFinishPeriod(userId, year)); // 上级调训
+
+        return specialFinishPeriod.add(dailyFinishPeriod).add(unitFinishPeriod).add(upperFinishPeriod);
+    }
 
     // 网络培训完成学时数
     public BigDecimal getDbFinishPeriodOnline(int userId, int year){
@@ -313,19 +323,6 @@ public class CetAnnualObjService extends CetBaseMapper {
         }
     }
     
-    // 最终的已完成学时（线下+网络）
-    public BigDecimal getFinishPeriod(int objId) {
-        
-        CetAnnualObj obj = cetAnnualObjMapper.selectByPrimaryKey(objId);
-        return getFinishPeriod(obj, obj.getR());
-    }
-    // 最终的已完成学时（网络）
-    public BigDecimal getFinishPeriodOnline(int objId) {
-
-        CetAnnualObj obj = cetAnnualObjMapper.selectByPrimaryKey(objId);
-        return getFinishPeriodOnline(obj);
-    }
-    
     // 归档已完成学时
     public void archiveFinishPeriod(int annualId) {
         
@@ -339,14 +336,24 @@ public class CetAnnualObjService extends CetBaseMapper {
         }
     }
     
+    public void archiveObjFinishPeriod(Integer[] objIds) {
+
+        for (int objId : objIds) {
+            archiveObjFinishPeriod(objId);
+        }
+    }
     public void archiveObjFinishPeriod(int objId) {
 
-        BigDecimal finishPeriod = getFinishPeriod(objId);
-        BigDecimal finishPeriodOnline = getFinishPeriodOnline(objId);
+        CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
+        int userId = cetAnnualObj.getUserId();
+        int year = cetAnnualObj.getYear();
+        BigDecimal finishPeriod = getDbFinishPeriod(userId, year);
+        BigDecimal finishPeriodOnline = getDbFinishPeriodOnline(userId, year);
         CetAnnualObj record = new CetAnnualObj();
         record.setId(objId);
         record.setFinishPeriodOffline(finishPeriod.subtract(finishPeriodOnline));
         record.setFinishPeriodOnline(finishPeriodOnline);
+        record.setHasArchived(true);
 
         cetAnnualObjMapper.updateByPrimaryKeySelective(record);
     }

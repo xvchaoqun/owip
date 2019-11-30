@@ -263,13 +263,13 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_archiveObjFinishPeriod(int annualId,
-                                         int objId,
+                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                          //boolean isQuit,
                                          HttpServletRequest request) {
         
-        cetAnnualObjService.archiveObjFinishPeriod(objId);
+        cetAnnualObjService.archiveObjFinishPeriod(ids);
         
-        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, objId));
+        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, StringUtils.join(ids, ",")));
         
         return success(FormUtils.SUCCESS);
     }
