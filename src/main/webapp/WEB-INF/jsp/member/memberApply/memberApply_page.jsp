@@ -19,7 +19,6 @@
     <div class="col-xs-12">
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-au="${ctx}/memberApply_au"
                  data-url-page="${ctx}/memberApply"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId
@@ -85,13 +84,14 @@
                                             </li>
                                         </c:forEach>
                                     </ul>
-                                    <div class="tab-content no-padding-top no-padding-bottom">
-                                        <div id="home3" class="tab-pane in active">
+                                    <div class="tab-content no-padding-top no-padding-bottom" style="overflow-x: hidden">
+                                        <div class="tab-pane in active">
                                             <div class="tabbable" >
                                                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>">
-                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
-
+                                                        <a href="javascript:;" class="hashchange"
+                                                           data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}'>
+                                                            <i class="fa fa-graduation-cap"></i>学生
                                                             <c:if test="${stage==OW_APPLY_STAGE_INIT}">
                                                                 <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_STU}" var="_key1"/>
                                                                 <c:set value="${OW_APPLY_STAGE_PASS}_${OW_APPLY_TYPE_STU}" var="_key2"/>
@@ -111,7 +111,8 @@
                                                     </li>
 
                                                     <li class="<c:if test="${type==OW_APPLY_TYPE_TEACHER}">active</c:if>">
-                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_TEACHER}&stage=${stage}'>
+                                                            <i class="fa fa-user-secret"></i> 教职工
                                                             <c:set value="${stage}_${OW_APPLY_TYPE_TEACHER}" var="_key"/>
                                                             <c:if test="${stage==OW_APPLY_STAGE_INIT}">
                                                                 <c:set value="${OW_APPLY_STAGE_INIT}_${OW_APPLY_TYPE_TEACHER}" var="_key1"/>
@@ -130,16 +131,18 @@
                                                             </c:if>
                                                         </a>
                                                     </li>
-                                                    <div class="buttons pull-right" style="margin-right: 15px">
+                                                    <div class="buttons" style="left: 255px;position: absolute">
+                                                        <c:if test="${stage>=OW_APPLY_STAGE_INIT&&stage<OW_APPLY_STAGE_GROW}">
                                                         <a href="javascript:;" class="openView btn btn-info btn-sm"
-                                                        data-url="${ctx}/memberApply_au">
-                                                            <i class="fa fa-plus"></i> 添加入党申请</a>
-                                                        <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">
+                                                        data-url="${ctx}/memberApply_au?stage=${param.stage}&op=add">
+                                                            <i class="fa fa-plus"></i> 添加</a>
+                                                        <shiro:hasPermission name="memberApply:import">
                                                             <a class="popupBtn btn btn-primary btn-sm tooltip-primary"
                                                                data-url="${ctx}/memberApply_import"
                                                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                                                 批量导入</a>
                                                         </shiro:hasPermission>
+                                                        </c:if>
                                                     </div>
                                                 </ul>
 
@@ -148,9 +151,10 @@
                                                         <div class="jqgrid-vertical-offset buttons">
                                                             <c:if test="${stage>OW_APPLY_STAGE_OUT }">
                                                             <button class="jqEditBtn btn btn-primary btn-sm"
+                                                                    data-url="${ctx}/memberApply_au"
                                                                     data-open-by="page"
                                                                     data-id-name="userId"
-                                                                    data-querystr="&stage=${param.stage}">
+                                                                    data-querystr="&stage=${param.stage}&op=update">
                                                                 <i class="fa fa-edit"></i> 修改信息
                                                             </button>
                                                             </c:if>
@@ -482,7 +486,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
-                                                        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="10" data-width-reduce="180"></table>
+                                                        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="20" data-width-reduce="180"></table>
                                                         <div id="jqGridPager"></div>
                                                     </div></div></div>
                                         </div>
@@ -501,7 +505,7 @@
         </div>
     </div>
 </div>
-
+<div class="footer-margin lower"/>
 <style>
    ul#stages>li{
        min-width:170px;

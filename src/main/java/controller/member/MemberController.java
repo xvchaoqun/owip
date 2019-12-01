@@ -153,7 +153,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions("member:import")
     @RequestMapping("/member_import")
     public String member_import(boolean inSchool,
                                 ModelMap modelMap) {
@@ -163,7 +163,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 导入校内账号的党员信息
-    @RequiresPermissions(SystemConstants.PERMISSION_PARTYVIEWALL)
+    @RequiresPermissions("member:import")
     @RequestMapping(value = "/member_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_import(boolean inSchool, HttpServletRequest request) throws InvalidFormatException, IOException {
@@ -260,6 +260,12 @@ public class MemberController extends MemberBaseController {
                     throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
                 }
                 record.setBranchId(branch.getId());
+            }
+
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
             String _politicalStatus = StringUtils.trimToNull(xlsRow.get(6));
@@ -440,6 +446,12 @@ public class MemberController extends MemberBaseController {
                     throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
                 }
                 record.setBranchId(branch.getId());
+            }
+
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
             col++;

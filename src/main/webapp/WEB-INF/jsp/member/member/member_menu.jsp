@@ -35,12 +35,10 @@
       <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
         <i class="fa fa-plus"></i> 添加党员</a>
     </shiro:hasPermission>
-    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
     <a class="popupBtn btn btn-danger btn-sm"
        data-rel="tooltip" data-placement="bottom" title="可查询所有教职工和学生的组织关系状态"
             data-url="${ctx}/member/search"><i class="fa fa-search"></i> 全校组织关系查询</a>
-    </shiro:hasAnyRoles>
-    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+    <shiro:hasPermission name="member:import">
       <div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
             <i class="fa fa-upload"></i> 批量导入  <span class="caret"></span>
@@ -58,7 +56,7 @@
             </li>
         </ul>
     </div>
-    </shiro:hasAnyRoles>
+    </shiro:hasPermission>
   </div>
   </li>
 </ul>

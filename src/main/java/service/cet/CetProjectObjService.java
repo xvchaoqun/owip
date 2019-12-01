@@ -576,20 +576,19 @@ public class CetProjectObjService extends CetBaseMapper {
             BigDecimal finishPeriod = entry.getValue();
 
             if (planId == 0) {
-
+                // 总学时同时保存进入培训对象
                 CetProjectObj record = new CetProjectObj();
                 record.setId(objId);
                 record.setFinishPeriod(finishPeriod);
-
                 cetProjectObjMapper.updateByPrimaryKeySelective(record);
-            } else {
-                CetProjectObjPlan record = new CetProjectObjPlan();
-                record.setPlanId(planId);
-                record.setObjId(objId);
-                record.setFinishPeriod(finishPeriod);
-
-                cetProjectObjPlanMapper.insertSelective(record);
             }
+
+            CetProjectObjPlan record = new CetProjectObjPlan();
+            record.setPlanId(planId);
+            record.setObjId(objId);
+            record.setFinishPeriod(finishPeriod);
+
+            cetProjectObjPlanMapper.insertSelective(record);
         }
     }
 

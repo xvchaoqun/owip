@@ -167,9 +167,9 @@ public class CetAnnualController extends CetBaseController {
     // 导出学时情况统计表
     @RequiresPermissions("cetAnnual:list")
     @RequestMapping("/cetAnnual_exportObjs")
-    public void cetAnnual_exportObjs(int id, HttpServletResponse response) throws IOException {
+    public void cetAnnual_exportObjs(int annualId, @RequestParam(value = "ids[]") Integer[] ids, HttpServletResponse response) throws IOException {
     
-        cetExportService.cetAnnual_exportObjs(id, response);
+        cetExportService.cetAnnual_exportObjs(annualId, ids, response);
         return;
     }
     

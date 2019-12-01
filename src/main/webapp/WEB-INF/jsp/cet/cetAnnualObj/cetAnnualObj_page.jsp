@@ -71,6 +71,12 @@
         </button>
     </shiro:hasPermission>
 
+        <button class="jqExportBtn btn btn-info btn-sm"
+                        data-grid-id="#jqGrid2"
+                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
+                data-url="${ctx}/cet/cetAnnual_exportObjs?annualId=${param.annualId}">
+            <i class="fa fa-download"></i> 导出学时情况统计表</button>
+
      <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
              data-url="${ctx}/cet/cetAnnualObj_data?annualId=${param.annualId}"
              data-grid-id="#jqGrid2"

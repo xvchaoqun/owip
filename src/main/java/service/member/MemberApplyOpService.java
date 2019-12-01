@@ -288,79 +288,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
         }
     }
 
-    // 列入发展计划：提交 领取志愿书
-    /*@Transactional
-    public void apply_draw(int[] userIds, String _drawTime, int loginUserId){
-
-        for (int userId : userIds) {
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
-            MemberApply memberApply = verifyAuth.entity;
-            boolean partyAdmin = verifyAuth.isPartyAdmin;
-            boolean directParty = verifyAuth.isDirectBranch;
-
-            Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
-            if(drawTime.before(memberApply.getPlanTime())){
-                throw new OpException("领取志愿书时间应该在列入发展计划之后");
-            }
-
-            MemberApply record = new MemberApply();
-            if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-                record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
-                record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
-            }else {
-                record.setDrawStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
-            }
-            record.setDrawTime(drawTime);
-
-            MemberApplyExample example = new MemberApplyExample();
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN);
-
-            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-                applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_DRAW),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
-            }
-        }
-    }*/
-
-    // 列入发展计划：审核 领取志愿书
-    /*@Transactional
-    public void apply_draw_check(int[] userIds, int loginUserId){
-
-        for (int userId : userIds) {
-
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-            MemberApply memberApply = verifyAuth.entity;
-
-            MemberApply record = new MemberApply();
-            record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
-            record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
-
-            MemberApplyExample example = new MemberApplyExample();
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN)
-                    .andDrawStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
-
-            if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-                applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_DRAW),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "领取志愿书，已审核");
-            }
-        }
-    }*/
-
     // 分党委直接提交，不需要审核 -- 20160608 修改by 邹老师
     // 列入发展计划：提交 领取志愿书
     @Transactional
@@ -398,58 +325,6 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
         }
     }
-
-
-
-    /*// 领取志愿书：审核 预备党员  【领取志愿书是需要组织部审批的，这样我们能够控制他们领取志愿书的人和数量的对应】
-    @Transactional
-    public void apply_grow_check(Integer[] userIds, int loginUserId){
-
-        for (int userId : userIds) {
-
-            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
-            MemberApply memberApply = verifyAuth.entity;
-
-            if(memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW
-                    || memberApply.getGrowStatus()==null
-                    || memberApply.getGrowStatus()!= OwConstants.OW_APPLY_STATUS_UNCHECKED){
-                throw new OpException("还没有提交发展时间。");
-            }
-
-            //boolean isParty = verifyAuth.isParty;
-            boolean partyAdmin = verifyAuth.isPartyAdmin;
-            boolean directParty = verifyAuth.isDirectBranch;
-
-            MemberApply record = new MemberApply();
-            record.setGrowStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
-
-            MemberApplyExample example = new MemberApplyExample();
-            example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
-                    .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
-
-            *//*if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
-                memberApplyService.applyGrowCheckByParty(userId, record, example);
-                applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，分党委审核");
-            }else *//*if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
-
-                applyApprovalLogService.add(userId,
-                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "预备党员，分党委审核");
-            }
-        }
-    }*/
 
     // 领取志愿书：组织部管理员审核
     @Transactional
@@ -538,10 +413,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(_memberApply.getDrawTime()==null){
-                throw new OpException("{0}领取志愿书时间为空", realname);
-            }
-            if(growTime.before(_memberApply.getDrawTime())){
+            if(_memberApply.getDrawTime()!=null && growTime.before(_memberApply.getDrawTime())){
                 throw new OpException("{0}发展时间应该在领取志愿书之后", realname);
             }
 
@@ -849,7 +721,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                 OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                "提交入党申请（管理员）");
+                "重新提交入党申请（管理员）");
         }
     }
 

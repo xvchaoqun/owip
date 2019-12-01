@@ -25,9 +25,10 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>
 
-                <button class="jqExportItemBtn btn btn-info btn-sm"
+                <%--<button class="jqExportItemBtn btn btn-info btn-sm"
+                        data-id-name="annualId"
                 data-url="${ctx}/cet/cetAnnual_exportObjs">
-            <i class="fa fa-download"></i> 导出学时情况统计表</button>
+            <i class="fa fa-download"></i> 导出学时情况统计表</button>--%>
 
                  <button data-url="${ctx}/cet/archiveFinishPeriod"
                         data-title="归档已完成学时"

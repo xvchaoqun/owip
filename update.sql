@@ -1,4 +1,22 @@
 
+20191201
+
+UPDATE sys_resource SET permission='memberApply:admin' WHERE permission='memberApply:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (912, 0, '批量导入发展党员', '', 'function', '', NULL, 211, '0/1/105/211/', 1, 'memberApply:import', NULL, NULL, NULL, 1, NULL);
+-- 重新分配党员发展管理模块的权限（党建、分党委、支部）
+-- 删除 MemberApplyLaoutController
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+                            `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (913, 0, '批量导入党员信息', '', 'function', '', NULL, 107, '0/1/105/107/', 1,
+                                    'member:import', NULL, NULL, NULL, 1, NULL);
+-- 重新分配党员信息管理模块的导入权限（党建、分党委、支部）
+
 20191130
 
 -- 删除 RetireApplyController

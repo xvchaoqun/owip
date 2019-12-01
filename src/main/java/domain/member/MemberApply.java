@@ -1,8 +1,10 @@
 package domain.member;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,6 +24,7 @@ public class MemberApply implements Serializable {
 
     private Byte type;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date applyTime;
 
     private Date fillTime;
@@ -34,28 +37,36 @@ public class MemberApply implements Serializable {
 
     private Date passTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date activeTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date activeTrainStartTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date activeTrainEndTime;
 
     private String activeGrade;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date candidateTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date candidateTrainStartTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date candidateTrainEndTime;
 
     private String candidateGrade;
 
     private Byte candidateStatus;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date planTime;
 
     private Byte planStatus;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date drawTime;
 
     private Byte drawStatus;
@@ -66,12 +77,14 @@ public class MemberApply implements Serializable {
 
     private Integer growPublicId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date growTime;
 
     private Byte growStatus;
 
     private Integer positivePublicId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date positiveTime;
 
     private Byte positiveStatus;

@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -268,7 +269,7 @@ public class CetExportService extends CetBaseMapper {
     /**
      * xxxx干部年度培训学习情况统计表.xlsx
      */
-    public void cetAnnual_exportObjs(int annualId, HttpServletResponse response) throws IOException {
+    public void cetAnnual_exportObjs(int annualId, Integer[] objIds, HttpServletResponse response) throws IOException {
         
         //Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
@@ -299,6 +300,9 @@ public class CetExportService extends CetBaseMapper {
         CetAnnualObjExample.Criteria criteria = example.createCriteria()
                 .andAnnualIdEqualTo(annualId)
                 .andIsQuitEqualTo(false);
+        if(objIds!=null && objIds.length>0){
+            criteria.andIdIn(Arrays.asList(objIds));
+        }
         example.setOrderByClause("sort_order desc");
         
         List<CetAnnualObj> records = cetAnnualObjMapper.selectByExample(example);
@@ -316,15 +320,15 @@ public class CetExportService extends CetBaseMapper {
             // 序号
             cell = row.getCell(column++);
             cell.setCellValue(i + 1);
-            
-            // 姓名
-            cell = row.getCell(column++);
-            cell.setCellValue(uv.getRealname());
-            
+
             // 工号
             cell = row.getCell(column++);
             cell.setCellValue(uv.getCode());
-            
+
+            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(uv.getRealname());
+
             // 时任单位及职务
             cell = row.getCell(column++);
             cell.setCellValue(obj.getTitle());
