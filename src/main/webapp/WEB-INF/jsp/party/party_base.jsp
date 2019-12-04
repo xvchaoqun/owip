@@ -108,7 +108,7 @@ pageEncoding="UTF-8"%>
 					<th width="150">职务</th>
 					<th width="150">分工</th>
 					<th width="100">任职时间</th>
-					<th width="100">办公电话</th>
+					<th width="200">办公电话</th>
 					<th width="100">手机号</th>
 					<th></th>
 				</tr>

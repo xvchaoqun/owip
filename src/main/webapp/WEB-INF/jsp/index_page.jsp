@@ -8,11 +8,6 @@
         </h4>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
-                <c:if test="${_p_hasPartyModule}">
-                <li>
-                    <a href="javascript:;" data-url="${ctx}/sitemap_view">功能导航</a>
-                </li>
-                </c:if>
                 <li class="${to=='user_base'?'active':''}">
                     <a href="javascript:;" data-url="${ctx}/user_base">个人信息</a>
                 </li>

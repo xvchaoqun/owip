@@ -219,6 +219,7 @@
         </div>
     </div>
 
+    <c:if test="${_user.id==cadre.userId || cm:isPermitted('cadre:archive')}">
     <div class="widget-box transparent">
         <div class="widget-header widget-header-flat">
             <h4 class="widget-title lighter">
@@ -345,7 +346,7 @@
             </div>
         </div>
     </div>
-
+    </c:if>
     <div class="widget-box transparent">
         <div class="widget-header widget-header-flat">
             <h4 class="widget-title lighter">
@@ -367,6 +368,7 @@
         </div>
     </div>
 
+    <c:if test="${_user.id==cadre.userId || cm:isPermitted('cadre:archive')}">
     <div class="widget-box transparent">
         <div class="widget-header widget-header-flat">
             <h4 class="widget-title lighter">
@@ -478,6 +480,7 @@
             </div>
         </div>
     </div>
+    </c:if>
 </c:if>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <c:if test="${param.type==1}">

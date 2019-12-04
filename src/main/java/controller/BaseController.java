@@ -114,10 +114,6 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected CadreEvaService cadreEvaService;
     @Autowired
-    protected CadreUnderEduService cadreUnderEduService;
-    @Autowired
-    protected CadreTutorService cadreTutorService;
-    @Autowired
     protected CadreReportService cadreReportService;
     @Autowired
     protected CadreStatHistoryService cadreStatHistoryService;

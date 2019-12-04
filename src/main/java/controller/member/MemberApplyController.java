@@ -647,61 +647,57 @@ public class MemberApplyController extends MemberBaseController {
 
             String applyTime = DateUtils.formatDate(_memberApply.getApplyTime(), DateUtils.YYYY_MM_DD);
             String _applyTime = DateUtils.formatDate(record.getApplyTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_applyTime) && !StringUtils.equalsIgnoreCase(applyTime, _applyTime.trim())) {
+            if (!StringUtils.equalsIgnoreCase(applyTime, StringUtils.trimToNull(_applyTime))) {
                 _remark.append("提交书面申请书时间由" + applyTime + "修改为" + _applyTime + ";");
             }
 
             String activeTime = DateUtils.formatDate(_memberApply.getActiveTime(), DateUtils.YYYY_MM_DD);
             String _activeTime = DateUtils.formatDate(record.getActiveTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_activeTime) && !StringUtils.equalsIgnoreCase(activeTime, _activeTime.trim())) {
+            if (!StringUtils.equalsIgnoreCase(activeTime, StringUtils.trimToNull(_activeTime))) {
                 _remark.append("确定为入党积极分子时间由" + activeTime + "修改为" + _activeTime + ";");
             }
-            String activeTrainStartTime = DateUtils.formatDate(_memberApply.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
-            String _activeTrainStartTime = DateUtils.formatDate(record.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_activeTrainStartTime)
-                    && !StringUtils.equalsIgnoreCase(activeTrainStartTime, _activeTrainStartTime.trim())) {
+            String activeTrainStartTime = DateUtils.formatDate(_memberApply.getActiveTrainStartTime(), DateUtils.YYYY_MM_DD);
+            String _activeTrainStartTime = DateUtils.formatDate(record.getActiveTrainStartTime(), DateUtils.YYYY_MM_DD);
+            if (!StringUtils.equalsIgnoreCase(activeTrainStartTime, StringUtils.trimToNull(_activeTrainStartTime))) {
                 _remark.append("积极分子培训起始时间由" + activeTrainStartTime + "修改为" + _activeTrainStartTime + ";");
             }
 
-            String activeTrainEndTime = DateUtils.formatDate(_memberApply.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
-            String _activeTrainEndTime = DateUtils.formatDate(record.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_activeTrainEndTime)
-                    && !StringUtils.equalsIgnoreCase(activeTrainEndTime, _activeTrainEndTime.trim())) {
+            String activeTrainEndTime = DateUtils.formatDate(_memberApply.getActiveTrainEndTime(), DateUtils.YYYY_MM_DD);
+            String _activeTrainEndTime = DateUtils.formatDate(record.getActiveTrainEndTime(), DateUtils.YYYY_MM_DD);
+            if (!StringUtils.equalsIgnoreCase(activeTrainEndTime, StringUtils.trimToNull(_activeTrainEndTime))) {
                 _remark.append("积极分子培训结束时间由" + activeTrainEndTime + "修改为" + _activeTrainEndTime + ";");
             }
 
             String activeGrade = record.getActiveGrade();
-            if (StringUtils.isNotBlank(activeGrade)
-                    && !StringUtils.equalsIgnoreCase(activeGrade, _memberApply.getActiveGrade())) {
+            if (!StringUtils.equalsIgnoreCase(activeGrade, _memberApply.getActiveGrade())) {
                 record.setActiveGrade(activeGrade);
                 _remark.append("积极分子结业考试成绩由" + StringUtils.trimToEmpty(_memberApply.getActiveGrade()) + "修改为" + activeGrade + ";");
             }
 
             String candidateTime = DateUtils.formatDate(_memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD);
             String _candidateTime = DateUtils.formatDate(record.getCandidateTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
-                    && !StringUtils.equalsIgnoreCase(candidateTime, _candidateTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    && !StringUtils.equalsIgnoreCase(candidateTime, StringUtils.trimToNull(_candidateTime))) {
 
                 _remark.append("确定为发展对象时间由" + candidateTime + "修改为" + _candidateTime + ";");
             }
 
             String candidateTrainStartTime = DateUtils.formatDate(_memberApply.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
             String _candidateTrainStartTime = DateUtils.formatDate(record.getCandidateTrainStartTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_candidateTrainStartTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
-                    && !StringUtils.equalsIgnoreCase(candidateTrainStartTime, _candidateTrainStartTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    && !StringUtils.equalsIgnoreCase(candidateTrainStartTime, StringUtils.trimToNull(_candidateTrainStartTime))) {
                 _remark.append("发展对象培训起始时间由" + candidateTrainStartTime + "修改为" + _candidateTrainStartTime + ";");
             }
 
             String candidateTrainEndTime = DateUtils.formatDate(_memberApply.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
             String _candidateTrainEndTime = DateUtils.formatDate(record.getCandidateTrainEndTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_candidateTrainEndTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
-                    && !StringUtils.equalsIgnoreCase(candidateTrainEndTime, _candidateTrainEndTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    && !StringUtils.equalsIgnoreCase(candidateTrainEndTime, StringUtils.trimToNull(_candidateTrainEndTime))) {
                 _remark.append("发展对象培训结束时间由" + candidateTrainEndTime + "修改为" + _candidateTrainEndTime + ";");
             }
 
             String candidateGrade = record.getCandidateGrade();
-            if (StringUtils.isNotBlank(candidateGrade)
-                    && !StringUtils.equalsIgnoreCase(candidateGrade, _memberApply.getCandidateGrade())) {
+            if (!StringUtils.equalsIgnoreCase(candidateGrade, _memberApply.getCandidateGrade())) {
 
                 record.setCandidateGrade(candidateGrade);
                 _remark.append("发展对象结业考试成绩由" + StringUtils.trimToEmpty(_memberApply.getCandidateGrade()) + "修改为" + candidateGrade + ";");
@@ -709,48 +705,50 @@ public class MemberApplyController extends MemberBaseController {
 
             String planTime = DateUtils.formatDate(_memberApply.getPlanTime(), DateUtils.YYYY_MM_DD);
             String _planTime = DateUtils.formatDate(record.getPlanTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_planTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_PLAN
-                    && !StringUtils.equalsIgnoreCase(planTime, _planTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_PLAN
+                    && !StringUtils.equalsIgnoreCase(planTime, StringUtils.trimToNull(_planTime))) {
                 _remark.append("列入发展计划时间由" + planTime + "修改为" + _planTime + ";");
             }
 
             String drawTime = DateUtils.formatDate(_memberApply.getDrawTime(), DateUtils.YYYY_MM_DD);
             String _drawTime = DateUtils.formatDate(record.getDrawTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_DRAW
-                    && !StringUtils.equalsIgnoreCase(drawTime, _drawTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_DRAW
+                    && !StringUtils.equalsIgnoreCase(drawTime, StringUtils.trimToNull(_drawTime))) {
                 _remark.append("领取志愿书时间由" + drawTime + "修改为" + _drawTime + ";");
             }
 
             String growTime = DateUtils.formatDate(_memberApply.getGrowTime(), DateUtils.YYYY_MM_DD);
             String _growTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_growTime) && _memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW
-                    && !StringUtils.equalsIgnoreCase(growTime, _growTime.trim())) {
+            if (_memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW
+                    && !StringUtils.equalsIgnoreCase(growTime, StringUtils.trimToNull(_growTime))) {
                 _remark.append("入党时间由" + growTime + "修改为" + _growTime + ";");
 
             }
 
             String positiveTime = DateUtils.formatDate(_memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD);
             String _positiveTime = DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getStage() == OwConstants.OW_APPLY_STAGE_POSITIVE
-                    && !StringUtils.equalsIgnoreCase(positiveTime, _positiveTime.trim())) {
+            if (_memberApply.getStage() == OwConstants.OW_APPLY_STAGE_POSITIVE
+                    && !StringUtils.equalsIgnoreCase(positiveTime, StringUtils.trimToNull(_positiveTime))) {
                 _remark.append("转正时间由" + positiveTime + "修改为" + _positiveTime + ";");
             }
 
             checkMemberApplyData(record);
 
-            if (_remark.length() > 0) {
-                MemberApplyExample example = new MemberApplyExample();
-                example.createCriteria().andUserIdEqualTo(userId);
-                memberApplyService.updateByExampleSelective(userId, record, example);
-
-                applyApprovalLogService.add(userId,
-                        _memberApply.getPartyId(), _memberApply.getBranchId(), userId,
-                        loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
-
-                logger.info(addLog(LogConstants.LOG_MEMBER, "修改党员发展信息"));
+            if(StringUtils.isNotBlank(record.getRemark())){
+                _remark.append(record.getRemark());
             }
+
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId);
+            memberApplyService.updateByExampleSelective(userId, record, example);
+
+            applyApprovalLogService.add(userId,
+                    _memberApply.getPartyId(), _memberApply.getBranchId(), userId,
+                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
+
+            logger.info(addLog(LogConstants.LOG_MEMBER, "修改党员发展信息"));
         }
 
         return success(FormUtils.SUCCESS);

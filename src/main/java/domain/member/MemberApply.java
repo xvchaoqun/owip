@@ -24,7 +24,7 @@ public class MemberApply implements Serializable {
 
     private Byte type;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date applyTime;
 
     private Date fillTime;
@@ -37,36 +37,36 @@ public class MemberApply implements Serializable {
 
     private Date passTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date activeTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date activeTrainStartTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date activeTrainEndTime;
 
     private String activeGrade;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date candidateTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date candidateTrainStartTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date candidateTrainEndTime;
 
     private String candidateGrade;
 
     private Byte candidateStatus;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date planTime;
 
     private Byte planStatus;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date drawTime;
 
     private Byte drawStatus;
@@ -77,14 +77,14 @@ public class MemberApply implements Serializable {
 
     private Integer growPublicId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date growTime;
 
     private Byte growStatus;
 
     private Integer positivePublicId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date positiveTime;
 
     private Byte positiveStatus;

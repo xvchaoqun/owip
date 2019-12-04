@@ -59,8 +59,8 @@
                     <div class="col-sm-3">
                         <div class="input-group" style="width: 150px">
                             <input required class="form-control date-picker" name="applyTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}  "/>
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -72,8 +72,8 @@
                     <div class="col-xs-3">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" name="activeTime" type="text"
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}"/>
+                                   data-date-format="yyyy.mm.dd"
+                                   value="${cm:formatDate(memberApply.activeTime,'yyyy.MM.dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
@@ -85,15 +85,15 @@
                         <div class="col-xs-5">
                             <div class="input-group" style="width: 150px">
                                 <input class="form-control date-picker" name="activeTrainStartTime" type="text"
-                                       data-date-format="yyyy-mm-dd"
-                                       value="${cm:formatDate(memberApply.activeTrainStartTime,'yyyy-MM-dd')}"/>
+                                       data-date-format="yyyy.mm.dd"
+                                       value="${cm:formatDate(memberApply.activeTrainStartTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                             至
                             <div class="input-group" style="width: 150px">
                                 <input class="form-control date-picker" name="activeTrainEndTime" type="text"
-                                       data-date-format="yyyy-mm-dd"
-                                       value="${cm:formatDate(memberApply.activeTrainEndTime,'yyyy-MM-dd')}"/>
+                                       data-date-format="yyyy.mm.dd"
+                                       value="${cm:formatDate(memberApply.activeTrainEndTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
@@ -115,8 +115,8 @@
                         <div class="col-xs-3">
                             <div class="input-group" style="width: 150px">
                                 <input class="form-control date-picker" name="candidateTime" type="text"
-                                       data-date-format="yyyy-mm-dd"
-                                       value="${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}"/>
+                                       data-date-format="yyyy.mm.dd"
+                                       value="${cm:formatDate(memberApply.candidateTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
@@ -127,16 +127,16 @@
                         <div class="col-xs-5">
                             <div class="input-group" style="width: 150px">
                                 <input class="form-control date-picker" name="candidateTrainStartTime" type="text"
-                                       data-date-format="yyyy-mm-dd"
-                                       value="${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy-MM-dd')}"/>
+                                       data-date-format="yyyy.mm.dd"
+                                       value="${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                             <c:if test="${_pMap['memberApply_needCandidateTrain']=='true'}">
                                 至
                                 <div class="input-group" style="width: 150px">
                                     <input class="form-control date-picker" name="candidateTrainEndTime" type="text"
-                                           data-date-format="yyyy-mm-dd"
-                                           value="${cm:formatDate(memberApply.candidateTrainEndTime,'yyyy-MM-dd')}"/>
+                                           data-date-format="yyyy.mm.dd"
+                                           value="${cm:formatDate(memberApply.candidateTrainEndTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </c:if>
@@ -158,8 +158,8 @@
                             <div class="col-xs-3">
                                 <div class="input-group" style="width: 150px">
                                     <input class="form-control date-picker" name="planTime" type="text"
-                                           data-date-format="yyyy-mm-dd"
-                                           value="${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}"/>
+                                           data-date-format="yyyy.mm.dd"
+                                           value="${cm:formatDate(memberApply.planTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -171,8 +171,8 @@
                                 <div class="col-xs-3">
                                     <div class="input-group" style="width: 150px">
                                         <input class="form-control date-picker" name="drawTime" type="text"
-                                               data-date-format="yyyy-mm-dd"
-                                               value="${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}"/>
+                                               data-date-format="yyyy.mm.dd"
+                                               value="${cm:formatDate(memberApply.drawTime,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i
                                                 class="fa fa-calendar bigger-110"></i></span>
                                     </div>
@@ -185,8 +185,8 @@
                                     <div class="col-xs-3">
                                         <div class="input-group" style="width: 150px">
                                             <input class="form-control date-picker" name="growTime" type="text"
-                                                   data-date-format="yyyy-mm-dd"
-                                                   value="${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}"/>
+                                                   data-date-format="yyyy.mm.dd"
+                                                   value="${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                                         </div>
@@ -199,8 +199,8 @@
                                         <div class="col-xs-3">
                                             <div class="input-group" style="width: 150px">
                                                 <input class="form-control date-picker" name="positiveTime" type="text"
-                                                       data-date-format="yyyy-mm-dd"
-                                                       value="${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}"/>
+                                                       data-date-format="yyyy.mm.dd"
+                                                       value="${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}"/>
                                                 <span class="input-group-addon"> <i
                                                         class="fa fa-calendar bigger-110"></i></span>
                                             </div>
@@ -222,10 +222,9 @@
         </div>
     </form>
     <div class="clearfix form-actions center">
-        <button class="btn btn-info" type="button" id="submitBtn">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            提交
-        </button>
+        <button id="submitBtn"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
         &nbsp; &nbsp; &nbsp;
         <button class="hideView btn" type="button">
             <i class="ace-icon fa fa-reply bigger-110"></i>
@@ -244,32 +243,14 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
-
-            if (!$("#party").is(":hidden")) {
-                if ($('#modalForm select[name=partyId]').val() == '') {
-                    SysMsg.success("请选择${_p_partyName}。");
-                    return;
-                }
-            }
-            if (!$("#branch").is(":hidden")) {
-                if (!($('#modalForm select[name=branchId]').val() > 0)) {
-                    SysMsg.success("请选择支部。");
-                    return;
-                }
-            }
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        <c:if test="${empty memberApply}">
-                        //SysMsg.success("添加成功。",'提示',function(){
-                        $.hashchange();
-                        //});
-                        </c:if>
-                        <c:if test="${not empty memberApply}">
                         $("#jqGrid").trigger("reloadGrid");
-                        </c:if>
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

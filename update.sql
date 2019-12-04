@@ -1,5 +1,14 @@
 
+
+更新 jx.utils.jar
+
+删除 CadreUnderEdu 相关类
+删除 cadreTutor 相关类
+
 20191201
+北邮，南航
+
+-- CetAnnualRequire 相关类都删除
 
 UPDATE sys_resource SET permission='memberApply:admin' WHERE permission='memberApply:*';
 
@@ -49,7 +58,7 @@ DROP TABLE `cet_annual_require`;
 
 20191122
 
-删除ExportController
+-- 删除ExportController
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('memberOutNeedOwCheck', '组织关系转出需要组织部审批', 'false', 3, 48, '');

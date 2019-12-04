@@ -62,7 +62,6 @@ public class CadreFamilyController extends BaseController {
             modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
 
-        modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
         return "cadre/cadreFamily/cadreFamily_page";
     }
 

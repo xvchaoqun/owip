@@ -247,7 +247,7 @@ public class CadreAdminLevelController extends BaseController {
             }
             int cadreId = cv.getId();
 
-            System.out.println("StringUtils.trimToNull(xlsRow.get(2) = " + StringUtils.trimToNull(xlsRow.get(2)));
+            //System.out.println("StringUtils.trimToNull(xlsRow.get(2) = " + StringUtils.trimToNull(xlsRow.get(2)));
             Date viceStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(2)));
             Date mainStartDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(3)));
             Date viceEndDate = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(4)));

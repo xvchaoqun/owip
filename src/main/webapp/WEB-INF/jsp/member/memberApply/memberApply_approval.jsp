@@ -67,7 +67,7 @@
                                 <div class="profile-info-name"> 提交申请书时间 </div>
 
                                 <div class="profile-info-value">
-                                    <span class="editable" id="age">${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}</span>
+                                    <span class="editable" id="age">${cm:formatDate(memberApply.applyTime,'yyyy.MM.dd')}</span>
                                 </div>
                             </div>
 
@@ -103,7 +103,7 @@
                                     <span class="step">0</span>
         <span class="title">申请已提交</span>
       <span class="subtitle">
-          ${cm:formatDate(memberApply.createTime,'yyyy-MM-dd')}
+          ${cm:formatDate(memberApply.createTime,'yyyy.MM.dd')}
       </span>
                                 </li>
                                 <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
@@ -117,7 +117,7 @@
                                     <span class="step">1</span>
                                     <span class="title">申请已通过</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_INIT}"><span class="subtitle">
-                                            ${cm:formatDate(memberApply.passTime,'yyyy-MM-dd')}
+                                            ${cm:formatDate(memberApply.passTime,'yyyy.MM.dd')}
                                     </span></c:if>
                                 </li>
                                 </c:if>
@@ -125,7 +125,7 @@
                                     <span class="step">2</span>
                                     <span class="title">入党积极分子</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_PASS}"> <span class="subtitle">
-                                            ${cm:formatDate(memberApply.activeTime,'yyyy-MM-dd')}
+                                            ${cm:formatDate(memberApply.activeTime,'yyyy.MM.dd')}
                                     </span></c:if>
                                 </li>
 
@@ -133,10 +133,10 @@
                                     <span class="step">3</span>
                                     <span class="title">成为发展对象</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_ACTIVE}"> <span class="subtitle">
-                                            ${cm:formatDate(memberApply.candidateTime,'yyyy-MM-dd')}
+                                            ${cm:formatDate(memberApply.candidateTime,'yyyy.MM.dd')}
                                         <c:if test="${not empty memberApply.candidateTrainStartTime}">
-                                         <br/>（参加培训时间 ${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy-MM-dd')}
-                                            <c:if test="${not empty memberApply.candidateTrainEndTime}"> ~ ${cm:formatDate(memberApply.candidateTrainEndTime,'yyyy-MM-dd')}</c:if>）
+                                         <br/>（参加培训时间 ${cm:formatDate(memberApply.candidateTrainStartTime,'yyyy.MM.dd')}
+                                            <c:if test="${not empty memberApply.candidateTrainEndTime}"> ~ ${cm:formatDate(memberApply.candidateTrainEndTime,'yyyy.MM.dd')}</c:if>）
                                         </c:if>
                                     </span>
                                     </c:if>
@@ -146,14 +146,14 @@
                                     <span class="step">4</span>
                                     <span class="title">列入发展计划</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_CANDIDATE}"> <span class="subtitle">
-                                            ${cm:formatDate(memberApply.planTime,'yyyy-MM-dd')}
+                                            ${cm:formatDate(memberApply.planTime,'yyyy.MM.dd')}
                                     </span></c:if>
                                 </li>
                                 <li data-step="5" <c:if test="${memberApply.stage>OW_APPLY_STAGE_PLAN}">class="complete"</c:if>>
                                     <span class="step">5</span>
                                     <span class="title">领取志愿书</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_PLAN}"> <span class="subtitle">
-                                            ${cm:formatDate(memberApply.drawTime,'yyyy-MM-dd')}
+                                            ${cm:formatDate(memberApply.drawTime,'yyyy.MM.dd')}
                                         <c:if test="${not empty memberApply.applySn}">
                                             <br/>（${memberApply.applySn}）
                                         </c:if>
@@ -164,7 +164,7 @@
                                     <span class="title">预备党员</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_DRAW}">
         <span class="subtitle">
-                ${cm:formatDate(memberApply.growTime,'yyyy-MM-dd')}
+                ${cm:formatDate(memberApply.growTime,'yyyy.MM.dd')}
         </span>
                                     </c:if>
                                 </li>
@@ -174,7 +174,7 @@
                                     <span class="title">正式党员</span>
                                     <c:if test="${memberApply.stage>=OW_APPLY_STAGE_GROW}">
         <span class="subtitle">
-                ${cm:formatDate(memberApply.positiveTime,'yyyy-MM-dd')}
+                ${cm:formatDate(memberApply.positiveTime,'yyyy.MM.dd')}
         </span>
                                     </c:if>
                                 </li>

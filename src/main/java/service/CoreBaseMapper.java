@@ -180,12 +180,7 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected CadreEvaMapper cadreEvaMapper;
     @Autowired(required = false)
-    protected CadreUnderEduMapper cadreUnderEduMapper;
-    @Autowired(required = false)
-    protected CadreTutorMapper cadreTutorMapper;
-    @Autowired(required = false)
     protected CadreReportMapper cadreReportMapper;
-    
     @Autowired(required = false)
     protected LeaderMapper leaderMapper;
     @Autowired(required = false)
