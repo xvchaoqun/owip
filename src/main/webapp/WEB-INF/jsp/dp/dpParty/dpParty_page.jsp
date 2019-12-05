@@ -216,7 +216,7 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue >= 1 ? "是" : "否";}},
             {label: '党派简称', name: 'shortName', width: 180},
-            {label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
+            {label:'所在单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             {label: '民族党派类别', name: 'classId', width:300, formatter: $.jgrid.formatter.MetaType},
             {label: '联系电话', name: 'phone'},
             {label: '传真', name: 'fax'},

@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.year ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.year ||not empty param.projectName || not empty param.code || not empty param.sort}"/>
 
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
@@ -130,13 +130,15 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>年度</label>
-                            <input class="form-control search-query" name="year" type="text" value="${param.year}"
-                                   placeholder="请输入">
+                            <input class="form-control date-picker" placeholder="请选择年份"
+                                   name="year" type="text" style="width: 80px;"
+                                   data-date-format="yyyy" data-date-min-view-mode="2"
+                                   value="${param.year}"/>
                         </div>
                         <div class="form-group">
-                            <label>培训班主办方</label>
-                            <input class="form-control search-query" name="unitId" type="text" value="${param.unitId}"
-                                   placeholder="请输入培训班主办方">
+                            <label>培训项目名称</label>
+                            <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
+                                   placeholder="请输入">
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -163,6 +165,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    $.register.date($('.date-picker'));
     function _report(){
         $("#jqGrid").trigger("reloadGrid");
     }

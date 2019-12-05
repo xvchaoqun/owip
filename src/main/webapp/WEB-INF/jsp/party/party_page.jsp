@@ -96,7 +96,7 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="name" type="text" value="${param.name}"            placeholder="请输入名称">
                                     </div>
                                     <div class="form-group">
-                                        <label>所属单位</label>
+                                        <label>所在单位</label>
                                             <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${unitMap}" var="unit"> 
@@ -296,7 +296,7 @@ pageEncoding="UTF-8" %>
                 formatoptions: {newformat: 'Y.m.d'}
             },
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label:'所属单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
+            { label:'所在单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
             { label: '${_p_partyName}类别', name: 'classId', width: 90, align:'left', formatter: $.jgrid.formatter.MetaType},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
             { label: '所在单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},

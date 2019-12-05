@@ -24,10 +24,7 @@ import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +71,7 @@ public class CetUnitProjectController extends CetBaseController {
     public void cetUnitProject_data(HttpServletResponse response,
                                     Byte cls,
                                     Integer year,
-                                    Integer unitId,
+                                    String projectName,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
@@ -98,8 +95,11 @@ public class CetUnitProjectController extends CetBaseController {
         if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        if (unitId != null) {
+        /*if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
+        }*/
+        if(StringUtils.isNotBlank(projectName)){
+            criteria.andProjectNameLike(SqlUtils.like(projectName));
         }
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {

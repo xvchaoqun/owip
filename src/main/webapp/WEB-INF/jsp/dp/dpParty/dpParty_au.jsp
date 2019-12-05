@@ -27,10 +27,10 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
+			<label class="col-xs-3 control-label">所在单位</label>
 			<div class="col-xs-6">
 				<c:set var="unit" value="${cm:getUnitById(dpParty.unitId)}"/>
-				<select required data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+				<select data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
 						name="unitId" data-placeholder="请选择">
 					<option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
 				</select>

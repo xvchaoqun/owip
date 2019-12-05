@@ -34,7 +34,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("memberApply:list")
+    @RequiresPermissions("memberApply:admin")
     @RequestMapping("/memberApplyExport")
     public String memberApplyExport(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1")int cls,

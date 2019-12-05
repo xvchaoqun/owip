@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span>所在单位</label>
                     <div class="col-xs-8">
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
