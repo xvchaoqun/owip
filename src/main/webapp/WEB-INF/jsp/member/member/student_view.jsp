@@ -31,10 +31,12 @@
                             <a href="javascript:;" data-url="${ctx}/party/partyPunish?userId=${param.userId}&type=3">党内处分</a>
                         </li>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="memberInfoForm:list">
                         <li>
                             <a href="javascript:;"
                                data-url="${ctx}/memberInfoForm_page?userId=${param.userId}">党员信息采集表</a>
                         </li>
+                        </shiro:hasPermission>
                         <li>
                             <a href="javascript:;" data-url="${ctx}/memberOutflow_view?userId=${param.userId}">党员流出</a>
                         </li>
