@@ -3,8 +3,8 @@
 20191204
 北邮  --- 北师大
 
-更新 jx.utils.jar
-jodconverter 两个jar包
+-- 更新 jx.utils.jar
+-- jodconverter 两个jar包
 
 ALTER TABLE `ow_party` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
 ALTER TABLE `ow_member` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `profile`;
