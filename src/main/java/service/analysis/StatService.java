@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,11 +151,11 @@ public class StatService extends BaseMapper{
 
             for (StatIntBean other : others){
 
-                if (other.getGroupBy()==null){
+                if (other.getGroupBy()==null || other.getGroupBy()== SystemConstants.GENDER_UNKNOWN){
                     otherMap.put("无数据",other.getNum());
-                }else if (other.getGroupBy()==1){
+                }else if (other.getGroupBy()==SystemConstants.GENDER_MALE){
                     otherMap.put("男",other.getNum());
-                }else {
+                }else if (other.getGroupBy()==SystemConstants.GENDER_FEMALE){
                     otherMap.put("女",other.getNum());
                 }
             }

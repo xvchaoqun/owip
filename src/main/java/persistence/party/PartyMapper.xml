@@ -26,6 +26,7 @@
     <result column="is_bg" jdbcType="BIT" property="isBg" />
     <result column="bg_date" jdbcType="DATE" property="bgDate" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="integrity" jdbcType="DECIMAL" property="integrity" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -88,7 +89,7 @@
   <sql id="Base_Column_List">
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
     is_enterprise_nationalized, is_separate, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted
+    sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, is_deleted, integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">
     select
@@ -131,7 +132,7 @@
       fax, email, mailbox, 
       found_time, sort_order, create_time, 
       is_pycj, pycj_date, is_bg, bg_date, 
-      is_deleted)
+      is_deleted, integrity)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
       #{typeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, 
@@ -139,7 +140,7 @@
       #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
       #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, 
-      #{isDeleted,jdbcType=BIT})
+      #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Party">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -216,6 +217,9 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="integrity != null">
+        integrity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
@@ -286,6 +290,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="integrity != null">
+        #{integrity,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -370,6 +377,9 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.integrity != null">
+        integrity = #{record.integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -400,7 +410,8 @@
       pycj_date = #{record.pycjDate,jdbcType=DATE},
       is_bg = #{record.isBg,jdbcType=BIT},
       bg_date = #{record.bgDate,jdbcType=DATE},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      integrity = #{record.integrity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -477,6 +488,9 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="integrity != null">
+        integrity = #{integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -504,7 +518,8 @@
       pycj_date = #{pycjDate,jdbcType=DATE},
       is_bg = #{isBg,jdbcType=BIT},
       bg_date = #{bgDate,jdbcType=DATE},
-      is_deleted = #{isDeleted,jdbcType=BIT}
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      integrity = #{integrity,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">

@@ -24,6 +24,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="integrity" jdbcType="DECIMAL" property="integrity" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="member_count" jdbcType="BIGINT" property="memberCount" />
     <result column="positive_count" jdbcType="DECIMAL" property="positiveCount" />
@@ -70,9 +71,9 @@
     id, code, name, short_name, party_id, types, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
     email, found_time, transfer_count, sort_order, create_time, update_time, is_deleted, 
-    party_sort_order, member_count, positive_count, student_member_count, teacher_member_count, 
-    retire_member_count, group_count, present_group_id, appoint_time, tran_time, actual_tran_time, 
-    bg_count
+    integrity, party_sort_order, member_count, positive_count, student_member_count, 
+    teacher_member_count, retire_member_count, group_count, present_group_id, appoint_time, 
+    tran_time, actual_tran_time, bg_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchViewExample" resultMap="BaseResultMap">
     select

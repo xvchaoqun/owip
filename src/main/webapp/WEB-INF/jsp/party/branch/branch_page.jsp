@@ -252,6 +252,15 @@
             <c:if test="${cls==1 && !_query}">
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
+            {label: '信息完整度', name: '_integrity',frozen: true,formatter: function (cellvalue, options, rowObject) {
+
+                    if(Math.trimToZero(rowObject.integrity)==0)
+                        return '--'
+                    var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
+                    return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/branch_integrity_view" data-id-name="branchId">' +
+                        '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                        '<div class="progress-bar progress-bar-success" style="width:{0}"></div></div></a>').format(progress)
+                }},
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             }},

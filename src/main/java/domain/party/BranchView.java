@@ -49,6 +49,8 @@ public class BranchView implements Serializable {
 
     private Boolean isDeleted;
 
+    private BigDecimal integrity;
+
     private Integer partySortOrder;
 
     private Long memberCount;
@@ -249,6 +251,14 @@ public class BranchView implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 
     public Integer getPartySortOrder() {

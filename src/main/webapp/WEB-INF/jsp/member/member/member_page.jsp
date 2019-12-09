@@ -447,6 +447,15 @@
                 }, frozen: true
             },
             {label: '学工号', name: 'code', width: 120, frozen: true},
+            {label: '信息完整度', name: '_integrity',frozen: true,formatter: function (cellvalue, options, rowObject) {
+
+                    if(Math.trimToZero(rowObject.integrity)==0)
+                        return '--'
+                    var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
+                    return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/member_integrity_view" data-id-name="userId">' +
+                        '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                        '<div class="progress-bar progress-bar-success" style="width:{0}"></div></div></a>').format(progress)
+                }},
             {label: '性别', name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},

@@ -1,6 +1,7 @@
 package domain.party;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Branch implements Serializable {
@@ -45,6 +46,8 @@ public class Branch implements Serializable {
     private Date createTime;
 
     private Boolean isDeleted;
+
+    private BigDecimal integrity;
 
     private static final long serialVersionUID = 1L;
 
@@ -214,5 +217,13 @@ public class Branch implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 }

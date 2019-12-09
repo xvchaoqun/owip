@@ -237,6 +237,15 @@ pageEncoding="UTF-8" %>
             { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shiro:hasPermission>
+            {label: '信息完整度', name: '_integrity',frozen: true,formatter: function (cellvalue, options, rowObject) {
+
+                    if(Math.trimToZero(rowObject.integrity)==0)
+                        return '--'
+                    var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
+                    return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/party_integrity_view" data-id-name="partyId">' +
+                        '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                        '<div class="progress-bar progress-bar-success" style="width:{0}"></div></div></a>').format(progress)
+                }},
             { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
                     return 1;

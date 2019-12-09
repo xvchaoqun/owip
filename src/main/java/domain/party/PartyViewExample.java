@@ -3,6 +3,7 @@ package domain.party;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1712,6 +1713,66 @@ public class PartyViewExample {
 
         public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityIsNull() {
+            addCriterion("integrity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityIsNotNull() {
+            addCriterion("integrity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityEqualTo(BigDecimal value) {
+            addCriterion("integrity =", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityNotEqualTo(BigDecimal value) {
+            addCriterion("integrity <>", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityGreaterThan(BigDecimal value) {
+            addCriterion("integrity >", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("integrity >=", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityLessThan(BigDecimal value) {
+            addCriterion("integrity <", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("integrity <=", value, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityIn(List<BigDecimal> values) {
+            addCriterion("integrity in", values, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityNotIn(List<BigDecimal> values) {
+            addCriterion("integrity not in", values, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("integrity between", value1, value2, "integrity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegrityNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("integrity not between", value1, value2, "integrity");
             return (Criteria) this;
         }
 

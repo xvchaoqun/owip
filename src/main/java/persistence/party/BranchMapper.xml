@@ -23,6 +23,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="integrity" jdbcType="DECIMAL" property="integrity" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,7 +86,7 @@
   <sql id="Base_Column_List">
     id, code, name, short_name, party_id, types, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
-    email, found_time, transfer_count, sort_order, create_time, is_deleted
+    email, found_time, transfer_count, sort_order, create_time, is_deleted, integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchExample" resultMap="BaseResultMap">
     select
@@ -127,14 +128,16 @@
       is_enterprise_big, is_enterprise_nationalized, is_union, 
       phone, fax, email, 
       found_time, transfer_count, sort_order, 
-      create_time, is_deleted)
+      create_time, is_deleted, integrity
+      )
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
       #{partyId,jdbcType=INTEGER}, #{types,jdbcType=VARCHAR}, #{isStaff,jdbcType=BIT}, 
       #{isPrefessional,jdbcType=BIT}, #{isBaseTeam,jdbcType=BIT}, #{unitTypeId,jdbcType=INTEGER}, 
       #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, #{isUnion,jdbcType=BIT}, 
       #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{foundTime,jdbcType=DATE}, #{transferCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
+      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Branch">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -202,6 +205,9 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="integrity != null">
+        integrity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
@@ -263,6 +269,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="integrity != null">
+        #{integrity,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -338,6 +347,9 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.integrity != null">
+        integrity = #{record.integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -365,7 +377,8 @@
       transfer_count = #{record.transferCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      integrity = #{record.integrity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -433,6 +446,9 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="integrity != null">
+        integrity = #{integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -457,7 +473,8 @@
       transfer_count = #{transferCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      is_deleted = #{isDeleted,jdbcType=BIT}
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      integrity = #{integrity,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.party.BranchExample" resultMap="BaseResultMap">

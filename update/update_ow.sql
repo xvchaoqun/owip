@@ -1,3 +1,13 @@
+
+2019-12-03
+
+-- 更新视图 ow_party_view、ow_member_view;
+
+-- 添加字段 桑文帅
+ALTER TABLE `ow_party` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
+ALTER TABLE `ow_member` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `profile`;
+ALTER TABLE `ow_branch` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
+
 2019-09-24
 
 -- 添加资源 桑文帅

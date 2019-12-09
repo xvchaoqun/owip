@@ -495,4 +495,13 @@ public class PartyController extends BaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping("/party_integrity_view")
+    public String member_integrity_view(Integer partyId,ModelMap modelMap){
+
+        PartyView partyView = partyService.getPartyView(partyId);
+        modelMap.put("partyView",partyView);
+        return "party/party_integrity";
+    }
 }

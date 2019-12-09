@@ -1,3 +1,10 @@
+
+2019-12-09
+-- 添加定时任务 桑文帅
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党员信息完整度', '', 'job.member.updateIntegrityJob', '0 0 3 * * ?', 1, 1, 30, '2019-12-03 09:26:36');
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验二级基层党组织完整度', '', 'job.party.updateIntegrityJob', '0 20 3 * * ?', 1, 1, 31, '2019-12-03 11:20:29');
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党支部信息完整度', '', 'job.branch.updateIntegrityJob', '0 40 3 * * ?', 1, 1, 32, '2019-12-03 15:47:48');
+
 2019-11-29
 -- 建表语句 桑文帅
 

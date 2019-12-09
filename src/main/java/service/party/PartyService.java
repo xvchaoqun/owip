@@ -15,6 +15,7 @@ import service.base.MetaTypeService;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -247,5 +248,49 @@ public class PartyService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         changeOrder("ow_party", "is_deleted=0", ORDER_BY_DESC, id, addNum);
+    }
+
+    @Transactional
+    public void updateIntegrity(){
+
+        PartyViewExample partyViewExample = new PartyViewExample();
+        partyViewExample.createCriteria().andIsDeletedEqualTo(false);
+        List<PartyView> partyViews = partyViewMapper.selectByExample(partyViewExample);
+
+        for (PartyView partyView : partyViews){
+
+            if (partyView==null) continue;
+
+            Double a = 0.00; Double b = 0.00;
+            if (StringUtils.isNotBlank(partyView.getName())){a++;}//名称
+            b++;
+            if (partyView.getFoundTime()!=null){a++;}//成立时间
+            b++;
+            if (partyView.getUnitId()!=null){a++;}//所属单位
+            b++;
+            if (partyView.getClassId()!=null){a++;}//党总支类别
+            b++;
+            if (partyView.getTypeId()!=null){a++;}//组织类别
+            b++;
+            if (StringUtils.isNotBlank(partyView.getPhone())){a++;}//联系电话
+            b++;
+            if (partyView.getIsBg() && partyView.getBgDate()!=null){//标杆院系且评定时间不为空
+                a++;
+            }else if (!partyView.getIsBg()){a++;}//不是标杆院系
+            b++;
+            if (partyView.getAppointTime()!=null){a++;}//任命时间
+            b++;
+            if (partyView.getTranTime()!=null){a++;}//应换届时间
+            b++;
+
+            BigDecimal molecule = new BigDecimal(a);
+            BigDecimal denominator = new BigDecimal(b);
+
+            Party party = new Party();
+            party.setId(partyView.getId());
+            party.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+            partyMapper.updateByPrimaryKeySelective(party);
+        }
     }
 }

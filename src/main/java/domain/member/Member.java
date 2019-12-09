@@ -1,6 +1,7 @@
 package domain.member;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Member implements Serializable {
@@ -49,6 +50,8 @@ public class Member implements Serializable {
     private String label;
 
     private String profile;
+
+    private BigDecimal integrity;
 
     private static final long serialVersionUID = 1L;
 
@@ -234,5 +237,13 @@ public class Member implements Serializable {
 
     public void setProfile(String profile) {
         this.profile = profile == null ? null : profile.trim();
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 }

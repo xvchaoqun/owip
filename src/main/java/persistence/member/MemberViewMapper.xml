@@ -25,6 +25,7 @@
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
     <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="integrity" jdbcType="DECIMAL" property="integrity" />
     <result column="user_source" jdbcType="TINYINT" property="userSource" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -122,10 +123,10 @@
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
     positive_branch, create_time, update_time, party_post, party_reward, other_reward, 
-    label, user_source, code, realname, gender, nation, native_place, birth, idcard, 
-    mobile, email, unit, unit_id, out_status, out_handle_time, education, degree, degree_time, 
-    major, school, school_type, degree_school, authorized_type, staff_type, staff_status, 
-    on_job, main_post_level, post_class, post, post_level, pro_post, pro_post_level, 
+    label, integrity, user_source, code, realname, gender, nation, native_place, birth, 
+    idcard, mobile, email, unit, unit_id, out_status, out_handle_time, education, degree, 
+    degree_time, major, school, school_type, degree_school, authorized_type, staff_type, 
+    staff_status, on_job, main_post_level, post_class, post, post_level, pro_post, pro_post_level, 
     manage_level, office_level, title_level, marital_status, address, arrive_time, work_time, 
     from_type, talent_type, talent_title, is_retire, is_honor_retire, retire_time, is_high_level_talent, 
     delay_year, period, actual_graduate_time, expect_graduate_time, actual_enrol_time, 

@@ -25,6 +25,7 @@
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
+    <result column="integrity" jdbcType="DECIMAL" property="integrity" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,7 +88,8 @@
   <sql id="Base_Column_List">
     user_id, party_id, branch_id, political_status, type, status, source, add_type, transfer_time, 
     apply_time, active_time, candidate_time, sponsor, grow_time, grow_branch, positive_time, 
-    positive_branch, create_time, party_post, party_reward, other_reward, label, profile
+    positive_branch, create_time, party_post, party_reward, other_reward, label, profile, 
+    integrity
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">
     select
@@ -127,7 +129,8 @@
       sponsor, grow_time, grow_branch, 
       positive_time, positive_branch, create_time, 
       party_post, party_reward, other_reward, 
-      label, profile)
+      label, profile, integrity
+      )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{politicalStatus,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{source,jdbcType=TINYINT}, #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=DATE}, 
@@ -135,7 +138,8 @@
       #{sponsor,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{growBranch,jdbcType=VARCHAR}, 
       #{positiveTime,jdbcType=DATE}, #{positiveBranch,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{partyPost,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, 
-      #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR})
+      #{label,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{integrity,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.Member">
     insert into ow_member
@@ -209,6 +213,9 @@
       <if test="profile != null">
         profile,
       </if>
+      <if test="integrity != null">
+        integrity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -279,6 +286,9 @@
       </if>
       <if test="profile != null">
         #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="integrity != null">
+        #{integrity,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -360,6 +370,9 @@
       <if test="record.profile != null">
         profile = #{record.profile,jdbcType=VARCHAR},
       </if>
+      <if test="record.integrity != null">
+        integrity = #{record.integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -389,7 +402,8 @@
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
       other_reward = #{record.otherReward,jdbcType=VARCHAR},
       label = #{record.label,jdbcType=VARCHAR},
-      profile = #{record.profile,jdbcType=VARCHAR}
+      profile = #{record.profile,jdbcType=VARCHAR},
+      integrity = #{record.integrity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -463,6 +477,9 @@
       <if test="profile != null">
         profile = #{profile,jdbcType=VARCHAR},
       </if>
+      <if test="integrity != null">
+        integrity = #{integrity,jdbcType=DECIMAL},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -489,7 +506,8 @@
       party_reward = #{partyReward,jdbcType=VARCHAR},
       other_reward = #{otherReward,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},
-      profile = #{profile,jdbcType=VARCHAR}
+      profile = #{profile,jdbcType=VARCHAR},
+      integrity = #{integrity,jdbcType=DECIMAL}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberExample" resultMap="BaseResultMap">

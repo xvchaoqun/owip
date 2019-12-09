@@ -29,6 +29,7 @@ import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -480,5 +481,47 @@ public class MemberService extends MemberBaseMapper {
         sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
 
         addModify(userId, "更换学工号" + oldCode + "->" + newCode + "，" + remark);
+    }
+
+    //更新党员信息完整度
+    public void updateIntegrity(){
+
+        MemberViewExample example = new MemberViewExample();
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
+        List<MemberView> memberViews = memberViewMapper.selectByExample(example);
+
+        for (MemberView memberView : memberViews){
+
+            if (memberView==null) continue;
+
+            Double a = 0.00; Double b = 0.00;
+            if (memberView.getGender()!=null){a++;}//性别
+            b++;
+            if (memberView.getBirth()!=null){a++;}//出生日期
+            b++;
+            if (StringUtils.isNotBlank(memberView.getNation())){a++;}//民族
+            b++;
+            if (memberView.getPartyId()!=null){a++;}//二级单位党组织
+            b++;
+            if (memberView.getBranchId()!=null){a++;b++;}//党支部 直属党支部BranchId为空,不计入总数
+
+            if (memberView.getPoliticalStatus()!=null){a++;}//政治面貌
+            b++;
+            if (memberView.getGrowTime()!=null){a++;}//入党时间
+            b++;
+            if (memberView.getPoliticalStatus()!=MemberConstants.MEMBER_POLITICAL_STATUS_GROW){//党员状态
+                if (memberView.getPositiveTime()!=null){a++;}//转正时间
+                b++;
+            }
+
+            BigDecimal molecule = new BigDecimal(a);
+            BigDecimal denominator = new BigDecimal(b);
+
+            Member member = new Member();
+            member.setUserId(memberView.getUserId());
+            member.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
     }
 }

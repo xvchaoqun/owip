@@ -1391,4 +1391,13 @@ public class MemberController extends MemberBaseController {
         String fileName = (cls == 6 ? "已转出" : "") + "学生党员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }
+
+    @RequiresPermissions("member:list")
+    @RequestMapping("/member_integrity_view")
+    public String integrity(Integer userId,ModelMap modelMap){
+
+        MemberView memberView = iMemberMapper.getMemberView(userId);
+        modelMap.put("memberView",memberView);
+        return "member/member/member_integrity";
+    }
 }

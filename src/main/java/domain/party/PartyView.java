@@ -1,6 +1,7 @@
 package domain.party;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class PartyView implements Serializable {
@@ -53,6 +54,8 @@ public class PartyView implements Serializable {
     private Date updateTime;
 
     private Boolean isDeleted;
+
+    private BigDecimal integrity;
 
     private Integer branchCount;
 
@@ -276,6 +279,14 @@ public class PartyView implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 
     public Integer getBranchCount() {

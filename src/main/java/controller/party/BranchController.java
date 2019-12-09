@@ -574,4 +574,13 @@ public class BranchController extends BaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping("/branch_integrity_view")
+    public String member_integrity_view(Integer branchId,ModelMap modelMap){
+
+        BranchView branchView = branchService.getBranchView(branchId);
+        modelMap.put("branchView",branchView);
+        return "party/branch/branch_integrity";
+    }
 }

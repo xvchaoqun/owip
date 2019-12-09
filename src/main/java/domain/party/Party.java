@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Party implements Serializable {
@@ -57,6 +58,8 @@ public class Party implements Serializable {
     private Date bgDate;
 
     private Boolean isDeleted;
+
+    private BigDecimal integrity;
 
     private static final long serialVersionUID = 1L;
 
@@ -250,5 +253,13 @@ public class Party implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 }

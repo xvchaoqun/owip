@@ -16,6 +16,7 @@ import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
 import sys.utils.ContextHelper;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -285,6 +286,58 @@ public class BranchService extends BaseMapper {
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
             branchMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    public BranchView getBranchView(int branchId) {
+
+        BranchViewExample example = new BranchViewExample();
+        example.createCriteria().andIdEqualTo(branchId);
+
+        List<BranchView> branchViews = branchViewMapper.selectByExample(example);
+        return branchViews.size() == 0 ? null : branchViews.get(0);
+    }
+
+    //校验党支部信息完整度
+    @Transactional
+    public void updateIntegrity(){
+
+        BranchViewExample example = new BranchViewExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        List<BranchView> branchViews = branchViewMapper.selectByExample(example);
+
+        for (BranchView branchView : branchViews){
+
+            if (branchView==null) continue;
+
+            Double a = 0.00; Double b = 0.00;
+            if (branchView.getPartyId()!=null){a++;}//所属二级单位党组织
+            b++;
+            if (StringUtils.isNotBlank(branchView.getTypes())){a++;}//支部类型
+            b++;
+            if (branchView.getIsStaff()!=null){a++;}//是否是教工党支部
+            b++;
+            if (branchView.getIsPrefessional()!=null){a++;}//是否一线教学科研党支部
+            b++;
+            if (branchView.getIsBaseTeam()!=null){a++;}//是否建立在团队
+            b++;
+            if (branchView.getFoundTime()!=null){a++;}//成立时间
+            b++;
+            if (StringUtils.isNotBlank(branchView.getPhone())){a++;}//联系电话
+            b++;
+            if (branchView.getAppointTime()!=null){a++;}//任命时间
+            b++;
+            if (branchView.getTranTime()!=null){a++;}//应换届时间
+            b++;
+
+            BigDecimal molecule = new BigDecimal(a);
+            BigDecimal denominator = new BigDecimal(b);
+
+            Branch branch = new Branch();
+            branch.setId(branchView.getId());
+            branch.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+            branchMapper.updateByPrimaryKeySelective(branch);
         }
     }
 }

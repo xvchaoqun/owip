@@ -1,6 +1,7 @@
 package domain.member;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MemberView implements Serializable {
@@ -49,6 +50,8 @@ public class MemberView implements Serializable {
     private String otherReward;
 
     private String label;
+
+    private BigDecimal integrity;
 
     private Byte userSource;
 
@@ -356,6 +359,14 @@ public class MemberView implements Serializable {
 
     public void setLabel(String label) {
         this.label = label == null ? null : label.trim();
+    }
+
+    public BigDecimal getIntegrity() {
+        return integrity;
+    }
+
+    public void setIntegrity(BigDecimal integrity) {
+        this.integrity = integrity;
     }
 
     public Byte getUserSource() {
