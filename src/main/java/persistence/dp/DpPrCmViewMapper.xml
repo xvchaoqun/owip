@@ -12,7 +12,7 @@
     <result column="school" jdbcType="VARCHAR" property="school" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="elect_post" jdbcType="VARCHAR" property="electPost" />
-    <result column="elect_session" jdbcType="INTEGER" property="electSession" />
+    <result column="elect_session" jdbcType="VARCHAR" property="electSession" />
     <result column="elect_time" jdbcType="DATE" property="electTime" />
     <result column="end_time" jdbcType="DATE" property="endTime" />
     <result column="status" jdbcType="BIT" property="status" />
@@ -20,8 +20,8 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="grow_time" jdbcType="DATE" property="growTime" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
@@ -87,7 +87,7 @@
   <sql id="Base_Column_List">
     id, user_id, unit_post, executive_level, work_time, education, degree, school, major, 
     elect_post, elect_session, elect_time, end_time, status, type, sort_order, remark, 
-    party_id, grow_time, unit_id, gender, birth, nation
+    party_id, dp_grow_time, unit, gender, birth, nation
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPrCmViewExample" resultMap="BaseResultMap">
     select
@@ -115,17 +115,17 @@
       degree, school, major, 
       elect_post, elect_session, elect_time, 
       end_time, status, type, sort_order, 
-      remark, party_id, grow_time, 
-      unit_id, gender, birth, 
-      nation)
+      remark, party_id, dp_grow_time, 
+      unit, gender, birth, nation
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{unitPost,jdbcType=VARCHAR}, 
       #{executiveLevel,jdbcType=VARCHAR}, #{workTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=INTEGER}, #{electTime,jdbcType=DATE}, 
+      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=VARCHAR}, #{electTime,jdbcType=DATE}, 
       #{endTime,jdbcType=DATE}, #{status,jdbcType=BIT}, #{type,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
-      #{unitId,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
-      #{nation,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, 
+      #{unit,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpPrCmView">
     insert into dp_pr_cm_view
@@ -184,11 +184,11 @@
       <if test="partyId != null">
         party_id,
       </if>
-      <if test="growTime != null">
-        grow_time,
+      <if test="dpGrowTime != null">
+        dp_grow_time,
       </if>
-      <if test="unitId != null">
-        unit_id,
+      <if test="unit != null">
+        unit,
       </if>
       <if test="gender != null">
         gender,
@@ -232,7 +232,7 @@
         #{electPost,jdbcType=VARCHAR},
       </if>
       <if test="electSession != null">
-        #{electSession,jdbcType=INTEGER},
+        #{electSession,jdbcType=VARCHAR},
       </if>
       <if test="electTime != null">
         #{electTime,jdbcType=DATE},
@@ -255,11 +255,11 @@
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="growTime != null">
-        #{growTime,jdbcType=DATE},
+      <if test="dpGrowTime != null">
+        #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -312,7 +312,7 @@
         elect_post = #{record.electPost,jdbcType=VARCHAR},
       </if>
       <if test="record.electSession != null">
-        elect_session = #{record.electSession,jdbcType=INTEGER},
+        elect_session = #{record.electSession,jdbcType=VARCHAR},
       </if>
       <if test="record.electTime != null">
         elect_time = #{record.electTime,jdbcType=DATE},
@@ -335,11 +335,11 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.growTime != null">
-        grow_time = #{record.growTime,jdbcType=DATE},
+      <if test="record.dpGrowTime != null">
+        dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
@@ -367,7 +367,7 @@
       school = #{record.school,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
       elect_post = #{record.electPost,jdbcType=VARCHAR},
-      elect_session = #{record.electSession,jdbcType=INTEGER},
+      elect_session = #{record.electSession,jdbcType=VARCHAR},
       elect_time = #{record.electTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE},
       status = #{record.status,jdbcType=BIT},
@@ -375,8 +375,8 @@
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
-      grow_time = #{record.growTime,jdbcType=DATE},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
+      dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
+      unit = #{record.unit,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR}

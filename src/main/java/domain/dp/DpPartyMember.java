@@ -32,8 +32,6 @@ public class DpPartyMember implements Serializable {
 
     private String officePhone;
 
-    private String mobile;
-
     private Boolean isAdmin;
 
     private Integer sortOrder;
@@ -42,6 +40,8 @@ public class DpPartyMember implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date deleteTime;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -101,14 +101,6 @@ public class DpPartyMember implements Serializable {
         this.officePhone = officePhone == null ? null : officePhone.trim();
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
@@ -139,5 +131,13 @@ public class DpPartyMember implements Serializable {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

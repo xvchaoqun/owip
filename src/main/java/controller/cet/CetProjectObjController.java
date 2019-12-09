@@ -138,7 +138,7 @@ public class CetProjectObjController extends CetBaseController {
                                    @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                    @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
-                                   int traineeTypeId,
+                                   Integer traineeTypeId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                    HttpServletRequest request,
@@ -173,6 +173,9 @@ public class CetProjectObjController extends CetBaseController {
                 .andTraineeTypeIdEqualTo(traineeTypeId);
         example.setOrderByClause("id asc");
 
+        if (traineeTypeId != null){
+            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
+        }
         if (hasChosen != null && trainCourseId != null) {
             if (hasChosen) {
                 if (applyUserIds != null && applyUserIds.size() > 0) {

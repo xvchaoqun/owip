@@ -11,7 +11,19 @@
     { label: '年度',name: 'year', frozen: true},
     {label: '参训人姓名', name: 'user.realname', frozen:true},
     {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
-    {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
+      {label: '时任单位及职务', name: 'title', align: 'left', width: 350, formatter: function (cellvalue, options, rowObject) {
+              if(cellvalue == undefined){
+                  if (rowObject.unit != undefined) {
+                      return rowObject.unit.name;
+                  }
+                  return "--";
+              }else{
+                  return rowObject.title;
+              }}},
+    { label: '参训人类型', name: 'upperTrainTypeId', formatter: function (cellvalue, options, rowObject) {
+              if(cellvalue==null)return '--'
+              return traineeTypeMap[cellvalue].name
+    }, width:180},
     {label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
     {
       label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {

@@ -42,7 +42,7 @@
         姓名：<span>{{=ret.realname}}</span>
       </small>
       <small>
-        所在单位：<span >{{=ret.unit}}</span>
+        部门：<span >{{=ret.unit}}</span>
       </small>
       <small>
         查询结果：<span>{{=ret.msg}}</span>

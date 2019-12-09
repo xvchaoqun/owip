@@ -24,7 +24,7 @@
 </div>
 <div class="widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-star blue"></i> 党籍信息</h4>
+        <h4 class="widget-title"><i class="fa fa-star blue"></i> 党派成员信息</h4>
 
         <div class="widget-toolbar">
             <a href="javascript:;" data-action="collapse">
@@ -43,60 +43,37 @@
                     <td class="bg-left" colspan="5">
                         <span class="${dpParty.isDeleted ? "delete" :""}">${dpParty.name}</span>
                     </td>
+                    <td class="bg-right">
+                        加入党派时间
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${cm:formatDate(dpMember.dpGrowTime,'yyyy.MM.dd')}
+                    </td>
                 </tr>
                 <tr>
-                    <td class="bg-right">党籍状态</td>
-                    <td class="bg-left" width="300">
-                        ${MEMBER_POLITICAL_STATUS_MAP.get(dpMember.politicalStatus)}
+                    <td class="bg-right">
+                        部门
                     </td>
-                    <td class="bg-right">状态</td>
-                    <td class="bg-left">
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.unit}
+                    </td>
+                    <td class="bg-right">党派成员状态</td>
+                    <td class="bg-left" colspan="5">
                         ${DP_MEMBER_STATUS_MAP.get(dpMember.status)}
                     </td>
-                    <td class="bg-right">
-                        党内职务
-                    </td>
-                    <td class="bg-left">
-                        ${dpMember.partyPost}
-                    </td>
                 </tr>
                 <tr>
                     <td class="bg-right">
-                        入党时间
+                        党派内职务
                     </td>
-                    <td class="bg-left" width="150">
-                        ${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}
-                    </td>
-                    <td class="bg-right">
-                        入党介绍人
-                    </td>
-                    <td class="bg-left">
-                        ${dpMember.sponsor}
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.dpPost}
                     </td>
                     <td class="bg-right">
-                        转正时间
+                        兼职
                     </td>
-                    <td class="bg-left">
-                        ${cm:formatDate(dpMember.positiveTime,'yyyy.MM.dd')}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bg-right">提交书面申请书时间</td>
-                    <td class="bg-left">
-                        ${cm:formatDate(dpMember.applyTime,'yyyy.MM.dd')}
-                    </td>
-                    <td class="bg-right">
-                        确定为入党积极分子时间
-                    </td>
-
-                    <td class="bg-left">
-                        ${cm:formatDate(dpMember.activeTime,'yyyy.MM.dd')}
-                    </td>
-                    <td class="bg-right">
-                        确定为发展对象时间
-                    </td>
-                    <td class="bg-left">
-                        ${cm:formatDate(dpMember.candidateTime,'yyyy.MM.dd')}
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.partTimeJob}
                     </td>
                 </tr>
                 <tr>
@@ -106,13 +83,47 @@
                     <td class="bg-left" colspan="5">
                         ${dpMember.partyReward}
                     </td>
-                </tr>
-                <tr>
                     <td class="bg-right">
                         其他奖励
                     </td>
                     <td class="bg-left" colspan="5">
                         ${dpMember.otherReward}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-right">
+                        手机号
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.mobile}
+                    </td>
+                    <td class="bg-right">
+                        邮箱
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.email}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-right">
+                        培训情况
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.trainState}
+                    </td>
+                    <td class="bg-right">
+                        通讯地址
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.address}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-right">
+                        备注
+                    </td>
+                    <td class="bg-left" colspan="15">
+                        ${dpMember.mobile}
                     </td>
                 </tr>
                 </tbody>

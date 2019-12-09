@@ -56,10 +56,10 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-xs-3 control-label">手机号</label>
-
-    <div class="col-xs-6">
-      <input class="form-control mobile" type="text" name="mobile" value="${dpPartyMember.mobile}">
+    <label class="col-xs-3 control-label">备注</label>
+    <div class="col-xs-6" style="width: 296px">
+						<textarea class="form-control limited noEnter" type="text"
+                                  name="remark" rows="3">${dpPartyMember.remark}</textarea>
     </div>
   </div>
 </form>

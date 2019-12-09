@@ -33,7 +33,7 @@ public class DpPrCm implements Serializable {
 
     private String electPost;
 
-    private Integer electSession;
+    private String electSession;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date electTime;
@@ -131,12 +131,12 @@ public class DpPrCm implements Serializable {
         this.electPost = electPost == null ? null : electPost.trim();
     }
 
-    public Integer getElectSession() {
+    public String getElectSession() {
         return electSession;
     }
 
-    public void setElectSession(Integer electSession) {
-        this.electSession = electSession;
+    public void setElectSession(String electSession) {
+        this.electSession = electSession == null ? null : electSession.trim();
     }
 
     public Date getElectTime() {

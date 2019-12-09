@@ -63,12 +63,14 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '成立时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;
                 }
-            }
+            },
+            {label: '备注', name: 'remark', width: 180}
+
         ],
         rowattr: function (rowData, currentObj, rowId) {
             if (rowData.isPresent) {

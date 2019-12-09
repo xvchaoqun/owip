@@ -24,9 +24,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属类别</label>
+				<label class="col-xs-3 control-label"> 所属类别</label>
 				<div class="col-xs-6">
-                        <select required data-width="270" class="form-control" name="type" data-rel="select2"
+                        <select data-width="270" class="form-control" name="type" data-rel="select2"
 							data-placeholder="请选择类别">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_dp_npr_type"/>
@@ -37,9 +37,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 所属级别</label>
+				<label class="col-xs-3 control-label"> 所属级别</label>
 				<div class="col-xs-6">
-                        <select required data-width="270" class="form-control" name="level" data-rel="select2"
+                        <select data-width="270" class="form-control" name="level" data-rel="select2"
 						data-placeholder="请选择级别">
 							<option></option>
 							<c:import url="/metaTypes?__code=mc_dp_npr_level"/>
@@ -50,16 +50,16 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 参加工作时间</label>
+			<label class="col-xs-3 control-label"> 参加工作时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input required class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpNpr.workTime,'yyyy.MM.dd')}"/>
+					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpNpr.workTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所属单位及职位</label>
+			<label class="col-xs-3 control-label"> 所属单位职位</label>
 			<div class="col-xs-6">
 				<textarea class="form-control" rows="3" name="unitPost">${dpNpr.unitPost}</textarea>
 			</div>

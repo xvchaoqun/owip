@@ -700,4 +700,74 @@ public class CetProjectObjService extends CetBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cetProjectObjMapper.updateByExampleSelective(record, example);
     }
+
+    //批量导入CetProjectObj培训对象
+    @Transactional
+    public int importCetProjectObj(List<CetProjectObj> records){
+        int addCount = 0;
+        for (CetProjectObj _record : records){
+            Integer userId = _record.getUserId();
+            Integer traineeTypeId = _record.getTraineeTypeId();
+            Integer projectId = _record.getProjectId();
+            CetProjectObj _cetProjectObj = get(userId, projectId, traineeTypeId);
+            if (_cetProjectObj == null){
+                addCount++;
+                Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
+                CetTraineeType cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
+
+                // 检查别的参选人类型中是否已经选择参训对象
+                {
+                    CetProjectObjExample example = new CetProjectObjExample();
+                    example.createCriteria().andProjectIdEqualTo(projectId)
+                            .andTraineeTypeIdNotEqualTo(traineeTypeId)
+                            .andUserIdEqualTo(userId);
+
+                    List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+                    if (cetProjectObjs.size() > 0) {
+                        CetProjectObj cetProjectObj = cetProjectObjs.get(0);
+                        int otherTraineeTypeId = cetProjectObj.getTraineeTypeId();
+                        SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
+
+                        throw new OpException("参训人{0}（工号：{1}）已经是培训对象（{2}）", uv.getRealname(), uv.getCode(),
+                                cetTraineeTypeMap.get(otherTraineeTypeId).getName());
+                    }
+                }
+
+                List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
+
+                CetProjectObj record = new CetProjectObj();
+                record.setProjectId(projectId);
+                record.setUserId(userId);
+                record.setTraineeTypeId(traineeTypeId);
+
+                appendTraineeInfo(cetTraineeType.getCode(), userId, record);
+
+                cetProjectObjMapper.insertSelective(record);
+
+                sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
+
+                // 同步至每个培训班的学员列表
+                for (CetTrain cetTrain : cetTrains) {
+                    cetTraineeService.createIfNotExist(userId, cetTrain.getId());
+                }
+
+                sysApprovalLogService.add(record.getId(), record.getUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                           "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                        "新建");
+            }
+        }
+        return addCount;
+    }
+
+    //得到唯一的培训对象CetProjectObj
+    public CetProjectObj get(int userId, int projectId, int traineeTypeId) {
+
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andUserIdEqualTo(userId).andProjectIdEqualTo(projectId).andTraineeTypeIdEqualTo(traineeTypeId);
+        List<CetProjectObj> cetTrainees = cetProjectObjMapper.selectByExample(example);
+
+        return cetTrainees.size() > 0 ? cetTrainees.get(0) : null;
+    }
 }

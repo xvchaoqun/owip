@@ -6,10 +6,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
@@ -18,6 +16,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="delete_time" jdbcType="DATE" property="deleteTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, unit_id, class_id, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, update_time, is_deleted, delete_time
+    id, code, name, short_name, class_id, phone, email, mailbox, found_time, sort_order, 
+    create_time, update_time, is_deleted, delete_time, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPartyExample" resultMap="BaseResultMap">
     select
@@ -113,17 +112,17 @@
   </delete>
   <insert id="insert" parameterType="domain.dp.DpParty">
     insert into dp_party (id, code, name, 
-      short_name, unit_id, class_id, 
-      phone, fax, email, 
-      mailbox, found_time, sort_order, 
-      create_time, update_time, is_deleted, 
-      delete_time)
+      short_name, class_id, phone, 
+      email, mailbox, found_time, 
+      sort_order, create_time, update_time, 
+      is_deleted, delete_time, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{shortName,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=DATE})
+      #{shortName,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{deleteTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpParty">
     insert into dp_party
@@ -140,17 +139,11 @@
       <if test="shortName != null">
         short_name,
       </if>
-      <if test="unitId != null">
-        unit_id,
-      </if>
       <if test="classId != null">
         class_id,
       </if>
       <if test="phone != null">
         phone,
-      </if>
-      <if test="fax != null">
-        fax,
       </if>
       <if test="email != null">
         email,
@@ -176,6 +169,9 @@
       <if test="deleteTime != null">
         delete_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -190,17 +186,11 @@
       <if test="shortName != null">
         #{shortName,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
-      </if>
       <if test="classId != null">
         #{classId,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="fax != null">
-        #{fax,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -226,6 +216,9 @@
       <if test="deleteTime != null">
         #{deleteTime,jdbcType=DATE},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.dp.DpPartyExample" resultType="java.lang.Long">
@@ -249,17 +242,11 @@
       <if test="record.shortName != null">
         short_name = #{record.shortName,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
       <if test="record.classId != null">
         class_id = #{record.classId,jdbcType=INTEGER},
       </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fax != null">
-        fax = #{record.fax,jdbcType=VARCHAR},
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
@@ -285,6 +272,9 @@
       <if test="record.deleteTime != null">
         delete_time = #{record.deleteTime,jdbcType=DATE},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -296,10 +286,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       short_name = #{record.shortName,jdbcType=VARCHAR},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
       class_id = #{record.classId,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
-      fax = #{record.fax,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       mailbox = #{record.mailbox,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
@@ -307,7 +295,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=DATE}
+      delete_time = #{record.deleteTime,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -324,17 +313,11 @@
       <if test="shortName != null">
         short_name = #{shortName,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        unit_id = #{unitId,jdbcType=INTEGER},
-      </if>
       <if test="classId != null">
         class_id = #{classId,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="fax != null">
-        fax = #{fax,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -360,6 +343,9 @@
       <if test="deleteTime != null">
         delete_time = #{deleteTime,jdbcType=DATE},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -368,10 +354,8 @@
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       short_name = #{shortName,jdbcType=VARCHAR},
-      unit_id = #{unitId,jdbcType=INTEGER},
       class_id = #{classId,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      fax = #{fax,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       mailbox = #{mailbox,jdbcType=VARCHAR},
       found_time = #{foundTime,jdbcType=DATE},
@@ -379,7 +363,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=DATE}
+      delete_time = #{deleteTime,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpPartyExample" resultMap="BaseResultMap">

@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.post ||not empty param.education
-            ||not empty param.degree ||not empty param.unitId ||not empty param.authorizedType || not empty param.code
+            ||not empty param.degree ||not empty param.unit ||not empty param.authorizedType || not empty param.code
             || not empty param.sort ||not empty param.gender ||not empty selectNations|| not empty selectNativePlaces}"/>
             <div class="tabbale">
             <jsp:include page="menu.jsp"/>
@@ -35,11 +35,13 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
+                <c:if test="${cls==1}">
                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
                         data-url="${ctx}/dp/dpNpm_import"
                         data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                     批量导入
                 </button>
+                </c:if>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/dp/dpNpm_data?cls=${cls}"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -139,20 +141,6 @@ pageEncoding="UTF-8" %>
 
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>所在单位</label>
-                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${unitMap}" var="unit">
-                                        <option value="${unit.key}">${unit.value.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        <div class="form-group">
-                            <label>编制类别</label>
-                            <input class="form-control search-query" name="authorizedType" type="text" value="${param.authorizedType}"
-                                   placeholder="请输入编制类别">
-                        </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/dp/dpNpm?cls=${cls}"
@@ -245,11 +233,9 @@ pageEncoding="UTF-8" %>
                 { label: '认定时间',name: 'addTime', width: 120, formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
                 { label: '现任职务',name: 'post',width:180},
-                { label: '所在单位',name: 'unitId',width:180,sortable:true, formatter: $.jgrid.formatter.unit},
+                { label: '部门',name: 'unit',width:180},
                 { label: '最高学历',name: 'education', width: 120},
                 { label: '最高学位',name: 'degree', width: 120},
-                { label: '编制类别',name: 'authorizedType'},
-                { label: '专业技术职务',name: 'proPost', width: 150},
                 { label: '办公电话',name: 'phone',width:120},
                 { label: '手机号',name: 'mobile',width:120},
                 { label: '备注',name: 'remark',width:120,sortable:true},

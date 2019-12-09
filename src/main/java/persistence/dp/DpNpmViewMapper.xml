@@ -10,7 +10,7 @@
     <result column="degree" jdbcType="VARCHAR" property="degree" />
     <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="out_time" jdbcType="DATE" property="outTime" />
     <result column="transfer_time" jdbcType="DATE" property="transferTime" />
@@ -82,7 +82,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, add_time, post, education, degree, authorized_type, pro_post, unit_id, 
+    id, user_id, add_time, post, education, degree, authorized_type, pro_post, unit, 
     status, out_time, transfer_time, sort_order, remark, gender, birth, nation, native_place, 
     mobile, phone
   </sql>
@@ -109,14 +109,14 @@
   <insert id="insert" parameterType="domain.dp.DpNpmView">
     insert into dp_npm_view (id, user_id, add_time, 
       post, education, degree, 
-      authorized_type, pro_post, unit_id, 
+      authorized_type, pro_post, unit, 
       status, out_time, transfer_time, 
       sort_order, remark, gender, 
       birth, nation, native_place, 
       mobile, phone)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addTime,jdbcType=DATE}, 
       #{post,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
-      #{authorizedType,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
+      #{authorizedType,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{outTime,jdbcType=DATE}, #{transferTime,jdbcType=DATE}, 
       #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
       #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
@@ -149,8 +149,8 @@
       <if test="proPost != null">
         pro_post,
       </if>
-      <if test="unitId != null">
-        unit_id,
+      <if test="unit != null">
+        unit,
       </if>
       <if test="status != null">
         status,
@@ -211,8 +211,8 @@
       <if test="proPost != null">
         #{proPost,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -282,8 +282,8 @@
       <if test="record.proPost != null">
         pro_post = #{record.proPost,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -333,7 +333,7 @@
       degree = #{record.degree,jdbcType=VARCHAR},
       authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
       pro_post = #{record.proPost,jdbcType=VARCHAR},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       out_time = #{record.outTime,jdbcType=DATE},
       transfer_time = #{record.transferTime,jdbcType=DATE},

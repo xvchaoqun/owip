@@ -29,8 +29,6 @@ public class DpPartyMemberView implements Serializable {
 
     private String officePhone;
 
-    private String mobile;
-
     private Boolean isAdmin;
 
     private Integer sortOrder;
@@ -39,15 +37,21 @@ public class DpPartyMemberView implements Serializable {
 
     private Date deleteTime;
 
+    private String remark;
+
     private Integer groupPartyId;
 
     private Boolean isPresent;
 
     private Boolean isDeleted;
 
-    private Integer unitId;
-
     private Boolean isDpPartyDeleted;
+
+    private String unit;
+
+    private String mobile;
+
+    private String email;
 
     private static final long serialVersionUID = 1L;
 
@@ -107,14 +111,6 @@ public class DpPartyMemberView implements Serializable {
         this.officePhone = officePhone == null ? null : officePhone.trim();
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
@@ -147,6 +143,14 @@ public class DpPartyMemberView implements Serializable {
         this.deleteTime = deleteTime;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public Integer getGroupPartyId() {
         return groupPartyId;
     }
@@ -171,19 +175,35 @@ public class DpPartyMemberView implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Boolean getIsDpPartyDeleted() {
         return isDpPartyDeleted;
     }
 
     public void setIsDpPartyDeleted(Boolean isDpPartyDeleted) {
         this.isDpPartyDeleted = isDpPartyDeleted;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 }

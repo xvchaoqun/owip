@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 参加工作时间</label>
+			<label class="col-xs-3 control-label"> 参加工作时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
 					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.workTime,'yyyy.MM.dd')}"/>
@@ -47,18 +47,18 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 当选时间</label>
+			<label class="col-xs-3 control-label"> 当选时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
-					<input required class="form-control date-picker" type="text" name="electTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.electTime,'yyyy.MM.dd')}"/>
+					<input class="form-control date-picker" type="text" name="electTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.electTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所属单位及职位</label>
+			<label class="col-xs-3 control-label"> 所属单位职位</label>
 			<div class="col-xs-6">
-				<textarea class="form-control" rows="3" name="unitPost">${dpPrCm.unitPost}</textarea>
+				<input class="form-control" type="text" name="unitPost" value="${dpPrCm.unitPost}">
 			</div>
 		</div>
 		<div class="form-group">
@@ -74,9 +74,9 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 当选届次</label>
+			<label class="col-xs-3 control-label">当选届次</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="electSession" value="${dpPrCm.electSession}" placeholder="请填写阿拉伯数字1、2、3">
+				<input class="form-control" type="text" name="electSession" value="${dpPrCm.electSession}" placeholder="请填写阿拉伯数字1、2、3">
 			</div>
 		</div>
 		<div class="form-group">

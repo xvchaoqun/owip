@@ -15,13 +15,9 @@ public class DpParty implements Serializable {
 
     private String shortName;
 
-    private Integer unitId;
-
     private Integer classId;
 
     private String phone;
-
-    private String fax;
 
     private String email;
 
@@ -42,6 +38,8 @@ public class DpParty implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date deleteTime;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,14 +75,6 @@ public class DpParty implements Serializable {
         this.shortName = shortName == null ? null : shortName.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Integer getClassId() {
         return classId;
     }
@@ -99,14 +89,6 @@ public class DpParty implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax == null ? null : fax.trim();
     }
 
     public String getEmail() {
@@ -171,5 +153,13 @@ public class DpParty implements Serializable {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

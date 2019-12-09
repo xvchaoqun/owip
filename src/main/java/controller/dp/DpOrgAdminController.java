@@ -194,7 +194,7 @@ public class DpOrgAdminController extends DpBaseController {
         return "dp/dpOrgAdmin/dpOrgAdmin_au";
     }
 
-    //@RequiresPermissions("dpOrgAdmin:del")
+    @RequiresPermissions("dpOrgAdmin:del")
     @RequestMapping(value = "/dpOrgAdmin_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpOrgAdmin_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {

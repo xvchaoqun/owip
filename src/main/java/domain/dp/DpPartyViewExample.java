@@ -406,66 +406,6 @@ public class DpPartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
         public Criteria andClassIdIsNull() {
             addCriterion("class_id is null");
             return (Criteria) this;
@@ -593,76 +533,6 @@ public class DpPartyViewExample {
 
         public Criteria andPhoneNotBetween(String value1, String value2) {
             addCriterion("phone not between", value1, value2, "phone");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxIsNull() {
-            addCriterion("fax is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxIsNotNull() {
-            addCriterion("fax is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxEqualTo(String value) {
-            addCriterion("fax =", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxNotEqualTo(String value) {
-            addCriterion("fax <>", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxGreaterThan(String value) {
-            addCriterion("fax >", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxGreaterThanOrEqualTo(String value) {
-            addCriterion("fax >=", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxLessThan(String value) {
-            addCriterion("fax <", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxLessThanOrEqualTo(String value) {
-            addCriterion("fax <=", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxLike(String value) {
-            addCriterion("fax like", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxNotLike(String value) {
-            addCriterion("fax not like", value, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxIn(List<String> values) {
-            addCriterion("fax in", values, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxNotIn(List<String> values) {
-            addCriterion("fax not in", values, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxBetween(String value1, String value2) {
-            addCriterion("fax between", value1, value2, "fax");
-            return (Criteria) this;
-        }
-
-        public Criteria andFaxNotBetween(String value1, String value2) {
-            addCriterion("fax not between", value1, value2, "fax");
             return (Criteria) this;
         }
 
@@ -1166,6 +1036,76 @@ public class DpPartyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
         public Criteria andMemberCountIsNull() {
             addCriterion("member_count is null");
             return (Criteria) this;
@@ -1223,126 +1163,6 @@ public class DpPartyViewExample {
 
         public Criteria andMemberCountNotBetween(Long value1, Long value2) {
             addCriterion("member_count not between", value1, value2, "memberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountIsNull() {
-            addCriterion("student_member_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountIsNotNull() {
-            addCriterion("student_member_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountEqualTo(BigDecimal value) {
-            addCriterion("student_member_count =", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountNotEqualTo(BigDecimal value) {
-            addCriterion("student_member_count <>", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountGreaterThan(BigDecimal value) {
-            addCriterion("student_member_count >", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("student_member_count >=", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountLessThan(BigDecimal value) {
-            addCriterion("student_member_count <", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("student_member_count <=", value, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountIn(List<BigDecimal> values) {
-            addCriterion("student_member_count in", values, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountNotIn(List<BigDecimal> values) {
-            addCriterion("student_member_count not in", values, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("student_member_count between", value1, value2, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andStudentMemberCountNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("student_member_count not between", value1, value2, "studentMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountIsNull() {
-            addCriterion("positive_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountIsNotNull() {
-            addCriterion("positive_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountEqualTo(BigDecimal value) {
-            addCriterion("positive_count =", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountNotEqualTo(BigDecimal value) {
-            addCriterion("positive_count <>", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountGreaterThan(BigDecimal value) {
-            addCriterion("positive_count >", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("positive_count >=", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountLessThan(BigDecimal value) {
-            addCriterion("positive_count <", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("positive_count <=", value, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountIn(List<BigDecimal> values) {
-            addCriterion("positive_count in", values, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountNotIn(List<BigDecimal> values) {
-            addCriterion("positive_count not in", values, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("positive_count between", value1, value2, "positiveCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPositiveCountNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("positive_count not between", value1, value2, "positiveCount");
             return (Criteria) this;
         }
 

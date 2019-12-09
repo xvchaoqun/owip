@@ -42,9 +42,9 @@ public class DpOmView implements Serializable {
 
     private Integer partyId;
 
-    private Date growTime;
+    private Date dpGrowTime;
 
-    private Integer unitId;
+    private String unit;
 
     private Byte gender;
 
@@ -172,20 +172,20 @@ public class DpOmView implements Serializable {
         this.partyId = partyId;
     }
 
-    public Date getGrowTime() {
-        return growTime;
+    public Date getDpGrowTime() {
+        return dpGrowTime;
     }
 
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public Byte getGender() {

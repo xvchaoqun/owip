@@ -40,6 +40,13 @@ public class DpPartyMemberService extends DpBaseMapper {
     private DpPartyMemberGroupService dpPartyMemberGroupService;
 
     @Transactional
+    public void batcheRecover(DpPartyMember record){
+
+        record.setPresentMember(true);
+        dpPartyMemberMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
     public void cancelMember(List<Integer> groupIds){
 
         DpPartyMemberExample example = new DpPartyMemberExample();
@@ -284,6 +291,15 @@ public class DpPartyMemberService extends DpBaseMapper {
         }
 
         return map;
+    }
+
+    public DpPartyMemberView getById(Integer id){
+
+        DpPartyMemberViewExample example = new DpPartyMemberViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<DpPartyMemberView> dpPartyMemberViews = dpPartyMemberViewMapper.selectByExample(example);
+
+        return dpPartyMemberViews.size() > 0 ? dpPartyMemberViews.get(0) : null;
     }
 
     /**

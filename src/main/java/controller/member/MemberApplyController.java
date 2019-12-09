@@ -35,9 +35,11 @@ import persistence.member.common.MemberApplyCount;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -1203,5 +1205,74 @@ public class MemberApplyController extends MemberBaseController {
 
         String fileName = String.format("申请入党人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.output(wb, fileName + ".xlsx", response);
+    }
+
+    //导出发展中的学生党员
+    @RequestMapping("/memberDevelope_export")
+    public void memberDevelope_export(HttpServletResponse response) {
+
+        Byte[] a = {0, 2, 3, 4, 5};
+
+        List<Byte> stages = new ArrayList<>();
+        for (Byte stage : a) {
+            stages.add(stage);
+        }
+        MemberApplyExample example = new MemberApplyExample();
+        example.createCriteria().andStageIn(stages).andTypeEqualTo(MemberConstants.MEMBER_TYPE_STUDENT);
+        List<MemberApply> records = memberApplyMapper.selectByExample(example);
+        int rownum = records.size();
+
+        String[] titles = {"学号|100", "所属分党委|100", "所属党支部|100", "提交书面申请时间|100", "信息填报时间|100", "备注|100",
+                "阶段|100", "不通过原因|100", "通过时间|100","确定为入党积极分子时间|100", "参加培训开始时间|100", "参加培训结束时间|100","积极分子结业考试成绩|100",
+                "确定为发展对象时间|100", "参加培训开始时间|100","参加培训结束时间|100", "发展对象结业考试成绩|100", "发展对象审核状态|100",
+                "列入发展计划时间|100", "列入计划审核状态|100", "领取志愿书时间|100", "志愿书领取审核状态|100", "关联志愿书编码|100", "志愿书编码|100",
+                "发展公示|100", "入党时间|100", "发展审核状态|100", "转正公示|100", "转正时间|100", "转正审核状态|100","是否移除|100", "创建时间|100",
+                "身份证号|150", "专业|150"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            MemberApply record = records.get(i);
+
+            SysUserView uv = CmTag.getUserById(record.getUserId());
+
+            String[] values = {
+                    uv.getCode(),//学号
+                    String.valueOf(record.getPartyId()),//所属分党委
+                    String.valueOf(record.getBranchId() == null ? "" : record.getBranchId()),//所属党支部
+                    DateUtils.formatDate(record.getApplyTime(), DateUtils.YYYYMMDD_DOT),//提交书面申请时间
+                    DateUtils.formatDate(record.getFillTime(), DateUtils.YYYYMMDD_DOT),//信息填报时间
+                    record.getRemark(),//备注
+                    String.valueOf(record.getStage()),//阶段
+                    record.getReason(),//不通过原因
+                    DateUtils.formatDate(record.getPassTime(), DateUtils.YYYYMMDD_DOT),//通过时间
+                    DateUtils.formatDate(record.getActiveTime(), DateUtils.YYYYMMDD_DOT),//确定为入党积极分子时间
+                    DateUtils.formatDate(record.getActiveTrainStartTime(), DateUtils.YYYYMMDD_DOT),//参加培训开始时间，成为入党积极分子之后参加的培训
+                    DateUtils.formatDate(record.getActiveTrainEndTime(), DateUtils.YYYYMMDD_DOT),//参加培训结束时间，成为入党积极分子之后参加的培训
+                    record.getActiveGrade(),//积极分子结业考试成绩
+                    DateUtils.formatDate(record.getCandidateTime(), DateUtils.YYYYMMDD_DOT),//确定为发展对象时间
+                    DateUtils.formatDate(record.getCandidateTrainStartTime(), DateUtils.YYYYMMDD_DOT),//参加培训开始时间
+                    DateUtils.formatDate(record.getCandidateTrainEndTime(), DateUtils.YYYYMMDD_DOT),//参加培训结束时间
+                    record.getCandidateGrade(),//发展对象结业考试成绩
+                    record.getCandidateStatus() == null ? "" : String.valueOf(record.getCandidateStatus()),//发展对象审核状态
+                    DateUtils.formatDate(record.getPlanTime(), DateUtils.YYYYMMDD_DOT),//列入发展计划时间，党支部填写，分党委审批，有固定开放时间；组织部也可给分党委单独设定开放时间
+                    record.getPlanStatus() == null ? "" : String.valueOf(record.getPlanStatus()),//列入计划审核状态，0未审核，1已审核
+                    DateUtils.formatDate(record.getDrawTime(), DateUtils.YYYYMMDD_DOT),//领取志愿书时间，由党支部填写、分党委审核
+                    record.getDrawStatus() == null ? "" : String.valueOf(record.getDrawStatus()),//志愿书领取审核状态， 0未审核 1已审核
+                    record.getApplySnId() == null ? "" : String.valueOf(record.getApplySnId()),//关联志愿书编码
+                    record.getApplySn(),//志愿书编码
+                    record.getGrowPublicId() == null ? "" : String.valueOf(record.getGrowPublicId()),//发展公示
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),//入党时间，由党支部填写、分党委审核，党总支、直属党支部需增加组织部审核
+                    record.getGrowStatus() == null ? "" : String.valueOf(record.getGrowStatus()),//发展审核状态， 0未审核 1分党委审核 2 组织部审核
+                    record.getPositivePublicId() == null ? "" : String.valueOf(record.getPositivePublicId()),//转正公示
+                    record.getPositiveTime() == null ? "" : String.valueOf(record.getPositiveTime()),//转正时间
+                    record.getPositiveStatus() == null ? "" : String.valueOf(record.getPositiveStatus()),//转正审核状态， 0未审核 1分党委审核 2组织部审核
+                    String.valueOf(record.getIsRemove()? '是' : '否'),//是否移除，（针对未发展的申请，可以移除）
+                    DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYYMMDD_DOT),//创建时间
+                    uv.getIdcard() == null ? "" : uv.getIdcard(),//身份证
+                    uv.getSpecialty() == null ? "" : uv.getSpecialty(),//专业
+            };
+            valuesList.add(values);
+        }
+        String fileName = String.format("学生发展对象(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

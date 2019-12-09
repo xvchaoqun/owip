@@ -1,7 +1,14 @@
 package controller.cet;
 
+import controller.global.OpException;
 import domain.base.ContentTpl;
 import domain.cet.*;
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
+import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -160,5 +169,72 @@ public class CetProjectDetailController extends CetBaseController {
                 openTime, openAddress));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    //培训对象及学习情况的批量导入
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_detail_import")
+    public String cetProjectObj_import(Integer projectId, ModelMap modelMap){
+
+        modelMap.put("projectId", projectId);
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+        modelMap.put("cetTraineeTypes", cetTraineeTypes);
+
+        return "cet/cetProject/cetProject_detail/cetProject_detail_import";
+    }
+
+    //培训对象及学习情况的批量导入
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_detail_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_import(Integer projectId, Integer traineeTypeId, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook wb = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        CetProjectTraineeTypeExample cetProjectTraineeTypeExample = new CetProjectTraineeTypeExample();
+        cetProjectTraineeTypeExample.createCriteria().andProjectIdEqualTo(projectId);
+        List<CetProjectTraineeType> cetProjectTraineeTypes = cetProjectTraineeTypeMapper.selectByExample(cetProjectTraineeTypeExample);
+        Set<Integer> trainTypeIds = new HashSet<>();
+        for (CetProjectTraineeType cetProjectTraineeType : cetProjectTraineeTypes){
+            trainTypeIds.add(cetProjectTraineeType.getTraineeTypeId());
+        }
+
+        List<CetProjectObj> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows){
+            CetProjectObj record = new CetProjectObj();
+            row++;
+            record.setProjectId(projectId);
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)){
+                throw new OpException("Excel中第{0}行学工号不能为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null){
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getUserId());
+
+            record.setTraineeTypeId(traineeTypeId);
+
+            records.add(record);
+        }
+        int successCount = cetProjectObjService.importCetProjectObj(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        logger.info(log(LogConstants.LOG_CET,
+                "导入培训对象及学习情况成功，总共{0}条记录，其中成功导入{1}条记录",
+                records.size(), successCount));
+
+        return resultMap;
     }
 }

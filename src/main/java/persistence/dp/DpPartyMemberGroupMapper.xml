@@ -14,6 +14,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="group_session" jdbcType="VARCHAR" property="groupSession" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, fid, party_id, name, is_present, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
-    sort_order, is_deleted, group_session
+    sort_order, is_deleted, group_session, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPartyMemberGroupExample" resultMap="BaseResultMap">
     select
@@ -111,13 +112,13 @@
     insert into dp_party_member_group (id, fid, party_id, 
       name, is_present, tran_time, 
       actual_tran_time, appoint_time, dispatch_unit_id, 
-      sort_order, is_deleted, group_session
-      )
+      sort_order, is_deleted, group_session, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{isPresent,jdbcType=BIT}, #{tranTime,jdbcType=DATE}, 
       #{actualTranTime,jdbcType=DATE}, #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{groupSession,jdbcType=VARCHAR}
-      )
+      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{groupSession,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpPartyMemberGroup">
     insert into dp_party_member_group
@@ -158,6 +159,9 @@
       <if test="groupSession != null">
         group_session,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -195,6 +199,9 @@
       </if>
       <if test="groupSession != null">
         #{groupSession,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +250,9 @@
       <if test="record.groupSession != null">
         group_session = #{record.groupSession,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +271,8 @@
       dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
-      group_session = #{record.groupSession,jdbcType=VARCHAR}
+      group_session = #{record.groupSession,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +313,9 @@
       <if test="groupSession != null">
         group_session = #{groupSession,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -317,7 +331,8 @@
       dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT},
-      group_session = #{groupSession,jdbcType=VARCHAR}
+      group_session = #{groupSession,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpPartyMemberGroupExample" resultMap="BaseResultMap">

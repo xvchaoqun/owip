@@ -27,7 +27,12 @@
             data-url="${ctx}/dp/dpMember/search"><i class="fa fa-search"></i> 成员党派关系查询</a>
     </shiro:hasAnyRoles>
     <shiro:hasAnyRoles name="${ROLE_DP_PARTY},${ROLE_DP_ADMIN}">
-      <div class="btn-group">
+        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                data-url="${ctx}/dp/dpMember_import"
+                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+            批量导入
+        </button>
+      <%--<div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
             <i class="fa fa-upload"></i> 批量导入  <span class="caret"></span>
         </button>
@@ -43,7 +48,7 @@
                   系统注册账号导入</a>
             </li>
         </ul>
-    </div>
+    </div>--%>
     </shiro:hasAnyRoles>
   </div>
   </li>

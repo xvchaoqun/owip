@@ -8,6 +8,7 @@
     <result column="type" jdbcType="BIT" property="type" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="upper_train_type_id" jdbcType="INTEGER" property="upperTrainTypeId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="organizer" jdbcType="INTEGER" property="organizer" />
@@ -88,9 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, upper_type, type, unit_id, user_id, title, post_id, organizer, other_organizer, 
-    train_type, train_name, start_date, end_date, period, address, word_note, pdf_note, 
-    add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
+    id, year, upper_type, type, unit_id, user_id, upper_train_type_id, title, post_id, 
+    organizer, other_organizer, train_type, train_name, start_date, end_date, period, 
+    address, word_note, pdf_note, add_type, add_user_id, add_time, is_valid, is_deleted, 
+    remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -127,23 +129,23 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_upper_train (year, upper_type, type, 
-      unit_id, user_id, title, 
-      post_id, organizer, other_organizer, 
-      train_type, train_name, start_date, 
-      end_date, period, address, 
-      word_note, pdf_note, add_type, 
-      add_user_id, add_time, is_valid, 
-      is_deleted, remark, status, 
-      back_reason)
+      unit_id, user_id, upper_train_type_id, 
+      title, post_id, organizer, 
+      other_organizer, train_type, train_name, 
+      start_date, end_date, period, 
+      address, word_note, pdf_note, 
+      add_type, add_user_id, add_time, 
+      is_valid, is_deleted, remark, 
+      status, back_reason)
     values (#{year,jdbcType=INTEGER}, #{upperType,jdbcType=TINYINT}, #{type,jdbcType=BIT}, 
-      #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, #{otherOrganizer,jdbcType=VARCHAR}, 
-      #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
-      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
-      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{backReason,jdbcType=VARCHAR})
+      #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{upperTrainTypeId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
+      #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
+      #{address,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, 
+      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -165,6 +167,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="upperTrainTypeId != null">
+        upper_train_type_id,
       </if>
       <if test="title != null">
         title,
@@ -242,6 +247,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="upperTrainTypeId != null">
+        #{upperTrainTypeId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -332,6 +340,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.upperTrainTypeId != null">
+        upper_train_type_id = #{record.upperTrainTypeId,jdbcType=INTEGER},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -405,6 +416,7 @@
       type = #{record.type,jdbcType=BIT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      upper_train_type_id = #{record.upperTrainTypeId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
       organizer = #{record.organizer,jdbcType=INTEGER},
@@ -446,6 +458,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="upperTrainTypeId != null">
+        upper_train_type_id = #{upperTrainTypeId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -517,6 +532,7 @@
       type = #{type,jdbcType=BIT},
       unit_id = #{unitId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      upper_train_type_id = #{upperTrainTypeId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},
       organizer = #{organizer,jdbcType=INTEGER},

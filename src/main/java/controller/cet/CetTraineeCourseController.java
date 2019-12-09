@@ -322,4 +322,93 @@ public class CetTraineeCourseController extends CetBaseController {
         return resultMap;
     }
 
+    // 二维码签到签退
+    @RequestMapping("/codeSign")
+    public String codeSign(int id,int cls, String token, ModelMap modelMap) {
+
+        boolean isPermitted = false;
+        if (StringUtils.isBlank(token)) {
+
+            if(ShiroHelper.getCurrentUserId()==null){
+                return "redirect:/login";
+            }
+            isPermitted = ShiroHelper.isPermitted("cetTraineeCourse:sign");
+        }else{
+            String signToken = cetTrainCourseService.getSignToken(id);
+
+            if(signToken!=null){
+
+                String _token =  signToken.split("_")[0];
+                long _expire =  Long.valueOf(signToken.split("_")[1]);
+
+                boolean tokenIsValid = StringUtils.equals(token, _token);
+                boolean tokenIsExpired = System.currentTimeMillis() >= _expire;
+                isPermitted = (tokenIsValid && !tokenIsExpired);
+            }
+        }
+
+        if(isPermitted) {
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(id);
+            modelMap.put("cetTrainCourse", cetTrainCourse);
+
+            // 已签到的学员
+            CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+            example.createCriteria().andTrainCourseIdEqualTo(id)
+                    .andIsFinishedEqualTo(true)
+                    .andSignTypeEqualTo(CetConstants.CET_TRAINEE_SIGN_TYPE_CARD);
+            example.setOrderByClause("sign_time desc");
+            List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);
+            modelMap.put("cetTraineeCourseViews", cetTraineeCourseViews);
+        }
+
+        modelMap.put("cls", cls);
+
+        return "cet/cetCodeSign/cetCode_sign_page";
+    }
+
+    //二维码签到签退（单人）
+    @RequestMapping(value = "/codeSign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_codeSign(String codeSignIn, String codeSignOut, String trainCourse, ModelMap modelMap) {
+
+        Date signTime = null;
+
+        String code = cetCodeWxSignService.signInOrOut(codeSignIn, codeSignOut);
+        SysUserView uv = CmTag.getUserByCode(code);
+        if(uv==null){
+            return failed("学工号"+ code + "不存在。");
+        }
+        CetTraineeCourseView cetTraineeCourseView = cetTraineeCourseService.getCetTraineeCourseView(uv.getId(), Integer.parseInt(trainCourse));
+        if(cetTraineeCourseView == null){
+            return failed("您不是本次课程的学员。");
+        }
+
+        if (codeSignIn != null && codeSignOut == null) {
+            if (cetTraineeCourseView.getSignTime() != null) {
+                // 以第一次签到时间为准
+                signTime = cetTraineeCourseView.getSignTime();
+            } else {
+                signTime = new Date();
+                cetCodeWxSignService.sign(cetTraineeCourseView, false,
+                        CetConstants.CET_TRAINEE_SIGN_TYPE_QRCODE, signTime);
+            }
+        }else if (codeSignIn == null && codeSignOut != null){
+            if (cetTraineeCourseView.getSignTime() == null){
+                return failed(String.format("参训学员（工号：%s）签退前未进行签到。", code));
+            }
+            if (cetTraineeCourseView.getSignOutTime() != null) {
+                // 以第一次签到时间为准
+                signTime = cetTraineeCourseView.getSignOutTime();
+            } else {
+                signTime = new Date();
+                cetCodeWxSignService.sign(cetTraineeCourseView, true,
+                        CetConstants.CET_TRAINEE_SIGN_TYPE_QRCODE, signTime);
+            }
+        }
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("uv", uv);
+        resultMap.put("signTime", DateUtils.formatDate(signTime, DateUtils.YYYY_MM_DD_HH_MM_SS));
+
+        return resultMap;
+    }
 }

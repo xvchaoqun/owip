@@ -18,29 +18,29 @@ public class DpMemberView implements Serializable {
 
     private Integer partyId;
 
-    private Byte politicalStatus;
-
     private Byte type;
 
     private Byte status;
+
+    private String unit;
+
+    private String dpPost;
+
+    private String partTimeJob;
+
+    private String trainState;
 
     private Byte source;
 
     private Integer addType;
 
-    private Date transferTime;
+    private Date dpGrowTime;
 
-    private Date applyTime;
+    private String educa;
 
-    private Date activeTime;
-
-    private Date candidateTime;
-
-    private String sponsor;
+    private String degree;
 
     private Date growTime;
-
-    private Date positiveTime;
 
     private Date createTime;
 
@@ -48,13 +48,17 @@ public class DpMemberView implements Serializable {
 
     private Date outTime;
 
-    private String partyPost;
-
     private String partyReward;
 
     private String otherReward;
 
-    private Integer unitId;
+    private String address;
+
+    private String mobile;
+
+    private String email;
+
+    private String remark;
 
     private Byte gender;
 
@@ -64,13 +68,7 @@ public class DpMemberView implements Serializable {
 
     private String nativePlace;
 
-    private String mobile;
-
-    private String education;
-
-    private String authorizedType;
-
-    private String proPost;
+    private String teduca;
 
     private Boolean isRetire;
 
@@ -78,9 +76,11 @@ public class DpMemberView implements Serializable {
 
     private Boolean isHonorRetire;
 
-    private String staffType;
+    private Integer adminLevel;
 
-    private String postClass;
+    private String post;
+
+    private String proPost;
 
     private static final long serialVersionUID = 1L;
 
@@ -100,14 +100,6 @@ public class DpMemberView implements Serializable {
         this.partyId = partyId;
     }
 
-    public Byte getPoliticalStatus() {
-        return politicalStatus;
-    }
-
-    public void setPoliticalStatus(Byte politicalStatus) {
-        this.politicalStatus = politicalStatus;
-    }
-
     public Byte getType() {
         return type;
     }
@@ -122,6 +114,38 @@ public class DpMemberView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getDpPost() {
+        return dpPost;
+    }
+
+    public void setDpPost(String dpPost) {
+        this.dpPost = dpPost == null ? null : dpPost.trim();
+    }
+
+    public String getPartTimeJob() {
+        return partTimeJob;
+    }
+
+    public void setPartTimeJob(String partTimeJob) {
+        this.partTimeJob = partTimeJob == null ? null : partTimeJob.trim();
+    }
+
+    public String getTrainState() {
+        return trainState;
+    }
+
+    public void setTrainState(String trainState) {
+        this.trainState = trainState == null ? null : trainState.trim();
     }
 
     public Byte getSource() {
@@ -140,44 +164,28 @@ public class DpMemberView implements Serializable {
         this.addType = addType;
     }
 
-    public Date getTransferTime() {
-        return transferTime;
+    public Date getDpGrowTime() {
+        return dpGrowTime;
     }
 
-    public void setTransferTime(Date transferTime) {
-        this.transferTime = transferTime;
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
     }
 
-    public Date getApplyTime() {
-        return applyTime;
+    public String getEduca() {
+        return educa;
     }
 
-    public void setApplyTime(Date applyTime) {
-        this.applyTime = applyTime;
+    public void setEduca(String educa) {
+        this.educa = educa == null ? null : educa.trim();
     }
 
-    public Date getActiveTime() {
-        return activeTime;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setActiveTime(Date activeTime) {
-        this.activeTime = activeTime;
-    }
-
-    public Date getCandidateTime() {
-        return candidateTime;
-    }
-
-    public void setCandidateTime(Date candidateTime) {
-        this.candidateTime = candidateTime;
-    }
-
-    public String getSponsor() {
-        return sponsor;
-    }
-
-    public void setSponsor(String sponsor) {
-        this.sponsor = sponsor == null ? null : sponsor.trim();
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
     }
 
     public Date getGrowTime() {
@@ -186,14 +194,6 @@ public class DpMemberView implements Serializable {
 
     public void setGrowTime(Date growTime) {
         this.growTime = growTime;
-    }
-
-    public Date getPositiveTime() {
-        return positiveTime;
-    }
-
-    public void setPositiveTime(Date positiveTime) {
-        this.positiveTime = positiveTime;
     }
 
     public Date getCreateTime() {
@@ -220,14 +220,6 @@ public class DpMemberView implements Serializable {
         this.outTime = outTime;
     }
 
-    public String getPartyPost() {
-        return partyPost;
-    }
-
-    public void setPartyPost(String partyPost) {
-        this.partyPost = partyPost == null ? null : partyPost.trim();
-    }
-
     public String getPartyReward() {
         return partyReward;
     }
@@ -244,12 +236,36 @@ public class DpMemberView implements Serializable {
         this.otherReward = otherReward == null ? null : otherReward.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Byte getGender() {
@@ -284,36 +300,12 @@ public class DpMemberView implements Serializable {
         this.nativePlace = nativePlace == null ? null : nativePlace.trim();
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getTeduca() {
+        return teduca;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getAuthorizedType() {
-        return authorizedType;
-    }
-
-    public void setAuthorizedType(String authorizedType) {
-        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
-    }
-
-    public String getProPost() {
-        return proPost;
-    }
-
-    public void setProPost(String proPost) {
-        this.proPost = proPost == null ? null : proPost.trim();
+    public void setTeduca(String teduca) {
+        this.teduca = teduca == null ? null : teduca.trim();
     }
 
     public Boolean getIsRetire() {
@@ -340,19 +332,27 @@ public class DpMemberView implements Serializable {
         this.isHonorRetire = isHonorRetire;
     }
 
-    public String getStaffType() {
-        return staffType;
+    public Integer getAdminLevel() {
+        return adminLevel;
     }
 
-    public void setStaffType(String staffType) {
-        this.staffType = staffType == null ? null : staffType.trim();
+    public void setAdminLevel(Integer adminLevel) {
+        this.adminLevel = adminLevel;
     }
 
-    public String getPostClass() {
-        return postClass;
+    public String getPost() {
+        return post;
     }
 
-    public void setPostClass(String postClass) {
-        this.postClass = postClass == null ? null : postClass.trim();
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
     }
 }

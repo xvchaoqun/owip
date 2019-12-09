@@ -42,9 +42,9 @@
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
         </table>-->
-       <table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
+       <!--<table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -200,7 +200,9 @@
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
+        <table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
+        </table>
+        <!--<table tableName="cet_code_wx_sign" domainObjectName="cet.CetCodeWxSign" mapperName="cet.CetCodeWxSignMapper">
         </table>-->
         <!--<table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
                mapperName="cet.CetTraineeCourseViewMapper"

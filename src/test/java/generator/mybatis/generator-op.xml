@@ -30,8 +30,8 @@
         <!--<table tableName="op_record" domainObjectName="op.OpRecord" mapperName="op.OpRecordMapper">
 
         </table>-->
-        <table tableName="op_report" domainObjectName="op.OpReport" mapperName="op.OpReportMapper">
+        <!--<table tableName="op_report" domainObjectName="op.OpReport" mapperName="op.OpReportMapper">
 
-        </table>
+        </table>-->
     </context>
 </generatorConfiguration>

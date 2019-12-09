@@ -81,8 +81,6 @@ public class DpNpmController extends DpBaseController {
                            Byte gender,
                            String education,
                            String degree,
-                           Integer unitId,
-                           String authorizedType,
                            Byte status,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
@@ -125,12 +123,6 @@ public class DpNpmController extends DpBaseController {
         }
         if (StringUtils.isNotBlank(degree)) {
             criteria.andDegreeLike(SqlUtils.like(degree));
-        }
-        if (unitId != null) {
-            criteria.andUnitIdEqualTo(unitId);
-        }
-        if (StringUtils.isNotBlank(authorizedType)) {
-            criteria.andAuthorizedTypeLike(SqlUtils.like(authorizedType));
         }
         if (userId != null){
             criteria.andUserIdEqualTo(userId);
@@ -184,7 +176,7 @@ public class DpNpmController extends DpBaseController {
                            String degree,
                            String authorizedType,
                            String proPost,
-                           Integer unitId,
+                           String unit,
                            String remark,
                            Byte status,
                            HttpServletRequest request) {
@@ -219,8 +211,8 @@ public class DpNpmController extends DpBaseController {
             record.setProPost(proPost);
         }
 
-        if (unitId != null){
-            record.setUnitId(unitId);
+        if (StringUtils.isNotBlank(unit)){
+            record.setUnit(unit);
         }
         if (StringUtils.isNotBlank(remark)){
             record.setEducation(remark);
@@ -426,13 +418,14 @@ public class DpNpmController extends DpBaseController {
 
         List<DpNpm> records = new ArrayList<>();
         int row = 1;
+        Byte status = 1;
         for (Map<Integer,String> xlsRow : xlsRows){
 
             DpNpm record = new DpNpm();
             row++;
             String userCode = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(userCode)){
-                continue;
+                throw new OpException("第{0}行学工号为空", row);
             }
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null){
@@ -445,14 +438,11 @@ public class DpNpmController extends DpBaseController {
             int col = 2;
             record.setAddTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setUnit(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setAuthorizedType(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setProPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setUnitId(Integer.valueOf(xlsRow.get(col++)));
-            record.setStatus(Byte.valueOf(xlsRow.get(col++)));
+            record.setStatus(status);
             record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
             records.add(record);
         }
@@ -483,14 +473,14 @@ public class DpNpmController extends DpBaseController {
         List<DpNpmView> records = dpNpmViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] noPartyTitles = {"姓名|100","工作证号|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
-                "认定时间|100","现任职务|100","最高学历|100",
-                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
+                "认定时间|100","部门|250","现任职务|100","最高学历|100",
+                "最高学位|100","备注|200"};
         String[] outTitles = {"姓名|100","工作证号|100","退出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
-                "认定时间|100","现任职务|100","最高学历|100",
-                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
+                "认定时间|100","部门|250","现任职务|100","最高学历|100",
+                "最高学位|100","备注|200"};
         String[] transferTitles = {"姓名|100","工作证号|100","转出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
-                "认定时间|100","现任职务|100","最高学历|100",
-                "最高学位|100","编制类别|100","专业技术职务|100","所在单位|250"};
+                "认定时间|100","部门|250","现任职务|100","最高学历|100",
+                "最高学位|100","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 3){
             for (int i = 0; i < rownum; i++) {
@@ -507,12 +497,11 @@ public class DpNpmController extends DpBaseController {
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
                         uv.getBirth() != null ? DateUtils.intervalYearsUntilNow(uv.getBirth()) + "" : "",//年龄
                         DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getUnit(),
                         record.getPost(),
                         record.getEducation(),
                         record.getDegree(),
-                        record.getAuthorizedType(),
-                        record.getProPost(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName()
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -530,12 +519,11 @@ public class DpNpmController extends DpBaseController {
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
                         uv.getBirth() != null ? DateUtils.intervalYearsUntilNow(uv.getBirth()) + "" : "",//年龄
                         DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getUnit(),
                         record.getPost(),
                         record.getEducation(),
                         record.getDegree(),
-                        record.getAuthorizedType(),
-                        record.getProPost(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName()
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -554,12 +542,11 @@ public class DpNpmController extends DpBaseController {
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
                         uv.getBirth() != null ? DateUtils.intervalYearsUntilNow(uv.getBirth()) + "" : "",//年龄
                         DateUtils.formatDate(record.getAddTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getUnit(),
                         record.getPost(),
                         record.getEducation(),
                         record.getDegree(),
-                        record.getAuthorizedType(),
-                        record.getProPost(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName()
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }

@@ -5,7 +5,6 @@ import domain.base.MetaType;
 import domain.dp.*;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -97,7 +96,7 @@ public class DpPartyMemberController extends DpBaseController {
                                    Integer groupId,
                                    Integer postId,
                                    Integer groupPartyId,
-                                   Integer unitId,
+                                   String unit,
                                    Boolean isAdmin,
                                    Boolean isDeleted,
                                    Boolean isPresent,
@@ -140,8 +139,8 @@ public class DpPartyMemberController extends DpBaseController {
         if (groupPartyId != null){
             criteria.andGroupPartyIdEqualTo(groupPartyId);
         }
-        if (unitId != null){
-            criteria.andUnitIdEqualTo(unitId);
+        if (StringUtils.isNotBlank(unit)){
+            criteria.andUnitLike(unit);
         }
         if (typeIds != null){
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
@@ -246,17 +245,37 @@ public class DpPartyMemberController extends DpBaseController {
     public String dpPartyMember_au(Integer id, Integer groupId, ModelMap modelMap) {
 
         if (id != null) {
-            DpPartyMember dpPartyMember = dpPartyMemberMapper.selectByPrimaryKey(id);
-            modelMap.put("dpPartyMember", dpPartyMember);
-            SysUserView uv = sysUserService.findById(dpPartyMember.getUserId());
+
+            DpPartyMemberView dpPartyMemberView = dpPartyMemberService.getById(id);
+            modelMap.put("dpPartyMember", dpPartyMemberView);
+            SysUserView uv = sysUserService.findById(dpPartyMemberView.getUserId());
             modelMap.put("uv", uv);
-            groupId = dpPartyMember.getGroupId();
+            groupId = dpPartyMemberView.getGroupId();
         }
 
         DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(groupId);
         modelMap.put("dpPartyMemberGroup", dpPartyMemberGroup);
 
         return "dp/dpPartyMember/dpPartyMember_au";
+    }
+
+    @RequiresPermissions("dpPartyMember:del")
+    @RequestMapping(value = "/dpPartyMember_recover", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dpPartyMember_recover(@RequestParam(value = "ids[]") Integer[] ids){
+
+        if (null != ids && ids.length>0){
+            DpPartyMemberExample example = new DpPartyMemberExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
+            for (DpPartyMember dpPartyMember : dpPartyMembers){
+                dpPartyMemberService.batcheRecover(dpPartyMember);
+
+            }
+            logger.info(log( LogConstants.LOG_GROW, "批量恢复分党委委员：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dpPartyMember:del")
@@ -349,24 +368,20 @@ public class DpPartyMemberController extends DpBaseController {
 
     public void dpPartyMember_export(DpPartyMemberViewExample example, HttpServletResponse response) {
 
-        Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, DpParty> dpPartyMap = dpPartyService.findAll();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
 
         List<DpPartyMemberView> records = dpPartyMemberViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号|100", "姓名|80", "所在单位|200", "所属党派|270", "职务|100",
-                "分工|100", "任职时间|100", "性别|50", "民族|50", "身份证号|150",
-                "出生时间|80", "到校时间|100", "岗位类别|100",
-                "主岗等级|100", "专业技术职务|120", "专技职务等级|120", "管理岗位等级|120", "办公电话|100",
-                "手机号|100"};
+        String[] titles = {"工作证号|100", "姓名|80", "部门|200", "所属党派|270", "职务|100",
+                "分工|100", "任职时间|100", "性别|50", "民族|50",
+                "出生时间|80", "办公电话|100","手机号|100","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberView record = records.get(i);
             SysUserView sysUserView = record.getUser();
             DpMember dpMember = dpMemberMapper.selectByPrimaryKey(record.getUserId());
             DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(record.getGroupId());
-            Unit unit = unitMap.get(sysUserView.getUnit());
             TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(record.getUserId());
 
             List<String> typeNames = new ArrayList();
@@ -381,26 +396,19 @@ public class DpPartyMemberController extends DpBaseController {
             String[] values = {
                     sysUserView.getCode(),
                     sysUserView.getRealname(),
-                    unit == null ? "" : unit.getName(),
+                    record.getUnit(),
                     dpPartyMap.get(dpPartyMemberGroup.getPartyId()).getName(),
                     metaTypeService.getName(record.getPostId()),
 
-                    StringUtils.join(typeNames, ","),
+                    StringUtils.join(typeNames, ","),//分工
                     DateUtils.formatDate(record.getAssignDate(), DateUtils.YYYYMM),
                     sysUserView.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(sysUserView.getGender()),
                     sysUserView.getNation(),
-                    sysUserView.getIdcard(),
                     DateUtils.formatDate(sysUserView.getBirth(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(teacherInfo.getArriveTime(), DateUtils.YYYYMMDD_DOT),
-                    teacherInfo.getPostClass(),
-
-                    teacherInfo.getMainPostLevel(),
-                    teacherInfo.getProPost(),
-                    teacherInfo.getProPostLevel(),
-                    teacherInfo.getManageLevel(),
                     record.getOfficePhone(),
 
                     record.getMobile(),
+                    record.getRemark()
             };
             valuesList.add(values);
         }
@@ -559,6 +567,10 @@ public class DpPartyMemberController extends DpBaseController {
                 MetaType dpPartyMemberType = CmTag.getMetaTypeByCode("mt_dp_wy");
                 record.setPostId(dpPartyMemberType.getId());
             }
+            String officePhone = StringUtils.trimToNull(xlsRow.get(5));
+            record.setOfficePhone(officePhone);
+            String remark = StringUtils.trimToNull(xlsRow.get(6));
+            record.setRemark(remark);
             record.setPresentMember(true);
             records.add(record);
         }

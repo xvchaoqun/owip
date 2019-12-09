@@ -24,9 +24,9 @@ public class DpPrCmService extends DpBaseMapper {
     @Autowired
     private SysUserService sysUserService;
 
-    public boolean idDuplicate(Integer id, Integer userId, Integer type, Integer electSession){
+    public boolean idDuplicate(Integer id, Integer userId, Integer type, String electSession){
 
-        Assert.isTrue(userId != null  && electSession != null && type != null, "null");
+        //Assert.isTrue(userId != null  && electSession != null && type != null, "null");
 
         DpPrCmExample example = new DpPrCmExample();
         DpPrCmExample.Criteria criteria = example.createCriteria().andStatusEqualTo(true).andUserIdEqualTo(userId)
@@ -91,9 +91,9 @@ public class DpPrCmService extends DpBaseMapper {
     @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void insertSelective(DpPrCm record){
 
-        if (idDuplicate(null, record.getUserId(), record.getElectSession(), record.getType())){
+        /*if (idDuplicate(null, record.getUserId(), record.getType(), record.getElectSession())){
             throw new OpException("添加重复");
-        }
+        }*/
         record.setSortOrder(getNextSortOrder("dp_pr_cm", null));
         dpPrCmMapper.insertSelective(record);
     }
@@ -120,7 +120,7 @@ public class DpPrCmService extends DpBaseMapper {
     @CacheEvict(value="DpPrCm:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DpPrCm record){
         if(record.getUserId() != null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(), record.getElectSession(), record.getType()), "duplicate");
+            //Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(), record.getType(), record.getElectSession()), "duplicate");
         dpPrCmMapper.updateByPrimaryKeySelective(record);
     }
 

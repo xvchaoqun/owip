@@ -13,13 +13,9 @@ public class DpPartyView implements Serializable {
 
     private String shortName;
 
-    private Integer unitId;
-
     private Integer classId;
 
     private String phone;
-
-    private String fax;
 
     private String email;
 
@@ -37,11 +33,9 @@ public class DpPartyView implements Serializable {
 
     private Date deleteTime;
 
+    private String remark;
+
     private Long memberCount;
-
-    private BigDecimal studentMemberCount;
-
-    private BigDecimal positiveCount;
 
     private BigDecimal teacherMemberCount;
 
@@ -87,14 +81,6 @@ public class DpPartyView implements Serializable {
         this.shortName = shortName == null ? null : shortName.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
     public Integer getClassId() {
         return classId;
     }
@@ -109,14 +95,6 @@ public class DpPartyView implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax == null ? null : fax.trim();
     }
 
     public String getEmail() {
@@ -183,28 +161,20 @@ public class DpPartyView implements Serializable {
         this.deleteTime = deleteTime;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public Long getMemberCount() {
         return memberCount;
     }
 
     public void setMemberCount(Long memberCount) {
         this.memberCount = memberCount;
-    }
-
-    public BigDecimal getStudentMemberCount() {
-        return studentMemberCount;
-    }
-
-    public void setStudentMemberCount(BigDecimal studentMemberCount) {
-        this.studentMemberCount = studentMemberCount;
-    }
-
-    public BigDecimal getPositiveCount() {
-        return positiveCount;
-    }
-
-    public void setPositiveCount(BigDecimal positiveCount) {
-        this.positiveCount = positiveCount;
     }
 
     public BigDecimal getTeacherMemberCount() {

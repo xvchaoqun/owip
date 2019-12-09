@@ -73,17 +73,17 @@ public class DpPrCmController extends DpBaseController {
                             Integer userId,
                             Integer partyId,
                             String unitPost,
-                            Integer unitId,
+                            String unit,
                             String nation,
                             Byte gender,
-                            @RequestDateRange DateRange growTime,
+                            @RequestDateRange DateRange dpGrowTime,
                             @RequestDateRange DateRange workTime,
                             @RequestParam(required = false, defaultValue = "1") Byte type,
                             @RequestParam(defaultValue = "1") int cls,
                             @RequestDateRange DateRange electTime,
                             @RequestDateRange DateRange endTime,
                             Boolean status,
-                            Integer electSession,
+                            String electSession,
                             @RequestParam(required = false, defaultValue = "0") int export,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                             Integer pageSize, Integer pageNo)  throws IOException{
@@ -114,20 +114,20 @@ public class DpPrCmController extends DpBaseController {
         if (StringUtils.isNotBlank(nation)){
             criteria.andNationEqualTo(nation);
         }
-        if (unitId != null){
-            criteria.andUnitIdEqualTo(unitId);
-        }
+        /*if (StringUtils.isNotBlank(unit)){
+            criteria.andUnitLike(unit);
+        }*/
         if (partyId != null){
             criteria.andPartyIdEqualTo(partyId);
         }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (growTime.getStart()!=null){
-            criteria.andGrowTimeGreaterThanOrEqualTo(growTime.getStart());
+        if (dpGrowTime.getStart()!=null){
+            criteria.andDpGrowTimeGreaterThanOrEqualTo(dpGrowTime.getStart());
         }
-        if (growTime.getEnd()!=null){
-            criteria.andGrowTimeLessThanOrEqualTo(growTime.getEnd());
+        if (dpGrowTime.getEnd()!=null){
+            criteria.andDpGrowTimeLessThanOrEqualTo(dpGrowTime.getEnd());
         }
         if (type!=null) {
             criteria.andTypeEqualTo(type);
@@ -198,8 +198,6 @@ public class DpPrCmController extends DpBaseController {
 
         if (CmTag.getUserById(record.getUserId()).getType() != SystemConstants.USER_TYPE_JZG){
             return failed("非教职工账号");
-        }else if (dpPrCmService.idDuplicate(id, record.getUserId(), record.getType(), record.getElectSession())) {
-            return failed("添加重复");
         }
         if (StringUtils.isNotBlank(workTime)){
             record.setWorkTime(DateUtils.parseDate(workTime,DateUtils.YYYYMMDD_DOT));
@@ -401,25 +399,26 @@ public class DpPrCmController extends DpBaseController {
             }
             record.setUserId(uv.getUserId());
             int col = 2;
+            String _type = StringUtils.trimToNull(xlsRow.get(col++));
+            Byte type = typeMap.get(_type);
+            if (type != null){
+                record.setType(Integer.valueOf(type));
+            }else {
+                throw new OpException("第{0}行所属类别为空", row);
+            }
             record.setWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setUnitPost(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setExecutiveLevel(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setElectPost(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setElectSession(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setElectSession(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setElectTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setEducation(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setSchool(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
-            String _type = StringUtils.trimToNull(xlsRow.get(col++));
-            Byte type = typeMap.get(_type);
-            if (type != null){
-                record.setType(Integer.valueOf(type));
-            }
-            record.setStatus(StringUtils.contains(xlsRow.get(col++),"是"));
+            record.setStatus(true);
             record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
-
 
             records.add(record);
         }
@@ -440,10 +439,10 @@ public class DpPrCmController extends DpBaseController {
 
         List<DpPrCmView> records = dpPrCmViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
+        String[] titles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
                 "所属党派|270","加入党派时间|100","参加工作时间|100","行政级别|100","所属类别|200","最高学历|100",
                 "最高学位|100","毕业学校|100","所学专业|100","备注|100"};
-        String[] cancelTitles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
+        String[] cancelTitles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
                 "所属党派|270","加入党派时间|100","参加工作时间|100","行政级别|100","所属类别|200","最高学历|100",
                 "最高学位|100","毕业学校|100","所学专业|100","离任时间|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
@@ -458,13 +457,13 @@ public class DpPrCmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),//姓名
                         uv.getCode(),//工作证号
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),//所属单位
+                        record.getUnit(),//部门
                         record.getUnitPost(),//所属单位及职务
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),//性别
                         uv.getNation(),//民族
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),//出生时间
                         dpParty.getName() == null ? "" : dpParty.getName(),//所属党派
-                        DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
+                        DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
                         DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMMDD_DOT),//参加工作时间
                         record.getExecutiveLevel(),//行政级别
                         DpConstants.DP_PR_CM_MAP.get(type),//所属类别
@@ -487,13 +486,13 @@ public class DpPrCmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),
                         uv.getCode(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
+                        record.getUnit(),
                         record.getUnitPost(),
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),
                         uv.getNation(),
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
                         dpParty.getName() == null ? "" : dpParty.getName(),
-                        DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),
+                        DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),
                         DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMMDD_DOT),
                         record.getExecutiveLevel(),
                         DpConstants.DP_PR_CM_MAP.get(type),//所属类别

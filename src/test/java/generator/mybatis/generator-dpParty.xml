@@ -31,34 +31,31 @@
         <!--<table tableName="pmd_order_log" domainObjectName="dp.PmdOrderLog" mapperName="dp.PmdOrderLogMapper">
 
         </table>-->
-        <!--<table tableName="dp_member" domainObjectName="dp.DpMember" mapperName="dp.DpMemberMapper">
-
-        </table>-->
         <!--<table tableName="dp_party" domainObjectName="dp.DpParty" mapperName="dp.DpPartyMapper">
-
-        </table>-->
-        <table tableName="dp_party_member" domainObjectName="dp.DpPartyMember" mapperName="dp.DpPartyMemberMapper">
-
-        </table>
-        <!--<table tableName="dp_party_member_group" domainObjectName="dp.DpPartyMemberGroup" mapperName="dp.DpPartyMemberGroupMapper">
-
-        </table>-->
-        <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember" mapperName="party.BranchMemberMapper">
-
-        </table>-->
-        <!--<table tableName="dp_party_member_view" domainObjectName="dp.DpPartyMemberView" mapperName="dp.DpPartyMemberViewMapper">
-
-        </table>-->
-        <!--<table tableName="dp_member_out" domainObjectName="dp.DpMemberOut" mapperName="dp.DpMemberOutMapper">
 
         </table>-->
         <!--<table tableName="dp_party_view" domainObjectName="dp.DpPartyView" mapperName="dp.DpPartyViewMapper">
 
         </table>-->
+        <!--<table tableName="dp_party_member_group" domainObjectName="dp.DpPartyMemberGroup" mapperName="dp.DpPartyMemberGroupMapper">
+
+        </table>-->
+        <!--<table tableName="dp_party_member" domainObjectName="dp.DpPartyMember" mapperName="dp.DpPartyMemberMapper">
+
+        </table>-->
+        <!--<table tableName="dp_party_member_view" domainObjectName="dp.DpPartyMemberView" mapperName="dp.DpPartyMemberViewMapper">
+
+        </table>-->
+        <!--<table tableName="dp_member" domainObjectName="dp.DpMember" mapperName="dp.DpMemberMapper">
+
+        </table>-->
         <!--<table tableName="dp_member_view" domainObjectName="dp.DpMemberView" mapperName="dp.DpMemberViewMapper">
 
         </table>-->
-        <!--<table tableName="dp_npm" domainObjectName="dp.DpNpm" mapperName="dp.DpNpmMapper">
+        <table tableName="dp_npm" domainObjectName="dp.DpNpm" mapperName="dp.DpNpmMapper">
+
+        </table>
+        <!--<table tableName="dp_npm_view" domainObjectName="dp.DpNpmView" mapperName="dp.DpNpmViewMapper">
 
         </table>-->
         <!--<table tableName="dp_npr" domainObjectName="dp.DpNpr" mapperName="dp.DpNprMapper">
@@ -67,16 +64,13 @@
         <!--<table tableName="dp_npr_view" domainObjectName="dp.DpNprView" mapperName="dp.DpNprViewMapper">
 
         </table>-->
-        <!--<table tableName="dp_om_view" domainObjectName="dp.DpOmView" mapperName="dp.DpOmViewMapper">
-
-        </table>-->
         <!--<table tableName="dp_om" domainObjectName="dp.DpOm" mapperName="dp.DpOmMapper">
 
         </table>-->
-        <!--<table tableName="dp_npm_view" domainObjectName="dp.DpNpmView" mapperName="dp.DpNpmViewMapper">
+        <!--<table tableName="dp_om_view" domainObjectName="dp.DpOmView" mapperName="dp.DpOmViewMapper">
 
         </table>-->
-        <!--<table tableName="dp_pr_cm" domainObjectName="dp.DpPrCm" mapperName="dp.DpPrCmMapper">
+       <!-- <table tableName="dp_pr_cm" domainObjectName="dp.DpPrCm" mapperName="dp.DpPrCmMapper">
 
         </table>-->
         <!--<table tableName="dp_pr_cm_view" domainObjectName="dp.DpPrCmView" mapperName="dp.DpPrCmViewMapper">

@@ -23,41 +23,22 @@ pageEncoding="UTF-8"%>
 				</select>
 			</div>
 		</div>
-		<%--<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>成员状态</label>
-			<div class="col-xs-6">
-				<select required data-rel="select2" name="status" data-placeholder="请选择"  data-width="270">
-					<option></option>
-					<c:forEach items="${DP_NPM_STATUS_MAP}" var="_status">
-						<option value="${_status.key}">${_status.value}</option>
-					</c:forEach>
-				</select>
-				<script>
-					$("#modalForm select[name=status]").val(${dpNpm.status});
-				</script>
-			</div>
-		</div>--%>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 所属单位</label>
-			<div class="col-xs-6">
-				<c:set var="unit" value="${cm:getUnitById(dpNpm.unitId)}"/>
-				<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-						data-width="270"
-						name="unitId" data-placeholder="请选择">
-					<option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
-				</select>
-			</div>
-		</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span> 认定时间</label>
+            <label class="col-xs-3 control-label"> 认定时间</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 270px">
-                    <input required class="form-control date-picker" name="addTime" type="text"
+                    <input class="form-control date-picker" name="addTime" type="text"
                                                                   data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpNpm.addTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
         </div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label"> 部门</label>
+			<div class="col-xs-6">
+				<input class="form-control" type="text" name="unit" value="${dpNpm.unit}">
+			</div>
+		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">现任职务</label>
 			<div class="col-xs-6">
@@ -74,18 +55,6 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"> 最高学位</label>
 				<div class="col-xs-6">
                         <input class="form-control" type="text" name="degree" value="${dpNpm.degree}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 编制类别</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="authorizedType" value="${dpNpm.authorizedType}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"> 专业技术职务</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="proPost" value="${dpNpm.proPost}">
 				</div>
 			</div>
 			<div class="form-group">

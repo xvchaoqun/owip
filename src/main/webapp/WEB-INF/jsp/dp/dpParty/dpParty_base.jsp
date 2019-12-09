@@ -58,10 +58,16 @@ pageEncoding="UTF-8"%>
 							${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}
 						</td>
 					</tr>
+					<tr>
+						<td>
+							备注
+						</td>
+						<td colspan="5">
+							${dpParty.remark}
+						</td>
+					</tr>
 					</tbody>
 				</table>
-
-
 </div></div></div>
 
 <div class="widget-box transparent">

@@ -2,10 +2,9 @@ package persistence.dp;
 
 import domain.dp.DpPartyView;
 import domain.dp.DpPartyViewExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface DpPartyViewMapper {
     long countByExample(DpPartyViewExample example);

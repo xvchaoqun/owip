@@ -9,6 +9,7 @@
           return rowObject.isFinished?'<span class="text-success">已上课</span>':'<span class="text-danger">未上课</span>'
       }},
       {label: '签到时间', name: 'signTime', width: 160},
+      {label: '签退时间', name: 'signOutTime', width: 160},
       {label: '签到方式', name: 'signType', width: 80, formatter: function (cellvalue, options, rowObject){
           if(cellvalue==undefined) return '--'
           return _cMap.CET_TRAINEE_SIGN_TYPE_MAP[cellvalue];

@@ -24,6 +24,8 @@ public class CetTraineeCourseView implements Serializable {
 
     private Date signTime;
 
+    private Date signOutTime;
+
     private Byte signType;
 
     private String remark;
@@ -100,6 +102,14 @@ public class CetTraineeCourseView implements Serializable {
 
     public void setSignTime(Date signTime) {
         this.signTime = signTime;
+    }
+
+    public Date getSignOutTime() {
+        return signOutTime;
+    }
+
+    public void setSignOutTime(Date signOutTime) {
+        this.signOutTime = signOutTime;
     }
 
     public Byte getSignType() {

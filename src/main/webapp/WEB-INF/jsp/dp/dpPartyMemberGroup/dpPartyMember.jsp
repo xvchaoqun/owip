@@ -56,13 +56,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>所属单位</label>
-                                    <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
-                                        <option></option>
-                                          <c:forEach items="${unitMap}" var="unit"> 
-                                            <option value="${unit.key}">${unit.value.name}</option>
-                                              </c:forEach>  </select> 
-                                    <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
+                                    <label>部门名称</label>
+                                    <input class="form-control search-query" name="unit" type="text" value="${param.unit}"
+                                           placeholder="请输入部门名称">
                                 </div>
                                     <div class="form-group">
                                         <label>所属民主党派</label>
@@ -136,7 +132,7 @@
                         return '<button data-url="${ctx}/dp/dpPartyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
                 }},
             </shiro:hasPermission>
-            {label: '所在单位', name: 'unitId', width: 350,formatter: $.jgrid.formatter.unit},
+            {label: '部门', name: 'unit', width: 350},
             {label: '所属民主党派', name: 'dpParty.name', width: 300, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
@@ -169,7 +165,8 @@
             },
             {label: '民族', name: 'user.nation', width: 60},
             { label: '办公电话', name: 'officePhone' },
-            { label: '手机号', name: 'mobile' }
+            { label: '手机号', name: 'mobile' },
+            { label: '备注', name: 'remark', width: 180}
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');

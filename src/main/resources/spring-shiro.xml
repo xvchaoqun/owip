@@ -154,6 +154,8 @@
                 /m/cas = anon
                 /wxLogin = anon
                 /m/wxLogin = anon
+                /qrcode = anon
+                /m/qrcode = anon
                 /member_reg = anon
                 /login = authc
                 /logout = logout

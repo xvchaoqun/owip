@@ -6,10 +6,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
@@ -18,9 +16,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="delete_time" jdbcType="DATE" property="deleteTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="member_count" jdbcType="BIGINT" property="memberCount" />
-    <result column="student_member_count" jdbcType="DECIMAL" property="studentMemberCount" />
-    <result column="positive_count" jdbcType="DECIMAL" property="positiveCount" />
     <result column="teacher_member_count" jdbcType="DECIMAL" property="teacherMemberCount" />
     <result column="retire_member_count" jdbcType="DECIMAL" property="retireMemberCount" />
     <result column="honor_retire_count" jdbcType="DECIMAL" property="honorRetireCount" />
@@ -86,10 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, short_name, unit_id, class_id, phone, fax, email, mailbox, found_time, 
-    sort_order, create_time, update_time, is_deleted, delete_time, member_count, student_member_count, 
-    positive_count, teacher_member_count, retire_member_count, honor_retire_count, group_count, 
-    present_group_count
+    id, code, name, short_name, class_id, phone, email, mailbox, found_time, sort_order, 
+    create_time, update_time, is_deleted, delete_time, remark, member_count, teacher_member_count, 
+    retire_member_count, honor_retire_count, group_count, present_group_count
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPartyViewExample" resultMap="BaseResultMap">
     select
@@ -113,21 +109,19 @@
   </delete>
   <insert id="insert" parameterType="domain.dp.DpPartyView">
     insert into dp_party_view (id, code, name, 
-      short_name, unit_id, class_id, 
-      phone, fax, email, 
-      mailbox, found_time, sort_order, 
-      create_time, update_time, is_deleted, 
-      delete_time, member_count, student_member_count, 
-      positive_count, teacher_member_count, retire_member_count, 
+      short_name, class_id, phone, 
+      email, mailbox, found_time, 
+      sort_order, create_time, update_time, 
+      is_deleted, delete_time, remark, 
+      member_count, teacher_member_count, retire_member_count, 
       honor_retire_count, group_count, present_group_count
       )
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{shortName,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=DATE}, #{memberCount,jdbcType=BIGINT}, #{studentMemberCount,jdbcType=DECIMAL}, 
-      #{positiveCount,jdbcType=DECIMAL}, #{teacherMemberCount,jdbcType=DECIMAL}, #{retireMemberCount,jdbcType=DECIMAL}, 
+      #{shortName,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{deleteTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+      #{memberCount,jdbcType=BIGINT}, #{teacherMemberCount,jdbcType=DECIMAL}, #{retireMemberCount,jdbcType=DECIMAL}, 
       #{honorRetireCount,jdbcType=DECIMAL}, #{groupCount,jdbcType=BIGINT}, #{presentGroupCount,jdbcType=BIGINT}
       )
   </insert>
@@ -146,17 +140,11 @@
       <if test="shortName != null">
         short_name,
       </if>
-      <if test="unitId != null">
-        unit_id,
-      </if>
       <if test="classId != null">
         class_id,
       </if>
       <if test="phone != null">
         phone,
-      </if>
-      <if test="fax != null">
-        fax,
       </if>
       <if test="email != null">
         email,
@@ -182,14 +170,11 @@
       <if test="deleteTime != null">
         delete_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="memberCount != null">
         member_count,
-      </if>
-      <if test="studentMemberCount != null">
-        student_member_count,
-      </if>
-      <if test="positiveCount != null">
-        positive_count,
       </if>
       <if test="teacherMemberCount != null">
         teacher_member_count,
@@ -220,17 +205,11 @@
       <if test="shortName != null">
         #{shortName,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
-      </if>
       <if test="classId != null">
         #{classId,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="fax != null">
-        #{fax,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -256,14 +235,11 @@
       <if test="deleteTime != null">
         #{deleteTime,jdbcType=DATE},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="memberCount != null">
         #{memberCount,jdbcType=BIGINT},
-      </if>
-      <if test="studentMemberCount != null">
-        #{studentMemberCount,jdbcType=DECIMAL},
-      </if>
-      <if test="positiveCount != null">
-        #{positiveCount,jdbcType=DECIMAL},
       </if>
       <if test="teacherMemberCount != null">
         #{teacherMemberCount,jdbcType=DECIMAL},
@@ -303,17 +279,11 @@
       <if test="record.shortName != null">
         short_name = #{record.shortName,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
       <if test="record.classId != null">
         class_id = #{record.classId,jdbcType=INTEGER},
       </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fax != null">
-        fax = #{record.fax,jdbcType=VARCHAR},
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
@@ -339,14 +309,11 @@
       <if test="record.deleteTime != null">
         delete_time = #{record.deleteTime,jdbcType=DATE},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.memberCount != null">
         member_count = #{record.memberCount,jdbcType=BIGINT},
-      </if>
-      <if test="record.studentMemberCount != null">
-        student_member_count = #{record.studentMemberCount,jdbcType=DECIMAL},
-      </if>
-      <if test="record.positiveCount != null">
-        positive_count = #{record.positiveCount,jdbcType=DECIMAL},
       </if>
       <if test="record.teacherMemberCount != null">
         teacher_member_count = #{record.teacherMemberCount,jdbcType=DECIMAL},
@@ -374,10 +341,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       short_name = #{record.shortName,jdbcType=VARCHAR},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
       class_id = #{record.classId,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
-      fax = #{record.fax,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       mailbox = #{record.mailbox,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
@@ -386,9 +351,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       delete_time = #{record.deleteTime,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
       member_count = #{record.memberCount,jdbcType=BIGINT},
-      student_member_count = #{record.studentMemberCount,jdbcType=DECIMAL},
-      positive_count = #{record.positiveCount,jdbcType=DECIMAL},
       teacher_member_count = #{record.teacherMemberCount,jdbcType=DECIMAL},
       retire_member_count = #{record.retireMemberCount,jdbcType=DECIMAL},
       honor_retire_count = #{record.honorRetireCount,jdbcType=DECIMAL},

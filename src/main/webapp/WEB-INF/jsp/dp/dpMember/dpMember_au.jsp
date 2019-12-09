@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="DP_MEMBER_POLITICAL_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="DP_MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
-<c:set var="member_needGrowTime" value="${_pMap['member_needGrowTime']=='true'}"/>
 <div style="width: 900px">
-<h3>${dpMember!=null?'修改党籍信息':'添加党派成员'}</h3>
+<h3>${dpMember!=null?'修改党派成员信息':'添加党派成员信息'}</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}dp/dpMember_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
     <div class="row">
@@ -45,97 +42,75 @@
                     </div>
                 </c:if>
             </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>党籍状态</label>
-                <div class="col-xs-6">
-                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="150">
-                        <option></option>
-                        <c:forEach items="${DP_MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-                            <option value="${_status.key}">${_status.value}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=politicalStatus]").val(${dpMember.politicalStatus});
-                    </script>
-                </div>
-            </div>
+
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">组织关系转入时间</label>
+                <label class="col-xs-4 control-label">加入党派时间</label>
                 <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_transferTime" type="text"
-                               data-date-format="yyyy.mm.dd"
-                               value="${cm:formatDate(dpMember.transferTime,'yyyy.MM.dd')}"/>
+                    <div class="input-group" style="width: 272px">
+                        <input class="form-control date-picker" name="_dpGrowTime" type="text"
+                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.dpGrowTime,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">提交书面申请书时间</label>
-                <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_applyTime" type="text"
-                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.applyTime,'yyyy.MM.dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
+                <label class="col-xs-4 control-label">学历</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="educa" value="${dpMember.educa}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">确定为入党积极分子时间</label>
-                <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_activeTime" type="text"
-                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.activeTime,'yyyy.MM.dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
+                <label class="col-xs-4 control-label">学位</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="degree" value="${dpMember.degree}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">确定为发展对象时间</label>
-                <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_candidateTime" type="text"
-                               data-date-format="yyyy.mm.dd"
-                               value="${cm:formatDate(dpMember.candidateTime,'yyyy.MM.dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-                </div>
-            </div>
-             <div class="form-group">
-                <label class="col-xs-4 control-label">入党介绍人</label>
-                <div class="col-xs-6">
-                    <input class="form-control" style="width: 150px" type="text" name="sponsor" value="${dpMember.sponsor}"/>
+                <label class="col-xs-4 control-label">部门</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="unit" value="${dpMember.unit}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">${dpMember_needGrowTime?'<span class="star">*</span>':''} 党派加入时间</label>
-                <div class="col-xs-6">
-                    <div class="input-group" style="width: 150px">
-                        <input ${dpMember_needGrowTime?'required':''} class="form-control date-picker" name="_growTime" type="text"
-                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpMember.growTime,'yyyy.MM.dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
+                <label class="col-xs-4 control-label">党派内职务</label>
+                <div class="col-xs-6" style="width: 296px">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="dpPost" rows="2">${dpMember.dpPost}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">兼职</label>
+                <div class="col-xs-6" style="width: 296px">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="partTimeJob" rows="2">${dpMember.partTimeJob}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">通讯地址</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="address" value="${dpMember.address}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">手机号</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="mobile" value="${dpMember.mobile}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">邮箱</label>
+                <div class="col-xs-6" style="width: 296px">
+                    <input class="form-control" type="text" name="email" value="${dpMember.email}"/>
                 </div>
             </div>
         </div>
         <div class="col-xs-5">
             <div class="form-group">
-                <label class="col-xs-3 control-label">${dpMember_needGrowTime&&dpMember.politicalStatus==DP_MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
-                <div class="col-xs-8">
-                    <div ${dpMember_needGrowTime&&dpMember.politicalStatus==DP_MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_positiveTime" type="text"
-                               data-date-format="yyyy.mm.dd"
-                               value="${cm:formatDate(dpMember.positiveTime,'yyyy.MM.dd')}"/>
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">党内职务</label>
+                <label class="col-xs-3 control-label">培训情况</label>
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
-                                  name="partyPost" rows="2">${dpMember.partyPost}</textarea>
+                                  name="trainState" rows="3">${dpMember.trainState}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -150,6 +125,13 @@
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="otherReward" rows="3">${dpMember.otherReward}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注</label>
+                <div class="col-xs-8">
+						<textarea class="form-control limited noEnter" type="text" maxlength="100"
+                                  name="remark" rows="3">${dpMember.remark}</textarea>
                 </div>
             </div>
         </div>
@@ -171,22 +153,6 @@
 <script>
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'), {endDate: '${_today}'});
-
-    <c:if test="${dpMember_needGrowTime}">
-    $("#modalForm select[name=politicalStatus]").change(function(){
-
-        var politicalStatus = $(this).val();
-        if(politicalStatus=='${DP_MEMBER_POLITICAL_STATUS_POSITIVE}'){
-            $("#modalForm input[name=_positiveTime]").closest(".form-group")
-                .find("label").html('<span class="star">*</span> 转正时间');
-             $("#modalForm input[name=_positiveTime]").attr("required", "required")
-        }else{
-            $("#modalForm input[name=_positiveTime]").closest(".form-group")
-                .find(".star").remove();
-            $("#modalForm input[name=_positiveTime]").removeAttr("required")
-        }
-    })
-    </c:if>
 
     $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();

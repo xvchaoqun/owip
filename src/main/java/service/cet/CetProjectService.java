@@ -121,5 +121,15 @@ public class CetProjectService extends CetBaseMapper {
         }
     }
 
+    public CetProject getByName(String projectName){
+
+        CetProjectExample cetProjectExample = new CetProjectExample();
+        cetProjectExample.createCriteria().andNameEqualTo(projectName);
+        List<CetProject> cetProjects = cetProjectMapper.selectByExample(cetProjectExample);
+        if (cetProjects.size() == 1)
+            return cetProjects.get(0);
+
+        return null;
+    }
 
 }

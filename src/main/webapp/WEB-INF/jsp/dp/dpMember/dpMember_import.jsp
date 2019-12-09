@@ -18,7 +18,7 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_dpMember_${inSchool?"inSchool":"outSchool"}">
+            <a href="${ctx}/attach?code=sample_dpMember">
                 党派成员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
@@ -48,7 +48,7 @@
 							if(ret && ret.successCount>=0){
 								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条覆盖</font>';
 								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
-									page_reload();
+                                    $("#jqGrid").trigger("reloadGrid");
 								});
 							}
 							$btn.button('reset');

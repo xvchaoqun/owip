@@ -8,12 +8,27 @@
                 ||not empty param.postTypes || not empty param.code || not empty param.sort
                 || not empty param.finishPeriodStart || not empty param.finishPeriodEnd}"/>
 <div class="jqgrid-vertical-offset buttons">
-    <div class="type-select">
-        <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
-        <span class="typeCheckbox ${traineeTypeId==cetTraineeType.id?"checked":""}">
-        <input ${traineeTypeId==cetTraineeType.id?"checked":""} type="checkbox" value="${cetTraineeType.id}"> ${cetTraineeType.name}(${cm:trimToZero(typeCountMap.get(cetTraineeType.id))})
-        </span>
-        </c:forEach>
+    <div class="pull-right hidden-sm hidden-xs">
+        参训人员类型：
+        <select id="traineeTypeId">
+            <c:forEach items="${cetTraineeTypes}" var="cetTraineeType">
+                <option value="${cetTraineeType.id}">${cetTraineeType.name}</option>
+            </c:forEach>
+        </select>
+        <script>
+            $("#traineeTypeId").val('${traineeTypeId}');
+            $("#searchForm2 input[name=traineeTypeId]").val('${param.traineeTypeId}');
+            $("#traineeTypeId").select2({
+                theme: "default",
+                allowClear: false,
+            }).change(function () {
+                $("#searchForm2 input[name=traineeTypeId]").val($(this).val());
+                $("#searchForm2 .jqSearchBtn").click();
+                if($(this).val()==''){
+                    throw new Error();
+                }
+            })
+        </script>
     </div>
 <c:if test="${cls==1}">
     <c:if test="${!isQuit}">
@@ -22,6 +37,13 @@
                 data-url="${ctx}/cet/cetProjectObj_add?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="fa fa-plus"></i> 添加
         </button>
+        <c:if test="${cls==1}">
+        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                data-url="${ctx}/cet/cetProject_detail_import?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
+                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+            批量导入
+        </button>
+        </c:if>
         <button data-url="${ctx}/cet/cetProjectObj_quit?isQuit=1"
                 data-title="退出"
                 data-msg="确定将这{0}个人员转移到“退出培训人员”？"

@@ -6,15 +6,14 @@ pageEncoding="UTF-8" %>
 <c:set var="DP_MEMBER_TYPE_STUDENT" value="<%=DpConstants.DP_MEMBER_TYPE_STUDENT%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
 <c:set var="DP_MEMBER_STATUS_TRANSFER" value="<%=DpConstants.DP_MEMBER_STATUS_TRANSFER%>"/>
-<c:set var="DP_MEMBER_POLITICAL_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv " data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.gender
-            ||not empty param.partyId ||not empty param.politicalStatus ||not empty param.type || not empty selectNations ||not empty selectNativePlaces
-            ||not empty param.status ||not empty param.source ||not empty param.partyPost
-            || not empty param.code || not empty param.sort ||not empty param._positiveTime ||not empty param._growTime
-            ||not empty param.isHonorRetire ||not empty param._retireTime ||not empty param.education}"/>
+            <c:set var="_query" value="${not empty param.userId ||not empty param.unit ||not empty param.gender
+            ||not empty param.partyId ||not empty param.type || not empty selectNations ||not empty selectNativePlaces
+            ||not empty param.status ||not empty param.source ||not empty param.partyPost || not empty proPost
+            || not empty param.code || not empty param.sort ||not empty param._dpGrowTime
+            ||not empty param.isHonorRetire ||not empty param._retireTime ||not empty param.educa || not empty param.degree}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/dp/dpMember/dpMember_menu.jsp"/>
                 <div class="tab-content">
@@ -26,7 +25,7 @@ pageEncoding="UTF-8" %>
                             data-open-by="page"
                             data-id-name="userId"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改党籍信息</button>
+                        修改成员信息</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpMember:del">
                     <button data-url="${ctx}/dp/dpMember_batchDel"
@@ -97,18 +96,11 @@ pageEncoding="UTF-8" %>
                                     <option value="${dpParty.id}" delete="${dpParty.isDeleted}">${dpParty.name}</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>所在单位</label>
-                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${unitMap}" var="unit">
-                                        <option value="${unit.key}">${unit.value.name}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#searchForm select[name=unitId]").val('${param.unitId}');
-                                </script>
-                            </div>
+                            <%--<div class="form-group">
+                                <label>部门名称</label>
+                                <input class="form-control search-query" name="unit" type="text" value="${param.unit}"
+                                       placeholder="请输入部门名称">
+                            </div>--%>
                             <div class="form-group">
                                 <label>性别</label>
                                 <div class="input-group">
@@ -159,56 +151,26 @@ pageEncoding="UTF-8" %>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>转正时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="转正时间范围">
+                                <label>加入党派时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="加入党派时间范围">
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar bigger-110"></i>
                                                             </span>
-                                    <input placeholder="请选择转正时间范围" data-rel="date-range-picker"
+                                    <input placeholder="请选择加入党派时间范围" data-rel="date-range-picker"
                                            class="form-control date-range-picker"
-                                           type="text" name="_positiveTime" value="${param._positiveTime}"/>
+                                           type="text" name="_dpGrowTime" value="${param._dpGrowTime}"/>
                                 </div>
+                            </div>
+                            <%--<div class="form-group">
+                                <label>学历</label>
+                                <input class="form-control search-query" name="educa" type="text" value="${param.educa}"
+                                       placeholder="请输入学历">
                             </div>
                             <div class="form-group">
-                                <label>入党时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="入党时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                    <input placeholder="请选择入党时间范围" data-rel="date-range-picker"
-                                           class="form-control date-range-picker"
-                                           type="text" name="_growTime" value="${param._growTime}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>党籍状态</label>
-                                <select required data-rel="select2" name="politicalStatus"
-                                        data-placeholder="请选择" data-width="120">
-                                    <option></option>
-                                    <c:forEach items="${DP_MEMBER_POLITICAL_STATUS_MAP}" var="_status">
-                                        <option value="${_status.key}">${_status.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
-                                </script>
-                            </div>
-                            <c:if test="${cls==2 || cls==3 || cls==7}">
-                                <div class="form-group">
-                                    <label>最高学历</label>
-                                    <div class="input-group">
-                                        <select name="education" data-rel="select2" data-placeholder="请选择">
-                                            <option></option>
-                                            <c:forEach items="${teacherEducationTypes}" var="education">
-                                                <option value="${education}">${education}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <script>
-                                            $("#searchForm select[name=education]").val('${param.education}');
-                                        </script>
-                                    </div>
-                                </div>
-
+                                <label>学位</label>
+                                <input class="form-control search-query" name="degree" type="text" value="${param.degree}"
+                                       placeholder="请输入学位">
+                            </div>--%>
                                 <c:if test="${cls==3 || cls==7}">
                                     <div class="form-group">
                                         <label>退休时间</label>
@@ -236,7 +198,6 @@ pageEncoding="UTF-8" %>
                                         </script>
                                     </div>
                                 </c:if>
-                            </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/dp/dpMember?cls=${cls}"
@@ -323,7 +284,7 @@ pageEncoding="UTF-8" %>
             {label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 140},
-            {label: '出生时间', name :'growTime', width: 120,sortable: true,
+            {label: '出生时间', name :'birth', width: 120,sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             {label: '年龄', name: 'birth', width: 55, formatter: function (cellvalue, options, rowObject) {
@@ -342,48 +303,36 @@ pageEncoding="UTF-8" %>
                     return "--";
                 }, sortable: true
             },
+            {label: '党派内职务', name: 'dpPost', width: 180},
+            {label: '部门', name: 'unit', width: 200},
+            {label: '兼职', name: 'partTimeJob', width: 180},
+            {label: '行政职务', name: 'post', width: 180},
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+            {label: '职称', name: 'proPost'},
+            {label: '是否是共产党员', name: 'isPartyMember', width: 120},
             {
-                label: '党籍状态', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue)
-                        return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
-                    return "-";
-                }
-            },
-            {
-                label: '党派加入时间',
-                name: 'growTime',
+                label: '加入党派时间',
+                name: 'dpGrowTime',
                 width: 120,
                 sortable: true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            {   label: '入党介绍人', name: 'sponsor'},
-            {
-                label: '转正时间',
-                name: 'positiveTime',
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}
-            },
-            <c:if test="${cls==1 || cls==6}">
-            {label: '学生类别', name: 'studentType', width: 150},
-            {label: '年级', name: 'grade', width: 90},
-            {label: '培养层次', name: 'eduLevel'},
-            {label: '培养类型', name: 'eduType'},
-            </c:if>
+            {label: '培训情况', name: 'trainState', width: 200},
+            {label: '党内奖励', name: 'partyReward', width: 200},
+            {label: '其他奖励', name: 'otherReward', width: 200},
+            {label: '通讯地址', name: 'address', width: 200},
             <c:if test="${cls==2 || cls==7}">
-            {label: '最高学历学位', name: 'education', width: 120},
-            {label: '编制类别', name: 'authorizedType'},
-            /*{label: '人员类别', name: 'staffType'},
-            {label: '岗位类别', name: 'postClass'},*/
-            {label: '专业技术职务', name: 'proPost', width: 150},
+            {label: '学历', name: 'educa', width: 120},
+            {label: '学位', name: 'degree', width: 120},
             {label: '联系手机', name: 'mobile', width: 120},
             </c:if>
+            {label: '邮箱', name: 'email'},
             <c:if test="${cls==3||cls==7}">
             {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '所在单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
-            {label: '所在院系', name: 'user.unit', width: 250},
+            {label: '备注', name: 'remark', width: 200},
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
         ]
     }).jqGrid("setFrozenColumns");

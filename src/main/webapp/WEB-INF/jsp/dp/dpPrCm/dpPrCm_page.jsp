@@ -6,8 +6,8 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.workTime ||not empty param.status ||not empty param.electTime
-            ||not empty param.endTime ||not empty param.electSession || not empty param.code || not empty param.sort ||not empty selectNations
-            ||not empty param.unitId ||not empty param.gender}"/>
+            ||not empty param.endTime ||not empty param.dpGrowTime ||not empty param.electSession || not empty param.code || not empty param.sort ||not empty selectNations
+            ||not empty param.gender}"/>
                 <div class="tabble">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content">
@@ -107,25 +107,6 @@ pageEncoding="UTF-8" %>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>所在单位</label>
-                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${unitMap}" var="unit">
-                                        <option value="${unit.key}">${unit.value.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <%--<div class="form-group">
-                                <label>所属类别</label>
-                                <select data-width="180" name="type" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${DP_PR_CM_MAP}" var="type">
-                                        <option value="${type.key}">${type.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
-                            </div>--%>
                             <div class="form-group">
                                 <label>参加工作时间</label>
                                 <div class="input-group tooltip-success" data-rel="tooltip" title="参加工作时间范围">
@@ -246,14 +227,14 @@ pageEncoding="UTF-8" %>
                     return "--";
                 }, sortable: true
             },
-            { label: '加入党派时间',name: 'growTime',width:120,sortable:true,
+            { label: '加入党派时间',name: 'dpGrowTime',width:120,sortable:true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             { label: '参加工作时间',name: 'workTime',width:120,sortable:true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
-            { label: '所在单位',name: 'unitId',width:180,sortable:true,formatter: $.jgrid.formatter.unit},
-            { label: '所在单位及职务',name: 'unitPost',width:120,sortable:true},
+            { label: '部门',name: 'unit',width:180},
+            { label: '所在单位职务',name: 'unitPost',width:120,sortable:true},
             { label: '行政级别',name: 'executiveLevel',width:120,sortable:true},
             { label: '所属类别',name: 'type',width:180,formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue)

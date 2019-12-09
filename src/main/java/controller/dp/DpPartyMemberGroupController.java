@@ -328,7 +328,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         List<DpPartyMemberGroup> records = dpPartyMemberGroupMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|250|left", "所属党派|250|left", "是否现任委员会|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "任命时间|100"};
+        String[] titles = {"名称|250|left", "所属党派|250|left", "是否现任委员会|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "成立时间|100", "备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberGroup record = records.get(i);
@@ -351,6 +351,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                             DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
+                            record.getRemark()
             };
             valuesList.add(values);
         }
@@ -457,17 +458,17 @@ public class DpPartyMemberGroupController extends DpBaseController {
             row++;
             String name = StringUtils.trimToNull(xlsRow.get(0));
             if (StringUtils.isBlank(name)){
-                throw new OpException("第{0}行委员会名称为空", row);
+                throw new OpException("第{0}行委员会名称为空，此处为必填项。", row);
             }
             record.setName(name);
 
             String dpPartyCode = StringUtils.trimToNull(xlsRow.get(2));
             if (StringUtils.isBlank(dpPartyCode)){
-                throw new OpException("第{0}行所属民主党派编码为空", row);
+                throw new OpException("第{0}行所属民主党派编码为空，此处为必填项。", row);
             }
             DpParty dpParty = dpPartyService.getByCode(dpPartyCode);
             if (dpParty == null){
-                throw new OpException("第{0}行所属民主党派编码[{1}]不存在", row, dpPartyCode);
+                throw new OpException("第{0}行所属民主党派编码[{1}]不存在。", row, dpPartyCode);
             }
             record.setPartyId(dpParty.getId());
             record.setIsPresent(StringUtils.contains(xlsRow.get(3),"是"));
@@ -479,6 +480,8 @@ public class DpPartyMemberGroupController extends DpBaseController {
                 String actualTranTime = StringUtils.trimToNull(xlsRow.get(6));
                 record.setActualTranTime(DateUtils.parseStringToDate(actualTranTime));
             }
+            String remark = StringUtils.trimToNull(xlsRow.get(7));
+            record.setRemark(remark);
             record.setIsDeleted(false);
             records.add(record);
         }

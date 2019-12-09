@@ -29,7 +29,7 @@ public class DpNpm implements Serializable {
 
     private String proPost;
 
-    private Integer unitId;
+    private String unit;
 
     private Byte status;
 
@@ -109,12 +109,12 @@ public class DpNpm implements Serializable {
         this.proPost = proPost == null ? null : proPost.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public Byte getStatus() {

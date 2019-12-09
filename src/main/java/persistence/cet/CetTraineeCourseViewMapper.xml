@@ -8,6 +8,7 @@
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
+    <result column="sign_out_time" jdbcType="TIMESTAMP" property="signOutTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
@@ -53,9 +54,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
-    choose_time, choose_user_id, ip, train_id, project_id, trainee_type_id, user_id, 
-    course_id, period, year, choose_user_code, choose_user_name
+    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
+    sign_type, remark, choose_time, choose_user_id, ip, train_id, project_id, trainee_type_id, 
+    user_id, course_id, period, year, choose_user_code, choose_user_name
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseViewExample" resultMap="BaseResultMap">
     select

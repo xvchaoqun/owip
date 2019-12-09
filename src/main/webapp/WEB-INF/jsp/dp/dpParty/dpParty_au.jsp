@@ -27,16 +27,6 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">所在单位</label>
-			<div class="col-xs-6">
-				<c:set var="unit" value="${cm:getUnitById(dpParty.unitId)}"/>
-				<select data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-						name="unitId" data-placeholder="请选择">
-					<option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>民主党派类别</label>
 			<div class="col-xs-6">
 				<select required data-width="270" class="form-control" name="classId" data-rel="select2"
@@ -50,10 +40,10 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
+			<label class="col-xs-3 control-label">成立时间</label>
 			<div class="col-xs-6" style="width: 295px">
 				<div class="input-group date" data-date-format="yyyy.mm.dd">
-					<input required class="form-control date-picker" name="_foundTime" type="text"
+					<input class="form-control date-picker" name="_foundTime" type="text"
 						   placeholder="格式：yyyy.mm.dd"
 						   value="${cm:formatDate(dpParty.foundTime,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -66,12 +56,6 @@ pageEncoding="UTF-8"%>
                 <input class="form-control" type="text" name="phone" value="${dpParty.phone}">
             </div>
         </div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">传真</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="fax" value="${dpParty.fax}">
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">邮箱</label>
 				<div class="col-xs-6">
@@ -97,6 +81,13 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		</c:if>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">备注</label>
+			<div class="col-xs-6">
+						<textarea class="form-control limited noEnter" type="text"
+								  name="remark" rows="3">${dpParty.remark}</textarea>
+			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">
@@ -121,21 +112,11 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-	$('#modalForm select[name=unitTypeId]').change(function () {
-		if ($(this).val() == '${cm:getMetaTypeByCode('mt_party_unit_type_enterprise').id}') {
-			$(".enterprise").show();
-		} else {
-			$(".enterprise :checkbox").prop("checked", false);
-			$(".enterprise").hide();
-		}
-	}).change();
-
 	$.register.del_select($('#modalForm select[name=unitId]'));
     $("#modalForm :checkbox").bootstrapSwitch();
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
     $.register.date($('.input-group.date'));
 </script>

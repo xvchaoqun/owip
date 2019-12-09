@@ -75,7 +75,7 @@ public class DpOmController extends DpBaseController {
                                     Boolean isDeleted,
                                     String nation,
                                     Byte gender,
-                                    @RequestDateRange DateRange growTime,
+                                    @RequestDateRange DateRange dpGrowTime,
                                     @RequestDateRange DateRange workTime,
                                     @RequestDateRange DateRange transferTime,
                                  @RequestParam(defaultValue = "1") int cls,
@@ -120,11 +120,11 @@ public class DpOmController extends DpBaseController {
         if (workTime.getEnd()!=null){
             criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
         }
-        if (growTime.getStart()!=null){
-            criteria.andGrowTimeGreaterThanOrEqualTo(growTime.getStart());
+        if (dpGrowTime.getStart()!=null){
+            criteria.andDpGrowTimeGreaterThanOrEqualTo(dpGrowTime.getStart());
         }
-        if (growTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(growTime.getEnd());
+        if (dpGrowTime.getEnd()!=null){
+            criteria.andDpGrowTimeLessThanOrEqualTo(dpGrowTime.getEnd());
         }
         if (partyId != null){
             criteria.andPartyIdEqualTo(partyId);
@@ -140,12 +140,6 @@ public class DpOmController extends DpBaseController {
         }
         if (workTime.getEnd()!=null){
             criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
-        }
-        if (growTime.getStart()!=null){
-            criteria.andGrowTimeGreaterThanOrEqualTo(growTime.getStart());
-        }
-        if (growTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(growTime.getEnd());
         }
 
         if (export == 1) {
@@ -271,37 +265,6 @@ public class DpOmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //撤销单个人员
-    /*@RequiresPermissions("dpOm:del")
-    @RequestMapping("/dpOm_cancel")
-    public String dpOm_cancel(Integer id, ModelMap modelMap){
-
-        if (id != null){
-            DpOm dpOm = dpOmMapper.selectByPrimaryKey(id);
-            Integer userId = dpOm.getUserId();
-            modelMap.put("sysUser", dpCommonService.findById(userId));
-            modelMap.put("dpOm", dpOm);
-        }
-        return "dp/dpOm/dpOm_cancel";
-    }
-
-    @RequiresPermissions("dpOm:del")
-    @RequestMapping(value = "/dpOm_cancel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpOm_cancel(HttpServletRequest request,
-                              DpOm record,
-                              String transferTime){
-
-        record.setIsDeleted(true);
-        if (StringUtils.isNotBlank(transferTime)){
-            record.setTransferTime(DateUtils.parseDate(transferTime,DateUtils.YYYY_MM_DD));
-        }
-        dpOmService.updateByPrimaryKeySelective(record);
-        logger.info(log( LogConstants.LOG_DPPARTY, "撤销其他统战人员：{0}", record.getUserId()));
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
     @RequiresPermissions("dpOm:del")
     @RequestMapping(value = "/dpOm_del", method = RequestMethod.POST)
     @ResponseBody
@@ -375,11 +338,14 @@ public class DpOmController extends DpBaseController {
             record.setMajor(StringUtils.trimToNull(xlsRow.get(col++)));
             String _type = StringUtils.trimToNull(xlsRow.get(col++));
             MetaType type = CmTag.getMetaTypeByName("mc_dp_other_type",_type);
-            if (type == null) throw new OpException("第{0}列党总支类别[{1}]不存在", col, _type);
-            record.setType(type.getId());
-            record.setIsDeleted(StringUtils.contains(xlsRow.get(col++),"否"));
+            if (type == null) {
+                record.setType(null);
+                //throw new OpException("第{0}列党总支类别[{1}]不存在", col, _type);
+            }else {
+                record.setType(type.getId());
+            }
+            record.setIsDeleted(false);
             record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
             records.add(record);
         }
@@ -409,7 +375,7 @@ public class DpOmController extends DpBaseController {
 
         List<DpOmView> records = dpOmViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
+        String[] titles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
                 "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","最高学历|100",
                 "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100"};
         String[] cancelTitles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
@@ -427,13 +393,13 @@ public class DpOmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),//姓名
                         uv.getCode(),//工作证号
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),//所属单位
-                        record.getUnitPost(),//所属单位及职务
+                        record.getUnit(),//部门
+                        record.getUnitPost(),//所属单位职务
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),//性别
                         uv.getNation(),//民族
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),//出生时间
                         dpParty.getName() == null ? "" : dpParty.getName(),//所属党派
-                        DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
+                        DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
                         DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMMDD_DOT),//参加工作时间
                         metaTypeService.getName(record.getType()),//所属类别
                         record.getEducation(),//最高学历
@@ -457,13 +423,13 @@ public class DpOmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),
                         uv.getCode(),
-                        record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
+                        record.getUnit(),
                         record.getUnitPost(),
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),
                         uv.getNation(),
                         DateUtils.formatDate(uv.getBirth(),DateUtils.YYYYMMDD_DOT),
                         dpParty.getName() == null ? "" : dpParty.getName(),
-                        DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),
+                        DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),
                         DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMMDD_DOT),
                         metaTypeService.getName(record.getType()),//所属类别
                         record.getEducation(),

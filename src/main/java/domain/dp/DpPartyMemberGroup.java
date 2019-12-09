@@ -39,6 +39,8 @@ public class DpPartyMemberGroup implements Serializable {
 
     private String groupSession;
 
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -135,5 +137,13 @@ public class DpPartyMemberGroup implements Serializable {
 
     public void setGroupSession(String groupSession) {
         this.groupSession = groupSession == null ? null : groupSession.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

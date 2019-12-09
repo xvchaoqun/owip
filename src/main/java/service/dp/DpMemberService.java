@@ -3,11 +3,9 @@ package service.dp;
 import controller.global.OpException;
 import domain.dp.DpMember;
 import domain.dp.DpMemberExample;
-import domain.sys.SysUserInfo;
-import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
+import domain.sys.*;
 import ext.service.SyncService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +17,14 @@ import org.springframework.util.Assert;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
+import shiro.PasswordHelper;
 import sys.constants.DpConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DpMemberService extends DpBaseMapper {
@@ -40,6 +38,48 @@ public class DpMemberService extends DpBaseMapper {
     private LogService logService;
     @Autowired
     private TeacherInfoService teacherInfoService;
+    @Autowired
+    protected PasswordHelper passwordHelper;
+
+    public SysUserView getByIdCard(String idCard){
+
+        SysUserViewExample example = new SysUserViewExample();
+        example.createCriteria().andIdcardEqualTo(idCard);
+        List<SysUserView> sysUserViews = sysUserViewMapper.selectByExample(example);
+
+        return sysUserViews.size() > 0 ? sysUserViews.get(0) : null;
+    }
+
+    //生成账号
+    @Transactional
+    public SysUserView addDpMember(String realname) {
+
+        String prefix = "dp";
+        String code = sysUserService.genCode(prefix);
+        String passwd = RandomStringUtils.randomNumeric(6);
+
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(code);
+        sysUser.setCode(code);
+        sysUser.setLocked(false);
+        SaltPassword encrypt = passwordHelper.encryptByRandomSalt(passwd);
+        sysUser.setSalt(encrypt.getSalt());
+        sysUser.setPasswd(encrypt.getPassword());
+        sysUser.setCreateTime(new Date());
+        sysUser.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
+        sysUser.setSource(SystemConstants.USER_SOURCE_DP_IMPORT);
+        sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
+        sysUserService.insertSelective(sysUser);
+
+        SysUserInfo sysUserInfo = new SysUserInfo();
+        sysUserInfo.setUserId(sysUser.getId());
+        sysUserInfo.setRealname(realname);
+        sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
+
+        SysUserView uv = CmTag.getUserByCode(code);
+
+        return uv;
+    }
 
     @Transactional
     public void changeDpParty(Integer[] userIds, int partyId){
@@ -188,19 +228,6 @@ public class DpMemberService extends DpBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(DpMember record){
 
-        Integer userId = record.getUserId();
-
-        Byte politicalStatus = record.getPoliticalStatus();
-        if (politicalStatus == null){
-            DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
-            politicalStatus = dpMember.getPoliticalStatus();
-        }
-        //更新为预备党员时，删除转正时间
-        if (politicalStatus != null && politicalStatus == DpConstants.DP_MEMBER_POLITICAL_STATUS_GROW){
-            record.setPoliticalStatus(null);
-            commonMapper.excuteSql("update dp_member set positive_time=null where user_id=" +userId);
-        }
-
         return dpMemberMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -217,21 +244,6 @@ public class DpMemberService extends DpBaseMapper {
         }
 
         return map;
-    }
-
-    // 修改党籍状态
-    @Transactional
-    public void modifyStatus(int userId, byte politicalStatus, String remark) {
-
-        DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
-        if (dpMember != null && dpMember.getPoliticalStatus() != politicalStatus &&
-                DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP.containsKey(politicalStatus)) {
-            DpMember record = new DpMember();
-            record.setUserId(userId);
-            record.setPoliticalStatus(politicalStatus);
-            updateByPrimaryKeySelective(record, StringUtils.defaultIfBlank(remark, "修改党籍状态为"
-                    + DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
-        }
     }
 
 }

@@ -2,10 +2,8 @@ package controller.dp;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.dispatch.DispatchUnit;
 import domain.dp.*;
 import domain.dp.DpPartyExample.Criteria;
-import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -68,7 +66,6 @@ public class DpPartyController extends DpBaseController {
                              Integer id,
                              String code,
                              String name,
-                             Integer unitId,
                              Integer classId,
                              String phone,
                              Long presentGroupCount,
@@ -101,9 +98,6 @@ public class DpPartyController extends DpBaseController {
         }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
-        }
-        if (unitId!=null) {
-            criteria.andUnitIdEqualTo(unitId);
         }
         if (classId!=null) {
             criteria.andClassIdEqualTo(classId);
@@ -154,6 +148,7 @@ public class DpPartyController extends DpBaseController {
         return;
     }
 
+    //todo ly 记录操作日志
     @RequiresPermissions("dpParty:edit")
     @RequestMapping(value = "/dpParty_au", method = RequestMethod.POST)
     @ResponseBody
@@ -172,7 +167,6 @@ public class DpPartyController extends DpBaseController {
         }
         if (partyId == null) {
             SecurityUtils.getSubject().checkPermission("dpParty:add");
-
             record.setCreateTime(new Date());
             dpPartyService.insertSelective(record);
             DpParty dpParty = dpPartyService.getByCode(record.getCode());
@@ -184,7 +178,7 @@ public class DpPartyController extends DpBaseController {
             dpPartyService.updateByPrimaryKeySelective(record);
             sysApprovalLogService.add(id, record.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_DP_LOG_TYPE_PARTY,
-                    "修改党派", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "修改名民主党派" + record.getName() + "的信息");
+                    "修改党派", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, "修改民主党派" + record.getName() + "的信息");
             logger.info(log( LogConstants.LOG_DPPARTY, "更新民主党派：{0}", record.getId()));
         }
 
@@ -279,8 +273,8 @@ public class DpPartyController extends DpBaseController {
 
         List<DpPartyView> records = dpPartyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|100","名称|250","简称|100","所属单位|250","民主党派类别|250","联系电话|100","传真|100","邮箱|100","成立时间|100"};
-        String[] deleteTitles = {"编号|100","名称|250","撤销时间|100","简称|100","所属单位|250","民主党派类别|250","联系电话|100","传真|100","邮箱|100","成立时间|100"};
+        String[] titles = {"编号|100","名称|250","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","remark|200"};
+        String[] deleteTitles = {"编号|100","名称|250","撤销时间|100","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","remark|200"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 1) {
             for (int i = 0; i < rownum; i++) {
@@ -289,12 +283,11 @@ public class DpPartyController extends DpBaseController {
                         record.getCode(),//编号
                         record.getName(),//名称
                         record.getShortName(),//简称
-                        record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
                         metaTypeService.getName(record.getClassId()),//民主党派类别
                         record.getPhone(),//联系电话
-                        record.getFax(),
                         record.getEmail(),
                         DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -308,12 +301,11 @@ public class DpPartyController extends DpBaseController {
                         record.getName(),//名称
                         DateUtils.formatDate(record.getDeleteTime(), DateUtils.YYYYMMDD_DOT),
                         record.getShortName(),//简称
-                        record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
                         metaTypeService.getName(record.getClassId()),//民主党派类别
                         record.getPhone(),//联系电话
-                        record.getFax(),
                         record.getEmail(),
                         DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMMDD_DOT),
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -403,11 +395,11 @@ public class DpPartyController extends DpBaseController {
         modelMap.put("adminIds", iDpPartyMapper.findDpPartyAdmin(id));
 
         if (presentGroup!=null){
-            DpPartyMemberExample example = new DpPartyMemberExample();
+            DpPartyMemberViewExample example = new DpPartyMemberViewExample();
             example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
             example.setOrderByClause("sort_order desc");
-            List<DpPartyMember> dpPartyMembers = dpPartyMemberMapper.selectByExample(example);
-            modelMap.put("dpPartyMembers", dpPartyMembers);
+            List<DpPartyMemberView> dpPartyMemberViews = dpPartyMemberViewMapper.selectByExample(example);
+            modelMap.put("dpPartyMembers", dpPartyMemberViews);
         }
 
         return "dp/dpParty/dpParty_base";
@@ -467,29 +459,15 @@ public class DpPartyController extends DpBaseController {
             String foundTime = StringUtils.trimToNull(xlsRow.get(3));
             record.setFoundTime(DateUtils.parseStringToDate(foundTime));
 
-            String unitCode = StringUtils.trimToNull(xlsRow.get(4));
-            if (StringUtils.isBlank(unitCode)){
-                throw new OpException("第{0}行的单位编码为空", row);
-            }
-            Unit unit = unitService.findUnitByCode(unitCode);
-            if (unit == null){
-                throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
-            }
-            record.setUnitId(unit.getId());
-
-            String _partyClass = StringUtils.trimToNull(xlsRow.get(5));
+            String _partyClass = StringUtils.trimToNull(xlsRow.get(4));
             MetaType partyClass = CmTag.getMetaTypeByName("mc_dp_party_class",_partyClass);
             if (partyClass == null)throw new OpException("第{0}行党总支类别[{1}]不存在", row, _partyClass);
             record.setClassId(partyClass.getId());
 
-            /*String _partyUnitType = StringUtils.trimToNull(xlsRow.get(7));
-            MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
-            if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
-            record.setUnitTypeId(partyUnitType.getId());*/
-
-            record.setPhone(StringUtils.trimToNull(xlsRow.get(6)));
-            record.setFax(StringUtils.trimToNull(xlsRow.get(7)));
-            record.setEmail(StringUtils.trimToNull(xlsRow.get(8)));
+            record.setPhone(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setMailbox(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(8)));
             record.setCreateTime(new Date());
             records.add(record);
         }
@@ -508,7 +486,7 @@ public class DpPartyController extends DpBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("unit:view")
+    /*@RequiresPermissions("unit:view")
     @RequestMapping("/dp_unit_view")
     public String dp_unit_view(HttpServletResponse response, int id, ModelMap modelMap) {
 
@@ -539,6 +517,6 @@ public class DpPartyController extends DpBaseController {
         modelMap.put("historyUnits", unitService.findHistoryUnits(id));
 
         return "unit/unit_base";
-    }
+    }*/
 
 }

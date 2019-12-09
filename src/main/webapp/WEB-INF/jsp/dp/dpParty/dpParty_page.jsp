@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.id || not empty param.name || not empty param.code ||not empty param.unitId ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort
+            <c:set var="_query" value="${not empty param.id || not empty param.name || not empty param.code ||not empty param.classId ||not empty param.phone || not empty param.code || not empty param.sort
             ||not empty param._foundTime ||not empty param.presentGroupCount}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -91,15 +91,6 @@ pageEncoding="UTF-8" %>
                                 <label>编号</label>
                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                    placeholder="请输入编号">
-                            </div>
-                            <div class="form-group">
-                                <label>所属单位</label>
-                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${unitMap}" var="unit"> 
-                                        <option value="${unit.key}">${unit.value.name}</option>
-                                          </c:forEach>  </select>
-                                <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
                             </div>
                             <div class="form-group">
                                 <label>所属民主党派类别</label>
@@ -216,13 +207,12 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue >= 1 ? "是" : "否";}},
             {label: '党派简称', name: 'shortName', width: 180},
-            {label:'所在单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             {label: '民族党派类别', name: 'classId', width:300, formatter: $.jgrid.formatter.MetaType},
             {label: '联系电话', name: 'phone'},
-            {label: '传真', name: 'fax'},
             {label: '邮箱', name: 'email'},
             {label: '信箱', name: 'mailbox'},
-            {label: '成立时间', name: 'foundTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}}
+            {label: '成立时间', name: 'foundTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '备注', name: 'remark', width: 180}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -12,7 +12,7 @@
     <result column="school" jdbcType="VARCHAR" property="school" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="elect_post" jdbcType="VARCHAR" property="electPost" />
-    <result column="elect_session" jdbcType="INTEGER" property="electSession" />
+    <result column="elect_session" jdbcType="VARCHAR" property="electSession" />
     <result column="elect_time" jdbcType="DATE" property="electTime" />
     <result column="end_time" jdbcType="DATE" property="endTime" />
     <result column="status" jdbcType="BIT" property="status" />
@@ -122,7 +122,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{unitPost,jdbcType=VARCHAR}, 
       #{executiveLevel,jdbcType=VARCHAR}, #{workTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=INTEGER}, #{electTime,jdbcType=DATE}, 
+      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=VARCHAR}, #{electTime,jdbcType=DATE}, 
       #{endTime,jdbcType=DATE}, #{status,jdbcType=BIT}, #{type,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -213,7 +213,7 @@
         #{electPost,jdbcType=VARCHAR},
       </if>
       <if test="electSession != null">
-        #{electSession,jdbcType=INTEGER},
+        #{electSession,jdbcType=VARCHAR},
       </if>
       <if test="electTime != null">
         #{electTime,jdbcType=DATE},
@@ -275,7 +275,7 @@
         elect_post = #{record.electPost,jdbcType=VARCHAR},
       </if>
       <if test="record.electSession != null">
-        elect_session = #{record.electSession,jdbcType=INTEGER},
+        elect_session = #{record.electSession,jdbcType=VARCHAR},
       </if>
       <if test="record.electTime != null">
         elect_time = #{record.electTime,jdbcType=DATE},
@@ -312,7 +312,7 @@
       school = #{record.school,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
       elect_post = #{record.electPost,jdbcType=VARCHAR},
-      elect_session = #{record.electSession,jdbcType=INTEGER},
+      elect_session = #{record.electSession,jdbcType=VARCHAR},
       elect_time = #{record.electTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE},
       status = #{record.status,jdbcType=BIT},
@@ -354,7 +354,7 @@
         elect_post = #{electPost,jdbcType=VARCHAR},
       </if>
       <if test="electSession != null">
-        elect_session = #{electSession,jdbcType=INTEGER},
+        elect_session = #{electSession,jdbcType=VARCHAR},
       </if>
       <if test="electTime != null">
         elect_time = #{electTime,jdbcType=DATE},
@@ -388,7 +388,7 @@
       school = #{school,jdbcType=VARCHAR},
       major = #{major,jdbcType=VARCHAR},
       elect_post = #{electPost,jdbcType=VARCHAR},
-      elect_session = #{electSession,jdbcType=INTEGER},
+      elect_session = #{electSession,jdbcType=VARCHAR},
       elect_time = #{electTime,jdbcType=DATE},
       end_time = #{endTime,jdbcType=DATE},
       status = #{status,jdbcType=BIT},

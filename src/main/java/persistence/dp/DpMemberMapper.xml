@@ -4,24 +4,27 @@
   <resultMap id="BaseResultMap" type="domain.dp.DpMember">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="dp_post" jdbcType="VARCHAR" property="dpPost" />
+    <result column="part_time_job" jdbcType="VARCHAR" property="partTimeJob" />
+    <result column="train_state" jdbcType="VARCHAR" property="trainState" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="add_type" jdbcType="INTEGER" property="addType" />
-    <result column="transfer_time" jdbcType="TIMESTAMP" property="transferTime" />
-    <result column="apply_time" jdbcType="DATE" property="applyTime" />
-    <result column="active_time" jdbcType="DATE" property="activeTime" />
-    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
-    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="educa" jdbcType="VARCHAR" property="educa" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
-    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="out_time" jdbcType="DATE" property="outTime" />
-    <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,9 +85,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, party_id, political_status, type, status, source, add_type, transfer_time, 
-    apply_time, active_time, candidate_time, sponsor, grow_time, positive_time, create_time, 
-    update_time, out_time, party_post, party_reward, other_reward
+    user_id, party_id, type, status, unit, dp_post, part_time_job, train_state, source, 
+    add_type, dp_grow_time, educa, degree, grow_time, create_time, update_time, out_time, 
+    party_reward, other_reward, address, mobile, email, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpMemberExample" resultMap="BaseResultMap">
     select
@@ -117,20 +120,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dp.DpMember">
-    insert into dp_member (user_id, party_id, political_status, 
-      type, status, source, 
-      add_type, transfer_time, apply_time, 
-      active_time, candidate_time, sponsor, 
-      grow_time, positive_time, create_time, 
-      update_time, out_time, party_post, 
-      party_reward, other_reward)
-    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{source,jdbcType=TINYINT}, 
-      #{addType,jdbcType=INTEGER}, #{transferTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=DATE}, 
-      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE}, #{sponsor,jdbcType=VARCHAR}, 
-      #{growTime,jdbcType=DATE}, #{positiveTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, #{partyPost,jdbcType=VARCHAR}, 
-      #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR})
+    insert into dp_member (user_id, party_id, type, 
+      status, unit, dp_post, 
+      part_time_job, train_state, source, 
+      add_type, dp_grow_time, educa, 
+      degree, grow_time, create_time, 
+      update_time, out_time, party_reward, 
+      other_reward, address, mobile, 
+      email, remark)
+    values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{unit,jdbcType=VARCHAR}, #{dpPost,jdbcType=VARCHAR}, 
+      #{partTimeJob,jdbcType=VARCHAR}, #{trainState,jdbcType=VARCHAR}, #{source,jdbcType=TINYINT}, 
+      #{addType,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, #{educa,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, #{partyReward,jdbcType=VARCHAR}, 
+      #{otherReward,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpMember">
     insert into dp_member
@@ -141,14 +146,23 @@
       <if test="partyId != null">
         party_id,
       </if>
-      <if test="politicalStatus != null">
-        political_status,
-      </if>
       <if test="type != null">
         type,
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="dpPost != null">
+        dp_post,
+      </if>
+      <if test="partTimeJob != null">
+        part_time_job,
+      </if>
+      <if test="trainState != null">
+        train_state,
       </if>
       <if test="source != null">
         source,
@@ -156,26 +170,17 @@
       <if test="addType != null">
         add_type,
       </if>
-      <if test="transferTime != null">
-        transfer_time,
+      <if test="dpGrowTime != null">
+        dp_grow_time,
       </if>
-      <if test="applyTime != null">
-        apply_time,
+      <if test="educa != null">
+        educa,
       </if>
-      <if test="activeTime != null">
-        active_time,
-      </if>
-      <if test="candidateTime != null">
-        candidate_time,
-      </if>
-      <if test="sponsor != null">
-        sponsor,
+      <if test="degree != null">
+        degree,
       </if>
       <if test="growTime != null">
         grow_time,
-      </if>
-      <if test="positiveTime != null">
-        positive_time,
       </if>
       <if test="createTime != null">
         create_time,
@@ -186,14 +191,23 @@
       <if test="outTime != null">
         out_time,
       </if>
-      <if test="partyPost != null">
-        party_post,
-      </if>
       <if test="partyReward != null">
         party_reward,
       </if>
       <if test="otherReward != null">
         other_reward,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -203,14 +217,23 @@
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="politicalStatus != null">
-        #{politicalStatus,jdbcType=TINYINT},
-      </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="dpPost != null">
+        #{dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partTimeJob != null">
+        #{partTimeJob,jdbcType=VARCHAR},
+      </if>
+      <if test="trainState != null">
+        #{trainState,jdbcType=VARCHAR},
       </if>
       <if test="source != null">
         #{source,jdbcType=TINYINT},
@@ -218,26 +241,17 @@
       <if test="addType != null">
         #{addType,jdbcType=INTEGER},
       </if>
-      <if test="transferTime != null">
-        #{transferTime,jdbcType=TIMESTAMP},
+      <if test="dpGrowTime != null">
+        #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="applyTime != null">
-        #{applyTime,jdbcType=DATE},
+      <if test="educa != null">
+        #{educa,jdbcType=VARCHAR},
       </if>
-      <if test="activeTime != null">
-        #{activeTime,jdbcType=DATE},
-      </if>
-      <if test="candidateTime != null">
-        #{candidateTime,jdbcType=DATE},
-      </if>
-      <if test="sponsor != null">
-        #{sponsor,jdbcType=VARCHAR},
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
       </if>
       <if test="growTime != null">
         #{growTime,jdbcType=DATE},
-      </if>
-      <if test="positiveTime != null">
-        #{positiveTime,jdbcType=DATE},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -248,14 +262,23 @@
       <if test="outTime != null">
         #{outTime,jdbcType=DATE},
       </if>
-      <if test="partyPost != null">
-        #{partyPost,jdbcType=VARCHAR},
-      </if>
       <if test="partyReward != null">
         #{partyReward,jdbcType=VARCHAR},
       </if>
       <if test="otherReward != null">
         #{otherReward,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -274,14 +297,23 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.politicalStatus != null">
-        political_status = #{record.politicalStatus,jdbcType=TINYINT},
-      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpPost != null">
+        dp_post = #{record.dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partTimeJob != null">
+        part_time_job = #{record.partTimeJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainState != null">
+        train_state = #{record.trainState,jdbcType=VARCHAR},
       </if>
       <if test="record.source != null">
         source = #{record.source,jdbcType=TINYINT},
@@ -289,26 +321,17 @@
       <if test="record.addType != null">
         add_type = #{record.addType,jdbcType=INTEGER},
       </if>
-      <if test="record.transferTime != null">
-        transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
+      <if test="record.dpGrowTime != null">
+        dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.applyTime != null">
-        apply_time = #{record.applyTime,jdbcType=DATE},
+      <if test="record.educa != null">
+        educa = #{record.educa,jdbcType=VARCHAR},
       </if>
-      <if test="record.activeTime != null">
-        active_time = #{record.activeTime,jdbcType=DATE},
-      </if>
-      <if test="record.candidateTime != null">
-        candidate_time = #{record.candidateTime,jdbcType=DATE},
-      </if>
-      <if test="record.sponsor != null">
-        sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
       </if>
       <if test="record.growTime != null">
         grow_time = #{record.growTime,jdbcType=DATE},
-      </if>
-      <if test="record.positiveTime != null">
-        positive_time = #{record.positiveTime,jdbcType=DATE},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -319,14 +342,23 @@
       <if test="record.outTime != null">
         out_time = #{record.outTime,jdbcType=DATE},
       </if>
-      <if test="record.partyPost != null">
-        party_post = #{record.partyPost,jdbcType=VARCHAR},
-      </if>
       <if test="record.partyReward != null">
         party_reward = #{record.partyReward,jdbcType=VARCHAR},
       </if>
       <if test="record.otherReward != null">
         other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -337,24 +369,27 @@
     update dp_member
     set user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
-      political_status = #{record.politicalStatus,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      dp_post = #{record.dpPost,jdbcType=VARCHAR},
+      part_time_job = #{record.partTimeJob,jdbcType=VARCHAR},
+      train_state = #{record.trainState,jdbcType=VARCHAR},
       source = #{record.source,jdbcType=TINYINT},
       add_type = #{record.addType,jdbcType=INTEGER},
-      transfer_time = #{record.transferTime,jdbcType=TIMESTAMP},
-      apply_time = #{record.applyTime,jdbcType=DATE},
-      active_time = #{record.activeTime,jdbcType=DATE},
-      candidate_time = #{record.candidateTime,jdbcType=DATE},
-      sponsor = #{record.sponsor,jdbcType=VARCHAR},
+      dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
+      educa = #{record.educa,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
       grow_time = #{record.growTime,jdbcType=DATE},
-      positive_time = #{record.positiveTime,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       out_time = #{record.outTime,jdbcType=DATE},
-      party_post = #{record.partyPost,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
-      other_reward = #{record.otherReward,jdbcType=VARCHAR}
+      other_reward = #{record.otherReward,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -365,14 +400,23 @@
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="politicalStatus != null">
-        political_status = #{politicalStatus,jdbcType=TINYINT},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="dpPost != null">
+        dp_post = #{dpPost,jdbcType=VARCHAR},
+      </if>
+      <if test="partTimeJob != null">
+        part_time_job = #{partTimeJob,jdbcType=VARCHAR},
+      </if>
+      <if test="trainState != null">
+        train_state = #{trainState,jdbcType=VARCHAR},
       </if>
       <if test="source != null">
         source = #{source,jdbcType=TINYINT},
@@ -380,26 +424,17 @@
       <if test="addType != null">
         add_type = #{addType,jdbcType=INTEGER},
       </if>
-      <if test="transferTime != null">
-        transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      <if test="dpGrowTime != null">
+        dp_grow_time = #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="applyTime != null">
-        apply_time = #{applyTime,jdbcType=DATE},
+      <if test="educa != null">
+        educa = #{educa,jdbcType=VARCHAR},
       </if>
-      <if test="activeTime != null">
-        active_time = #{activeTime,jdbcType=DATE},
-      </if>
-      <if test="candidateTime != null">
-        candidate_time = #{candidateTime,jdbcType=DATE},
-      </if>
-      <if test="sponsor != null">
-        sponsor = #{sponsor,jdbcType=VARCHAR},
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
       </if>
       <if test="growTime != null">
         grow_time = #{growTime,jdbcType=DATE},
-      </if>
-      <if test="positiveTime != null">
-        positive_time = #{positiveTime,jdbcType=DATE},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -410,14 +445,23 @@
       <if test="outTime != null">
         out_time = #{outTime,jdbcType=DATE},
       </if>
-      <if test="partyPost != null">
-        party_post = #{partyPost,jdbcType=VARCHAR},
-      </if>
       <if test="partyReward != null">
         party_reward = #{partyReward,jdbcType=VARCHAR},
       </if>
       <if test="otherReward != null">
         other_reward = #{otherReward,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
@@ -425,24 +469,27 @@
   <update id="updateByPrimaryKey" parameterType="domain.dp.DpMember">
     update dp_member
     set party_id = #{partyId,jdbcType=INTEGER},
-      political_status = #{politicalStatus,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
+      unit = #{unit,jdbcType=VARCHAR},
+      dp_post = #{dpPost,jdbcType=VARCHAR},
+      part_time_job = #{partTimeJob,jdbcType=VARCHAR},
+      train_state = #{trainState,jdbcType=VARCHAR},
       source = #{source,jdbcType=TINYINT},
       add_type = #{addType,jdbcType=INTEGER},
-      transfer_time = #{transferTime,jdbcType=TIMESTAMP},
-      apply_time = #{applyTime,jdbcType=DATE},
-      active_time = #{activeTime,jdbcType=DATE},
-      candidate_time = #{candidateTime,jdbcType=DATE},
-      sponsor = #{sponsor,jdbcType=VARCHAR},
+      dp_grow_time = #{dpGrowTime,jdbcType=DATE},
+      educa = #{educa,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
       grow_time = #{growTime,jdbcType=DATE},
-      positive_time = #{positiveTime,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       out_time = #{outTime,jdbcType=DATE},
-      party_post = #{partyPost,jdbcType=VARCHAR},
       party_reward = #{partyReward,jdbcType=VARCHAR},
-      other_reward = #{otherReward,jdbcType=VARCHAR}
+      other_reward = #{otherReward,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpMemberExample" resultMap="BaseResultMap">

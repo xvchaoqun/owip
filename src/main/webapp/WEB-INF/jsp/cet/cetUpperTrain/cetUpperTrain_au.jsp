@@ -7,6 +7,7 @@ pageEncoding="UTF-8"%>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_INIT" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_INIT%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_UNPASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS%>"/>
+<c:set var="CET_UPPER_TRAIN_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_UNIT%>"/>
 <c:set var="isMultiSelect" value="${empty param.id && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -29,7 +30,23 @@ pageEncoding="UTF-8"%>
 		<c:if test="${isMultiSelect}">
 		<div class="row col-xs-12">
 			<div class="col-xs-5">
-				<div id="tree3" style="height: 535px"></div>
+				<div class="form-group">
+					<label class="col-xs-5 control-label"><span class="star">*</span> 参训人员类型</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2" id="upperTrainTypeId" name="upperTrainTypeId" data-placeholder="请选择" data-width="170">
+							<option></option>
+							<c:forEach items="${traineeTypeMap}" var="entity">
+								<c:if test="${entity.value.code!='t_reserve' && entity.value.code!='t_candidate'}">
+									<option value="${entity.value.id}">${entity.value.name}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+						<script type="text/javascript">
+							$("#modalForm select[name=upperTrainTypeId]").val(${cetUpperTrain.upperTrainTypeId});
+						</script>
+					</div>
+				</div>
+				<div id="tree3" style="height: 450px;"><ul class="dynatree-container" style="width: 327.66px; height: 450px;"></ul></div>
 			</div>
 			<div class="col-xs-7">
 		</c:if>
@@ -40,6 +57,22 @@ pageEncoding="UTF-8"%>
 				${cetUpperTrain.user.realname}
 		</div>
 	</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
+			<div class="col-xs-6">
+				<select required data-rel="select2" name="upperTrainTypeId" data-placeholder="请选择"  data-width="${selectWidth}">
+					<option></option>
+					<c:forEach items="${traineeTypeMap}" var="entity">
+						<c:if test="${entity.value.code!='t_reserve' && entity.value.code!='t_candidate'}">
+							<option value="${entity.value.id}">${entity.value.name}</option>
+						</c:if>
+					</c:forEach>
+				</select>
+				<script type="text/javascript">
+					$("#modalForm select[name=upperTrainTypeId]").val(${cetUpperTrain.upperTrainTypeId});
+				</script>
+			</div>
+		</div>
 	</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
@@ -318,21 +351,62 @@ pageEncoding="UTF-8"%>
 	organizerChange();
 
 	<c:if test="${isMultiSelect}">
-	$.getJSON("${ctx}/cet/cetUpperTrain_selectCadres_tree",{addType:${addType}, upperType:${upperType}},function(data){
-		var treeData = data.tree;
-		treeData.title="选择参训人员"
-		$("#tree3").dynatree({
-			checkbox: true,
-			selectMode: 3,
-			children: treeData,
-			onSelect: function(select, node) {
+	$("#modalForm select[name=upperTrainTypeId]").change(function () {
 
-				node.expand(node.data.isFolder && node.isSelected());
-			},
-			cookieId: "dynatree-Cb3",
-			idPrefix: "dynatree-Cb3-"
-		});
+		var selectTreeURL;
+		var upperTrainTypeId = $(this).val();
+		if (upperTrainTypeId > 0) {
+			var upperTrainType = traineeTypeMap[upperTrainTypeId];
+			switch (upperTrainType.code) {
+				case 't_cadre':
+					selectTreeURL = "${ctx}/cet/selectCadres_tree";
+					break;
+				case 't_party_member':
+					selectTreeURL = "${ctx}/cet/selectPartyMembers_tree";
+					break;
+				case 't_branch_member':
+					selectTreeURL = "${ctx}/cet/selectBranchMembers_tree";
+					break;
+				case 't_organizer':
+					selectTreeURL = "${ctx}/cet/selectOrganizers_tree";
+					break;
+			}
+		}
+		if ($("#upperTrainTypeId").val() != "") {
+			var $this = $(this);
+			var $form = $this.closest("form");
+			//var $btn = $("button", $form).button('loading');
+			var viewHtml = $("#tree3").html()
+			$("#tree3").html('<p align="center"><img src="${ctx}/img/loading.gif"/></p>')
+		}
+		_loadTree(selectTreeURL);
 	});
+
+	function _loadTree(selectTreeURL) {
+
+		if ($.isBlank(selectTreeURL)) {
+			return;
+		}
+		$.getJSON(selectTreeURL, {
+			upperType:${CET_UPPER_TRAIN_UNIT}
+		}, function (data) {
+			var treeData = data.tree;
+			treeData.title = "选择参训人员"
+			$("#tree3").dynatree({
+				checkbox: true,
+				selectMode: 3,
+				children: treeData,
+				/*onSelect: function (select, node) {
+
+					node.expand(node.data.isFolder && node.isSelected());
+				},*/
+				cookieId: "dynatree-Cb3",
+				idPrefix: "dynatree-Cb3-"
+			});
+			$("#tree3").html('')
+			$("#tree3").dynatree("getTree").reload();
+		});
+	}
 	</c:if>
 
 	var userIds=[];

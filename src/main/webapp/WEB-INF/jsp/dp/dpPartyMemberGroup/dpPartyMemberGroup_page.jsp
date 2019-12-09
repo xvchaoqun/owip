@@ -89,7 +89,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${status}">
                             <div class="form-group">
-                                <label>所在委员会</label>
+                                <label>委员会</label>
                                 <select  data-width="300" data-rel="select2-ajax"
                                          data-ajax-url="${ctx}/dp/dpPartyMemberGroup_selects"
                                          name="id" data-placeholder="请选择">
@@ -107,12 +107,12 @@ pageEncoding="UTF-8" %>
                                 <script>         $.register.del_select($("#searchForm select[name=partyId]"), 300)     </script>
                             </div>
                             <div class="form-group">
-                                <label>任命时间</label>
-                                <div class="input-group tooltip-success" data-rel="tooltip" title="任命时间范围">
+                                <label>成立时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="成立时间范围">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar bigger-110"></i>
                                                                 </span>
-                                    <input placeholder="请选择任命时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                    <input placeholder="请选择成立时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
                                            type="text" name="_appointTime" value="${param._appointTime}"/>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@ pageEncoding="UTF-8" %>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>是否现任</label>
+                                <label>是否现任委员会</label>
                                 <select name="isPresent" data-width="80"
                                         data-rel="select2" data-placeholder="请选择">
                                     <option></option>
@@ -190,7 +190,7 @@ pageEncoding="UTF-8" %>
                 label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.isPresent)
                         return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
-                            'data-url="${ctx}/dp/dpPartyMember?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
+                            'data-url="${ctx}/dp/dpPartyMember_data?export=1&groupId={0}"><i class="fa fa-file-excel-o"></i> 导出委员</a>')
                             .format(rowObject.id);
                     return '--'
                 }
@@ -210,7 +210,7 @@ pageEncoding="UTF-8" %>
                 }
             },
             {label: '委员会届数', name: 'groupSession', width: 100},
-            {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '成立时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {
                     return (rowObject.isPresent) ? 1 : 0;
@@ -231,8 +231,9 @@ pageEncoding="UTF-8" %>
                 width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
-            }
+            },
             </c:if>
+            {label: '备注', name: 'remark', width: 180}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

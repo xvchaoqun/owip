@@ -509,6 +509,66 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andUpperTrainTypeIdIsNull() {
+            addCriterion("upper_train_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdIsNotNull() {
+            addCriterion("upper_train_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdEqualTo(Integer value) {
+            addCriterion("upper_train_type_id =", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdNotEqualTo(Integer value) {
+            addCriterion("upper_train_type_id <>", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdGreaterThan(Integer value) {
+            addCriterion("upper_train_type_id >", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("upper_train_type_id >=", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdLessThan(Integer value) {
+            addCriterion("upper_train_type_id <", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("upper_train_type_id <=", value, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdIn(List<Integer> values) {
+            addCriterion("upper_train_type_id in", values, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdNotIn(List<Integer> values) {
+            addCriterion("upper_train_type_id not in", values, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("upper_train_type_id between", value1, value2, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperTrainTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("upper_train_type_id not between", value1, value2, "upperTrainTypeId");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

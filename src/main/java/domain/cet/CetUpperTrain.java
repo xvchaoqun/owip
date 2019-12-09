@@ -34,6 +34,8 @@ public class CetUpperTrain implements Serializable {
 
     private Integer userId;
 
+    private Integer upperTrainTypeId;
+
     private String title;
 
     private Integer postId;
@@ -124,6 +126,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getUpperTrainTypeId() {
+        return upperTrainTypeId;
+    }
+
+    public void setUpperTrainTypeId(Integer upperTrainTypeId) {
+        this.upperTrainTypeId = upperTrainTypeId;
     }
 
     public String getTitle() {

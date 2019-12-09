@@ -52,7 +52,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
             DpPartyMemberGroup _record = null;
             if(record.getIsPresent()) {
                 _record = getPresentGroup(record.getPartyId());
-            }else if(record.getAppointTime()!=null){
+            }else if(record.getAppointTime() != null){
 
                 _record = getHistoryGroup(record.getPartyId(), record.getAppointTime());
             }

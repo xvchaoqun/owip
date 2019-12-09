@@ -187,4 +187,10 @@
 		<from>^/m/hf_content</from>
 		<to>/hf_content</to>
 	</rule>
+	<rule>
+		<note>二维码</note>
+		<condition type="method">GET</condition>
+		<from>^/m/qrcode</from>
+		<to>/qrcode</to>
+	</rule>
 </urlrewrite>

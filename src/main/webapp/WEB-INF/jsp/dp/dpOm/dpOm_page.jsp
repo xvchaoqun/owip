@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.type ||not empty param.workTime || not empty param.code || not empty param.sort
-                ||not empty param.unitPost ||not empty param.gender ||not empty selectNations ||not empty param.unitId ||not empty param.transferTime}"/>
+                ||not empty param.unitPost ||not empty param.gender ||not empty selectNations ||not empty param.unit ||not empty param.transferTime}"/>
             <div class="tabble">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
@@ -106,15 +106,6 @@ pageEncoding="UTF-8" %>
                                         </c:forEach>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>所在单位</label>
-                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${unitMap}" var="unit">
-                                        <option value="${unit.key}">${unit.value.name}</option>
-                                    </c:forEach>
-                                </select>
                             </div>
                             <div class="form-group">
                                 <label>所属类别</label>
@@ -235,14 +226,14 @@ pageEncoding="UTF-8" %>
                     return "--";
                 }, sortable: true
             },
-                { label: '加入党派时间',name: 'growTime',width:120,sortable:true,
+                { label: '加入党派时间',name: 'dpGrowTime',width:120,sortable:true,
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
                 { label: '参加工作时间',name: 'workTime',width:120,sortable:true,
                     formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
-                { label: '所在单位',name: 'unitId',width:180,sortable:true,formatter: $.jgrid.formatter.unit},
-                { label: '所在单位及职务',name: 'unitPost',width:120,sortable:true},
+                { label: '部门',name: 'unit',width:180},
+                { label: '所在单位职务',name: 'unitPost',width:120,sortable:true},
                 { label: '所属类别',name: 'type',width:180,formatter: $.jgrid.formatter.MetaType},
                 { label: '最高学历',name: 'education'},
                 { label: '最高学位',name: 'degree'},

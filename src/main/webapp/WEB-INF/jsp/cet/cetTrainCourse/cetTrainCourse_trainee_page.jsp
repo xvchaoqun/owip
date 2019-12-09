@@ -25,6 +25,13 @@
                     刷卡签到
                 </a>
             </li>
+
+            <li class="">
+                <a data-toggle="tab" href="#code" aria-expanded="false">
+                    <i class="green ace-icon fa fa-id-card bigger-120"></i>
+                    二维码签到
+                </a>
+            </li>
         </ul>
 
         <div class="tab-content" style="padding: 0">
@@ -149,6 +156,22 @@
                     </a>
                     <div>（该链接有效期截止时间：<span id="expire">${cm:formatDateTimeMillis(cetTrainCourse.signTokenExpire, "yyyy-MM-dd HH:mm:ss")}</span>）</div>
                 </div>
+            </div>
+            <div id="code" class="tab-pane fade" style="margin: 35px;">
+                <hr/>
+                <div class="well">
+                    <span>签到地址：</span>
+                    <a href="${_homeUrl}/cet/codeSign?id=${cetTrainCourse.id}&cls=1" target="_blank">
+                        ${_homeUrl}/cet/codeSign?id=${cetTrainCourse.id}&cls=1
+                    </a>
+                </div>
+                <div class="well">
+                    <span>签退地址：</span>
+                    <a href="${_homeUrl}/cet/codeSign?id=${cetTrainCourse.id}&cls=0" target="_blank">
+                        ${_homeUrl}/cet/codeSign?id=${cetTrainCourse.id}&cls=0
+                    </a>
+                </div>
+                <hr/>
             </div>
         </div>
     </div>

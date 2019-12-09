@@ -16,8 +16,8 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="grow_time" jdbcType="DATE" property="growTime" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
@@ -85,7 +85,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, type, work_time, unit_post, education, degree, school, major, is_deleted, 
-    transfer_time, sort_order, remark, party_id, grow_time, unit_id, gender, birth, nation, 
+    transfer_time, sort_order, remark, party_id, dp_grow_time, unit, gender, birth, nation, 
     native_place, mobile, phone
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpOmViewExample" resultMap="BaseResultMap">
@@ -113,18 +113,18 @@
       work_time, unit_post, education, 
       degree, school, major, 
       is_deleted, transfer_time, sort_order, 
-      remark, party_id, grow_time, 
-      unit_id, gender, birth, 
-      nation, native_place, mobile, 
-      phone)
+      remark, party_id, dp_grow_time, 
+      unit, gender, birth, nation, 
+      native_place, mobile, phone
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{workTime,jdbcType=DATE}, #{unitPost,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=BIT}, #{transferTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, 
-      #{unitId,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
-      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, 
+      #{unit,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpOmView">
     insert into dp_om_view
@@ -171,11 +171,11 @@
       <if test="partyId != null">
         party_id,
       </if>
-      <if test="growTime != null">
-        grow_time,
+      <if test="dpGrowTime != null">
+        dp_grow_time,
       </if>
-      <if test="unitId != null">
-        unit_id,
+      <if test="unit != null">
+        unit,
       </if>
       <if test="gender != null">
         gender,
@@ -239,11 +239,11 @@
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="growTime != null">
-        #{growTime,jdbcType=DATE},
+      <if test="dpGrowTime != null">
+        #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -316,11 +316,11 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.growTime != null">
-        grow_time = #{record.growTime,jdbcType=DATE},
+      <if test="record.dpGrowTime != null">
+        dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
@@ -361,8 +361,8 @@
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
-      grow_time = #{record.growTime,jdbcType=DATE},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
+      dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
+      unit = #{record.unit,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR},

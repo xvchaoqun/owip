@@ -212,6 +212,7 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/cet/cetUpperTrain/cetUpperTrain_colModel.jsp?addType=${addType}"/>
 <script>
+    var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/cet/cetUpperTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

@@ -1,10 +1,7 @@
 package service.dp.dpCommon;
 
 import domain.base.MetaType;
-import domain.dp.DpParty;
-import domain.dp.DpPartyMember;
-import domain.dp.DpPartyMemberExample;
-import domain.dp.DpPartyMemberGroup;
+import domain.dp.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -57,13 +54,13 @@ public class StatDpPartyMemberService extends DpBaseMapper {
         }
 
         {//从第四行开始填充数据
-            DpPartyMemberExample example = new DpPartyMemberExample();
+            DpPartyMemberViewExample example = new DpPartyMemberViewExample();
             example.createCriteria().andGroupIdEqualTo(groupId).andPresentMemberEqualTo(true);
             example.setOrderByClause("sort_order desc");
-            List<DpPartyMember> dpPartyMemberViews = dpPartyMemberMapper.selectByExample(example);
+            List<DpPartyMemberView> dpPartyMemberViews = dpPartyMemberViewMapper.selectByExample(example);
             Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
             int rowNum = 3;
-            for (DpPartyMember record : dpPartyMemberViews){
+            for (DpPartyMemberView record : dpPartyMemberViews){
                 SysUserView user = record.getUser();
                 List<String> typeNames = new ArrayList<>();
                 String[] typeIds = StringUtils.split(record.getTypeIds(),",");
@@ -100,6 +97,9 @@ public class StatDpPartyMemberService extends DpBaseMapper {
                 //手机号
                 cell = row.getCell(colunmNum++);
                 cell.setCellValue(record.getMobile());
+                //备注
+                cell = row.getCell(colunmNum++);
+                cell.setCellValue(record.getRemark());
 
                 rowNum++;
 
