@@ -1,4 +1,100 @@
 
+
+20191204
+北邮  --- 北师大
+
+更新 jx.utils.jar
+jodconverter 两个jar包
+
+ALTER TABLE `ow_party` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
+ALTER TABLE `ow_member` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `profile`;
+ALTER TABLE `ow_branch` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
+
+-- 添加定时任务 桑文帅
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党员信息完整度', '', 'job.member.updateIntegrityJob', '0 0 3 * * ?', 1, 1, 30, '2019-12-03 09:26:36');
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验二级基层党组织完整度', '', 'job.party.updateIntegrityJob', '0 20 3 * * ?', 1, 1, 31, '2019-12-03 11:20:29');
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党支部信息完整度', '', 'job.branch.updateIntegrityJob', '0 40 3 * * ?', 1, 1, 32, '2019-12-03 15:47:48');
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('owCheckIntegrity', '党建是否验证信息完整度', 'false', 3, 49, '');
+
+DELETE FROM `db_owip`.`base_meta_type` WHERE  `id`=602;
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `upper_train_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训对象类型' AFTER `user_id`;
+
+	ALTER TABLE `cet_trainee_course`
+	ADD COLUMN `sign_out_time` DATETIME NULL DEFAULT NULL COMMENT '签退时间' AFTER `sign_time`;
+
+DROP VIEW IF EXISTS `cet_trainee_course_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
+select cteec.id as id,cteec.trainee_id as trainee_id,cteec.train_course_id as train_course_id,
+cteec.can_quit as can_quit,cteec.is_finished as is_finished,cteec.sign_time as sign_time,cteec.sign_out_time as sign_out_time,
+cteec.sign_type as sign_type,cteec.remark as remark,cteec.choose_time as choose_time,cteec.choose_user_id as choose_user_id,
+cteec.ip as ip,ctee.train_id as train_id,cpo.project_id as project_id,cpo.trainee_type_id as trainee_type_id,
+cpo.user_id as user_id,ctc.course_id as course_id,cc.period as period,cp.year as year,uv.code as choose_user_code,uv.realname as choose_user_name
+from cet_trainee_course cteec
+left join cet_trainee ctee on cteec.trainee_id=ctee.id
+left join cet_project_obj cpo on cpo.id=ctee.obj_id
+left join cet_train_course ctc on ctc.id=cteec.train_course_id
+left join cet_train ct on ct.id=ctee.train_id
+left join cet_course cc on cc.id=ctc.course_id
+left join cet_project cp on cp.id=cpo.project_id
+left join sys_user_view uv on uv.id=cteec.choose_user_id order by cpo.id;
+
+
+DROP VIEW IF EXISTS `ow_party_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_party_view` AS
+select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count,
+pmgtmp2.id as present_group_id, pmgtmp2.appoint_time, pmgtmp2.tran_time, pmgtmp2.actual_tran_time from ow_party p
+left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, party_id from ow_member_view where type=1 and status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_deleted=0 group by party_id) pmgtmp on pmgtmp.party_id=p.id
+LEFT JOIN ow_party_member_group pmgtmp2 ON pmgtmp2.is_present=1 AND pmgtmp2.is_deleted=0 AND pmgtmp2.party_id=p.id;
+
+DROP VIEW IF EXISTS `ow_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS
+select
+m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
+mo.status as out_status, mo.handle_time as out_handle_time,
+
+t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_school,
+t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
+t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
+t.title_level,t.marital_status,t.address,
+t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
+t.is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
+
+s.delay_year,s.period,s.actual_graduate_time,
+s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
+s.enrol_year,s.grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
+
+from ow_member m
+left join sys_user_info ui on ui.user_id=m.user_id
+left join sys_user u on u.id=m.user_id
+left join ow_party p on p.id = m.party_id
+left join ow_member_out mo on mo.status!=10 and mo.user_id = m.user_id
+left join sys_teacher_info t on t.user_id = m.user_id
+left join sys_student_info s on s.user_id = m.user_id;
+
+
+DROP VIEW IF EXISTS `ow_branch_view`;
+CREATE ALGORITHM=UNDEFINED VIEW `ow_branch_view` AS
+select b.*, p.sort_order as party_sort_order, mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count,
+gtmp2.id as present_group_id, gtmp2.appoint_time, gtmp2.tran_time, gtmp2.actual_tran_time,bgmp.num as bg_count
+from ow_branch b
+left join ow_party p on b.party_id=p.id
+left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_view where type=1 and status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
+LEFT JOIN ow_branch_member_group gtmp2 on gtmp2.is_deleted=0 and gtmp2.is_present=1 AND gtmp2.branch_id=b.id
+left join (select count(*) as num,branch_id from ow_branch_group group by branch_id) bgmp on bgmp.branch_id = b.id ;
+
 20191204
 北邮，南航
 

@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>类别</label>
-                                    <select name="type" data-placeholder="请选择" data-ref="select2">
+                                    <select name="type" data-placeholder="请选择" data-rel="select2">
                                         <option></option>
                                         <c:forEach items="${USER_TYPE_MAP}" var="userType">
                                             <option value="${userType.key}">${userType.value}</option>
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>角色</label>
-                                    <select name="roleId" data-placeholder="请选择" data-ref="select2">
+                                    <select name="roleId" data-placeholder="请选择" data-rel="select2">
                                         <option></option>
                                         <c:forEach items="${roleMap}" var="role">
                                             <c:if test="${cm:isSuperAccount(_user.username)
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>账号来源</label>
-                                    <select name="source" data-width="120" data-placeholder="请选择" data-ref="select2">
+                                    <select name="source" data-width="120" data-placeholder="请选择" data-rel="select2">
                                         <option></option>
                                         <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>" var="userSource">
                                             <option value="${userSource.key}">${userSource.value}</option>

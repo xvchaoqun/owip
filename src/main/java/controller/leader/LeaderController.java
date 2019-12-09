@@ -61,16 +61,15 @@ public class LeaderController extends BaseController {
     @RequestMapping("/leader")
     public String leader(HttpServletResponse response,
                               @RequestParam(required = false, defaultValue = "1")Byte cls,
-                              Integer cadreId,ModelMap modelMap) {
+                              Integer userId,ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if(cls==2){
             return "forward:/leaderUnit";
         }
 
-        if (cadreId!=null) {
-            CadreView cadre = iCadreMapper.getCadre(cadreId);
-            modelMap.put("cadre", cadre);
+        if (userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
         }
 
         return "leader/leader/leader_page";

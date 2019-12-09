@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <label>账号类别</label>
-            <select name="type" data-placeholder="请选择" data-width="120" data-ref="select2">
+            <select name="type" data-placeholder="请选择" data-width="120" data-rel="select2">
                 <option></option>
                 <c:forEach items="${USER_TYPE_MAP}" var="userType">
                     <option value="${userType.key}">${userType.value}</option>
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <label>账号来源</label>
-            <select name="source" data-placeholder="请选择" data-width="120" data-ref="select2">
+            <select name="source" data-placeholder="请选择" data-width="120" data-rel="select2">
                 <option></option>
                 <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>" var="userSource">
                     <option value="${userSource.key}">${userSource.value}</option>
@@ -96,7 +96,7 @@
     function _reload2() {
         $("#jqGrid_popup").trigger("reloadGrid");
     }
-    $("#searchForm_popup [data-ref=select2]").select2();
+    $("#searchForm_popup [data-rel=select2]").select2();
     $.register.user_select($('#searchForm_popup select[name=userId]'));
     //$('#searchForm_popup [data-rel="select2"]').select2();
     $("#jqGrid_popup").jqGrid({

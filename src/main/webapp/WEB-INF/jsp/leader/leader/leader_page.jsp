@@ -9,7 +9,7 @@
                  data-url-page="${ctx}/leader"
                  data-url-co="${ctx}/leader_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
+                <c:set var="_query" value="${not empty param.userId ||not empty param.typeId
                 ||not empty param.job || not empty param.code}"/>
                 <jsp:include page="menu.jsp"/>
                 <div class="space-4"></div>
@@ -61,9 +61,9 @@
                                 <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>账号</label>
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
-                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
+                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                         </div>
                                         <div class="form-group">
