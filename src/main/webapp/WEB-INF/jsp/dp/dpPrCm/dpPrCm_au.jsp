@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">当选届次</label>
 			<div class="col-xs-6">
-				<input class="form-control" type="text" name="electSession" value="${dpPrCm.electSession}" placeholder="请填写阿拉伯数字1、2、3">
+				<input class="form-control" type="text" name="electSession" value="${dpPrCm.electSession}">
 			</div>
 		</div>
 		<div class="form-group">
