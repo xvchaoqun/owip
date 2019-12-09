@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `dp_npm` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='无党派和退出人士，无党派人士可加入中共或其他任一民主党派，故增加一个转出功能，选择党派后，自动转至相关库';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='无党派和退出人士，无党派人士可加入中共或其他任一民主党派，故增加一个转出功能，选择党派后，自动转至相关库';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_npr
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `dp_npr` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='党外代表人士，来自于三个方面：处级干部库提取、民主党派成员库提取、管理员录入';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='党外代表人士，来自于三个方面：处级干部库提取、民主党派成员库提取、管理员录入';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_om
@@ -90,7 +90,22 @@ CREATE TABLE IF NOT EXISTS `dp_om` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='其他统战人员。华侨、归侨及侨眷、欧美同学会会员、知联会员';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='其他统战人员。华侨、归侨及侨眷、欧美同学会会员、知联会员';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.dp_org_admin
+DROP TABLE IF EXISTS `dp_org_admin`;
+CREATE TABLE IF NOT EXISTS `dp_org_admin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户',
+  `party_id` int(10) unsigned DEFAULT NULL COMMENT '所属党派',
+  `type` tinyint(3) unsigned NOT NULL COMMENT '类别，1 民主党派管理员',
+  `status` tinyint(3) unsigned DEFAULT NULL COMMENT '状态',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `code` varchar(20) DEFAULT NULL COMMENT '学工号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='党派管理员，民主党派管理员，单独设定的管理员，可能他不属于现任党派的成员';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_party
@@ -113,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `dp_party` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='民主党派';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='民主党派';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_party_member
@@ -132,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `dp_party_member` (
   `delete_time` date DEFAULT NULL COMMENT '离任时间',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='党派委员';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='党派委员';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_party_member_group
@@ -152,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `dp_party_member_group` (
   `group_session` varchar(50) DEFAULT NULL COMMENT '委员会届数',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='基层党组织领导班子';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='基层党组织领导班子';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dp_pr_cm
@@ -176,7 +191,9 @@ CREATE TABLE IF NOT EXISTS `dp_pr_cm` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几届代表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几届代表';
+
+
 
 
 
