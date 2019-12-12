@@ -1,4 +1,11 @@
 
+
+20191212
+-- 提交
+
+20191212
+北邮
+
 ALTER TABLE `ow_member`
 	CHANGE COLUMN `integrity` `integrity` DECIMAL(10,2) UNSIGNED NULL COMMENT '信息完整度' AFTER `profile`;
 
@@ -8,8 +15,15 @@ ALTER TABLE `ow_party`
 ALTER TABLE `ow_branch`
 	CHANGE COLUMN `integrity` `integrity` DECIMAL(10,2) UNSIGNED NULL COMMENT '信息完整度' AFTER `is_deleted`;
 
+-- 转出bug
+-- SELECT USER_id FROM ow_member_out WHERE STATUS=2  AND user_id IN (SELECT user_id FROM ow_member WHERE STATUS=1);
+UPDATE ow_member om, ow_member_out omo SET om.`status`=4 WHERE omo.user_id=om.user_id AND omo.`status`=2 AND om.`status`=1;
+
+ALTER TABLE `leader_unit`
+	CHANGE COLUMN `user_id` `user_id` INT(10) UNSIGNED NOT NULL COMMENT '校级领导，可以从干部库提取，也可以从校领导和党委常委中选择' AFTER `id`;
+
 20191204
-北邮  --- 北师大
+北邮
 
 -- 更新 jx.utils.jar
 -- jodconverter 两个jar包
@@ -108,6 +122,7 @@ count(*) as num, branch_id from ow_member_view where type=1 and status=1 group b
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
 LEFT JOIN ow_branch_member_group gtmp2 on gtmp2.is_deleted=0 and gtmp2.is_present=1 AND gtmp2.branch_id=b.id
 left join (select count(*) as num,branch_id from ow_branch_group group by branch_id) bgmp on bgmp.branch_id = b.id ;
+
 
 20191204
 北邮，南航

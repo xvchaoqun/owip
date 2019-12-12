@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
                 <c:forEach items="${leaderUnits}" var="leaderUnit" varStatus="st">
                     <tr>
                         <c:set var="unit" value="${unitMap.get(leaderUnit.unitId)}"/>
-                        <td nowrap><span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span></td>
+                        <td><span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span></td>
                         <td nowrap>${cm:getMetaType(leaderUnit.typeId).name}</td>
                         <c:if test="${commonList.recNum>1}">
                             <td nowrap>

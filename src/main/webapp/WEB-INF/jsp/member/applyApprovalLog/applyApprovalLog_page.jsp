@@ -43,6 +43,11 @@
         //return cellvalue==0?"未通过":"通过";
         return _cMap.OW_APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];
       } },
+      {
+          label: '所在党组织', name: 'party', align:'left',  width: 550, formatter:function(cellvalue, options, rowObject){
+          return $.party(rowObject.partyId, rowObject.branchId);
+      }
+      },
       { label:'备注',  name: 'remark', width: 450 },
       { label:'IP',  name: 'ip', width: 150 },{hidden: true, name: 'status'}
     ],

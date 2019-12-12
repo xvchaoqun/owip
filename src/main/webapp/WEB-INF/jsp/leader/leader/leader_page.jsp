@@ -25,6 +25,8 @@
                             <i class="fa fa-search-plus"></i> 从党委常委中提取
                         </button>
 
+                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 单个添加</a>
+
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 编辑信息</a>
                     </shiro:hasPermission>

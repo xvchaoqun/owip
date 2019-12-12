@@ -6,22 +6,20 @@
 	<h3>更换学工号</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/member_changeCode" autocomplete="off" disableautocomplete id="modalForm" method="post">
-		<c:set var="sysUser" value="${cm:getUserById(member.userId)}"/>
-		<input type="hidden" name="userId" value="${member.userId}">
+	<form class="form-horizontal" action="${ctx}/memberApply_changeCode" autocomplete="off" disableautocomplete id="modalForm" method="post">
+		<input type="hidden" name="userId" value="${memberApply.userId}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">姓名</label>
 			<div class="col-xs-6 label-text">
-				${sysUser.realname}
+				${memberApply.user.realname}
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">当前学工号</label>
 			<div class="col-xs-6 label-text">
-				${sysUser.code}<br/>（身份证号码：${sysUser.idcard}）
+				${memberApply.user.code}
 			</div>
 		</div>
-
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>新学工号</label>
 			<div class="col-xs-6">
@@ -36,16 +34,16 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-xs-3 control-label">修改原因</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span>变更原因</label>
 			<div class="col-xs-6">
-				<textarea class="form-control limited" name="remark">${remark}</textarea>
+				<textarea required class="form-control limited" name="remark">${remark}</textarea>
 			</div>
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
 	<div class="note">
-		注：要求更换前后的学工号对应的身份证号码相同
+		注：此功能仅适用于所选用户的学工号变更的情况，请谨慎操作。
 	</div>
 	<input type="submit" class="btn btn-primary" value="确定"/>
 </div>

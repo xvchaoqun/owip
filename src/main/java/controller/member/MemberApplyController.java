@@ -38,6 +38,7 @@ import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -1138,6 +1139,94 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
+    // 更换学工号
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping("/memberApply_changeCode")
+    public String memberApply_changeCode(int userId, ModelMap modelMap) {
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        modelMap.put("memberApply", memberApply);
+
+        return "member/memberApply/memberApply_changeCode";
+    }
+
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/memberApply_changeCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_changeCode(int userId, int newUserId, String remark) {
+
+        memberApplyService.changeCode(userId, newUserId, remark);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 更换联系党组织
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping("/memberApply_changeParty")
+    public String memberApply_changeParty(int userId, ModelMap modelMap) {
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        modelMap.put("memberApply", memberApply);
+
+        return "member/memberApply/memberApply_changeParty";
+    }
+
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/memberApply_changeParty", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_changeParty(int userId, int partyId, Integer branchId, String remark) {
+
+        memberApplyService.changeParty(userId, partyId, branchId, remark);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping("/memberApply_search")
+    public String memberApply_search() {
+
+        return "member/memberApply/memberApply_search";
+    }
+
+    @RequiresPermissions("memberApply:admin")
+    @RequestMapping(value = "/memberApply_search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_search(int userId) {
+
+        String realname = "";
+        String party = "";
+        String msg = "";
+        Byte userType = null;
+        String code = "";
+        String status = "";
+        SysUserView sysUser = sysUserService.findById(userId);
+        if (sysUser == null) {
+            msg = "该用户不存在";
+        } else {
+            code = sysUser.getCode();
+            userType = sysUser.getType();
+            realname = sysUser.getRealname();
+            MemberApply memberApply = memberApplyService.get(userId);
+            if (memberApply == null) {
+                msg = "该用户不在党员发展库中";
+            } else {
+                party = PartyHelper.displayParty(memberApply.getPartyId(), memberApply.getBranchId());
+                msg += "所在党员发展阶段【" + OwConstants.OW_APPLY_ALLSTAGE_MAP.get(memberApply.getStage()) + "】";
+                if (BooleanUtils.isTrue(memberApply.getIsRemove())) {
+                    msg += "（已移除）";
+                }
+            }
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("msg", msg);
+        resultMap.put("userType", userType);
+        resultMap.put("code", code);
+        resultMap.put("realname", realname);
+        resultMap.put("party", party);
+        resultMap.put("status", status);
+        return resultMap;
+    }
 
     @RequiresPermissions("memberApply:admin")
     @RequestMapping("/memberApplyLog")

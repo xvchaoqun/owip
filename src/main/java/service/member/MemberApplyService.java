@@ -6,7 +6,9 @@ import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,6 +23,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 import sys.utils.NumberUtils;
@@ -857,5 +860,77 @@ public class MemberApplyService extends MemberBaseMapper {
                 enterApplyService.applyBack(userId, "打回申请", OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 break;
         }
+    }
+
+    // 更换学工号
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void changeCode(int userId, int newUserId, String remark) {
+
+        if(userId == newUserId){
+
+            throw new OpException("请选择新的学工号。");
+        }
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply==null || memberApply.getStage()<OwConstants.OW_APPLY_STAGE_INIT
+            || memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW){
+            throw new OpException("原学工号错误或已不在党员发展库中(申请~领取志愿书阶段)。");
+        }
+
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),
+                memberApply.getPartyId(), memberApply.getBranchId())) {
+
+            throw new UnauthorizedException();
+        }
+
+        MemberApply newMemberApply = memberApplyMapper.selectByPrimaryKey(newUserId);
+        if(newMemberApply!=null){
+            throw new OpException("新学工号已经在党员发展库中，无法更换。");
+        }
+
+        commonMapper.excuteSql("update ow_member_apply set user_id=" + newUserId + " where user_id="+ userId);
+
+        commonMapper.excuteSql("update ow_apply_approval_log set record_id="
+                + newUserId + " where type="+ OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY +" and record_id="+ userId);
+
+        applyApprovalLogService.add(newUserId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), newUserId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    "更换学工号",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    String.format(StringUtils.trimToEmpty(remark)+"(%s->%s)", CmTag.getUserById(userId).getCode(),
+                            CmTag.getUserById(newUserId).getCode())
+                    );
+    }
+
+    // 更换党组织
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void changeParty(int userId, int partyId, Integer branchId, String remark) {
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply==null || memberApply.getStage()<OwConstants.OW_APPLY_STAGE_INIT
+            || memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_GROW){
+            throw new OpException("原学工号错误或已不在党员发展库中(申请~领取志愿书阶段)。");
+        }
+
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),
+                memberApply.getPartyId(), memberApply.getBranchId())) {
+
+            throw new UnauthorizedException();
+        }
+
+        commonMapper.excuteSql("update ow_member_apply set party_id=" + partyId
+                + ", branch_id=" + branchId + " where user_id="+ userId);
+
+        applyApprovalLogService.add(userId,
+                    partyId, branchId, userId,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    "更换党组织",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    remark);
     }
 }

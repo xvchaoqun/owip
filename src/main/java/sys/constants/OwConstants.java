@@ -97,6 +97,20 @@ public class OwConstants {
         OW_APPLY_STAGE_MAP.put(OW_APPLY_STAGE_POSITIVE, "正式党员");
     }
 
+    public final static Map<Byte, String> OW_APPLY_ALLSTAGE_MAP = new LinkedHashMap<>();
+    static {
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_REMOVE, "已移除的申请");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_OUT, "已转出的申请");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_DENY, "未通过");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_INIT, "申请(待支部审核)");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_PASS, "申请(支部审核通过)");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_ACTIVE, "入党积极分子");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_CANDIDATE, "发展对象");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_PLAN, "列入发展计划");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_DRAW, "领取志愿书");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_GROW, "预备党员");
+        OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_POSITIVE, "正式党员");
+    }
     // 申请入党审核状态
     public final static byte OW_APPLY_STATUS_UNCHECKED = 0; // 未审核
     public final static byte OW_APPLY_STATUS_CHECKED = 1; // 已审核
@@ -164,7 +178,7 @@ public class OwConstants {
     public final static Map<Byte, String> OW_APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "申请入党");
+        OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "党员发展记录");
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD, "留学归国申请");
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "组织关系转入");
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, "流入党员申请");

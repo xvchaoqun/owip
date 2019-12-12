@@ -143,6 +143,9 @@
                                                                 批量导入</a>
                                                         </shiro:hasPermission>
                                                         </c:if>
+                                                        <a class="popupBtn btn btn-danger btn-sm"
+                                                               data-rel="tooltip" data-placement="bottom" title="可查询所有教职工和学生的党员发展状态"
+                                                                    data-url="${ctx}/memberApply_search"><i class="fa fa-search"></i> 全校党员发展查询</a>
                                                     </div>
                                                 </ul>
 
@@ -383,6 +386,18 @@
                                                                             data-querystr="isRemove=0">
                                                                         <i class="fa fa-reply"></i> 撤销移除（批量）
                                                                     </button>
+                                                                </c:if>
+
+                                                                <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<OW_APPLY_STAGE_GROW}">
+                                                                <a href="javascript:;" class="jqEditBtn btn btn-danger btn-sm"
+                                                                   data-url="${ctx}/memberApply_changeCode"
+                                                                   data-id-name="userId">
+                                                                    <i class="fa fa-refresh"></i> 更换学工号</a>
+                                                                <a href="javascript:;" class="jqEditBtn btn btn-danger btn-sm"
+                                                                   data-url="${ctx}/memberApply_changeParty"
+                                                                   data-width="800"
+                                                                   data-id-name="userId">
+                                                                    <i class="fa fa-refresh"></i> 更换党组织</a>
                                                                 </c:if>
                                                             </shiro:hasAnyRoles>
                                                         </div>

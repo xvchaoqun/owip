@@ -8,6 +8,19 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/leader_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${leader.id}">
+			<c:if test="${empty leader}">
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
+				<div class="col-xs-6">
+                    <select required data-rel="select2-ajax" data-width="272"
+							data-ajax-url="${ctx}/cadre_selects?key=1"
+							name="userId" data-placeholder="请选择">
+						<option value="${sysUser.userId}">${sysUser.realname}</option>
+					</select>
+				</div>
+			</div>
+			</c:if>
+		<c:if test="${not empty leader}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
@@ -20,6 +33,7 @@ pageEncoding="UTF-8"%>
                     ${sysUser.code}
 				</div>
 			</div>
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 				<div class="col-xs-6">

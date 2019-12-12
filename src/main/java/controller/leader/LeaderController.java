@@ -40,15 +40,15 @@ public class LeaderController extends BaseController {
     @RequiresPermissions("leaderInfo:list")
     @RequestMapping("/leaderInfo")
     public String leaderInfo(@RequestParam(required = false,
-            defaultValue = CadreConstants.CADRE_STATUS_LEADER+"")Byte status,
-                             Integer cadreId,ModelMap modelMap) {
+            defaultValue = CadreConstants.CADRE_STATUS_LEADER + "") Byte status,
+                             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("status", status);
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
-            if(cadre!=null) {
+            if (cadre != null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);
             }
@@ -60,30 +60,31 @@ public class LeaderController extends BaseController {
     @RequiresPermissions("leader:list")
     @RequestMapping("/leader")
     public String leader(HttpServletResponse response,
-                              @RequestParam(required = false, defaultValue = "1")Byte cls,
-                              Integer userId,ModelMap modelMap) {
+                         @RequestParam(required = false, defaultValue = "1") Byte cls,
+                         Integer userId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        if(cls==2){
+        if (cls == 2) {
             return "forward:/leaderUnit";
         }
 
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
 
         return "leader/leader/leader_page";
     }
+
     @RequiresPermissions("leader:list")
     @RequestMapping("/leader_data")
     @ResponseBody
     public void leader_data(HttpServletResponse response,
-                                    Integer userId,
-                                    Integer typeId,
-                                    String job,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                            Integer userId,
+                            Integer typeId,
+                            String job,
+                            @RequestParam(required = false, defaultValue = "0") int export,
+                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                            Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -97,10 +98,10 @@ public class LeaderController extends BaseController {
         LeaderViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
         if (StringUtils.isNotBlank(job)) {
@@ -108,10 +109,10 @@ public class LeaderController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             leader_export(example, response);
-            return ;
+            return;
         }
 
         int count = (int) leaderViewMapper.countByExample(example);
@@ -147,7 +148,7 @@ public class LeaderController extends BaseController {
     @RequestMapping(value = "/leader_fromLeader", method = RequestMethod.POST)
     @ResponseBody
     public Map do_leader_fromLeader(HttpServletRequest request,
-                                @RequestParam(value = "cadreIds[]") Integer[] cadreIds, ModelMap modelMap) {
+                                    @RequestParam(value = "cadreIds[]") Integer[] cadreIds, ModelMap modelMap) {
 
         if (null != cadreIds && cadreIds.length > 0) {
 
@@ -188,8 +189,18 @@ public class LeaderController extends BaseController {
     @ResponseBody
     public Map do_leader_au(Leader record, ModelMap modelMap, HttpServletRequest request) {
 
-        leaderService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "编辑校级领导信息：%s", record.getId()));
+        if (record.getId() == null) {
+
+            if (leaderService.get(record.getUserId()) != null) {
+                return failed("添加重复");
+            }
+            leaderService.insertSelective(record);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加校级领导信息：%s", record.getId()));
+        } else {
+
+            leaderService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "编辑校级领导信息：%s", record.getId()));
+        }
 
         return success(FormUtils.SUCCESS);
     }
@@ -201,8 +212,6 @@ public class LeaderController extends BaseController {
         if (id != null) {
             Leader leader = leaderMapper.selectByPrimaryKey(id);
             modelMap.put("leader", leader);
-            CadreView cadre = leader.getCadre();
-            modelMap.put("cadre", cadre);
             SysUserView sysUser = leader.getUser();
             modelMap.put("sysUser", sysUser);
         }
@@ -227,7 +236,7 @@ public class LeaderController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             leaderService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
         }
@@ -264,22 +273,22 @@ public class LeaderController extends BaseController {
                     cadre.getTitle(),
                     metaTypeService.getName(cadre.getAdminLevel()),
                     metaTypeService.getName(leader.getTypeId()),
-                    (cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER
-                            || cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE)?"是":"否",
-                    BooleanUtils.isTrue(leader.getIsCommitteeMember()) ?"是":"否",
+                    (cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER
+                            || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER_LEAVE) ? "是" : "否",
+                    BooleanUtils.isTrue(leader.getIsCommitteeMember()) ? "是" : "否",
                     leader.getJob()
-                    };
+            };
 
             valuesList.add(values);
         }
 
         String fileName = "校级领导分工";
-        ExportHelper.export(titles, valuesList,  fileName, response);
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequiresPermissions("leader:unit")
     @RequestMapping("/leader_unit")
-    public String leader_unit(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String leader_unit(Integer id, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id != null) {
 
@@ -312,7 +321,7 @@ public class LeaderController extends BaseController {
 
             String searchStr = "&pageSize=" + pageSize;
 
-            if (userId!=null) {
+            if (userId != null) {
                 searchStr += "&id=" + id;
             }
 
