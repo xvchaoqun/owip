@@ -523,19 +523,6 @@ public class MemberOutController extends MemberBaseController {
 
         if (id == null) {
             record.setApplyTime(new Date());
-
-            if (partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId)) {
-                boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
-                if (memberOutNeedOwCheck) {
-                    record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-                } else {
-                    record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
-                }
-            } else {
-
-                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
-            }
-
             memberOutService.insertOrUpdateSelective(record);
 
             applyApprovalLogService.add(record.getId(),
@@ -544,7 +531,7 @@ public class MemberOutController extends MemberBaseController {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                     "后台操作",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "提交申请");
+                    "提交");
 
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加组织关系转出：%s", record.getId()));
         } else {
@@ -555,7 +542,7 @@ public class MemberOutController extends MemberBaseController {
                 record.setApplyTime(new Date());
                 record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
                 record.setIsBack(false);
-                memberOutService.updateByPrimaryKeySelective(record);
+                memberOutService.insertOrUpdateSelective(record);
 
                 applyApprovalLogService.add(record.getId(),
                         record.getPartyId(), record.getBranchId(), record.getUserId(),
@@ -563,7 +550,7 @@ public class MemberOutController extends MemberBaseController {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                         "后台操作",
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "重新提交申请");
+                        "重新提交");
             } else if (hasModified(before, record)) {
 
                 memberOutService.updateByPrimaryKeySelective(record);

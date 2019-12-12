@@ -285,6 +285,19 @@ public class MemberOutService extends MemberBaseMapper {
     @Transactional
     public void insertOrUpdateSelective(MemberOut record) {
 
+        if (PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(), record.getPartyId())) {
+
+            boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
+            if (memberOutNeedOwCheck) {
+                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+            } else {
+                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+            }
+        } else {
+
+            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
+        }
+
         int userId = record.getUserId();
         record.setIsBack(false);
         record.setIsModify(false);
@@ -305,6 +318,11 @@ public class MemberOutService extends MemberBaseMapper {
             memberOutMapper.insertSelective(record);
         } else {
             memberOutMapper.updateByPrimaryKeySelective(record);
+        }
+
+        if(record.getStatus()!=null && record.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+            // memberOutNeedOwCheck = false的情况
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
         }
     }
 

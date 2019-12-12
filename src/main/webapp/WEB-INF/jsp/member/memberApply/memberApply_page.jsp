@@ -134,7 +134,7 @@
                                                     <div class="buttons" style="left: 255px;position: absolute">
                                                         <c:if test="${stage>=OW_APPLY_STAGE_INIT&&stage<OW_APPLY_STAGE_GROW}">
                                                         <a href="javascript:;" class="openView btn btn-info btn-sm"
-                                                        data-url="${ctx}/memberApply_au?stage=${param.stage}&op=add">
+                                                        data-url="${ctx}/memberApply_au?stage=${stage}&op=add">
                                                             <i class="fa fa-plus"></i> 添加</a>
                                                         <shiro:hasPermission name="memberApply:import">
                                                             <a class="popupBtn btn btn-primary btn-sm tooltip-primary"
@@ -154,7 +154,7 @@
                                                                     data-url="${ctx}/memberApply_au"
                                                                     data-open-by="page"
                                                                     data-id-name="userId"
-                                                                    data-querystr="&stage=${param.stage}&op=update">
+                                                                    data-querystr="&stage=${stage}&op=update">
                                                                 <i class="fa fa-edit"></i> 修改信息
                                                             </button>
                                                             </c:if>
@@ -366,14 +366,14 @@
                                                                 <c:if test="${stage>=OW_APPLY_STAGE_INIT}">
                                                                     <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                                                             data-url="${ctx}/memberApply_back"
-                                                                            data-querystr="stage=${param.stage}">
+                                                                            data-querystr="stage=${stage}">
                                                                         <i class="fa fa-reply-all"></i> 打回申请（批量）
                                                                     </button>
                                                                 </c:if>
                                                                 <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<OW_APPLY_STAGE_GROW}">
                                                                     <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_remove"
-                                                                            data-querystr="stage=${param.stage}&isRemove=1">
+                                                                            data-querystr="stage=${stage}&isRemove=1">
                                                                         <i class="fa fa-minus"></i> 移除（批量）
                                                                     </button>
                                                                 </c:if>
@@ -510,7 +510,7 @@
    ul#stages>li{
        min-width:170px;
     }
-   <c:if test="${param.stage==0}">
+   <c:if test="${stage==0}">
     #jqGridPager_right{
         width: 150px;
     }
@@ -778,7 +778,7 @@
         caption:"打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
-        props:'data-url="${ctx}/memberApply_back" data-querystr="stage=${param.stage}"'
+        props:'data-url="${ctx}/memberApply_back" data-querystr="stage=${stage}"'
     });
     </c:if>
     </shiro:hasRole>--%>

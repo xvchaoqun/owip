@@ -1,10 +1,24 @@
 
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `integrity` `integrity` DECIMAL(10,2) UNSIGNED NULL COMMENT '信息完整度' AFTER `profile`;
+
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `integrity` `integrity` DECIMAL(10,2) UNSIGNED NULL COMMENT '信息完整度' AFTER `is_deleted`;
+
+ALTER TABLE `ow_branch`
+	CHANGE COLUMN `integrity` `integrity` DECIMAL(10,2) UNSIGNED NULL COMMENT '信息完整度' AFTER `is_deleted`;
 
 20191204
 北邮  --- 北师大
 
 -- 更新 jx.utils.jar
 -- jodconverter 两个jar包
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (1150, 0, '党员年度考核信息管理', '', 'function',
+                                                                                    '', NULL, 260, '0/1/260/', 1, 'partyEva:*', NULL, NULL, NULL, 1, NULL);
+
 
 ALTER TABLE `ow_party` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
 ALTER TABLE `ow_member` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `profile`;
@@ -17,7 +31,7 @@ INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('owCheckIntegrity', '党建是否验证信息完整度', 'false', 3, 49, '');
 
-DELETE FROM `db_owip`.`base_meta_type` WHERE  `id`=602;
+DELETE FROM `base_meta_type` WHERE  `id`=602;
 
 ALTER TABLE `cet_upper_train`
 	ADD COLUMN `upper_train_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训对象类型' AFTER `user_id`;
