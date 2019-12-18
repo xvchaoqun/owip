@@ -133,7 +133,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected CadreReserveExportService cadreReserveExportService;
     @Autowired
     protected CadrePartyService cadrePartyService;
-
+    @Autowired
+    protected CadrePositionReportService cadrePositionReportService;
     @Autowired
     protected LeaderService leaderService;
     @Autowired
