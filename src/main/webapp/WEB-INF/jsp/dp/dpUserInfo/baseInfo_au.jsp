@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div style="width: 900px">
-<h3>修改账号基础信息</h3>
+<h3>修改基础信息</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/dp/baseInfo_au" autocomplete="off"
       disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
@@ -112,7 +112,7 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="hideView btn" type="button">
+        <button class="hideView btn btn-default" type="button">
             <i class="ace-icon fa fa-undo bigger-110"></i>
             返回
         </button>

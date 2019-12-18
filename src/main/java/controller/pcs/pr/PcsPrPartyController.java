@@ -346,7 +346,7 @@ public class PcsPrPartyController extends PcsBaseController {
                     candidate.setNation(_candidate.getNation());
                     candidate.setBirth(_candidate.getBirth());
                 }else {
-                    if (uv.getGender() != null && uv.getGender() != SystemConstants.GENDER_UNKNOWN)
+                    if (uv.getGender() != null && SystemConstants.GENDER_MAP.containsKey(uv.getGender()))
                         candidate.setGender(uv.getGender());
                     candidate.setNation(uv.getNation());
                     candidate.setBirth(uv.getBirth());

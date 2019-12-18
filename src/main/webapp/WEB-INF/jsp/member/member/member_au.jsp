@@ -6,7 +6,7 @@
 <div style="width: 900px">
 <h3>${empty member?'添加党员':'修改党籍信息'}</h3>
 <hr/>
-<form class="form-horizontal" action="${ctx}/member_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+<form class="form-horizontal" action="${ctx}/member_au" autocomplete="off" disableautocomplete id="memberForm" method="post">
     <div class="row">
         <div class="col-xs-7">
             <div class="form-group">
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <script>
-                $.register.party_branch_select($("#modalForm"), "branchDiv",
+                $.register.party_branch_select($("#memberForm"), "branchDiv",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
             </script>
             <div class="form-group">
@@ -64,7 +64,7 @@
                             </c:forEach>
                         </select>
                         <script>
-                            $("#modalForm select[name=politicalStatus]").val(${member.politicalStatus});
+                            $("#memberForm select[name=politicalStatus]").val(${member.politicalStatus});
                         </script>
                     </div>
                 </c:if>
@@ -188,7 +188,7 @@
                         <c:import url="/metaTypes?__code=mc_member_add_type"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=addType]").val('${member.addType}');
+                        $("#memberForm select[name=addType]").val('${member.addType}');
                     </script>
                 </div>
             </div>
@@ -209,7 +209,7 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="hideView btn" type="button">
+        <button class="hideView btn btn-default" type="button">
             <i class="ace-icon fa fa-reply bigger-110"></i>
             返回
         </button>
@@ -220,26 +220,26 @@
     $.register.date($('.date-picker'), {endDate: '${_today}'});
 
     <c:if test="${member_needGrowTime}">
-    $("#modalForm select[name=politicalStatus]").change(function(){
+    $("#memberForm select[name=politicalStatus]").change(function(){
 
         var politicalStatus = $(this).val();
         if(politicalStatus=='${MEMBER_POLITICAL_STATUS_POSITIVE}'){
-            $("#modalForm input[name=_positiveTime]").closest(".form-group")
+            $("#memberForm input[name=_positiveTime]").closest(".form-group")
                 .find("label").html('<span class="star">*</span> 转正时间');
-             $("#modalForm input[name=_positiveTime]").attr("required", "required")
+             $("#memberForm input[name=_positiveTime]").attr("required", "required")
         }else{
-            $("#modalForm input[name=_positiveTime]").closest(".form-group")
+            $("#memberForm input[name=_positiveTime]").closest(".form-group")
                 .find(".star").remove();
-            $("#modalForm input[name=_positiveTime]").removeAttr("required")
+            $("#memberForm input[name=_positiveTime]").removeAttr("required")
         }
     })
     </c:if>
 
     $("#body-content-view button[type=submit]").click(function () {
-        $("#modalForm").submit();
+        $("#memberForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#memberForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -253,8 +253,8 @@
             });
         }
     });
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#memberForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    $.register.user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#memberForm select[name=userId]'));
 </script>

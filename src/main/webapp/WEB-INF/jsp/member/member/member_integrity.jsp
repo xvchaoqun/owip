@@ -51,16 +51,14 @@
     </table>
     <form action="${ctx}/member_integrity" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input name="memberId" value="${memberView.userId}" type="hidden">
-        <p style="color: red;font-size: 16px">
-            信息完整度会每天进行一次校验更新，如果查看最新信息完整度，请点击更新
-        </p>
     </form>
 </div>
 <div class="modal-footer">
+    <div class="note">注：系统每天会统一进行一次校验更新，如需查看最新信息完整度，请点击立即刷新按钮。</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-refresh"></i> 更新
+            class="btn btn-primary"><i class="fa fa-refresh"></i> 立即刷新
     </button>
 </div>
 <style>

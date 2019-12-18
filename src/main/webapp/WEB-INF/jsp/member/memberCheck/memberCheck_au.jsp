@@ -200,7 +200,7 @@
          <i class="ace-icon fa fa-check bigger-110"></i> 提交</button>
 
     &nbsp; &nbsp; &nbsp;
-    <button class="hideView btn" type="button">
+    <button class="hideView btn btn-default" type="button">
         <i class="ace-icon fa fa-reply bigger-110"></i>
         返回
     </button>

@@ -24,6 +24,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
 
@@ -617,7 +618,7 @@ public class SyncService extends BaseMapper {
             ui.setIdcardType(extJzg.getName());
             ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
             ui.setNativePlace(extJzg.getJg());
-            ui.setNation(extJzg.getMz());
+            ui.setNation(ContentUtils.ensureEndsWith(extJzg.getMz(), "族"));
             ui.setCountry(extJzg.getGj());
             ui.setUnit(extJzg.getDwmc());
             ui.setEmail(extJzg.getDzxx());
@@ -732,15 +733,13 @@ public class SyncService extends BaseMapper {
                     ui.setGender(SystemConstants.GENDER_MALE);
                 else if (StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
                     ui.setGender(SystemConstants.GENDER_FEMALE);
-                else
-                    ui.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 if (StringUtils.isNotBlank(extBks.getCsrq()))
                     ui.setBirth(DateUtils.parseStringToDate(extBks.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extBks.getYddh()));
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
-                ui.setNation(extBks.getMz());
+                ui.setNation(ContentUtils.ensureEndsWith(extBks.getMz(), "族"));
                 ui.setNativePlace(extBks.getSf()); // 籍贯
 
                 //+++++++++++++ 同步后面一系列属性
@@ -784,7 +783,7 @@ public class SyncService extends BaseMapper {
                 ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
                 //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
-                ui.setNation(extYjs.getMz());
+                ui.setNation(ContentUtils.ensureEndsWith(extYjs.getMz(), "族"));
                 ui.setNativePlace(StringUtils.defaultIfBlank(extYjs.getSyszd(), extYjs.getHkszd()));
 
                 //+++++++++++++ 同步后面一系列属性
@@ -826,6 +825,19 @@ public class SyncService extends BaseMapper {
 
             record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
         } else {
+            // 性别不覆盖
+            if(sysUserInfo.getGender()!=null){
+                record.setGender(null);
+            }
+            // 出生年月
+            if(sysUserInfo.getBirth()!=null){
+                record.setBirth(null);
+            }
+            // 民族
+            if(sysUserInfo.getNation()!=null){
+                record.setNation(null);
+            }
+
             // 籍贯
             if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
                 record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));

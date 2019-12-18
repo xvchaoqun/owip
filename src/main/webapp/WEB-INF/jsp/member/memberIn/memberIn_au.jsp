@@ -59,7 +59,14 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-5 control-label">民族</label>
 						<div class="col-xs-6">
-							<input disabled class="form-control" type="text" name="nation" value="${userBean.nation}">
+							 <select name="nation" data-rel="select2" data-width="150">
+								<c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+									<option value="${nation.name}">${nation.name}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(userBean.nation, '族')}');
+							</script>
 						</div>
 					</div>
 					<div class="form-group">

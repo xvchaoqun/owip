@@ -60,7 +60,15 @@
                 <label class="col-xs-3 control-label"><span class="star">*</span>民族</label>
 
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="nation" value="${ui.nation}">
+                     <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+                             <option></option>
+                        <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+                            <option value="${nation.name}">${nation.name}</option>
+                        </c:forEach>
+                    </select>
+                    <script>
+                        $("#modalForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
+                    </script>
                 </div>
             </div>
             <div class="form-group">
@@ -178,9 +186,9 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="hideView btn" type="button">
-            <i class="ace-icon fa fa-undo bigger-110"></i>
-            取消
+        <button class="hideView btn btn-default" type="button">
+            <i class="ace-icon fa fa-reply bigger-110"></i>
+            返回
         </button>
     </div>
 </div>

@@ -429,6 +429,11 @@
 		<function-signature>java.lang.String  encodeQueryString(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>ensureEndsWith</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String ensureEndsWith(java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>unescape</name>
 		<function-class>sys.utils.Escape</function-class>
 		<function-signature>java.lang.String  unescape(java.lang.String)</function-signature>

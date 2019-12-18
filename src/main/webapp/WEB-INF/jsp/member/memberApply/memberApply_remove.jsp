@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
         </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label">${param.isRemove==0?'*撤销':'*'}移除原因</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span> ${param.isRemove==0?'撤销':''}移除原因</label>
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
             </div>

@@ -454,7 +454,6 @@
         ondblClickRow: function () {
         },
         url: '${ctx}/member_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        sortname: 'party',
         colModel: [
             {
                 label: '姓名', name: 'realname', width: 75, formatter: function (cellvalue, options, rowObject) {

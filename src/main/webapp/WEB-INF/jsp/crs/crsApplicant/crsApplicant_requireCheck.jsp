@@ -65,7 +65,7 @@
                         ${ruleCount + 1}
                     </td>
                     <td>
-                        是否现任处级干部
+                        是否现任领导干部
                     </td>
                     <td colspan="3">
                         ${cadre.status==CADRE_STATUS_MIDDLE?"是":"否"}

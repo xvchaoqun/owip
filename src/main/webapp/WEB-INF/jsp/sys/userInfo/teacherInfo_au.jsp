@@ -4,7 +4,7 @@
 
     <h3>修改教职工党员人事信息</h3>
     <hr/>
-    <form class="form-horizontal" action="${ctx}/teacherInfo_au" autocomplete="off" disableautocomplete id="modalForm"
+    <form class="form-horizontal" action="${ctx}/teacherInfo_au" autocomplete="off" disableautocomplete id="baseInfoForm"
           method="post">
         <input type="hidden" name="userId" value="${teacherInfo.userId}">
         <div class="row">
@@ -63,7 +63,15 @@
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                     <div class="col-xs-6">
-                        <input class="form-control" type="text" name="nation" value="${sysUser.nation}">
+                         <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+                             <option></option>
+                            <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+                            <option value="${nation.name}">${nation.name}</option>
+                        </c:forEach>
+                    </select>
+                    <script>
+                        $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(sysUser.nation, '族')}');
+                    </script>
                     </div>
                 </div>
                 <div class="form-group">
@@ -322,17 +330,17 @@
             </button>
 
             &nbsp; &nbsp; &nbsp;
-            <button class="hideView btn" type="button">
-                <i class="ace-icon fa fa-undo bigger-110"></i>
-                取消
+            <button class="hideView btn btn-default" type="button">
+                <i class="ace-icon fa fa-reply bigger-110"></i>
+                返回
             </button>
     </div>
 <script>
     $("#body-content-view button[type=submit]").click(function () {
-        $("#modalForm").submit();
+        $("#baseInfoForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#baseInfoForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -347,6 +355,6 @@
         }
     });
     $.register.date($('.date-picker'));
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    $("#baseInfoForm :checkbox").bootstrapSwitch();
+    $('#baseInfoForm [data-rel="select2"]').select2();
 </script>

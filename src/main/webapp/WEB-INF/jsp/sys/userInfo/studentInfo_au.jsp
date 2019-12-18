@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="GENDER_UNKNOWN" value="<%=SystemConstants.GENDER_UNKNOWN%>"/>
 <h3>修改学生党员基础信息</h3>
 <hr/>
-<form class="form-horizontal" action="${ctx}/studentInfo_au" autocomplete="off" disableautocomplete id="modalForm"
+<form class="form-horizontal" action="${ctx}/studentInfo_au" autocomplete="off" disableautocomplete id="baseInfoForm"
       method="post">
     <input type="hidden" name="userId" value="${student.userId}">
     <div class="row">
@@ -24,7 +23,7 @@
                         <option value="${USER_SOURCE_YJS}">研究生</option>
                     </select>
                     <script>
-                        $("#modalForm select[name=syncSource]").val(${student.syncSource});
+                        $("#baseInfoForm select[name=syncSource]").val(${student.syncSource});
                     </script>
                 </div>
             </div>
@@ -39,13 +38,11 @@
                 <div class="col-xs-6 label-text">
                     <div class="input-group">
                         <c:forEach var="gender" items="${GENDER_MAP}">
-                            <c:if test="${gender.key!=GENDER_UNKNOWN}">
                             <label>
                                 <input required name="gender" type="radio" class="ace" value="${gender.key}"
                                        <c:if test="${sysUser.gender==gender.key}">checked</c:if>/>
                                 <span class="lbl" style="padding-right: 5px;"> ${gender.value}</span>
                             </label>
-                            </c:if>
                         </c:forEach>
                     </div>
                 </div>
@@ -76,7 +73,15 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 民族</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="nation" value="${sysUser.nation}">
+                     <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
+                             <option></option>
+                        <c:forEach items="${cm:getMetaTypes('mc_nation').values()}" var="nation">
+                            <option value="${nation.name}">${nation.name}</option>
+                        </c:forEach>
+                    </select>
+                    <script>
+                        $("#baseInfoForm select[name=nation]").val('${cm:ensureEndsWith(sysUser.nation, '族')}');
+                    </script>
                 </div>
             </div>
             <div class="form-group">
@@ -184,19 +189,19 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="hideView btn" type="button">
-            <i class="ace-icon fa fa-undo bigger-110"></i>
-            取消
+        <button class="hideView btn btn-default" type="button">
+            <i class="ace-icon fa fa-reply bigger-110"></i>
+            返回
         </button>
     </div>
 </div>
 
 <script>
     $("#body-content-view button[type=submit]").click(function () {
-        $("#modalForm").submit();
+        $("#baseInfoForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#baseInfoForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -211,6 +216,6 @@
         }
     });
     $.register.date($('.date-picker'));
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    $("#baseInfoForm :checkbox").bootstrapSwitch();
+    $('#baseInfoForm [data-rel="select2"]').select2();
 </script>

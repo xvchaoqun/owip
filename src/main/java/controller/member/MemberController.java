@@ -362,8 +362,6 @@ public class MemberController extends MemberBaseController {
                 sysUserInfo.setGender(SystemConstants.GENDER_MALE);
             } else if (StringUtils.contains(gender, "女")) {
                 sysUserInfo.setGender(SystemConstants.GENDER_FEMALE);
-            } else {
-                sysUserInfo.setGender(SystemConstants.GENDER_UNKNOWN);
             }
 
             sysUserInfo.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
@@ -914,7 +912,7 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:list")
     @RequestMapping("/member_data")
     public void member_data(HttpServletResponse response,
-                            @RequestParam(defaultValue = "party") String sort,
+                            String sort,
                             @OrderParam(required = false, defaultValue = "desc") String order,
                             @RequestParam(defaultValue = "1") int cls,
                             Boolean _integrity,
@@ -962,11 +960,13 @@ public class MemberController extends MemberBaseController {
         MemberViewExample.Criteria criteria = example.createCriteria();
 
         if (StringUtils.equalsIgnoreCase(sort, "party")) {
-            example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
+            example.setOrderByClause(String.format("party_sort_order , branch_sort_order %s, grow_time desc", order));
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort,"integrity")){
             example.setOrderByClause(String.format("integrity %s", order));
+        }else{
+            example.setOrderByClause(String.format("party_sort_order desc, branch_sort_order desc, user_id asc", order));
         }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());

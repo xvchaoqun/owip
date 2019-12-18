@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="GENDER_UNKNOWN" value="<%=SystemConstants.GENDER_UNKNOWN%>"/>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
 <c:set var="DP_MEMBER_TYPE_TEACHER" value="<%=DpConstants.DP_MEMBER_TYPE_TEACHER%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
@@ -117,9 +116,7 @@ pageEncoding="UTF-8" %>
                                             data-placeholder="请选择">
                                         <option></option>
                                         <c:forEach items="${GENDER_MAP}" var="entity">
-                                            <c:if test="${entity.key!=GENDER_UNKNOWN}">
                                             <option value="${entity.key}">${entity.value}</option>
-                                            </c:if>
                                         </c:forEach>
                                     </select>
                                     <script>

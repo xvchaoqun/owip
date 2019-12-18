@@ -813,8 +813,6 @@ public class DpMemberController extends DpBaseController {
                 sysUserInfo.setGender(SystemConstants.GENDER_MALE);
             } else if (StringUtils.contains(gender, "女")){
                 sysUserInfo.setGender(SystemConstants.GENDER_FEMALE);
-            } else {
-                sysUserInfo.setGender(SystemConstants.GENDER_UNKNOWN);
             }
             sysUserInfo.setBirth(DateUtils.parseStringToDate(StringUtils.trim(xlsRow.get(col++))));
             sysUserInfo.setNativePlace(StringUtils.trimToNull(xlsRow.get(col++)));

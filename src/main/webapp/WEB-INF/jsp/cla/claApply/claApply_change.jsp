@@ -103,7 +103,7 @@ pageEncoding="UTF-8"%>
 			提交
 		</button>
 		&nbsp; &nbsp; &nbsp;
-		<button class="hideView btn" type="button">
+		<button class="hideView btn btn-default" type="button">
 			<i class="ace-icon fa fa-undo bigger-110"></i>
 			取消
 		</button>

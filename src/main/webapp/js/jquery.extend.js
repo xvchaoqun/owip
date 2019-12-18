@@ -871,6 +871,30 @@ var _modal_width;
             }
             return year + "岁";
         },
+        // 身份证号获取 出生年月日（yyyy-MM-dd）
+        getBirthdayByIdcard:function(idcard){
+
+            var birthday = "";
+            if(idcard != null && idcard != ""){
+                if(idcard.length == 15){
+                    birthday = "19"+idcard.substr(6,6);
+                } else if(idcard.length == 18){
+                    birthday = idcard.substr(6,8);
+                }
+                birthday = birthday.replace(/(.{4})(.{2})/,"$1-$2-");
+            }
+		    return birthday;
+        },
+        // 身份证号获取 性别 2 女 , 1 男
+        getGenderByIdcard:function(idcard){
+            if (idcard.length==18) {
+                return idcard.charAt(16)%2==0?"2":"1";
+              }else if(idcard.length==15){
+                return idcard.charAt(14)%2==0?"2":"1";
+              }else{
+                return "";
+              }
+        },
         isJson: function (obj) {
             var isjson = typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase()
                 == "[object object]" && !obj.length;

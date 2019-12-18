@@ -53,6 +53,7 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS
 select
 m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
 ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
+p.sort_order as party_sort_order, b.sort_order as branch_sort_order,
 mo.status as out_status, mo.handle_time as out_handle_time,
 
 t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_school,
@@ -70,6 +71,7 @@ from ow_member m
 left join sys_user_info ui on ui.user_id=m.user_id
 left join sys_user u on u.id=m.user_id
 left join ow_party p on p.id = m.party_id
+left join ow_branch b on b.id = m.branch_id
 left join ow_member_out mo on mo.status!=10 and mo.user_id = m.user_id
 left join sys_teacher_info t on t.user_id = m.user_id
 left join sys_student_info s on s.user_id = m.user_id;

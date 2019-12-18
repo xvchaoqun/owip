@@ -1,5 +1,110 @@
 
 
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `sort_order`, `available`) VALUES (134, NULL, '民族', '1', '1', 'mc_nation', '', '', 58, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '汉族', 'mt_b5rgkm', NULL, NULL, NULL, 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '蒙古族', 'mt_kky2pg', NULL, NULL, NULL, 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '回族', 'mt_bfmvqi', NULL, NULL, NULL, 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '藏族', 'mt_wzihhg', NULL, NULL, NULL, 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '维吾尔族', 'mt_njpnv7', NULL, NULL, NULL, 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '苗族', 'mt_oqenrt', NULL, NULL, NULL, 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '彝族', 'mt_jbeocm', NULL, NULL, NULL, 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '壮族', 'mt_flabtf', NULL, NULL, NULL, 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '布依族', 'mt_igbv9i', NULL, NULL, NULL, 9, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '朝鲜族', 'mt_6z9mjc', NULL, NULL, NULL, 10, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '满族', 'mt_ctx8cu', NULL, NULL, NULL, 11, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '侗族', 'mt_eiajhb', NULL, NULL, NULL, 12, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '瑶族', 'mt_ayqz6j', NULL, NULL, NULL, 13, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '白族', 'mt_xeqrcy', NULL, NULL, NULL, 14, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '土家族', 'mt_1w1crh', NULL, NULL, NULL, 15, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '哈尼族', 'mt_hgnzeh', NULL, NULL, NULL, 16, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '哈萨克族', 'mt_rkcy8p', NULL, NULL, NULL, 17, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '傣族', 'mt_jd7ci5', NULL, NULL, NULL, 18, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '黎族', 'mt_8zwnfi', NULL, NULL, NULL, 19, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '傈僳族', 'mt_t9zrz0', NULL, NULL, NULL, 20, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '佤族', 'mt_znpagg', NULL, NULL, NULL, 21, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '畲族', 'mt_tmpm8n', NULL, NULL, NULL, 22, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '高山族', 'mt_x4xhkg', NULL, NULL, NULL, 23, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '拉祜族', 'mt_d8vbhh', NULL, NULL, NULL, 24, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '水族', 'mt_ynil0x', NULL, NULL, NULL, 25, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '东乡族', 'mt_jqodio', NULL, NULL, NULL, 26, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '纳西族', 'mt_1jnpli', NULL, NULL, NULL, 27, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '景颇族', 'mt_sh6ses', NULL, NULL, NULL, 28, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '柯尔克孜族', 'mt_9wykpr', NULL, NULL, NULL, 29, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '土族', 'mt_ia1f7z', NULL, NULL, NULL, 30, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '达斡尔族', 'mt_ixa0mb', NULL, NULL, NULL, 31, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '仫佬族', 'mt_gagbua', NULL, NULL, NULL, 32, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '羌族', 'mt_fvu1pi', NULL, NULL, NULL, 33, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '布朗族', 'mt_xfexhz', NULL, NULL, NULL, 34, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '撒拉族', 'mt_kusqao', NULL, NULL, NULL, 35, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '毛难族', 'mt_9xaiam', NULL, NULL, NULL, 36, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '仡佬族', 'mt_g5smwe', NULL, NULL, NULL, 37, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '锡伯族', 'mt_fn8baa', NULL, NULL, NULL, 38, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '阿昌族', 'mt_iow8kc', NULL, NULL, NULL, 39, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '普米族', 'mt_kivlzh', NULL, NULL, NULL, 40, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '塔吉克族', 'mt_0kv9ll', NULL, NULL, NULL, 41, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '怒族', 'mt_eekt6q', NULL, NULL, NULL, 42, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '乌孜别克族', 'mt_sbppkw', NULL, NULL, NULL, 43, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '俄罗斯族', 'mt_aagqzn', NULL, NULL, NULL, 44, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '鄂温克族', 'mt_rxzjxl', NULL, NULL, NULL, 45, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '崩龙族', 'mt_igbwag', NULL, NULL, NULL, 46, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '保安族', 'mt_1c9aoy', NULL, NULL, NULL, 47, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '裕固族', 'mt_xbwocx', NULL, NULL, NULL, 48, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '京族', 'mt_vrsslm', NULL, NULL, NULL, 49, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '塔塔尔族', 'mt_xotm2h', NULL, NULL, NULL, 50, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '独龙族', 'mt_okq0cq', NULL, NULL, NULL, 51, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '鄂伦春族', 'mt_m2qnjb', NULL, NULL, NULL, 52, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '赫哲族', 'mt_60iuud', NULL, NULL, NULL, 53, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '门巴族', 'mt_p3vnvw', NULL, NULL, NULL, 54, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '珞巴族', 'mt_smr6je', NULL, NULL, NULL, 55, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '基诺族', 'mt_4znpcl', NULL, NULL, NULL, 56, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (134, '其他', 'mt_inhxzk', NULL, NULL, NULL, 57, 1);
+
+
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `gender` `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别，1男 2女' AFTER `avatar_upload_time`;
+
+update sys_user_info set gender=null where gender not in(1, 2);
+
+UPDATE `sys_scheduler_job` SET `clazz`='job.member.UpdateIntegrityJob' WHERE  `clazz`='job.member.updateIntegrityJob';
+UPDATE `sys_scheduler_job` SET `clazz`='job.party.UpdateIntegrityJob' WHERE  `clazz`='job.party.updateIntegrityJob';
+UPDATE `sys_scheduler_job` SET `clazz`='job.branch.UpdateIntegrityJob' WHERE  `clazz`='job.branch.updateIntegrityJob';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3034, 0, '信息完整性汇总', '', 'url', '', '/stat_integrity?cls=1', 260, '0/1/260/', 1, 'partyIntegrity:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3035, 0, '信息完整性汇总', '', 'url', '', '/stat_integrity?cls=2', 260, '0/1/260/', 1, 'branchIntegrity:*', NULL, NULL, NULL, 1, NULL);
+
+
+DROP VIEW IF EXISTS `ow_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_view` AS
+select
+m.*, u.source as user_source, u.code, ui.realname, ui.gender, ui.nation, ui.native_place,
+ui.birth, ui.idcard, ui.mobile, ui.email, ui.unit, p.unit_id,
+p.sort_order as party_sort_order, b.sort_order as branch_sort_order,
+mo.status as out_status, mo.handle_time as out_handle_time,
+
+t.education,t.degree,t.degree_time,t.major,t.school,t.school_type, t.degree_school,
+t.authorized_type, t.staff_type, t.staff_status, t.on_job, t.main_post_level,
+t.post_class, t.post, t.post_level, t.pro_post, t.pro_post_level, t.manage_level, t.office_level,
+t.title_level,t.marital_status,t.address,
+t.arrive_time, t.work_time, t.from_type, t.talent_type, t.talent_title,
+t.is_retire, t.is_honor_retire, t.retire_time, t.is_high_level_talent,
+
+s.delay_year,s.period,s.actual_graduate_time,
+s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type as student_type,s.is_full_time,
+s.enrol_year,s.grade,s.edu_type,s.edu_way,s.edu_level,s.edu_category,s.xj_status
+
+from ow_member m
+left join sys_user_info ui on ui.user_id=m.user_id
+left join sys_user u on u.id=m.user_id
+left join ow_party p on p.id = m.party_id
+left join ow_branch b on b.id = m.branch_id
+left join ow_member_out mo on mo.status!=10 and mo.user_id = m.user_id
+left join sys_teacher_info t on t.user_id = m.user_id
+left join sys_student_info s on s.user_id = m.user_id;
+
+20191212
+南航
+
 20191212
 -- 提交
 
@@ -37,11 +142,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 ALTER TABLE `ow_party` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
 ALTER TABLE `ow_member` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `profile`;
 ALTER TABLE `ow_branch` ADD COLUMN `integrity` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT '信息完整度' AFTER `is_deleted`;
-
--- 添加定时任务 桑文帅
-INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党员信息完整度', '', 'job.member.updateIntegrityJob', '0 0 3 * * ?', 1, 1, 30, '2019-12-03 09:26:36');
-INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验二级基层党组织完整度', '', 'job.party.updateIntegrityJob', '0 20 3 * * ?', 1, 1, 31, '2019-12-03 11:20:29');
-INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党支部信息完整度', '', 'job.branch.updateIntegrityJob', '0 40 3 * * ?', 1, 1, 32, '2019-12-03 15:47:48');
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('owCheckIntegrity', '党建是否验证信息完整度', 'false', 3, 49, '');
 

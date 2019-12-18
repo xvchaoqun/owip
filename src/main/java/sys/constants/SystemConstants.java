@@ -141,16 +141,14 @@ public class SystemConstants {
         SCHEDULER_JOB_MAP.put(SCHEDULER_JOB_WASEXECUTED, "执行完毕");
     }
 
-    // 性别， 1男 2女 0未知
+    // 性别， 1男 2女
     public static final byte GENDER_MALE = 1;
     public static final byte GENDER_FEMALE = 2;
-    public static final byte GENDER_UNKNOWN = 0;
     public final static Map<Byte, String> GENDER_MAP = new LinkedHashMap<>();
 
     static {
         GENDER_MAP.put(GENDER_MALE, "男");
         GENDER_MAP.put(GENDER_FEMALE, "女");
-        GENDER_MAP.put(GENDER_UNKNOWN, "未知");
     }
 
     //单位状态，1正在运转单位、2历史单位
