@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="jqgrid-vertical-offset buttons">
+<%--<div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="dpPartyMemberGroup:edit">
         <button class="popupBtn btn btn-primary btn-xs"
                 data-url="${ctx}/dp/dpPartyMemberGroup_au?partyId=${param.partyId}">
@@ -23,7 +23,7 @@
             <i class="fa fa-history"></i> 移除
         </button>
     </shiro:hasPermission>
-</div>
+</div>--%>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
 <div id="jqGridPager2"></div>

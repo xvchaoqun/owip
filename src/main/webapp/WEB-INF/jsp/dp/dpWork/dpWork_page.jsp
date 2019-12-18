@@ -22,7 +22,7 @@
                 </shiro:hasPermission>
             </div>
     <div class="space-4"></div>
-    <table id="jqGrid_dpWork" class="jqGrid2"></table>
+    <table id="jqGrid_dpWork" class="jqGrid2"  data-height-reduce="30"></table>
     <div id="jqGridPager_dpWork"></div>
 
 <script type="text/template" id="switch_tpl">

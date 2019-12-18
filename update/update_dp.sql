@@ -2,13 +2,11 @@
 
 -- 20191218 ly 统战的view也都更新了 dp_member、dp_pr_cm表更新
 
+insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2606, 0, '人大代表、政协委员', '', 'url', '', '/dp/dpPrCm', 2574, '0/1/2574/', 0, 'dpPrCm:list', NULL, NULL, NULL, 1, 125);
+DELETE FROM `db_owip`.`sys_resource` WHERE  `id`>=2610 and `id`<=2616;
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2617, 0, '编辑', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2618, 0, '删除', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:del', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2619, 0, '调序', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:changeOrder', NULL, NULL, NULL, 1, NULL);
-
-REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2606, 0, '人大代表、政协委员', '', 'url', '', '/dp/dpPrCm', 2574, '0/1/2574/', 0, 'dpPrCm:list', NULL, NULL, NULL, 1, 125);
-DELETE FROM `db_owip`.`sys_resource` WHERE  `id`>=2610 and `id`<=2616;
-
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2620, 0, '年度考核', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpEva:list', NULL, NULL, NULL, 1, 120);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2621, 0, '年度考核编辑', '', 'function', '', NULL, 2620, '0/1/2574/2620/', 1, 'dpEva:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2622, 0, '年度考核删除', '', 'function', '', NULL, 2620, '0/1/2574/2620/', 1, 'dpEva:del', NULL, NULL, NULL, 1, NULL);
@@ -23,7 +21,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2631, 0, '学习经历删除', '', 'function', '', NULL, 2629, '0/1/2574/2629/', 1, 'dpEdu:del', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2632, 0, '家庭成员情况排序', '', 'function', '', NULL, 2629, '0/1/2574/2629/', 1, 'dpFamily:changeOrder', NULL, NULL, NULL, 1, NULL);
 
-INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2605, NULL, ''人大代表、政协委员类别'', ''统战信息管理'', ''人大代表、政协委员'', ''mc_dp_prcm_type'', '''', '''', '''', 2611, 1);
+INSERT INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '人大代表、政协委员类别', '统战信息管理', '人大代表、政协委员', 'mc_dp_prcm_type', '', '', '', 2611, 1);
 
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '海淀区政协委员', 'mt_agaimg', NULL, '', '', 6, 1);
 INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2605, '海淀区人大代表', 'mt_lviukq', NULL, '', '', 5, 1);

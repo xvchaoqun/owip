@@ -40,7 +40,7 @@
     </div>
 
     <div class="space-4"></div>
-    <table id="jqGrid_dpEdu" class="jqGrid2"></table>
+    <table id="jqGrid_dpEdu" class="jqGrid2" data-height-reduce="30"></table>
     <div id="jqGridPager_dpEdu"></div>
 
 <style>

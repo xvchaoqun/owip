@@ -39,7 +39,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <table id="jqGrid2" class="jqGrid2" data-width-reduce="50"></table>
+            <table id="jqGrid2" class="jqGrid2"  data-height-reduce="70" data-width-reduce="70"></table>
             <div id="jqGridPager_dpFamily"></div>
         </div>
     </div>

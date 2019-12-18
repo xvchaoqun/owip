@@ -9,7 +9,7 @@
                     <a href="javascript:;" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
-                    <i class="ace-icon fa fa-user"></i>教职工党派成员个人信息-${uv.realname}
+                    <%--<i class="ace-icon fa fa-user"></i>教职工党派成员个人信息-${uv.realname}--%>
                 </h4>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">

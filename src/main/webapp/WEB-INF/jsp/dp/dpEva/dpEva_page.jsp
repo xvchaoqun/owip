@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="30"></table>
             <div id="jqGridPager2"></div>
         </div>
         <div id="body-content-view"></div>
