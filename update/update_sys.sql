@@ -1,4 +1,10 @@
 
+2019-12-18
+-- 规范代码 桑文帅
+UPDATE `sys_scheduler_job` SET `clazz`='job.member.UpdateIntegrityJob' WHERE  `clazz`='job.member.updateIntegrityJob';
+UPDATE `sys_scheduler_job` SET `clazz`='job.party.UpdateIntegrityJob' WHERE  `clazz`='job.party.updateIntegrityJob';
+UPDATE `sys_scheduler_job` SET `clazz`='job.branch.UpdateIntegrityJob' WHERE  `clazz`='job.branch.updateIntegrityJob';
+
 2019-12-09
 -- 添加定时任务 桑文帅
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`) VALUES ('校验党员信息完整度', '', 'job.member.updateIntegrityJob', '0 0 3 * * ?', 1, 1, 30, '2019-12-03 09:26:36');

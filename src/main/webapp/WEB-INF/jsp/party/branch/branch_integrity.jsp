@@ -24,13 +24,21 @@
         </tr>
         <tr>
             <td class="bg-right">是否建立在团队</td>
-            <td class="bg-left">${empty branchView.isBaseTeam?"否":"是"}</td>
-            <td class="bg-right">成立时间</td>
-            <td class="bg-left">${empty branchView.foundTime?"否":"是"}</td>
+            <td class="bg-left" style="min-width: 120px">${empty branchView.isBaseTeam?"否":"是"}</td>
+            <td class="bg-right">所在单位属性</td>
+            <td class="bg-left" style="min-width: 120px">是</td>
+
         </tr>
         <tr>
+            <td class="bg-right">成立时间</td>
+            <td class="bg-left">${empty branchView.foundTime?"否":"是"}</td>
             <td class="bg-right">联系电话</td>
             <td class="bg-left">${empty branchView.phone?"否":"是"}</td>
+
+        </tr>
+        <tr>
+            <td class="bg-right">支部委员信息</td>
+            <td class="bg-left" style="min-width: 120px">是</td>
             <td class="bg-right">任命时间</td>
             <td class="bg-left">${empty branchView.appointTime?"否":"是"}</td>
         </tr>
@@ -40,9 +48,19 @@
         </tr>
         </tbody>
     </table>
+    <form action="${ctx}/branch_integrity" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <input name="branchId" value="${branchView.id}" type="hidden">
+        <p style="color: red;font-size: 16px">
+            信息完整度会每天进行一次校验更新，如果查看最新信息完整度，请点击更新
+        </p>
+    </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <button id="submitBtn"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            class="btn btn-primary"><i class="fa fa-refresh"></i> 更新
+    </button>
 </div>
 <style>
     .checkTable tbody td.notExist{
@@ -52,4 +70,20 @@
 <script>
     $("td:contains('否')").addClass("notExist");
     $("td:contains('是否')").removeClass("notExist");
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
+        submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                }
+            });
+        }
+    });
 </script>

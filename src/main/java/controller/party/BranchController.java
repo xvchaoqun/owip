@@ -5,6 +5,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
 import domain.sys.SysUserView;
+import interceptor.OrderParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,6 +39,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -104,6 +106,8 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_data")
     public void branch_data(HttpServletResponse response,
                             @RequestParam(required = false, defaultValue = "1") Byte cls,
+                            @OrderParam(required = false, defaultValue = "desc") String order,
+                            String sort,
                             String code,
                             String name,
                             Integer partyId,
@@ -113,6 +117,7 @@ public class BranchController extends BaseController {
                             Boolean isStaff,
                             Boolean isPrefessional,
                             Boolean isBaseTeam,
+                            Boolean _integrity,
                             @RequestParam(required = false, defaultValue = "0") int export,
                             String exportType,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -129,6 +134,10 @@ public class BranchController extends BaseController {
         BranchViewExample example = new BranchViewExample();
         BranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, sort_order desc");
+
+        if (StringUtils.equalsIgnoreCase(sort,"integrity")){
+            example.setOrderByClause(String.format("integrity %s,party_sort_order desc, sort_order desc",order));
+        }
 
         criteria.andIsDeletedEqualTo(cls == 2);
 
@@ -175,6 +184,15 @@ public class BranchController extends BaseController {
 
         if (_foundTime.getEnd() != null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
+        }
+
+        if (_integrity != null){
+
+            if (_integrity){
+                criteria.andIntegrityEqualTo(new BigDecimal(1));
+            }else {
+                criteria.andIntegrityNotEqualTo(new BigDecimal(1));
+            }
         }
 
         if (export == 1) {
@@ -575,12 +593,22 @@ public class BranchController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("party:list")
+    @RequiresPermissions("branch:list")
     @RequestMapping("/branch_integrity_view")
     public String member_integrity_view(Integer branchId,ModelMap modelMap){
 
         BranchView branchView = branchService.getBranchView(branchId);
         modelMap.put("branchView",branchView);
         return "party/branch/branch_integrity";
+    }
+
+    @RequiresPermissions("branch:list")
+    @RequestMapping(value = "/branch_integrity", method = RequestMethod.POST)
+    @ResponseBody
+    public Map branch_integrity(Integer branchId){
+
+        BranchView branchView = branchService.getBranchView(branchId);
+        branchService.checkIntegrity(branchView);
+        return success(FormUtils.SUCCESS);
     }
 }

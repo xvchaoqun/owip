@@ -308,36 +308,43 @@ public class BranchService extends BaseMapper {
 
         for (BranchView branchView : branchViews){
 
-            if (branchView==null) continue;
-
-            Double a = 0.00; Double b = 0.00;
-            if (branchView.getPartyId()!=null){a++;}//所属二级单位党组织
-            b++;
-            if (StringUtils.isNotBlank(branchView.getTypes())){a++;}//支部类型
-            b++;
-            if (branchView.getIsStaff()!=null){a++;}//是否是教工党支部
-            b++;
-            if (branchView.getIsPrefessional()!=null){a++;}//是否一线教学科研党支部
-            b++;
-            if (branchView.getIsBaseTeam()!=null){a++;}//是否建立在团队
-            b++;
-            if (branchView.getFoundTime()!=null){a++;}//成立时间
-            b++;
-            if (StringUtils.isNotBlank(branchView.getPhone())){a++;}//联系电话
-            b++;
-            if (branchView.getAppointTime()!=null){a++;}//任命时间
-            b++;
-            if (branchView.getTranTime()!=null){a++;}//应换届时间
-            b++;
-
-            BigDecimal molecule = new BigDecimal(a);
-            BigDecimal denominator = new BigDecimal(b);
-
-            Branch branch = new Branch();
-            branch.setId(branchView.getId());
-            branch.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
-
-            branchMapper.updateByPrimaryKeySelective(branch);
+            checkIntegrity(branchView);
         }
+    }
+
+    public void checkIntegrity(BranchView branchView){
+
+        if (branchView==null) return;
+
+        Double a = 0.00; Double b = 0.00;
+        if (branchView.getPartyId()!=null){a++;}//所属二级单位党组织
+        b++;
+        if (StringUtils.isNotBlank(branchView.getTypes())){a++;}//支部类型
+        b++;
+        if (branchView.getIsStaff()!=null){a++;}//是否是教工党支部
+        b++;
+        if (branchView.getIsPrefessional()!=null){a++;}//是否一线教学科研党支部
+        b++;
+        if (branchView.getIsBaseTeam()!=null){a++;}//是否建立在团队
+        b++;
+        a++;b++;//所在单位属性
+        if (branchView.getFoundTime()!=null){a++;}//成立时间
+        b++;
+        if (StringUtils.isNotBlank(branchView.getPhone())){a++;}//联系电话
+        b++;
+        a++;b++;//支部委员信息
+        if (branchView.getAppointTime()!=null){a++;}//任命时间
+        b++;
+        if (branchView.getTranTime()!=null){a++;}//应换届时间
+        b++;
+
+        BigDecimal molecule = new BigDecimal(a);
+        BigDecimal denominator = new BigDecimal(b);
+
+        Branch branch = new Branch();
+        branch.setId(branchView.getId());
+        branch.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+        branchMapper.updateByPrimaryKeySelective(branch);
     }
 }

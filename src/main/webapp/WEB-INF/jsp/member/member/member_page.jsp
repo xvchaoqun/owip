@@ -17,7 +17,8 @@
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
-                ||not empty param._outHandleTime || not empty param.partyId }"/>
+                ||not empty param._outHandleTime || not empty param.partyId
+                ||not empty param._integrity}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -373,6 +374,19 @@
                                                 $("#searchForm select[name=userSource]").val('${param.userSource}');
                                             </script>
                                         </div>
+                                        <c:if test="${_p_owCheckIntegrity}">
+                                        <div class="form-group">
+                                            <label>信息完整度</label>
+                                            <select name="_integrity" data-width="100" data-rel="select2" data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="1">完整</option>
+                                                <option value="0">不完整</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=_integrity]").val('${param._integrity}');
+                                            </script>
+                                        </div>
+                                            </c:if>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
@@ -449,15 +463,16 @@
             },
             {label: '学工号', name: 'code', width: 120, frozen: true},
             <c:if test="${_p_owCheckIntegrity}">
-            {label: '信息完整度', name: '_integrity',frozen: true,formatter: function (cellvalue, options, rowObject) {
+            {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
                     if(Math.trimToZero(rowObject.integrity)==0)
                         return '--'
                     var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
                     return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/member_integrity_view" data-id-name="userId">' +
                         '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
-                        '<div class="progress-bar progress-bar-success" style="width:{0}"></div></div></a>').format(progress)
-                }},
+                        '<div class="progress-bar progress-bar-{1}" style="width:{0}"></div></div></a>')
+                        .format(progress,rowObject.integrity==1?"success":"danger")
+                },sortable: true, align: 'left'},
             </c:if>
             {label: '性别', name: 'gender', width: 55, formatter: $.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation'},

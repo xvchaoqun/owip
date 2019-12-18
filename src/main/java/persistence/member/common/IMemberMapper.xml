@@ -230,4 +230,23 @@
        select count(m.id) from ow_member_out_view m left join sys_user_view uv on m.user_id=uv.id
          <include refid="memberOutSearchSql"/>
     </select>
+
+    <select id="countMemberNotIntegrity" parameterType="map" resultType="map">
+
+        select count(case when type = 2 then 1
+        else null end) as student,
+        count(case when type = 1 and is_retire = 0 then 1
+        else null end) as teacher,
+        count(case when type = 1 and is_retire = 1 then 1
+        else null end)as retire
+        from ow_member_view where status = 1
+        <if test="partyId != null">
+            and party_id =#{partyId}
+        </if>
+        <if test="branchId != null">
+            and branch_id =#{branchId}
+        </if>
+        and integrity != 1;
+    </select>
+
 </mapper>

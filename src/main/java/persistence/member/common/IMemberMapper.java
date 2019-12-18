@@ -278,4 +278,7 @@ public interface IMemberMapper {
                               @Param("addPermits") Boolean addPermits,
                               @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                               @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
+    Map countMemberNotIntegrity(@Param("partyId") Integer partyId,
+                                @Param("branchId") Integer branchId);
 }

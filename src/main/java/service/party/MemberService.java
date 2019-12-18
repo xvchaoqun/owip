@@ -492,36 +492,45 @@ public class MemberService extends MemberBaseMapper {
 
         for (MemberView memberView : memberViews){
 
-            if (memberView==null) continue;
-
-            Double a = 0.00; Double b = 0.00;
-            if (memberView.getGender()!=null){a++;}//性别
-            b++;
-            if (memberView.getBirth()!=null){a++;}//出生日期
-            b++;
-            if (StringUtils.isNotBlank(memberView.getNation())){a++;}//民族
-            b++;
-            if (memberView.getPartyId()!=null){a++;}//二级单位党组织
-            b++;
-            if (memberView.getBranchId()!=null){a++;b++;}//党支部 直属党支部BranchId为空,不计入总数
-
-            if (memberView.getPoliticalStatus()!=null){a++;}//政治面貌
-            b++;
-            if (memberView.getGrowTime()!=null){a++;}//入党时间
-            b++;
-            if (memberView.getPoliticalStatus()!=MemberConstants.MEMBER_POLITICAL_STATUS_GROW){//党员状态
-                if (memberView.getPositiveTime()!=null){a++;}//转正时间
-                b++;
-            }
-
-            BigDecimal molecule = new BigDecimal(a);
-            BigDecimal denominator = new BigDecimal(b);
-
-            Member member = new Member();
-            member.setUserId(memberView.getUserId());
-            member.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
-
-            memberMapper.updateByPrimaryKeySelective(member);
+            checkIntegrity(memberView);
         }
+    }
+
+    public void checkIntegrity(MemberView memberView){
+
+        if (memberView==null) return;
+
+        Double a = 0.00; Double b = 0.00;
+        if (memberView.getGender()!=null){a++;}//性别
+        b++;
+        if (memberView.getBirth()!=null){a++;}//出生日期
+        b++;
+        if (StringUtils.isNotBlank(memberView.getNation())){a++;}//民族
+        b++;
+        if (memberView.getPoliticalStatus()!=null){a++;}//政治面貌
+        b++;
+        if (memberView.getPartyId()!=null){a++;}//所属二级单位党组织
+        b++;
+        if (memberView.getBranchId()!=null){a++;b++;}//所在党支部 直属党支部BranchId为空,不计入总数
+
+
+        if (memberView.getGrowTime()!=null){a++;}//入党时间
+        b++;
+        if (memberView.getPoliticalStatus()!=MemberConstants.MEMBER_POLITICAL_STATUS_GROW){//党员状态
+            if (memberView.getPositiveTime()!=null){a++;}//转正时间
+            b++;
+        }
+        if (memberView.getType() == MemberConstants.MEMBER_TYPE_STUDENT){//类型为“学生”时，计算是否出国留学
+            a++;b++;//是否出国留学
+        }
+
+        BigDecimal molecule = new BigDecimal(a);
+        BigDecimal denominator = new BigDecimal(b);
+
+        Member member = new Member();
+        member.setUserId(memberView.getUserId());
+        member.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+        memberMapper.updateByPrimaryKeySelective(member);
     }
 }

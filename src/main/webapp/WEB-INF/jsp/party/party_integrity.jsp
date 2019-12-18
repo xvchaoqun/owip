@@ -35,20 +35,41 @@
             <td class="bg-left">${empty partyView.tranTime?"否":"是"}</td>
         </tr>
         <tr>
+            <td class="bg-right">班子成员信息</td>
+            <td class="bg-left">是</td>
+            <td class="bg-right">支部排序</td>
+            <td class="bg-left">是</td>
+        </tr>
+        <tr>
+            <td class="bg-right">所在单位属性</td>
+            <td class="bg-left">是</td>
             <td class="bg-right">是否标杆院系</td>
             <td class="bg-left">${empty partyView.isBg?"否":"是"}</td>
-            <td class="bg-right">
-                <c:if test="${partyView.isBg}">评选标杆院系时间</c:if>
-            </td>
-            <td class="bg-left">
-                <c:if test="${partyView.isBg}">${empty partyView.bgDate?"否":"是"}</c:if>
-            </td>
+
         </tr>
+        <c:if test="${partyView.isBg}">
+            <tr>
+                <td class="bg-right">评选标杆院系时间</td>
+                <td class="bg-left">
+                        ${empty partyView.bgDate?"否":"是"}
+                </td>
+            </tr>
+        </c:if>
         </tbody>
     </table>
+    <form action="${ctx}/party_integrity" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <input name="partyId" value="${partyView.id}" type="hidden">
+        <p style="color: red;font-size: 16px">
+            信息完整度会每天进行一次校验更新，如果查看最新信息完整度，请点击更新
+        </p>
+    </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <button id="submitBtn"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            class="btn btn-primary"><i class="fa fa-refresh"></i> 更新
+    </button>
 </div>
 <style>
     .checkTable tbody td.notExist{
@@ -58,4 +79,20 @@
 <script>
     $("td:contains('否')").addClass("notExist");
     $("td:contains('是否')").removeClass("notExist");
+
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
+        submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                }
+            });
+        }
+    });
 </script>

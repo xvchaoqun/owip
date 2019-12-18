@@ -917,6 +917,7 @@ public class MemberController extends MemberBaseController {
                             @RequestParam(defaultValue = "party") String sort,
                             @OrderParam(required = false, defaultValue = "desc") String order,
                             @RequestParam(defaultValue = "1") int cls,
+                            Boolean _integrity,
                             Integer userId,
                             Integer unitId,
                             Integer partyId,
@@ -964,6 +965,8 @@ public class MemberController extends MemberBaseController {
             example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
+        }else if (StringUtils.equalsIgnoreCase(sort,"integrity")){
+            example.setOrderByClause(String.format("integrity %s", order));
         }
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
@@ -1111,6 +1114,15 @@ public class MemberController extends MemberBaseController {
 
         if (userSource != null) {
             criteria.andUserSourceEqualTo(userSource);
+        }
+
+        if (_integrity != null){
+
+            if (_integrity){
+                criteria.andIntegrityEqualTo(new BigDecimal(1));
+            }else {
+                criteria.andIntegrityNotEqualTo(new BigDecimal(1));
+            }
         }
 
         if (export == 1) {
@@ -1396,8 +1408,20 @@ public class MemberController extends MemberBaseController {
     @RequestMapping("/member_integrity_view")
     public String integrity(Integer userId,ModelMap modelMap){
 
+
+
         MemberView memberView = iMemberMapper.getMemberView(userId);
         modelMap.put("memberView",memberView);
         return "member/member/member_integrity";
+    }
+
+    @RequiresPermissions("member:list")
+    @RequestMapping(value = "/member_integrity", method = RequestMethod.POST)
+    @ResponseBody
+    public Map member_integrity(Integer memberId){
+
+        MemberView memberView = iMemberMapper.getMemberView(memberId);
+        memberService.checkIntegrity(memberView);
+        return success(FormUtils.SUCCESS);
     }
 }

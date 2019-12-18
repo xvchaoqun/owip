@@ -5,6 +5,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.party.*;
 import domain.unit.Unit;
+import interceptor.OrderParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,6 +39,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -104,6 +106,9 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
                                     @RequestParam(required = false, defaultValue = "1")Byte cls,
+                                    @OrderParam(required = false, defaultValue = "desc") String order,
+                                    Boolean _integrity,
+                                    String sort,
                                     String code,
                                     String name,
                                     Integer unitId,
@@ -131,6 +136,10 @@ public class PartyController extends BaseController {
         PartyViewExample example = new PartyViewExample();
         PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if (StringUtils.equalsIgnoreCase(sort,"integrity")){
+            example.setOrderByClause(String.format("integrity %s, sort_order desc",order));
+        }
 
         criteria.addPermits(loginUserService.adminPartyIdList());
 
@@ -175,6 +184,15 @@ public class PartyController extends BaseController {
 
         if (_foundTime.getEnd()!=null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
+        }
+
+        if (_integrity != null){
+
+            if (_integrity){
+                criteria.andIntegrityEqualTo(new BigDecimal(1));
+            }else {
+                criteria.andIntegrityNotEqualTo(new BigDecimal(1));
+            }
         }
 
         if (export == 1) {
@@ -503,5 +521,52 @@ public class PartyController extends BaseController {
         PartyView partyView = partyService.getPartyView(partyId);
         modelMap.put("partyView",partyView);
         return "party/party_integrity";
+    }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping(value = "/party_integrity", method = RequestMethod.POST)
+    @ResponseBody
+    public Map party_integrity(Integer partyId){
+
+        PartyView partyView = partyService.getPartyView(partyId);
+        partyService.checkIntegrity(partyView);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("party:list")
+    @RequestMapping("/stat_integrity")
+    public String stat_integrity(Integer partyId,Integer cls,ModelMap modelMap){
+
+        Integer userId = ShiroHelper.getCurrentUserId();
+        modelMap.put("cls",cls);
+
+        if (cls == 1){
+
+            if (!ShiroHelper.isPermitted("partyIntegrity:*")){
+                throw new OpException("您没有权限查看");
+            }
+            Map integrityMap = partyService.getPartyIntegrity(cls);
+            modelMap.put("integrityMap",integrityMap);
+            return "party/stat_integrity_party";
+        }
+        if (cls == 2){
+
+            if (!ShiroHelper.isPermitted("branchIntegrity:*")){
+                throw new OpException("您没有权限查看");
+            }
+            Map integrityMap = partyService.getBranchIntegrity(userId,partyId);
+            modelMap.put("integrityMap",integrityMap);
+
+            List<Party> parties = partyService.getPartysByUserId(userId);
+            modelMap.put("partys",parties);
+
+            if (parties.size()>0 && partyId==null)
+                partyId = parties.get(0).getId();
+
+            modelMap.put("partyId",partyId);
+            return "party/stat_integrity_branch";
+        }
+
+        return "";
     }
 }

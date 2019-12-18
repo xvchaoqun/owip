@@ -259,38 +259,117 @@ public class PartyService extends BaseMapper {
 
         for (PartyView partyView : partyViews){
 
-            if (partyView==null) continue;
-
-            Double a = 0.00; Double b = 0.00;
-            if (StringUtils.isNotBlank(partyView.getName())){a++;}//名称
-            b++;
-            if (partyView.getFoundTime()!=null){a++;}//成立时间
-            b++;
-            if (partyView.getUnitId()!=null){a++;}//所属单位
-            b++;
-            if (partyView.getClassId()!=null){a++;}//党总支类别
-            b++;
-            if (partyView.getTypeId()!=null){a++;}//组织类别
-            b++;
-            if (StringUtils.isNotBlank(partyView.getPhone())){a++;}//联系电话
-            b++;
-            if (partyView.getIsBg() && partyView.getBgDate()!=null){//标杆院系且评定时间不为空
-                a++;
-            }else if (!partyView.getIsBg()){a++;}//不是标杆院系
-            b++;
-            if (partyView.getAppointTime()!=null){a++;}//任命时间
-            b++;
-            if (partyView.getTranTime()!=null){a++;}//应换届时间
-            b++;
-
-            BigDecimal molecule = new BigDecimal(a);
-            BigDecimal denominator = new BigDecimal(b);
-
-            Party party = new Party();
-            party.setId(partyView.getId());
-            party.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
-
-            partyMapper.updateByPrimaryKeySelective(party);
+            checkIntegrity(partyView);
         }
+    }
+
+    public void checkIntegrity(PartyView partyView){
+        if (partyView==null) return;
+
+        Double a = 0.00; Double b = 0.00;
+        if (StringUtils.isNotBlank(partyView.getName())){a++;}//名称
+        b++;
+        if (partyView.getFoundTime()!=null){a++;}//成立时间
+        b++;
+        if (partyView.getUnitId()!=null){a++;}//所属单位
+        b++;
+        if (partyView.getClassId()!=null){a++;}//党总支类别
+        b++;
+        if (partyView.getTypeId()!=null){a++;}//组织类别
+        b++;
+        a++;b++;//所在单位属性
+        if (StringUtils.isNotBlank(partyView.getPhone())){a++;}//联系电话
+        b++;
+        if (partyView.getIsBg()!=null){a++;}//是否为标杆院系
+        b++;
+        if (partyView.getIsBg()){//是标杆院系
+            if (partyView.getBgDate()!=null){a++;}//如果是标杆院系，检查标杆评定时间
+            b++;
+        }
+        if (partyView.getAppointTime()!=null){a++;}//任命时间
+        b++;
+        if (partyView.getTranTime()!=null){a++;}//应换届时间
+        b++;
+        a++;b++;//班子成员信息
+        a++;b++;//支部排序
+        BigDecimal molecule = new BigDecimal(a);
+        BigDecimal denominator = new BigDecimal(b);
+
+        Party party = new Party();
+        party.setId(partyView.getId());
+        party.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
+
+        partyMapper.updateByPrimaryKeySelective(party);
+    }
+
+    public Map getPartyIntegrity (){
+
+        Map allMap = new HashMap<>();
+
+        Map<Integer,Integer> branchMap = new HashMap<>();//党支部完整度统计信息
+        Map<Integer,Map> memberMap = new HashMap<>();//党员完整度统计信息
+
+            PartyExample example = new PartyExample();
+            example.setOrderByClause("sort_order desc");
+            example.createCriteria().andIsDeletedEqualTo(false);
+            List<Party> parties = partyMapper.selectByExample(example);//全部分党委信息
+
+            allMap.put("parties",parties);
+
+            for (Party party : parties){
+
+                Integer partyId = party.getId();
+                branchMap.put(partyId,iPartyMapper.countBranchNotIntegrity(partyId));
+                memberMap.put(partyId,iMemberMapper.countMemberNotIntegrity(partyId,null));
+            }
+
+        allMap.put("branchMap",branchMap);
+        allMap.put("memberMap",memberMap);
+        return allMap;
+    }
+
+    public Map getBranchIntegrity(Integer userId,Integer partyId){
+
+        List<Integer> adminPartyIdList = iPartyMapper.adminPartyIdList(userId);//用户所管理的分党委ID
+
+        if (partyId==null && adminPartyIdList.size()>0)//如果partyId为null 默认显示所管理的第一个分党委信息
+            partyId=adminPartyIdList.get(0);
+
+        if (partyId == null) return new HashMap();
+
+        Map allMap = new HashMap<>();
+
+        Map<Integer,Map> memberMap = new HashMap<>();//党员完整度统计信息
+
+        BranchExample example = new BranchExample();
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andIntegrityNotEqualTo(new BigDecimal(1))
+                .andPartyIdEqualTo(partyId);
+
+        List<Branch> branches = branchMapper.selectByExample(example);
+
+        allMap.put("branches",branches);
+
+        for (Branch branch : branches){
+
+            memberMap.put(branch.getId(),iMemberMapper.countMemberNotIntegrity(null,branch.getId()));
+            }
+
+        allMap.put("memberMap",memberMap);
+        return allMap;
+    }
+
+    //根据userId获取所有管理的基层党组织
+    public List<Party> getPartysByUserId(Integer userId){
+
+        List<Integer> adminPartyIdList = iPartyMapper.adminPartyIdList(userId);
+
+        if (adminPartyIdList.size()==0)
+            return new ArrayList<>();
+
+        PartyExample partyExample = new PartyExample();
+        partyExample.createCriteria().andIdIn(adminPartyIdList).andIsDeletedEqualTo(false);
+
+        return partyMapper.selectByExample(partyExample);
     }
 }

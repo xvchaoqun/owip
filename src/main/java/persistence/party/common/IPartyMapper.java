@@ -114,4 +114,8 @@ public interface IPartyMapper {
     @Select("SELECT type_id FROM ow_branch_member WHERE user_id=${userId}" +
             " UNION ALL SELECT post_id FROM ow_party_member WHERE user_id=${userId}")
     List<Integer> findIsMember(@Param("userId") int userId);
+
+
+    @Select("select count(*) from ow_branch_view where party_id =${partyId} and is_deleted = 0 and integrity != 1")
+    int countBranchNotIntegrity(@Param("partyId")Integer partyId);
 }

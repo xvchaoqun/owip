@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param._foundTime || not empty param.code ||not empty param.name ||not empty param.unitId
             ||not empty param.classId ||not empty param.typeId ||not empty param.unitTypeId
             ||not empty param.isEnterpriseBig||not empty param.isEnterpriseNationalized||not empty param.isSeparate||not empty param.isPycj||not empty param.isBg
-            || not empty param.code}"/>
+            || not empty param.code ||not empty param._integrity}"/>
 
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
@@ -201,7 +201,19 @@ pageEncoding="UTF-8" %>
                                         $("#searchForm select[name=isBg]").val('${param.isBg}');
                                     </script>
                                 </div>
-
+                                <c:if test="${_p_owCheckIntegrity}">
+                                    <div class="form-group">
+                                        <label>信息完整度</label>
+                                        <select name="_integrity" data-width="100" data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">完整</option>
+                                            <option value="0">不完整</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=_integrity]").val('${param._integrity}');
+                                        </script>
+                                    </div>
+                                </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -239,15 +251,16 @@ pageEncoding="UTF-8" %>
             </c:if>
             </shiro:hasPermission>
             <c:if test="${_p_owCheckIntegrity}">
-            {label: '信息完整度', name: '_integrity',frozen: true,formatter: function (cellvalue, options, rowObject) {
+            {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
                     if(Math.trimToZero(rowObject.integrity)==0)
                         return '--'
                     var progress = Math.formatFloat(Math.trimToZero(rowObject.integrity)*100, 1) + "%";
                     return ('<a href="javascript:;" class="jqEditBtn" data-url="${ctx}/party_integrity_view" data-id-name="partyId">' +
                         '<div class="progress progress-striped pos-rel" data-percent="{0}">' +
-                        '<div class="progress-bar progress-bar-success" style="width:{0}"></div></div></a>').format(progress)
-                }},
+                        '<div class="progress-bar progress-bar-{1}" style="width:{0}"></div></div></a>')
+                        .format(progress,rowObject.integrity==1?"success":"danger")
+                },sortable: true, align: 'left'},
             </c:if>
             { label:'支部<br/>数量', name: 'branchCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.classId=='${cm:getMetaTypeByCode("mt_direct_branch").id}')
