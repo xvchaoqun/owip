@@ -32,16 +32,16 @@
         <tr>
             <td class="bg-right">入党时间</td>
             <td class="bg-left">${empty memberView.growTime?"否":"是"}</td>
-            <c:if test="${memberView.politicalStatus==POSITIVE}">
+            <c:if test="${memberView.politicalStatus==POSITIVE || isOverTime}">
                 <td class="bg-right">转正时间</td>
                 <td class="bg-left">${empty memberView.positiveTime?"否":"是"}</td>
             </c:if>
-            <c:if test="${memberView.politicalStatus!=POSITIVE}">
+            <c:if test="${memberView.politicalStatus!=POSITIVE && !isOverTime}">
                 <td class="bg-right">是否出国留学</td>
                 <td class="bg-left">是</td>
             </c:if>
         </tr>
-        <c:if test="${memberView.politicalStatus==POSITIVE && memberView.type == STUDENT}">
+        <c:if test="${(memberView.politicalStatus==POSITIVE || isOverTime) && memberView.type == STUDENT}">
             <tr>
                 <td class="bg-right">是否出国留学</td>
                 <td class="bg-left">是</td>

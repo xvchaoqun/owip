@@ -1408,9 +1408,9 @@ public class MemberController extends MemberBaseController {
     @RequestMapping("/member_integrity_view")
     public String integrity(Integer userId,ModelMap modelMap){
 
-
-
         MemberView memberView = iMemberMapper.getMemberView(userId);
+
+        modelMap.put("isOverTime",memberService.isOverTime(memberView.getGrowTime(),13));
         modelMap.put("memberView",memberView);
         return "member/member/member_integrity";
     }

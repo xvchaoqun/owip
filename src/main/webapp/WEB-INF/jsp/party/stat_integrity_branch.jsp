@@ -47,16 +47,16 @@
                             <td height=46 class=xl70 width=150 style='height:30pt;width:210pt'>
                                 ${empty branch.shortName?branch.name:branch.shortName}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${branch.integrity == '1.00'?'':'notExist'}" width=150 style='height:30pt;width:100pt'>
                                 ${branch.integrity == '1.00'?"0":"1"}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${memberCount['teacher']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${memberCount['teacher']}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${memberCount['student']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${memberCount['student']}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${memberCount['retire']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${memberCount['retire']}
                             </td>
                         </tr>
@@ -142,6 +142,11 @@
         text-align: center;
         vertical-align: middle;
         white-space: normal;
+    }
+
+    td.notExist{
+        background-color: #f2dede!important;
+        font-size: 18px;
     }
 </style>
 <script>

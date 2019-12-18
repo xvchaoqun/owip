@@ -37,13 +37,13 @@
                         <td colspan=14 height=41 class=xl97>信息完整性汇总表</td>
                     </tr>
                     <tr class=xl66>
-                        <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                        <td height=46 class="xl70 demo" width=150 style='height:30pt;width:100pt'>
                             ${_p_partyName}名称
                         </td>
-                        <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                        <td height=46 class="xl70 demo" width=150 style='height:30pt;width:100pt'>
                             二级基层党组织
                         </td>
-                        <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                        <td height=46 class="xl70 demo" width=150 style='height:30pt;width:100pt'>
                             党支部
                         </td>
                         <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
@@ -60,22 +60,22 @@
                     <c:forEach items="${parties}" var="party">
                         <c:set value="${memberMap[party.id]}" var="memberCount" />
                         <tr class=xl66>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:210pt'>
+                            <td height=46 class="xl70" width=150 style='height:30pt;width:210pt'>
                                 ${empty party.shortName?party.name:party.shortName}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${party.integrity == '1.00'?'':'notExist'}" width=150 style='height:30pt;width:100pt'>
                                 ${party.integrity == '1.00'?"0":"1"}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${branchMap[party.id]>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${branchMap[party.id]}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
-                                ${memberCount['student']}
-                            </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${memberCount['teacher']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${memberCount['teacher']}
                             </td>
-                            <td height=46 class=xl70 width=150 style='height:30pt;width:100pt'>
+                            <td height=46 class="xl70 ${memberCount['student']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
+                                ${memberCount['student']}
+                            </td>
+                            <td height=46 class="xl70 ${memberCount['retire']>0?'notExist':''}" width=150 style='height:30pt;width:100pt'>
                                 ${memberCount['retire']}
                             </td>
                         </tr>
@@ -163,16 +163,9 @@
         vertical-align: middle;
         white-space: normal;
     }
+
+    td.notExist{
+        background-color: #f2dede!important;
+        font-size: 18px;
+    }
 </style>
-<script>
-
-    $('[data-rel="select2"]').select2();
-
-    $("select[name=partyId]").change(function () {
-
-        var value = this.value;
-        if (value=='') return;
-
-        $.post
-    })
-</script>

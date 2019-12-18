@@ -26,6 +26,7 @@ import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
@@ -513,13 +514,18 @@ public class MemberService extends MemberBaseMapper {
         b++;
         if (memberView.getBranchId()!=null){a++;b++;}//所在党支部 直属党支部BranchId为空,不计入总数
 
-
         if (memberView.getGrowTime()!=null){a++;}//入党时间
         b++;
-        if (memberView.getPoliticalStatus()!=MemberConstants.MEMBER_POLITICAL_STATUS_GROW){//党员状态
+        if (memberView.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE ){//正式党员
             if (memberView.getPositiveTime()!=null){a++;}//转正时间
             b++;
         }
+        if(memberView.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_GROW &&
+        isOverTime(memberView.getGrowTime(),13)){//预备党员 入党时间与当前时间相差13个月
+            if (memberView.getPositiveTime()!=null){a++;}//转正时间
+            b++;
+        }
+
         if (memberView.getType() == MemberConstants.MEMBER_TYPE_STUDENT){//类型为“学生”时，计算是否出国留学
             a++;b++;//是否出国留学
         }
@@ -532,5 +538,10 @@ public class MemberService extends MemberBaseMapper {
         member.setIntegrity(molecule.divide(denominator,2,BigDecimal.ROUND_HALF_UP));
 
         memberMapper.updateByPrimaryKeySelective(member);
+    }
+
+    public Boolean isOverTime(Date date,Integer gapMonth){
+
+        return DateUtils.monthOffNow(date)>gapMonth;
     }
 }
