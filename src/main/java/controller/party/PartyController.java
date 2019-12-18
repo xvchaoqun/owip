@@ -545,7 +545,7 @@ public class PartyController extends BaseController {
             if (!ShiroHelper.isPermitted("partyIntegrity:*")){
                 throw new OpException("您没有权限查看");
             }
-            Map integrityMap = partyService.getPartyIntegrity(cls);
+            Map integrityMap = partyService.getPartyIntegrity();
             modelMap.put("integrityMap",integrityMap);
             return "party/stat_integrity_party";
         }
