@@ -151,9 +151,9 @@ public class StatService extends BaseMapper{
 
             for (StatIntBean other : others){
 
-                if (other.getGroupBy()==SystemConstants.GENDER_MALE){
+                if (other.getGroupBy()!=null && other.getGroupBy()==SystemConstants.GENDER_MALE){
                     otherMap.put("男",other.getNum());
-                }else if (other.getGroupBy()==SystemConstants.GENDER_FEMALE){
+                }else if (other.getGroupBy()!=null && other.getGroupBy()==SystemConstants.GENDER_FEMALE){
                     otherMap.put("女",other.getNum());
                 }else{
                     otherMap.put("无数据",other.getNum());
