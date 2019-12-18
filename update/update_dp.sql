@@ -2,6 +2,9 @@
 
 -- 20191218 ly 统战的view也都更新了 dp_member、dp_pr_cm表更新
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2617, 0, '编辑', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2618, 0, '删除', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:del', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2619, 0, '调序', '', 'function', '', NULL, 2606, '0/1/2574/2606/', 1, 'dpPrCm:changeOrder', NULL, NULL, NULL, 1, NULL);
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2606, 0, '人大代表、政协委员', '', 'url', '', '/dp/dpPrCm', 2574, '0/1/2574/', 0, 'dpPrCm:list', NULL, NULL, NULL, 1, 125);
 DELETE FROM `db_owip`.`sys_resource` WHERE  `id`>=2610 and `id`<=2616;
