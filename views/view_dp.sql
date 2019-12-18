@@ -12,39 +12,35 @@ left join sys_user_info sui on sui.user_id=dpc.user_id;
 
 DROP VIEW IF EXISTS `dp_om_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_om_view` AS
-SELECT om.*,m.party_id,m.dp_grow_time,m.unit,pr.type AS pr_type,
+SELECT om.*,m.party_id,m.dp_grow_time,m.unit,
 sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
 from dp_om om left join dp_member m on m.user_id=om.user_id
 left join dp_party p on p.id=m.party_id
-left join sys_user_info sui on sui.user_id=om.user_id
-left join dp_pr_cm pr on pr.user_id=om.user_id;
+left join sys_user_info sui on sui.user_id=om.user_id;
 
 DROP VIEW IF EXISTS `dp_npr_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_npr_view` AS
-SELECT npr.*,m.party_id,m.dp_grow_time,m.unit,pr.type AS pr_type,
+SELECT npr.*,m.party_id,m.dp_grow_time,m.unit,
 sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
 from dp_npr npr left join dp_member m on m.user_id=npr.user_id
 left join dp_party p on p.id=m.party_id
-left join sys_user_info sui on sui.user_id=npr.user_id
-left join dp_pr_cm pr on pr.user_id=npr.user_id;
+left join sys_user_info sui on sui.user_id=npr.user_id;
 
 DROP VIEW IF EXISTS `dp_npm_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_npm_view` AS
-SELECT npm.*,pr.type AS pr_type,
+SELECT npm.*,
 sui.gender,sui.birth,sui.nation,sui.native_place,sui.mobile,sui.phone
-from dp_npm npm left join sys_user_info sui on sui.user_id=npm.user_id
-left join dp_pr_cm pr on pr.user_id=npm.user_id;
+from dp_npm npm left join sys_user_info sui on sui.user_id=npm.user_id;
 
 DROP VIEW IF EXISTS `dp_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_member_view` AS
-select dm.*,sui.gender,sui.birth,sui.nation,sui.native_place,pr.type AS pr_type,
+select dm.*,sui.gender,sui.birth,sui.nation,sui.native_place,
 t.education AS tEduca,t.is_retire,t.retire_time,t.is_honor_retire,
 cv.admin_level,cv.post,t.pro_post
 from dp_member dm left join dp_party dp on dp.id = dm.party_id
 left join sys_user_info sui on dm.user_id=sui.user_id
 left join sys_teacher_info t on t.user_id = dm.user_id
-LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id)
-left join dp_pr_cm pr on pr.user_id=dm.user_id;
+LEFT JOIN cadre_view cv ON (cv.STATUS IN (1,6) AND cv.user_id=dm.user_id);
 
 DROP VIEW IF EXISTS `dp_party_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `dp_party_member_view` AS
