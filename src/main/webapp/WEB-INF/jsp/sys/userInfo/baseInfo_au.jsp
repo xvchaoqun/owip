@@ -166,9 +166,10 @@
     $("#body-content-view button[type=submit]").click(function () {
 
         var idcard = '${ui.idcard}';
-        var _birth = $("#baseInfoForm input[name=_birth]").val();
-        var gender = $("#baseInfoForm input[name=gender]").val();
         if(idcard.length==15||idcard.length==18){
+
+            var _birth = $("#baseInfoForm input[name=_birth]").val();
+            var gender = $("#baseInfoForm input[name=gender]:checked").val();
             if($.getGenderByIdcard(idcard)!=gender
                 || $.getBirthdayByIdcard(idcard)!=_birth){
 
@@ -177,8 +178,11 @@
                     $("#baseInfoForm").submit();
                     return false;
                 })
+                return false;
             }
         }
+         $("#baseInfoForm").submit();
+         return false;
     });
     $("#baseInfoForm").validate({
         submitHandler: function (form) {

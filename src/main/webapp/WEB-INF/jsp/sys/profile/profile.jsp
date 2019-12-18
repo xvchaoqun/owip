@@ -26,9 +26,9 @@
                                     <div class="row col-xs-12 col-sm-8">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">账号：</label>
+                                                <label class="col-sm-5 control-label no-padding-right">账号：</label>
 
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-7">
                                                     <div class="label-text"><shiro:principal property="username"/></div>
                                                 </div>
                                             </div>
@@ -46,9 +46,9 @@
                                                 </div>
                                             </div>--%>
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right">类别：</label>
+                                                <label class="col-sm-5 control-label no-padding-right">类别：</label>
 
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-7">
                                                     <div class="label-text">
                                                         ${USER_TYPE_MAP.get(_user.type)}
                                                     </div>
@@ -56,9 +56,9 @@
                                             </div>
                                             <c:if test="${fn:length(adminPartyIdList)>0}">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label no-padding-right">管理${_p_partyName}：</label>
+                                                    <label class="col-sm-5 control-label no-padding-right">管理${_p_partyName}：</label>
 
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-7">
                                                         <div class="label-text">
                                                             <c:forEach items="${adminPartyIdList}" var="partyId"
                                                                        varStatus="vs">
