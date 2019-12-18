@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th width="150">姓名</th>
-					<th width="150">工号</th>
+					<th width="150">工作证号</th>
 					<th width="150">职务</th>
 					<th width="150">分工</th>
 					<th width="100">任职时间</th>
@@ -153,7 +153,7 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th width="100">姓名</th>
-					<th width="150">学工号</th>
+					<th width="150">工作证号</th>
 					<th width="150">联系方式</th>
 					<th></th>
 				</tr>

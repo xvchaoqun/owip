@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="<%=DpConstants.DP_PR_CM_MAP%>" var="DP_PR_CM_MAP"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${dpPrCm!=null?'编辑':'添加'}人大代表、政协委员信息</h3>
+    <h3>${dpPrCm!=null?'编辑':'添加'}人大代表、政协委员</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dp/dpPrCm_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -16,36 +15,26 @@ pageEncoding="UTF-8"%>
 					<input type="hidden" value="${dpPrCm.userId}" name="userId">
 				</c:if>
 				<select ${not empty dpPrCm?"disabled data-theme='default'":""} required data-rel="select2-ajax"
-																			 data-ajax-url="${ctx}/sysUser_selects"
+																			 data-ajax-url="${ctx}/dp/teacher_select"
 																			 name="userId" data-width="270"
-																			 data-placeholder="请输入账号或姓名或学工号">
+																			 data-placeholder="请输入账号或姓名或工作证号">
 					<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 				</select>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 所属类别</label>
-			<div class="col-xs-6">
-				<select required data-rel="select2" name="type" data-width="270" data-placeholder="请选择"  data-width="120">
-					<option></option>
-					<c:forEach items="${DP_PR_CM_MAP}" var="_type">
-						<option value="${_type.key}">${_type.value}</option>
-					</c:forEach>
-				</select>
-				<script>
-					$("#modalForm select[name=type]").val(${dpPrCm.type});
-				</script>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 参加工作时间</label>
-			<div class="col-xs-6">
-				<div class="input-group" style="width: 270px">
-					<input class="form-control date-picker" type="text" name="workTime" data-date-format="yyyy.mm.dd" value="${cm:formatDate(dpPrCm.workTime,'yyyy.MM.dd')}"/>
-					<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-				</div>
-			</div>
-		</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>所属类别</label>
+            <div class="col-xs-6">
+                <select required data-width="270" class="form-control" name="type" data-rel="select2"
+                        data-placeholder="请选择分类">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_dp_prcm_type"/>
+                </select>
+                <script>
+                    $("#modalForm select[name=type]").val('${dpPrCm.type}');
+                </script>
+            </div>
+        </div>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"> 当选时间</label>
 			<div class="col-xs-6">
@@ -56,51 +45,9 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所属单位职位</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="unitPost" value="${dpPrCm.unitPost}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 行政级别</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="executiveLevel" value="${dpPrCm.executiveLevel}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 当选时职务</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="electPost" value="${dpPrCm.electPost}">
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col-xs-3 control-label">当选届次</label>
 			<div class="col-xs-6">
 				<input class="form-control" type="text" name="electSession" value="${dpPrCm.electSession}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 最高学历</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="education" value="${dpPrCm.education}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 最高学位</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="degree" value="${dpPrCm.degree}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 毕业学校</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="school" value="${dpPrCm.school}">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label"> 所学专业</label>
-			<div class="col-xs-6">
-				<input class="form-control" type="text" name="major" value="${dpPrCm.major}">
 			</div>
 		</div>
 		<div class="form-group">

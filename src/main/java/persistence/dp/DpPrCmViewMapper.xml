@@ -4,14 +4,6 @@
   <resultMap id="BaseResultMap" type="domain.dp.DpPrCmView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="unit_post" jdbcType="VARCHAR" property="unitPost" />
-    <result column="executive_level" jdbcType="VARCHAR" property="executiveLevel" />
-    <result column="work_time" jdbcType="DATE" property="workTime" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="degree" jdbcType="VARCHAR" property="degree" />
-    <result column="school" jdbcType="VARCHAR" property="school" />
-    <result column="major" jdbcType="VARCHAR" property="major" />
-    <result column="elect_post" jdbcType="VARCHAR" property="electPost" />
     <result column="elect_session" jdbcType="VARCHAR" property="electSession" />
     <result column="elect_time" jdbcType="DATE" property="electTime" />
     <result column="end_time" jdbcType="DATE" property="endTime" />
@@ -21,7 +13,6 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
-    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
@@ -85,9 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, unit_post, executive_level, work_time, education, degree, school, major, 
-    elect_post, elect_session, elect_time, end_time, status, type, sort_order, remark, 
-    party_id, dp_grow_time, unit, gender, birth, nation
+    id, user_id, elect_session, elect_time, end_time, status, type, sort_order, remark, 
+    party_id, dp_grow_time, gender, birth, nation
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpPrCmViewExample" resultMap="BaseResultMap">
     select
@@ -110,22 +100,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dp.DpPrCmView">
-    insert into dp_pr_cm_view (id, user_id, unit_post, 
-      executive_level, work_time, education, 
-      degree, school, major, 
-      elect_post, elect_session, elect_time, 
-      end_time, status, type, sort_order, 
-      remark, party_id, dp_grow_time, 
-      unit, gender, birth, nation
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{unitPost,jdbcType=VARCHAR}, 
-      #{executiveLevel,jdbcType=VARCHAR}, #{workTime,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
-      #{degree,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{electPost,jdbcType=VARCHAR}, #{electSession,jdbcType=VARCHAR}, #{electTime,jdbcType=DATE}, 
-      #{endTime,jdbcType=DATE}, #{status,jdbcType=BIT}, #{type,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, 
-      #{unit,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}
-      )
+    insert into dp_pr_cm_view (id, user_id, elect_session, 
+      elect_time, end_time, status, type, 
+      sort_order, remark, party_id, 
+      dp_grow_time, gender, birth, 
+      nation)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{electSession,jdbcType=VARCHAR}, 
+      #{electTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{status,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, 
+      #{dpGrowTime,jdbcType=DATE}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{nation,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpPrCmView">
     insert into dp_pr_cm_view
@@ -135,30 +119,6 @@
       </if>
       <if test="userId != null">
         user_id,
-      </if>
-      <if test="unitPost != null">
-        unit_post,
-      </if>
-      <if test="executiveLevel != null">
-        executive_level,
-      </if>
-      <if test="workTime != null">
-        work_time,
-      </if>
-      <if test="education != null">
-        education,
-      </if>
-      <if test="degree != null">
-        degree,
-      </if>
-      <if test="school != null">
-        school,
-      </if>
-      <if test="major != null">
-        major,
-      </if>
-      <if test="electPost != null">
-        elect_post,
       </if>
       <if test="electSession != null">
         elect_session,
@@ -187,9 +147,6 @@
       <if test="dpGrowTime != null">
         dp_grow_time,
       </if>
-      <if test="unit != null">
-        unit,
-      </if>
       <if test="gender != null">
         gender,
       </if>
@@ -206,30 +163,6 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="unitPost != null">
-        #{unitPost,jdbcType=VARCHAR},
-      </if>
-      <if test="executiveLevel != null">
-        #{executiveLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="workTime != null">
-        #{workTime,jdbcType=DATE},
-      </if>
-      <if test="education != null">
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="degree != null">
-        #{degree,jdbcType=VARCHAR},
-      </if>
-      <if test="school != null">
-        #{school,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="electPost != null">
-        #{electPost,jdbcType=VARCHAR},
       </if>
       <if test="electSession != null">
         #{electSession,jdbcType=VARCHAR},
@@ -258,9 +191,6 @@
       <if test="dpGrowTime != null">
         #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
-      </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
       </if>
@@ -286,30 +216,6 @@
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.unitPost != null">
-        unit_post = #{record.unitPost,jdbcType=VARCHAR},
-      </if>
-      <if test="record.executiveLevel != null">
-        executive_level = #{record.executiveLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="record.workTime != null">
-        work_time = #{record.workTime,jdbcType=DATE},
-      </if>
-      <if test="record.education != null">
-        education = #{record.education,jdbcType=VARCHAR},
-      </if>
-      <if test="record.degree != null">
-        degree = #{record.degree,jdbcType=VARCHAR},
-      </if>
-      <if test="record.school != null">
-        school = #{record.school,jdbcType=VARCHAR},
-      </if>
-      <if test="record.major != null">
-        major = #{record.major,jdbcType=VARCHAR},
-      </if>
-      <if test="record.electPost != null">
-        elect_post = #{record.electPost,jdbcType=VARCHAR},
       </if>
       <if test="record.electSession != null">
         elect_session = #{record.electSession,jdbcType=VARCHAR},
@@ -338,9 +244,6 @@
       <if test="record.dpGrowTime != null">
         dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.unit != null">
-        unit = #{record.unit,jdbcType=VARCHAR},
-      </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
       </if>
@@ -359,14 +262,6 @@
     update dp_pr_cm_view
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      unit_post = #{record.unitPost,jdbcType=VARCHAR},
-      executive_level = #{record.executiveLevel,jdbcType=VARCHAR},
-      work_time = #{record.workTime,jdbcType=DATE},
-      education = #{record.education,jdbcType=VARCHAR},
-      degree = #{record.degree,jdbcType=VARCHAR},
-      school = #{record.school,jdbcType=VARCHAR},
-      major = #{record.major,jdbcType=VARCHAR},
-      elect_post = #{record.electPost,jdbcType=VARCHAR},
       elect_session = #{record.electSession,jdbcType=VARCHAR},
       elect_time = #{record.electTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE},
@@ -376,7 +271,6 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=INTEGER},
       dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
-      unit = #{record.unit,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR}

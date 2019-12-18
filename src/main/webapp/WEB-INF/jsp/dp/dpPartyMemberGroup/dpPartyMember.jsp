@@ -8,7 +8,7 @@
              data-url-page="${ctx}/dp/dpPartyMemberGroup?status=${status}"
              data-url-export="${ctx}/dp/dpPartyMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
+                <c:set var="_query" value="${not empty param.userId ||not empty param.unit ||not empty param.groupPartyId
                 ||not empty param.postId || not empty param.typeIds ||not empty param.deleteTime}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -24,10 +24,10 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpPartyMember:del">
                     <button data-url="${ctx}/dp/dpPartyMember_batchDel"
-                            data-title="撤销"
-                            data-msg="确定撤销这{0}条数据？"
+                            data-title="移除"
+                            data-msg="确定移除这{0}条数据？"
                             class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 撤销
+                        <i class="fa fa-history"></i> 移除
                     </button>
                 </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -49,8 +49,8 @@
                                 <div class="form-group">
                                     <label>姓名</label>
                                     <div class="input-group">
-                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/dp/dpPartyMember_selects"
-                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/dp/teacher_select"
+                                                name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                             <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                         </select>
                                     </div>
@@ -132,8 +132,8 @@
                         return '<button data-url="${ctx}/dp/dpPartyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
                 }},
             </shiro:hasPermission>
-            {label: '部门', name: 'unit', width: 350},
-            {label: '所属民主党派', name: 'dpParty.name', width: 300, formatter: function (cellvalue, options, rowObject) {
+            {label: '部门', name: 'unit', width: 200},
+            {label: '所属民主党派', name: 'dpParty.name', width: 200, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
@@ -145,7 +145,7 @@
                 }},
             {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
-                label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
+                label: '分工', name: 'typeIds', width: 270, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
                     var typeIds = cellvalue.split(",");
@@ -166,7 +166,7 @@
             {label: '民族', name: 'user.nation', width: 60},
             { label: '办公电话', name: 'officePhone' },
             { label: '手机号', name: 'mobile' },
-            { label: '备注', name: 'remark', width: 180}
+            { label: '备注', name: 'remark', width: 200}
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');

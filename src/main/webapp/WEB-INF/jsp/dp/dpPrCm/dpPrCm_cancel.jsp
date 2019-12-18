@@ -1,14 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="<%=DpConstants.DP_PR_CM_MAP%>" var="DP_PR_CM_MAP"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:forEach items="<%=DpConstants.DP_PR_CM_MAP%>" var="_type">
-		<c:if test="${type==_type.key}">
-		<span>${_type.value}</span>
-		</c:if>
-	</c:forEach>离任</h3>
+    <h3>移除人大代表、政协委员</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dp/dpPrCm_cancel" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -16,7 +11,7 @@ pageEncoding="UTF-8"%>
 		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
 		<c:if test="${count>=1}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">离任人数</label>
+				<label class="col-xs-3 control-label">移除人数</label>
 
 				<div class="col-xs-6 label-text">
 						${count} 个
@@ -24,7 +19,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 离任时间</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 移除时间</label>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 270px">
 					<input required class="form-control date-picker" name="endTime" type="text"
@@ -40,7 +35,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpPrCm?'确定':'离任'}</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpPrCm?'确定':'移除'}</button>
 </div>
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

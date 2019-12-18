@@ -2,8 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
-<c:set var="DP_MEMBER_POLITICAL_STATUS_GROW" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_GROW%>"/>
-<c:set var="DP_MEMBER_POLITICAL_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP%>"/>
 <c:set var="DP_MEMBER_STATUS_MAP" value="<%=DpConstants.DP_MEMBER_STATUS_MAP%>"/>
 
 <div class="widget-box">
@@ -38,7 +36,7 @@
                 <tbody>
                 <tr>
                     <td class="bg-right">
-                        所在党组织
+                        所属党派
                     </td>
                     <td class="bg-left" colspan="5">
                         <span class="${dpParty.isDeleted ? "delete" :""}">${dpParty.name}</span>
@@ -70,10 +68,24 @@
                         ${dpMember.dpPost}
                     </td>
                     <td class="bg-right">
-                        兼职
+                        兼职(其他校外职务）
                     </td>
                     <td class="bg-left" colspan="5">
                         ${dpMember.partTimeJob}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-right">
+                        是否是中国共产党
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.isPartyMember ? "是" : "否"}
+                    </td>
+                    <td class="bg-right">
+                        政治表现
+                    </td>
+                    <td class="bg-left" colspan="5">
+                        ${dpMember.politicalAct}
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +144,7 @@
     </div>
 </div>
 <shiro:hasPermission name="sysSync:user">
-    <div class="clearfix form-actions center">
+    <%--<div class="clearfix form-actions center">
         <c:if test="${sysUser.source==USER_SOURCE_JZG}">
             <button class="btn btn-info  btn-pink" onclick="_sync(${param.userId}, this)" type="button"
                     data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
@@ -141,7 +153,7 @@
             </button>
             &nbsp; &nbsp; &nbsp;
         </c:if>
-    </div>
+    </div>--%>
 </shiro:hasPermission>
 <script>
     function _reload() {

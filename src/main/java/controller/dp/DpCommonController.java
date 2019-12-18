@@ -1,6 +1,5 @@
 package controller.dp;
 
-import domain.member.Member;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -65,8 +64,8 @@ public class DpCommonController extends DpBaseController {
         return resultMap;
     }
 
-    //非学生的人员
-    @RequestMapping("/student_except_select")
+    //教职工
+    @RequestMapping("/teacher_select")
     @ResponseBody
     public Map sysUser_selects(@RequestParam(required = false, value ="[1]") Byte[] types,
                                @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
@@ -110,14 +109,6 @@ public class DpCommonController extends DpBaseController {
                 if(isAdmin) {
                     option.put("mobile", uv.getMobile());
                     option.put("msgMobile", uv.getMsgMobile());
-                }
-
-                if(needPrivate) {
-                    Member member = memberService.get(uv.getId());
-                    if (member != null) {
-                        option.put("politicalStatus", member.getPoliticalStatus());
-                        option.put("idcard", uv.getIdcard());
-                    }
                 }
 
                 //option.put("user", userBeanService.get(uv.getId()));

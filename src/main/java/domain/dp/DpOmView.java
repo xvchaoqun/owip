@@ -14,6 +14,7 @@ public class DpOmView implements Serializable {
     public DpParty getDpParty(){
         return DpPartyHelper.getDpPartyByPartyId(partyId);
     }
+    public String getTypes(){return DpPartyHelper.getTypes(userId);}
     private Integer id;
 
     private Integer userId;

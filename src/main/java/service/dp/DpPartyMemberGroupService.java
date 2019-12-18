@@ -178,7 +178,7 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, boolean isDeleted){
+    public void recover(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
         for (Integer id : ids){
@@ -187,12 +187,12 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
                 clearPresentGroup(dpPartyMemberGroup.getPartyId());
             }
 
-            if (!isDeleted){ //恢复委员会
+           /* if (!isDeleted){ //恢复委员会
                 DpParty dpParty = dpPartyMapper.selectByPrimaryKey(dpPartyMemberGroup.getPartyId());
-                if (dpParty.getIsDeleted()){
-                    throw new OpException(String.format("恢复委员会失败，委员会所属的党派【%s】已删除。",dpParty.getName()));
+                if(dpParty == null) {
+                    throw new OpException(String.format("恢复委员会失败，委员会所属的党派已删除。"));
                 }
-            }
+            }*/
         }
 
         DpPartyMemberGroupExample example = new DpPartyMemberGroupExample();
@@ -240,8 +240,6 @@ public class DpPartyMemberGroupService extends DpBaseMapper {
         if(record.getActualTranTime()==null){
             commonMapper.excuteSql("update dp_party_member_group set actual_tran_time=null where id="+ record.getId());
         }
-        //if(StringUtils.isNotBlank(String.valueOf(record.getId())))
-           // Assert.isTrue(!idDuplicate(record.getId(), String.valueOf(record.getId())), "duplicate");
         return dpPartyMemberGroupMapper.updateByPrimaryKeySelective(record);
     }
 

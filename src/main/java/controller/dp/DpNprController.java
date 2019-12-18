@@ -58,7 +58,7 @@ public class DpNprController extends DpBaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
-        modelMap.put("nations", iDpPropertyMapper.npmNations());
+        modelMap.put("nations", iDpPropertyMapper.nprNations());
 
         return "dp/dpNpr/dpNpr_page";
     }
@@ -141,7 +141,7 @@ public class DpNprController extends DpBaseController {
             criteria.andGenderEqualTo(gender);
         }
         if (unit != null){
-            criteria.andUnitLike(unit);
+            criteria.andUnitLike(SqlUtils.like(unit));
         }
 
         if (export == 1) {
@@ -418,12 +418,12 @@ public class DpNprController extends DpBaseController {
 
         List<DpNprView> records = dpNprViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
-                "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","所属级别|100","最高学历|100",
-                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100"};
-        String[] cancelTitles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
-                "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","所属级别|100","最高学历|100",
-                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100","离任时间|100"};
+        String[] titles = {"姓名|100","工作证号|100","部门|200","所属单位职务|100","性别|100","民族|100","出生时间|100",
+                "所属党派|200","加入党派时间|100","参加工作时间|100","所属类别|200","所属级别|100","最高学历|100",
+                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|200"};
+        String[] cancelTitles = {"姓名|100","工作证号|100","移除时间|200","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
+                "所属党派|200","加入党派时间|100","参加工作时间|100","所属类别|200","所属级别|100","最高学历|100",
+                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 1){
             for (int i = 0; i < rownum; i++) {
@@ -467,6 +467,7 @@ public class DpNprController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),
                         uv.getCode(),
+                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT),
                         record.getUnit(),
                         record.getUnitPost(),
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),
@@ -483,8 +484,7 @@ public class DpNprController extends DpBaseController {
                         record.getMajor(),
                         record.getPhone(),
                         record.getMobile(),
-                        record.getRemark(),
-                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT)
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -493,7 +493,7 @@ public class DpNprController extends DpBaseController {
             String fileName = String.format("党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(titles, valuesList, fileName, response);
         }else {
-            String fileName = String.format("离任的党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已移除的党外代表人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(cancelTitles, valuesList, fileName, response);
         }
     }

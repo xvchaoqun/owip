@@ -15,9 +15,9 @@ pageEncoding="UTF-8"%>
 					<input type="hidden" value="${dpOm.userId}" name="userId">
 				</c:if>
 				<select ${not empty dpOm?"disabled data-theme='default'":""} required data-rel="select2-ajax"
-																			  data-ajax-url="${ctx}/sysUser_selects"
+																			  data-ajax-url="${ctx}/dp/teacher_select"
 																			  name="userId" data-width="270"
-																			  data-placeholder="请输入账号或姓名或学工号">
+																			  data-placeholder="请输入账号或姓名或工作证号">
 					<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 				</select>
 			</div>

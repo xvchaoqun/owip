@@ -13,12 +13,14 @@
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="add_type" jdbcType="INTEGER" property="addType" />
     <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
-    <result column="educa" jdbcType="VARCHAR" property="educa" />
+    <result column="edu" jdbcType="VARCHAR" property="edu" />
     <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="is_party_member" jdbcType="BIT" property="isPartyMember" />
     <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="out_time" jdbcType="DATE" property="outTime" />
+    <result column="political_act" jdbcType="VARCHAR" property="politicalAct" />
     <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
     <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -97,10 +99,10 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, party_id, type, status, unit, dp_post, part_time_job, train_state, source, 
-    add_type, dp_grow_time, educa, degree, grow_time, create_time, update_time, out_time, 
-    party_reward, other_reward, address, mobile, email, remark, gender, birth, nation, 
-    native_place, tEduca, is_retire, retire_time, is_honor_retire, admin_level, post, 
-    pro_post
+    add_type, dp_grow_time, edu, degree, is_party_member, grow_time, create_time, update_time, 
+    out_time, political_act, party_reward, other_reward, address, mobile, email, remark, 
+    gender, birth, nation, native_place, tEduca, is_retire, retire_time, is_honor_retire, 
+    admin_level, post, pro_post
   </sql>
   <select id="selectByExample" parameterType="domain.dp.DpMemberViewExample" resultMap="BaseResultMap">
     select
@@ -126,27 +128,29 @@
     insert into dp_member_view (user_id, party_id, type, 
       status, unit, dp_post, 
       part_time_job, train_state, source, 
-      add_type, dp_grow_time, educa, 
-      degree, grow_time, create_time, 
-      update_time, out_time, party_reward, 
-      other_reward, address, mobile, 
-      email, remark, gender, 
-      birth, nation, native_place, 
-      tEduca, is_retire, retire_time, 
-      is_honor_retire, admin_level, post, 
-      pro_post)
+      add_type, dp_grow_time, edu, 
+      degree, is_party_member, grow_time, 
+      create_time, update_time, out_time, 
+      political_act, party_reward, other_reward, 
+      address, mobile, email, 
+      remark, gender, birth, 
+      nation, native_place, tEduca, 
+      is_retire, retire_time, is_honor_retire, 
+      admin_level, post, pro_post
+      )
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{status,jdbcType=TINYINT}, #{unit,jdbcType=VARCHAR}, #{dpPost,jdbcType=VARCHAR}, 
       #{partTimeJob,jdbcType=VARCHAR}, #{trainState,jdbcType=VARCHAR}, #{source,jdbcType=TINYINT}, 
-      #{addType,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, #{educa,jdbcType=VARCHAR}, 
-      #{degree,jdbcType=VARCHAR}, #{growTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, #{partyReward,jdbcType=VARCHAR}, 
-      #{otherReward,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{teduca,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, 
-      #{isHonorRetire,jdbcType=BIT}, #{adminLevel,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{proPost,jdbcType=VARCHAR})
+      #{addType,jdbcType=INTEGER}, #{dpGrowTime,jdbcType=DATE}, #{edu,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{isPartyMember,jdbcType=BIT}, #{growTime,jdbcType=DATE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=DATE}, 
+      #{politicalAct,jdbcType=VARCHAR}, #{partyReward,jdbcType=VARCHAR}, #{otherReward,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{teduca,jdbcType=VARCHAR}, 
+      #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}, 
+      #{adminLevel,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpMemberView">
     insert into dp_member_view
@@ -184,11 +188,14 @@
       <if test="dpGrowTime != null">
         dp_grow_time,
       </if>
-      <if test="educa != null">
-        educa,
+      <if test="edu != null">
+        edu,
       </if>
       <if test="degree != null">
         degree,
+      </if>
+      <if test="isPartyMember != null">
+        is_party_member,
       </if>
       <if test="growTime != null">
         grow_time,
@@ -201,6 +208,9 @@
       </if>
       <if test="outTime != null">
         out_time,
+      </if>
+      <if test="politicalAct != null">
+        political_act,
       </if>
       <if test="partyReward != null">
         party_reward,
@@ -288,11 +298,14 @@
       <if test="dpGrowTime != null">
         #{dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="educa != null">
-        #{educa,jdbcType=VARCHAR},
+      <if test="edu != null">
+        #{edu,jdbcType=VARCHAR},
       </if>
       <if test="degree != null">
         #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="isPartyMember != null">
+        #{isPartyMember,jdbcType=BIT},
       </if>
       <if test="growTime != null">
         #{growTime,jdbcType=DATE},
@@ -305,6 +318,9 @@
       </if>
       <if test="outTime != null">
         #{outTime,jdbcType=DATE},
+      </if>
+      <if test="politicalAct != null">
+        #{politicalAct,jdbcType=VARCHAR},
       </if>
       <if test="partyReward != null">
         #{partyReward,jdbcType=VARCHAR},
@@ -401,11 +417,14 @@
       <if test="record.dpGrowTime != null">
         dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.educa != null">
-        educa = #{record.educa,jdbcType=VARCHAR},
+      <if test="record.edu != null">
+        edu = #{record.edu,jdbcType=VARCHAR},
       </if>
       <if test="record.degree != null">
         degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPartyMember != null">
+        is_party_member = #{record.isPartyMember,jdbcType=BIT},
       </if>
       <if test="record.growTime != null">
         grow_time = #{record.growTime,jdbcType=DATE},
@@ -418,6 +437,9 @@
       </if>
       <if test="record.outTime != null">
         out_time = #{record.outTime,jdbcType=DATE},
+      </if>
+      <if test="record.politicalAct != null">
+        political_act = #{record.politicalAct,jdbcType=VARCHAR},
       </if>
       <if test="record.partyReward != null">
         party_reward = #{record.partyReward,jdbcType=VARCHAR},
@@ -488,12 +510,14 @@
       source = #{record.source,jdbcType=TINYINT},
       add_type = #{record.addType,jdbcType=INTEGER},
       dp_grow_time = #{record.dpGrowTime,jdbcType=DATE},
-      educa = #{record.educa,jdbcType=VARCHAR},
+      edu = #{record.edu,jdbcType=VARCHAR},
       degree = #{record.degree,jdbcType=VARCHAR},
+      is_party_member = #{record.isPartyMember,jdbcType=BIT},
       grow_time = #{record.growTime,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       out_time = #{record.outTime,jdbcType=DATE},
+      political_act = #{record.politicalAct,jdbcType=VARCHAR},
       party_reward = #{record.partyReward,jdbcType=VARCHAR},
       other_reward = #{record.otherReward,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},

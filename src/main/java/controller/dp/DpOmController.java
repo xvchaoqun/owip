@@ -59,7 +59,7 @@ public class DpOmController extends DpBaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
-        modelMap.put("nations", iDpPropertyMapper.npmNations());
+        modelMap.put("nations", iDpPropertyMapper.omNations());
 
         return "dp/dpOm/dpOm_page";
     }
@@ -118,13 +118,19 @@ public class DpOmController extends DpBaseController {
             criteria.andWorkTimeGreaterThanOrEqualTo(workTime.getStart());
         }
         if (workTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
+            criteria.andWorkTimeLessThanOrEqualTo(workTime.getEnd());
         }
         if (dpGrowTime.getStart()!=null){
             criteria.andDpGrowTimeGreaterThanOrEqualTo(dpGrowTime.getStart());
         }
         if (dpGrowTime.getEnd()!=null){
             criteria.andDpGrowTimeLessThanOrEqualTo(dpGrowTime.getEnd());
+        }
+        if (transferTime.getStart() != null){
+            criteria.andTransferTimeGreaterThanOrEqualTo(transferTime.getStart());
+        }
+        if (transferTime.getEnd() != null){
+            criteria.andTransferTimeLessThanOrEqualTo(transferTime.getEnd());
         }
         if (partyId != null){
             criteria.andPartyIdEqualTo(partyId);
@@ -134,12 +140,6 @@ public class DpOmController extends DpBaseController {
         }
         if (StringUtils.isNotBlank(nation)){
             criteria.andNationEqualTo(nation);
-        }
-        if (workTime.getStart()!=null) {
-            criteria.andWorkTimeGreaterThanOrEqualTo(workTime.getStart());
-        }
-        if (workTime.getEnd()!=null){
-            criteria.andBirthLessThanOrEqualTo(workTime.getEnd());
         }
 
         if (export == 1) {
@@ -375,12 +375,12 @@ public class DpOmController extends DpBaseController {
 
         List<DpOmView> records = dpOmViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名|100","工作证号|100","部门|250","所属单位职务|100","性别|100","民族|100","出生时间|100",
+        String[] titles = {"姓名|100","工作证号|100","部门|200","所属单位职务|100","性别|100","民族|100","出生时间|100",
+                "所属党派|200","加入党派时间|100","参加工作时间|100","所属类别|200","最高学历|100",
+                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|200"};
+        String[] cancelTitles = {"姓名|100","工作证号|100","移除时间|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
                 "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","最高学历|100",
                 "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100"};
-        String[] cancelTitles = {"姓名|100","工作证号|100","所属单位|250","所属单位及职务|100","性别|100","民族|100","出生时间|100",
-                "所属党派|270","加入党派时间|100","参加工作时间|100","所属类别|200","最高学历|100",
-                "最高学位|100","毕业学校|100","所学专业|100","办公电话|100","手机号|100","备注|100","撤销时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 1){
             for (int i = 0; i < rownum; i++) {
@@ -423,6 +423,7 @@ public class DpOmController extends DpBaseController {
                 String[] values = {
                         uv.getRealname(),
                         uv.getCode(),
+                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT),
                         record.getUnit(),
                         record.getUnitPost(),
                         uv.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(uv.getGender()),
@@ -438,8 +439,7 @@ public class DpOmController extends DpBaseController {
                         record.getMajor(),
                         record.getPhone(),
                         record.getMobile(),
-                        record.getRemark(),
-                        DateUtils.formatDate(record.getTransferTime(), DateUtils.YYYYMMDD_DOT)
+                        record.getRemark()
                 };
                 valuesList.add(values);
             }
@@ -448,7 +448,7 @@ public class DpOmController extends DpBaseController {
             String fileName = String.format("其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(titles, valuesList, fileName, response);
         }else {
-            String fileName = String.format("离任的其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已移除的其他统战人员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(cancelTitles, valuesList, fileName, response);
         }
     }

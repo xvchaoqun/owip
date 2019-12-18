@@ -16,7 +16,7 @@
                 </li>
                 <li>
                     <a href="javascript:;"
-                       data-url="${ctx}/dp/dpPartyMember?cls=0&groupId=${groupId}">离任委员</a>
+                       data-url="${ctx}/dp/dpPartyMember?cls=0&groupId=${groupId}">已移除</a>
                 </li>
             </ul>
         </div>

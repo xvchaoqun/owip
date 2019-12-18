@@ -1,15 +1,20 @@
 package service.dp;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.dp.DpPrCm;
 import domain.dp.DpPrCmExample;
+import domain.dp.DpPrCmView;
+import domain.dp.DpPrCmViewExample;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -23,6 +28,28 @@ public class DpPrCmService extends DpBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private MetaTypeService metaTypeService;
+
+    public String getTypesByUserId(Integer userId){
+
+        String typeIds = null;
+        DpPrCmViewExample example = new DpPrCmViewExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<DpPrCmView> dpPrCmViews = dpPrCmViewMapper.selectByExample(example);
+        if (dpPrCmViews.size() > 0){
+            int count = 0;
+            Integer[] types =new Integer[dpPrCmViews.size()];
+            for (DpPrCmView dpPrCmView: dpPrCmViews){
+                Integer typeId = dpPrCmView.getType();
+                MetaType metaType = metaTypeService.findAll().get(typeId);
+                types[count++] = metaType.getId();
+            }
+            typeIds = StringUtils.join(types,",");
+        }
+
+        return typeIds;
+    }
 
     public boolean idDuplicate(Integer id, Integer userId, Integer type, String electSession){
 
@@ -30,7 +57,7 @@ public class DpPrCmService extends DpBaseMapper {
 
         DpPrCmExample example = new DpPrCmExample();
         DpPrCmExample.Criteria criteria = example.createCriteria().andStatusEqualTo(true).andUserIdEqualTo(userId)
-                .andElectSessionEqualTo(electSession).andTypeEqualTo(type);
+                .andElectSessionEqualTo(electSession);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return dpPrCmMapper.countByExample(example) > 0;

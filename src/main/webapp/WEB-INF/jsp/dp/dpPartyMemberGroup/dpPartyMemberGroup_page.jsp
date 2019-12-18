@@ -5,16 +5,18 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.id ||not empty param.partyId || not empty param.code || not empty param.sort
-            ||not empty param._appointTime ||not empty param._tranTime}"/>
+            ||not empty param._appointTime ||not empty param._tranTime ||not empty param._actualTranTime ||not empty param.isPresent}"/>
            <div class="tabbable">
                <jsp:include page="menu.jsp"/>
                <div class="tab-content">
                    <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpPartyMemberGroup:edit">
+                    <c:if test="${status>=0}">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/dp/dpPartyMemberGroup_au?status=${status}">
                         <i class="fa fa-plus"></i> 添加</button>
+                    </c:if>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpPartyMemberGroup_au?status=${status}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
@@ -52,9 +54,9 @@ pageEncoding="UTF-8" %>
                 <c:if test="${status>=0}">
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="撤销委员会"
-                           data-msg="确定撤销这{0}个委员会吗？"><i class="fa fa-history"></i> 撤销</a>
-                        【注：撤销操作将同时删除相关管理员，请谨慎操作！】
+                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="移除委员会"
+                           data-msg="确定移除这{0}个委员会吗？"><i class="fa fa-history"></i> 移除</a>
+                        【注：移除操作将同时删除相关管理员，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
                 <c:if test="${status==-1}">
@@ -62,11 +64,11 @@ pageEncoding="UTF-8" %>
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/dp/dpPartyMemberGroup_realDel"
                            data-title="删除领导班子"
-                           data-msg="确定完全删除这{0}个委员会吗？（不可恢复，请谨慎操作！）"><i class="fa fa-times"></i> 完全删除</a>
+                           data-msg="确定完全删除这{0}个委员会吗？（不可恢复，请谨慎操作！）"><i class="fa fa-trash"></i> 完全删除</a>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_batchDel"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_recover"
                            data-querystr="isDeleted=0"
                            data-title="恢复已删除委员会"
                            data-msg="确定恢复这{0}个委员会吗？"><i class="fa fa-reply"></i> 恢复</a>
@@ -90,16 +92,16 @@ pageEncoding="UTF-8" %>
                             <input type="hidden" name="cls" value="${status}">
                             <div class="form-group">
                                 <label>委员会</label>
-                                <select  data-width="300" data-rel="select2-ajax"
+                                <select  data-width="230" data-rel="select2-ajax"
                                          data-ajax-url="${ctx}/dp/dpPartyMemberGroup_selects"
                                          name="id" data-placeholder="请选择">
-                                    <option value="${param.id}">${param.name}</option>
+                                    <option value="${dpPartyMemberGroup.id}">${dpPartyMemberGroup.name}</option>
                                 </select>
-                                <script>         $.register.del_select($("#searchForm select[name=id]"), 300)     </script>
+                                <script>         $.register.del_select($("#searchForm select[name=id]").val('${param.id}'), 300)     </script>
                             </div>
                             <div class="form-group">
                                 <label>所在民主党派</label>
-                                <select  data-width="300" data-rel="select2-ajax"
+                                <select  data-width="230" data-rel="select2-ajax"
                                          data-ajax-url="${ctx}/dp/dpParty_selects"
                                          name="partyId" data-placeholder="请选择">
                                     <option value="${dpParty.id}">${dpParty.name}</option>
@@ -126,6 +128,18 @@ pageEncoding="UTF-8" %>
                                            type="text" name="_tranTime" value="${param._tranTime}"/>
                                 </div>
                             </div>
+                            <c:if test="${status==-1}">
+                            <div class="form-group">
+                                <label>移除时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="移除时间范围">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                                </span>
+                                    <input placeholder="请选择移除时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                           type="text" name="_actualTranTime" value="${param._actualTranTime}"/>
+                                </div>
+                            </div>
+                            </c:if>
                             <div class="form-group">
                                 <label>是否现任委员会</label>
                                 <select name="isPresent" data-width="80"
@@ -171,7 +185,7 @@ pageEncoding="UTF-8" %>
                 label: '名称',
                 name: 'name',
                 align: 'left',
-                width: 450,
+                width: 300,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 当届委员会</span>&nbsp;';
                     return (rowObject.isPresent) ? str + cellvalue : cellvalue;
@@ -198,13 +212,15 @@ pageEncoding="UTF-8" %>
             {
                 label: '所属民主党派',
                 name: 'dpParty.name',
-                width: 300, formatter: function (cellvalue, options, rowObject) {
+                width: 200, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
                             .format(rowObject.partyId, cellvalue, ctx);
                     if (cellvalue != ''){
-                        return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                        if (rowObject.dpParty != null){
+                            return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                        }
                     }
                     return "--";
                 }
@@ -226,14 +242,14 @@ pageEncoding="UTF-8" %>
             },
             <c:if test="${status==-1}">
             {
-                label: '实际换届时间',
+                label: '移除时间',
                 name: 'actualTranTime',
                 width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
             </c:if>
-            {label: '备注', name: 'remark', width: 180}
+            {label: '备注', name: 'remark', width: 230}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

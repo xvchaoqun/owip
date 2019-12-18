@@ -85,7 +85,7 @@ public class DpPartyController extends DpBaseController {
 
         DpPartyViewExample example = new DpPartyViewExample();
         DpPartyViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("sort_order desc"));
+        example.setOrderByClause("sort_order desc");
         criteria.addPermits(dpPartyMemberAdminService.adminDpPartyIdList(ShiroHelper.getCurrentUserId()));
 
         criteria.andIsDeletedEqualTo(cls == 2);
@@ -231,12 +231,16 @@ public class DpPartyController extends DpBaseController {
     @RequiresPermissions("dpParty:del")
     @RequestMapping(value = "/dpParty_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dpParty_del(HttpServletRequest request, Integer id) {
+    public Map do_dpParty_del(HttpServletRequest request, @RequestParam(value = "ids[]")Integer[] ids) {
 
-        if (id != null) {
+        if (ids != null && ids.length > 0) {
+            List<Integer> partyIds = new ArrayList<>();
+            for (Integer partyId : ids){
+                partyIds.add(partyId);
+            }
 
-            dpPartyService.del(id);
-            logger.info(log( LogConstants.LOG_GROW, "删除基层党组织：{0}", id));
+            dpPartyService.del(partyIds);
+            logger.info(log( LogConstants.LOG_GROW, "删除基层党组织：{0}", partyIds));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -273,8 +277,8 @@ public class DpPartyController extends DpBaseController {
 
         List<DpPartyView> records = dpPartyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号|100","名称|250","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","remark|200"};
-        String[] deleteTitles = {"编号|100","名称|250","撤销时间|100","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","remark|200"};
+        String[] titles = {"编号|100","名称|200","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","备注|200"};
+        String[] deleteTitles = {"编号|100","名称|200","移除时间|100","简称|100","民主党派类别|250","联系电话|100","邮箱|100","成立时间|100","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 1) {
             for (int i = 0; i < rownum; i++) {
@@ -309,7 +313,7 @@ public class DpPartyController extends DpBaseController {
                 };
                 valuesList.add(values);
             }
-            String fileName = String.format("已撤销的民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已移除的民主党派(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(deleteTitles, valuesList, fileName, response);
         }
     }

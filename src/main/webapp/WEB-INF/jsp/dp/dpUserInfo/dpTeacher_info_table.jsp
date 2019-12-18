@@ -86,41 +86,26 @@
     </tr>
     <tr>
         <td class="bg-right">人员状态</td>
-        <td class="bg-left">
+        <td class="bg-left" colspan="3">
             ${teacherInfo.staffStatus}
         </td>
-        <td class="bg-right">在岗情况</td>
-        <td class="bg-left">
-            ${teacherInfo.onJob}
-        </td>
         <td class="bg-right">是否退休</td>
-        <td class="bg-left">
+        <td class="bg-left" colspan="3">
             ${teacherInfo.isRetire?"是":"否"}
-        </td>
-        <td class="bg-right">
-            退休时间
-        </td>
-        <td class="bg-left">${cm:formatDate(teacherInfo.retireTime,'yyyy.MM.dd')}
         </td>
     </tr>
     <tr>
         <td class="bg-right">
             手机号码
         </td>
-        <td class="bg-left">
+        <td class="bg-left" colspan="3">
             ${uv.mobile}
         </td>
         <td class="bg-right">
             邮箱
         </td>
-        <td class="bg-left">
-            ${uv.email}
-        </td>
-        <td class="bg-right">
-            联系地址
-        </td>
         <td class="bg-left" colspan="3">
-            ${teacherInfo.address}
+            ${uv.email}
         </td>
     </tr>
     </tbody>

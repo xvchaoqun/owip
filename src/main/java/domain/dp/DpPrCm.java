@@ -16,23 +16,6 @@ public class DpPrCm implements Serializable {
 
     private Integer userId;
 
-    private String unitPost;
-
-    private String executiveLevel;
-
-    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
-    private Date workTime;
-
-    private String education;
-
-    private String degree;
-
-    private String school;
-
-    private String major;
-
-    private String electPost;
-
     private String electSession;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
@@ -65,70 +48,6 @@ public class DpPrCm implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getUnitPost() {
-        return unitPost;
-    }
-
-    public void setUnitPost(String unitPost) {
-        this.unitPost = unitPost == null ? null : unitPost.trim();
-    }
-
-    public String getExecutiveLevel() {
-        return executiveLevel;
-    }
-
-    public void setExecutiveLevel(String executiveLevel) {
-        this.executiveLevel = executiveLevel == null ? null : executiveLevel.trim();
-    }
-
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
-    }
-
-    public String getElectPost() {
-        return electPost;
-    }
-
-    public void setElectPost(String electPost) {
-        this.electPost = electPost == null ? null : electPost.trim();
     }
 
     public String getElectSession() {

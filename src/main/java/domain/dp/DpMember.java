@@ -30,9 +30,11 @@ public class DpMember implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date dpGrowTime;
 
-    private String educa;
+    private String edu;
 
     private String degree;
+
+    private Boolean isPartyMember;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date growTime;
@@ -45,6 +47,8 @@ public class DpMember implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date outTime;
+
+    private String politicalAct;
 
     private String partyReward;
 
@@ -148,12 +152,12 @@ public class DpMember implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getEduca() {
-        return educa;
+    public String getEdu() {
+        return edu;
     }
 
-    public void setEduca(String educa) {
-        this.educa = educa == null ? null : educa.trim();
+    public void setEdu(String edu) {
+        this.edu = edu == null ? null : edu.trim();
     }
 
     public String getDegree() {
@@ -162,6 +166,14 @@ public class DpMember implements Serializable {
 
     public void setDegree(String degree) {
         this.degree = degree == null ? null : degree.trim();
+    }
+
+    public Boolean getIsPartyMember() {
+        return isPartyMember;
+    }
+
+    public void setIsPartyMember(Boolean isPartyMember) {
+        this.isPartyMember = isPartyMember;
     }
 
     public Date getGrowTime() {
@@ -194,6 +206,14 @@ public class DpMember implements Serializable {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    public String getPoliticalAct() {
+        return politicalAct;
+    }
+
+    public void setPoliticalAct(String politicalAct) {
+        this.politicalAct = politicalAct == null ? null : politicalAct.trim();
     }
 
     public String getPartyReward() {

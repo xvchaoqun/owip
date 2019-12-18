@@ -38,14 +38,14 @@
                                                 <div class="input-group">
                                                     <select data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/sysUser_selects"
-                                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                            name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>管理的民主党派</label>
-                                                <select class="form-control" data-width="350" data-rel="select2-ajax"
+                                                <select class="form-control" data-width="230" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择">
                                                     <option value="${dpParty.id}" delete="${dpParty.isDeleted}">${dpParty.name}</option>
@@ -84,15 +84,17 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dp/dpOrgAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 110, frozen: true},
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {label: '姓名', name: 'user.realname', width: 90, frozen: true},
-            {label: '管理的民主党派', name: 'dpParty.name', width: 450, formatter: function (cellvalue, options, rowObject) {
+            {label: '管理的民主党派', name: 'dpParty.name', width: 200, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
                             .format(rowObject.partyId, cellvalue, ctx);
                     if (cellvalue != ''){
-                        return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                        if (rowObject.dpParty != null) {
+                            return '<span class="{0}">{1}</span>'.format(rowObject.dpParty.isDeleted ? "delete" : "", _dpPartyView);
+                        }
                     }
                     return "--";
                 }}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="GENDER_UNKNOWN" value="<%=SystemConstants.GENDER_UNKNOWN%>"/>
 <c:set var="DP_NPM_NORMAL" value="<%=DpConstants.DP_NPM_NORMAL%>"/>
 <c:set var="DP_NPM_OUT" value="<%=DpConstants.DP_NPM_OUT%>"/>
 <c:set var="DP_NPM_TRANSFER" value="<%=DpConstants.DP_NPM_TRANSFER%>"/>
@@ -8,7 +9,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.post ||not empty param.education
-            ||not empty param.degree ||not empty param.unit ||not empty param.authorizedType || not empty param.code
+            ||not empty param.degree ||not empty param.unit ||not empty param._addAime
             || not empty param.sort ||not empty param.gender ||not empty selectNations|| not empty selectNativePlaces}"/>
             <div class="tabbale">
             <jsp:include page="menu.jsp"/>
@@ -48,14 +49,14 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-download"></i> 导出</button>
                 <c:if test="${cls==1}">
                 <button data-url="${ctx}/dp/dpNpm_out"
-                        data-title="退出"
-                        data-msg="确定这{0}条数据退出无党派人士？"
+                        data-title="移除"
+                        data-msg="确定移除这{0}条数据无党派人士？"
                         data-grid-id="#jqGrid"
                         class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                    <i class="fa fa-minus-square"></i> 退出
+                    <i class="fa fa-minus-square"></i> 移除
                 </button>
                 </c:if>
-                <c:if test="${cls==1}">
+                <%--<c:if test="${cls==1}">
                     <button data-url="${ctx}/dp/dpNpm_transfer"
                             data-title="转出"
                             data-msg="确定转出这{0}条数据？"
@@ -63,7 +64,7 @@ pageEncoding="UTF-8" %>
                             class="jqOpenViewBatchBtn btn btn-primary btn-sm">
                         <i class="fa fa-random"></i> 转出
                     </button>
-                </c:if>
+                </c:if>--%>
                 <c:if test="${cls!=1}">
                     <shiro:hasPermission name="dpNpm:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
@@ -100,7 +101,7 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                     <select data-rel="select2-ajax"
                                             data-ajax-url="${ctx}/dp/dpNpm_selects?status=${_status}"
-                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                     </select>
                                 </div>
@@ -112,12 +113,25 @@ pageEncoding="UTF-8" %>
                                             data-placeholder="请选择">
                                         <option></option>
                                         <c:forEach items="${GENDER_MAP}" var="entity">
+                                            <c:if test="${entity.key!=GENDER_UNKNOWN}">
                                             <option value="${entity.key}">${entity.value}</option>
+                                            </c:if>
                                         </c:forEach>
                                     </select>
                                     <script>
                                         $("#searchForm select[name=gender]").val('${param.gender}');
                                     </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>认定时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="认定时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                    <input placeholder="请选择认定时间范围" data-rel="date-range-picker"
+                                           class="form-control date-range-picker"
+                                           type="text" name="_addAime" value="${param._addAime}"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -140,6 +154,11 @@ pageEncoding="UTF-8" %>
                                     </select>
 
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label>部门名称</label>
+                                <input class="form-control search-query" name="unit" type="text" value="${param.unit}"
+                                       placeholder="请输入部门名称">
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -200,6 +219,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dp/dpNpm_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '工作证号', name: 'user.code', width: 120,frozen: true,sortable:true},
         {
             label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userId > 0 && $.trim(cellvalue) != '')
@@ -208,16 +228,8 @@ pageEncoding="UTF-8" %>
                 return $.trim(cellvalue);
             }, frozen: true
         },
-            {label: '工作证号', name: 'user.code', width: 120,frozen: true,sortable:true},
             <c:if test="${cls==2}">
-            { label: '退出时间',name: 'outTime', width: 120, formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}},
-            </c:if><c:if test="${cls==3}">
-            { label: '转出时间',name: 'transferTime', width: 120, formatter: $.jgrid.formatter.date,
-                formatoptions: {newformat: 'Y.m.d'}},
-            </c:if>
-            <c:if test="${cls==3}">
-            { label: '转出时间',name: 'transferTime', width: 120, formatter: $.jgrid.formatter.date,
+            { label: '移除时间',name: 'outTime', width: 120, formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             {label: '性别', name: 'gender', formatter:$.jgrid.formatter.GENDER},
@@ -232,13 +244,28 @@ pageEncoding="UTF-8" %>
                 },},
                 { label: '认定时间',name: 'addTime', width: 120, formatter: $.jgrid.formatter.date,
                     formatoptions: {newformat: 'Y.m.d'}},
+            { label: '部门',name: 'unit',width:200},
                 { label: '现任职务',name: 'post',width:180},
-                { label: '部门',name: 'unit',width:180},
+            {
+                label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--';
+                    var typeIdStrs = [];
+                    var typeIds = cellvalue.split(",");
+                    for(i in typeIds){
+                        var typeId = typeIds[i];
+                        //console.log(typeId)
+                        if(typeId instanceof Function == false)
+                            typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
+                    }
+                    //console.log(typeIdStrs)
+                    return typeIdStrs.join(",");
+                }
+            },
                 { label: '最高学历',name: 'education', width: 120},
                 { label: '最高学位',name: 'degree', width: 120},
                 { label: '办公电话',name: 'phone',width:120},
                 { label: '手机号',name: 'mobile',width:120},
-                { label: '备注',name: 'remark',width:120,sortable:true},
+                { label: '备注',name: 'remark',width:200},
                 {hidden: true, key: true, name: 'id'},{hidden:true, name: 'userId'}]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

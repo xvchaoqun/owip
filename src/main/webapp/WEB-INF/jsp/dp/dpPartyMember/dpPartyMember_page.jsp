@@ -2,9 +2,11 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
                 <shiro:hasPermission name="dpPartyMember:edit">
+                    <c:if test="${cls==1}">
                     <a class="popupBtn btn btn-info btn-sm"
                        data-url="${ctx}/dp/dpPartyMember_au?gridId=jqGrid2&groupId=${dpPartyMemberGroup.id}">
                         <i class="fa fa-plus"></i> 添加</a>
+                    </c:if>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpPartyMember_au?gridId=jqGrid2"
                        data-grid-id="#jqGrid2"
@@ -14,11 +16,11 @@
                 <shiro:hasPermission name="dpPartyMember:del">
                     <c:if test="${cls==1}">
                     <button data-url="${ctx}/dp/dpPartyMember_cancel"
-                            data-title="离任"
-                            data-msg="确定这{0}条数据离任？"
+                            data-title="移除"
+                            data-msg="确定移除这{0}条数据？"
                             data-grid-id="#jqGrid2"
                             class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 离任
+                        <i class="fa fa-history"></i> 移除
                     </button>
                     </c:if>
                     <c:if test="${cls==0}">
@@ -30,7 +32,7 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                         <button data-url="${ctx}/dp/dpPartyMember_recover"
-                                data-title="离任"
+                                data-title="恢复"
                                 data-msg="确定恢复这{0}条数据？"
                                 data-grid-id="#jqGrid2"
                                 class="jqBatchBtn btn btn-success btn-sm">
@@ -64,7 +66,7 @@
             },
              <shiro:hasPermission name="dpPartyMember:edit">
             <c:if test="${cls!=1}">
-            { label: '离任时间',name: 'deleteTime',width:120,sortable:true,
+            { label: '移除时间',name: 'deleteTime',width:120,sortable:true,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
@@ -81,8 +83,8 @@
                     return '<button data-url="${ctx}/dp/dpPartyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
             </shiro:hasPermission>
-            {label: '部门', name: 'unit', width: 350},
-            {label: '所属民主党派', name: 'dpParty.name', width: 300, formatter: function (cellvalue, options, rowObject) {
+            {label: '部门', name: 'unit', width: 200},
+            {label: '所属民主党派', name: 'dpParty.name', width: 200, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
@@ -94,7 +96,7 @@
                 }},
             {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
-                label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
+                label: '分工', name: 'typeIds', width: 270, formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
                     var typeIds = cellvalue.split(",");
@@ -115,7 +117,7 @@
             {label: '民族', name: 'user.nation', width: 60},
             { label: '办公电话', name: 'officePhone' },
             { label: '手机号', name: 'mobile' },
-            { label: '备注', name: 'remark', width: 180 }
+            { label: '备注', name: 'remark', width: 200 }
         ]
     }).jqGrid("setFrozenColumns");
      $(window).triggerHandler('resize.jqGrid2');

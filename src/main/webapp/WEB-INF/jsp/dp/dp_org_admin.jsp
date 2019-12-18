@@ -20,8 +20,8 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
                             <div class="col-xs-6">
-                                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dp/student_except_select"
-                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dp/teacher_select"
+                                        name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                     <option value="${sysUser.id}">${sysUser.username}</option>
                                 </select></div>
                         </div>
@@ -53,7 +53,7 @@
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th class="col-xs-5">工号</th>
+                    <th class="col-xs-5">工作证号</th>
                     <th class="col-xs-5">姓名</th>
                     <th nowrap></th>
                 </tr>

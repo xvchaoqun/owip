@@ -92,9 +92,13 @@ public class DpPartyService extends DpBaseMapper {
 
     @Transactional
     @CacheEvict(value="DpParty:ALL", allEntries = true)
-    public void del(Integer id){
+    public void del(List<Integer> partyIds){
 
-        dpPartyMapper.deleteByPrimaryKey(id);
+        if (partyIds != null) {
+            for (Integer partyId : partyIds) {
+                dpPartyMapper.deleteByPrimaryKey(partyId);
+            }
+        }
     }
 
     @Transactional
@@ -117,7 +121,7 @@ public class DpPartyService extends DpBaseMapper {
                         for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
                             groupIds.add(dpPartyMemberGroup.getId());
                         }
-                        dpPartyMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}),true);
+                        dpPartyMemberGroupService.recover(groupIds.toArray(new Integer[]{}),true);
                         dpPartyMemberService.cancelMember(groupIds);
                     }
                 }
@@ -171,7 +175,9 @@ public class DpPartyService extends DpBaseMapper {
     @CacheEvict(value = "DpParty:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        changeOrder("dp_party", "is_deleted=0", ORDER_BY_DESC, id, addNum);
+
+        /*if(addNum == 0) return ;
 
 
         DpParty entity = dpPartyMapper.selectByPrimaryKey(id);
@@ -202,6 +208,6 @@ public class DpPartyService extends DpBaseMapper {
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
             dpPartyMapper.updateByPrimaryKeySelective(record);
-        }
+        }*/
     }
 }

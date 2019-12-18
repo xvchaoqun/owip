@@ -1,6 +1,7 @@
 package domain.dp;
 
 import domain.sys.SysUserView;
+import sys.helper.DpPartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ public class DpNpmView implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
+    public String getTypes(){return DpPartyHelper.getTypes(userId);}
     private Integer id;
 
     private Integer userId;

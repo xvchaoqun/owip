@@ -11,8 +11,8 @@
   <div class="form-group">
     <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
     <div class="col-xs-6">
-      <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dp/student_except_select" data-width="260"
-              name="userId" data-placeholder="请输入账号或姓名或学工号">
+      <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dp/teacher_select" data-width="260"
+              name="userId" data-placeholder="请输入账号或姓名或工作证号">
         <option value="${uv.id}">${uv.realname}-${uv.code}</option>
       </select>
     </div>

@@ -51,7 +51,7 @@ public class DpPartyMemberController extends DpBaseController {
     @RequiresPermissions("dpPartyMember:list")
     @RequestMapping("/dpPartyMember")
     public String dpPartyMember(Integer groupId,
-                                Integer partyId,
+                                Integer groupPartyId,
                                 @RequestParam(required = false, defaultValue = "1") Byte cls,
                                 @RequestParam(required = false,defaultValue = "0") int export,
                                 HttpServletResponse response,
@@ -72,8 +72,8 @@ public class DpPartyMemberController extends DpBaseController {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
-        if (partyId != null) {
-            modelMap.put("dpParty", dpPartyService.findAll().get(partyId));
+        if (groupPartyId != null) {
+            modelMap.put("dpParty", dpPartyService.findAll().get(groupPartyId));
         }
 
         return "dp/dpPartyMember/dpPartyMember_page";
@@ -140,7 +140,7 @@ public class DpPartyMemberController extends DpBaseController {
             criteria.andGroupPartyIdEqualTo(groupPartyId);
         }
         if (StringUtils.isNotBlank(unit)){
-            criteria.andUnitLike(unit);
+            criteria.andUnitLike(SqlUtils.like(unit));
         }
         if (typeIds != null){
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
@@ -373,8 +373,8 @@ public class DpPartyMemberController extends DpBaseController {
 
         List<DpPartyMemberView> records = dpPartyMemberViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号|100", "姓名|80", "部门|200", "所属党派|270", "职务|100",
-                "分工|100", "任职时间|100", "性别|50", "民族|50",
+        String[] titles = {"工作证号|100", "姓名|80", "部门|200", "所属党派|200", "职务|100",
+                "分工|200", "任职时间|100", "性别|50", "民族|50",
                 "出生时间|80", "办公电话|100","手机号|100","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -412,7 +412,7 @@ public class DpPartyMemberController extends DpBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = String.format("民主党派委员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        String fileName = String.format("民主党派委员会委员(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

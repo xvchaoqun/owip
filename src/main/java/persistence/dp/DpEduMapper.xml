@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dp.DpEduMapper">
+  <resultMap id="BaseResultMap" type="domain.dp.DpEdu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sub_work_count" jdbcType="INTEGER" property="subWorkCount" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="edu_id" jdbcType="INTEGER" property="eduId" />
+    <result column="is_graduated" jdbcType="BIT" property="isGraduated" />
+    <result column="is_high_edu" jdbcType="BIT" property="isHighEdu" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="dep" jdbcType="VARCHAR" property="dep" />
+    <result column="subject" jdbcType="INTEGER" property="subject" />
+    <result column="first_subject" jdbcType="INTEGER" property="firstSubject" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="school_type" jdbcType="TINYINT" property="schoolType" />
+    <result column="enrol_time" jdbcType="DATE" property="enrolTime" />
+    <result column="finish_time" jdbcType="DATE" property="finishTime" />
+    <result column="learn_style" jdbcType="INTEGER" property="learnStyle" />
+    <result column="has_degree" jdbcType="BIT" property="hasDegree" />
+    <result column="degree_type" jdbcType="TINYINT" property="degreeType" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="is_high_degree" jdbcType="BIT" property="isHighDegree" />
+    <result column="is_second_degree" jdbcType="BIT" property="isSecondDegree" />
+    <result column="degree_country" jdbcType="VARCHAR" property="degreeCountry" />
+    <result column="degree_unit" jdbcType="VARCHAR" property="degreeUnit" />
+    <result column="degree_time" jdbcType="DATE" property="degreeTime" />
+    <result column="tutor_name" jdbcType="VARCHAR" property="tutorName" />
+    <result column="tutor_title" jdbcType="VARCHAR" property="tutorTitle" />
+    <result column="certificate" jdbcType="VARCHAR" property="certificate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sub_work_count, user_id, edu_id, is_graduated, is_high_edu, school, dep, subject, 
+    first_subject, major, school_type, enrol_time, finish_time, learn_style, has_degree, 
+    degree_type, degree, is_high_degree, is_second_degree, degree_country, degree_unit, 
+    degree_time, tutor_name, tutor_title, certificate, remark, note, sort_order, status
+  </sql>
+  <select id="selectByExample" parameterType="domain.dp.DpEduExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_edu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dp_edu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dp_edu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dp.DpEduExample">
+    delete from dp_edu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dp.DpEdu">
+    insert into dp_edu (id, sub_work_count, user_id, 
+      edu_id, is_graduated, is_high_edu, 
+      school, dep, subject, 
+      first_subject, major, school_type, 
+      enrol_time, finish_time, learn_style, 
+      has_degree, degree_type, degree, 
+      is_high_degree, is_second_degree, degree_country, 
+      degree_unit, degree_time, tutor_name, 
+      tutor_title, certificate, remark, 
+      note, sort_order, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{eduId,jdbcType=INTEGER}, #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, 
+      #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER}, 
+      #{firstSubject,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, 
+      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, 
+      #{hasDegree,jdbcType=BIT}, #{degreeType,jdbcType=TINYINT}, #{degree,jdbcType=VARCHAR}, 
+      #{isHighDegree,jdbcType=BIT}, #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, 
+      #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, 
+      #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dp.DpEdu">
+    insert into dp_edu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="subWorkCount != null">
+        sub_work_count,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="eduId != null">
+        edu_id,
+      </if>
+      <if test="isGraduated != null">
+        is_graduated,
+      </if>
+      <if test="isHighEdu != null">
+        is_high_edu,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="dep != null">
+        dep,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="firstSubject != null">
+        first_subject,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="schoolType != null">
+        school_type,
+      </if>
+      <if test="enrolTime != null">
+        enrol_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="learnStyle != null">
+        learn_style,
+      </if>
+      <if test="hasDegree != null">
+        has_degree,
+      </if>
+      <if test="degreeType != null">
+        degree_type,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="isHighDegree != null">
+        is_high_degree,
+      </if>
+      <if test="isSecondDegree != null">
+        is_second_degree,
+      </if>
+      <if test="degreeCountry != null">
+        degree_country,
+      </if>
+      <if test="degreeUnit != null">
+        degree_unit,
+      </if>
+      <if test="degreeTime != null">
+        degree_time,
+      </if>
+      <if test="tutorName != null">
+        tutor_name,
+      </if>
+      <if test="tutorTitle != null">
+        tutor_title,
+      </if>
+      <if test="certificate != null">
+        certificate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="subWorkCount != null">
+        #{subWorkCount,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="eduId != null">
+        #{eduId,jdbcType=INTEGER},
+      </if>
+      <if test="isGraduated != null">
+        #{isGraduated,jdbcType=BIT},
+      </if>
+      <if test="isHighEdu != null">
+        #{isHighEdu,jdbcType=BIT},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null">
+        #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="firstSubject != null">
+        #{firstSubject,jdbcType=INTEGER},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolType != null">
+        #{schoolType,jdbcType=TINYINT},
+      </if>
+      <if test="enrolTime != null">
+        #{enrolTime,jdbcType=DATE},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=DATE},
+      </if>
+      <if test="learnStyle != null">
+        #{learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="hasDegree != null">
+        #{hasDegree,jdbcType=BIT},
+      </if>
+      <if test="degreeType != null">
+        #{degreeType,jdbcType=TINYINT},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="isHighDegree != null">
+        #{isHighDegree,jdbcType=BIT},
+      </if>
+      <if test="isSecondDegree != null">
+        #{isSecondDegree,jdbcType=BIT},
+      </if>
+      <if test="degreeCountry != null">
+        #{degreeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="degreeUnit != null">
+        #{degreeUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="degreeTime != null">
+        #{degreeTime,jdbcType=DATE},
+      </if>
+      <if test="tutorName != null">
+        #{tutorName,jdbcType=VARCHAR},
+      </if>
+      <if test="tutorTitle != null">
+        #{tutorTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dp.DpEduExample" resultType="java.lang.Long">
+    select count(*) from dp_edu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dp_edu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.subWorkCount != null">
+        sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.eduId != null">
+        edu_id = #{record.eduId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isGraduated != null">
+        is_graduated = #{record.isGraduated,jdbcType=BIT},
+      </if>
+      <if test="record.isHighEdu != null">
+        is_high_edu = #{record.isHighEdu,jdbcType=BIT},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dep != null">
+        dep = #{record.dep,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subject != null">
+        subject = #{record.subject,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstSubject != null">
+        first_subject = #{record.firstSubject,jdbcType=INTEGER},
+      </if>
+      <if test="record.major != null">
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolType != null">
+        school_type = #{record.schoolType,jdbcType=TINYINT},
+      </if>
+      <if test="record.enrolTime != null">
+        enrol_time = #{record.enrolTime,jdbcType=DATE},
+      </if>
+      <if test="record.finishTime != null">
+        finish_time = #{record.finishTime,jdbcType=DATE},
+      </if>
+      <if test="record.learnStyle != null">
+        learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="record.hasDegree != null">
+        has_degree = #{record.hasDegree,jdbcType=BIT},
+      </if>
+      <if test="record.degreeType != null">
+        degree_type = #{record.degreeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isHighDegree != null">
+        is_high_degree = #{record.isHighDegree,jdbcType=BIT},
+      </if>
+      <if test="record.isSecondDegree != null">
+        is_second_degree = #{record.isSecondDegree,jdbcType=BIT},
+      </if>
+      <if test="record.degreeCountry != null">
+        degree_country = #{record.degreeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degreeUnit != null">
+        degree_unit = #{record.degreeUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degreeTime != null">
+        degree_time = #{record.degreeTime,jdbcType=DATE},
+      </if>
+      <if test="record.tutorName != null">
+        tutor_name = #{record.tutorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tutorTitle != null">
+        tutor_title = #{record.tutorTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificate != null">
+        certificate = #{record.certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dp_edu
+    set id = #{record.id,jdbcType=INTEGER},
+      sub_work_count = #{record.subWorkCount,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      edu_id = #{record.eduId,jdbcType=INTEGER},
+      is_graduated = #{record.isGraduated,jdbcType=BIT},
+      is_high_edu = #{record.isHighEdu,jdbcType=BIT},
+      school = #{record.school,jdbcType=VARCHAR},
+      dep = #{record.dep,jdbcType=VARCHAR},
+      subject = #{record.subject,jdbcType=INTEGER},
+      first_subject = #{record.firstSubject,jdbcType=INTEGER},
+      major = #{record.major,jdbcType=VARCHAR},
+      school_type = #{record.schoolType,jdbcType=TINYINT},
+      enrol_time = #{record.enrolTime,jdbcType=DATE},
+      finish_time = #{record.finishTime,jdbcType=DATE},
+      learn_style = #{record.learnStyle,jdbcType=INTEGER},
+      has_degree = #{record.hasDegree,jdbcType=BIT},
+      degree_type = #{record.degreeType,jdbcType=TINYINT},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      is_high_degree = #{record.isHighDegree,jdbcType=BIT},
+      is_second_degree = #{record.isSecondDegree,jdbcType=BIT},
+      degree_country = #{record.degreeCountry,jdbcType=VARCHAR},
+      degree_unit = #{record.degreeUnit,jdbcType=VARCHAR},
+      degree_time = #{record.degreeTime,jdbcType=DATE},
+      tutor_name = #{record.tutorName,jdbcType=VARCHAR},
+      tutor_title = #{record.tutorTitle,jdbcType=VARCHAR},
+      certificate = #{record.certificate,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dp.DpEdu">
+    update dp_edu
+    <set>
+      <if test="subWorkCount != null">
+        sub_work_count = #{subWorkCount,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="eduId != null">
+        edu_id = #{eduId,jdbcType=INTEGER},
+      </if>
+      <if test="isGraduated != null">
+        is_graduated = #{isGraduated,jdbcType=BIT},
+      </if>
+      <if test="isHighEdu != null">
+        is_high_edu = #{isHighEdu,jdbcType=BIT},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null">
+        dep = #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="firstSubject != null">
+        first_subject = #{firstSubject,jdbcType=INTEGER},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolType != null">
+        school_type = #{schoolType,jdbcType=TINYINT},
+      </if>
+      <if test="enrolTime != null">
+        enrol_time = #{enrolTime,jdbcType=DATE},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=DATE},
+      </if>
+      <if test="learnStyle != null">
+        learn_style = #{learnStyle,jdbcType=INTEGER},
+      </if>
+      <if test="hasDegree != null">
+        has_degree = #{hasDegree,jdbcType=BIT},
+      </if>
+      <if test="degreeType != null">
+        degree_type = #{degreeType,jdbcType=TINYINT},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="isHighDegree != null">
+        is_high_degree = #{isHighDegree,jdbcType=BIT},
+      </if>
+      <if test="isSecondDegree != null">
+        is_second_degree = #{isSecondDegree,jdbcType=BIT},
+      </if>
+      <if test="degreeCountry != null">
+        degree_country = #{degreeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="degreeUnit != null">
+        degree_unit = #{degreeUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="degreeTime != null">
+        degree_time = #{degreeTime,jdbcType=DATE},
+      </if>
+      <if test="tutorName != null">
+        tutor_name = #{tutorName,jdbcType=VARCHAR},
+      </if>
+      <if test="tutorTitle != null">
+        tutor_title = #{tutorTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dp.DpEdu">
+    update dp_edu
+    set sub_work_count = #{subWorkCount,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      edu_id = #{eduId,jdbcType=INTEGER},
+      is_graduated = #{isGraduated,jdbcType=BIT},
+      is_high_edu = #{isHighEdu,jdbcType=BIT},
+      school = #{school,jdbcType=VARCHAR},
+      dep = #{dep,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=INTEGER},
+      first_subject = #{firstSubject,jdbcType=INTEGER},
+      major = #{major,jdbcType=VARCHAR},
+      school_type = #{schoolType,jdbcType=TINYINT},
+      enrol_time = #{enrolTime,jdbcType=DATE},
+      finish_time = #{finishTime,jdbcType=DATE},
+      learn_style = #{learnStyle,jdbcType=INTEGER},
+      has_degree = #{hasDegree,jdbcType=BIT},
+      degree_type = #{degreeType,jdbcType=TINYINT},
+      degree = #{degree,jdbcType=VARCHAR},
+      is_high_degree = #{isHighDegree,jdbcType=BIT},
+      is_second_degree = #{isSecondDegree,jdbcType=BIT},
+      degree_country = #{degreeCountry,jdbcType=VARCHAR},
+      degree_unit = #{degreeUnit,jdbcType=VARCHAR},
+      degree_time = #{degreeTime,jdbcType=DATE},
+      tutor_name = #{tutorName,jdbcType=VARCHAR},
+      tutor_title = #{tutorTitle,jdbcType=VARCHAR},
+      certificate = #{certificate,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dp.DpEduExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dp_edu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

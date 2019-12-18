@@ -87,7 +87,7 @@
 					if(data.success){
 						$(".container").show();
 						var str = $code.val() + sign;
-						console.log(str);
+						//console.log(str);
 						$("#qrcode").attr("src", "${ctx}/m/qrcode?content=" + str);
 					}
 				});

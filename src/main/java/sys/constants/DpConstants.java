@@ -8,24 +8,6 @@ import java.util.Map;
 
 public class DpConstants {
 
-    //人大代表、政协委员信息
-    public final static byte DP_PR_COUNTRY = 1;
-    public final static byte DP_CM_COUNTRY = 2;
-    public final static byte DP_PR_BEIJIGN = 3;
-    public final static byte DP_CM_BEIJIGN = 4;
-    public final static byte DP_PR_HAIDIAN = 5;
-    public final static byte DP_CM_HAIDIAN = 6;
-    public final static Map<Byte, String> DP_PR_CM_MAP = new LinkedHashMap<>();
-
-    static {
-        DP_PR_CM_MAP.put(DP_PR_COUNTRY, "全国人大代表");
-        DP_PR_CM_MAP.put(DP_CM_COUNTRY, "全国政协委员");
-        DP_PR_CM_MAP.put(DP_PR_BEIJIGN, "北京市人大代表");
-        DP_PR_CM_MAP.put(DP_CM_BEIJIGN, "北京市政协委员");
-        DP_PR_CM_MAP.put(DP_PR_HAIDIAN, "海淀区人大代表");
-        DP_PR_CM_MAP.put(DP_CM_HAIDIAN, "海淀区政协委员");
-    }
-
     //党员年龄段
     public final static byte DP_MEMBER_AGE_20 = 1;//20及以下
     public final static byte DP_MEMBER_AGE_21_30= 2;
@@ -56,7 +38,7 @@ public class DpConstants {
 
     //成员状态，1正常，2已退休（弃用），3已出党，4已转出，5暂时转出（外出挂职、休学等）
     public final static byte DP_MEMBER_STATUS_NORMAL = 1; // 正常
-    public final static byte DP_MEMBER_STATUS_RETIRE= 2; // 已退休
+    //public final static byte DP_MEMBER_STATUS_RETIRE= 2; // 已退休
     public final static byte DP_MEMBER_STATUS_QUIT = 3; // 已出党
     public final static byte DP_MEMBER_STATUS_TRANSFER = 4; // 已转出
     //public final static byte DP_MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
@@ -64,7 +46,7 @@ public class DpConstants {
 
     static {
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_NORMAL, "正常");
-        DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_RETIRE, "已退休");
+        //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_RETIRE, "已退休");
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_QUIT, "已出党");
         DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER, "已转出");
         //DP_MEMBER_STATUS_MAP.put(DP_MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
@@ -100,16 +82,6 @@ public class DpConstants {
             }
         }
         return key;
-    }
-
-    // 党派成员政治面貌
-    public final static byte DP_MEMBER_POLITICAL_STATUS_GROW = 1; //预备成员
-    public final static byte DP_MEMBER_POLITICAL_STATUS_POSITIVE = 2; //正式成员
-    public final static Map<Byte, String> DP_MEMBER_POLITICAL_STATUS_MAP = new LinkedHashMap<>();
-
-    static {
-        DP_MEMBER_POLITICAL_STATUS_MAP.put(DP_MEMBER_POLITICAL_STATUS_GROW, "预备成员");
-        DP_MEMBER_POLITICAL_STATUS_MAP.put(DP_MEMBER_POLITICAL_STATUS_POSITIVE, "正式成员");
     }
 
     // 党派成员来源

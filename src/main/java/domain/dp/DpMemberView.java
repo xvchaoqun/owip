@@ -14,6 +14,7 @@ public class DpMemberView implements Serializable {
     public DpParty getDpParty(){
         return DpPartyHelper.getDpPartyByPartyId(partyId);
     }
+    public String getTypes(){return DpPartyHelper.getTypes(userId);}
     private Integer userId;
 
     private Integer partyId;
@@ -36,9 +37,11 @@ public class DpMemberView implements Serializable {
 
     private Date dpGrowTime;
 
-    private String educa;
+    private String edu;
 
     private String degree;
+
+    private Boolean isPartyMember;
 
     private Date growTime;
 
@@ -47,6 +50,8 @@ public class DpMemberView implements Serializable {
     private Date updateTime;
 
     private Date outTime;
+
+    private String politicalAct;
 
     private String partyReward;
 
@@ -172,12 +177,12 @@ public class DpMemberView implements Serializable {
         this.dpGrowTime = dpGrowTime;
     }
 
-    public String getEduca() {
-        return educa;
+    public String getEdu() {
+        return edu;
     }
 
-    public void setEduca(String educa) {
-        this.educa = educa == null ? null : educa.trim();
+    public void setEdu(String edu) {
+        this.edu = edu == null ? null : edu.trim();
     }
 
     public String getDegree() {
@@ -186,6 +191,14 @@ public class DpMemberView implements Serializable {
 
     public void setDegree(String degree) {
         this.degree = degree == null ? null : degree.trim();
+    }
+
+    public Boolean getIsPartyMember() {
+        return isPartyMember;
+    }
+
+    public void setIsPartyMember(Boolean isPartyMember) {
+        this.isPartyMember = isPartyMember;
     }
 
     public Date getGrowTime() {
@@ -218,6 +231,14 @@ public class DpMemberView implements Serializable {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    public String getPoliticalAct() {
+        return politicalAct;
+    }
+
+    public void setPoliticalAct(String politicalAct) {
+        this.politicalAct = politicalAct == null ? null : politicalAct.trim();
     }
 
     public String getPartyReward() {

@@ -3,6 +3,7 @@ package service.dp;
 import controller.global.OpException;
 import domain.dp.DpMember;
 import domain.dp.DpMemberExample;
+import domain.member.Member;
 import domain.sys.*;
 import ext.service.SyncService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -14,6 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.party.MemberService;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
@@ -40,6 +42,8 @@ public class DpMemberService extends DpBaseMapper {
     private TeacherInfoService teacherInfoService;
     @Autowired
     protected PasswordHelper passwordHelper;
+    @Autowired
+    protected MemberService memberService;
 
     public SysUserView getByIdCard(String idCard){
 
@@ -81,21 +85,6 @@ public class DpMemberService extends DpBaseMapper {
         return uv;
     }
 
-    @Transactional
-    public void changeDpParty(Integer[] userIds, int partyId){
-
-        if (userIds == null || userIds.length == 0) return;
-
-        //判断userIds中民主党派是转移的情况
-        DpMemberExample example = new DpMemberExample();
-        example.createCriteria().andUserIdIn(Arrays.asList(userIds))
-                .andStatusEqualTo(DpConstants.DP_MEMBER_STATUS_NORMAL);
-        int count = (int) dpMemberMapper.countByExample(example);
-        if (count != userIds.length){
-            throw new OpException("数据异常，请重新选择[0]");
-        }
-        iDpMemberMapper.changeDpMemberParty(partyId, example);
-    }
 
     //批量导入
     @Transactional
@@ -159,15 +148,14 @@ public class DpMemberService extends DpBaseMapper {
         if (type == SystemConstants.USER_TYPE_JZG){
             record.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
             syncService.snycTeacherInfo(userId, uv);
-        }else if (type == SystemConstants.USER_TYPE_YJS){
-            record.setType(DpConstants.DP_MEMBER_TYPE_STUDENT);
-            syncService.snycStudent(userId, uv);
-        }else if (type == SystemConstants.USER_TYPE_BKS){
-            record.setType(DpConstants.DP_MEMBER_TYPE_STUDENT);
-            syncService.snycStudent(userId, uv);
         }else {
-            throw new OpException("账号不是教工，也不是学生。" + uv.getCode() + "," + uv.getRealname());
+            throw new OpException("账号不是教工。" + uv.getCode() + "," + uv.getRealname());
         }
+
+        //是否是共产党员
+        Member member = memberService.get(userId);
+        record.setIsPartyMember(member != null && (member.getType()==1 || member.getType() == 4));
+
         boolean isAdd = false;
         DpMember dpMember = get(userId);
         if (dpMember == null) {

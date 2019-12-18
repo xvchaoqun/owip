@@ -9,22 +9,24 @@ import java.util.List;
  */
 public interface IDpPropertyMapper {
 
-    //民族
+    //prcm民族
+    @Select("select distinct nation from dp_pr_cm_view where nation is not null and nation!='' order by nation")
+    List<String> prCmNations();
+    //npm民族
     @Select("select distinct nation from dp_npm_view where nation is not null and nation!='' order by nation")
     List<String> npmNations();
+    //om民族
+    @Select("select distinct nation from dp_om_view where nation is not null and nation!='' order by nation")
+    List<String> omNations();
+    //npr民族
+    @Select("select distinct nation from dp_npr_view where nation is not null and nation!='' order by nation")
+    List<String> nprNations();
 
     // 籍贯
     @Select("select distinct native_place from dp_npm_view where native_place is not null and native_place!='' order by native_place")
     List<String> npmNativePlaces();
-    // 年级
-    @Select("select distinct grade from dp_member_view where type=2 order by grade asc")
-    List<String> studentGrades();
 
-    // 学生类别
-    @Select("select distinct student_type from dp_member_view where type=2 and student_type is not null order by student_type asc")
-    List<String> studentTypes();
-
-    // 民族
+    // 所有民族
     @Select("select distinct nation from dp_member_view where nation is not null and nation!='' order by nation")
     List<String> nations();
 
@@ -48,9 +50,22 @@ public interface IDpPropertyMapper {
     @Select("select distinct native_place from dp_member_view where type=1 and native_place is not null and native_place!='' order by native_place")
     List<String> teacherNativePlaces();
 
+    // 教师行政级别
+    @Select("select distinct admin_level from dp_member_view where type=1 and admin_level is not null and admin_level!='' order by admin_level")
+    List<Integer> teacherAdminLevels();
+
+    // 教师行政职务
+    @Select("select distinct post from dp_member_view where type=1 and post is not null and post!='' order by post")
+    List<String> teacherPosts();
+
     // 最高学历
     @Select("select distinct education from dp_member_view where type=1 and education is not null and education!='' order by education asc")
     List<String> teacherEducationTypes();
+
+    // 最高学历
+    @Select("select distinct type from dp_pr_cm_view where type is not null and type!='' order by type asc")
+    List<String> prCmTypes();
+
 
     // 干部岗位类别
     @Select("select distinct post_class from cadre_view where post_class is not null and post_class!='' order by post_class asc")

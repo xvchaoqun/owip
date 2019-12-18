@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.dp.*;
 import domain.member.Member;
 import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberMixin;
@@ -62,13 +61,13 @@ public class DpMemberController extends DpBaseController {
                             Integer userId,
                            Integer partyId,
                            Integer unitId,
-                           //2 教职工 3 离退休 7 已转出教职工 10 全部
+                           //2 教职工 7 已转出教职工 10 全部
                            @RequestParam(defaultValue = "2")Integer cls,
+                           @RequestParam(required = false, value = "post") String[] post,
+                           @RequestParam(required = false, value = "adminLevel") Integer[] adminLevel,
                            @RequestParam(required = false, value = "nation") String[] nation,
-                           @RequestParam(required = false, value = "nativePlace") String nativePlace,
+                           @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
                            ModelMap modelMap) {
-
-        modelMap.put("cls", cls);
 
         if (unitId != null){
             modelMap.put("unit", unitMapper.selectByPrimaryKey(unitId));
@@ -90,6 +89,14 @@ public class DpMemberController extends DpBaseController {
         if (partyId != null){
             modelMap.put("dpParty", dpPartyMap.get(partyId));
         }
+        if (post != null){
+            List<String> selectPosts = Arrays.asList(post);
+            modelMap.put("selectPosts", selectPosts);
+        }
+        if (adminLevel != null){
+            List<Integer> selectAdminLevels = Arrays.asList(adminLevel);
+            modelMap.put("selectAdminLevels", selectAdminLevels);
+        }
         if (nation != null){
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
@@ -102,15 +109,30 @@ public class DpMemberController extends DpBaseController {
         modelMap.put("cls", cls);
 
         //导出的名字
+        modelMap.put("metaAdminLevel", metaTypeService.metaTypes("mc_admin_level").values());
+        modelMap.put("metaPost", metaTypeService.metaTypes("mc_post").values());
+
         List<String> titles = new ArrayList<>();
         if (cls == 2 || cls == 3 || cls == 7){ //教师党派成员
             titles = getTeacherExportTitles();
             if (cls == 3){
                 titles.add(6, "离退休时间|80");
             }
+            if (iDpPropertyMapper.teacherPosts() != null) {
+                modelMap.put("posts", iDpPropertyMapper.teacherPosts());
+            }
+            if (iDpPropertyMapper.teacherAdminLevels() != null) {
+                modelMap.put("adminLevels", iDpPropertyMapper.teacherAdminLevels());
+            }
             modelMap.put("nations", iDpPropertyMapper.teacherNations());
             modelMap.put("nativePlaces", iDpPropertyMapper.teacherNativePlaces());
         }  else if (cls == 10){
+            if (iDpPropertyMapper.teacherPosts() != null) {
+                modelMap.put("posts", iDpPropertyMapper.teacherPosts());
+            }
+            if (iDpPropertyMapper.teacherAdminLevels() != null) {
+                modelMap.put("adminLevels", iDpPropertyMapper.teacherAdminLevels());
+            }
             modelMap.put("nations", iDpPropertyMapper.nations());
             modelMap.put("nativePlaces", iDpPropertyMapper.nativePlaces());
         }
@@ -131,8 +153,10 @@ public class DpMemberController extends DpBaseController {
                                     String unit,
                                     Byte gender,
                                     Byte age,
-                                    String educa,
+                                    String edu,
                                     String degree,
+                                    @RequestParam(required = false, value = "post") String[] post,
+                                    @RequestParam(required = false, value = "adminLevel") Integer[] adminLevel,
                                     @RequestParam(required = false, value = "nation") String[] nation,//
                                     @RequestParam(required = false, value = "nativePlace") String[] nativePlace,//
                                     @RequestDateRange DateRange _dpGrowTime,
@@ -140,6 +164,7 @@ public class DpMemberController extends DpBaseController {
 
                                     /**教职工党员**/
                                     @RequestDateRange DateRange _retireTime,
+                                    Boolean isPartyMember,
                                     Boolean isHonorRetire,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -169,19 +194,27 @@ public class DpMemberController extends DpBaseController {
             criteria.andUserIdEqualTo(userId);
         }
         if (StringUtils.isNotBlank(unit)) {
-            criteria.andUnitLike(unit);
+            criteria.andUnitLike(SqlUtils.like(unit));
         }
-        if (StringUtils.isNotBlank(educa)){
-            criteria.andEducaLike(educa);
+        if (StringUtils.isNotBlank(edu)){
+            criteria.andEduLike(SqlUtils.like(edu));
         }
         if (StringUtils.isNotBlank(degree)){
-            criteria.andDegreeLike(degree);
+            criteria.andDegreeLike(SqlUtils.like(degree));
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        if (gender != null){
+        if (gender != null) {
             criteria.andGenderEqualTo(gender);
+        }
+        if (post != null){
+            List<String> selectPosts = Arrays.asList(post);
+            criteria.andPostIn(selectPosts);
+        }
+        if (adminLevel != null){
+            List<Integer> selectAdminLevels = Arrays.asList(adminLevel);
+            criteria.andAdminLevelIn(selectAdminLevels);
         }
         if (nation != null){
             List<String> selectNations = Arrays.asList(nation);
@@ -237,6 +270,9 @@ public class DpMemberController extends DpBaseController {
 
         if (_dpGrowTime.getEnd() != null) {
             criteria.andDpGrowTimeLessThanOrEqualTo(_dpGrowTime.getEnd());
+        }
+        if (isPartyMember != null){
+            criteria.andIsPartyMemberEqualTo(isPartyMember);
         }
         /*
            2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
@@ -297,27 +333,6 @@ public class DpMemberController extends DpBaseController {
         return;
     }
 
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
-    @RequestMapping("/dpMember_changeDpParty")
-    public String dpMember_changeDpParty(){
-
-        return "dp/dpMember/dpMember_changeDpParty";
-    }
-
-    @RequiresPermissions(SystemConstants.PERMISSION_DPPARTYVIEWALL)
-    @RequestMapping(value = "/dpMember_changeDpParty", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dpMember_changeDpParty(@RequestParam(value = "ids[]") Integer[] ids,
-                                         int partyId,
-                                         ModelMap modelMap){
-        if (null != ids){
-            dpMemberService.changeDpParty(ids,partyId);
-            logger.info(addLog(LogConstants.LOG_DPMEMBER, "批量校内组织关系转移：%s，%s",
-                    StringUtils.join(ids,","), partyId));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("dpMember:edit")
     @RequestMapping(value = "/dpMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -347,8 +362,9 @@ public class DpMemberController extends DpBaseController {
         if (StringUtils.isNotBlank(_dpGrowTime)) {
             record.setDpGrowTime(DateUtils.parseDate(_dpGrowTime, DateUtils.YYYYMMDD_DOT));
         }
-        SysUserView sysUser = sysUserService.findById(record.getUserId());
+        SysUserView sysUser = sysUserService.findById(userId);
         DpMember dpMember = dpMemberService.get(userId);
+
         if (dpMember == null){
             SecurityUtils.getSubject().checkPermission("dpMember:edit");
             DpMember dpMemberAdd = dpMemberMapper.selectByPrimaryKey(userId);
@@ -366,6 +382,10 @@ public class DpMemberController extends DpBaseController {
                     dpPartyService.findAll().get(partyId).getName(), reason));
         } else {
             SecurityUtils.getSubject().checkPermission("dpMember:edit");
+
+            //是否是共产党员
+            Member member = memberService.get(userId);
+            record.setIsPartyMember(member != null && (member.getType()==1 || member.getType() == 4));
 
             dpMemberService.updateByPrimaryKeySelective(record,reason);
 
@@ -404,17 +424,11 @@ public class DpMemberController extends DpBaseController {
     @RequestMapping(value = "/dpMember_recover", method = RequestMethod.POST)
     @ResponseBody
     public Map dpMember_recover(@RequestParam(value = "ids[]") Integer[] ids,
-                                HttpServletRequest request,
                                 Byte status){
 
         if(ids != null){
             for (Integer userId :ids){
-                TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
-                Boolean isRetire = teacherInfo.getIsRetire();
-                if (isRetire)
-                    status = DpConstants.DP_MEMBER_STATUS_RETIRE;
-                else
-                    status = DpConstants.DP_MEMBER_STATUS_NORMAL;
+                status = DpConstants.DP_MEMBER_STATUS_NORMAL;
                 DpMember dpMember = dpMemberMapper.selectByPrimaryKey(userId);
                 dpMember.setStatus(status);
                 dpMemberService.updateByPrimaryKeySelective(dpMember);
@@ -435,16 +449,15 @@ public class DpMemberController extends DpBaseController {
     @RequestMapping(value = "/dpMember_out", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dpMember_out(@RequestParam(value = "ids[]") Integer[] userIds,
-                              Byte stasus,
                               String outTime){
 
         if (null != userIds && userIds.length>0){
             DpMemberExample example = new DpMemberExample();
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<DpMember> dpMembers = dpMemberMapper.selectByExample(example);
-            stasus = DpConstants.DP_MEMBER_STATUS_TRANSFER;
+            Byte status = DpConstants.DP_MEMBER_STATUS_TRANSFER;
             for (DpMember dpMember : dpMembers){
-                dpMember.setStatus(stasus);
+                dpMember.setStatus(status);
                 if (StringUtils.isNotBlank(outTime)){
                     dpMember.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYYMMDD_DOT));
                 }
@@ -606,6 +619,8 @@ public class DpMemberController extends DpBaseController {
             ModelMap modelMap){
 
         DpMember dpMember = dpMemberService.get(userId);
+        SysUserView uv = CmTag.getUserById(userId);
+        modelMap.put("uv", uv);
 
         //党派管理员才可以操作
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_DPPARTYVIEWALL)){
@@ -618,7 +633,7 @@ public class DpMemberController extends DpBaseController {
         return "dp/dpMember/dpTeacher_view";
     }
 
-    @RequiresPermissions("dpMember:list")
+    /*@RequiresPermissions("dpMember:list")
     @RequestMapping("/dpMember/search")
     public String dpMember_search(){
 
@@ -679,7 +694,7 @@ public class DpMemberController extends DpBaseController {
         resultMap.put("status", status);
         return resultMap;
     }
-
+*/
     //党派成员基本信息
     @RequestMapping("/dpMember_base")
     public String dpMember_base(Integer userId, ModelMap modelMap){
@@ -697,10 +712,6 @@ public class DpMemberController extends DpBaseController {
             modelMap.put("teacherInfo", teacherInfoService.get(userId));
         }
         return "dp/dpMember/dpTeacher_base";
-        /*else {
-        modelMap.put("studentInfo", studentInfoService.get(userId));
-        return "dp/dpMember/dpStudent_base";
-        }*/
 
     }
 
@@ -728,11 +739,6 @@ public class DpMemberController extends DpBaseController {
             }
         }
 
-        Map<String, Byte> politicalStatusMap = new HashMap<>();
-        for (Map.Entry<Byte, String> entry : DpConstants.DP_MEMBER_POLITICAL_STATUS_MAP.entrySet()){
-            politicalStatusMap.put(entry.getValue(),entry.getKey());
-        }
-
         MultipartHttpServletRequest multiPartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multiPartRequest.getFile("xlsx");
 
@@ -744,7 +750,7 @@ public class DpMemberController extends DpBaseController {
 
         Map<String, Object> resultMap = null;
 
-        resultMap = importInSchoolDpMember(xlsRows,runPartyMap,politicalStatusMap);
+        resultMap = importInSchoolDpMember(xlsRows,runPartyMap);
         /*if (inSchool){
 
         } else {
@@ -892,8 +898,7 @@ public class DpMemberController extends DpBaseController {
     }*/
         //导入校内账号的党派成员
     public Map<String, Object> importInSchoolDpMember(List<Map<Integer, String>> xlsRows,
-                                                      Map<String, DpParty> runPartyMap,
-                                                      Map<String, Byte> politicalStatusMap){
+                                                      Map<String, DpParty> runPartyMap){
 
         Date now = new Date();
         List<DpMember> records = new ArrayList<>();
@@ -930,32 +935,25 @@ public class DpMemberController extends DpBaseController {
             }
 
             record.setUserId(uv.getUserId());
-            String unit = StringUtils.trimToNull(xlsRow.get(5));
+            int col = 5;
+            String unit = StringUtils.trimToNull(xlsRow.get(col++));
             record.setUnit(unit);
-            String dpPost = StringUtils.trimToNull(xlsRow.get(6));
+            String dpPost = StringUtils.trimToNull(xlsRow.get(col++));
             record.setDpPost(dpPost);
-            record.setDpGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(7))));
-            record.setEduca(StringUtils.trimToNull(xlsRow.get(8)));
-            record.setDegree(StringUtils.trimToNull(xlsRow.get(9)));
-            record.setPartTimeJob(StringUtils.trimToNull(xlsRow.get(10)));
-            record.setTrainState(StringUtils.trimToNull(xlsRow.get(11)));
-            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(12)));
-            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(13)));
-            record.setAddress(StringUtils.trimToNull(xlsRow.get(14)));
-            record.setMobile(StringUtils.trimToNull(xlsRow.get(15)));
-            record.setEmail(StringUtils.trimToNull(xlsRow.get(16)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(17)));
+            record.setDpGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setEdu(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setDegree(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPartTimeJob(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setTrainState(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPoliticalAct(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setMobile(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setEmail(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
 
-            TeacherInfo teacherInfo = teacherInfoService.get(uv.getUserId());
-            if (teacherInfo != null) {
-                if (!teacherInfo.getIsRetire()) {
-                    record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
-                } else {
-                    record.setStatus(DpConstants.DP_MEMBER_STATUS_RETIRE);
-                }
-            }else {
-                record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
-            }
+            record.setStatus(DpConstants.DP_MEMBER_STATUS_NORMAL);
             record.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
             // 默认为原有党员导入
             record.setSource(DpConstants.DP_MEMBER_SOURCE_IMPORT);
@@ -975,8 +973,8 @@ public class DpMemberController extends DpBaseController {
 
         return new ArrayList<>(Arrays.asList(new String[]{"民主党派编号|100","党派名称|200","工号|100", "姓名|120","性别|50",
                 "出生日期|80","民族|50",
-                "部门|150", "是否退休|50", "党派内职务|100", "加入党派时间|80","职称|80","学历|120","学位|100","行政职务|100",
-                "兼职|100","是否是中共党员|80","培训情况|300","党内奖励|300","其他奖励|300","通讯地址|200",
+                "部门|200", "是否退休|50", "党派内职务|100", "加入党派时间|80","职称|80","学历|120","学位|100","行政职务|100",
+                "兼职（其他校外职务）|100","是否是中共党员|80","培训情况|200","政治表现|200","党内奖励|200","其他奖励|200","通讯地址|200",
                 "手机|100","邮箱|100","备注|200"}));
     }
 
@@ -1015,7 +1013,6 @@ public class DpMemberController extends DpBaseController {
             if (!dpPartyIds.contains(partyId)){
                 partyId = null;
             }
-            Member member = memberService.get(record.getUserId());
             SysUserView uv = sysUserService.findById(record.getUserId());
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
 
@@ -1031,12 +1028,13 @@ public class DpMemberController extends DpBaseController {
                     record.getDpPost(),//党派内职务
                     DateUtils.formatDate(record.getDpGrowTime(), DateUtils.YYYYMMDD_DOT),//加入党派时间
                     record.getProPost(),//职称
-                    record.getEduca(),//学历
+                    record.getEdu(),//学历
                     record.getDegree(),//学位
                     record.getPost(),//行政职务
-                    record.getPartTimeJob(),//兼职
-                    member == null ? "否" : "是",
+                    record.getPartTimeJob(),//兼职（其他校外职务）
+                    record.getIsPartyMember() == false ? "否" : "是",
                     record.getTrainState(),
+                    record.getPoliticalAct(),//政治表现
                     record.getPartyReward(),//党内奖励
                     record.getOtherReward(),//其他奖励
                     record.getAddress(),//通讯地址

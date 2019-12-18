@@ -1,6 +1,155 @@
 
 
--- 20191209 ly
+-- 20191218 ly 统战的view也都更新了 dp_member、dp_pr_cm表更新
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2620, 0, '年度考核', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpEva:list', NULL, NULL, NULL, 1, 120);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2621, 0, '年度考核编辑', '', 'function', '', NULL, 2620, '0/1/2574/2620/', 1, 'dpEva:edit', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2622, 0, '年度考核删除', '', 'function', '', NULL, 2620, '0/1/2574/2620/', 1, 'dpEva:del', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2623, 0, '家庭成员情况', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpFamily:list', NULL, NULL, NULL, 1, 110);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2624, 0, '家庭成员情况编辑', '', 'function', '', NULL, 2623, '0/1/2574/2623/', 1, 'dpFamily:edit', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2625, 0, '家庭成员情况删除', '', 'function', '', NULL, 2623, '0/1/2574/2623/', 1, 'dpFamily:del', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2626, 0, '工作经历', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpWork:list', NULL, NULL, NULL, 1, 105);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2627, 0, '工作经历编辑', '', 'function', '', NULL, 2626, '0/1/2574/2626/', 1, 'dpWork:edit', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2628, 0, '工作经历删除', '', 'function', '', NULL, 2626, '0/1/2574/2626/', 1, 'dpWork:del', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2629, 0, '学习经历', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpEdu:list', NULL, NULL, NULL, 1, 100);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2630, 0, '学习经历编辑', '', 'function', '', NULL, 2629, '0/1/2574/2629/', 1, 'dpEdu:edit', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2631, 0, '学习经历删除', '', 'function', '', NULL, 2629, '0/1/2574/2629/', 1, 'dpEdu:del', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2632, 0, '家庭成员情况排序', '', 'function', '', NULL, 2629, '0/1/2574/2629/', 1, 'dpFamily:changeOrder', NULL, NULL, NULL, 1, NULL);
+
+REPLACE INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '人大代表、政协委员类别', '统战信息管理', '人大代表、政协委员', 'mc_dp_prcm_type', '', '', '', 2611, 1);
+
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '海淀区政协委员', 'mt_agaimg', NULL, '', '', 6, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '海淀区人大代表', 'mt_lviukq', NULL, '', '', 5, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '北京市政协委员', 'mt_4yn0qu', NULL, '', '', 4, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '北京市人大代表', 'mt_zfjzzs', NULL, '', '', 3, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '其他政协委员', 'mt_cgcxva', NULL, '', '', 8, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '其他人大代表', 'mt_vbnycy', NULL, '', '', 7, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '全国政协委员', 'mt_btlwxy', NULL, '', '', 2, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '全国人大代表', 'mt_qwy8xn', NULL, '', '', 1, 1);
+
+REPLACE INTO `sys_html_fragment` (`fid`, `code`, `category`, `type`, `role_id`, `title`, `content`, `attr`, `remark`, `sort_order`) VALUES (NULL, 'hf_dp_family_note', NULL, NULL, NULL, '家庭成员信息填写说明（注意事项）', '<h4>\r\n	<span style="font-size:24px;font-family:宋体;">注意事项</span>\r\n</h4>\r\n<p class="MsoNormal">\r\n	<span style="font-size:18px;font-family:宋体;">1. 原则上必须填写</span><span style="font-size:14pt;font-family:宋体;"><strong><span style="color:#E53333;font-size:18px;">父亲</span></strong><span style="font-size:18px;">、</span><strong><span style="color:#E53333;font-size:18px;">母亲</span></strong><span style="font-size:18px;">、</span><strong><span style="color:#E53333;font-size:18px;">配偶</span></strong><span style="font-size:18px;">、</span><strong><span style="color:#E53333;font-size:18px;">子女</span></strong><span style="font-size:18px;">的信息；</span></span>\r\n</p>\r\n<p class="MsoNormal">\r\n	<span style="font-size:18px;font-family:宋体;">2. 父母已退休、离休或去世的，应在填写原工作单位职务后加括号注明“（已退休）、（已离休）、（已去世）”。</span>\r\n</p>', NULL, '', 49);
+
+
+ALTER TABLE `dp_member`
+	ALTER `type` DROP DEFAULT;
+ALTER TABLE `dp_member`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1教工' AFTER `party_id`;
+ALTER TABLE `dp_member`
+	ALTER `status` DROP DEFAULT;
+ALTER TABLE `dp_member`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1正常   4已转出' AFTER `type`;
+ALTER TABLE `dp_member`
+	CHANGE COLUMN `educa` `edu` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历' AFTER `dp_grow_time`;
+ALTER TABLE `dp_member`
+	ADD COLUMN `is_party_member` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否是中国共产党员' AFTER `degree`;
+ALTER TABLE `dp_member`
+	ADD COLUMN `political_act` VARCHAR(255) NULL DEFAULT NULL COMMENT '政治表现' AFTER `out_time`;
+
+
+DROP TABLE IF EXISTS `dp_edu`;
+CREATE TABLE IF NOT EXISTS `dp_edu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `sub_work_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '其间工作数量，提交其间工作时设定',
+  `user_id` int(10) unsigned NOT NULL COMMENT '所属统战人员',
+  `edu_id` int(10) unsigned DEFAULT NULL COMMENT '学历，关联元数据',
+  `is_graduated` tinyint(1) unsigned DEFAULT NULL COMMENT '毕业/在读',
+  `is_high_edu` tinyint(1) unsigned DEFAULT NULL COMMENT '是否最高学历',
+  `school` varchar(100) DEFAULT NULL COMMENT '毕业/在读学校',
+  `dep` varchar(100) DEFAULT NULL COMMENT '院系',
+  `subject` int(10) unsigned DEFAULT NULL COMMENT '学科门类',
+  `first_subject` int(10) unsigned DEFAULT NULL COMMENT '一级学科',
+  `major` varchar(100) DEFAULT NULL COMMENT '所学专业',
+  `school_type` tinyint(3) unsigned DEFAULT NULL COMMENT '学校类型， 1本校 2境内 3境外',
+  `enrol_time` date DEFAULT NULL COMMENT '入学时间',
+  `finish_time` date DEFAULT NULL COMMENT '毕业时间',
+  `learn_style` int(10) unsigned DEFAULT NULL COMMENT '学习方式，关联元数据，全日制教育or在职教育',
+  `has_degree` tinyint(1) unsigned NOT NULL COMMENT '是否获得学位',
+  `degree_type` tinyint(3) unsigned DEFAULT NULL COMMENT '学位类型，1 学士 2 硕士 3 博士',
+  `degree` varchar(100) DEFAULT NULL COMMENT '学位',
+  `is_high_degree` tinyint(1) unsigned DEFAULT NULL COMMENT '是否为最高学位',
+  `is_second_degree` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否第二个学位，存在两个最高学位时有效',
+  `degree_country` varchar(50) DEFAULT NULL COMMENT '学位授予国家',
+  `degree_unit` varchar(100) DEFAULT NULL COMMENT '学位授予单位',
+  `degree_time` date DEFAULT NULL COMMENT '学位授予日期',
+  `tutor_name` varchar(50) DEFAULT NULL COMMENT '导师姓名，只有博士和硕士需要填写导师信息，如果是大专和本科，则这两个字段为不可编辑状态，显示为“-”',
+  `tutor_title` varchar(100) DEFAULT NULL COMMENT '所在单位及职务（职称）',
+  `certificate` varchar(200) DEFAULT NULL COMMENT '学历学位证书，1个或2个证书（毕业证和学位证），逗号分隔开',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `note` varchar(100) DEFAULT NULL COMMENT '其他说明',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='统战人员学习经历';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.dp_eva
+DROP TABLE IF EXISTS `dp_eva`;
+CREATE TABLE IF NOT EXISTS `dp_eva` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `year` int(10) unsigned NOT NULL COMMENT '年份',
+  `title` varchar(100) DEFAULT NULL COMMENT '时任职务',
+  `type` int(10) unsigned NOT NULL COMMENT '考核情况，关联元数据',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='统战人员年度考核记录';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.dp_family
+DROP TABLE IF EXISTS `dp_family`;
+CREATE TABLE IF NOT EXISTS `dp_family` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '所属统战人员',
+  `title` int(10) unsigned DEFAULT NULL COMMENT '称谓',
+  `realname` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `birthday` date DEFAULT NULL COMMENT '出生年月',
+  `with_god` tinyint(1) unsigned DEFAULT NULL COMMENT '是否去世',
+  `political_status` int(10) unsigned DEFAULT NULL COMMENT '政治面貌，关联元数据',
+  `unit` varchar(200) DEFAULT NULL COMMENT '工作单位及职务',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='家庭成员信息';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.dp_pr_cm
+DROP TABLE IF EXISTS `dp_pr_cm`;
+CREATE TABLE IF NOT EXISTS `dp_pr_cm` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `elect_session` varchar(50) DEFAULT NULL COMMENT '当选届次',
+  `elect_time` date DEFAULT NULL COMMENT '当选时间',
+  `end_time` date DEFAULT NULL COMMENT '到届时间',
+  `status` tinyint(1) unsigned DEFAULT NULL COMMENT '状态',
+  `type` int(10) unsigned DEFAULT NULL COMMENT '类别',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几届代表';
+
+-- Data exporting was unselected.
+-- Dumping structure for table db_owip.dp_work
+DROP TABLE IF EXISTS `dp_work`;
+CREATE TABLE IF NOT EXISTS `dp_work` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `fid` int(10) unsigned DEFAULT NULL COMMENT '所属学习或工作经历，其间工作时设定',
+  `is_edu_work` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否学习其间工作',
+  `sub_work_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '期间工作数量，提交期间工作时设定',
+  `user_id` int(10) unsigned NOT NULL COMMENT '所属统战人员',
+  `start_time` date DEFAULT NULL COMMENT '开始日期',
+  `end_time` date DEFAULT NULL COMMENT '结束日期',
+  `detail` varchar(100) DEFAULT NULL COMMENT '工作单位及担任职务（或专技职务）',
+  `unit_ids` varchar(100) DEFAULT NULL COMMENT '所属内设机构，包含历史单位',
+  `work_types` varchar(200) DEFAULT NULL COMMENT '院系/机关工作经历，关联元数据，可多选',
+  `is_cadre` tinyint(1) unsigned DEFAULT NULL COMMENT '是否干部任职',
+  `remark` varchar(300) DEFAULT NULL COMMENT '备注',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作经历，目前有两级，工作经历->期间工作经历';
+
+
+-- 20191209 ly version1
 
 DROP TABLE IF EXISTS `dp_member`;
 CREATE TABLE IF NOT EXISTS `dp_member` (
@@ -191,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `dp_pr_cm` (
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
   `remark` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几届代表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='人大代表、政协委员信息。同一个人在一个库中可以出现多次，因为可能担任几类代表';
 
 
 

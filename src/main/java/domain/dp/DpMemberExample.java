@@ -832,73 +832,73 @@ public class DpMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andEducaIsNull() {
-            addCriterion("educa is null");
+        public Criteria andEduIsNull() {
+            addCriterion("edu is null");
             return (Criteria) this;
         }
 
-        public Criteria andEducaIsNotNull() {
-            addCriterion("educa is not null");
+        public Criteria andEduIsNotNull() {
+            addCriterion("edu is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEducaEqualTo(String value) {
-            addCriterion("educa =", value, "educa");
+        public Criteria andEduEqualTo(String value) {
+            addCriterion("edu =", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaNotEqualTo(String value) {
-            addCriterion("educa <>", value, "educa");
+        public Criteria andEduNotEqualTo(String value) {
+            addCriterion("edu <>", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaGreaterThan(String value) {
-            addCriterion("educa >", value, "educa");
+        public Criteria andEduGreaterThan(String value) {
+            addCriterion("edu >", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaGreaterThanOrEqualTo(String value) {
-            addCriterion("educa >=", value, "educa");
+        public Criteria andEduGreaterThanOrEqualTo(String value) {
+            addCriterion("edu >=", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaLessThan(String value) {
-            addCriterion("educa <", value, "educa");
+        public Criteria andEduLessThan(String value) {
+            addCriterion("edu <", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaLessThanOrEqualTo(String value) {
-            addCriterion("educa <=", value, "educa");
+        public Criteria andEduLessThanOrEqualTo(String value) {
+            addCriterion("edu <=", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaLike(String value) {
-            addCriterion("educa like", value, "educa");
+        public Criteria andEduLike(String value) {
+            addCriterion("edu like", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaNotLike(String value) {
-            addCriterion("educa not like", value, "educa");
+        public Criteria andEduNotLike(String value) {
+            addCriterion("edu not like", value, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaIn(List<String> values) {
-            addCriterion("educa in", values, "educa");
+        public Criteria andEduIn(List<String> values) {
+            addCriterion("edu in", values, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaNotIn(List<String> values) {
-            addCriterion("educa not in", values, "educa");
+        public Criteria andEduNotIn(List<String> values) {
+            addCriterion("edu not in", values, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaBetween(String value1, String value2) {
-            addCriterion("educa between", value1, value2, "educa");
+        public Criteria andEduBetween(String value1, String value2) {
+            addCriterion("edu between", value1, value2, "edu");
             return (Criteria) this;
         }
 
-        public Criteria andEducaNotBetween(String value1, String value2) {
-            addCriterion("educa not between", value1, value2, "educa");
+        public Criteria andEduNotBetween(String value1, String value2) {
+            addCriterion("edu not between", value1, value2, "edu");
             return (Criteria) this;
         }
 
@@ -969,6 +969,66 @@ public class DpMemberExample {
 
         public Criteria andDegreeNotBetween(String value1, String value2) {
             addCriterion("degree not between", value1, value2, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberIsNull() {
+            addCriterion("is_party_member is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberIsNotNull() {
+            addCriterion("is_party_member is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberEqualTo(Boolean value) {
+            addCriterion("is_party_member =", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberNotEqualTo(Boolean value) {
+            addCriterion("is_party_member <>", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberGreaterThan(Boolean value) {
+            addCriterion("is_party_member >", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_party_member >=", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberLessThan(Boolean value) {
+            addCriterion("is_party_member <", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_party_member <=", value, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberIn(List<Boolean> values) {
+            addCriterion("is_party_member in", values, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberNotIn(List<Boolean> values) {
+            addCriterion("is_party_member not in", values, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_party_member between", value1, value2, "isPartyMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPartyMemberNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_party_member not between", value1, value2, "isPartyMember");
             return (Criteria) this;
         }
 
@@ -1209,6 +1269,76 @@ public class DpMemberExample {
 
         public Criteria andOutTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("out_time not between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActIsNull() {
+            addCriterion("political_act is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActIsNotNull() {
+            addCriterion("political_act is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActEqualTo(String value) {
+            addCriterion("political_act =", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActNotEqualTo(String value) {
+            addCriterion("political_act <>", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActGreaterThan(String value) {
+            addCriterion("political_act >", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActGreaterThanOrEqualTo(String value) {
+            addCriterion("political_act >=", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActLessThan(String value) {
+            addCriterion("political_act <", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActLessThanOrEqualTo(String value) {
+            addCriterion("political_act <=", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActLike(String value) {
+            addCriterion("political_act like", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActNotLike(String value) {
+            addCriterion("political_act not like", value, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActIn(List<String> values) {
+            addCriterion("political_act in", values, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActNotIn(List<String> values) {
+            addCriterion("political_act not in", values, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActBetween(String value1, String value2) {
+            addCriterion("political_act between", value1, value2, "politicalAct");
+            return (Criteria) this;
+        }
+
+        public Criteria andPoliticalActNotBetween(String value1, String value2) {
+            addCriterion("political_act not between", value1, value2, "politicalAct");
             return (Criteria) this;
         }
 

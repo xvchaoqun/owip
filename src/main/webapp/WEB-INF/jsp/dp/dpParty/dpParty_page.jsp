@@ -11,20 +11,33 @@ pageEncoding="UTF-8" %>
                     <div class="tab-content">
                         <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
+                <c:if test="${cls==1}">
                 <shiro:hasPermission name="dpParty:add">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/dp/dpParty_au?cls=${cls}">
                         <i class="fa fa-plus"></i> 添加</button>
                 </shiro:hasPermission>
+                </c:if>
                 <shiro:hasPermission name="dpParty:edit">
                     <button class="jqEditBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpParty_au?cls=${cls}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改信息</button>
+                    <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/dp/dpParty_import"
                             data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                         批量导入
+                    </button>
+                    </c:if>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="dpParty:del">
+                    <button data-url="${ctx}/dp/dpParty_del"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="dpOrgAdmin:list">
@@ -46,8 +59,8 @@ pageEncoding="UTF-8" %>
                     <c:if test="${cls==1}">
                         <shiro:hasPermission name="dpParty:edit">
                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpParty_cancel" data-title="撤销民主党派"
-                           data-msg="确定撤销这{0}个民主党派吗？"><i class="fa fa-history"></i> 撤销</a>
+                           data-url="${ctx}/dp/dpParty_cancel" data-title="移除民主党派"
+                           data-msg="确定移除这{0}个民主党派吗？"><i class="fa fa-history"></i> 移除</a>
                         【注：撤销操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
                         </shiro:hasPermission>
                     </c:if>
@@ -56,7 +69,7 @@ pageEncoding="UTF-8" %>
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpParty_batchDel"
                            data-querystr="isDeleted=0"
-                           data-title="恢复已撤销民主党派"
+                           data-title="恢复已移除民主党派"
                            data-msg="确定恢复这{0}个民主党派吗？"><i class="fa fa-reply"></i> 恢复</a>
                         【注：恢复操作之后需要重新设置委员会及相关管理员权限！】
                     </shiro:hasPermission>
@@ -79,13 +92,13 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>民主党派名称</label>
                                 <div class="input-group">
-                                    <select  data-width="300" data-rel="select2-ajax"
+                                    <select  data-width="230" data-rel="select2-ajax"
                                              data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
                                              name="id" data-placeholder="请选择">
                                         <option value="${dpParty.id}" title="${dpParty.isDeleted}">${dpParty.name}</option>
                                     </select>
                                 </div>
-                                <script>         $("#searchForm select[name=name]").val('${param.id}');     </script>
+                                <script>         $("#searchForm select[name=id]").val('${param.id}');     </script>
                             </div>
                             <div class="form-group">
                                 <label>编号</label>
@@ -94,7 +107,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>所属民主党派类别</label>
-                                    <select data-width="300" name="classId" data-rel="select2" data-placeholder="请选择">
+                                    <select data-width="230" name="classId" data-rel="select2" data-placeholder="请选择">
                                         <option></option>
                                         <c:import url="/metaTypes?__code=mc_dp_party_class"/>
                                     </select>
@@ -152,8 +165,8 @@ pageEncoding="UTF-8" %>
                     return ('<button class="openView btn btn-warning btn-xs" ' +
                         'data-url="${ctx}/dp/dpParty_view?id={0}">'
                         + '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)}},
-            {label: '编号', name: 'code', frozen: true},
-            {label: '名称', name: 'name', width: 300, frozen: true, formatter: function (cellvalue, options, rowObject) {
+            {label: '编号', name: 'code', frozen: true, width:100},
+            {label: '名称', name: 'name', width: 200, frozen: true, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
@@ -170,7 +183,7 @@ pageEncoding="UTF-8" %>
             </c:if>
             </shiro:hasPermission>
             <c:if test="${cls==2}">
-            {label: '撤销时间', name: 'deleteTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '移除时间', name: 'deleteTime', width: 100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             {label: '成员总数', name: 'memberCount', width: 80, formatter: function (cellvalue, option, rowObject) {
                     <shiro:hasPermission name="dpMember:list">

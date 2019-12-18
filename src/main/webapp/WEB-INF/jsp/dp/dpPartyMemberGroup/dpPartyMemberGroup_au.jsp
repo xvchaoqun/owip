@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 		</div>
 		<c:if test="${status==-1}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">实际换届时间</label>
+			<label class="col-xs-3 control-label">移除时间</label>
 			<div class="col-xs-8">
 				<div class="input-group" style="width: 290px">
 					<input class="form-control date-picker" name="_actualTranTime" type="text"

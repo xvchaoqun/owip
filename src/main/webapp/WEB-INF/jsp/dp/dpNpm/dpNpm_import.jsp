@@ -45,10 +45,10 @@
 						dataType:"json",
 						success:function(ret){
 							if(ret && ret.successCount>=0){
+                                $("#modal").modal('hide');
+                                $("#jqGrid").trigger("reloadGrid");
 								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条覆盖</font>';
-								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
-                                    $("#jqGrid").trigger("reloadGrid");
-								});
+								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功');
 							}
 							$btn.button('reset');
 						}

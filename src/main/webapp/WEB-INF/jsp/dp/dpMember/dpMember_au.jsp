@@ -16,7 +16,7 @@
                     <select ${not empty dpMember?"disabled data-theme='default'":""} required data-rel="select2-ajax"
                                                                                    data-ajax-url="${ctx}/dp/notDpMember_selects"
                                                                                    name="userId" data-width="270"
-                                                                                   data-placeholder="请输入账号或姓名或学工号">
+                                                                                   data-placeholder="请输入账号或姓名或工作证号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
                 </div>
@@ -57,7 +57,7 @@
             <div class="form-group">
                 <label class="col-xs-4 control-label">学历</label>
                 <div class="col-xs-6" style="width: 296px">
-                    <input class="form-control" type="text" name="educa" value="${dpMember.educa}"/>
+                    <input class="form-control" type="text" name="edu" value="${dpMember.edu}"/>
                 </div>
             </div>
             <div class="form-group">
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">兼职</label>
+                <label class="col-xs-4 control-label">兼职(其他校外职务）</label>
                 <div class="col-xs-6" style="width: 296px">
 						<textarea class="form-control limited noEnter" type="text" maxlength="100"
                                   name="partTimeJob" rows="2">${dpMember.partTimeJob}</textarea>
@@ -111,6 +111,13 @@
                 <div class="col-xs-8">
 						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
                                   name="trainState" rows="3">${dpMember.trainState}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">政治表现</label>
+                <div class="col-xs-8">
+						<textarea class="form-control limited noEnter" type="text"  maxlength="50"
+                                  name="politicalAct" rows="3">${dpMember.politicalAct}</textarea>
                 </div>
             </div>
             <div class="form-group">

@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.DpConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -47,7 +49,7 @@ public class DpNpmController extends DpBaseController {
     public String dpNpm(@RequestParam(required = false, defaultValue = "1")Byte cls,
                         Integer userId,
                         @RequestParam(required = false, value = "nation") String[] nation,
-                        @RequestParam(required = false, value = "nativePlace") String nativePlace,
+                        @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
                         ModelMap modelMap,
                         HttpServletResponse response) {
 
@@ -79,9 +81,11 @@ public class DpNpmController extends DpBaseController {
                            Integer userId,
                            String post,
                            Byte gender,
+                           String unit,
                            String education,
                            String degree,
                            Byte status,
+                           @RequestDateRange DateRange _addAime,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "nativePlace") String[] nativePlace,
                            @RequestParam(required = false, defaultValue = "1") int cls,
@@ -124,10 +128,13 @@ public class DpNpmController extends DpBaseController {
         if (StringUtils.isNotBlank(degree)) {
             criteria.andDegreeLike(SqlUtils.like(degree));
         }
+        if (StringUtils.isNotBlank(unit)) {
+            criteria.andUnitLike(SqlUtils.like(unit));
+        }
         if (userId != null){
             criteria.andUserIdEqualTo(userId);
         }
-        if (gender != null){
+        if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
         if (nation != null){
@@ -137,6 +144,12 @@ public class DpNpmController extends DpBaseController {
         if (nativePlace != null){
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
+        }
+        if (_addAime.getStart() != null){
+            criteria.andAddTimeGreaterThanOrEqualTo(_addAime.getStart());
+        }
+        if (_addAime.getEnd() != null){
+            criteria.andAddTimeLessThanOrEqualTo(_addAime.getEnd());
         }
 
         if (export == 1) {
@@ -310,7 +323,7 @@ public class DpNpmController extends DpBaseController {
                     dpNpm.setOutTime(DateUtils.parseDate(outTime, DateUtils.YYYYMMDD_DOT));
                 }
                 dpNpmService.updateByPrimaryKeySelective(dpNpm);
-                logger.info(log( LogConstants.LOG_DPPARTY, "无党派人士退出信息：%s", dpNpm.getUserId()));
+                logger.info(log( LogConstants.LOG_DPPARTY, "无党派人士移除信息：%s", dpNpm.getUserId()));
             }
 
         }
@@ -332,7 +345,7 @@ public class DpNpmController extends DpBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("dpNpm:edit")
+    /*@RequiresPermissions("dpNpm:edit")
     @RequestMapping("/dpNpm_transfer")
     public String dpNpm_transfer(){
 
@@ -359,7 +372,7 @@ public class DpNpmController extends DpBaseController {
 
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     //单独撤销单个人员
     /*@RequiresPermissions("dpNpm:edit")
@@ -475,12 +488,12 @@ public class DpNpmController extends DpBaseController {
         String[] noPartyTitles = {"姓名|100","工作证号|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","部门|250","现任职务|100","最高学历|100",
                 "最高学位|100","备注|200"};
-        String[] outTitles = {"姓名|100","工作证号|100","退出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
+        String[] outTitles = {"姓名|100","工作证号|100","移除时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","部门|250","现任职务|100","最高学历|100",
                 "最高学位|100","备注|200"};
-        String[] transferTitles = {"姓名|100","工作证号|100","转出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
+        /*String[] transferTitles = {"姓名|100","工作证号|100","转出时间|100","性别|100","民族|100","籍贯|100","出生时间|100","年龄|100",
                 "认定时间|100","部门|250","现任职务|100","最高学历|100",
-                "最高学位|100","备注|200"};
+                "最高学位|100","备注|200"};*/
         List<String[]> valuesList = new ArrayList<>();
         if (cls == 3){
             for (int i = 0; i < rownum; i++) {
@@ -556,12 +569,12 @@ public class DpNpmController extends DpBaseController {
             String fileName = String.format("无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(noPartyTitles, valuesList, fileName, response);
         }else if (cls == 2){
-            String fileName = String.format("已退出的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+            String fileName = String.format("已移除的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(outTitles, valuesList, fileName, response);
-        }else {
+        }/*else {
             String fileName = String.format("已转出的无党派人士(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
             ExportHelper.export(transferTitles, valuesList, fileName, response);
-        }
+        }*/
 
     }
 

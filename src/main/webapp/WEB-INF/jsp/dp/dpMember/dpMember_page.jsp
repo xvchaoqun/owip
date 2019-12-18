@@ -1,25 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="GENDER_UNKNOWN" value="<%=SystemConstants.GENDER_UNKNOWN%>"/>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
 <c:set var="DP_MEMBER_TYPE_TEACHER" value="<%=DpConstants.DP_MEMBER_TYPE_TEACHER%>"/>
-<c:set var="DP_MEMBER_TYPE_STUDENT" value="<%=DpConstants.DP_MEMBER_TYPE_STUDENT%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
 <c:set var="DP_MEMBER_STATUS_TRANSFER" value="<%=DpConstants.DP_MEMBER_STATUS_TRANSFER%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv " data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.unit ||not empty param.gender
-            ||not empty param.partyId ||not empty param.type || not empty selectNations ||not empty selectNativePlaces
-            ||not empty param.status ||not empty param.source ||not empty param.partyPost || not empty proPost
-            || not empty param.code || not empty param.sort ||not empty param._dpGrowTime
-            ||not empty param.isHonorRetire ||not empty param._retireTime ||not empty param.educa || not empty param.degree}"/>
+            <c:set var="_query" value="${not empty param.userId ||not empty param.unit ||not empty param.gender||not empty param.age
+            ||not empty param.partyId ||not empty param.type ||not empty selectNations ||not empty selectNativePlaces ||not empty selectAdminLevels||not empty selectPosts
+            ||not empty param.status ||not empty param.source ||not empty param.partyPost ||not empty param.proPost
+            ||not empty param._dpGrowTime ||not empty param.isPartyMember
+            ||not empty param._retireTime ||not empty param.edu ||not empty param.degree ||not empty param.politicalAct }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/dp/dpMember/dpMember_menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpMember:edit">
+                    <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/dp/dpMember_au">
+                        <i class="fa fa-plus"></i> 添加成员</a>
                     <button class="jqEditBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpMember_au"
                             data-open-by="page"
@@ -34,6 +36,13 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="dpMember:edit">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                    data-url="${ctx}/dp/dpMember_import"
+                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                    批量导入
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -83,14 +92,14 @@ pageEncoding="UTF-8" %>
                                 </c:if>
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/dp/dpMember_selects?type=${_type}&status=${_status}"
-                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                        name="userId" data-placeholder="请输入账号或姓名或工作证号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
                             </div>
                         </div>
                             <div class="form-group">
                                 <label>所在民主党派</label>
-                                <select class="form-control" data-width="300" data-rel="select2-ajax"
+                                <select class="form-control" data-width="230" data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/dp/dpParty_selects?auth=1"
                                         name="partyId" data-placeholder="请选择">
                                     <option value="${dpParty.id}" delete="${dpParty.isDeleted}">${dpParty.name}</option>
@@ -108,7 +117,9 @@ pageEncoding="UTF-8" %>
                                             data-placeholder="请选择">
                                         <option></option>
                                         <c:forEach items="${GENDER_MAP}" var="entity">
+                                            <c:if test="${entity.key!=GENDER_UNKNOWN}">
                                             <option value="${entity.key}">${entity.value}</option>
+                                            </c:if>
                                         </c:forEach>
                                     </select>
                                     <script>
@@ -142,12 +153,40 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>籍贯</label>
                                 <div class="input-group">
-                                    <select class="multiselect" name="nativePlace" multiple="">
+                                    <select class="multiselect" multiple="" name="nativePlace">
                                         <c:forEach items="${nativePlaces}" var="nativePlace">
                                             <option value="${nativePlace}">${nativePlace}</option>
                                         </c:forEach>
                                     </select>
-
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>部门名称</label>
+                                <input class="form-control search-query" name="unit" type="text" value="${param.unit}"
+                                       placeholder="请输入部门名称">
+                            </div>
+                            <div class="form-group">
+                                <label>行政级别</label>
+                                <div class="input-group">
+                                    <select class="multiselect" name="adminLevel" multiple="">
+                                        <c:forEach items="${metaAdminLevel}" var="metaType">
+                                        <c:forEach items="${adminLevels}" var="adminLevel">
+                                            <c:if test="${metaType.id==adminLevel}">
+                                            <option value="${adminLevel}">${metaType.name}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>行政职务</label>
+                                <div class="input-group">
+                                    <select class="multiselect" name="post" multiple="">
+                                        <c:forEach items="${posts}" var="post">
+                                            <option value="${post}">${post}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -161,17 +200,19 @@ pageEncoding="UTF-8" %>
                                            type="text" name="_dpGrowTime" value="${param._dpGrowTime}"/>
                                 </div>
                             </div>
-                            <%--<div class="form-group">
-                                <label>学历</label>
-                                <input class="form-control search-query" name="educa" type="text" value="${param.educa}"
-                                       placeholder="请输入学历">
-                            </div>
                             <div class="form-group">
-                                <label>学位</label>
-                                <input class="form-control search-query" name="degree" type="text" value="${param.degree}"
-                                       placeholder="请输入学位">
-                            </div>--%>
-                                <c:if test="${cls==3 || cls==7}">
+                                <label>是否是共产党员</label>
+                                <select name="isPartyMember" data-width="100" data-rel="select2"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isPartyMember]").val('${param.isPartyMember}');
+                                </script>
+                            </div>
+                                <c:if test="${cls==3 || cls==7 || cls==10}">
                                     <div class="form-group">
                                         <label>退休时间</label>
                                         <div class="input-group tooltip-success" data-rel="tooltip"
@@ -184,18 +225,6 @@ pageEncoding="UTF-8" %>
                                                    type="text" name="_retireTime"
                                                    value="${param._retireTime}"/>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>是否离休</label>
-                                        <select name="isHonorRetire" data-width="100" data-rel="select2"
-                                                data-placeholder="请选择">
-                                            <option></option>
-                                            <option value="1">是</option>
-                                            <option value="0">否</option>
-                                        </select>
-                                        <script>
-                                            $("#searchForm select[name=isHonorRetire]").val('${param.isHonorRetire}');
-                                        </script>
                                     </div>
                                 </c:if>
                             <div class="clearfix form-actions center">
@@ -251,6 +280,8 @@ pageEncoding="UTF-8" %>
     }
 
     $('#searchForm [data-rel="select2"]').select2();
+    $.register.multiselect($('#searchForm select[name=post]'), ${cm:toJSONArray(selectPosts)});
+    $.register.multiselect($('#searchForm select[name=adminLevel]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNations)});
     $.register.multiselect($('#searchForm select[name=nativePlace]'), ${cm:toJSONArray(selectNativePlaces)});
 
@@ -264,6 +295,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/dp/dpMember_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname: 'dpParty',
         colModel: [
+            {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                         if (rowObject.userId > 0 && $.trim(cellvalue) != '')
@@ -272,7 +304,6 @@ pageEncoding="UTF-8" %>
                         return $.trim(cellvalue);
                 }, frozen: true
             },
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
             <c:if test="${cls==7}">
             {
                 label: '转出时间',
@@ -292,7 +323,7 @@ pageEncoding="UTF-8" %>
                     return $.yearOffNow(cellvalue);
                 },},
             {
-                label: '所属党派', name: 'dpParty.name', width: 300, formatter: function (cellvalue, options, rowObject) {
+                label: '所属党派', name: 'dpParty.name', width: 200, formatter: function (cellvalue, options, rowObject) {
                     var _dpPartyView = null;
                     if ($.inArray("dpParty:list", _permissions) >= 0 || $.inArray("dpParty:*", _permissions) >= 0)
                         _dpPartyView = '<a href="javascript:;" class="openView" data-url="{2}/dp/dpParty_view?id={0}">{1}</a>'
@@ -303,13 +334,13 @@ pageEncoding="UTF-8" %>
                     return "--";
                 }, sortable: true
             },
-            {label: '党派内职务', name: 'dpPost', width: 180},
             {label: '部门', name: 'unit', width: 200},
-            {label: '兼职', name: 'partTimeJob', width: 180},
+            {label: '党派内职务', name: 'dpPost', width: 180},
+            {label: '兼职（其他校外职务）', name: 'partTimeJob', width: 180},
             {label: '行政职务', name: 'post', width: 180},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职称', name: 'proPost'},
-            {label: '是否是共产党员', name: 'isPartyMember', width: 120},
+            {label: '是否是共产党员', name: 'isPartyMember', width: 120, formatter:$.jgrid.formatter.TRUEFALSE},
             {
                 label: '加入党派时间',
                 name: 'dpGrowTime',
@@ -318,12 +349,28 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
+            {
+                label: '人大代表、政协委员', name: 'types', width: 270, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--';
+                    var typeIdStrs = [];
+                    var typeIds = cellvalue.split(",");
+                    for(i in typeIds){
+                        var typeId = typeIds[i];
+                        //console.log(typeId)
+                        if(typeId instanceof Function == false)
+                            typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
+                    }
+                    //console.log(typeIdStrs)
+                    return typeIdStrs.join(",");
+                }
+            },
             {label: '培训情况', name: 'trainState', width: 200},
+            {label: '政治表现', name: 'politicalAct', width: 200},
             {label: '党内奖励', name: 'partyReward', width: 200},
             {label: '其他奖励', name: 'otherReward', width: 200},
             {label: '通讯地址', name: 'address', width: 200},
             <c:if test="${cls==2 || cls==7}">
-            {label: '学历', name: 'educa', width: 120},
+            {label: '学历', name: 'edu', width: 120},
             {label: '学位', name: 'degree', width: 120},
             {label: '联系手机', name: 'mobile', width: 120},
             </c:if>

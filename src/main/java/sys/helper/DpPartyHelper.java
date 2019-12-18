@@ -3,6 +3,7 @@ package sys.helper;
 import domain.dp.DpParty;
 import org.apache.shiro.authz.UnauthorizedException;
 import service.dp.DpPartyMemberService;
+import service.dp.DpPrCmService;
 import service.dp.dpCommon.DpCommonService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -10,6 +11,7 @@ import sys.tags.CmTag;
 
 public class DpPartyHelper {
 
+    private static DpPrCmService dpPrCmService = CmTag.getBean(DpPrCmService.class);
     private static DpCommonService dpCommonService = CmTag.getBean(DpCommonService.class);
     private static DpPartyMemberService dpPartyMemberService = CmTag.getBean(DpPartyMemberService.class);
 
@@ -42,6 +44,11 @@ public class DpPartyHelper {
     public static DpParty getDpPartyByGroupId(Integer groupId){
         if (groupId == null) return null;
         return dpCommonService.getDpPartyByGroupId(groupId);
+    }
+
+    public static String getTypes(Integer userId){
+        if (userId == null) return null;
+        return dpPrCmService.getTypesByUserId(userId);
     }
 
 }

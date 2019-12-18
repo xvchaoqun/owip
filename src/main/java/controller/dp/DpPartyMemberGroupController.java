@@ -57,13 +57,19 @@ public class DpPartyMemberGroupController extends DpBaseController {
     @RequiresPermissions("dpPartyMemberGroup:list")
     @RequestMapping("/dpPartyMemberGroup")
     public String dpPartyMemberGroup(ModelMap modelMap,
+            Integer id,
             Integer partyId,
             Integer userId,
+            Integer groupPartyId,
             @RequestParam(required = false, value = "typeIds") Integer typeIds,
             @RequestParam(required = false, defaultValue = "1") Byte status) {
 
         modelMap.put("status", status);
 
+        if (null != id){
+            DpPartyMemberGroup dpPartyMemberGroup = dpPartyMemberGroupMapper.selectByPrimaryKey(id);
+            modelMap.put("dpPartyMemberGroup", dpPartyMemberGroup);
+        }
         if (null != partyId){
             modelMap.put("dpParty", dpPartyService.findAll().get(partyId));
         }
@@ -74,6 +80,9 @@ public class DpPartyMemberGroupController extends DpBaseController {
             if (null != typeIds){
                 List<Integer> _typeIds = Arrays.asList(typeIds);
                 modelMap.put("selectedTypeIds", _typeIds);
+            }
+            if (null != groupPartyId){
+                modelMap.put("dpParty", dpPartyService.findAll().get(groupPartyId));
             }
             return "dp/dpPartyMemberGroup/dpPartyMember";
         }
@@ -93,6 +102,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
                                         String groupSession,
                                         @RequestDateRange DateRange _appointTime,
                                         @RequestDateRange DateRange _tranTime,
+                                        @RequestDateRange DateRange _actualTranTime,
                                         @RequestParam(required = false, defaultValue = "0") int export,
                                         @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                         Integer pageSize, Integer pageNo)  throws IOException{
@@ -135,6 +145,12 @@ public class DpPartyMemberGroupController extends DpBaseController {
         }
         if (null != _tranTime.getEnd()){
             criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
+        }
+        if (null != _actualTranTime.getStart()){
+            criteria.andActualTranTimeGreaterThanOrEqualTo(_actualTranTime.getStart());
+        }
+        if (null != _actualTranTime.getEnd()){
+            criteria.andActualTranTimeLessThanOrEqualTo(_actualTranTime.getEnd());
         }
         if (null != groupSession){
             criteria.andGroupSessionEqualTo(groupSession);
@@ -259,6 +275,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
             List<DpPartyMemberGroup> dpPartyMemberGroups = dpPartyMemberGroupMapper.selectByExample(example);
             for (DpPartyMemberGroup dpPartyMemberGroup : dpPartyMemberGroups){
                 dpPartyMemberGroup.setIsDeleted(true);
+                dpPartyMemberGroup.setIsPresent(false);
                 if (StringUtils.isNotBlank(actualTranTime)){
                     dpPartyMemberGroup.setActualTranTime(DateUtils.parseDate(actualTranTime, DateUtils.YYYYMMDD_DOT));
                 }
@@ -285,16 +302,16 @@ public class DpPartyMemberGroupController extends DpBaseController {
     }
 
     @RequiresPermissions("dpPartyMemberGroup:del")
-    @RequestMapping(value = "/dpPartyMemberGroup_batchDel", method = RequestMethod.POST)
+    @RequestMapping(value = "/dpPartyMemberGroup_recover", method = RequestMethod.POST)
     @ResponseBody
-    public Map dpPartyMemberGroup_batchDel(HttpServletRequest request,
+    public Map dpPartyMemberGroup_recover(HttpServletRequest request,
                                            @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                                            @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            dpPartyMemberGroupService.batchDel(ids,isDeleted);
-            logger.info(log( LogConstants.LOG_DPPARTY, "撤销民主党派委员会：%s", StringUtils.join(ids, ",")));
+            dpPartyMemberGroupService.recover(ids,isDeleted);
+            logger.info(log( LogConstants.LOG_DPPARTY, "恢复民主党派委员会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -328,7 +345,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
         List<DpPartyMemberGroup> records = dpPartyMemberGroupMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"名称|250|left", "所属党派|250|left", "是否现任委员会|70", "委员会届数|70", "应换届时间|100", "实际换届时间|110", "成立时间|100", "备注|200"};
+        String[] titles = {"名称|200|left","所属党派|200|left","是否现任委员会|70","委员会届数|70","成立时间|100","应换届时间|100","移除时间|110","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DpPartyMemberGroup record = records.get(i);
@@ -345,12 +362,12 @@ public class DpPartyMemberGroupController extends DpBaseController {
 
             String[] values = {
                             record.getName(),
-                            partyId == null ? "" : dpPartyService.findAll().get(partyId).getName(),
+                            partyId == null ? "" : (dpPartyService.findAll().get(partyId) == null ? "" : dpPartyService.findAll().get(partyId).getName()),
                             BooleanUtils.isTrue(record.getIsPresent()) ? "是" : "否",
                             record.getGroupSession(),
+                            DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
                             DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
-                            DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                             record.getRemark()
             };
             valuesList.add(values);
