@@ -53,15 +53,9 @@
     $(function () {
         $("#stat_member_age ul li").click(function () {
 
-            var partyId = "${partyId}";
-            var url = "${ctx}/stat_member_age";
+            var url = "${ctx}/${isPartyAdmin?'stat_party_member_age':'stat_member_age'}";
 
-            //console.log(partyId);
-            <shiro:hasPermission name="stat:party">
-            url = "${ctx}/stat_party_member_age";
-            </shiro:hasPermission>
-
-            $.get(url, {type: $(this).data('type'),partyId: partyId}, function (html) {
+            $.get(url, {type: $(this).data('type'),partyId: "${partyId}"}, function (html) {
                 $("#stat_member_age").replaceWith(html);
             });
         });

@@ -554,14 +554,17 @@ public class PartyController extends BaseController {
             if (!ShiroHelper.isPermitted("branchIntegrity:*")){
                 throw new OpException("您没有权限查看");
             }
-            Map integrityMap = partyService.getBranchIntegrity(userId,partyId);
-            modelMap.put("integrityMap",integrityMap);
 
+            //查询所管理的分党委，如果是党建管理员则查询所有分党委
             List<Party> parties = partyService.getPartysByUserId(userId);
             modelMap.put("partys",parties);
 
+            //
             if (parties.size()>0 && partyId==null)
                 partyId = parties.get(0).getId();
+
+            Map integrityMap = partyService.getBranchIntegrity(partyId);
+            modelMap.put("integrityMap",integrityMap);
 
             modelMap.put("partyId",partyId);
             return "party/stat_integrity_branch";

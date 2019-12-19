@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import shiro.ShiroHelper;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -328,12 +329,7 @@ public class PartyService extends BaseMapper {
         return allMap;
     }
 
-    public Map getBranchIntegrity(Integer userId,Integer partyId){
-
-        List<Integer> adminPartyIdList = iPartyMapper.adminPartyIdList(userId);//用户所管理的分党委ID
-
-        if (partyId==null && adminPartyIdList.size()>0)//如果partyId为null 默认显示所管理的第一个分党委信息
-            partyId=adminPartyIdList.get(0);
+    public Map getBranchIntegrity(Integer partyId){
 
         if (partyId == null) return new HashMap();
 
@@ -343,7 +339,6 @@ public class PartyService extends BaseMapper {
 
         BranchExample example = new BranchExample();
         example.createCriteria().andIsDeletedEqualTo(false)
-                .andIntegrityNotEqualTo(new BigDecimal(1))
                 .andPartyIdEqualTo(partyId);
 
         List<Branch> branches = branchMapper.selectByExample(example);
@@ -364,12 +359,20 @@ public class PartyService extends BaseMapper {
 
         List<Integer> adminPartyIdList = iPartyMapper.adminPartyIdList(userId);
 
-        if (adminPartyIdList.size()==0)
-            return new ArrayList<>();
-
         PartyExample partyExample = new PartyExample();
-        partyExample.createCriteria().andIdIn(adminPartyIdList).andIsDeletedEqualTo(false);
+        partyExample.setOrderByClause("sort_order desc");
+        PartyExample.Criteria criteria = partyExample.createCriteria();
+        criteria.andIsDeletedEqualTo(false);
 
-        return partyMapper.selectByExample(partyExample);
+        if (ShiroHelper.isPermitted("partyIntegrity:*"))//如果是党建管理员
+            return partyMapper.selectByExample(partyExample);
+
+        if (adminPartyIdList.size()>0){//如果所管理的分党委不为null
+
+            criteria.andIdIn(adminPartyIdList);
+            return partyMapper.selectByExample(partyExample);
+            }
+
+        return new ArrayList<>();
     }
 }

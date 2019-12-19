@@ -60,12 +60,14 @@ public class StatPartyController extends BaseController {
             if (type != null) {
                 modelMap.put("otherMap", statService.otherMap(type, partyId));
             }
-            modelMap.put("type", type);
+
             modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
             modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
             modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
         }
 
+        modelMap.put("isPartyAdmin",true);
+        modelMap.put("type", type);
         modelMap.put("partyId", partyId);
         return "analysis/ow/stat_member_count";
     }
@@ -75,10 +77,11 @@ public class StatPartyController extends BaseController {
     public String stat_member_age(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         if (partyId != null) {
-            modelMap.put("type", type);
             modelMap.put("statAgeMap", statService.ageMap(type, partyId, branchId));
         }
 
+        modelMap.put("isPartyAdmin",true);
+        modelMap.put("type", type);
         modelMap.put("partyId", partyId);
         return "analysis/ow/stat_member_age";
     }
@@ -88,9 +91,10 @@ public class StatPartyController extends BaseController {
     public String stat_member_apply(Byte type, Integer partyId, Integer branchId, ModelMap modelMap) {
 
         if (partyId != null) {
-            modelMap.put("type", type);
             modelMap.put("statApplyMap", statService.applyMap(type, partyId, branchId));
         }
+
+        modelMap.put("type", type);
         return "analysis/ow/stat_member_apply";
     }
 
