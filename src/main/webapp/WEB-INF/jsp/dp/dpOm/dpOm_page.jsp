@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="DP_MEMBER_TYPE_OM" value="<%=DpConstants.DP_MEMBER_TYPE_OM%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -22,23 +23,28 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="dpOm:del">
                     <c:if test="${cls==1}">
-                    <button data-url="${ctx}/dp/dpOm_cancel"
-                            data-title="移除"
-                            data-msg="确定移除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 移除
-                    </button>
+                        <shiro:hasPermission name="dpOm:del">
+                            <button data-url="${ctx}/dp/dpOm_cancel"
+                                    data-title="移除"
+                                    data-msg="确定移除这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqOpenViewBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-minus-square"></i> 移除
+                            </button>
+                        </shiro:hasPermission>
                     </c:if>
-                    <button data-url="${ctx}/dp/dpOm_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
+                    <c:if test="${cls!=2}">
+                        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                                data-url="${ctx}/dp/dpOm_import"
+                                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                            批量导入
+                        </button>
+                    </c:if>
+                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            data-url="${ctx}/dp/dpOm_data?cls=${cls}"
+                            data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                        <i class="fa fa-download"></i> 导出</button>
                     <c:if test="${cls!=1}">
                         <shiro:hasPermission name="dpOm:del">
                             <a class="jqBatchBtn btn btn-success btn-sm"
@@ -46,18 +52,21 @@ pageEncoding="UTF-8" %>
                                data-msg="确定恢复这{0}个其他统战人员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
                         </shiro:hasPermission>
                     </c:if>
-                </shiro:hasPermission>
-                <c:if test="${cls!=2}">
-                <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                        data-url="${ctx}/dp/dpOm_import"
-                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                    批量导入
-                </button>
+                <c:if test="${cls==1}">
+                    <a data-type="${DP_MEMBER_TYPE_OM}" class="syncBtn btn btn-success btn-sm"
+                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
+                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
                 </c:if>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dp/dpOm_data?cls=${cls}"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
+                   <shiro:hasPermission name="dpOm:del">
+                        <button data-url="${ctx}/dp/dpOm_batchDel"
+                                data-title="删除"
+                                data-msg="确定删除这{0}条数据？"
+                                data-grid-id="#jqGrid"
+                                class="jqBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
+                        </button>
+                   </shiro:hasPermission>
+
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -164,6 +173,31 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    //同步干部档案表信息至统战模块
+    var interval = null;
+    clearInterval(interval);
+    $(".syncBtn").click(function(){
+        var $this = $(this);
+        bootbox.confirm("确认" + $.trim($this.text()) + "（会用干部档案表的信息覆盖属于干部身份的统战人员的档案表信息，确认继续同步）？", function (result) {
+            if (result) {
+                var $btn = $this.button('loading')
+                $.post("${ctx}/dp/dpSyncCadreInfo",{cls:$this.data("type")},function(ret){
+                    if(ret.success){
+                        SysMsg.success('干部档案表信息同步完成！');
+                        $.reloadMetaData(function () {
+                            $btn.button('reset');
+                        });
+                        //clearTimeout(t);
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                });
+                clearInterval(interval);
+            }
+        });
+    });
+
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
         //console.log($(e.target).hasClass("jqExportBtn"))
         if (!$(e.target).hasClass("jqExportBtn")) {

@@ -397,7 +397,7 @@ public class DpPartyMemberController extends DpBaseController {
                     sysUserView.getCode(),
                     sysUserView.getRealname(),
                     record.getUnit(),
-                    dpPartyMap.get(dpPartyMemberGroup.getPartyId()).getName(),
+                    dpPartyMap.get(dpPartyMemberGroup.getPartyId()) == null ? null : dpPartyMap.get(dpPartyMemberGroup.getPartyId()).getName(),
                     metaTypeService.getName(record.getPostId()),
 
                     StringUtils.join(typeNames, ","),//分工

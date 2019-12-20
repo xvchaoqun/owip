@@ -8,6 +8,22 @@ import java.util.Map;
 
 public class DpConstants {
 
+    //民主党派人员类型
+    public final static byte DP_MEMBER_TYPE_MEMBER = 1;
+    public final static byte DP_MEMBER_TYPE_NPM= 2;
+    public final static byte DP_MEMBER_TYPE_OM = 3;
+    public final static byte DP_MEMBER_TYPE_NPR = 4;
+    public final static byte DP_MEMBER_TYPE_PRCM = 5;
+    public final static Map<Byte, String> DP_TYPE_MAP = new LinkedHashMap<>();
+
+    static{
+        DP_TYPE_MAP.put(DP_MEMBER_TYPE_MEMBER, "民主党派成员");
+        DP_TYPE_MAP.put(DP_MEMBER_TYPE_NPM, "无党派人士");
+        DP_TYPE_MAP.put(DP_MEMBER_TYPE_OM, "其他统战人员");
+        DP_TYPE_MAP.put(DP_MEMBER_TYPE_NPR, "党外代表人士");
+        DP_TYPE_MAP.put(DP_MEMBER_TYPE_PRCM, "人大代表、政协委员");
+    }
+
     //党员年龄段
     public final static byte DP_MEMBER_AGE_20 = 1;//20及以下
     public final static byte DP_MEMBER_AGE_21_30= 2;

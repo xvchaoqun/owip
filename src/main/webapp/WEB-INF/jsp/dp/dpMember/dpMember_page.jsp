@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="DP_MEMBER_TYPE_MEMBER" value="<%=DpConstants.DP_MEMBER_TYPE_MEMBER%>"/>
 <c:set var="DP_MEMBER_SOURCE_MAP" value="<%=DpConstants.DP_MEMBER_SOURCE_MAP%>"/>
 <c:set var="DP_MEMBER_TYPE_TEACHER" value="<%=DpConstants.DP_MEMBER_TYPE_TEACHER%>"/>
 <c:set var="DP_MEMBER_STATUS_NORMAL" value="<%=DpConstants.DP_MEMBER_STATUS_NORMAL%>"/>
@@ -19,8 +20,10 @@ pageEncoding="UTF-8" %>
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpMember:edit">
+                    <c:if test="${cls!=7}">
                     <a href="javascript:;" class="openView btn btn-info btn-sm" data-url="${ctx}/dp/dpMember_au">
                         <i class="fa fa-plus"></i> 添加成员</a>
+                    </c:if>
                     <button class="jqEditBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpMember_au"
                             data-open-by="page"
@@ -28,6 +31,36 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改成员信息</button>
                 </shiro:hasPermission>
+                <c:if test="${cls!=7}">
+                    <shiro:hasPermission name="dpMember:del">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpMember_out" data-title="移除民主党派"
+                           data-msg="确定移除这{0}个党派成员吗？"><i class="fa fa-minus-square"></i> 移除</a>
+                    </shiro:hasPermission>
+                <shiro:hasPermission name="dpMember:edit">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                    data-url="${ctx}/dp/dpMember_import"
+                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                    批量导入
+                    </button>
+                </shiro:hasPermission>
+                </c:if>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/dp/dpMember_data?cls=${cls}"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
+                <c:if test="${cls!=7}">
+                    <a data-type="${DP_MEMBER_TYPE_MEMBER}" class="syncBtn btn btn-success btn-sm"
+                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
+                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
+                </c:if>
+                <c:if test="${cls==7}">
+                    <shiro:hasPermission name="dpMember:del">
+                        <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-url="${ctx}/dp/dpMember_recover" data-title="恢复党派成员身份"
+                           data-msg="确定恢复这{0}个党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
+                    </shiro:hasPermission>
+                </c:if>
                 <shiro:hasPermission name="dpMember:del">
                     <button data-url="${ctx}/dp/dpMember_batchDel"
                             data-title="删除"
@@ -37,31 +70,6 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="dpMember:edit">
-                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                    data-url="${ctx}/dp/dpMember_import"
-                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                    批量导入
-                    </button>
-                </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                        data-url="${ctx}/dp/dpMember_data?cls=${cls}"
-                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
-                <c:if test="${cls!=7}">
-                    <shiro:hasPermission name="dpMember:del">
-                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpMember_out" data-title="转出民主党派"
-                           data-msg="确定转出这{0}个党派成员吗？"><i class="fa fa-history"></i> 转出</a>
-                    </shiro:hasPermission>
-                </c:if>
-                <c:if test="${cls==7}">
-                    <shiro:hasPermission name="dpMember:del">
-                        <a class="jqBatchBtn btn btn-success btn-sm"
-                           data-url="${ctx}/dp/dpMember_recover" data-title="恢复党派成员身份"
-                           data-msg="确定恢复这{0}个党派成员身份吗？"><i class="fa fa-reply"></i> 恢复</a>
-                    </shiro:hasPermission>
-                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -251,6 +259,31 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    //同步干部档案表信息至统战模块
+    var interval = null;
+    clearInterval(interval);
+    $(".syncBtn").click(function(){
+        var $this = $(this);
+        bootbox.confirm("确认" + $.trim($this.text()) + "（会用干部档案表的信息覆盖属于干部身份的统战人员的档案表信息，确认继续同步）？", function (result) {
+            if (result) {
+                var $btn = $this.button('loading')
+                $.post("${ctx}/dp/dpSyncCadreInfo",{cls:$this.data("type")},function(ret){
+                    if(ret.success){
+                        SysMsg.success('干部档案表信息同步完成！');
+                        $.reloadMetaData(function () {
+                            $btn.button('reset');
+                        });
+                        //clearTimeout(t);
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                });
+                clearInterval(interval);
+            }
+        });
+    });
+
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
         //console.log($(e.target).hasClass("jqExportBtn"))
         if (!$(e.target).hasClass("jqExportBtn")) {

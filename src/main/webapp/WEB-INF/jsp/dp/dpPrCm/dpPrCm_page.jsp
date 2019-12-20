@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="DP_MEMBER_TYPE_PRCM" value="<%=DpConstants.DP_MEMBER_TYPE_PRCM%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -22,22 +23,6 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="dpPrCm:del">
-                    <%--<c:if test="${cls==1}">
-                    <button class="jqOpenViewBatchBtn btn btn-danger  btn-sm"
-                            data-url="${ctx}/dp/dpPrCm_cancel?type=${param.type}"
-                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        到届撤销</button>
-                    </button>
-                    </c:if>--%>
-                    <button data-url="${ctx}/dp/dpPrCm_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>
                 <c:if test="${cls==1}">
                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
                         data-url="${ctx}/dp/dpPrCm_import"
@@ -56,6 +41,27 @@ pageEncoding="UTF-8" %>
                            data-msg="确定恢复这{0}个人大代表或政协委员吗？"><i class="fa fa-reply"></i> 恢复</a>
                     </shiro:hasPermission>
                 </c:if>
+                <c:if test="${cls==1}">
+                    <a data-type="${DP_MEMBER_TYPE_PRCM}" class="syncBtn btn btn-success btn-sm"
+                       data-loading-text="<i class='fa fa-refresh fa-spin'></i> 干部档案表信息同步中..."
+                       autocomplete="off"><i class="fa fa-refresh"></i> 干部档案表信息同步</a>
+                </c:if>
+                <shiro:hasPermission name="dpPrCm:del">
+                    <%--<c:if test="${cls==1}">
+                    <button class="jqOpenViewBatchBtn btn btn-danger  btn-sm"
+                            data-url="${ctx}/dp/dpPrCm_cancel?type=${param.type}"
+                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        到届撤销</button>
+                    </button>
+                    </c:if>--%>
+                    <button data-url="${ctx}/dp/dpPrCm_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -99,11 +105,7 @@ pageEncoding="UTF-8" %>
                                 <label>所属类别</label>
                                 <select class="multiselect" name="type" multiple="">
                                     <c:forEach items="${metaTypes}" var="metaType">
-                                        <c:forEach items="${types}" var="type">
-                                            <c:if test="${metaType.id==type}">
-                                                <option value="${type}">${metaType.name}</option>
-                                            </c:if>
-                                        </c:forEach>
+                                                <option value="${metaType.id}">${metaType.name}</option>
                                     </c:forEach>
                                 </select>
                                 </select>
@@ -156,6 +158,31 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+
+    //同步干部档案表信息至统战模块
+    var interval = null;
+    clearInterval(interval);
+    $(".syncBtn").click(function(){
+        var $this = $(this);
+        bootbox.confirm("确认" + $.trim($this.text()) + "（会用干部档案表的信息覆盖属于干部身份的统战人员的档案表信息，确认继续同步）？", function (result) {
+            if (result) {
+                var $btn = $this.button('loading')
+                $.post("${ctx}/dp/dpSyncCadreInfo",{cls:$this.data("type")},function(ret){
+                    if(ret.success){
+                        SysMsg.success('干部档案表信息同步完成！');
+                        $.reloadMetaData(function () {
+                            $btn.button('reset');
+                        });
+                        //clearTimeout(t);
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                });
+                clearInterval(interval);
+            }
+        });
+    });
+
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
         //console.log($(e.target).hasClass("jqExportBtn"))
         if (!$(e.target).hasClass("jqExportBtn")) {

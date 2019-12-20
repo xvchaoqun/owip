@@ -1,4 +1,36 @@
 
+-- 20191220  ly 党内奖励
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2521, 0, '奖励情况', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpReward:list', NULL, NULL, NULL, 1, 95);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2522, 0, '奖励情况编辑', '', 'function', '', NULL, 2521, '0/1/2574/2521/', 1, 'dpReward:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2523, 0, '奖励情况删除', '', 'function', '', NULL, 2521, '0/1/2574/2521/', 1, 'dpReward:del', NULL, NULL, NULL, 1, NULL);
+
+UPDATE `db_owip`.`base_meta_type` SET `name`='其他人大代表、政协委员' WHERE  `code`='mt_vbnycy';
+DELETE FROM `db_owip`.`base_meta_type` WHERE  `code`='mt_cgcxva';
+
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2606, NULL, '民主党派奖励情况', '统战信息管理', '党派成员档案表', 'mc_dp_reward_type', '', '', '', 2612, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '其他奖励', 'mt_2tinxl', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (2606, '党派内奖励', 'mt_ev1plk', NULL, '', '', 1, 1);
+
+CREATE TABLE IF NOT EXISTS `dp_reward` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '所属统战人员',
+  `reward_level` int(10) unsigned DEFAULT NULL COMMENT '奖励级别',
+  `reward_time` date DEFAULT NULL COMMENT '日期',
+  `name` varchar(200) DEFAULT NULL COMMENT '获得奖项',
+  `unit` varchar(300) DEFAULT NULL COMMENT '颁奖单位',
+  `proof` varchar(255) DEFAULT NULL COMMENT '获奖证书',
+  `proof_filename` varchar(255) DEFAULT NULL COMMENT '获奖证书文件名',
+  `is_independent` tinyint(1) unsigned DEFAULT '0' COMMENT '是否独立获奖',
+  `rank` int(10) unsigned DEFAULT NULL COMMENT '排名',
+  `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录',
+  `reward_type` int(10) unsigned NOT NULL COMMENT '类别（元数据）， 党派内奖励 其他奖励情况',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='统战人员奖励信息';
+
 
 -- 20191218 ly 统战的view也都更新了 dp_member、dp_pr_cm表更新
 

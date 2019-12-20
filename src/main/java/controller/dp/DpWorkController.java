@@ -70,7 +70,7 @@ public class DpWorkController extends DpBaseController {
 
         DpWorkExample example = new DpWorkExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("start_time asc");
 
         if (endTime!=null) {
         criteria.andEndTimeGreaterThan(endTime);

@@ -205,6 +205,18 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertSelectiveSync" parameterType="domain.dp.DpWork" useGeneratedKeys="true" keyProperty="id">
+    insert into dp_work (id, fid, is_edu_work,
+      sub_work_count, user_id, start_time,
+      end_time, detail, unit_ids,
+      work_types, is_cadre, remark,
+      status)
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{isEduWork,jdbcType=BIT},
+      #{subWorkCount,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE},
+      #{endTime,jdbcType=DATE}, #{detail,jdbcType=VARCHAR}, #{unitIds,jdbcType=VARCHAR},
+      #{workTypes,jdbcType=VARCHAR}, #{isCadre,jdbcType=BIT}, #{remark,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT})
+  </insert>
   <select id="countByExample" parameterType="domain.dp.DpWorkExample" resultType="java.lang.Long">
     select count(*) from dp_work
     <if test="_parameter != null">

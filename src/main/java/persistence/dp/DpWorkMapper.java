@@ -16,6 +16,8 @@ public interface DpWorkMapper {
 
     int insert(DpWork record);
 
+    int insertSelectiveSync(DpWork record);
+
     int insertSelective(DpWork record);
 
     List<DpWork> selectByExampleWithRowbounds(DpWorkExample example, RowBounds rowBounds);

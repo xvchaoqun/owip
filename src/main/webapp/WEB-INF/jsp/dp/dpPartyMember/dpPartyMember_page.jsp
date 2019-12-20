@@ -20,17 +20,10 @@
                             data-msg="确定移除这{0}条数据？"
                             data-grid-id="#jqGrid2"
                             class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-history"></i> 移除
+                        <i class="fa fa-minus-square"></i> 移除
                     </button>
                     </c:if>
                     <c:if test="${cls==0}">
-                    <button data-url="${ctx}/dp/dpPartyMember_del"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid2"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> 删除
-                    </button>
                         <button data-url="${ctx}/dp/dpPartyMember_recover"
                                 data-title="恢复"
                                 data-msg="确定恢复这{0}条数据？"
@@ -39,6 +32,13 @@
                             <i class="fa fa-history"></i> 恢复
                         </button>
                     </c:if>
+                    <button data-url="${ctx}/dp/dpPartyMember_del"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid2"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
                 </shiro:hasPermission>
                 <c:if test="${!dpPartyMemberGroup.isPresent}">
                     <span style="color: red;font-size: 12px">【注：当前委员会不是当届委员会，只有成为当届委员会后，设置的管理员才生效】</span>

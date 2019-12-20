@@ -15,6 +15,6 @@
       全部民主党派成员(${cm:trimToZero(teacher_normalCount + teacher_retireCount)})</a>
   </li>
   <li class="${cls==7?'active':''}">
-    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=7"}><i class="fa fa-th${cls==7?'-large':''}"></i> 已转出党派成员(${cm:trimToZero(teacher_transferCount)})</a>
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=7"}><i class="fa fa-th${cls==7?'-large':''}"></i> 已移除党派成员(${cm:trimToZero(teacher_transferCount)})</a>
   </li>
 </ul>

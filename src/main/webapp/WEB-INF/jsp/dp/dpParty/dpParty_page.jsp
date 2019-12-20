@@ -22,24 +22,23 @@ pageEncoding="UTF-8" %>
                     <button class="jqEditBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpParty_au?cls=${cls}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改信息</button>
+                        修改</button>
                     <c:if test="${cls==1}">
+                            <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                               data-url="${ctx}/dp/dpParty_cancel" data-title="移除民主党派"
+                               data-msg="确定移除这{0}个民主党派吗？"><i class="fa fa-minus-square"></i> 移除</a>
                     <button class="popupBtn btn btn-info btn-sm tooltip-info"
                             data-url="${ctx}/dp/dpParty_import"
                             data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                         批量导入
                     </button>
                     </c:if>
+                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            data-url="${ctx}/dp/dpParty_data"
+                            data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                        <i class="fa fa-download"></i> 导出</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="dpParty:del">
-                    <button data-url="${ctx}/dp/dpParty_del"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>
+
                 <shiro:hasPermission name="dpOrgAdmin:list">
                 <button data-url="${ctx}/dp/dp_org_admin"
                         data-id-name="partyId" class="jqOpenViewBtn btn btn-warning btn-sm">
@@ -52,18 +51,6 @@ pageEncoding="UTF-8" %>
                         data-open-by="page">
                     <i class="fa fa-sign-in"></i> 查看操作记录
                 </button>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                        data-url="${ctx}/dp/dpParty_data"
-                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
-                    <c:if test="${cls==1}">
-                        <shiro:hasPermission name="dpParty:edit">
-                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpParty_cancel" data-title="移除民主党派"
-                           data-msg="确定移除这{0}个民主党派吗？"><i class="fa fa-history"></i> 移除</a>
-                        【注：撤销操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
-                        </shiro:hasPermission>
-                    </c:if>
                 <c:if test="${cls==2}">
                     <shiro:hasPermission name="dpParty:edit">
                         <a class="jqBatchBtn btn btn-success btn-sm"
@@ -71,8 +58,22 @@ pageEncoding="UTF-8" %>
                            data-querystr="isDeleted=0"
                            data-title="恢复已移除民主党派"
                            data-msg="确定恢复这{0}个民主党派吗？"><i class="fa fa-reply"></i> 恢复</a>
-                        【注：恢复操作之后需要重新设置委员会及相关管理员权限！】
                     </shiro:hasPermission>
+                </c:if>
+                <shiro:hasPermission name="dpParty:del">
+                    <button data-url="${ctx}/dp/dpParty_del"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+                <c:if test="${cls==1}">
+                    【注：移除操作将删除其下所有的委员会和相关管理员权限，请谨慎操作！】
+                </c:if>
+                <c:if test="${cls==2}">
+                    【注：恢复操作之后需要重新设置委员会及相关管理员权限！】
                 </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

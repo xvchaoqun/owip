@@ -26,6 +26,10 @@
                         </li>
                         <li>
                             <a href="javascript:;"
+                               data-url="${ctx}/dp/dpReward?userId=${param.userId}">奖励情况</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;"
                                data-url="${ctx}/dp/dpFamily?userId=${param.userId}">家庭成员情况</a>
                         </li>
                         <li>

@@ -20,8 +20,13 @@ pageEncoding="UTF-8" %>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/dp/dpPartyMemberGroup_au?status=${status}"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改信息</button>
+                        修改</button>
                 <c:if test="${status>=0}">
+                    <shiro:hasPermission name="dpPartyMemberGroup:del">
+                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="移除委员会"
+                           data-msg="确定移除这{0}个委员会吗？"><i class="fa fa-minus-square"></i> 移除</a>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="dpPartyMemberGroup:realDel">
                         <div class="btn-group">
                             <button data-toggle="dropdown"
@@ -52,28 +57,23 @@ pageEncoding="UTF-8" %>
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
                 <c:if test="${status>=0}">
-                    <shiro:hasPermission name="dpPartyMemberGroup:del">
-                        <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_cancel" data-title="移除委员会"
-                           data-msg="确定移除这{0}个委员会吗？"><i class="fa fa-history"></i> 移除</a>
-                        【注：移除操作将同时删除相关管理员，请谨慎操作！】
-                    </shiro:hasPermission>
+                    【注：移除操作将同时删除相关管理员，请谨慎操作！】
                 </c:if>
                 <c:if test="${status==-1}">
-                    <shiro:hasPermission name="dpPartyMemberGroup:realDel">
-                        <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/dp/dpPartyMemberGroup_realDel"
-                           data-title="删除领导班子"
-                           data-msg="确定完全删除这{0}个委员会吗？（不可恢复，请谨慎操作！）"><i class="fa fa-trash"></i> 完全删除</a>
-                    </shiro:hasPermission>
                     <shiro:hasPermission name="dpPartyMemberGroup:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/dp/dpPartyMemberGroup_recover"
                            data-querystr="isDeleted=0"
                            data-title="恢复已删除委员会"
                            data-msg="确定恢复这{0}个委员会吗？"><i class="fa fa-reply"></i> 恢复</a>
-                        【注：恢复操作之后需要重新设置相关管理员！】
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="dpPartyMemberGroup:realDel">
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dp/dpPartyMemberGroup_realDel"
+                           data-title="删除领导班子"
+                           data-msg="确定完全删除这{0}个委员会吗？（不可恢复，请谨慎操作！）"><i class="fa fa-trash"></i> 完全删除</a>
+                    </shiro:hasPermission>
+                    【注：恢复操作之后需要重新设置相关管理员！】
                 </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

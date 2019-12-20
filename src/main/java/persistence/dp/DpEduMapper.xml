@@ -151,6 +151,30 @@
       #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
       )
   </insert>
+  <insert id="insertSelectiveSync" parameterType="domain.dp.DpEdu" useGeneratedKeys="true" keyProperty="id">
+    insert into dp_edu (id, sub_work_count, user_id,
+      edu_id, is_graduated, is_high_edu,
+      school, dep, subject,
+      first_subject, major, school_type,
+      enrol_time, finish_time, learn_style,
+      has_degree, degree_type, degree,
+      is_high_degree, is_second_degree, degree_country,
+      degree_unit, degree_time, tutor_name,
+      tutor_title, certificate, remark,
+      note, sort_order, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{eduId,jdbcType=INTEGER}, #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT},
+      #{school,jdbcType=VARCHAR}, #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER},
+      #{firstSubject,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT},
+      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER},
+      #{hasDegree,jdbcType=BIT}, #{degreeType,jdbcType=TINYINT}, #{degree,jdbcType=VARCHAR},
+      #{isHighDegree,jdbcType=BIT}, #{isSecondDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR},
+      #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR},
+      #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{note,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
+  </insert>
   <insert id="insertSelective" parameterType="domain.dp.DpEdu">
     insert into dp_edu
     <trim prefix="(" suffix=")" suffixOverrides=",">

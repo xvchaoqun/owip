@@ -59,10 +59,6 @@ public class DpPrCmController extends DpBaseController {
 
         modelMap.put("metaTypes", metaTypeService.metaTypes("mc_dp_prcm_type").values());
 
-        if (iDpPropertyMapper.prCmTypes() != null) {
-            modelMap.put("types", iDpPropertyMapper.prCmTypes());
-        }
-
         if (userId != null){
             modelMap.put("sysUser", sysUserService.findById(userId));
         }

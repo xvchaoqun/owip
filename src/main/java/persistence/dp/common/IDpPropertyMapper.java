@@ -78,4 +78,25 @@ public interface IDpPropertyMapper {
     // 干部专技岗位等级
     @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
     List<String> teacherProPostLevels();
+
+
+    // 查询民主党派中党派成员中是干部的人的userId
+    @Select("select distinct dp_member.user_id from dp_member,cadre where dp_member.user_id=cadre.user_id")
+    List<Integer> findCadreFromdpMember();
+
+    // 查询无党派人士中是干部的人的userId
+    @Select("select distinct dp_npm.user_id from dp_npm,cadre where dp_npm.user_id=cadre.user_id")
+    List<Integer> findCadreFromdpNpm();
+
+    // 查询其他统战人员中是干部的人的userId
+    @Select("select distinct dp_om.user_id from dp_om,cadre where dp_om.user_id=cadre.user_id")
+    List<Integer> findCadreFromdpOm();
+
+    // 查询党外代表人士中是干部的人的userId
+    @Select("select distinct dp_npr.user_id from dp_npr,cadre where dp_npr.user_id=cadre.user_id")
+    List<Integer> findCadreFromdpNpr();
+
+    // 查询人大代表、政协委员中是干部的人的userId
+    @Select("select distinct dp_pr_cm.user_id from dp_pr_cm,cadre where dp_pr_cm.user_id=cadre.user_id")
+    List<Integer> findCadreFromdpPrCm();
 }

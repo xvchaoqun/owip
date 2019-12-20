@@ -42,7 +42,7 @@
     <div class="space-4"></div>
     <table id="jqGrid_dpEdu" class="jqGrid2" data-height-reduce="30"></table>
     <div id="jqGridPager_dpEdu"></div>
-
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <style>
     .noSubWork [aria-describedby="jqGrid_dpEdu_subgrid"] a {
         display: none;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
+import sys.utils.FormUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,5 +125,17 @@ public class DpCommonController extends DpBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    //同步统战中对应干部的档案表信息
+    @RequestMapping("/dpSyncCadreInfo")
+    @ResponseBody
+    public Map do_dpSyncCadreInfo(Integer cls){
+
+        if (cls != null){
+            dpCommonService.syncCadreInfo(cls);
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }

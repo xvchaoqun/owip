@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.year || not empty param.code || not empty param.sort}"/>
+<div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dpEva:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -26,12 +23,8 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="30"></table>
+            <table id="jqGrid2" class="jqGrid2" data-height-reduce="30"></table>
             <div id="jqGridPager2"></div>
-        </div>
-        <div id="body-content-view"></div>
-    </div>
-</div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $("#jqGrid2").jqGrid({

@@ -21,6 +21,8 @@ public class DpBaseController extends DpBaseMapper implements HttpResponseMethod
 
 
     @Autowired
+    protected DpRewardService dpRewardService;
+    @Autowired
     protected DpEduService dpEduService;
     @Autowired
     protected DpWorkService dpWorkService;

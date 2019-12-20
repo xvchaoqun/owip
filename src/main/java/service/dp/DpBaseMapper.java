@@ -13,6 +13,8 @@ public class DpBaseMapper extends CoreBaseMapper {
      * 民主党派
      * */
     @Autowired
+    protected DpRewardMapper dpRewardMapper;
+    @Autowired
     protected DpEduMapper dpEduMapper;
     @Autowired
     protected DpWorkMapper dpWorkMapper;
@@ -39,15 +41,9 @@ public class DpBaseMapper extends CoreBaseMapper {
     @Autowired
     protected DpPartyMemberViewMapper dpPartyMemberViewMapper;
     @Autowired
-    protected IDpPartyMapper iDpPartyMapper;
-    @Autowired
     protected DpPartyViewMapper dpPartyViewMapper;
     @Autowired
     protected DpMemberViewMapper dpMemberViewMapper;
-    @Autowired
-    protected IDpPropertyMapper iDpPropertyMapper;
-    @Autowired
-    protected IDpMemberMapper iDpMemberMapper;
     @Autowired
     protected DpOrgAdminMapper dpOrgAdminMapper;
     @Autowired
@@ -58,5 +54,13 @@ public class DpBaseMapper extends CoreBaseMapper {
     protected DpPartyMemberMapper dpPartyMemberMapper;
     @Autowired
     protected DpPartyMemberGroupMapper dpPartyMemberGroupMapper;
+
+
+    @Autowired
+    protected IDpPartyMapper iDpPartyMapper;
+    @Autowired
+    protected IDpPropertyMapper iDpPropertyMapper;
+    @Autowired
+    protected IDpMemberMapper iDpMemberMapper;
 
 }

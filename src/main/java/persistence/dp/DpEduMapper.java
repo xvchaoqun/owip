@@ -16,6 +16,8 @@ public interface DpEduMapper {
 
     int insert(DpEdu record);
 
+    int insertSelectiveSync(DpEdu record);
+
     int insertSelective(DpEdu record);
 
     List<DpEdu> selectByExampleWithRowbounds(DpEduExample example, RowBounds rowBounds);
