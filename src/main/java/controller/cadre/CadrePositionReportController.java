@@ -1,12 +1,15 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.*;
+import domain.cadre.CadrePositionReport;
+import domain.cadre.CadrePositionReportExample;
 import domain.cadre.CadrePositionReportExample.Criteria;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +24,7 @@ import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
+import sys.utils.DownloadUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -54,8 +56,6 @@ public class CadrePositionReportController extends BaseController {
     @ResponseBody
     public void cadrePositionReport_data(@CurrentUser SysUserView loginUser, HttpServletResponse response, Integer admin, Integer year,
                                          Integer cadreId,
-                                         @RequestParam(required = false, defaultValue = "0") int export,
-                                         @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                          Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -68,7 +68,7 @@ public class CadrePositionReportController extends BaseController {
 
         CadrePositionReportExample example = new CadrePositionReportExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("id desc");
 
         if (admin==1&&ShiroHelper.isPermitted("cadrePositionReport:adminMenu")) {
             if (cadreId!=null) {
@@ -81,13 +81,6 @@ public class CadrePositionReportController extends BaseController {
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
-        }
-
-        if (export == 1) {
-            if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
-            cadrePositionReport_export(example, response);
-            return;
         }
 
         long count = cadrePositionReportMapper.countByExample(example);
@@ -195,24 +188,23 @@ public class CadrePositionReportController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadrePositionReport_export(CadrePositionReportExample example, HttpServletResponse response) {
+    @RequiresPermissions("cadrePositionReport:edit")
+    @RequestMapping("/cadrePositionReport_export")
+    public void cadrePositionReport_export(Integer id, HttpServletResponse response) throws Exception {
 
-        List<CadrePositionReport> records = cadrePositionReportMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"干部id|100","年度|100","创建时间|100","述职报告内容|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CadrePositionReport record = records.get(i);
-            String[] values = {
-                record.getCadreId()+"",
-                    String.valueOf(record.getYear()),
-                            DateUtils.formatDate(record.getCreateDate(), DateUtils.YYYY_MM_DD),
-                            record.getContent()
-            };
-            valuesList.add(values);
+        CadrePositionReport record= cadrePositionReportMapper.selectByPrimaryKey(id);
+        CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+        if(!ShiroHelper.isPermitted("cadrePositionReport:adminMenu")&&!cadre.getId().equals(record.getCadreId())){
+            throw new UnauthorizedException();
         }
-        String fileName = String.format("干部述职报告(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
-        ExportHelper.export(titles, valuesList, fileName, response);
+        //输出文件
+        CadrePositionReport cpr = cadrePositionReportMapper.selectByPrimaryKey(id);
+        String filename = String.format("述职报告(%s)", cpr.getCadre().getUser().getRealname());
+        DownloadUtils.addFileDownloadCookieHeader(response);
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+        cadrePositionReportService.export(id,response.getWriter());
     }
 
     @RequestMapping("/cadrePositionReport_selects")

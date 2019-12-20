@@ -14,7 +14,14 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/cadrePositionReport_au?edit=true&admin=${param.admin}"
                        data-grid-id="#jqGrid" data-open-by="page"><i class="fa fa-edit"></i>
                         修改</button>
+                   <%-- <a class="jqLinkItemBtn btn btn-success btn-sm"
+                       data-url="${ctx}/cadrePositionReport_export"
+                       data-grid-id="#jqGrid"
+                       data-open-by="page"><i class="fa fa-download"></i>
+                        导出WORD</a>--%>
+                </shiro:hasPermission>
 
+                <shiro:hasPermission name="cadrePositionReport:adminMenu">
                     <button data-url="${ctx}/cadrePositionReport_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
@@ -28,7 +35,8 @@ pageEncoding="UTF-8" %>
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>--%>
             </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <shiro:hasPermission name="cadrePositionReport:adminMenu">
+              <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <span class="widget-note">${note_searchbar}</span>
@@ -63,12 +71,12 @@ pageEncoding="UTF-8" %>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cadrePositionReport"
+                                   data-url="${ctx}/cadrePositionReport?admin=${param.admin}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cadrePositionReport"
+                                            data-url="${ctx}/cadrePositionReport?admin=${param.admin}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -78,6 +86,7 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
+            </shiro:hasPermission>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
@@ -98,13 +107,21 @@ pageEncoding="UTF-8" %>
                    }
                 },
                 { label: '年度',name: 'year'},
-                { label: '工作证号',name: 'cadre.user.code'},
+                { label: '工作证号',name: 'cadre.user.code',width: 110},
                 { label: '姓名',name: 'cadre.user.realname'},
-                {
+               /* {
                     label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions: {grid:'#jqGrid',url: '${ctx}/cadrePositionReport_changeOrder'}, frozen: true
+                },*/
+                { label: '所在单位及职务',name: 'title',align:'left',width: 350},
+                { label: '述职报告',name: 'report', formatter: function (cellvalue, options, rowObject) {
+
+                        return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
+                            'data-url="${ctx}/cadrePositionReport_export?id={0}"><i class="fa fa-download"></i> 导出</button>').format(rowObject.id);
+                        return '--'
+                    }
                 },
-                { label: '所在单位及职务',name: 'cadre.title',align:'left',width: 350}
+                { label: '上传时间',name: 'createTime',width: 200}
 
         ]
     }).jqGrid("setFrozenColumns");
@@ -112,6 +129,6 @@ pageEncoding="UTF-8" %>
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
 </script>
