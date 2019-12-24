@@ -649,7 +649,7 @@ public class PmMeetingController extends PmBaseController {
     @RequiresPermissions("pmMeeting:edit")
     @RequestMapping("/pmMeeting_exportWord")
     @ResponseBody
-    public void pmMeeting_exportWord(Integer id, HttpServletResponse response) throws Exception {
+    public void pmMeeting_exportWord(Integer id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String partyName="";
         String branchName="";
         PmMeeting pmMeeting = pmMeetingMapper.selectByPrimaryKey(id);
@@ -661,7 +661,7 @@ public class PmMeetingController extends PmBaseController {
         String filename = String.format("党支部工作记录(%s)", partyName+branchName);
         DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
 
         pmMeetingService.getExportWord(id,response.getWriter());
