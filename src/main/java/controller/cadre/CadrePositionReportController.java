@@ -190,7 +190,7 @@ public class CadrePositionReportController extends BaseController {
 
     @RequiresPermissions("cadrePositionReport:edit")
     @RequestMapping("/cadrePositionReport_export")
-    public void cadrePositionReport_export(Integer id, HttpServletResponse response) throws Exception {
+    public void cadrePositionReport_export(Integer id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CadrePositionReport record= cadrePositionReportMapper.selectByPrimaryKey(id);
         CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
@@ -202,7 +202,7 @@ public class CadrePositionReportController extends BaseController {
         String filename = String.format("述职报告(%s)", cpr.getCadre().getUser().getRealname());
         DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" +  DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
         cadrePositionReportService.export(id,response.getWriter());
     }
