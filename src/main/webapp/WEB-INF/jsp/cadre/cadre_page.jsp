@@ -266,6 +266,7 @@
                                                     </li>
                                                 </shiro:hasPermission>
                                             </c:if>
+                                            <shiro:hasPermission name="cadre:list">
                                             <li role="separator" class="divider"></li>
                                             <li>
                                                 <a href="javascript:;" class="jqExportBtn"
@@ -298,6 +299,7 @@
                                                    data-url="${ctx}/cadre_data">
                                                     <i class="fa fa-info-circle"></i> 干部信息完整性校验结果（批量）</a>
                                             </li>
+                                            </shiro:hasPermission>
                                         </ul>
                                     </div>
 

@@ -10,7 +10,7 @@ git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd621
 git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前后”两个版本之间变更的文件
-git diff --diff-filter=d 0d34e8a6a87b52fddff89cb44e4222eaaf90888b e690e7f3e8f60cb90fbc158a01a07a4a170a2664 --name-only | xargs tar -cf update.zip
+git diff --diff-filter=d a984eb89708a713d8b183b1824a8537b880fe62a 3264cde078dbfe36490766ce6da6725e3d8e2c56 --name-only | xargs tar -cf diff.zip
 
 
 -- 忽略文件
@@ -104,6 +104,10 @@ GRANT SELECT ON `db_owip`.`ext_member_view` TO 'lxxt'@'219.224.19.48' identified
 #20190520
 GRANT SELECT ON `db_owip`.`ext_branch_view` TO 'lxxt'@'219.224.19.228' identified by 'lxxt!@#QAZ';
 GRANT SELECT ON `db_owip`.`ext_member_view` TO 'lxxt'@'219.224.19.228' identified by 'lxxt!@#QAZ';
+
+# 京外打印
+GRANT SELECT ON `db_owip`.`ext_member_out_view` TO 'jwprint'@'219.224.19.177' identified by '&2019!*j(w';
+GRANT SELECT ON `db_owip`.`ext_member_out_view` TO 'jwprint'@'219.224.19.222' identified by '&2019!*j(w';
 
 flush privileges;
 

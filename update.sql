@@ -1,4 +1,8 @@
+20191224
+北邮  -- 北师大
 
+20191218
+北邮  -- 北师大
 
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `sort_order`, `available`) VALUES (134, NULL, '民族', '1', '1', 'mc_nation', '', '', 58, 1);
 
