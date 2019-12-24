@@ -18,7 +18,10 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IMemberMapper {
-
+    //查询分党委及党支部所有书记副书记
+    @Select("select user_id from ow_party_member_view where party_id=#{partyId} and(post_id=64 or  post_id=63)" +
+            "union select user_id from ow_branch_member_view where party_id=#{partyId} and type_id=80")
+    Integer[] getPbMemberSelects(@Param("partyId") int partyId);
     // 批量生成账号的最大批次
     @Select("select max(import_seq) from ow_member_reg")
     Integer getMemberRegMaxSeq();

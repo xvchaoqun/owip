@@ -16,7 +16,8 @@ import service.sys.UserBeanService;
 import sys.HttpResponseMethod;
 
 public class MemberBaseController extends MemberBaseMapper  implements HttpResponseMethod {
-
+    @Autowired
+    protected MemberReportService memberReportService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired

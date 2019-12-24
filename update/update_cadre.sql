@@ -1,3 +1,26 @@
+2019-12-20
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- 导出  表 db_owip.cadre_position_report 结构
+DROP TABLE IF EXISTS `cadre_position_report`;
+CREATE TABLE IF NOT EXISTS `cadre_position_report` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `cadre_id` int(10) unsigned DEFAULT NULL COMMENT '干部id',
+  `year` int(10) unsigned DEFAULT NULL COMMENT '年度',
+  `title` varchar(50) DEFAULT NULL COMMENT '所在单位及职务',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `content` text COMMENT '述职报告内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='干部述职报告';
+
+-- 数据导出被取消选择。
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
 2019-12-18
 -- 干部述职报告 苏小霞

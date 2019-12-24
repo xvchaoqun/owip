@@ -129,7 +129,7 @@
       "showColumns": "user_id,party_id,branch_id,reason",
       "excludeEditColumns": "user_id,create_time,ip,status,reason",
       "logType":"LogConstants.LOG_MEMBER",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "apply_log",
@@ -175,6 +175,15 @@
       "excludeEditColumns": "sn",
       "logType":"LogConstants.LOG_MEMBER",
       "ignore": true
+    },
+    {
+      "table": "member_report",
+      "key": "id",
+      "searchColumns": "year,party_id,user_id",
+      "showColumns": "status,year,party_id,user_id,report,eva_result,eva_file",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_MEMBER",
+      "ignore": false
     }
   ]
 }

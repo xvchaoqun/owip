@@ -29,7 +29,7 @@
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+       <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -62,7 +62,7 @@
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-      </table>
+      </table>-->
 
 
         <!--<table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">

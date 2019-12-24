@@ -9,14 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.common.FreemarkerService;
 import shiro.ShiroHelper;
 
+import java.io.Writer;
 import java.util.*;
 
 @Service
 public class CadrePositionReportService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    FreemarkerService freemarkerService;
+
     public boolean idDuplicate(Integer id,Integer cadreId, Integer year){
 
         Assert.isTrue(year!=null, "null");
@@ -35,20 +40,26 @@ public class CadrePositionReportService extends BaseMapper {
             throw new UnauthorizedException();
         }
         Assert.isTrue(!idDuplicate(null, record.getCadreId(),record.getYear()), "duplicate");
-        record.setSortOrder(getNextSortOrder("cadre_position_report", null));
-        record.setCreateDate(new Date());
+        record.setCreateTime(new Date());
         cadrePositionReportMapper.insertSelective(record);
     }
 
     @Transactional
     public void del(Integer id){
-
+        CadrePositionReport record= cadrePositionReportMapper.selectByPrimaryKey(id);
+        CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+        if(!ShiroHelper.isPermitted("cadrePositionReport:adminMenu")&&!cadre.getId().equals(record.getCadreId())){
+            throw new UnauthorizedException();
+        }
         cadrePositionReportMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
     public void batchDel(Integer[] ids){
-
+        CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+        if(!ShiroHelper.isPermitted("cadrePositionReport:adminMenu")){
+            throw new UnauthorizedException();
+        }
         if(ids==null || ids.length==0) return;
 
         CadrePositionReportExample example = new CadrePositionReportExample();
@@ -64,6 +75,7 @@ public class CadrePositionReportService extends BaseMapper {
         }
         if(record.getYear()!=null)
             Assert.isTrue(!idDuplicate(record.getId(),record.getCadreId(), record.getYear()), "duplicate");
+        record.setCreateTime(new Date());
         cadrePositionReportMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -72,7 +84,16 @@ public class CadrePositionReportService extends BaseMapper {
 
         changeOrder("cadre_position_report", null, ORDER_BY_DESC, id, addNum);
     }
+    @Transactional
+    public void export(Integer id, Writer out)throws Exception {
 
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        CadrePositionReport cpr = cadrePositionReportMapper.selectByPrimaryKey(id);
+
+        dataMap.put("cpr",cpr);
+        freemarkerService.process("cadre/cadrePositionReport.ftl", dataMap, out);
+        out.close();
+    }
     public Map<Integer, CadrePositionReport> findAll() {
 
         CadrePositionReportExample example = new CadrePositionReportExample();

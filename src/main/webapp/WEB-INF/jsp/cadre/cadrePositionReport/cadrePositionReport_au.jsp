@@ -16,72 +16,87 @@ pageEncoding="UTF-8"%>
 					<input class="form-control" type="hidden" name="id"
 						   value="${param.id}">
 					<tr>
-						<td><span class="star">*</span>年度</td>
+						<td width="20%"><span class="star">*</span>年度</td>
 						<td colspan="3">
 							<c:if test="${!edit}">
 								${cadrePositionReport.year}
 							</c:if>
 							<c:if test="${edit}">
-									<div class="input-group" style="width: 300px">
-										<input required ${admin==0?"disabled":""} class="date-picker"
-											   name="year" type="text"
-											   data-date-start-view="2"
-											   data-date-min-view-mode="2"
-											   data-date-max-view-mode="2"
-											   data-date-format="yyyy"
-											   style="width: 300px"
-											   value="${cadrePositionReport.year}"/>
-										</span>
-									</div>
+								<c:if test="${admin==0}">
+									<span>${cadrePositionReport.year}</span>
+									<input hidden type="text" name="year" value="${cadrePositionReport.year}">
+								</c:if>
+								<c:if test="${admin==1}">
+								   <input required class="date-picker"
+									   name="year" type="text"
+									   data-date-start-view="2"
+									   data-date-min-view-mode="2"
+									   data-date-max-view-mode="2"
+									   data-date-format="yyyy"
+									   style="width: 100px"
+									   value="${cadrePositionReport.year}"/>
+								</c:if>
 							</c:if>
 						</td>
 					</tr>
 					<tr>
-						<td width="100"><span class="star">*</span>姓名</td>
-						<td>
+						<td><span class="star">*</span>姓名</td>
+						<td style="width: 300px;">
 							<c:if test="${!edit}">
 								${cadrePositionReport.cadre.user.realname}
 							</c:if>
 							<c:if test="${edit}">
-								<select ${admin==0?"disabled":""} required data-rel="select2-ajax"
-										data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE}"
-										name="cadreId" data-width="300" data-placeholder="请输入账号或姓名或学工号">
-									<option value="${cadrePositionReport.cadreId}">${cadrePositionReport.cadre.user.realname}-${cadrePositionReport.cadre.user.code}</option>
-								</select>
+								<c:if test="${admin==0}">
+									<span>${cadrePositionReport.cadre.user.realname}</span>
+									<input hidden type="text" name="cadreId" value="${cadrePositionReport.cadreId}">
+								</c:if>
+								<c:if test="${admin==1}">
+									<select required data-rel="select2-ajax"
+											data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE}"
+											name="cadreId" data-width="300" data-placeholder="请输入账号或姓名或学工号">
+										<option value="${cadrePositionReport.cadreId}">${cadrePositionReport.cadre.user.realname}-${cadrePositionReport.cadre.user.code}</option>
+									</select>
+								</c:if>
 							</c:if>
 						</td>
-						<td><span class="star">*</span>职工号</td>
+						<td width="20%"><span class="star">*</span>职工号</td>
 						<td>
 							<c:if test="${!edit}">
 								${cadrePositionReport.cadre.user.code}
 							</c:if>
 							<c:if test="${edit}">
-								<input required disabled class="form-control" type="text" name="code" value="${cadrePositionReport.cadre.user.code}">
+								<span id="code">${cadrePositionReport.cadre.user.code}</span>
 							</c:if>
 						</td>
 					</tr>
 
 					<tr>
-						<td><span class="star">*</span>所在单位及职务</td>
+						<td width="20%"><span class="star">*</span>所在单位及职务</td>
 						<td colspan="3">
 							<c:if test="${!edit}">
-								${cadrePositionReport.cadre.title}
+								${cadrePositionReport.title}
 							</c:if>
 							<c:if test="${edit}">
-								<input required disabled class="form-control" type="text" name="title" value="${cadrePositionReport.cadre.title}">
+								<c:if test="${admin==0}">
+									<span>${cadrePositionReport.title==null?cadrePositionReport.cadre.title:""}</span>
+									<input hidden type="text" name="title" value="${cadrePositionReport.title==null?cadrePositionReport.cadre.title:""}">
+								</c:if>
+								<c:if test="${admin==1}">
+									<input required class="form-control" type="text" name="title" style="width: 300px"value="${cadrePositionReport.title}">
+								</c:if>
 							</c:if>
 						</td>
 
 					</tr>
 
 					<tr>
-						<td style="height: 500px"><span class="star">*</span>个人述职</td>
+						<td style="height: 500px"><span class="star">*</span>个人述职<br/>（1500字以内）</td>
 						<td colspan="3">
 							<c:if test="${!edit}">
 								<p style="text-indent:2em">${cadrePositionReport.content}</p>
 							</c:if>
 							<c:if test="${edit}">
-                            <textarea  required name="content" rows="30" class="limited"
+                            <textarea  required name="content" rows="20" class="limited"
 									   style="width: 100%">${cadrePositionReport.content}</textarea>
 							</c:if>
 						</td>
@@ -130,10 +145,13 @@ pageEncoding="UTF-8"%>
 	$('#modalForm select[name="cadreId"]').on('change',function(){
 		var cadreId=$('#modalForm select[name="cadreId"]').val();
 		if ($.isBlank(cadreId)){
+			$("#code").text(null);
+			$("#modalForm input[name=title]").val("");
 			return;
 		}
 		var data = $('#modalForm select[name="cadreId"]').select2("data")[0];
-		$("#modalForm input[name=code]").val(data.code);
+        //console.log(data);
+		$("#code").text(data.code);
 		$("#modalForm input[name=title]").val(data.title);
 	});
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
@@ -146,10 +164,10 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
 					if(ret.success){
 						$("#modal").modal('hide');
-						SysMsg.success("保存成功。", function () {
+						//SysMsg.success("保存成功。", function () {
 							$.hideView();
 							$("#jqGrid").trigger("reloadGrid");
-						});
+					//	});
 					}
 					$('#modalForm input[name="year"]').attr("disabled",true);
 					$('#modalForm select[name="cadreId"]').attr("disabled",true);

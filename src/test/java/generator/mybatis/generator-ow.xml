@@ -167,7 +167,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>-->
-        <!--<table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
+        <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -179,7 +179,7 @@
                <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>-->
+         </table>
 
           <!--  <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -241,23 +241,25 @@
         <!--<table tableName="ow_party_punish" domainObjectName="party.PartyPunish" mapperName="party.PartyPunishMapper">
 
         </table>-->
-        <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
+       <!-- <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
 
         </table>
         <table tableName="ow_party_reward" domainObjectName="party.PartyReward" mapperName="party.PartyRewardMapper">
 
-        </table>
+        </table>-->
         <!--<table tableName="ow_party_post" domainObjectName="party.PartyPost" mapperName="party.PartyPostMapper">
         </table>
         <table tableName="ow_party_punish_view" domainObjectName="party.PartyPunishView" mapperName="party.PartyPunishViewMapper">
         </table>-->
-        <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
+      <!--  <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
 
-        </table>
+        </table>-->
         <!--<table tableName="ow_party_post_view" domainObjectName="party.PartyPostView" mapperName="party.PartyPostViewMapper">
 
         </table>-->
-
-
+      <!--  <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
+        </table>
+        <table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
+        </table>-->
     </context>
 </generatorConfiguration>
