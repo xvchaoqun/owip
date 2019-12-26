@@ -31,7 +31,8 @@ import sys.HttpResponseMethod;
 
 @SuppressWarnings("unchecked")
 public class BaseController extends BaseMapper implements HttpResponseMethod {
-
+    @Autowired
+    protected PartyReportService partyReportService;
     @Autowired
     protected PartyPunishService partyPunishService;
     @Autowired

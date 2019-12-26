@@ -7,6 +7,29 @@ import java.util.Map;
  * Created by lm on 2018/4/14.
  */
 public class OwConstants {
+    //考核状态
+    public final static byte OW_REPORT_STATUS_UNREPORT = 1;
+    public final static byte OW_REPORT_STATUS_REPORT = 2;
+    public final static Map<Byte, String> OW_REPORT_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_REPORT_STATUS_MAP.put(OW_REPORT_STATUS_UNREPORT, "未报送");
+        OW_REPORT_STATUS_MAP.put(OW_REPORT_STATUS_REPORT, "已报送");
+    }
+
+    //考核结果
+    public final static byte OW_PARTY_EVA_EXCELLENT = 1;
+    public final static byte OW_PARTY_EVA_GOOD = 2;
+    public final static byte OW_PARTY_EVA_GENERAL = 3;
+    public final static byte OW_PARTY_EVA_POOR = 4;
+    public final static Map<Byte, String> OW_PARTY_EVA_MAP = new LinkedHashMap<>();
+
+    static {
+        OW_PARTY_EVA_MAP.put(OW_PARTY_EVA_EXCELLENT, "优秀");
+        OW_PARTY_EVA_MAP.put(OW_PARTY_EVA_GOOD, "良好");
+        OW_PARTY_EVA_MAP.put(OW_PARTY_EVA_GENERAL, "一般");
+        OW_PARTY_EVA_MAP.put(OW_PARTY_EVA_POOR, "较差");
+    }
 
     //党内奖惩情况
     public final static byte OW_PARTY_REPU_PARTY = 1;

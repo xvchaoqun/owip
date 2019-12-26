@@ -112,3 +112,12 @@ left join ow_branch ob on om.branch_id=ob.id;
 -- union all
 -- select su.code as sid, sui.realname, (oga.status+1) as status, om.type, om.political_status
 -- from ow_member_stay oga, ow_member om, sys_user su, sys_user_info sui where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id and sui.user_id=su.id;
+
+-- 京外已转出视图
+DROP VIEW IF EXISTS `ext_member_out_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ext_member_out_view`
+AS SELECT u.code, u.realname, o.phone, o.to_title, o.to_unit, o.from_unit, o.from_address, o.from_phone,
+o.from_fax, o.from_post_code, o.pay_time, o.valid_days, o.handle_time, o.has_receipt, o.apply_time  from ow_member_out o
+left join sys_user_view u on o.user_id = u.user_id
+LEFT JOIN base_meta_type bmt ON o.`type`=bmt.id
+WHERE o.STATUS=2 AND bmt.name='京外' ;

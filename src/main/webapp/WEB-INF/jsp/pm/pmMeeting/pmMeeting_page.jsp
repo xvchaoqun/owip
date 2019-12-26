@@ -77,12 +77,11 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-
-                                <a class="jqLinkItemBtn btn btn-warning btn-sm"
+                              <%--  <a class="jqLinkItemBtn btn btn-warning btn-sm"
                                    data-url="${ctx}/pmMeeting_exportWord"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"><i class="fa fa-download"></i>
-                                    导出工作记录</a>
+                                    导出工作记录</a>--%>
 
                                 <c:if test="${cls!=3}">
                                 <button data-url="${ctx}/pmMeeting_del"
@@ -217,6 +216,13 @@
                     return '第'+cellvalue+'季度'
                 }
             },
+            { label: '工作记录',name: '_export', formatter: function (cellvalue, options, rowObject) {
+
+                    return ('<button class="downloadBtn btn btn-primary btn-xs" ' +
+                        'data-url="${ctx}/pmMeeting_exportWord?id={0}"><i class="fa fa-download"></i> 导出</button>').format(rowObject.id);
+                    return '--'
+                }
+            },
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 300 ,  formatter:function(cellvalue, options, rowObject){
                     return $.party(rowObject.partyId);
                 }},
@@ -301,10 +307,10 @@
 
                 var arr= ${cm:toJSONArray(adminPartyIdList)};
                 var adminParty=$.inArray(partyId,arr);
-
+/*
                 console.log(partyId);
                 console.log(arr);
-                console.log(adminParty);
+                console.log(adminParty);*/
                 if(adminParty>=0){
                     canCheck = true;
                     break;
@@ -326,7 +332,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
 
-    $('[data-rel="tooltip"]').tooltip();
+    //$('[data-rel="tooltip"]').tooltip();
     //设置年份的选择
     var myDate= new Date();
     var startYear=myDate.getFullYear();

@@ -1,3 +1,45 @@
+2019-12-23
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2712, 0, '党支部考核', '', 'url', '', '/member/memberReport', 260, '0/1/260/', 0, 'owReport:menu', NULL, NULL, NULL, 1, 80);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2713, 0, '党组织书记考核:查看', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2714, 0, '党组织书记考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2715, 0, '党支部考核:查看', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2716, 0, '党支部考核:编辑', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:edit', NULL, NULL, NULL, 1, NULL);
+
+CREATE TABLE `ow_party_report` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年度',
+	`party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属分党委',
+	`party_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '所属分党委名称',
+	`report_file` VARCHAR(200) NULL DEFAULT NULL COMMENT '工作总结word',
+	`eva_result` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '考核结果',
+	`eva_file` VARCHAR(200) NULL DEFAULT NULL COMMENT '考核结果文件pdf',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态  1未报送  2 已报送',
+	PRIMARY KEY (`id`)
+)
+COMMENT='党支部考核'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=6
+;
+CREATE TABLE `ow_member_report` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年度',
+	`user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
+	`party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属分党委',
+	`party_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '所属分党委名称',
+	`report_file` VARCHAR(200) NULL DEFAULT NULL COMMENT '述职报告word',
+	`eva_result` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '考核结果',
+	`eva_file` VARCHAR(200) NULL DEFAULT NULL COMMENT '考核结果文件pdf',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态  1未报送  2 已报送',
+	PRIMARY KEY (`id`)
+)
+COMMENT='党组织书记考核'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=15
+;
 
 2019-12-03
 

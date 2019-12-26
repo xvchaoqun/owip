@@ -12,7 +12,8 @@ import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 
 public class BaseMapper extends CoreBaseMapper{
-
+    @Autowired
+    protected PartyReportMapper partyReportMapper;
     @Autowired
     protected PartyRewardViewMapper partyRewardViewMapper;
     @Autowired

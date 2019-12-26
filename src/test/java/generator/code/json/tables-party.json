@@ -107,7 +107,7 @@
       "showColumns": "type,party_id,branch_id,user_id,reward_time,reward_type,name,unit,proof,proof_filename,remark,sort_order",
       "excludeEditColumns": "id,sort_order",
       "logType": "LogConstants.LOG_PARTY",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "party_punish",
@@ -116,7 +116,7 @@
       "showColumns": "type,party_id,branch_id,user_id,punish_time,end_time,name,unit,remark,sort_order",
       "excludeEditColumns": "id,sort_order",
       "logType": "LogConstants.LOG_PARTY",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "party_post",
@@ -125,6 +125,15 @@
       "showColumns": "user_id,start_time,end_time,detail,remark",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PARTY",
+      "ignore": true
+    },
+    {
+      "table": "party_report",
+      "key": "id",
+      "searchColumns": "year,party_id",
+      "showColumns": "status,year,party_id,report,eva_result,eva_file",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_MEMBER",
       "ignore": false
     }
   ]

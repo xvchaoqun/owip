@@ -45,7 +45,6 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import static sys.constants.MemberConstants.MEMBER_STATUS_NORMAL;
@@ -646,11 +645,11 @@ public class PmMeetingController extends PmBaseController {
         }
 
     }
-    // 导入会议
-   // @RequiresPermissions("pmMeeting:approve")
+    // 导出工作记录
+    @RequiresPermissions("pmMeeting:edit")
     @RequestMapping("/pmMeeting_exportWord")
     @ResponseBody
-    public void pmMeeting_exportWord(Integer id, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void pmMeeting_exportWord(Integer id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String partyName="";
         String branchName="";
         PmMeeting pmMeeting = pmMeetingMapper.selectByPrimaryKey(id);
@@ -660,15 +659,12 @@ public class PmMeetingController extends PmBaseController {
         }
         //输出文件
         String filename = String.format("党支部工作记录(%s)", partyName+branchName);
-        response.reset();
+        DownloadUtils.addFileDownloadCookieHeader(response);
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+                "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".doc"));
         response.setContentType("application/msword;charset=UTF-8");
-        try {
-            pmMeetingService.getExportWord(id,response.getWriter());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        pmMeetingService.getExportWord(id,response.getWriter());
 
     }
 }

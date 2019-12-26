@@ -3,10 +3,10 @@
 <mapper namespace="persistence.cadre.CadrePositionReportMapper">
   <resultMap id="BaseResultMap" type="domain.cadre.CadrePositionReport">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sort_order, cadre_id, year, create_date, content
+    id, cadre_id, year, title, create_time, content
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePositionReportExample" resultMap="BaseResultMap">
     select
@@ -101,11 +101,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadrePositionReport">
-    insert into cadre_position_report (id, sort_order, cadre_id, 
-      year, create_date, content
+    insert into cadre_position_report (id, cadre_id, year, 
+      title, create_time, content
       )
-    values (#{id,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{year,jdbcType=INTEGER}, #{createDate,jdbcType=DATE}, #{content,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePositionReport">
@@ -114,17 +114,17 @@
       <if test="id != null">
         id,
       </if>
-      <if test="sortOrder != null">
-        sort_order,
-      </if>
       <if test="cadreId != null">
         cadre_id,
       </if>
       <if test="year != null">
         year,
       </if>
-      <if test="createDate != null">
-        create_date,
+      <if test="title != null">
+        title,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="content != null">
         content,
@@ -134,17 +134,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
-      </if>
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=DATE},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -163,17 +163,17 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      </if>
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
-      <if test="record.createDate != null">
-        create_date = #{record.createDate,jdbcType=DATE},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -186,10 +186,10 @@
   <update id="updateByExample" parameterType="map">
     update cadre_position_report
     set id = #{record.id,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
-      create_date = #{record.createDate,jdbcType=DATE},
+      title = #{record.title,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       content = #{record.content,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -198,17 +198,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePositionReport">
     update cadre_position_report
     <set>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
-      </if>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=DATE},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -218,10 +218,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePositionReport">
     update cadre_position_report
-    set sort_order = #{sortOrder,jdbcType=INTEGER},
-      cadre_id = #{cadreId,jdbcType=INTEGER},
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=DATE},
+      title = #{title,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
