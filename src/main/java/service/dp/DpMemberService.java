@@ -3,6 +3,8 @@ package service.dp;
 import controller.global.OpException;
 import domain.dp.DpMember;
 import domain.dp.DpMemberExample;
+import domain.dp.DpMemberView;
+import domain.dp.DpMemberViewExample;
 import domain.member.Member;
 import domain.sys.*;
 import ext.service.SyncService;
@@ -232,6 +234,15 @@ public class DpMemberService extends DpBaseMapper {
         }
 
         return map;
+    }
+
+    public DpMemberView findByUserId(Integer userId){
+
+        DpMemberViewExample example = new DpMemberViewExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<DpMemberView> dpMemberViews = dpMemberViewMapper.selectByExample(example);
+
+        return dpMemberViews.size() == 1 ? dpMemberViews.get(0) : null;
     }
 
 }

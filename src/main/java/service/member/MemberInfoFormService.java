@@ -541,12 +541,8 @@ public class MemberInfoFormService extends BaseMapper {
     @Transactional
     public void update(Integer userId, String mobile, String post){
         SysUserInfo uv = sysUserInfoMapper.selectByPrimaryKey(userId);
-        if (StringUtils.isNotBlank(mobile)) {
-            uv.setMobile(mobile);
-        }
-        if (StringUtils.isNotBlank(post)) {
-            uv.setPost(post);
-        }
+        uv.setMobile(mobile);
+        uv.setPost(post);
 
         sysUserInfoMapper.updateByPrimaryKeySelective(uv);
 

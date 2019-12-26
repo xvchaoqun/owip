@@ -248,4 +248,61 @@ public class DpEduService extends DpBaseMapper {
         return (int) dpEduMapper.countByExample(example);
     }
 
+    // 获取全日制/在职的最高学位
+    public List<DpEdu> getHighDegrees(Integer userId, Integer learnStyle) {
+
+        DpEduExample example = new DpEduExample();
+        DpEduExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId)
+                .andIsGraduatedEqualTo(true)
+                .andHasDegreeEqualTo(true)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+
+        if(learnStyle!=null){
+            criteria.andLearnStyleEqualTo(learnStyle);
+        }
+        example.setOrderByClause("is_high_degree desc, is_second_degree asc, enrol_time desc");
+
+        List<DpEdu> records = dpEduMapper.selectByExample(example);
+        List<DpEdu> dpEdus = new ArrayList<>();
+
+        for (DpEdu record : records) {
+            if(BooleanUtils.isTrue(record.getIsHighDegree())){
+                dpEdus.add(record);
+            }
+        }
+
+        if(dpEdus.size()==0){ // 如果没有设置最高学位，则读取第一个学位
+            if(records.size()>0){
+                dpEdus.add(records.get(0));
+            }
+        }
+
+        return dpEdus;
+    }
+
+    // 获取全日制/在职的最高学历
+    public DpEdu getHighEdu(int userId, int learnStyle) {
+
+        DpEduExample example = new DpEduExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andIsGraduatedEqualTo(true)
+                .andLearnStyleEqualTo(learnStyle).andEduIdIsNotNull()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+
+        example.setOrderByClause("is_high_edu desc, is_second_degree asc, enrol_time desc");
+        List<DpEdu> dpEdus = dpEduMapper.selectByExample(example);
+
+        if(dpEdus.size()==1) return dpEdus.get(0);
+
+        // 如果存在多个最高学历，则以第一个最高学位对应的学历为准
+        for (DpEdu dpEdu : dpEdus) {
+            if(BooleanUtils.isFalse(dpEdu.getIsSecondDegree())
+                    && dpEdu.getEduId()!=null) { // 且学历不为空的
+                return dpEdu;
+            }
+        }
+
+        return dpEdus.size()>0?dpEdus.get(0):null;
+    }
+
 }

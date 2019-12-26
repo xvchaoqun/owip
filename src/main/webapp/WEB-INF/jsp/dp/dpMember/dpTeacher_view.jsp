@@ -36,6 +36,10 @@
                             <a href="javascript:;"
                                data-url="${ctx}/dp/dpEva?userId=${param.userId}">年度考核</a>
                         </li>
+                        <li>
+                            <a href="javascript:;"
+                               data-url="${ctx}/dp/dpInfoForm_page?userId=${param.userId}">基本情况登记表</a>
+                        </li>
                     </ul>
                 </div>
             </div>

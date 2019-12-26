@@ -2,8 +2,20 @@ package domain.dp;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class DpWork implements Serializable {
+
+    private List<DpWork> subDpWorks;
+
+    public List<DpWork> getSubDpWorks() {
+        return subDpWorks;
+    }
+
+    public void setSubDpWorks(List<DpWork> subDpWorks) {
+        this.subDpWorks = subDpWorks;
+    }
+
     private Integer id;
 
     private Integer fid;

@@ -80,4 +80,14 @@ public class DpRewardService extends DpBaseMapper {
 
         changeOrder("dp_reward", null, ORDER_BY_DESC, id, addNum);
     }
+
+    //党派内奖励和其他奖励
+    public List<DpReward> list(Integer userId){
+
+        DpRewardExample example = new DpRewardExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("reward_type asc");
+        List<DpReward> dpRewards = dpRewardMapper.selectByExample(example);
+        return dpRewards.size() > 0 ? dpRewards : null;
+    }
 }

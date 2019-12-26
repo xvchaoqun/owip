@@ -140,4 +140,30 @@ public class DpWorkService extends DpBaseMapper {
             }
         }
     }
+
+    //简历-工作经历
+    public List<DpWork> list(Integer userId){
+
+        List<DpWork> dpWorks = null;
+        {
+            DpWorkExample example = new DpWorkExample();
+            example.createCriteria().andUserIdEqualTo(userId).andFidIsNull()
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+            example.setOrderByClause("start_time asc");
+            dpWorks = dpWorkMapper.selectByExample(example);
+        }
+        if (dpWorks != null){
+            for (DpWork dpWork : dpWorks){
+                Integer fid = dpWork.getId();
+                DpWorkExample example = new DpWorkExample();
+                example.createCriteria().andUserIdEqualTo(userId).andFidEqualTo(fid)
+                        .andIsEduWorkEqualTo(false).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+                example.setOrderByClause("start_time asc");
+                List<DpWork> subDpWorks = dpWorkMapper.selectByExample(example);
+                dpWork.setSubDpWorks(subDpWorks);
+            }
+        }
+
+        return dpWorks;
+    }
 }

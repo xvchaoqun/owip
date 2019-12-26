@@ -5,7 +5,6 @@ import bean.PartyMemberInfoForm;
 import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.member.Member;
-import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -96,10 +95,7 @@ public class PartyMemberInfoFormController extends BaseController {
     public Map do_memberInfoForm_au(Integer userId,
                                     String mobile,
                                     String post,
-                                    ModelMap modelMap,
                                     HttpServletRequest request){
-
-        SysUserInfo uv = sysUserInfoMapper.selectByPrimaryKey(userId);
 
         memberInfoFormService.update(userId, mobile, post);
 
