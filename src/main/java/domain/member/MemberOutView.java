@@ -51,6 +51,10 @@ public class MemberOutView implements Serializable {
 
     private Byte status;
 
+    private Boolean isSelfPrint;
+
+    private Integer isSelfPrintCount;
+
     private Boolean isModify;
 
     private Boolean isBack;
@@ -213,6 +217,22 @@ public class MemberOutView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsSelfPrint() {
+        return isSelfPrint;
+    }
+
+    public void setIsSelfPrint(Boolean isSelfPrint) {
+        this.isSelfPrint = isSelfPrint;
+    }
+
+    public Integer getIsSelfPrintCount() {
+        return isSelfPrintCount;
+    }
+
+    public void setIsSelfPrintCount(Integer isSelfPrintCount) {
+        this.isSelfPrintCount = isSelfPrintCount;
     }
 
     public Boolean getIsModify() {

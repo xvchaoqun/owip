@@ -1296,6 +1296,126 @@ public class MemberOutViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsSelfPrintIsNull() {
+            addCriterion("is_self_print is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintIsNotNull() {
+            addCriterion("is_self_print is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintEqualTo(Boolean value) {
+            addCriterion("is_self_print =", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintNotEqualTo(Boolean value) {
+            addCriterion("is_self_print <>", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintGreaterThan(Boolean value) {
+            addCriterion("is_self_print >", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_print >=", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintLessThan(Boolean value) {
+            addCriterion("is_self_print <", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_print <=", value, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintIn(List<Boolean> values) {
+            addCriterion("is_self_print in", values, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintNotIn(List<Boolean> values) {
+            addCriterion("is_self_print not in", values, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_print between", value1, value2, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_print not between", value1, value2, "isSelfPrint");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountIsNull() {
+            addCriterion("is_self_print_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountIsNotNull() {
+            addCriterion("is_self_print_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountEqualTo(Integer value) {
+            addCriterion("is_self_print_count =", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountNotEqualTo(Integer value) {
+            addCriterion("is_self_print_count <>", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountGreaterThan(Integer value) {
+            addCriterion("is_self_print_count >", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_self_print_count >=", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountLessThan(Integer value) {
+            addCriterion("is_self_print_count <", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountLessThanOrEqualTo(Integer value) {
+            addCriterion("is_self_print_count <=", value, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountIn(List<Integer> values) {
+            addCriterion("is_self_print_count in", values, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountNotIn(List<Integer> values) {
+            addCriterion("is_self_print_count not in", values, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountBetween(Integer value1, Integer value2) {
+            addCriterion("is_self_print_count between", value1, value2, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfPrintCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_self_print_count not between", value1, value2, "isSelfPrintCount");
+            return (Criteria) this;
+        }
+
         public Criteria andIsModifyIsNull() {
             addCriterion("is_modify is null");
             return (Criteria) this;

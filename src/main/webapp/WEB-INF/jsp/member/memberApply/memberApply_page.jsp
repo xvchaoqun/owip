@@ -161,6 +161,14 @@
                                                                 <i class="fa fa-edit"></i> 修改信息
                                                             </button>
                                                             </c:if>
+                                                            <shiro:hasPermission name="memberBaseInfo:edit">
+                                                                <button class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
+                                                                        data-url="${ctx}/memberBaseInfo_au"
+                                                                        data-open-by="page" data-id-name="userId"
+                                                                        data-rel="tooltip" data-placement="top" title="修改账号基本信息">
+                                                                    <i class="fa fa-info-circle"></i> 修改基础信息
+                                                                </button>
+                                                            </shiro:hasPermission>
                                                             <c:if test="${stage==OW_APPLY_STAGE_DENY }">
                                                             <button class="jqBatchBtn btn btn-success btn-sm"
                                                                     data-url="${ctx}/memberApply_batchApply"

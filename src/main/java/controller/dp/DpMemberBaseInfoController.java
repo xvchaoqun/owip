@@ -157,8 +157,7 @@ public class DpMemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/teacherInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_teacherInfo_au(TeacherInfo record, SysUserInfo userInfo,
-                                 String _birth, String _degreeTime,
+    public Map do_teacherInfo_au(TeacherInfo record, SysUserInfo userInfo, String _degreeTime,
                                  String _arriveTime, String _retireTime, HttpServletRequest request) {
 
         int userId = record.getUserId();
@@ -167,10 +166,6 @@ public class DpMemberBaseInfoController extends MemberBaseController {
         if (source == SystemConstants.USER_SOURCE_BKS || source == SystemConstants.USER_SOURCE_YJS
                 || source == SystemConstants.USER_SOURCE_JZG) {
             return failed("只能修改非人事库的账号信息");
-        }
-
-        if (StringUtils.isNotBlank(_birth)) {
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYYMMDD_DOT));
         }
 
         if (StringUtils.isNotBlank(_degreeTime)) {

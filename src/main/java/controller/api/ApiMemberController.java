@@ -2,6 +2,7 @@ package controller.api;
 
 import controller.BaseController;
 import domain.member.Member;
+import domain.member.MemberOut;
 import domain.sys.SysUserView;
 import interceptor.NeedSign;
 import interceptor.SignParam;
@@ -55,6 +56,44 @@ public class ApiMemberController extends BaseController {
         }else{
             resultMap = ret(1, "已转出");
         }
+        return resultMap;
+    }
+
+    @NeedSign
+    @RequestMapping("/memberOut_print")
+    @ResponseBody
+    public Map memberOut_print(@SignParam(value = "code") String code, HttpServletRequest request) {
+
+        logger.info(MessageFormat.format("打印介绍信接口, {0}, {1}, {2}, {3}, {4}",
+                request.getRequestURI(),
+                request.getMethod(),
+                JSONUtils.toString(request.getParameterMap(), false),
+                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));
+
+        Map resultMap;
+        SysUserView sysUser = sysUserService.findByCode(code);
+        if(sysUser==null){
+            resultMap = ret(-1, "用户不存在");
+            return resultMap;
+        }
+
+        MemberOut memberOut = memberOutService.findByUserId(sysUser.getId());
+        if(memberOut==null){
+            resultMap = ret(-2, "该用户不是组织关系转出的党员");
+            return resultMap;
+        }
+        if(!memberOut.getIsSelfPrint()){
+            resultMap = ret(0, "该党员未被批准打印介绍信息");
+        }else{
+            MemberOut record = new MemberOut();
+            record.setId(memberOut.getId());
+            int count = memberOut.getIsSelfPrintCount() + 1;
+            record.setIsSelfPrintCount(count);
+            record.setIsSelfPrint(false);
+            memberOutService.updateSelfPrint(record);
+            resultMap = ret(1, "该党员被批准打印介绍信");
+        }
+
         return resultMap;
     }
 }

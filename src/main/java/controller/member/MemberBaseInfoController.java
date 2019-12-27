@@ -116,7 +116,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/studentInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_studentInfo_au(StudentInfo record, SysUserInfo userInfo, String _birth,
+    public Map do_studentInfo_au(StudentInfo record, SysUserInfo userInfo,
                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _actualEnrolTime,
                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _expectGraduateTime,
                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date actualGraduateTime,
@@ -129,10 +129,6 @@ public class MemberBaseInfoController extends MemberBaseController {
         if (source == SystemConstants.USER_SOURCE_BKS || source == SystemConstants.USER_SOURCE_YJS
                 || source == SystemConstants.USER_SOURCE_JZG) {
             return failed("只能修改系统注册账号的基本信息");
-        }
-
-        if (StringUtils.isNotBlank(_birth)) {
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
         }
 
         record.setActualEnrolTime(_actualEnrolTime);
@@ -153,8 +149,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/teacherInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_teacherInfo_au(TeacherInfo record, SysUserInfo userInfo,
-                                 String _birth, String _degreeTime,
+    public Map do_teacherInfo_au(TeacherInfo record, SysUserInfo userInfo, String _degreeTime,
                                  String _arriveTime, String _retireTime, HttpServletRequest request) {
 
         int userId = record.getUserId();
@@ -163,10 +158,6 @@ public class MemberBaseInfoController extends MemberBaseController {
         if (source == SystemConstants.USER_SOURCE_BKS || source == SystemConstants.USER_SOURCE_YJS
                 || source == SystemConstants.USER_SOURCE_JZG) {
             return failed("只能修改非人事库的账号信息");
-        }
-
-        if (StringUtils.isNotBlank(_birth)) {
-            userInfo.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
         }
 
         if (StringUtils.isNotBlank(_degreeTime)) {

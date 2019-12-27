@@ -20,6 +20,8 @@
     <result column="handle_time" jdbcType="DATE" property="handleTime" />
     <result column="has_receipt" jdbcType="BIT" property="hasReceipt" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_self_print" jdbcType="BIT" property="isSelfPrint" />
+    <result column="is_self_print_count" jdbcType="INTEGER" property="isSelfPrintCount" />
     <result column="is_modify" jdbcType="BIT" property="isModify" />
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
@@ -62,8 +64,8 @@
   <sql id="Base_Column_List">
     id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    status, is_modify, is_back, reason, apply_time, print_count, last_print_time, last_print_user_id, 
-    member_type, is_retire
+    status, is_self_print, is_self_print_count, is_modify, is_back, reason, apply_time, 
+    print_count, last_print_time, last_print_user_id, member_type, is_retire
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutViewExample" resultMap="BaseResultMap">
     select

@@ -3,6 +3,7 @@ package service.member;
 import controller.global.OpException;
 import domain.member.MemberOut;
 import domain.member.MemberOutExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -40,6 +41,16 @@ public class MemberOutService extends MemberBaseMapper {
     protected ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     private LoginUserService loginUserService;
+
+    public MemberOut findByUserId(Integer userId){
+
+        MemberOutExample example = new MemberOutExample();
+        example.createCriteria().andUserIdEqualTo(userId).andStatusIn(Arrays.asList(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY,
+                MemberConstants.MEMBER_OUT_STATUS_ARCHIVE));
+        List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
+
+        return memberOuts.size() > 0 ? memberOuts.get(0) : null;
+    }
 
     private VerifyAuth<MemberOut> checkVerityAuth(int id) {
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
@@ -476,5 +487,38 @@ public class MemberOutService extends MemberBaseMapper {
         }
 
         return addCount;
+    }
+
+    @Transactional
+    public void updateSelfPrint(MemberOut record){
+
+        memberOutMapper.updateByPrimaryKeySelective(record);
+
+        MemberOut memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
+        SysUserView uv = CmTag.getUserById(memberOut.getUserId());
+        Byte userType = null;;
+        String remark= null;
+        Integer loginUsreId = null;
+        //操作人可能有问题
+        if (ShiroHelper.getCurrentUserId() == null){
+            loginUsreId = record.getUserId();
+            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF;
+        }else {
+            loginUsreId = ShiroHelper.getCurrentUserId();
+            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN;
+        }
+
+        if (memberOut.getIsSelfPrint()){
+            remark = "设置" + uv.getRealname() + "(" + uv.getCode() + ")" + "自助打印状态为是";
+        }else {
+            remark = "设置" + uv.getRealname() + "(" + uv.getCode() + ")" + "自助打印状态为否";
+        }
+
+        applyApprovalLogService.add(memberOut.getId(),
+                memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
+                loginUsreId, userType,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, remark);
+
     }
 }

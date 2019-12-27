@@ -22,6 +22,7 @@ import service.crp.CrpRecordService;
 import service.global.CacheService;
 import service.leader.LeaderService;
 import service.leader.LeaderUnitService;
+import service.member.MemberOutService;
 import service.party.*;
 import service.ps.PsInfoService;
 import service.sys.*;
@@ -31,6 +32,8 @@ import sys.HttpResponseMethod;
 
 @SuppressWarnings("unchecked")
 public class BaseController extends BaseMapper implements HttpResponseMethod {
+    @Autowired
+    protected MemberOutService memberOutService;
     @Autowired
     protected PartyReportService partyReportService;
     @Autowired

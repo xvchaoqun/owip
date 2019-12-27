@@ -721,6 +721,33 @@ public class MemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("memberOutSelfPrint:edit")
+    @RequestMapping("/memberOut/memberOut_selfPrint")
+    public String memberOut_selfPrint() {
+
+        return "member/memberOut/memberOut_selfPrint";
+    }
+
+    @RequiresPermissions("memberOutSelfPrint:edit")
+    @RequestMapping(value = "/memberOut/memberOut_selfPrint", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberOut_selfPrint(@RequestParam(value = "ids[]")Integer[] ids, Boolean isSelfPrint) {
+
+        if (ids != null) {
+            for (Integer id : ids) {
+                MemberOut record = new MemberOut();
+                record.setId(id);
+                if (isSelfPrint == null){
+                    isSelfPrint = false;
+                }
+                record.setIsSelfPrint(isSelfPrint);
+                memberOutService.updateSelfPrint(record);
+                logger.info(addLog(LogConstants.LOG_MEMBER, "变更已完成的组织关系转出党员(%s)的自助打印状态", id));
+            }
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     /*@RequiresPermissions("memberOut:del")
     @RequestMapping(value = "/memberOut_del", method = RequestMethod.POST)
     @ResponseBody

@@ -20,6 +20,8 @@
     <result column="handle_time" jdbcType="DATE" property="handleTime" />
     <result column="has_receipt" jdbcType="BIT" property="hasReceipt" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_self_print" jdbcType="BIT" property="isSelfPrint" />
+    <result column="is_self_print_count" jdbcType="INTEGER" property="isSelfPrintCount" />
     <result column="is_modify" jdbcType="BIT" property="isModify" />
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
@@ -89,7 +91,8 @@
   <sql id="Base_Column_List">
     id, user_id, party_id, branch_id, phone, type, to_title, to_unit, from_unit, from_address, 
     from_phone, from_fax, from_post_code, pay_time, valid_days, handle_time, has_receipt, 
-    status, is_modify, is_back, reason, apply_time, print_count, last_print_time, last_print_user_id
+    status, is_self_print, is_self_print_count, is_modify, is_back, reason, apply_time, 
+    print_count, last_print_time, last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberOutExample" resultMap="BaseResultMap">
     select
@@ -130,19 +133,19 @@
       to_unit, from_unit, from_address, 
       from_phone, from_fax, from_post_code, 
       pay_time, valid_days, handle_time, 
-      has_receipt, status, is_modify, 
-      is_back, reason, apply_time, 
-      print_count, last_print_time, last_print_user_id
-      )
+      has_receipt, status, is_self_print, 
+      is_self_print_count, is_modify, is_back, 
+      reason, apply_time, print_count, 
+      last_print_time, last_print_user_id)
     values (#{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{phone,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{toTitle,jdbcType=VARCHAR}, 
       #{toUnit,jdbcType=VARCHAR}, #{fromUnit,jdbcType=VARCHAR}, #{fromAddress,jdbcType=VARCHAR}, 
       #{fromPhone,jdbcType=VARCHAR}, #{fromFax,jdbcType=VARCHAR}, #{fromPostCode,jdbcType=VARCHAR}, 
       #{payTime,jdbcType=DATE}, #{validDays,jdbcType=INTEGER}, #{handleTime,jdbcType=DATE}, 
-      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isModify,jdbcType=BIT}, 
-      #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
-      #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
-      )
+      #{hasReceipt,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{isSelfPrint,jdbcType=BIT}, 
+      #{isSelfPrintCount,jdbcType=INTEGER}, #{isModify,jdbcType=BIT}, #{isBack,jdbcType=BIT}, 
+      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, 
+      #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -200,6 +203,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="isSelfPrint != null">
+        is_self_print,
+      </if>
+      <if test="isSelfPrintCount != null">
+        is_self_print_count,
       </if>
       <if test="isModify != null">
         is_modify,
@@ -274,6 +283,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isSelfPrint != null">
+        #{isSelfPrint,jdbcType=BIT},
+      </if>
+      <if test="isSelfPrintCount != null">
+        #{isSelfPrintCount,jdbcType=INTEGER},
       </if>
       <if test="isModify != null">
         #{isModify,jdbcType=BIT},
@@ -361,6 +376,12 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.isSelfPrint != null">
+        is_self_print = #{record.isSelfPrint,jdbcType=BIT},
+      </if>
+      <if test="record.isSelfPrintCount != null">
+        is_self_print_count = #{record.isSelfPrintCount,jdbcType=INTEGER},
+      </if>
       <if test="record.isModify != null">
         is_modify = #{record.isModify,jdbcType=BIT},
       </if>
@@ -407,6 +428,8 @@
       handle_time = #{record.handleTime,jdbcType=DATE},
       has_receipt = #{record.hasReceipt,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
+      is_self_print = #{record.isSelfPrint,jdbcType=BIT},
+      is_self_print_count = #{record.isSelfPrintCount,jdbcType=INTEGER},
       is_modify = #{record.isModify,jdbcType=BIT},
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
@@ -472,6 +495,12 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="isSelfPrint != null">
+        is_self_print = #{isSelfPrint,jdbcType=BIT},
+      </if>
+      <if test="isSelfPrintCount != null">
+        is_self_print_count = #{isSelfPrintCount,jdbcType=INTEGER},
+      </if>
       <if test="isModify != null">
         is_modify = #{isModify,jdbcType=BIT},
       </if>
@@ -515,6 +544,8 @@
       handle_time = #{handleTime,jdbcType=DATE},
       has_receipt = #{hasReceipt,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
+      is_self_print = #{isSelfPrint,jdbcType=BIT},
+      is_self_print_count = #{isSelfPrintCount,jdbcType=INTEGER},
       is_modify = #{isModify,jdbcType=BIT},
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},

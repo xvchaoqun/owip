@@ -152,12 +152,21 @@
                                         </c:forEach>
                                         <c:forEach items="${fillPrintTypeList}" var="_type">
                                         <button class="print print${_type.id} fill jqOpenViewBatchBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/report/printPreview"
-                                                data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
-                                                data-open-by="page">
+                                                         data-url="${ctx}/report/printPreview"
+                                                         data-querystr="type=${JASPER_PRINT_TYPE_LETTER_FILL_PRINT}"
+                                                         data-open-by="page">
                                             <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
                                         </button>
                                         </c:forEach>
+                                        <shiro:hasPermission name="memberOutSelfPrint:edit">
+                                        <button data-url="${ctx}/memberOut/memberOut_selfPrint"
+                                                data-title="变更自助打印状态"
+                                                data-msg="确定变更这{0}条数据的自助打印状态？"
+                                                data-grid-id="#jqGrid"
+                                                class="jqOpenViewBatchBtn btn btn-info btn-sm">
+                                            <i class="fa fa-print"></i> 变更自助打印状态
+                                        </button>
+                                        </shiro:hasPermission>
                                         <shiro:hasPermission name="memberOut:abolish">
                                             <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                     data-url="${ctx}/memberOut_abolish">
@@ -426,9 +435,14 @@
                     return html;
                 }
             }},
-            {label: '打印次数', name: 'printCount'},
+            <shiro:hasPermission name="memberOutSelfPrint:edit">
+            {label: '是否允许自助打印', name: 'isSelfPrint', width:125, formatter: function (cellvalue, options, rowObject) {
+                    return cellvalue?"是":"否"}},
+            {label: '自助打印次数', name: 'isSelfPrintCount'},
+            </shiro:hasPermission>
+            /*{label: '打印次数', name: 'printCount'},
             {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
-            {label: '最近打印人', name: 'lastPrintUser.realname'},
+            {label: '最近打印人', name: 'lastPrintUser.realname'},*/
             </shiro:hasAnyRoles>
             </c:if>
             {label: '党员本人联系电话', name: 'phone', width: 180},

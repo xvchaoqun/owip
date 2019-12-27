@@ -45,7 +45,7 @@
                     <label class="col-xs-3 control-label"><span class="star">*</span> 出生日期</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
-                            <input required class="form-control date-picker" name="_birth" type="text"
+                            <input required class="form-control date-picker" name="birth" type="text"
                                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
