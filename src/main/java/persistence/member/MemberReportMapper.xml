@@ -7,6 +7,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
     <result column="report_file" jdbcType="VARCHAR" property="reportFile" />
     <result column="eva_result" jdbcType="TINYINT" property="evaResult" />
     <result column="eva_file" jdbcType="VARCHAR" property="evaFile" />
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, user_id, party_id, party_name, report_file, eva_result, eva_file, remark, 
-    status
+    id, year, user_id, party_id, party_name, branch_id, branch_name, report_file, eva_result, 
+    eva_file, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberReportExample" resultMap="BaseResultMap">
     select
@@ -107,13 +109,15 @@
   </delete>
   <insert id="insert" parameterType="domain.member.MemberReport">
     insert into ow_member_report (id, year, user_id, 
-      party_id, party_name, report_file, 
-      eva_result, eva_file, remark, 
-      status)
+      party_id, party_name, branch_id, 
+      branch_name, report_file, eva_result, 
+      eva_file, remark, status
+      )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{partyId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, #{reportFile,jdbcType=VARCHAR}, 
-      #{evaResult,jdbcType=TINYINT}, #{evaFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+      #{partyId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, #{branchId,jdbcType=INTEGER}, 
+      #{branchName,jdbcType=VARCHAR}, #{reportFile,jdbcType=VARCHAR}, #{evaResult,jdbcType=TINYINT}, 
+      #{evaFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberReport">
     insert into ow_member_report
@@ -132,6 +136,12 @@
       </if>
       <if test="partyName != null">
         party_name,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="branchName != null">
+        branch_name,
       </if>
       <if test="reportFile != null">
         report_file,
@@ -164,6 +174,12 @@
       </if>
       <if test="partyName != null">
         #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="reportFile != null">
         #{reportFile,jdbcType=VARCHAR},
@@ -206,6 +222,12 @@
       <if test="record.partyName != null">
         party_name = #{record.partyName,jdbcType=VARCHAR},
       </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchName != null">
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
+      </if>
       <if test="record.reportFile != null">
         report_file = #{record.reportFile,jdbcType=VARCHAR},
       </if>
@@ -233,6 +255,8 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
       party_name = #{record.partyName,jdbcType=VARCHAR},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
       report_file = #{record.reportFile,jdbcType=VARCHAR},
       eva_result = #{record.evaResult,jdbcType=TINYINT},
       eva_file = #{record.evaFile,jdbcType=VARCHAR},
@@ -256,6 +280,12 @@
       </if>
       <if test="partyName != null">
         party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
       </if>
       <if test="reportFile != null">
         report_file = #{reportFile,jdbcType=VARCHAR},
@@ -281,6 +311,8 @@
       user_id = #{userId,jdbcType=INTEGER},
       party_id = #{partyId,jdbcType=INTEGER},
       party_name = #{partyName,jdbcType=VARCHAR},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      branch_name = #{branchName,jdbcType=VARCHAR},
       report_file = #{reportFile,jdbcType=VARCHAR},
       eva_result = #{evaResult,jdbcType=TINYINT},
       eva_file = #{evaFile,jdbcType=VARCHAR},

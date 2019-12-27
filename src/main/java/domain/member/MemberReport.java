@@ -26,6 +26,10 @@ public class MemberReport implements Serializable {
 
     private String partyName;
 
+    private Integer branchId;
+
+    private String branchName;
+
     private String reportFile;
 
     private Byte evaResult;
@@ -76,6 +80,22 @@ public class MemberReport implements Serializable {
 
     public void setPartyName(String partyName) {
         this.partyName = partyName == null ? null : partyName.trim();
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName == null ? null : branchName.trim();
     }
 
     public String getReportFile() {

@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.party.Branch;
 import domain.party.Party;
 import domain.party.PartyReport;
 import domain.party.PartyReportExample;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -32,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-import static sys.constants.OwConstants.OW_REPORT_STATUS_REPORT;
-import static sys.constants.OwConstants.OW_REPORT_STATUS_UNREPORT;
+import static sys.constants.OwConstants.*;
+import static sys.constants.OwConstants.OW_PARTY_EVA_MAP;
 
 @Controller
 
@@ -43,10 +42,13 @@ public class PartyReportController extends BaseController {
 
     @RequiresPermissions("partyReport:list")
     @RequestMapping("/partyReport")
-    public String partyReport(Integer partyId, ModelMap modelMap) {
+    public String partyReport(Integer partyId,Integer branchId, ModelMap modelMap) {
+        Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         if (partyId != null)
             modelMap.put("party", partyMap.get(partyId));
+        if (branchId != null)
+            modelMap.put("branch", branchMap.get(branchId));
         return "party/partyReport/partyReport_page";
     }
 
@@ -56,6 +58,7 @@ public class PartyReportController extends BaseController {
     public void partyReport_data(HttpServletResponse response,
                                  Integer year,
                                  Integer partyId,
+                                 Integer branchId,
                                  Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -71,19 +74,24 @@ public class PartyReportController extends BaseController {
 
         PartyReportExample example = new PartyReportExample();
         Criteria criteria = example.createCriteria();
-        criteria.addPermits(loginUserService.adminPartyIdList());
+        criteria.addPermits(loginUserService.adminPartyIdList(),loginUserService.adminBranchIdList());
         example.setOrderByClause("id desc");
 
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
+       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
             criteria.andStatusEqualTo(OW_REPORT_STATUS_REPORT);
-        }
+        }*/
         if (year != null) {
             criteria.andYearEqualTo(year);
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        if (status != null) {
+            criteria.andStatusEqualTo(status);
+        }
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -146,7 +154,16 @@ public class PartyReportController extends BaseController {
         }
         return "party/partyReport/partyReport_au";
     }
+    @RequiresPermissions("partyReport:edit")
+    @RequestMapping("/partyReport_file")
+    public String partyReport_file(Integer id, ModelMap modelMap) {
 
+        if (id != null) {
+            PartyReport partyReport = partyReportMapper.selectByPrimaryKey(id);
+            modelMap.put("partyReport", partyReport);
+        }
+        return "party/partyReport/partyReport_file";
+    }
     @RequiresPermissions("partyReport:del")
     @RequestMapping(value = "/partyReport_del", method = RequestMethod.POST)
     @ResponseBody
@@ -177,17 +194,17 @@ public class PartyReportController extends BaseController {
     @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyReport_report(PartyReport record, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
+    public Map partyReport_report(@RequestParam(value = "ids[]") Integer[] ids, @RequestParam(required = false, defaultValue = "0") Integer back, HttpServletRequest request, ModelMap modelMap) {
 
-
-        if (record.getId() != null) {
+        Byte status=null;
+        if (ids != null) {
             if (back == 1) {
-                record.setStatus(OW_REPORT_STATUS_UNREPORT);
+                status=OW_REPORT_STATUS_UNREPORT;
             } else {
-                record.setStatus(OW_REPORT_STATUS_REPORT);
+                status=OW_REPORT_STATUS_REPORT;
             }
-            partyReportService.updateByPrimaryKeySelective(record);
-            logger.info(log(LogConstants.LOG_MEMBER, "报送党支部考核：{0}", record.getId()));
+            partyReportService.batchReport(ids,status);
+            logger.info(log(LogConstants.LOG_MEMBER, "报送党支部考核：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -197,17 +214,15 @@ public class PartyReportController extends BaseController {
 
         List<PartyReport> records = partyReportMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100", "所属分党委|100", "工作总结|100", "考核结果|100", "考核结果文件|100", "状态  1未报送  2 已报送|100"};
+        String[] titles = {"年度|100", "所属二级单位党组织|300", "党支部|300", "考核结果|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyReport record = records.get(i);
             String[] values = {
                     record.getYear() + "",
-                    record.getPartyId() + "",
-                    record.getReportFile(),
-                    record.getEvaResult() + "",
-                    record.getEvaFile(),
-                    record.getStatus() + ""
+                    record.getParty().getName() + "",
+                    record.getBranch()==null?"":record.getBranch().getName(),
+                    OW_PARTY_EVA_MAP.get(record.getEvaResult())==null?"":OW_PARTY_EVA_MAP.get(record.getEvaResult())
             };
             valuesList.add(values);
         }

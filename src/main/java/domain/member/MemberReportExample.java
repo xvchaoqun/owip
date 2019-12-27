@@ -1,5 +1,6 @@
 package domain.member;
 
+import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
@@ -417,6 +418,136 @@ public class MemberReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andBranchIdIsNull() {
+            addCriterion("branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIsNotNull() {
+            addCriterion("branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdEqualTo(Integer value) {
+            addCriterion("branch_id =", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotEqualTo(Integer value) {
+            addCriterion("branch_id <>", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThan(Integer value) {
+            addCriterion("branch_id >", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_id >=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThan(Integer value) {
+            addCriterion("branch_id <", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_id <=", value, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdIn(List<Integer> values) {
+            addCriterion("branch_id in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotIn(List<Integer> values) {
+            addCriterion("branch_id not in", values, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_id not between", value1, value2, "branchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIsNull() {
+            addCriterion("branch_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIsNotNull() {
+            addCriterion("branch_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameEqualTo(String value) {
+            addCriterion("branch_name =", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotEqualTo(String value) {
+            addCriterion("branch_name <>", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameGreaterThan(String value) {
+            addCriterion("branch_name >", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameGreaterThanOrEqualTo(String value) {
+            addCriterion("branch_name >=", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLessThan(String value) {
+            addCriterion("branch_name <", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLessThanOrEqualTo(String value) {
+            addCriterion("branch_name <=", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameLike(String value) {
+            addCriterion("branch_name like", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotLike(String value) {
+            addCriterion("branch_name not like", value, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameIn(List<String> values) {
+            addCriterion("branch_name in", values, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotIn(List<String> values) {
+            addCriterion("branch_name not in", values, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameBetween(String value1, String value2) {
+            addCriterion("branch_name between", value1, value2, "branchName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNameNotBetween(String value1, String value2) {
+            addCriterion("branch_name not between", value1, value2, "branchName");
+            return (Criteria) this;
+        }
+
         public Criteria andReportFileIsNull() {
             addCriterion("report_file is null");
             return (Criteria) this;
@@ -746,8 +877,6 @@ public class MemberReportExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
-
-
     }
 
     public static class Criteria extends GeneratedCriteria {
@@ -755,17 +884,23 @@ public class MemberReportExample {
         protected Criteria() {
             super();
         }
-        public MemberReportExample.Criteria addPermits(List<Integer> partyIdList) {
+        public MemberReportExample.Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
 
             if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
                 return this;
 
             if(partyIdList==null) partyIdList = new ArrayList<>();
+            if(branchIdList==null) branchIdList = new ArrayList<>();
 
-            if(!partyIdList.isEmpty())
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
+            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+                andBranchIdIn(branchIdList);
+            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
-            if(partyIdList.isEmpty())
-                andPartyIdIsNull();
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andUserIdIsNull();
+
             return this;
         }
     }

@@ -9,6 +9,9 @@ public class PartyReport implements Serializable {
     public Party getParty(){
         return CmTag.getParty(partyId);
     }
+    public Branch getBranch(){
+        return CmTag.getBranch(branchId);
+    }
     private Integer id;
 
     private Integer year;
@@ -16,6 +19,10 @@ public class PartyReport implements Serializable {
     private Integer partyId;
 
     private String partyName;
+
+    private Integer branchId;
+
+    private String branchName;
 
     private String reportFile;
 
@@ -59,6 +66,22 @@ public class PartyReport implements Serializable {
 
     public void setPartyName(String partyName) {
         this.partyName = partyName == null ? null : partyName.trim();
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName == null ? null : branchName.trim();
     }
 
     public String getReportFile() {

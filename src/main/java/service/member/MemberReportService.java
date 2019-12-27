@@ -1,5 +1,6 @@
 package service.member;
 
+import domain.member.Member;
 import domain.member.MemberReport;
 import domain.member.MemberReportExample;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
@@ -15,7 +15,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static sys.constants.OwConstants.OW_REPORT_STATUS_REPORT;
 import static sys.constants.OwConstants.OW_REPORT_STATUS_UNREPORT;
 
 @Service
@@ -33,12 +32,16 @@ public class MemberReportService extends MemberBaseMapper {
     }
     @Transactional
     public void insertSelective(MemberReport record){
-        if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+       Member member= memberMapper.selectByPrimaryKey(record.getUserId());
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
             throw new UnauthorizedException();
         }
         Assert.isTrue(!idDuplicate(null, record.getUserId(),record.getYear()), "duplicate");
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
+       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
             record.setStatus(OW_REPORT_STATUS_REPORT);
+        }*/
+        if(member!=null){
+        record.setBranchId(member.getBranchId());
         }
         memberReportMapper.insertSelective(record);
     }
@@ -46,7 +49,8 @@ public class MemberReportService extends MemberBaseMapper {
     @Transactional
     public void del(Integer id){
         MemberReport record= memberReportMapper.selectByPrimaryKey(id);
-        if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+        Member member= memberMapper.selectByPrimaryKey(record.getUserId());
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), member.getBranchId())){
             throw new UnauthorizedException();
         }
         memberReportMapper.deleteByPrimaryKey(id);
@@ -63,18 +67,44 @@ public class MemberReportService extends MemberBaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(OW_REPORT_STATUS_UNREPORT);
         memberReportMapper.deleteByExample(example);
     }
+    @Transactional
+    public void batchReport(Integer[] ids,Byte status){
+       /* if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+            throw new UnauthorizedException();
+        }*/
+        if(ids==null || ids.length==0) return;
+
+        MemberReport record =new MemberReport();
+        record.setStatus(status);
+
+        MemberReportExample example = new MemberReportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        memberReportMapper.updateByExampleSelective(record,example);
+    }
 
     @Transactional
     public void updateByPrimaryKeySelective(MemberReport record){
+        Member member= memberMapper.selectByPrimaryKey(record.getUserId());
         MemberReport memberReport= memberReportMapper.selectByPrimaryKey(record.getId());
-        if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId())){
+        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId(), member.getBranchId())){
             throw new UnauthorizedException();
         }
         if(record.getUserId()!= null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(),record.getYear()), "duplicate");
         memberReportMapper.updateByPrimaryKeySelective(record);
     }
+    // 批量导入
+    @Transactional
+    public int memberReportImport(List<MemberReport> records) throws InterruptedException {
 
+        int addCount = 0;
+
+        for (MemberReport record : records) {
+            insertSelective(record);
+            addCount++;
+        }
+        return addCount;
+    }
     public Map<Integer, MemberReport> findAll() {
 
         MemberReportExample example = new MemberReportExample();

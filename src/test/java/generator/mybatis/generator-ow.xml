@@ -167,7 +167,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>-->
-        <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
+       <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -179,7 +179,7 @@
                <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>
+         </table>-->
 
           <!--  <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -257,9 +257,9 @@
         <!--<table tableName="ow_party_post_view" domainObjectName="party.PartyPostView" mapperName="party.PartyPostViewMapper">
 
         </table>-->
-      <!--  <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
-        </table>
-        <table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
+    <!--    <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
         </table>-->
+        <table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
+        </table>
     </context>
 </generatorConfiguration>

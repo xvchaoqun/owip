@@ -8,15 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static sys.constants.OwConstants.OW_REPORT_STATUS_REPORT;
 
 @Service
 public class PartyReportService extends BaseMapper {
@@ -34,13 +31,13 @@ public class PartyReportService extends BaseMapper {
 
     @Transactional
     public void insertSelective(PartyReport record) {
-        if (!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(), record.getPartyId())) {
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), record.getPartyId(),record.getBranchId())) {
             throw new UnauthorizedException();
         }
         Assert.isTrue(!idDuplicate(null, record.getPartyId(), record.getYear()), "duplicate");
-        if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
+       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
             record.setStatus(OW_REPORT_STATUS_REPORT);
-        }
+        }*/
         partyReportMapper.insertSelective(record);
     }
 
@@ -48,7 +45,7 @@ public class PartyReportService extends BaseMapper {
     public void del(Integer id) {
 
         PartyReport record = partyReportMapper.selectByPrimaryKey(id);
-        if (!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(), record.getPartyId())) {
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), record.getPartyId(), record.getBranchId())) {
             throw new UnauthorizedException();
         }
         partyReportMapper.deleteByPrimaryKey(id);
@@ -63,11 +60,24 @@ public class PartyReportService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         partyReportMapper.deleteByExample(example);
     }
+    @Transactional
+    public void batchReport(Integer[] ids,Byte status){
+       /* if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+            throw new UnauthorizedException();
+        }*/
+        if(ids==null || ids.length==0) return;
 
+        PartyReport record =new PartyReport();
+        record.setStatus(status);
+
+        PartyReportExample example = new PartyReportExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        partyReportMapper.updateByExampleSelective(record,example);
+    }
     @Transactional
     public void updateByPrimaryKeySelective(PartyReport record) {
         PartyReport partyReport = partyReportMapper.selectByPrimaryKey(record.getId());
-        if (!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(), partyReport.getPartyId())) {
+        if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), partyReport.getPartyId(), partyReport.getBranchId())) {
             throw new UnauthorizedException();
         }
         if (record.getPartyId() != null)

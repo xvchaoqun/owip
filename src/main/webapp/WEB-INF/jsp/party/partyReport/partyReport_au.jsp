@@ -33,18 +33,31 @@
                 </select>
             </div>
         </div>
-
-        <div class="form-group">
+        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+            <label class="col-xs-4 control-label"><span class="star">*</span> 党支部</label>
+            <div class="col-xs-6">
+                <select class="form-control"  data-rel="select2-ajax"
+                        data-ajax-url="${ctx}/branch_selects?auth=1"
+                        name="branchId" data-placeholder="请选择党支部" data-width="272">
+                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                </select>
+            </div>
+        </div>
+        <script>
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
+                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}",  "${party.classId}" );
+        </script>
+       <%-- <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span> 工作总结</label>
             <div class="col-xs-6">
                 <input ${partyReport.reportFile==null?'required':''} class="form-control" type="file"
                                                                      name="_reportFile">
             </div>
-        </div>
+        </div>--%>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 考核结果</label>
+            <label class="col-xs-4 control-label"> 考核结果</label>
             <div class="col-xs-6">
-                <select required data-rel="select2" name="evaResult" data-placeholder="请选择" data-width="272">
+                <select data-rel="select2" name="evaResult" data-placeholder="请选择" data-width="272">
                     <option></option>
                     <c:forEach var="_type" items="${OW_PARTY_EVA_MAP}">
                         <option value="${_type.key}">${_type.value}</option>
@@ -56,13 +69,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 考核结果文件</label>
+            <label class="col-xs-4 control-label"> 考核结果文件</label>
             <div class="col-xs-6">
-                <input ${partyReport.evaFile==null?'required':''} class="form-control" type="file" name="_evaFile">
+                <input class="form-control" type="file" name="_evaFile">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 备注</label>
+            <label class="col-xs-4 control-label"> 备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control" type="text" name="remark">${partyReport.remark}</textarea>
             </div>
@@ -108,8 +121,8 @@
         }
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
-    $.register.user_select($('[data-rel="select2-ajax"]'));
-    $('#modalForm [data-rel="select2"]').select2();
+    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#modalForm [name="evaResult"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
