@@ -162,7 +162,7 @@
                                                             </button>
                                                             </c:if>
                                                             <shiro:hasPermission name="memberBaseInfo:edit">
-                                                                <button class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
+                                                                <button class="jqOpenViewBtn btn btn-info btn-sm tooltip-success"
                                                                         data-url="${ctx}/memberBaseInfo_au"
                                                                         data-open-by="page" data-id-name="userId"
                                                                         data-rel="tooltip" data-placement="top" title="修改账号基本信息">
