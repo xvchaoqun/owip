@@ -528,8 +528,8 @@
             <c:if test="${cls==2 || cls==3||cls==7}">
             {label: '人员状态', name: 'staffStatus', width: 120},
             </c:if>
-            {label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
-            {label: '所在院系', name: 'unit', width: 180, align: 'left'},
+            /*{label: '所在单位', name: 'unitId', width: 180, align: 'left', formatter: $.jgrid.formatter.unit},
+            {label: '所在院系', name: 'unit', width: 180, align: 'left'},*/
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
         ]
     }).jqGrid("setFrozenColumns");
