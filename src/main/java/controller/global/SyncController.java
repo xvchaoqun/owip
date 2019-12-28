@@ -33,7 +33,6 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -249,15 +248,10 @@ public class SyncController extends BaseController {
     @RequiresPermissions("sysSync:edit")
     @RequestMapping(value = "/sync_stop", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysSync_au(int id,  HttpServletRequest request) {
+    public Map do_sysSync_au(int id) {
 
-        SysSync record = new SysSync();
-        record.setId(id);
-        record.setIsStop(true);
-        record.setEndTime(new Date());
-        record.setAutoStop(false);
-        sysSyncService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "结束账号同步：%s", record.getId()));
+        sysSyncService.stop(id);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "结束账号同步：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

@@ -1,3 +1,34 @@
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2717, 0, '党支部书记考核：基本信息添加修改', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:base', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2718, 0, '党支部考核：基本信息添加修改', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:base', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `ow_party_report`
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属党支部' AFTER `party_name`,
+	ADD COLUMN `branch_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '所属党支部名称' AFTER `branch_id`;
+ALTER TABLE `ow_member_report`
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属党支部' AFTER `party_name`,
+	ADD COLUMN `branch_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '所属党支部名称' AFTER `branch_id`;
+
+DROP VIEW IF EXISTS `ow_member_out_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
+select mo.*, m.type as member_type, t.is_retire
+from ow_member_out mo, ow_member m
+left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2526, 0, '介绍信自助打印', '', 'function', '', NULL, 252, '0/1/105/252/', 1, 'memberOutSelfPrint:edit', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `is_self_print` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否允许自助打印' AFTER `status`;
+ALTER TABLE `ow_member_out`
+	ADD COLUMN `is_self_print_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '自助打印次数' AFTER `is_self_print`;
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2524, 0, '基本情况登记表', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpInfoForm:list', NULL, NULL, NULL, 1, 90);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2525, 0, '基本情况登记表下载', '', 'function', '', NULL, 2524, '0/1/2574/2524/', 1, 'dpInfoForm:download', NULL, NULL, NULL, 1, NULL);
+
+
 20191224
 北邮  -- 北师大
 

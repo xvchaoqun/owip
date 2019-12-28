@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>变更自助打印状态</h3>
+    <h3>自助打印</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberOut/memberOut_selfPrint" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -11,18 +11,17 @@ pageEncoding="UTF-8"%>
 		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
 		<c:if test="${count>=1}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">变更状态人数</label>
+				<label class="col-xs-5 control-label">已选记录数</label>
 				<div class="col-xs-6 label-text">
 						${count} 个
 				</div>
 			</div>
 		</c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span> 自助打印状态</label>
+			<label class="col-xs-5 control-label">自助打印状态</label>
 			<div class="col-xs-6">
 				<label>
-					<input name="isSelfPrint"checked
-						   type="checkbox" />
+					<input name="isSelfPrint"checked type="checkbox" data-on-text="开启" data-off-text="关闭"/>
 					<span class="lbl"></span>
 				</label>
 			</div>
@@ -30,6 +29,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
+	<div class="note">自动打印状态为“开启”后，可以进行自助打印。</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"

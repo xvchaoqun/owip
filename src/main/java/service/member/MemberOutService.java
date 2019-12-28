@@ -3,7 +3,6 @@ package service.member;
 import controller.global.OpException;
 import domain.member.MemberOut;
 import domain.member.MemberOutExample;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -42,7 +41,7 @@ public class MemberOutService extends MemberBaseMapper {
     @Autowired
     private LoginUserService loginUserService;
 
-    public MemberOut findByUserId(Integer userId){
+    public MemberOut findByUserId(Integer userId) {
 
         MemberOutExample example = new MemberOutExample();
         example.createCriteria().andUserIdEqualTo(userId).andStatusIn(Arrays.asList(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY,
@@ -184,7 +183,7 @@ public class MemberOutService extends MemberBaseMapper {
     public void back(int userId) {
 
         MemberOut memberOut = getLatest(userId);
-        if (memberOut==null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
+        if (memberOut == null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
             throw new OpException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
@@ -208,7 +207,7 @@ public class MemberOutService extends MemberBaseMapper {
     public void deny(int userId, String reason) {
 
         MemberOut memberOut = getLatest(userId);
-        if (memberOut==null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
+        if (memberOut == null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
             throw new OpException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
@@ -232,13 +231,13 @@ public class MemberOutService extends MemberBaseMapper {
         record.setUserId(userId);
 
         boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
-        if(memberOutNeedOwCheck){
+        if (memberOutNeedOwCheck) {
             record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
-        }else{
+        } else {
             record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
         }
         updateByPrimaryKeySelective(record);
-        if(!memberOutNeedOwCheck) {
+        if (!memberOutNeedOwCheck) {
             memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
         }
     }
@@ -270,7 +269,7 @@ public class MemberOutService extends MemberBaseMapper {
         if (memberOut.getStatus() == MemberConstants.MEMBER_OUT_STATUS_ARCHIVE) {
             throw new OpException("已归档记录无须撤销。",
                     MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
-        }else if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
+        } else if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
             throw new OpException("存在未转出审批记录【状态：{0}】，无法撤销",
                     MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()));
         }
@@ -331,7 +330,7 @@ public class MemberOutService extends MemberBaseMapper {
             memberOutMapper.updateByPrimaryKeySelective(record);
         }
 
-        if(record.getStatus()!=null && record.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+        if (record.getStatus() != null && record.getStatus() == MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
             // memberOutNeedOwCheck = false的情况
             memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
         }
@@ -490,35 +489,42 @@ public class MemberOutService extends MemberBaseMapper {
     }
 
     @Transactional
-    public void updateSelfPrint(MemberOut record){
+    public void updateSelfPrint(Integer[] ids, boolean isSelfPrint) {
 
-        memberOutMapper.updateByPrimaryKeySelective(record);
+        int currentUserId = ShiroHelper.getCurrentUserId();
+        for (Integer id : ids) {
+
+            MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
+            // 判断一下权限
+            if (!PartyHelper.hasBranchAuth(currentUserId,
+                    memberOut.getPartyId(), memberOut.getBranchId())) {
+                throw new UnauthorizedException();
+            }
+
+            MemberOut record = new MemberOut();
+            record.setId(id);
+            record.setIsSelfPrint(isSelfPrint);
+            memberOutMapper.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(memberOut.getId(),
+                    memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
+                    currentUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "自动打印",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, isSelfPrint?"开启":"关闭");
+        }
+    }
+
+    @Transactional
+    public void updateSelfPrintApi(MemberOut record) {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
-        SysUserView uv = CmTag.getUserById(memberOut.getUserId());
-        Byte userType = null;;
-        String remark= null;
-        Integer loginUsreId = null;
-        //操作人可能有问题
-        if (ShiroHelper.getCurrentUserId() == null){
-            loginUsreId = record.getUserId();
-            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF;
-        }else {
-            loginUsreId = ShiroHelper.getCurrentUserId();
-            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN;
-        }
-
-        if (memberOut.getIsSelfPrint()){
-            remark = "设置" + uv.getRealname() + "(" + uv.getCode() + ")" + "自助打印状态为是";
-        }else {
-            remark = "设置" + uv.getRealname() + "(" + uv.getCode() + ")" + "自助打印状态为否";
-        }
+        memberOutMapper.updateByPrimaryKeySelective(record);
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
-                loginUsreId, userType,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, MemberConstants.MEMBER_OUT_STATUS_MAP.get(memberOut.getStatus()),
-                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, remark);
-
+                null, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                "自动打印",
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "完成");
     }
 }

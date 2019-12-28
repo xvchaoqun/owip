@@ -67,7 +67,8 @@ public class SyncService extends BaseMapper {
     public synchronized void syncJzgSalary(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG_SALARY)) {
-            throw new OpException("上一次同步仍在进行中");
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_JZG_SALARY);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_JZG_SALARY));
         }
 
         SysSync sysSync = new SysSync();
@@ -114,7 +115,8 @@ public class SyncService extends BaseMapper {
     public synchronized void syncRetireSalary(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
-            throw new OpException("上一次同步仍在进行中");
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_RETIRE_SALARY));
         }
         SysSync sysSync = new SysSync();
         if (!autoStart) {
@@ -157,7 +159,8 @@ public class SyncService extends BaseMapper {
     public synchronized void syncAllAbroad(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
-            throw new OpException("上一次同步仍在进行中");
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_ABROAD);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_ABROAD));
         }
 
         SysSync sysSync = new SysSync();
@@ -252,7 +255,8 @@ public class SyncService extends BaseMapper {
     public synchronized void syncAllJZG(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
-            throw new OpException("上一次同步仍在进行中");
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_JZG);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_JZG));
         }
 
         SysSync sysSync = new SysSync();
@@ -379,7 +383,8 @@ public class SyncService extends BaseMapper {
     public synchronized void syncAllYJS(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
-            throw new OpException("上一次同步仍在进行中");
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_YJS);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_YJS));
         }
 
         SysSync sysSync = new SysSync();
@@ -509,7 +514,9 @@ public class SyncService extends BaseMapper {
     public synchronized void syncAllBks(boolean autoStart) {
 
         if (sysSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {
-            throw new OpException("上一次同步仍在进行中");
+
+            sysSyncService.stopAll(SystemConstants.SYNC_TYPE_BKS);
+            logger.info("系统自动停止上一次同步任务:" + SystemConstants.SYNC_TYPE_MAP.get(SystemConstants.SYNC_TYPE_BKS));
         }
 
         SysSync sysSync = new SysSync();

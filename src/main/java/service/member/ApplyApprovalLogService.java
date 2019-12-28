@@ -14,7 +14,7 @@ import java.util.List;
 public class ApplyApprovalLogService extends MemberBaseMapper {
     
     public void add(Integer recordId, Integer partyId, Integer branchId, Integer applyUserId,
-                                int userId, byte userType, byte type,
+                                Integer userId, byte userType, byte type,
                                 String stage, byte status, String remark){
 
         HttpServletRequest request = ContextHelper.getRequest();

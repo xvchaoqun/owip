@@ -259,7 +259,12 @@ public class PartyPublicController extends BaseController {
         if(ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)){
             pubDate = record.getPubDate(); // 只有组织部管理员才允许更新公示日期
         }else {
-            pubDate = (id==null)?new Date():null;
+            if(id==null){
+                pubDate = new Date();
+            }else{
+                PartyPublic partyPublic = partyPublicMapper.selectByPrimaryKey(id);
+                pubDate = partyPublic.getPubDate();
+            }
         }
         record.setPubDate(pubDate);
 

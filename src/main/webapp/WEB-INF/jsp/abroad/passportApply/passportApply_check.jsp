@@ -110,13 +110,6 @@ pageEncoding="UTF-8"%>
     $("#print").click(function(){
         $.print("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");
     });
-  /*  $("#print").click(function(){ // 兼容谷歌
-        //$("#myframe").jqprint();
-        var myframe = document.getElementById("myframe");
-        myframe.focus();
-        myframe.contentWindow.print();
-    });
-*/
     $("#agree").click(function(){
         var _expectDate = $("input[name=_expectDate]").val();
         if( _expectDate == ''){

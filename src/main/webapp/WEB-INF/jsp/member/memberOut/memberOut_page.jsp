@@ -130,14 +130,14 @@
                                         data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT%>"
                                         data-open-by="page">
-                                    <i class="fa fa-check-circle-o"></i> 查看审批记录
+                                    <i class="fa fa-search"></i> 操作记录
                                 </button>
                                     <c:if test="${cls==3}">
                                 <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                         data-url="${ctx}/memberOutModify"
                                         data-id-name="outId"
                                         data-open-by="page">
-                                    <i class="fa fa-search"></i> 查看修改记录
+                                    <i class="fa fa-search"></i> 修改记录
                                 </button>
                                 </c:if>
                                 <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
@@ -161,10 +161,9 @@
                                         <shiro:hasPermission name="memberOutSelfPrint:edit">
                                         <button data-url="${ctx}/memberOut/memberOut_selfPrint"
                                                 data-title="变更自助打印状态"
-                                                data-msg="确定变更这{0}条数据的自助打印状态？"
                                                 data-grid-id="#jqGrid"
                                                 class="jqOpenViewBatchBtn btn btn-info btn-sm">
-                                            <i class="fa fa-print"></i> 变更自助打印状态
+                                            <i class="fa fa-print"></i> 自助打印
                                         </button>
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="memberOut:abolish">
@@ -420,7 +419,7 @@
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
              <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-            { label: '打印', formatter:function(cellvalue, options, rowObject){
+            { label: '后台打印', width: 110, formatter:function(cellvalue, options, rowObject){
 
                 var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
                 if(!isFillPrint){
@@ -436,8 +435,8 @@
                 }
             }},
             <shiro:hasPermission name="memberOutSelfPrint:edit">
-            {label: '是否允许自助打印', name: 'isSelfPrint', width:125, formatter: function (cellvalue, options, rowObject) {
-                    return cellvalue?"是":"否"}},
+            {label: '自助打印状态', name: 'isSelfPrint', formatter: function (cellvalue, options, rowObject) {
+                    return cellvalue?"开启":"关闭"}},
             {label: '自助打印次数', name: 'isSelfPrintCount'},
             </shiro:hasPermission>
             /*{label: '打印次数', name: 'printCount'},

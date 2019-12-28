@@ -19,7 +19,7 @@
     <!-- /section:custom/widget-box.options -->
     <div class="widget-body">
       <div class="widget-main no-padding">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover table-center">
           <thead class="thin-border-bottom">
           <tr>
             <th>阶段</th>
@@ -36,7 +36,7 @@
             <td>${record.stage}</td>
             <td>${cm:getUserById(record.userId).realname}</td>
             <td>${OW_APPLY_APPROVAL_LOG_STATUS_MAP.get(record.status)}</td>
-            <td>${record.remark}</td>
+            <td class="text-left">${record.remark}</td>
             <td>${cm:formatDate(record.createTime,'yyyy-MM-dd HH:mm:ss')}</td>
           </tr>
           </c:forEach>

@@ -60,11 +60,11 @@ public class ApiMemberController extends BaseController {
     }
 
     @NeedSign
-    @RequestMapping("/memberOut_print")
+    @RequestMapping("/print")
     @ResponseBody
-    public Map memberOut_print(@SignParam(value = "code") String code, HttpServletRequest request) {
+    public Map print(@SignParam(value = "code") String code, HttpServletRequest request) {
 
-        logger.info(MessageFormat.format("打印介绍信接口, {0}, {1}, {2}, {3}, {4}",
+        logger.info(MessageFormat.format("自助打印组织关系转出介绍信接口, {0}, {1}, {2}, {3}, {4}",
                 request.getRequestURI(),
                 request.getMethod(),
                 JSONUtils.toString(request.getParameterMap(), false),
@@ -73,25 +73,25 @@ public class ApiMemberController extends BaseController {
         Map resultMap;
         SysUserView sysUser = sysUserService.findByCode(code);
         if(sysUser==null){
-            resultMap = ret(-1, "用户不存在");
+            resultMap = ret(1, "学工号不存在");
             return resultMap;
         }
 
         MemberOut memberOut = memberOutService.findByUserId(sysUser.getId());
         if(memberOut==null){
-            resultMap = ret(-2, "该用户不是组织关系转出的党员");
+            resultMap = ret(2, "不存在组织关系转出记录");
             return resultMap;
         }
         if(!memberOut.getIsSelfPrint()){
-            resultMap = ret(0, "该党员未被批准打印介绍信息");
+            resultMap = ret(3, "没有自助打印权限");
         }else{
             MemberOut record = new MemberOut();
             record.setId(memberOut.getId());
             int count = memberOut.getIsSelfPrintCount() + 1;
             record.setIsSelfPrintCount(count);
             record.setIsSelfPrint(false);
-            memberOutService.updateSelfPrint(record);
-            resultMap = ret(1, "该党员被批准打印介绍信");
+            memberOutService.updateSelfPrintApi(record);
+            resultMap = ret(0, "成功");
         }
 
         return resultMap;

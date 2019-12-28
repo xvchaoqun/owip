@@ -12,6 +12,7 @@ public class SystemConstants {
 
         appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");
         appKeyMap.put("oa", "b887e286bf5d82b7b9712ed03d3e6e0e");
+        appKeyMap.put("zcdy", "5931e054d3b59be97b3481f6e604afe6");
     }
 
     public static Map loginFailedResultMap(String message) {

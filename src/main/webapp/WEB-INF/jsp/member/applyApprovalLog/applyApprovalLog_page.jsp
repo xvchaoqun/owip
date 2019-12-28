@@ -48,7 +48,7 @@
           return $.party(rowObject.partyId, rowObject.branchId);
       }
       },
-      { label:'备注',  name: 'remark', width: 450 },
+      { label:'备注', align:'left',  name: 'remark', width: 450 },
       { label:'IP',  name: 'ip', width: 150 },{hidden: true, name: 'status'}
     ],
     rowattr: function(rowData, currentObj, rowId)

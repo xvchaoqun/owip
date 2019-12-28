@@ -74,7 +74,7 @@
         </c:if>
         <c:if test="${commonList.recNum==0}">
           <div class="well well-lg center">
-            <h4 class="green lighter">没有未出行的因私出国申请<c:if test="${param.auth!='admin'}">，<a href="${ctx}/user/abroad/applySelf">现在去申请</a></c:if></h4>
+            <h4 class="green lighter">没有未出行的因私出国申请<c:if test="${param.auth!='admin'}">，<a href="#${ctx}/user/abroad/applySelf">现在去申请</a></c:if></h4>
           </div>
         </c:if>
     </div><!-- /.widget-main -->

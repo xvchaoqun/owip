@@ -734,16 +734,10 @@ public class MemberOutController extends MemberBaseController {
     public Map do_memberOut_selfPrint(@RequestParam(value = "ids[]")Integer[] ids, Boolean isSelfPrint) {
 
         if (ids != null) {
-            for (Integer id : ids) {
-                MemberOut record = new MemberOut();
-                record.setId(id);
-                if (isSelfPrint == null){
-                    isSelfPrint = false;
-                }
-                record.setIsSelfPrint(isSelfPrint);
-                memberOutService.updateSelfPrint(record);
-                logger.info(addLog(LogConstants.LOG_MEMBER, "变更已完成的组织关系转出党员(%s)的自助打印状态", id));
-            }
+
+            memberOutService.updateSelfPrint(ids, BooleanUtils.isTrue(isSelfPrint));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "变更已完成的组织关系转出党员(%s)的自助打印状态",
+                    StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

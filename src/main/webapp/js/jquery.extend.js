@@ -1107,9 +1107,11 @@ var _modal_width;
             var isFirefox = navigator.userAgent.toUpperCase().indexOf("FIREFOX") ? true : false;
             //alert($.isIE())
             if ($.isIE() || isFirefox) {
-                var win = window.open(url);
-                win.focus();
+                window.open(url);
+                $.getEvent().stopPropagation();
+                /*360兼容模式有问题：
                 win.print();
+                win.focus();*/
             } else {
                 var iframe = document.createElement('IFRAME');
                 iframe.style.display = "none";
@@ -1435,9 +1437,9 @@ if ($.jgrid) {
             }
         },
         sortorder: "desc",
-        ondblClickRow: function (rowid, iRow, iCol, e) {
+        /*ondblClickRow: function (rowid, iRow, iCol, e) {
             $(".jqEditBtn").click();
-        },
+        },*/
         onPaging: function () {
             $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
         },
