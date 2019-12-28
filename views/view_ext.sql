@@ -117,7 +117,8 @@ left join ow_branch ob on om.branch_id=ob.id;
 DROP VIEW IF EXISTS `ext_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ext_member_out_view`
 AS SELECT u.code, u.realname, o.phone, o.to_title, o.to_unit, o.from_unit, o.from_address, o.from_phone,
-o.from_fax, o.from_post_code, o.pay_time, o.valid_days, o.handle_time, o.has_receipt, o.apply_time  from ow_member_out o
+o.from_fax, o.from_post_code, o.pay_time, o.valid_days, o.handle_time, o.has_receipt, o.apply_time,
+o.is_self_print as self_print, o.is_self_print_count as self_print_count from ow_member_out o
 left join sys_user_view u on o.user_id = u.user_id
 LEFT JOIN base_meta_type bmt ON o.`type`=bmt.id
 WHERE o.STATUS=2 AND bmt.name='京外' ;
