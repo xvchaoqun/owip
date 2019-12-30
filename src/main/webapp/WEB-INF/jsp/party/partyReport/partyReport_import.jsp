@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
-          enctype="multipart/form-data" action="${ctx}/member/memberReport_import" method="post">
+          enctype="multipart/form-data" action="${ctx}/partyReport_import" method="post">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
             <div class="col-xs-6">
@@ -17,8 +17,8 @@
     </form>
     <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_ow_report">
-                党组织书记考核录入样表.xlsx</a>（点击下载）的数据格式</span>
+            <a href="${ctx}/attach?code=sample_ow_evaBranch">
+                党支部考核录入样表.xlsx</a>（点击下载）的数据格式</span>
     </div>
 </div>
 <div class="modal-footer">

@@ -45,6 +45,11 @@
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
+                <button class="popupBtn btn btn-success btn-sm tooltip-info"
+                        data-url="${ctx}/partyReport_import"
+                        data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                    批量导入
+                </button>
                 </shiro:hasPermission>
                    <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                       data-url="${ctx}/partyReport_data"
@@ -164,9 +169,8 @@
                             .format(rowObject.id);
                     if (rowObject.status == '<%=OwConstants.OW_REPORT_STATUS_UNREPORT%>') {
                     return '<button class="downloadBtn btn btn-info btn-xs" ' +
-                        'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>&nbsp<button class="popupBtn btn btn-xs btn-primary"' +
-                        'data-url="${ctx}/partyReport_file?id={2}"><i class="fa fa-edit"> 修改</i></button>'
-                            .format(cellvalue, "工作总结(" +  rowObject.party.name + ")",rowObject.id);
+                        'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>'.format(cellvalue, "工作总结(" +  rowObject.party.name + ")")+'&nbsp'+'<button class="popupBtn btn btn-xs btn-primary"' +
+                        'data-url="${ctx}/partyReport_file?id={0}"><i class="fa fa-edit"> 修改</i></button>'.format(rowObject.id);
                     }
                     if (rowObject.status == '<%=OwConstants.OW_REPORT_STATUS_REPORT%>') {
                         return '<button class="downloadBtn btn btn-info btn-xs" ' +
