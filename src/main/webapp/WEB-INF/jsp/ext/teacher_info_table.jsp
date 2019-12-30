@@ -62,7 +62,7 @@
 
         <td class="bg-right">到校日期</td>
         <td class="bg-left">
-            ${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}
+            ${cm:formatDate(teacherInfo.arriveTime, "yyyy.MM.dd")}
         </td>
         <td class="bg-right">
             编制类别
@@ -100,7 +100,7 @@
         <td class="bg-right">
             退休时间
         </td>
-        <td class="bg-left">${cm:formatDate(teacherInfo.retireTime,'yyyy-MM-dd')}
+        <td class="bg-left">${cm:formatDate(teacherInfo.retireTime,'yyyy.MM.dd')}
         </td>
     </tr>
     <tr>

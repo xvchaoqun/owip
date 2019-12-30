@@ -73,8 +73,8 @@
                     <td class="bg-right">
                         入党时间
                     </td>
-                    <td class="bg-left" width="150">
-                        ${cm:formatDate(member.growTime,'yyyy-MM-dd')}
+                    <td class="bg-left" width="150" id="growTime">
+                        ${cm:formatDate(member.growTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         入党介绍人
@@ -93,8 +93,8 @@
                     <td class="bg-right">
                         转正时间
                     </td>
-                    <td class="bg-left">
-                        ${cm:formatDate(member.positiveTime,'yyyy-MM-dd')}
+                    <td class="bg-left" id="positiveTime">
+                        ${cm:formatDate(member.positiveTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         转正时所在党支部
@@ -111,21 +111,21 @@
                 </tr>
                 <tr>
                     <td class="bg-right">提交书面申请书时间</td>
-                    <td class="bg-left">
-                        ${cm:formatDate(member.applyTime,'yyyy-MM-dd')}
+                    <td class="bg-left" id="applyTime">
+                        ${cm:formatDate(member.applyTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为入党积极分子时间
                     </td>
 
-                    <td class="bg-left">
-                        ${cm:formatDate(member.activeTime,'yyyy-MM-dd')}
+                    <td class="bg-left" id="activeTime">
+                        ${cm:formatDate(member.activeTime,'yyyy.MM.dd')}
                     </td>
                     <td class="bg-right">
                         确定为发展对象时间
                     </td>
-                    <td class="bg-left">
-                        ${cm:formatDate(member.candidateTime,'yyyy-MM-dd')}
+                    <td class="bg-left" id="candidateTime">
+                        ${cm:formatDate(member.candidateTime,'yyyy.MM.dd')}
                     </td>
                 </tr>
                 <tr>
@@ -177,6 +177,12 @@
     function _reload() {
         $("#body-content-view #view-box .nav-tabs li.active a").click();
     }
+    var jsObj = ${cm:toJSONObject(member)};
+    //console.log(jsObj)
+    $('#applyTime').html($.memberApplyTime(jsObj.applyTime, jsObj.birth, 0));
+    $('#activeTime').html($.memberApplyTime(jsObj.activeTime, jsObj.applyTime, 2));
+    $('#candidateTime').html($.memberApplyTime(jsObj.candidateTime, jsObj.activeTime, 3));
+    $('#positiveTime').html($.memberApplyTime(jsObj.positiveTime, jsObj.growTime, 7));
 
     function _sync(userId, btn) {
 

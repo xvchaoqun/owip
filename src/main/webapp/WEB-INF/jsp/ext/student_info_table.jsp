@@ -96,17 +96,17 @@
     <tr>
 
         <td class="bg-right">实际入学年月</td>
-        <td class="bg-left">${cm:formatDate(studentInfo.actualEnrolTime,'yyyy-MM')}
+        <td class="bg-left">${cm:formatDate(studentInfo.actualEnrolTime,'yyyy.MM')}
         </td>
         <td class="bg-right">
             预计毕业年月
         </td>
-        <td class="bg-left">${cm:formatDate(studentInfo.expectGraduateTime,'yyyy-MM')}
+        <td class="bg-left">${cm:formatDate(studentInfo.expectGraduateTime,'yyyy.MM')}
         </td>
         <td class="bg-right">
             实际毕业年月
         </td>
-        <td class="bg-left" colspan="3">${cm:formatDate(studentInfo.actualGraduateTime,'yyyy-MM')}
+        <td class="bg-left" colspan="3">${cm:formatDate(studentInfo.actualGraduateTime,'yyyy.MM')}
         </td>
     </tr>
 

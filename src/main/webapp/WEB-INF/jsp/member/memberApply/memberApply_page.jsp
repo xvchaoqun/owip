@@ -573,22 +573,39 @@
             },
 
             <c:if test="${stage<OW_APPLY_STAGE_INIT}">
-            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                //console.log(rowObject)
+                return $.memberApplyTime(cellvalue, rowObject.user.birth, 0);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.user.birth, 0);
+                }},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.applyTime, 2);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.applyTime, 2);
+                }},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.activeTime, 3);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.activeTime, 3);
+                }},
+            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.candidateTime, 4);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.candidateTime, 4);
+                }},
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN}">
             <shiro:hasPermission name="partyPublic:list">
@@ -596,18 +613,26 @@
             </shiro:hasPermission>
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.planTime, 5, rowObject.growPublic);
+                }},
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             {label: '志愿书编码', name: 'applySn', width: 150},
-            {label: '发展时间', name: 'growTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '发展时间', name: 'growTime',formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.drawTime, 6);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
             <shiro:hasPermission name="partyPublic:list">
             {label: '转正公示日期', name: 'positivePublic.pubDate', width: 120,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </shiro:hasPermission>
-            {label: '入党时间', name: 'growTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '转正时间', name: 'positiveTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '入党时间', name: 'growTime',formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.drawTime, 6);
+                }},
+            {label: '转正时间', name: 'positiveTime',formatter:function(cellvalue, options, rowObject){
+                    return $.memberApplyTime(cellvalue, rowObject.growTime, 7);
+                }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_DENY}">
             {label: '党籍状态', name: 'status', width: 90, formatter:function(cellvalue, options, rowObject){
