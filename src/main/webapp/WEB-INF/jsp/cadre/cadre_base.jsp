@@ -277,12 +277,12 @@
                         <td>
                             任现职时间
                         </td>
-                        <td>${cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}
+                        <td>${cm:formatDate(cadre.lpWorkTime,_p_proPostTimeFormat)}
                         </td>
                         <td>
                             现职务始任时间
                         </td>
-                        <td>${cm:formatDate(cadre.npWorkTime,'yyyy.MM.dd')}
+                        <td>${cm:formatDate(cadre.npWorkTime,_p_proPostTimeFormat)}
                         </td>
                     </tr>
                     <tr>
@@ -294,7 +294,7 @@
                         </td>
                         <td>任现职级时间</td>
                         <td>
-                                ${cm:formatDate(cadre.sWorkTime,'yyyy.MM.dd')}
+                                ${cm:formatDate(cadre.sWorkTime,_p_proPostTimeFormat)}
                         </td>
                         <td>
                             任现职级年限
@@ -320,7 +320,7 @@
                         <td>
                             任兼职时间1
                         </td>
-                        <td>${cm:formatDate(subCadrePost1.lpWorkTime,'yyyy.MM.dd')}
+                        <td>${cm:formatDate(subCadrePost1.lpWorkTime,_p_proPostTimeFormat)}
                         </td>
                     </tr>
                     <tr>
@@ -338,7 +338,7 @@
                         <td>
                             任兼职时间2
                         </td>
-                        <td>${cm:formatDate(subCadrePost2.lpWorkTime,'yyyy.MM.dd')}
+                        <td>${cm:formatDate(subCadrePost2.lpWorkTime,_p_proPostTimeFormat)}
                         </td>
                     </tr>
                     </tbody>
