@@ -1,14 +1,20 @@
 package controller.party;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.PartyReport;
 import domain.party.PartyReportExample;
 import domain.party.PartyReportExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.helper.PartyHelper;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +38,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static sys.constants.OwConstants.*;
-import static sys.constants.OwConstants.OW_PARTY_EVA_MAP;
 
 @Controller
 
@@ -208,6 +213,126 @@ public class PartyReportController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("partyReport:base")
+    @RequestMapping("/partyReport_import")
+    public String memberReport_import(ModelMap modelMap) {
+
+        return "party/partyReport/partyReport_import";
+    }
+
+    // 导入党支部考核
+    @RequiresPermissions("partyReport:base")
+    @RequestMapping(value = "/partyReport_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_partyReport_import(HttpServletRequest request) throws InvalidFormatException, IOException, InterruptedException {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<String, Party> runPartyMap = new HashMap<>();
+        for (Party party : partyMap.values()) {
+            if (BooleanUtils.isNotTrue(party.getIsDeleted())) {
+                runPartyMap.put(party.getCode(), party);
+            }
+        }
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<String, Branch> runBranchMap = new HashMap<>();
+        for (Branch branch : branchMap.values()) {
+            if (BooleanUtils.isNotTrue(branch.getIsDeleted())) {
+                runBranchMap.put(branch.getCode(), branch);
+            }
+        }
+
+        Map<String, Byte> evaResult = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : OW_PARTY_EVA_MAP.entrySet()) {
+
+            evaResult.put(entry.getValue(), entry.getKey());
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        Map<String, Object> resultMap = null;
+        resultMap = importReport(xlsRows, runPartyMap, runBranchMap, evaResult);
+
+        int successCount = (int) resultMap.get("successCount");
+        int totalCount = (int) resultMap.get("total");
+
+        logger.info(log(LogConstants.LOG_PARTY,
+                "导入考核记录成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount));
+
+        return resultMap;
+    }
+
+    private Map<String, Object> importReport(List<Map<Integer, String>> xlsRows,
+                                             Map<String, Party> runPartyMap,
+                                             Map<String, Branch> runBranchMap,
+                                             Map<String, Byte> evaResult) throws InterruptedException {
+
+        List<PartyReport> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            PartyReport record = new PartyReport();
+            Integer _year = Integer.valueOf(xlsRow.get(0));
+            if (_year==null) {
+                throw new OpException("第{0}行年度为空", row);
+            }
+            record.setYear(_year);
+            String partyCode = StringUtils.trim(xlsRow.get(1));
+            if (StringUtils.isBlank(partyCode)) {
+                throw new OpException("第{0}行分党委编码为空", row);
+            }
+            Party party = runPartyMap.get(partyCode);
+            if (party == null) {
+                throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
+            }
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+                throw new OpException("您没有权限导入第{0}行党支部数据", row);
+            }
+            record.setPartyId(party.getId());
+            if (!partyService.isDirectBranch(party.getId())) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(3));
+                if (StringUtils.isBlank(branchCode)) {
+                    throw new OpException("第{0}行党支部编码为空", row);
+                }
+                Branch branch = runBranchMap.get(branchCode);
+                if (branch == null) {
+                    throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
+                }
+                record.setBranchId(branch.getId());
+            }
+
+            String _status = StringUtils.trimToNull(xlsRow.get(5));
+            if (StringUtils.isBlank(_status)) {
+                throw new OpException("第{0}行考核结果为空", row);
+            }
+
+            Byte result = evaResult.get(_status);
+            if (result == null) {
+                throw new OpException("第{0}行考核结果[{1}]有误", row, _status);
+            }
+            record.setEvaResult(result);
+            record.setStatus(OW_REPORT_STATUS_UNREPORT);
+            records.add(record);
+        }
+
+        int successCount = partyReportService.partyReportImport(records);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 
     public void partyReport_export(PartyReportExample example, HttpServletResponse response) {

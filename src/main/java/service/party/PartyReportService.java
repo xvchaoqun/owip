@@ -85,6 +85,19 @@ public class PartyReportService extends BaseMapper {
         partyReportMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 批量导入
+    @Transactional
+    public int partyReportImport(List<PartyReport> records) throws InterruptedException {
+
+        int addCount = 0;
+
+        for (PartyReport record : records) {
+            insertSelective(record);
+            addCount++;
+        }
+        return addCount;
+    }
+
     public Map<Integer, PartyReport> findAll() {
 
         PartyReportExample example = new PartyReportExample();

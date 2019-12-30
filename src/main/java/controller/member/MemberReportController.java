@@ -233,7 +233,7 @@ public class MemberReportController extends MemberBaseController {
         return "member/memberReport/memberReport_import";
     }
 
-    // 导入会议
+    // 导入党组织书记考核
     @RequiresPermissions("memberReport:base")
     @RequestMapping(value = "/memberReport_import", method = RequestMethod.POST)
     @ResponseBody
@@ -275,8 +275,8 @@ public class MemberReportController extends MemberBaseController {
         int successCount = (int) resultMap.get("successCount");
         int totalCount = (int) resultMap.get("total");
 
-        logger.info(log(LogConstants.LOG_PM,
-                "导入会议成功，总共{0}条记录，其中成功导入{1}条记录",
+        logger.info(log(LogConstants.LOG_MEMBER,
+                "导入考核记录成功，总共{0}条记录，其中成功导入{1}条记录",
                 totalCount, successCount));
 
         return resultMap;
