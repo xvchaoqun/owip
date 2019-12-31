@@ -131,7 +131,7 @@ public class PartyReportController extends BaseController {
 
         Integer id = record.getId();
 
-        if (partyReportService.idDuplicate(id, record.getPartyId(), record.getYear())) {
+        if (partyReportService.idDuplicate(id, record.getPartyId(),record.getBranchId(), record.getYear())) {
             return failed("添加重复");
         }
         record.setReportFile(upload(_reportFile, "owPartyReport"));

@@ -18,14 +18,19 @@ import java.util.Map;
 @Service
 public class PartyReportService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, Integer partyId, Integer year) {
+    public boolean idDuplicate(Integer id,Integer partyId, Integer branchId, Integer year) {
 
         Assert.isTrue(year != null, "null");
-
         PartyReportExample example = new PartyReportExample();
-        PartyReportExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId).andYearEqualTo(year);
-        if (id != null) criteria.andIdNotEqualTo(id);
-
+        PartyReportExample.Criteria criteria = example.createCriteria();
+            if (id != null)
+                criteria.andIdNotEqualTo(id);
+            if (year != null)
+                criteria.andYearEqualTo(year);
+            if (partyId != null)
+                criteria.andPartyIdEqualTo(partyId);
+            if (branchId != null)
+                criteria.andBranchIdEqualTo(branchId);
         return partyReportMapper.countByExample(example) > 0;
     }
 
@@ -34,7 +39,7 @@ public class PartyReportService extends BaseMapper {
         if (!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(), record.getPartyId(),record.getBranchId())) {
             throw new UnauthorizedException();
         }
-        Assert.isTrue(!idDuplicate(null, record.getPartyId(), record.getYear()), "duplicate");
+        Assert.isTrue(!idDuplicate(null, record.getPartyId(),record.getBranchId(), record.getYear()), "党支部重复");
        /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
             record.setStatus(OW_REPORT_STATUS_REPORT);
         }*/
@@ -81,7 +86,7 @@ public class PartyReportService extends BaseMapper {
             throw new UnauthorizedException();
         }
         if (record.getPartyId() != null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getPartyId(), record.getYear()), "duplicate");
+            Assert.isTrue(!idDuplicate(record.getId(), record.getPartyId(), record.getBranchId(), record.getYear()), "duplicate");
         partyReportMapper.updateByPrimaryKeySelective(record);
     }
 
