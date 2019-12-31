@@ -102,9 +102,6 @@ public class DpPartyController extends DpBaseController {
         if (classId!=null) {
             criteria.andClassIdEqualTo(classId);
         }
-        if (StringUtils.isNotBlank(phone)) {
-            criteria.andPhoneLike(SqlUtils.like(phone));
-        }
         if (_foundTime.getStart()!=null) {
             criteria.andFoundTimeGreaterThanOrEqualTo(_foundTime.getStart());
         }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['memberApply_timeLimit']}" var="_memberApply_timeLimit"/>
 <c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
 
 <div class="widget-box">
@@ -177,12 +178,14 @@
     function _reload() {
         $("#body-content-view #view-box .nav-tabs li.active a").click();
     }
+
     var jsObj = ${cm:toJSONObject(member)};
-    //console.log(jsObj)
-    $('#applyTime').html($.memberApplyTime(jsObj.applyTime, jsObj.birth, 0));
-    $('#activeTime').html($.memberApplyTime(jsObj.activeTime, jsObj.applyTime, 2));
-    $('#candidateTime').html($.memberApplyTime(jsObj.candidateTime, jsObj.activeTime, 3));
-    $('#positiveTime').html($.memberApplyTime(jsObj.positiveTime, jsObj.growTime, 7));
+    var _limit = ${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}"
+    //console.log(_limit)
+    $('#applyTime').html($.memberApplyTime(_limit, jsObj.applyTime, jsObj.birth, 0));
+    $('#activeTime').html($.memberApplyTime(_limit, jsObj.activeTime, jsObj.applyTime, 2));
+    $('#candidateTime').html($.memberApplyTime(_limit, jsObj.candidateTime, jsObj.activeTime, 3));
+    $('#positiveTime').html($.memberApplyTime(_limit, jsObj.positiveTime, jsObj.growTime, 7));
 
     function _sync(userId, btn) {
 

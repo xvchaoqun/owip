@@ -481,50 +481,43 @@ var _modal_width;
 (function ($) {
     $.extend({
         // ly 对发展中的党员的各个时间节点进行提示
-        memberApplyTime: function (time1, time2, stage, partyPublic) {
+        memberApplyTime: function (openButten, time1, time2, stage, partyPublic) {
             if (time1 != undefined) {
-                var _time1 = new Date(time1);
-                var _time2 = new Date(time2);
-                var _stage = stage;
-                var timeDifference = _time1.getTime() - _time2.getTime();
-                var years = (timeDifference / (365 * 24 * 3600 * 1000)).toFixed(2);
-                var months = (timeDifference / (1000 * 3600 * 24 * 30)).toFixed(2);
-                var dates = (timeDifference / (1000 * 3600 * 24)).toFixed(2);
-                var fullYear = _time1.getFullYear();
-                var month = _time1.getMonth() + 1;
-                var date = _time1.getDate();
-                if (month < 10) {
-                    month = '0' + month;
-                }
-                if (date < 10) {
-                    date = '0' + date;
-                }
-                var time = fullYear + '.' + month + '.' + date;
-                /*console.log(partyPublic)
-                console.log(months)*/
-                if (_stage == 0 && years < 18) {
-                    return '<span class="{0}" title="申请时须大于等于18周岁">{1}</span>'.format("red", time);
-                } else if (_stage == 2 && (dates <= 15 || months >= 13)) {
-                    return '<span class="{0}" title="确认为积极分子时间与申请时间间隔须大于15天，且小于13个月">{1}</span>'.format("red", time);
-                } else if (_stage == 3 && (years < 1 || years > 2)) {
-                    return '<span class="{0}" title="确认为发展对象时间与成为积极分子的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", time);
-                } else if (_stage == 4 && dates < 45) {
-                    return '<span class="{0}" title="列入发展计划时间与成为发展对象的时间间隔须大于等于45天">{1}</span>'.format("red", time);
-                } else if (_stage == 5 && dates < 8) {
-                    var _time3 = null;
-                    if (partyPublic != undefined) {
-                        _time3 = new Date(partyPublic.pubDate);
-                        if (_time3 != undefined || (_time1 - _time3 <= 0)) {
-                            return '<span class="{0}" title="领取志愿书时间须在发展公示时间之后">{1}</span>'.format("red", time);
+                var _openButten = openButten;
+                var _time1 = $.date(time1, 'yyyy.MM.dd');
+                //console.log(time1)
+                if (_openButten) {
+                    var _stage = stage;
+                    var timeDifference = (new Date(time1)).getTime() - (new Date(time2)).getTime();
+                    var years = (timeDifference / (365 * 24 * 3600 * 1000)).toFixed(2);
+                    var months = (timeDifference / (1000 * 3600 * 24 * 30)).toFixed(2);
+                    var dates = (timeDifference / (1000 * 3600 * 24)).toFixed(2);
+                    if (_stage == 0 && years < 18) {
+                        return '<span class="{0}" title="申请时须大于等于18周岁">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 2 && (dates <= 15 || months >= 13)) {
+                        return '<span class="{0}" title="确认为积极分子时间与申请时间间隔须大于15天，且小于13个月">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 3 && (years < 1 || years > 2)) {
+                        return '<span class="{0}" title="确认为发展对象时间与成为积极分子的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 4 && dates < 45) {
+                        return '<span class="{0}" title="列入发展计划时间与成为发展对象的时间间隔须大于等于45天">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 5) {
+                        var _time3 = null;
+                        if (partyPublic != undefined) {
+                            _time3 = new Date(partyPublic.pubDate);
+                            //console.log(new Date(time1).getTime() < _time3.getTime())
+                            if (_time3 != undefined && (new Date(time1)).getTime() < _time3.getTime()) {
+                                return '<span class="{0}" title="领取志愿书时间须在发展公示时间之后">{1}</span>'.format("red", _time1);
+                            }
                         }
+                        if (dates < 8)
+                            return '<span class="{0}" title="领取志愿书时间与列入发展计划的时间间隔须大于等于8天">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 6 && (months > 1 || months < 0)) {
+                        return '<span class="{0}" title="成为预备党员时间与领取志愿书的时间间隔须小于等于1个月">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 7 && (years < 1 || years > 2)) {
+                        return '<span class="{0}" title="确认为正式党员时间与成为预备党员的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", _time1);
                     }
-                    return '<span class="{0}" title="领取志愿书时间与列入发展计划的时间间隔须大于等于8天">{1}</span>'.format("red", time);
-                } else if (_stage == 6 && (months > 1 || months < 0)) {
-                    return '<span class="{0}" title="成为预备党员时间与领取志愿书的时间间隔须小于等于1个月">{1}</span>'.format("red", time);
-                } else if (_stage == 7 && (years < 1 || years > 2)) {
-                    return '<span class="{0}" title="确认为正式党员时间与成为预备党员的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", time);
                 }
-                return '<span>{0}</span>'.format(time);
+                return '<span>{0}</span>'.format(_time1);
             }
             return '--';
         },
