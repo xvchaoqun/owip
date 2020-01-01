@@ -45,7 +45,8 @@ public class CrRequireService extends CrBaseMapper {
                 + "," + StringUtils.defaultIfBlank(cv.getDegree(), "--"));
         resultMap.put(CrConstants.CR_POST_RULE_TYPE_RZNL, cv.getBirth() == null ? "" : DateUtils.calAge(cv.getBirth()));
 
-        Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",
+        Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(),
+                cv.getOwPositiveTime(),"中共",
                 cv.getDpTypeId(), cv.getDpGrowTime(), true);
         String partyName = cadreParty.get("partyName");
         String partyAddYear = null;

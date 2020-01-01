@@ -1653,18 +1653,18 @@ if ($.jgrid) {
 
             if (op.useCadre && rowObject.cadre != undefined) {
                 op.isOw = rowObject.cadre.isOw;
-                op.owGrowTime = rowObject.cadre.owGrowTime;
+                op.owPositiveTime = rowObject.cadre.owPositiveTime;
                 op.dpTypeId = rowObject.cadre.dpTypeId;
                 op.dpGrowTime = rowObject.cadre.dpGrowTime;
             } else {
                 op.isOw = rowObject.isOw;
-                op.owGrowTime = rowObject.owGrowTime;
+                op.owPositiveTime = rowObject.owPositiveTime;
                 op.dpTypeId = rowObject.dpTypeId;
                 op.dpGrowTime = rowObject.dpGrowTime;
             }
             var growAges = [];
             if (op.isOw) {
-                growAges.push(op.owGrowTime == undefined ? "-" : $.yearOffNow(op.owGrowTime));
+                growAges.push(op.owPositiveTime == undefined ? "-" : $.yearOffNow(op.owPositiveTime));
             }
             if (op.dpTypeId > 0) {
                 growAges.push(op.dpGrowTime == undefined ? "-" : $.yearOffNow(op.dpGrowTime));

@@ -201,7 +201,7 @@ public class CadreExportService extends BaseMapper {
                 _leaderType = SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(leaderType);
             }
 
-            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), record.getOwPositiveTime(), "中共党员",
                     record.getDpTypeId(), record.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             String partyAddTime = cadreParty.get("growTime");
@@ -501,7 +501,7 @@ public class CadreExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(age);
 
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), cv.getOwPositiveTime(), "中共",
                     cv.getDpTypeId(), cv.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             //String partyAddTime = cadreParty.get("growTime");

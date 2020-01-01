@@ -130,6 +130,8 @@ public class CadreReserveView implements Serializable {
 
     private Date owGrowTime;
 
+    private Date owPositiveTime;
+
     private String owRemark;
 
     private Integer eduId;
@@ -634,6 +636,14 @@ public class CadreReserveView implements Serializable {
 
     public void setOwGrowTime(Date owGrowTime) {
         this.owGrowTime = owGrowTime;
+    }
+
+    public Date getOwPositiveTime() {
+        return owPositiveTime;
+    }
+
+    public void setOwPositiveTime(Date owPositiveTime) {
+        this.owPositiveTime = owPositiveTime;
     }
 
     public String getOwRemark() {

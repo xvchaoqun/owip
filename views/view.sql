@@ -772,6 +772,7 @@ select opm.*,
 	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
 	-- 优先以党员库中的入党时间为准
 	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+     , if(om.status=1 or om.status=4, om.positive_time, DATE_ADD(ow.grow_time, INTERVAL 1 YEAR )) as ow_positive_time
 	, ow.remark as ow_remark
 	, dp.grow_time as dp_grow_time
   , dp.class_id as dp_type_id
@@ -820,6 +821,7 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 , if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
 -- 优先以党员库中的入党时间为准
 , if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+, if(om.status=1 or om.status=4, om.positive_time, DATE_ADD(ow.grow_time, INTERVAL 1 YEAR )) as ow_positive_time
 , ow.remark as ow_remark
 , dp.grow_time as dp_grow_time
 , dp.class_id as dp_type_id

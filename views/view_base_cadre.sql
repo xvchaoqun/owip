@@ -28,6 +28,7 @@ SELECT c.*,
 	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
 	-- 优先以党员库中的入党时间为准
 	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+	, if(om.status=1 or om.status=4, om.positive_time, DATE_ADD(ow.grow_time, INTERVAL 1 YEAR )) as ow_positive_time
 	, ow.remark as ow_remark
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`

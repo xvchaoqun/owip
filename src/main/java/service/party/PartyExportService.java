@@ -299,7 +299,7 @@ public class PartyExportService extends BaseMapper {
             SysUserView sysUser = record.getUser();
             Member member = memberService.get(record.getUserId());
             
-            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), record.getOwPositiveTime(),"中共党员",
                     record.getDpTypeId(), record.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             String partyAddTime = cadreParty.get("growTime");

@@ -2909,12 +2909,12 @@ public class CadreViewExample {
         public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
 
             String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
-            addCriterion("(ow_grow_time >='" + date + "' or dp_grow_time >='" + date + "')");
+            addCriterion("(ow_positive_time >='" + date + "' or dp_grow_time >='" + date + "')");
             return (Criteria) this;
         }
 
         public Criteria andOwGrowTimeLessThan(Date value) {
-            addCriterionForJDBCDate("ow_grow_time <", value, "owGrowTime");
+            addCriterionForJDBCDate("ow_positive_time <", value, "owGrowTime");
             return (Criteria) this;
         }
 
@@ -2926,7 +2926,7 @@ public class CadreViewExample {
         public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
 
             String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
-            addCriterion("(ow_grow_time <='" + date + "' or dp_grow_time <='" + date + "')");
+            addCriterion("(ow_positive_time <='" + date + "' or dp_grow_time <='" + date + "')");
             return (Criteria) this;
         }
 
@@ -2947,6 +2947,66 @@ public class CadreViewExample {
 
         public Criteria andOwGrowTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("ow_grow_time not between", value1, value2, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeIsNull() {
+            addCriterion("ow_positive_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeIsNotNull() {
+            addCriterion("ow_positive_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_positive_time =", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_positive_time <>", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("ow_positive_time >", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_positive_time >=", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeLessThan(Date value) {
+            addCriterionForJDBCDate("ow_positive_time <", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_positive_time <=", value, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_positive_time in", values, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_positive_time not in", values, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_positive_time between", value1, value2, "owPositiveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwPositiveTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_positive_time not between", value1, value2, "owPositiveTime");
             return (Criteria) this;
         }
 

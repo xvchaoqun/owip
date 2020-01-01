@@ -675,7 +675,7 @@ public class CmTag {
     }
 
     // 获取干部的党派（中共党员+第一民主党派）
-    public static Map<String, String> getCadreParty(Boolean isOw, Date owGrowTime,
+    public static Map<String, String> getCadreParty(Boolean isOw, Date owGrowTime, Date owPositiveTime,
                                                     String defaultOwName,
                                                     Integer dpTypeId,
                                                     Date dpGrowTime,
@@ -698,7 +698,7 @@ public class CmTag {
                     + (useDpShortName?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName()):metaType.getName());
 
             if(isOw){
-                partyAddTime = partyAddTime+"," + ((dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, DateUtils.YYYYMM));
+                partyAddTime = partyAddTime+"," + ((owPositiveTime == null)?"-":DateUtils.formatDate(owPositiveTime, DateUtils.YYYYMM));
             }else{
                 partyAddTime = (dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, DateUtils.YYYYMM);
             }

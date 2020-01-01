@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${_pMap['memberApply_timeLimit']}" var="_memberApply_timeLimit"/>
+<c:set value="${_pMap['memberApply_timeLimit']=='true'}" var="_memberApply_timeLimit"/>
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>
 <c:set var="OW_APPLY_STAGE_OUT" value="<%=OwConstants.OW_APPLY_STAGE_OUT%>"/>
@@ -575,36 +575,36 @@
 
             <c:if test="${stage<OW_APPLY_STAGE_INIT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.user.birth, 0);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.user.birth, 0);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_OUT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.user.birth, 0);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.user.birth, 0);
                 }},
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.applyTime, 2);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.applyTime, 2);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_OUT}">
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.applyTime, 2);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.applyTime, 2);
                 }},
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.activeTime, 3);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.activeTime, 3);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.activeTime, 3);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.activeTime, 3);
                 }},
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.candidateTime, 4);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.candidateTime, 4);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
                 }},
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN}">
@@ -620,7 +620,7 @@
             <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             {label: '志愿书编码', name: 'applySn', width: 150},
             {label: '发展时间', name: 'growTime',formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.drawTime, 6);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.drawTime, 6);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
@@ -628,10 +628,10 @@
             {label: '转正公示日期', name: 'positivePublic.pubDate', width: 120,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </shiro:hasPermission>
             {label: '入党时间', name: 'growTime',formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.drawTime, 6);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.drawTime, 6);
                 }},
             {label: '转正时间', name: 'positiveTime',formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(${empty _memberApply_timeLimit} ? false : "${_memberApply_timeLimit}", cellvalue, rowObject.growTime, 7);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.growTime, 7);
                 }},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_DENY}">

@@ -131,7 +131,7 @@
 
        <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -140,7 +140,7 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
                 mapperName="party.OrganizerMapper">
@@ -191,14 +191,14 @@
         <!--<table tableName="ow_party_member" domainObjectName="party.PartyMember">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-           <!--<table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
+           <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
                   enableInsert="false" enableUpdateByPrimaryKey="false"
                   enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                   enableDeleteByExample="false">
                <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
                <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-           </table>-->
+           </table>
 
         <!--<table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -259,7 +259,7 @@
         </table>-->
     <!--    <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
         </table>-->
-        <table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
-        </table>
+        <!--<table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
+        </table>-->
     </context>
 </generatorConfiguration>

@@ -593,7 +593,8 @@ public class UnitPostController extends BaseController {
             CadreView cv = record.getCadre();
             Date birth = cv.getBirth();
             Byte gender = cv.getGender();
-            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",
+            Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(),
+                    cv.getOwPositiveTime(), "中共",
                     cv.getDpTypeId(), cv.getDpGrowTime(), true);
             String partyName = cadreParty.get("partyName");
             String partyAddTime = cadreParty.get("growTime");
