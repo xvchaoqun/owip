@@ -82,13 +82,13 @@
                     <tr>
                         <td>政治面貌</td>
                         <td>
-                                ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
+                                ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
                         </td>
                         <td>
                             党派加入时间
                         </td>
                         <td>
-                                ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
+                                ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
                         </td>
 
                         <td>国家/地区</td>
@@ -552,7 +552,7 @@
                                 <td>政治面貌</td>
                                 <td>
                                     <c:set var="cadreParty"
-                                           value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
+                                           value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false)}"/>
                                     <c:set var="original" value="${cadreParty.get('partyName')}"/>
                                     <c:set var="hasMultiParty" value="${fn:contains(original, ',')}"/>
                                     <c:if test="${hasMultiParty}">${original}</c:if><!--有多个党派不允许在此修改-->

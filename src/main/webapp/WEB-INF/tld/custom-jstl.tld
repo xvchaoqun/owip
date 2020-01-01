@@ -63,7 +63,7 @@
 	<function>
 		<name>cadreParty</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.util.Map getCadreParty(java.lang.Boolean,java.util.Date,java.lang.String,java.lang.Integer,java.util.Date,java.lang.Boolean)</function-signature>
+		<function-signature>java.util.Map getCadreParty(java.lang.Boolean,java.util.Date,java.util.Date,java.lang.String,java.lang.Integer,java.util.Date,java.lang.Boolean)</function-signature>
 	</function>
 
 	<function>

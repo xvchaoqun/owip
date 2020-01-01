@@ -78,7 +78,7 @@
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                    value="${original}">--%>
 
-              <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
+              <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
             <c:if test="${fn:contains(original, ',')}">${original}</c:if><!--有多个党派不允许在此修改-->
             <c:if test="${!fn:contains(original, ',')}">
                   <c:choose>
