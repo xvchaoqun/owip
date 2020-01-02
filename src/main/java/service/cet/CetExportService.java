@@ -353,9 +353,11 @@ public class CetExportService extends CetBaseMapper {
             BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(obj));
             BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(finishPeriodOffline)
-                    + "/" + NumberUtils.stripTrailingZeros(finishPeriodOnline));
-    
+            cell.setCellValue(NumberUtils.stripTrailingZeros(finishPeriodOffline));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.stripTrailingZeros(finishPeriodOnline));
+
             // 完成百分比
             String rateOffline = "--";
             if(finishPeriodOffline.compareTo(BigDecimal.ZERO)>0 && periodOffline.compareTo(BigDecimal.ZERO)>0) {
@@ -372,7 +374,9 @@ public class CetExportService extends CetBaseMapper {
                 rateOnline = percent.format(divide.doubleValue());
             }
             cell = row.getCell(column++);
-            cell.setCellValue(rateOffline + "/" + rateOnline);
+            cell.setCellValue(rateOffline);
+            cell = row.getCell(column++);
+            cell.setCellValue(rateOnline);
             
             // 党校专题
             cell = row.getCell(column++);
@@ -389,10 +393,6 @@ public class CetExportService extends CetBaseMapper {
             // 上级调训
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.getUpperPeriod(obj, r)));
-            
-            // 备注
-            cell = row.getCell(column++);
-            cell.setCellValue(obj.getRemark());
         }
         
        ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + typeName + cetAnnual.getYear() +

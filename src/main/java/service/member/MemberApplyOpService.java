@@ -135,8 +135,10 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-            if(candidateTime.before(afterActiveTimeOneYear.toDate())){
-                throw new OpException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
+            DateTime afterActiveTimeTwoYear = dt.plusYears(2);
+            if (candidateTime.before(afterActiveTimeOneYear.toDate())
+                    || candidateTime.after(afterActiveTimeTwoYear.toDate())) {
+                throw new OpException("确定为发展对象时间与成为积极分子的时间间隔必须大于等于1年，且小于等于2年");
             }
 
             Date candidateTrainStartTime = DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD);

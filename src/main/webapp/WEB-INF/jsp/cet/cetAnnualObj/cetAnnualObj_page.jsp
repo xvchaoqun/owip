@@ -324,7 +324,7 @@
             },
             {label: '联系方式', name: 'user.mobile', width: 110},
             {label: '电子邮箱', name: 'user.email', width: 180, align: 'left'},
-            {label: '备注', name: 'remark', width: 250},
+            /*{label: '备注', name: 'remark', width: 250},*/
         ],rowattr: function(rowData, currentObj, rowId)
         {
             if(currentObj.needUpdateRequire) {
