@@ -291,7 +291,7 @@ public class CetExportService extends CetBaseMapper {
         str = cell.getStringCellValue()
                 .replace("type", typeName);
         cell.setCellValue(str);
-        cell = row.getCell(12);
+        cell = row.getCell(14);
         str = cell.getStringCellValue()
                 .replace("year", cetAnnual.getYear() + "");
         cell.setCellValue(str);
