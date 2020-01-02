@@ -1,8 +1,8 @@
 
 -- 20191226 ly 基本情况登记表权限
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2524, 0, '基本情况登记表', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpInfoForm:list', NULL, NULL, NULL, 1, 90);
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2525, 0, '基本情况登记表下载', '', 'function', '', NULL, 2524, '0/1/2574/2524/', 1, 'dpInfoForm:download', NULL, NULL, NULL, 1, NULL);
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2524, 0, '基本情况登记表', '', 'function', '', NULL, 2574, '0/1/2574/', 0, 'dpInfoForm:list', NULL, NULL, NULL, 1, 90);
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2525, 0, '基本情况登记表下载', '', 'function', '', NULL, 2524, '0/1/2574/2524/', 1, 'dpInfoForm:download', NULL, NULL, NULL, 1, NULL);
 
 
 
@@ -12,8 +12,8 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2522, 0, '奖励情况编辑', '', 'function', '', NULL, 2521, '0/1/2574/2521/', 1, 'dpReward:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2523, 0, '奖励情况删除', '', 'function', '', NULL, 2521, '0/1/2574/2521/', 1, 'dpReward:del', NULL, NULL, NULL, 1, NULL);
 
-UPDATE `db_owip`.`base_meta_type` SET `name`='其他人大代表、政协委员' WHERE  `code`='mt_vbnycy';
-DELETE FROM `db_owip`.`base_meta_type` WHERE  `code`='mt_cgcxva';
+UPDATE `base_meta_type` SET `name`='其他人大代表、政协委员' WHERE  `code`='mt_vbnycy';
+DELETE FROM `base_meta_type` WHERE  `code`='mt_cgcxva';
 
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2606, NULL, '民主党派奖励情况', '统战信息管理', '党派成员档案表', 'mc_dp_reward_type', '', '', '', 2612, 1);
 
