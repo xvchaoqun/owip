@@ -544,9 +544,7 @@ public class MemberController extends MemberBaseController {
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
             record.setSource(MemberConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
-            memberService.add(record);
-
-            memberService.addModify(record.getUserId(), "后台添加");
+            memberService.addOrUpdate(record, "后台添加");
 
             logger.info(addLog(LogConstants.LOG_MEMBER,
                     "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),

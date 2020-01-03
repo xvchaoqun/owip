@@ -116,11 +116,9 @@ public class MemberService extends MemberBaseMapper {
 
         int addCount = 0;
         for (Member record : records) {
-            if (add(record)) {
+            if (addOrUpdate(record, "批量导入")) {
                 addCount++;
             }
-
-            addModify(record.getUserId(), "批量导入党员信息");
         }
 
         return addCount;
@@ -134,10 +132,9 @@ public class MemberService extends MemberBaseMapper {
 
         int addCount = 0;
         for (Member record : records) {
-            if (add(record)) {
+            if (addOrUpdate(record, "批量导入")) {
                 addCount++;
             }
-            addModify(record.getUserId(), "批量导入党员信息");
         }
 
         for (TeacherInfo teacherInfo : teacherInfos) {
@@ -152,7 +149,7 @@ public class MemberService extends MemberBaseMapper {
     }
 
     @Transactional
-    public boolean add(Member record) {
+    public boolean addOrUpdate(Member record, String remark) {
 
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
@@ -202,6 +199,9 @@ public class MemberService extends MemberBaseMapper {
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+        // 记录修改日志
+        addModify(userId, remark);
 
         return isAdd;
     }

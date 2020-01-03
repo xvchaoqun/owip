@@ -149,7 +149,7 @@ public class MemberReturnService extends MemberBaseMapper {
     }
     // 分党委审核通过
     @Transactional
-    public void addMember(int userId, byte politicalStatus, boolean isDirect){
+    public void addMemberByReturn(int userId, byte politicalStatus, boolean isDirect){
 
         Member _member = memberService.get(userId);
         if(_member!=null){
@@ -196,7 +196,7 @@ public class MemberReturnService extends MemberBaseMapper {
         member.setCreateTime(new Date());
 
         //3. 进入党员库
-        memberService.add(member);
+        memberService.addOrUpdate(member, "恢复组织关系");
     }
 
     @Transactional
@@ -249,7 +249,7 @@ public class MemberReturnService extends MemberBaseMapper {
                 memberReturn = verifyAuth.entity;
 
                 if (isDirectBranch && isPartyAdmin) { // 直属党支部管理员，不需要通过党支部审核
-                    addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
+                    addMemberByReturn(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), true);
                 } else {
                     checkMember(memberReturn.getUserId());
                 }
@@ -259,7 +259,7 @@ public class MemberReturnService extends MemberBaseMapper {
                 VerifyAuth<MemberReturn> verifyAuth = checkVerityAuth2(id);
                 memberReturn = verifyAuth.entity;
 
-                addMember(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
+                addMemberByReturn(memberReturn.getUserId(), memberReturn.getPoliticalStatus(), false);
             }
 
             int userId = memberReturn.getUserId();

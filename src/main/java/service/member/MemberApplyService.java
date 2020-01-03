@@ -174,8 +174,7 @@ public class MemberApplyService extends MemberBaseMapper {
             member.setCreateTime(new Date());
 
             // 进入党员库
-            memberService.add(member);
-            memberService.addModify(userId, "批量导入党员发展信息");
+            memberService.addOrUpdate(member, "批量导入（党员发展信息）");
         }
     }
 
@@ -762,7 +761,7 @@ public class MemberApplyService extends MemberBaseMapper {
         member.setCreateTime(new Date());
 
         //3. 进入党员库
-        memberService.add(member);
+        memberService.addOrUpdate(member, "发展为预备党员");
     }
 
     // 成为预备党员 (支部提交之后，分党委审核)
@@ -807,7 +806,7 @@ public class MemberApplyService extends MemberBaseMapper {
         member.setCreateTime(new Date());
 
         //3. 进入党员库
-        memberService.add(member);
+        memberService.addOrUpdate(member, "发展为预备党员");
     }
 
     // 只用于更新部分字段

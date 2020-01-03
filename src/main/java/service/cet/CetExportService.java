@@ -353,10 +353,10 @@ public class CetExportService extends CetBaseMapper {
             BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(obj));
             BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(finishPeriodOffline));
+            cell.setCellValue(Float.valueOf(NumberUtils.stripTrailingZeros(finishPeriodOffline)));
 
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(finishPeriodOnline));
+            cell.setCellValue(Float.valueOf(NumberUtils.stripTrailingZeros(finishPeriodOnline)));
 
             // 完成百分比
             String rateOffline = "--";

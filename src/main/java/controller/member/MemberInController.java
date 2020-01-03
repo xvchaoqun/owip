@@ -210,10 +210,6 @@ public class MemberInController extends MemberBaseController {
 
         Integer id = record.getId();
 
-        if (memberInService.idDuplicate(id, record.getUserId())) {
-            return failed("添加重复");
-        }
-
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
 
         if (StringUtils.isNotBlank(_payTime)) {

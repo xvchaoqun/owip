@@ -37,6 +37,8 @@ public class MemberInService extends MemberBaseMapper {
     @Autowired
     private MemberService memberService;
     @Autowired
+    private MemberOutService memberOutService;
+    @Autowired
     private PartyService partyService;
     @Autowired
     private LoginUserService loginUserService;
@@ -123,14 +125,14 @@ public class MemberInService extends MemberBaseMapper {
         return (memberApplies.size()==0)?null:memberApplies.get(0);
     }
 
-    public boolean idDuplicate(Integer id, Integer userId){
+    /*public boolean idDuplicate(Integer id, Integer userId){
 
         MemberInExample example = new MemberInExample();
         MemberInExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return memberInMapper.countByExample(example) > 0;
-    }
+    }*/
 
     // 获取最新没有完成审批的记录，为了可以再次转入( 允许转出后用原账号转入 )
     public MemberIn get(int userId) {
@@ -164,18 +166,13 @@ public class MemberInService extends MemberBaseMapper {
     public void checkByParty(int userId, byte politicalStatus, boolean hasReceipt){
 
         checkMember(userId, hasReceipt);
-        addMember(userId, politicalStatus);
+        addMemberByIn(userId, politicalStatus);
     }
 
     // 组织部审核通过
     @Transactional
-    public void addMember(int userId, byte politicalStatus){
-
-       /* Member _member = memberService.get(userId);
-        if(_member!=null){
-            throw new OpException("已经是党员");
-        }*/
-
+    public void addMemberByIn(int userId, byte politicalStatus){
+        
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
             throw new OpException("分党委还未审核通过");
@@ -185,6 +182,9 @@ public class MemberInService extends MemberBaseMapper {
         record.setStatus(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
         //record.setBranchId(memberIn.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        // 归档已转出记录（如果存在）
+        memberOutService.archive(userId);
 
         // 添加党员操作
         Member member = new Member();
@@ -204,7 +204,7 @@ public class MemberInService extends MemberBaseMapper {
         member.setCreateTime(new Date());
 
         //3. 进入党员库
-        memberService.add(member);
+        memberService.addOrUpdate(member, "组织关系转入");
     }
     @Transactional
     public int insertSelective(MemberIn record){
@@ -341,7 +341,7 @@ public class MemberInService extends MemberBaseMapper {
             }
             if(type==2) {
                 SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
-                addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
+                addMemberByIn(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 
             applyApprovalLogService.add(memberIn.getId(),

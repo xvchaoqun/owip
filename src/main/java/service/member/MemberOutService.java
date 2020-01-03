@@ -291,6 +291,19 @@ public class MemberOutService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部打回已完成的审批"));
     }
 
+    // 归档之前已完成转出的记录（如果存在），用于：1、转出时保证当前只有一条记录处于未归档状态 2、再次转入时归档转出记录
+    public void archive(int userId){
+
+        MemberOut _record = new MemberOut();
+        _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
+        MemberOutExample example = new MemberOutExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+
+        memberOutMapper.updateByExampleSelective(_record, example);
+    }
+
 
     @Transactional
     public void insertOrUpdateSelective(MemberOut record) {
@@ -315,15 +328,7 @@ public class MemberOutService extends MemberBaseMapper {
         memberOpService.checkOpAuth(userId);
         if (record.getId() == null) {
 
-            // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
-            MemberOut _record = new MemberOut();
-            _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
-            MemberOutExample example = new MemberOutExample();
-            example.createCriteria()
-                    .andUserIdEqualTo(userId)
-                    .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
-
-            memberOutMapper.updateByExampleSelective(_record, example);
+            archive(userId);
 
             memberOutMapper.insertSelective(record);
         } else {
@@ -461,15 +466,7 @@ public class MemberOutService extends MemberBaseMapper {
 
             if (record.getId() == null) {
 
-                // 归档之前已完成转出的记录（如果存在的话），保证当前只有一条记录处于未归档状态
-                MemberOut _record = new MemberOut();
-                _record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ARCHIVE);
-                MemberOutExample example = new MemberOutExample();
-                example.createCriteria()
-                        .andUserIdEqualTo(userId)
-                        .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
-
-                memberOutMapper.updateByExampleSelective(_record, example);
+                archive(userId);
 
                 memberOutMapper.insertSelective(record);
                 addCount++;
