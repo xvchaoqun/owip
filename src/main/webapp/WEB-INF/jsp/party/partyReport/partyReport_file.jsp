@@ -11,6 +11,7 @@
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${partyReport.id}">
         <input type="hidden" name="partyId" value="${partyReport.partyId}">
+        <input type="hidden" name="branchId" value="${partyReport.branchId}">
         <input type="hidden" name="year" value="${partyReport.year}">
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span> 工作总结</label>

@@ -132,7 +132,7 @@ public class PartyReportController extends BaseController {
         Integer id = record.getId();
 
         if (partyReportService.idDuplicate(id, record.getPartyId(),record.getBranchId(), record.getYear())) {
-            return failed("添加重复");
+            return failed("添加重复，每年度每个党支部只能添加一条考核记录");
         }
         record.setReportFile(upload(_reportFile, "owPartyReport"));
         record.setEvaFile(upload(_evaFile, "owPartyReport"));
@@ -169,7 +169,7 @@ public class PartyReportController extends BaseController {
         }
         return "party/partyReport/partyReport_file";
     }
-    @RequiresPermissions("partyReport:del")
+    @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyReport_del(HttpServletRequest request, Integer id) {
@@ -182,7 +182,7 @@ public class PartyReportController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("partyReport:del")
+    @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map partyReport_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
