@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.member.*;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
+import ext.service.ExtCommonService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -41,6 +42,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
     private ApplyApprovalLogService applyApprovalLogService;
     @Autowired
     private ApplySnService applySnService;
+    @Autowired
+    private ExtCommonService extCommonService;
 
     private VerifyAuth<MemberApply> checkVerityAuth(int userId){
         MemberApply memberApply = memberApplyService.get(userId);
@@ -135,11 +138,13 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
-            DateTime afterActiveTimeTwoYear = dt.plusYears(2);
+            memberApply.setCandidateTime(candidateTime);
+            extCommonService.checkMemberApplyData(memberApply);
+            /*DateTime afterActiveTimeTwoYear = dt.plusYears(2);
             if (candidateTime.before(afterActiveTimeOneYear.toDate())
                     || candidateTime.after(afterActiveTimeTwoYear.toDate())) {
                 throw new OpException("确定为发展对象时间与成为积极分子的时间间隔必须大于等于1年，且小于等于2年");
-            }
+            }*/
 
             Date candidateTrainStartTime = DateUtils.parseDate(_candidateTrainStartTime, DateUtils.YYYY_MM_DD);
             if(candidateTrainStartTime!=null && candidateTrainStartTime.before(memberApply.getActiveTime())){
@@ -219,15 +224,18 @@ public class MemberApplyOpService extends MemberBaseMapper {
             MemberApply memberApply = verifyAuth.entity;
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
-            int partyId = memberApply.getPartyId();
+
 
             /*if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
                 throw new OpException("不在开放时间范围");
             }*/
             Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
-            if(planTime.before(memberApply.getCandidateTime())){
+            memberApply.setPlanTime(planTime);
+            extCommonService.checkMemberApplyData(memberApply);
+
+            /*if(planTime.before(memberApply.getCandidateTime())){
                 throw new OpException("列入发展计划时间应该在确定为发展对象之后");
-            }
+            }*/
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
@@ -300,9 +308,11 @@ public class MemberApplyOpService extends MemberBaseMapper {
             MemberApply memberApply = verifyAuth.entity;
 
             Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
-            if(drawTime.before(memberApply.getPlanTime())){
+            memberApply.setDrawTime(drawTime);
+            extCommonService.checkMemberApplyData(memberApply);
+            /*if(drawTime.before(memberApply.getPlanTime())){
                 throw new OpException("领取志愿书时间应该在列入发展计划之后");
-            }
+            }*/
 
             MemberApply record = new MemberApply();
 
@@ -415,9 +425,15 @@ public class MemberApplyOpService extends MemberBaseMapper {
             }
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(_memberApply.getDrawTime()!=null && growTime.before(_memberApply.getDrawTime())){
-                throw new OpException("{0}发展时间应该在领取志愿书之后", realname);
+            _memberApply.setGrowTime(growTime);
+            try {
+                extCommonService.checkMemberApplyData(_memberApply);
+            }catch (OpException ex){
+                throw new OpException("{0}：" + ex.getMessage(), realname);
             }
+            /*if(_memberApply.getDrawTime()!=null && growTime.before(_memberApply.getDrawTime())){
+                throw new OpException("{0}发展时间应该在领取志愿书之后", realname);
+            }*/
 
             if(directParty && partyAdmin){
 
@@ -481,8 +497,8 @@ public class MemberApplyOpService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             Member member = memberService.get(userId);
+            SysUserView uv = sysUserService.findById(userId);
             if(member.getStatus()!= MemberConstants.MEMBER_STATUS_NORMAL){
-                SysUserView uv = sysUserService.findById(userId);
                 throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
 
@@ -492,11 +508,17 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean directParty = verifyAuth.isDirectBranch;
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
-            if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
+            memberApply.setPositiveTime(positiveTime);
+            try {
+                extCommonService.checkMemberApplyData(memberApply);
+            }catch (OpException ex){
+                throw new OpException("{0}：" + ex.getMessage(), uv.getRealname());
+            }
+            /*if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
                 if (positiveTime.before(memberApply.getGrowTime())) {
                     throw new OpException("转正时间应该在发展之后");
                 }
-            }
+            }*/
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核

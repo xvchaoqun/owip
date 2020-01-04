@@ -226,6 +226,12 @@ public class MemberApplyController extends MemberBaseController {
             record.setCreateTime(now);
             record.setRemark(StringUtils.trimToNull(xlsRow.get(rowNum++)));
 
+            try{
+                extCommonService.checkMemberApplyData(record);
+            }catch (OpException ex){
+                throw new OpException("第{0}行:" + ex.getMessage(), row);
+            }
+
             records.add(record);
         }
 
@@ -808,9 +814,11 @@ public class MemberApplyController extends MemberBaseController {
                 return failed(memberApply.getUser().getRealname() + "的提交书面申请书时间为空，请修改或打回。");
             }
 
-            if (activeTime.before(memberApply.getApplyTime())) {
+            extCommonService.checkMemberApplyData(memberApply);
+
+            /*if (activeTime.before(memberApply.getApplyTime())) {
                 return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
-            }
+            }*/
         }
 
         memberApplyOpService.apply_active(ids, activeTime, loginUser.getId());
