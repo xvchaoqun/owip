@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>发展为预备党员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_grow" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/apply_grow" autocomplete="off" disableautocomplete id="applyForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
         <c:if test="${count>1}">
@@ -31,19 +31,23 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
 
-    <input type="submit" class="btn btn-primary" value="确定"/>
+    <button id="applySubmitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-check"></i> 确定</button>
 </div>
 
 <script>
     $.register.date($('.date-picker'), {endDate:"${_today}"});
-    $("#modal form").validate({
+    $("#applySubmitBtn").click(function(){$("#applyForm").submit();return false;});
+    $("#applyForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#applySubmitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
                         goto_next("${param.gotoNext}");
                     }
+                    $btn.button('reset');
                 }
             });
         }

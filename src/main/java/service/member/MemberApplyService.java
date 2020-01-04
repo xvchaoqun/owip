@@ -482,13 +482,12 @@ public class MemberApplyService extends MemberBaseMapper {
         return memberApplyMapper.selectByPrimaryKey(userId);
     }
 
-    // 只有未通过的申请允许删除
+    // 直接删除
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void del(int userId) {
 
         MemberApplyExample example = new MemberApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DENY);
+        example.createCriteria().andUserIdEqualTo(userId);
         memberApplyMapper.deleteByExample(example);
     }
 

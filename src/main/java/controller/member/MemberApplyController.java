@@ -229,7 +229,7 @@ public class MemberApplyController extends MemberBaseController {
             try{
                 extCommonService.checkMemberApplyData(record);
             }catch (OpException ex){
-                throw new OpException("第{0}行:" + ex.getMessage(), row);
+                throw new OpException("第{0}行数据有误:" + ex.getMessage(), row);
             }
 
             records.add(record);
@@ -595,15 +595,11 @@ public class MemberApplyController extends MemberBaseController {
             }
 
             enterApplyService.checkMemberApplyAuth(userId);
-            SysUserView sysUser = sysUserService.findById(userId);
-            Date birth = sysUser.getBirth();
-            if (birth != null && DateUtils.intervalYearsUntilNow(birth) < 18) {
-                return failed("未满18周岁，不能申请入党。");
-            }
 
             record.setUserId(userId);
             record.setStage(stage);
 
+            SysUserView sysUser = sysUserService.findById(userId);
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
                 record.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
             } else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
@@ -814,6 +810,7 @@ public class MemberApplyController extends MemberBaseController {
                 return failed(memberApply.getUser().getRealname() + "的提交书面申请书时间为空，请修改或打回。");
             }
 
+            memberApply.setActiveTime(activeTime);
             extCommonService.checkMemberApplyData(memberApply);
 
             /*if (activeTime.before(memberApply.getApplyTime())) {

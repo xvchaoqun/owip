@@ -1,16 +1,10 @@
 package ext.service;
 
-import controller.global.OpException;
 import domain.member.MemberApply;
-import domain.sys.SysUserView;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.common.ICommonService;
 import service.sys.SysUserService;
-import sys.utils.DateUtils;
-
-import java.util.Date;
 
 @Service
 public class ExtCommonService extends ICommonService {
@@ -21,7 +15,7 @@ public class ExtCommonService extends ICommonService {
     // 党员发展时间节点限制
     public void checkMemberApplyData(MemberApply record) {
 
-        Integer userId = record.getUserId();
+        /*Integer userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         Date birth = uv.getBirth();
         if (birth != null && DateUtils.intervalYearsUntilNow(birth) < 18) {
@@ -105,6 +99,6 @@ public class ExtCommonService extends ICommonService {
                     || positiveTime.after(afterGrowTimeTwoYear.toDate())) {
                 throw new OpException("转正时间与成为预备党员的时间间隔必须大于等于1年，且小于等于2年");
             }
-        }
+        }*/
     }
 }

@@ -8,7 +8,6 @@ import ext.service.ExtCommonService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,11 +130,11 @@ public class MemberApplyOpService extends MemberBaseMapper {
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
 
-            DateTime dt = new DateTime(memberApply.getActiveTime());
+            /*DateTime dt = new DateTime(memberApply.getActiveTime());
             DateTime afterActiveTimeOneYear = dt.plusYears(1);
             if (afterActiveTimeOneYear.isAfterNow()) {
                 throw new OpException("确定为入党积极分子满一年之后才能被确定为发展对象。");
-            }
+            }*/
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             memberApply.setCandidateTime(candidateTime);
@@ -341,36 +340,36 @@ public class MemberApplyOpService extends MemberBaseMapper {
     // 领取志愿书：组织部管理员审核
     @Transactional
     public void apply_grow_od_check(Integer[] userIds,
-                                    int startSnId,
+                                    Integer startSnId,
                                     Integer endSnId,
                                     int loginUserId){
 
-        ApplySn startApplySn = applySnMapper.selectByPrimaryKey(startSnId);
         List<ApplySn> applySns = new ArrayList<>();
-        if(endSnId!=null){
-            ApplySn endApplySn = applySnMapper.selectByPrimaryKey(endSnId);
+        if(startSnId!=null) {
+            ApplySn startApplySn = applySnMapper.selectByPrimaryKey(startSnId);
+            if (endSnId != null) {
+                ApplySn endApplySn = applySnMapper.selectByPrimaryKey(endSnId);
 
-            ApplySnExample example = new ApplySnExample();
-            example.createCriteria()
-                    .andYearEqualTo(DateUtils.getCurrentYear())
-                    .andSnGreaterThanOrEqualTo(startApplySn.getSn())
-                    .andSnLessThanOrEqualTo(endApplySn.getSn())
-                    .andIsUsedEqualTo(false)
-                    .andIsAbolishedEqualTo(false);
-            example.setOrderByClause("sn asc");
-            applySns = applySnMapper.selectByExample(example);
-        }else{
-            applySns.add(startApplySn);
-        }
-        if(applySns.size()==0 || applySns.size()!=userIds.length){
-            throw new OpException("待分配编码的数量[{0}个]和选择的人数[{1}人]不符。", applySns.size(), userIds.length);
+                ApplySnExample example = new ApplySnExample();
+                example.createCriteria()
+                        .andYearEqualTo(DateUtils.getCurrentYear())
+                        .andSnGreaterThanOrEqualTo(startApplySn.getSn())
+                        .andSnLessThanOrEqualTo(endApplySn.getSn())
+                        .andIsUsedEqualTo(false)
+                        .andIsAbolishedEqualTo(false);
+                example.setOrderByClause("sn asc");
+                applySns = applySnMapper.selectByExample(example);
+            } else {
+                applySns.add(startApplySn);
+            }
+            if (applySns.size() == 0 || applySns.size() != userIds.length) {
+                throw new OpException("待分配编码的数量[{0}个]和选择的人数[{1}人]不符。", applySns.size(), userIds.length);
+            }
         }
 
         for (int i = 0; i < userIds.length; i++) {
 
             int userId = userIds[i];
-            ApplySn applySn = applySns.get(i);
-
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
                 throw new OpException("状态异常，还没到领取志愿书阶段。");
@@ -385,8 +384,10 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
-                // 分配志愿书编码
-                applySnService.assign(userId, applySn);
+                if(applySns.size()>0 && applySns.get(i)!=null) {
+                    // 分配志愿书编码
+                    applySnService.assign(userId, applySns.get(i));
+                }
 
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 applyApprovalLogService.add(userId,
