@@ -1,5 +1,6 @@
 package controller.member;
 
+import ext.service.ExtCommonService;
 import ext.service.ExtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
@@ -90,4 +91,7 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     protected ApplySnService applySnService;
     @Autowired
     protected ApplySnRangeService applySnRangeService;
+
+    @Autowired
+    protected ExtCommonService extCommonService;
 }
