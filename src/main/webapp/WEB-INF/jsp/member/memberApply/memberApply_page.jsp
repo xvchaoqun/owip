@@ -617,7 +617,7 @@
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter:function(cellvalue, options, rowObject){
-                    return $.memberApplyTime(true, cellvalue, rowObject.planTime, 5, rowObject.growPublic);
+                    return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.planTime, 5, rowObject.growPublic);
                 }},
             </c:if>
             <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">

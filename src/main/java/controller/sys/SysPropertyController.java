@@ -38,7 +38,9 @@ public class SysPropertyController extends BaseController {
 
     @RequiresPermissions("sysProperty:list")
     @RequestMapping("/sysProperty")
-    public String sysProperty() {
+    public String sysProperty(@RequestParam(required = false, defaultValue = "1")Byte cls, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
 
         return "sys/sysProperty/sysProperty_page";
     }
