@@ -1060,7 +1060,7 @@ public class DpMemberController extends DpBaseController {
 
             valuesList.add(values);
         }
-        String fileName = (cls == 7 ? "已转出" : (cls == 3 ? "离退休" : (cls == 10 ? "全部" : "在职"))) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = (cls == 7 ? "已移除" : (cls == 3 ? "离退休" : (cls == 10 ? "全部" : "在职"))) + "教职工党派成员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }

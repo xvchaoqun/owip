@@ -128,7 +128,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
         if (null != isPresent){
             criteria.andIsPresentEqualTo(isPresent);
         }
-        if (null != name){
+        if (StringUtils.isNotBlank(name)){
             criteria.andNameLike(SqlUtils.like(name));
         }
         if (partyId!=null) {
@@ -152,7 +152,7 @@ public class DpPartyMemberGroupController extends DpBaseController {
         if (null != _actualTranTime.getEnd()){
             criteria.andActualTranTimeLessThanOrEqualTo(_actualTranTime.getEnd());
         }
-        if (null != groupSession){
+        if (StringUtils.isNotBlank(groupSession)){
             criteria.andGroupSessionEqualTo(groupSession);
         }
         if (export == 1) {

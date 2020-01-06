@@ -131,7 +131,9 @@ public class DpPrCmController extends DpBaseController {
         }
         if (type != null){
             List<Integer> selectTypes = Arrays.asList(type);
-            criteria.andTypeIn(selectTypes);
+            if (selectTypes.size() > 0) {
+                criteria.andTypeIn(selectTypes);
+            }
         }
         if (electTime.getStart()!=null){
             criteria.andElectTimeGreaterThanOrEqualTo(electTime.getStart());
@@ -145,7 +147,7 @@ public class DpPrCmController extends DpBaseController {
         if (endTime.getEnd()!=null){
             criteria.andEndTimeLessThanOrEqualTo(endTime.getEnd());
         }
-        if (electSession!=null) {
+        if (StringUtils.isNotBlank(electSession)) {
             criteria.andElectSessionEqualTo(electSession);
         }
 
