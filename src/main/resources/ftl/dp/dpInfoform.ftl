@@ -2375,7 +2375,6 @@
                         </w:p>
                     </w:tc>
                 </w:tr>
-                </w:tr>
                 <w:tr wsp:rsidR="00DC0287" wsp:rsidTr="00AE21C5">
                     <w:trPr>
                         <w:trHeight w:val="978"/>
