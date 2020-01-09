@@ -58,7 +58,7 @@
                                         <div class="form-group">
                                             <label class="col-xs-3 control-label">公示日期</label>
                                             <div class="col-xs-8 label-text">
-                                                <c:set var="pubDate" value="${empty partyPublic?_today:cm:formatDate(partyPublic.pubDate,'yyyy.MM.dd')}"/>
+                                                <c:set var="pubDate" value="${empty partyPublic?_today_dot:cm:formatDate(partyPublic.pubDate,'yyyy.MM.dd')}"/>
                                                 <shiro:hasRole name="${ROLE_ODADMIN}">
                                                 <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
                                                     <input required class="form-control" name="pubDate" type="text"

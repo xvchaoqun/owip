@@ -2198,6 +2198,12 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        // brithDay: mmdd
+        public Criteria andBirthDayEqualTo(String birthDay) {
+            addCriterion("date_format(birth, '%m%d')='"+birthDay+"'");
+            return (Criteria) this;
+        }
+
         public Criteria andBirthNotEqualTo(Date value) {
             addCriterionForJDBCDate("birth <>", value, "birth");
             return (Criteria) this;

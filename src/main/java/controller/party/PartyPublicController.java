@@ -272,7 +272,7 @@ public class PartyPublicController extends BaseController {
             PartyPublic partyPublic = partyPublicService.get(record.getPartyId(),
                 record.getType(), pubDate);
             if(partyPublic != null) {
-                if (id == null || partyPublic.getId() != id) {
+                if (id == null || partyPublic.getId().intValue() != id) {
                     return failed("已经存在{2}的{0}（{1}），不可重复生成公示文件。",
                             OwConstants.OW_PARTY_PUBLIC_TYPE_MAP.get(partyPublic.getType()),
                             partyPublic.getPartyName(), DateUtils.formatDate(pubDate, "yyyy年MM月dd日"));

@@ -376,7 +376,7 @@ public class StatCadreController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequiresPermissions("statCadreCategory:list")
+    @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre_list")
     public String do_stat_cadre_list(String unitTypeGroup,//单位类型
                                      @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,//干部类别

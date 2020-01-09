@@ -28,7 +28,7 @@
                             <a href="javascript:;" data-url="${ctx}/unitPostList?unitId=${param.id}">干部岗位</a>
                         </li>
                         </shiro:hasPermission>
-                        <shiro:hasPermission name="unitCadreTransferGroup:list">
+                        <shiro:hasPermission name="dispatchCadre:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                         </li>
