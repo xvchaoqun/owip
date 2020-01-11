@@ -114,10 +114,12 @@
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInspectInfo:*">
+                    <shiro:hasPermission name="cisInspectObj:list">
                     <li>
                         <a href="javascript:;"
                            data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
                     </li>
+                    </shiro:hasPermission>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreEva:*">
                     <li>
