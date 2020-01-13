@@ -53,7 +53,7 @@ var
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
 
-	version = "",
+	version = "999",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {

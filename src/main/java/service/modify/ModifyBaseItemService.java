@@ -165,14 +165,14 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setUserId(userId);
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
                                 cadreParty.setClassId(modifyValue);
-                                cadreParty.setRemark("本人修改申请（无 -> " + democraticPartyMap.get(modifyValue) + "）");
+                                cadreParty.setRemark("本人修改申请（无 -> " + CmTag.getMetaTypeName(modifyValue) + "）");
                                 cadreParty.setIsFirst(true);
 
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
 
                                 _cadreParty.setClassId(modifyValue);
-                                _cadreParty.setRemark("本人修改申请（无 -> " + democraticPartyMap.get(modifyValue) + "）");
+                                _cadreParty.setRemark("本人修改申请（无 -> " + CmTag.getMetaTypeName(modifyValue) + "）");
 
                                 cadrePartyMapper.updateByPrimaryKeySelective(_cadreParty);
                             }
@@ -266,7 +266,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
                                 cadreParty.setGrowTime(growTime);
                                 cadreParty.setClassId(modifyValue);
-                                cadreParty.setRemark("本人修改申请（中共党员 -> " + democraticPartyMap.get(orginalValue) + "）");
+                                cadreParty.setRemark("本人修改申请（中共党员 -> " + CmTag.getMetaTypeName(orginalValue) + "）");
                                 cadreParty.setIsFirst(true);
 
                                 cadrePartyMapper.insertSelective(cadreParty);
@@ -274,7 +274,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
 
                                 _cadreParty.setClassId(modifyValue);
                                 _cadreParty.setGrowTime(growTime);
-                                _cadreParty.setRemark("本人修改申请（中共党员 -> " + democraticPartyMap.get(orginalValue) + "）");
+                                _cadreParty.setRemark("本人修改申请（中共党员 -> " + CmTag.getMetaTypeName(orginalValue) + "）");
 
                                 cadrePartyMapper.updateByPrimaryKeySelective(_cadreParty);
                             }
@@ -292,14 +292,14 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setUserId(userId);
                                 cadreParty.setGrowTime(dpParty.getGrowTime());
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
-                                cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue) + " -> 中共党员）");
+                                cadreParty.setRemark("本人修改申请（" + CmTag.getMetaTypeName(orginalValue) + " -> 中共党员）");
 
                                 cadreParty.setIsFirst(false);
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
 
                                 _cadreParty.setGrowTime(dpParty.getGrowTime());
-                                _cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue) + " -> 中共党员）");
+                                _cadreParty.setRemark("本人修改申请（" + CmTag.getMetaTypeName(orginalValue) + " -> 中共党员）");
                                 cadrePartyMapper.updateByPrimaryKeySelective(_cadreParty);
                             }
 
@@ -317,15 +317,15 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 cadreParty.setUserId(userId);
                                 cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
                                 cadreParty.setClassId(modifyValue);
-                                cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue)
-                                        + " -> " + democraticPartyMap.get(modifyValue) + "）");
+                                cadreParty.setRemark("本人修改申请（" + CmTag.getMetaTypeName(orginalValue)
+                                        + " -> " + CmTag.getMetaTypeName(modifyValue) + "）");
 
                                 cadreParty.setIsFirst(true);
                                 cadrePartyMapper.insertSelective(cadreParty);
                             } else {
                                 _cadreParty.setClassId(modifyValue);
-                                _cadreParty.setRemark("本人修改申请（" + democraticPartyMap.get(orginalValue)
-                                        + " -> " + democraticPartyMap.get(modifyValue) + "）");
+                                _cadreParty.setRemark("本人修改申请（" + CmTag.getMetaTypeName(orginalValue)
+                                        + " -> " + CmTag.getMetaTypeName(modifyValue) + "）");
 
                                 cadrePartyMapper.updateByPrimaryKeySelective(_cadreParty);
                             }

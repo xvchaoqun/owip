@@ -266,6 +266,12 @@ public class CmTag {
         return metaTypeMap.get(id);
     }
 
+    public static String getMetaTypeName(Integer id) {
+
+        if (id == null) return null;
+        return metaTypeService.getName(id);
+    }
+
     public static MetaClass getMetaClassByCode(String code) {
 
         if (StringUtils.isBlank(code)) return null;
