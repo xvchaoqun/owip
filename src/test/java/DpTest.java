@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.cadre.CadreEduService;
-import service.dp.dpCommon.PmdOrderLogService;
+import service.pmd.PmdOrderLogService;
 
 import java.io.File;
 
@@ -22,7 +22,10 @@ public class DpTest {
     private PmdOrderLogService pmdOrderLogService;
     @Autowired
     private CadreEduService cadreEduService;
-
+    /*
+        批量计算文件夹中.txt中的党费收缴情况
+        遇到相同订单号的，先删除，后添加
+    * */
     @Test
     public void excute() {
         File file = new File(path);

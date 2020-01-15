@@ -1,17 +1,17 @@
-package service.dp.dpCommon;
+package service.pmd;
 
 import controller.global.OpException;
-import domain.dp.PmdOrderLog;
-import domain.dp.PmdOrderLogExample;
-import domain.dp.PmdOrderSumLog;
-import domain.dp.PmdOrderSumLogExample;
+import domain.pmd.PmdOrderLog;
+import domain.pmd.PmdOrderLogExample;
+import domain.pmd.PmdOrderSumLog;
+import domain.pmd.PmdOrderSumLogExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.dp.PmdOrderLogMapper;
-import persistence.dp.PmdOrderSumLogMapper;
+import persistence.pmd.PmdOrderLogMapper;
+import persistence.pmd.PmdOrderSumLogMapper;
 import sys.utils.DateUtils;
 
 import java.io.RandomAccessFile;

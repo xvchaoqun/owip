@@ -1,7 +1,7 @@
-package persistence.dp;
+package persistence.pmd;
 
-import domain.dp.PmdOrderLog;
-import domain.dp.PmdOrderLogExample;
+import domain.pmd.PmdOrderLog;
+import domain.pmd.PmdOrderLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
