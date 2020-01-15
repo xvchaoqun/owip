@@ -44,7 +44,9 @@ public class CadrePartyController extends BaseController {
 
     @RequiresPermissions("cadreParty:list")
     @RequestMapping("/cadreParty")
-    public String cadreParty(Integer userId, Byte type, ModelMap modelMap) {
+    public String cadreParty(Integer userId,
+                             @RequestParam(defaultValue = "1", required = false) Byte cls,
+                             Byte type, ModelMap modelMap) {
 
         if (userId!=null) {
             SysUserView sysUser = sysUserService.findById(userId);
@@ -52,13 +54,15 @@ public class CadrePartyController extends BaseController {
         }
 
         modelMap.put("type", type);
+        modelMap.put("cls", cls);
 
         return "cadre/cadreParty/cadreParty_page";
     }
     @RequiresPermissions("cadreParty:list")
     @RequestMapping("/cadreParty_data")
     public void cadreParty_data(HttpServletResponse response,
-                                byte type,
+                                @RequestParam(defaultValue = "1", required = false) Byte cls, // 1: 民主党派成员 2：群众
+                                byte type, // 1: 民主党派 2：中共党员
                                 Byte status,
                                 Integer userId,
                                 Integer adminLevel,
@@ -80,15 +84,25 @@ public class CadrePartyController extends BaseController {
                 example.createCriteria().andTypeEqualTo(type);
 
         if(type==1) {
-            // 仅显示民主党派，不显示群众
+
             List<Integer> dpTypeIds = new ArrayList<>();
+            List<Integer> crowdIds = new ArrayList<>();
             Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
             for (MetaType metaType : dpTypes.values()) {
-                if(BooleanUtils.isNotTrue(metaType.getBoolAttr())){
+                if (BooleanUtils.isNotTrue(metaType.getBoolAttr())) {
                     dpTypeIds.add(metaType.getId());
+                }else{
+                    crowdIds.add(metaType.getId());
                 }
             }
-            criteria.andClassIdIn(dpTypeIds);
+            if(cls==1) {
+                // 仅显示民主党派，不显示群众
+                criteria.andClassIdIn(dpTypeIds);
+            }else if(cls==2){
+                criteria.andClassIdIn(crowdIds);
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         example.setOrderByClause("cadre_sort_order desc, is_first desc");
@@ -144,7 +158,7 @@ public class CadrePartyController extends BaseController {
             record.setIsFirst(BooleanUtils.isTrue(record.getIsFirst()));
         }
 
-        cadrePartyService.addOrUPdateCadreParty(record);
+        cadrePartyService.addOrUpdateCadreParty(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部党派：%s",
                 JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 

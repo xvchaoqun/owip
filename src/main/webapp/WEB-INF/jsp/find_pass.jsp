@@ -113,7 +113,7 @@
 </div>
 
 <script src="${ctx}/assets/js/jquery.js"></script>
-<script src="${ctx}/assets/js/jquery-ui.js"></script>
+<script src="${ctx}/extend/js/jquery-ui.min.js"></script>
 <script src="${ctx}/assets/js/bootstrap.js"></script>
 <script src="${ctx}/extend/js/bootbox.min.js"></script>
 <t:script src="/js/jquery.extend.js"/>

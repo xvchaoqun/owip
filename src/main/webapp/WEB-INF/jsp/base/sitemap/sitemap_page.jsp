@@ -57,13 +57,12 @@
     </div>
 </div>
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.treegrid.css">
-<script type="text/javascript" src="${ctx}/extend/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/extend/js/jquery.treegrid.min.js"></script>
 <script>
     <c:if test="${fn:length(sitemaps)>0}">
     $('.tree').treegrid({
         'initialState': 'collapsed',
-        'saveState': true,
+        'saveState': false,
         expanderExpandedClass: 'fa fa-minus',
         expanderCollapsedClass: 'fa fa-plus'
     });

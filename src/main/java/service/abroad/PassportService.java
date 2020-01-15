@@ -39,7 +39,7 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
                     record.getClassId(), record.getCode());
             Passport passport = (Passport)passportResultMap.get("passport");
             if(passport==null) {
-                add(record, null, null);
+                addOrUpdate(record, null, null);
                 addCount++;
             }else{
                 record.setId(passport.getId());
@@ -134,17 +134,22 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
     }
 
     @Transactional
-    public int add(Passport record, Integer applyId, Integer taiwanRecordId) {
+    public void addOrUpdate(Passport record, Integer applyId, Integer taiwanRecordId) {
 
-        Assert.isTrue(0 == idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
+        /*Assert.isTrue(0 == idDuplicate(null, record.getType(),
+                record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");*/
 
         int cadreId = record.getCadreId();
         int classId = record.getClassId();
 
         if (applyId != null) { // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            Assert.isTrue(_passportApply.getCadreId().intValue() == cadreId, "wrong cadreId");
-            Assert.isTrue(_passportApply.getClassId().intValue() == classId, "wrong classId");
+            if(_passportApply.getCadreId().intValue() != cadreId){
+                throw new OpException("数据有误，非同一干部");
+            }
+            if(_passportApply.getClassId().intValue() != classId){
+                throw new OpException("数据有误，非同一证件类型");
+            }
 
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);
@@ -165,8 +170,13 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
             }
 
             MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
-            Assert.isTrue(_taiwanRecord.getCadreId().intValue() == cadreId, "wrong cadreId");
-            Assert.isTrue(passportTwType.getId().intValue() == classId, "wrong classId");
+
+            if(_taiwanRecord.getCadreId().intValue() != cadreId){
+                throw new OpException("数据有误，非同一干部");
+            }
+            if(passportTwType.getId().intValue() != classId){
+                throw new OpException("数据有误，非同一证件类型");
+            }
 
             TaiwanRecord taiwanRecord = new TaiwanRecord();
             taiwanRecord.setId(taiwanRecordId);
@@ -189,7 +199,17 @@ public class PassportService extends AbroadBaseMapper implements HttpResponseMet
         }
 
         record.setCode(StringUtils.trimToNull(record.getCode()));
-        return passportMapper.insertSelective(record);
+
+        Map<String, Object> resultMap = findPassportResultMap(null, record.getType(),
+                record.getCadreId(), record.getClassId(), record.getCode());
+        int status = (int) resultMap.get("status");
+        if(status!=0){
+            Passport passport = (Passport) resultMap.get("passport");
+            record.setId(passport.getId());
+            passportMapper.updateByPrimaryKeySelective(record);
+        }else{
+            passportMapper.insertSelective(record);
+        }
     }
 
     @Transactional

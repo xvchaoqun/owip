@@ -36,7 +36,6 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function () {
         <c:if test="${param.type==JASPER_PRINT_TYPE_LETTER_PRINT}">

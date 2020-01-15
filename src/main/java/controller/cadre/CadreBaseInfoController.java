@@ -80,8 +80,6 @@ public class CadreBaseInfoController extends BaseController {
                     record.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
                     record.setClassId(dpTypeId);
 
-                    record.setIsFirst(true); // 默认是第一民主党派
-
                 }else if(dpTypeId==0){
                     // 直接修改为中共党员时，先删除民主党派（删除所有的民主党派）
                     cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
@@ -96,7 +94,7 @@ public class CadreBaseInfoController extends BaseController {
                 record.setGrowTime(DateUtils.parseStringToDate(_dpAddTime));
                 record.setRemark(ShiroHelper.getCurrentUserId()==userId?"干部本人添加":"");
 
-                cadrePartyService.addOrUPdateCadreParty(record);
+                cadrePartyService.addOrUpdateCadreParty(record);
             }else{
                 // 非党员且dpTypeId不传时，删除在民主党派库中的“中共党员”记录（保留民主党派记录）
                 //cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_OW); ???

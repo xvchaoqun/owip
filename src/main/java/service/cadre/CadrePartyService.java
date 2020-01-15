@@ -1,6 +1,7 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreParty;
 import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.CadreConstants;
+import sys.tags.CmTag;
 
 import java.util.Date;
 import java.util.List;
@@ -85,32 +87,48 @@ public class CadrePartyService extends BaseMapper {
         return cadrePartyMapper.selectByExample(example);
     }
 
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void addOrUPdateCadreParty(CadreParty record) {
+    public void addOrUpdateCadreParty(CadreParty record) {
 
         int userId = record.getUserId();
         CadreView cv = cadreService.dbFindByUserId(userId);
 
         if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP){
 
-            if(BooleanUtils.isNotTrue(record.getIsFirst())) {
-                if (cv.getDpTypeId() == null) {
-                    throw new OpException("请先添加第一民主党派");
+            // 添加民主党派前，先删除“群众”
+            iCadreMapper.deleteCrowd(record.getUserId());
+
+            if(cv.getDpTypeId() == null) {
+
+                // 还没有民主党派，设置为第一民主党派
+                record.setIsFirst(true);
+
+            }else {
+
+                // 原来是 “群众”，则新建一条记录
+                MetaType firstDpType = CmTag.getMetaType(cv.getDpTypeId());
+                if(BooleanUtils.isTrue(firstDpType.getBoolAttr())){
+                    record.setId(null);
+                    record.setIsFirst(true);
                 }
-            }else if(typeDuplicate(record.getId(), userId,
-                record.getType(), record.getIsFirst())){
+            }
+
+            if(typeDuplicate(record.getId(), userId, record.getType(), record.getIsFirst())){
 
                 throw new OpException("第一民主党派已经存在，请勿重复添加");
             }
 
             if(classDuplicate(record.getId(), userId, record.getClassId())){
 
-                throw new OpException("民主党派添加重复");
+                MetaType dpType = CmTag.getMetaType(record.getClassId());
+                throw new OpException("添加重复，已经是{0}", dpType.getName());
             }
+
         }else if(typeDuplicate(record.getId(), userId,
                 record.getType(), null)){
 
@@ -152,7 +170,7 @@ public class CadrePartyService extends BaseMapper {
             if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP) {
                 record.setIsFirst(true); // 导入的都是第一民主党派
             }
-            addOrUPdateCadreParty(record);
+            addOrUpdateCadreParty(record);
         }
     }
 

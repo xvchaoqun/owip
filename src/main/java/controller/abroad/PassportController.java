@@ -708,7 +708,7 @@ public class PassportController extends AbroadBaseController {
             record.setIsLent(false);
             record.setCancelConfirm(false);
             record.setCreateTime(new Date());
-            passportService.add(record, applyId, taiwanRecordId);
+            passportService.addOrUpdate(record, applyId, taiwanRecordId);
             logger.info(addLog(LogConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
 
             // 添加证件后需要短信提醒

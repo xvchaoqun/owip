@@ -12,10 +12,20 @@
                 <c:set var="_query" value="${not empty param.userId ||not empty param.adminLevel||not empty param.classId
             ||not empty param.postType ||not empty param.title || not empty param.code }"/>
                 <div class="tabbable">
-
-                    <div class="tab-content" style="padding: 0">
+                    <c:if test="${type==1}">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                      <li class="<c:if test="${cls==1}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreParty?type=${type}&cls=1"><i class="fa fa-users"></i> 民主党派成员</a>
+                      </li>
+                      <li class="<c:if test="${cls==2}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreParty?type=${type}&cls=2"><i class="fa fa-user"></i> 群众</a>
+                      </li>
+                    </ul>
+                        </c:if>
+                    <div class="tab-content">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
+                                <c:if test="${cls==1}">
                                 <shiro:hasPermission name="cadreParty:edit">
                                     <a class="popupBtn btn btn-sm btn-info"
                                        data-url="${ctx}/cadreParty_au?type=${type}"><i class="fa fa-plus"></i> 添加</a>
@@ -28,6 +38,7 @@
                                    data-url="${ctx}/cadreParty_import?type=${type}"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                     批量导入</a>
+                                    </c:if>
                                 <shiro:hasPermission name="cadreParty:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/cadreParty_batchDel" data-title="删除"
@@ -141,14 +152,16 @@
             }, frozen: true
             },
             <c:if test="${type==1}">
-            {label: '民主党派', name: 'classId', align:'left', width: 120, formatter:function(cellvalue, options, rowObject){
+            {label: '${cls==1?"民主党派":"类别"}', name: 'classId', width: 120, formatter:function(cellvalue, options, rowObject){
                 var str = '<span class="red" title="非第一民主党派">* </span>';
                 var dp = $.jgrid.formatter.MetaType(cellvalue);
                 return (!rowObject.isFirst)?str+dp:dp;
             }},
+            <c:if test="${cls==1}">
             {label: '党派加入时间', name: 'growTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_hasPartyModule?"Y.m.d":"Y.m"}'}, width: 110},
             {label: '担任党派职务', name: 'post',align:'left',  width: 250},
+            </c:if>
             </c:if>
             <c:if test="${type==2}">
             {label: '党派加入时间', name: 'growTime', formatter: $.jgrid.formatter.date,

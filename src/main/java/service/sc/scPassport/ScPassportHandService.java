@@ -70,7 +70,7 @@ public class ScPassportHandService extends ScBaseMapper {
                         passport.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
                         passport.setCreateTime(new Date());
 
-                        passportService.add(passport, null, null);
+                        passportService.addOrUpdate(passport, null, null);
 
                     }else{
 

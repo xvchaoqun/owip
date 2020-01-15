@@ -256,7 +256,7 @@
     white-space: nowrap;
   }
 </style>
-<script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
+<script src="${ctx}/assets/js/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
       <script>
         $('#spinner').ace_spinner({value:0,min:1,max:999,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});

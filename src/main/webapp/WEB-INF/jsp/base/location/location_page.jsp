@@ -16,7 +16,6 @@
 </div>
 
 <script src="${ctx}/extend/js/jquery-ui.min.js" type="text/javascript"></script>
-<script src="${ctx}/extend/js/jquery.cookie.js" type="text/javascript"></script>
 <link href="${ctx}/extend/css/ui.fancytree.min.css" rel="stylesheet" type="text/css">
 <script src="${ctx}/extend/js/jquery.fancytree-all.min.js" type="text/javascript"></script>
 <style type="text/css">
@@ -79,27 +78,11 @@
     $(function(){
 
         $("#treetable").fancytree({
-            extensions: ["edit", "glyph", "table", "persist"],
+            extensions: ["edit", "glyph", "table"],
             glyph: glyph_opts,
             source: {url: "${ctx}/location_node", debugDelay: 200},
             table: {
                 nodeColumnIdx: 0
-            },
-            persist: {
-                // Available options with their default:
-                cookieDelimiter: "~",    // character used to join key strings
-                cookiePrefix: undefined, // 'fancytree-<treeId>-' by default
-                cookie: { // settings passed to jquery.cookie plugin
-                    raw: false,
-                    expires: "",
-                    path: "",
-                    domain: "",
-                    secure: false
-                },
-                expandLazy: true, // true: recursively expand and load lazy nodes
-                overrideSource: true,  // true: cookie takes precedence over `source` data attributes.
-                store: "auto",     // 'cookie': use cookie, 'local': use localStore, 'session': use sessionStore
-                types: "active expanded focus selected"  // which status types to store
             },
             lazyLoad: function(event, data) {
 

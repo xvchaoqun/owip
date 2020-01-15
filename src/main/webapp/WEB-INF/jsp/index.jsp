@@ -279,7 +279,6 @@
 <script src="${ctx}/assets/js/flot/jquery.flot.resize.js"></script>
 <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
 <script src="${ctx}/extend/js/highcharts.js"></script>
-<script src="${ctx}/extend/js/exporting.js"></script>
 <script type="text/template" id="common_sort_tpl">
     <a href="javascript:;" class="jqOrderBtn" data-grid-id="{{=grid}}" data-url="{{=url}}" data-id="{{=id}}"
        data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>

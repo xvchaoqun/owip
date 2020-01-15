@@ -9,7 +9,6 @@
     <title>Title</title>
 <script src="/assets/js/jquery.js"></script>
 <script src="/extend/js/jquery.base64.js"></script>
-<script src="/extend/js/base64.js"></script>
 </head>
 <body>
 
@@ -66,8 +65,6 @@
     console.log("str="+str)
     $("#str").val(str)
 
-
-    $("#destr1").val(new Base64().encode(str))
 
     $("#destr2").val($.base64.encode(str))
 

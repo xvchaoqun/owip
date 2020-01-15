@@ -235,7 +235,7 @@
             </button>
     </div>
 </form>
-<script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
+<script src="${ctx}/assets/js/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
 <script>
     $('#spinner').ace_spinner({

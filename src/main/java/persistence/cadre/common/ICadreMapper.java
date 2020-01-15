@@ -200,6 +200,11 @@ public interface ICadreMapper {
             "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "group by cp.admin_level, cp.is_main_post")
     public List<UnitPostAllocationStatBean> unitPostStatReal(@Param("unitTypeGroup") String unitTypeGroup);
+
+    // 删除某人在 民主党派库中的 “群众”记录
+    @Update("delete cp.* from cadre_party cp, base_meta_type bmt " +
+            "where cp.user_id=#{userId} and cp.class_id=bmt.id and bmt.bool_attr=1")
+    int deleteCrowd(Integer userId);
 }
 
 

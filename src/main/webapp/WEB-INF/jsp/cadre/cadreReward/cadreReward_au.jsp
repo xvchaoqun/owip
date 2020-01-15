@@ -110,7 +110,7 @@ pageEncoding="UTF-8"%>
         <c:if test="${cadreReward!=null}">确定</c:if><c:if test="${cadreReward==null}">添加</c:if>
     </button>
 </div>
-<script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
+<script src="${ctx}/assets/js/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
 <script>
 

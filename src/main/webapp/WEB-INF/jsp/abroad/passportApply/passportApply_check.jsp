@@ -105,7 +105,6 @@ pageEncoding="UTF-8"%>
 <c:set var="cadre" value="${cm:getCadreById(passportApply.cadreId)}"/>
 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
 <c:set var="passportType" value="${cm:getMetaType(passportApply.classId)}"/>
-<script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function(){
         $.print("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");

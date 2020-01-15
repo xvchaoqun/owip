@@ -99,7 +99,7 @@ pageEncoding="UTF-8"%>
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty dpReward?'确定':'添加'}</button>
 </div>
-<script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
+<script src="${ctx}/assets/js/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
 <script>
 

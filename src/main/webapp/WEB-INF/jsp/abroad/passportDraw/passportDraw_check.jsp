@@ -99,7 +99,6 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
 
     $("#agree").click(function(){
