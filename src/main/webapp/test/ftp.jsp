@@ -1,6 +1,12 @@
+<%@ page import="org.joda.time.DateTime" %>
 <%@ page import="org.slf4j.Logger" %>
 <%@ page import="org.slf4j.LoggerFactory" %>
+<%@ page import="service.pmd.PmdOrderLogService" %>
+<%@ page import="sys.tags.CmTag" %>
+<%@ page import="sys.utils.DateUtils" %>
 <%@ page import="sys.utils.FtpUtils" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,63 +16,48 @@
 <%
     Logger logger = LoggerFactory.getLogger("ftptest");
 
+    String month = DateUtils.formatDate(new Date(), DateUtils.YYYYMM);
+    Date payMonth = DateUtils.parseDate(month, DateUtils.YYYYMM);
+
     String hostname = "172.16.212.56";
     int port = 2019;
     String username = "dangfei";
     String password = "df20190107";
+
     String pathname = "/";
-    String filename = "partyfee-20191212.txt";
-    String localpath = "/tmp";
+    String downloadPath = "/tmp/" + month;
 
     FtpUtils ftp = new FtpUtils(hostname, port, username, password);
-    ftp.downloadFile(pathname, filename, localpath);
 
-    /*FTPClient ftpClient = new FTPClient();
+    DateTime dt = new DateTime(payMonth);
 
-    ftpClient.setControlEncoding("utf-8");
+    DateTime today = new DateTime(new Date());
+    int num = today.getDayOfMonth();
+    for (int i = 0; i < num; i++) {
 
-    logger.info("connecting ftp://{}:{}", hostname, port);
+        DateTime _dt = dt.plusDays(i);
 
-    ftpClient.connect(hostname, port);
-    ftpClient.login(username, password);
+        String filename = String.format("partyfee-%s.txt", DateUtils.formatDate(_dt.toDate(), "yyyyMMdd"));
+        boolean ret = ftp.downloadFile(pathname, filename, downloadPath);
 
-    int replyCode = ftpClient.getReplyCode();
-    if (!FTPReply.isPositiveCompletion(replyCode)) {
-        logger.info("connect failed, ftp://{}:{}, {}", hostname, port, ftpClient.getReplyString());
-
-        throw new RuntimeException("ftp connect failed.");
+        logger.info("下载" + filename + ": " + ret);
     }
 
-    //ftpClient.enterLocalPassiveMode();
-    logger.info("connect success, ftp://{}:{}", hostname, port);
-
-    ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-    ftpClient.enterLocalActiveMode();
-
-    logger.info("开始下载文件");
-    //切换FTP目录
-    boolean flag = ftpClient.changeWorkingDirectory(pathname);
-    if (!flag) {
-        logger.error("文件路径{}不存在", pathname);
-        return;
-    }
-
-    FTPFile[] ftpFiles = ftpClient.listFiles();
-    logger.info("文件 :" + ftpFiles.length);
-    OutputStream os = null;
-    for (FTPFile file : ftpFiles) {
-        if (filename.equalsIgnoreCase(file.getName())) {
-            File localFile = new File(localpath + "/" + file.getName());
-            os = new FileOutputStream(localFile);
-            ftpClient.retrieveFile(file.getName(), os);
-            os.close();
+    PmdOrderLogService pmdOrderLogService = CmTag.getBean(PmdOrderLogService.class);
+    File file = new File(downloadPath);
+    int count = 0;
+    if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        for (File txt : files) {
+            try {
+                String name = txt.getName();
+                count += pmdOrderLogService.loadFile(downloadPath + "/" + name, "r", name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-
-    os.close();
-    ftpClient.logout();
-    logger.info("下载文件成功");
-    ftpClient.disconnect();*/
+    logger.info("总计：" + count + "条记录");
 %>
 </body>
 </html>

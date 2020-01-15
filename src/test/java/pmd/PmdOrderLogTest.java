@@ -18,7 +18,7 @@ public class PmdOrderLogTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final String path = "C:\\Users\\fafa\\Desktop\\partyfee";
+    public static final String path = "C:\\Users\\fafa\\Documents\\202001";
     public static final String openFileStyle = "r";
     @Autowired
     private PmdOrderLogService pmdOrderLogService;
