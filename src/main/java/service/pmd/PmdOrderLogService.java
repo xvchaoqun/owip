@@ -58,6 +58,7 @@ public class PmdOrderLogService {
     }
 
     //总金额
+    @Transactional
     public void totalParseRecord(String line_record, String name) throws Exception{
         //拆分记录
         String[] files = line_record.split(fileLimitChar);
@@ -78,7 +79,7 @@ public class PmdOrderLogService {
             }
         }
 
-        System.out.println(tranStr(files[1]));
+        //System.out.println(tranStr(files[1]));
         if (tranStr(files[1]).equals("总行数")){
             return;
         }else {
