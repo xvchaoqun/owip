@@ -1,4 +1,18 @@
 
+
+ALTER TABLE `cadre_position_report`
+	ADD COLUMN `code` CHAR(50) NULL DEFAULT NULL COMMENT '工作证号' AFTER `year`,
+	ADD COLUMN `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位' AFTER `code`,
+	CHANGE COLUMN `title` `title` VARCHAR(200) NULL DEFAULT NULL COMMENT '所在单位及职务' AFTER `unit`,
+	ADD COLUMN `job` VARCHAR(200) NULL DEFAULT NULL COMMENT '分管工作' AFTER `title`,
+	CHANGE COLUMN `content` `content` TEXT NULL COMMENT '述职报告内容' AFTER `job`;
+
+ALTER TABLE `cadre_position_report`
+	ADD COLUMN `user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '用户ID' AFTER `cadre_id`;
+
+-- INSERT INTO cadre_position_report (cadre_id, user_id, `year`, `code`, `unit`, title, job, content, create_time)
+-- SELECT cadre_id, user_id, CAST(left(nf,4) AS SIGNED) AS year, zgh AS code, ssdwm AS unit, dzzwm AS title, fggz AS job, grsz AS content, cast(czsj as DATE) AS create_time FROM t_zz_bgrjbqk WHERE nf IS NOT NULL and cadre_id IS NOT NULL
+
 2020.1.15
 北师大更新
 

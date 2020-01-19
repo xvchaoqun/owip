@@ -93,10 +93,12 @@ pageEncoding="UTF-8"%>
 						<td style="height: 500px"><span class="star">*</span>个人述职<br/>（1500字以内）</td>
 						<td colspan="3">
 							<c:if test="${!edit}">
-								<p style="text-indent:2em">${cadrePositionReport.content}</p>
+								<pre style="text-indent:2em;white-space: pre-wrap!important;
+word-wrap: break-word!important;
+*white-space:normal!important;">${cadrePositionReport.content}</pre>
 							</c:if>
 							<c:if test="${edit}">
-                            <textarea  required name="content" rows="20" class="limited"
+                            <textarea  required name="content" rows="20" class="limited canEnter"
 									   style="width: 100%">${cadrePositionReport.content}</textarea>
 							</c:if>
 						</td>

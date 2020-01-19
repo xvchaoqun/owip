@@ -396,6 +396,20 @@ left join sys_user_view uv on t.user_id=uv.id
 left join sys_user_view ouv on t.order_user_id=ouv.id
 group by member_id;
 
+-- 缴费订单，用于对账
+DROP VIEW IF EXISTS `pmd_pay_item_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `pmd_pay_item_view` AS SELECT t.* from
+(
+-- 本月正常缴费
+select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pmp.pay_time
+from pmd_member pm, pmd_member_pay pmp, pmd_month m
+where  pm.month_id=m.id and pmp.member_id=pm.id and pm.is_online_pay=1 and pm.is_delay=0
+union all
+-- 往月延迟缴费
+select pmpv.order_no, m.id as pay_month_id, m.pay_month, pmpv.user_id, pmpv.order_user_id, pmpv.member_id, pmpv.real_pay, 1 as is_delay, pmpv.pay_time
+from pmd_member_pay_view pmpv, pmd_month m
+where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmpv.is_delay=1 and pmpv.is_online_pay=1
+) t, pmd_order po_check WHERE  po_check.member_id=t.member_id and po_check.is_success=1 ;
 
 
 DROP VIEW IF EXISTS `oa_task_view`;

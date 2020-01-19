@@ -90,7 +90,9 @@ public class CadrePositionReportService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         CadrePositionReport cpr = cadrePositionReportMapper.selectByPrimaryKey(id);
 
+        cpr.setContent(freemarkerService.genTextareaSegment(cpr.getContent(), "/common/editor2.ftl"));
         dataMap.put("cpr",cpr);
+
         freemarkerService.process("cadre/cadrePositionReport.ftl", dataMap, out);
         out.close();
     }

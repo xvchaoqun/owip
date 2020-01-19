@@ -405,7 +405,7 @@
                                 </w:p>
                             </w:tc>
                         </w:tr>
-                        <w:tr w:rsidR="004851B7" w:rsidTr="00231AAC">
+                         <w:tr w:rsidR="004851B7" w:rsidTr="00231AAC">
                             <w:trPr>
                                 <w:trHeight w:hRule="exact" w:val="8505"/>
                                 <w:jc w:val="center"/>
@@ -422,25 +422,25 @@
                                         <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
                                     </w:tcBorders>
                                     <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF"/>
+                                    <w:tcMar>
+										<w:top w:w="113" w:type="dxa"/>
+										<w:left w:w="113" w:type="dxa"/>
+										<w:bottom w:w="113" w:type="dxa"/>
+										<w:right w:w="113" w:type="dxa"/>
+									</w:tcMar>
                                 </w:tcPr>
-                                <w:p w:rsidR="00231AAC" w:rsidRPr="00231AAC" w:rsidRDefault="00231AAC" w:rsidP="00231AAC">
+                                ${cpr.content!}
+                                <w:p>
                                     <w:pPr>
+                                        <w:wordWrap w:val="off"/>
+                                        <w:spacing w:after-lines="100" w:after="312" w:line="500" w:line-rule="exact"/>
+                                        <w:ind w:left-chars="19" w:left="3680" w:right-chars="251" w:right="527" w:hanging-chars="1300" w:hanging="3640"/>
                                         <w:rPr>
-                                            <w:rFonts w:ascii="宋体" w:eastAsia="宋体" w:hAnsi="Times New Roman" w:cs="宋体" w:hint="eastAsia"/>
+                                            <w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
+                                            <w:sz w:val="28"/>
+                                            <w:sz-cs w:val="28"/>
                                         </w:rPr>
                                     </w:pPr>
-                                    <w:r>
-                                        <w:rPr>
-                                            <w:rFonts w:ascii="宋体" w:eastAsia="宋体" w:hAnsi="Times New Roman" w:cs="宋体" w:hint="eastAsia"/>
-                                        </w:rPr>
-                                        <w:t xml:space="preserve">　　</w:t>
-                                    </w:r>
-                                    <w:r w:rsidRPr="00231AAC">
-                                        <w:rPr>
-                                            <w:rFonts w:ascii="宋体" w:eastAsia="宋体" w:hAnsi="Times New Roman" w:cs="宋体" w:hint="eastAsia"/>
-                                        </w:rPr>
-                                        <w:t>${cpr.content!}</w:t>
-                                    </w:r>
                                 </w:p>
                             </w:tc>
                         </w:tr>
