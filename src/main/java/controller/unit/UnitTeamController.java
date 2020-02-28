@@ -212,6 +212,7 @@ public class UnitTeamController extends BaseController {
     public Map do_unitTeam_dispatchCadre(int unitTeamId, Integer dispatchCadreId,
                                           @RequestParam(required = false, defaultValue = "2") int auType,
                                           @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date dispatchCadreDate,
+                                          @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date expectDeposeDate,
                                           HttpServletRequest request) {
         
         UnitTeam unitTeam = unitTeamMapper.selectByPrimaryKey(unitTeamId);
@@ -231,6 +232,9 @@ public class UnitTeamController extends BaseController {
             }
             record.setAppointDispatchCadreId(dispatchCadreId);
             record.setAppointDate(dispatchCadreDate);
+
+            record.setExpectDeposeDate(expectDeposeDate);
+
         } else if (auType == 3) {
             
             if (unitTeam.getAppointDate() != null && dispatchCadreDate != null

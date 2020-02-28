@@ -584,7 +584,7 @@ public class UnitPostController extends BaseController {
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100","职务属性|150",
                 "是否正职|80", "是否班子负责人|120", "性别|50", "民族|100", "出生日期|100",
                 "年龄|50", "政治面貌|100", "党派加入时间|150", "参加工作时间|150", "最高学历|100",
-                "最高学位|100", "所学专业|150", "专业技术职务|150","现职务始任时间|150","现职务始任年限|150",
+                "最高学位|100", "所学专业|150", "专业技术职务|150","任现职时间|150","现职务始任时间|150","现职务始任年限|150",
                 "现职级始任时间|150", "任现职级年限|150"};
 
         List<String[]> valuesList = new ArrayList<>();
@@ -609,21 +609,22 @@ public class UnitPostController extends BaseController {
                     SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     cv.getNation(),
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(birth, DateUtils.YYYYMMDD_DOT),
 
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
-                    DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYY_MM_DD), //参加工作时间
+                    DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMMDD_DOT), //参加工作时间
                     metaTypeService.getName(cv.getEduId()),
 
                     cv.getDegree(),
                     cv.getMajor(),
                     cv.getProPost(),
-                    DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
                     NumberUtils.trimToEmpty(cv.getCadrePostYear()),
 
-                    DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYYMMDD_DOT),
                     NumberUtils.trimToEmpty(cv.getAdminLevelYear())
             };
             valuesList.add(values);
