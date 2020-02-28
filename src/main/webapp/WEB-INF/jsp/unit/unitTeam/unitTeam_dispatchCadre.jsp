@@ -21,8 +21,8 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 				<div class="input-group" style="width: 200px;margin-top: 6px;">
 					<input required class="form-control date-picker" name="dispatchCadreDate"
-						   type="text" data-date-format="yyyy-mm-dd"
-						   value="${cm:formatDate(param.auType==2?unitTeam.appointDate:unitTeam.deposeDate, "yyyy-MM-dd")}"/>
+						   type="text" data-date-format="yyyy.mm.dd"
+						   value="${cm:formatDate(param.auType==2?unitTeam.appointDate:unitTeam.deposeDate, "yyyy.MM.dd")}"/>
 					<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>
@@ -35,8 +35,8 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 200px;margin-top: 6px;">
                     <input class="form-control date-picker" name="expectDeposeDate" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(unitTeam.expectDeposeDate,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(unitTeam.expectDeposeDate,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

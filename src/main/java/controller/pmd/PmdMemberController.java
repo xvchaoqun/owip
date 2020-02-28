@@ -479,35 +479,35 @@ public class PmdMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 设定缴纳额度
-    @RequiresPermissions("pmdMember:setDuePay")
-    @RequestMapping("/pmdMember_setDuePay")
-    public String pmdMember_setDuePay(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    // 修改延迟缴费的应交金额
+    @RequiresPermissions("pmdMember:changeDuePay")
+    @RequestMapping("/pmdMember_changeDuePay")
+    public String pmdMember_changeDuePay(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
         }
 
-        return "pmd/pmdMember/pmdMember_setDuePay";
+        return "pmd/pmdMember/pmdMember_changeDuePay";
     }
 
-    /*@RequiresPermissions("pmdMember:setDuePay")
-    @RequestMapping(value = "/pmdMember_setDuePay", method = RequestMethod.POST)
+    @RequiresPermissions("pmdMember:changeDuePay")
+    @RequestMapping(value = "/pmdMember_changeDuePay", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setDuePay(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map do_pmdMember_changeDuePay(@RequestParam(value = "ids[]") Integer[] ids,
                                       BigDecimal amount, String remark) {
 
         if(amount==null || amount.compareTo(BigDecimal.ZERO)<=0){
-            return failed("额度必须大于0");
+            return failed("金额必须大于0");
         }
 
-        pmdMemberService.setDuePay(ids, amount, remark);
+        pmdMemberService.changeDuePay(ids, amount, remark);
 
-        logger.info(addLog(LogConstants.LOG_PMD, "[支部管理员]设定缴纳额度-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "[支部管理员]修改延迟缴费的应交金额-%s-%s",
                 StringUtils.join(ids, ","), amount));
         return success(FormUtils.SUCCESS);
     }
-*/
+
     // 选择党员分类
     @RequiresPermissions("pmdMember:selectMemberType")
     @RequestMapping("/pmdMember_selectMemberType")

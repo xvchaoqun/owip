@@ -65,8 +65,9 @@ $(window).on('resize.jqGrid', function () {
     if ($("#body-content").is(":hidden")) {
         return;
     }
+    var $jqGrid = $(".jqGrid:visible");
     var gridWidth = $(window).width() - 60;
-    var widthReduce = $(".jqGrid").data("width-reduce");
+    var widthReduce = $jqGrid.data("width-reduce");
     if (widthReduce != undefined) {
         gridWidth = gridWidth - parseInt(widthReduce);
     }
@@ -74,7 +75,7 @@ $(window).on('resize.jqGrid', function () {
     if ($("#menu-toggler").is(":hidden")) { // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
-    $(".jqGrid").jqGrid('setGridWidth', gridWidth);
+    $jqGrid.jqGrid('setGridWidth', gridWidth);
     var height = 0;
     $("#body-content .jqgrid-vertical-offset").each(function () {
         height += $(this).height();
@@ -87,21 +88,21 @@ $(window).on('resize.jqGrid', function () {
     //console.log("document.body.scrollHeight=" + document.body.scrollHeight + " $(window).height()=" + $(window).height())
     //console.log("height=" + height + " navHeight=" + navHeight)
     var minusHeight = 320;
-    if ($(".jqGrid").getGridParam("pager") == false) {
+    if ($jqGrid.getGridParam("pager") == false) {
         minusHeight -= 45;
     }
 
     var gridHeight = $(window).height() - minusHeight - height - navHeight;
-    var heightReduce = $(".jqGrid").data("height-reduce");
+    var heightReduce = $jqGrid.data("height-reduce");
     if (heightReduce != undefined) {
         gridHeight = gridHeight - parseInt(heightReduce);
     }
 
-    $(".jqGrid").setGridHeight(gridHeight)
+    $jqGrid.setGridHeight(gridHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 
-    $(".jqGrid").each(function(){
+    $jqGrid.each(function(){
         _adjustFrozenDivHeight($(this))
     })
 });
@@ -115,7 +116,7 @@ $(window).on('resize.jqGrid2', function () {
     if ($("#menu-toggler").is(":hidden")) { // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
-    $(".jqGrid2").each(function () {
+    $(".jqGrid2:visible").each(function () {
         var $jqgrid = $(this);
         var widthReduce = $jqgrid.data("width-reduce");
         if (widthReduce != undefined) {
@@ -164,7 +165,7 @@ $(window).on('resize.jqGrid3', function () {
         //alert(height)
     });
     //alert(height)
-    $(".jqGrid3").setGridHeight($(window).height() - 400 - height);
+    $(".jqGrid3:visible").setGridHeight($(window).height() - 400 - height);
 });
 // 不改变高度
 $(window).on('resize.jqGrid4', function () {
@@ -174,7 +175,7 @@ $(window).on('resize.jqGrid4', function () {
         gridWidth -= $(".nav-list").width()
     }
 
-    $(".jqGrid4").each(function () {
+    $(".jqGrid4:visible").each(function () {
         var _gridWidth = gridWidth;
         var widthReduce = $(this).data("width-reduce");
         if (widthReduce != undefined && Math.abs(widthReduce) > 0) {

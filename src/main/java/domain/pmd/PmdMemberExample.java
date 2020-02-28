@@ -1803,6 +1803,12 @@ public class PmdMemberExample {
             return (Criteria) this;
         }
 
+        // 不允许报送（未设置党员类别或应缴额度）
+        public Criteria andCannotReport() {
+            addCriterion("(config_member_type_id is null or due_pay is null)");
+            return (Criteria) this;
+        }
+
         public Criteria andDuePayIsNull() {
             addCriterion("due_pay is null");
             return (Criteria) this;

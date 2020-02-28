@@ -27,10 +27,8 @@ import sys.utils.RequestUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.net.URLEncoder;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -157,16 +155,18 @@ public class UserPmdPayController extends PmdBaseController {
             resultMap.put("thirdurl", homeURL + "/user/pmd/callback");
         }
 
-        // test
-        /*Map<String, Object> callbackMap = new LinkedHashMap<>(params);
-        callbackMap.remove("ordertype");
-        callbackMap.remove("sign");
-        callbackMap.put("orderid", order.getSn()+"back");
-        callbackMap.put("state", "1");
-        callbackMap.put("sign", URLEncoder.encode(BnuPayUtils.sign(callbackMap), "UTF-8"));
+        if(springProps.devMode) {
+            // test
+            Map<String, Object> callbackMap = new LinkedHashMap<>(params);
+            callbackMap.remove("ordertype");
+            callbackMap.remove("sign");
+            callbackMap.put("orderid", order.getSn() + "back");
+            callbackMap.put("state", "1");
+            callbackMap.put("sign", URLEncoder.encode(PayUtils.sign(callbackMap), "UTF-8"));
 
-        callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
-        resultMap.put("ret", FormUtils.requestParams(callbackMap));*/
+            callbackMap.put("actulamt", params.get("tranamt")); // 实际交易金额
+            resultMap.put("ret", FormUtils.requestParams(callbackMap));
+        }
 
         return resultMap;
     }

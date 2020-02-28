@@ -7,7 +7,6 @@ import domain.sys.AttachFileExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,62 +205,101 @@ public class AttachFileController extends BaseController {
     @RequiresPermissions("attachFile:import")
     @RequestMapping(value = "/attachFile_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_attachFile_import(HttpServletRequest request) throws InvalidFormatException, IOException {
-
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        MultipartFile zip = multipartRequest.getFile("zip");
-
-        String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
-                DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "attachFiles";
-        FileUtils.mkdirs(tmpdir, false);
-
-        String filepath = tmpdir + FILE_SEPARATOR + zip.getOriginalFilename();
-        FileUtils.copyFile(zip, new File(filepath));
-        ZipFile zipFile = new ZipFile(filepath, Charset.forName("gbk"));
+    public Map do_attachFile_import(HttpServletRequest request) throws IOException {
 
         int addCount = 0;
         int updateCount = 0;
-        for (Enumeration e = zipFile.entries(); e.hasMoreElements(); ) {
+        int totalCount = 1;
 
-            ZipEntry zipEntry = (ZipEntry) e.nextElement();
-            if (!zipEntry.isDirectory()) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xls = multipartRequest.getFile("xls");
 
-                String name = zipEntry.getName();
-                String code = PatternUtils.withdraw(".*\\[\\s*(\\S*)\\s*\\].*", name);
-                String fileName = PatternUtils.withdraw(".*\\[.*](.*)\\..*", name);
-                if (StringUtils.isNotBlank(code)) {
+        if (xls != null && !xls.isEmpty()) {
+            String templateName = xls.getOriginalFilename();
+            String code = PatternUtils.withdraw(".*\\[\\s*(\\S*)\\s*\\].*", templateName);
+            String fileName = PatternUtils.withdraw(".*\\[.*](.*)\\..*", templateName);
+            if (StringUtils.isNotBlank(code)) {
 
-                    InputStream inputStream = zipFile.getInputStream(zipEntry);
-                    String ext = FileUtils.getExtention(name);
-                    String savePath = FILE_SEPARATOR + "attach_file" +
-                            FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                            FILE_SEPARATOR + UUID.randomUUID().toString() + ext;
-                    FileUtils.saveFile(inputStream, springProps.uploadPath + savePath);
+                String ext = FileUtils.getExtention(templateName);
+                String savePath = FILE_SEPARATOR + "attach_file" +
+                        FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                        FILE_SEPARATOR + UUID.randomUUID().toString() + ext;
+                FileUtils.saveFile(xls.getInputStream(), springProps.uploadPath + savePath);
 
-                    AttachFile record = new AttachFile();
-                    record.setCode(code);
-                    record.setFilename(fileName);
-                    record.setPath(savePath);
-                    record.setExt(ext);
-                    record.setCreateTime(new Date());
+                AttachFile record = new AttachFile();
+                record.setCode(code);
+                record.setFilename(fileName);
+                record.setPath(savePath);
+                record.setExt(ext);
+                record.setCreateTime(new Date());
 
-                    AttachFile attachFile = attachFileService.get(code);
-                    if (attachFile != null) {
-                        record.setId(attachFile.getId());
-                        attachFileMapper.updateByPrimaryKeySelective(record);
-                        updateCount++;
-                    } else {
+                AttachFile attachFile = attachFileService.get(code);
+                if (attachFile != null) {
+                    record.setId(attachFile.getId());
+                    attachFileMapper.updateByPrimaryKeySelective(record);
+                    updateCount++;
+                } else {
 
-                        attachFileService.insertSelective(record);
-                        addCount++;
+                    attachFileService.insertSelective(record);
+                    addCount++;
+                }
+            }
+        } else {
+
+            MultipartFile zip = multipartRequest.getFile("zip");
+
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "attachFiles";
+            FileUtils.mkdirs(tmpdir, false);
+
+            String filepath = tmpdir + FILE_SEPARATOR + zip.getOriginalFilename();
+            FileUtils.copyFile(zip, new File(filepath));
+            ZipFile zipFile = new ZipFile(filepath, Charset.forName("gbk"));
+
+
+            for (Enumeration e = zipFile.entries(); e.hasMoreElements(); ) {
+
+                ZipEntry zipEntry = (ZipEntry) e.nextElement();
+                if (!zipEntry.isDirectory()) {
+
+                    String templateName = zipEntry.getName();
+                    String code = PatternUtils.withdraw(".*\\[\\s*(\\S*)\\s*\\].*", templateName);
+                    String fileName = PatternUtils.withdraw(".*\\[.*](.*)\\..*", templateName);
+                    if (StringUtils.isNotBlank(code)) {
+
+                        InputStream inputStream = zipFile.getInputStream(zipEntry);
+                        String ext = FileUtils.getExtention(templateName);
+                        String savePath = FILE_SEPARATOR + "attach_file" +
+                                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                                FILE_SEPARATOR + UUID.randomUUID().toString() + ext;
+                        FileUtils.saveFile(inputStream, springProps.uploadPath + savePath);
+
+                        AttachFile record = new AttachFile();
+                        record.setCode(code);
+                        record.setFilename(fileName);
+                        record.setPath(savePath);
+                        record.setExt(ext);
+                        record.setCreateTime(new Date());
+
+                        AttachFile attachFile = attachFileService.get(code);
+                        if (attachFile != null) {
+                            record.setId(attachFile.getId());
+                            attachFileMapper.updateByPrimaryKeySelective(record);
+                            updateCount++;
+                        } else {
+
+                            attachFileService.insertSelective(record);
+                            addCount++;
+                        }
                     }
                 }
             }
+
+            FileUtils.deleteDir(new File(tmpdir));
+
+            totalCount = zipFile.size();
         }
 
-        FileUtils.deleteDir(new File(tmpdir));
-
-        int totalCount = zipFile.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("addCount", addCount);
         resultMap.put("updateCount", updateCount);
@@ -273,6 +311,4 @@ public class AttachFileController extends BaseController {
 
         return resultMap;
     }
-
-
 }

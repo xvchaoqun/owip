@@ -424,14 +424,14 @@ public class PmdPartyService extends PmdBaseMapper {
         return wb;
     }*/
 
-    //获取还未设置应缴额度的党员
-    public List<PmdMember> listUnsetDuepayMembers(int pmdPartyId) {
+    //获取还未设置党员类别或应缴额度的党员
+    public List<PmdMember> listCannotReportMembers(int pmdPartyId) {
 
         PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
 
         PmdMemberExample example = new PmdMemberExample();
         example.createCriteria().andMonthIdEqualTo(pmdParty.getMonthId())
-                .andPartyIdEqualTo(pmdParty.getPartyId()).andDuePayIsNull();
+                .andPartyIdEqualTo(pmdParty.getPartyId()).andCannotReport();
 
         return pmdMemberMapper.selectByExample(example);
     }
@@ -452,9 +452,10 @@ public class PmdPartyService extends PmdBaseMapper {
             }
         }
 
-        List<PmdMember> pmdMembers = listUnsetDuepayMembers(pmdPartyId);
+        List<PmdMember> pmdMembers = listCannotReportMembers(pmdPartyId);
         if(pmdMembers.size()>0){
-            throw new OpException("强制报送失败：存在未设定缴费额度的党员");
+
+            throw new OpException("强制报送失败：存在未设置类别或应缴额度的党员（"+pmdMembers.get(0).getUser().getRealname()+"）");
         }
 
         pmdPayService.delayAll(pmdParty.getPartyId(), null, "系统报送");

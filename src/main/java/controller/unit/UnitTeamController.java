@@ -211,7 +211,7 @@ public class UnitTeamController extends BaseController {
     @ResponseBody
     public Map do_unitTeam_dispatchCadre(int unitTeamId, Integer dispatchCadreId,
                                           @RequestParam(required = false, defaultValue = "2") int auType,
-                                          @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date dispatchCadreDate,
+                                          @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date dispatchCadreDate,
                                           HttpServletRequest request) {
         
         UnitTeam unitTeam = unitTeamMapper.selectByPrimaryKey(unitTeamId);

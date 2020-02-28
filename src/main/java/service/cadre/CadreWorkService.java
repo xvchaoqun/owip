@@ -592,16 +592,19 @@ public class CadreWorkService extends BaseMapper {
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-                CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
-                modify.setId(originalId);
-
                 CadreWork original = cadreWorkMapper.selectByPrimaryKey(originalId);
-                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
+                if(original!=null) { // 如果原纪录被删除了，则忽略
+                    CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
+                    modify.setId(originalId);
 
-                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-                cadreWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
-                updateSubWorkCount(modify.getFid(), modify.getIsEduWork()); // 必须放插入之后
+                    modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
+
+                    modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+                    cadreWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                    updateSubWorkCount(modify.getFid(), modify.getIsEduWork()); // 必须放插入之后
+                }
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 

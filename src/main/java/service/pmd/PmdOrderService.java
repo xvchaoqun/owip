@@ -326,8 +326,10 @@ public class PmdOrderService extends PmdBaseMapper {
                 throw new OpException("关闭原订单{0}错误，请稍后再试。{1}", oldOrderNo, e.getMessage());
             }
         }
-        
-        checkPayStatus(pmdMemberId, pmdOrder.getSn());
+
+        if(!springProps.devMode) { // 测试状态不检查订单支付状态
+            checkPayStatus(pmdMemberId, pmdOrder.getSn());
+        }
         
         return pmdOrder;
     }
@@ -809,13 +811,15 @@ public class PmdOrderService extends PmdBaseMapper {
     */
     @Transactional
     public CloseTradeRet closeTrade(String sn) throws IOException {
-        
-        // test
-        /*PmdOrder record = new PmdOrder();
-        record.setSn(sn);
-        record.setIsClosed(true);
-        pmdOrderMapper.updateByPrimaryKeySelective(record);
-        return null;*/
+
+        if(springProps.devMode) {
+            // test
+            PmdOrder record = new PmdOrder();
+            record.setSn(sn);
+            record.setIsClosed(true);
+            pmdOrderMapper.updateByPrimaryKeySelective(record);
+            return null;
+        }
 
         CloseTradeRet closeTradeRet = new CloseTradeRet();
         closeTradeRet.success = false;

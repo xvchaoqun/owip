@@ -209,13 +209,14 @@ public class CadreCourseService extends BaseMapper {
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
                 CadreCourse original = cadreCourseMapper.selectByPrimaryKey(originalId);
+                if(original!=null) {
+                    CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
+                    modify.setId(originalId);
+                    modify.setSortOrder(original.getSortOrder()); // 保持原排序
+                    modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-                CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
-                modify.setId(originalId);
-                modify.setSortOrder(original.getSortOrder()); // 保持原排序
-                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-
-                cadreCourseMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                    cadreCourseMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                }
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 

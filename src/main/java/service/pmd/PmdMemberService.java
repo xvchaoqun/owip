@@ -150,30 +150,24 @@ public class PmdMemberService extends PmdBaseMapper {
         return pmdMemberMapper.updateByPrimaryKeySelective(record);
     }
 
-   /* // 设定缴纳额度
+    // 修改延迟缴费的应交金额
     @Transactional
-    public void setDuePay(int[] ids, BigDecimal amount, String remark) {
+    public void changeDuePay(Integer[] ids, BigDecimal amount, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         int currentMonthId = currentPmdMonth.getId();
 
         for (int id : ids) {
 
-            PmdMember pmdMember = pmdPayService.checkAdmin(id);
+            PmdMember pmdMember = checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
 
-            if(pmdMember.getMonthId()!=currentMonthId){
-                throw new OpException("{0}不允许设定往月额度。", uv.getRealname());
-            }
-
-            *//*if(pmdMember.getNormType()!= PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY){
-                throw new OpException("{0}不允许设定额度。", uv.getRealname());
-            }*//*
             if(pmdMember.getHasPay()){
                 throw new OpException("{0}已缴费。", uv.getRealname());
             }
-            if(pmdMember.getIsDelay()){
-                throw new OpException("{0}已设置为延迟缴费。", uv.getRealname());
+
+            if(pmdMember.getMonthId()==currentMonthId || !pmdMember.getIsDelay()){
+                throw new OpException("{0}仅允许修改往月应交金额。", uv.getRealname());
             }
 
             PmdMember record = new PmdMember();
@@ -184,10 +178,10 @@ public class PmdMemberService extends PmdBaseMapper {
 
             sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                    "设定缴纳额度：" + amount, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
+                    "修改往月应交金额：" +pmdMember.getDuePay() + "->" + amount, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
 
-    }*/
+    }
 
     // 选择党员分类别
     @Transactional

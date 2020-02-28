@@ -51,17 +51,17 @@ public class UnitTeam implements Serializable {
 
     private String name;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date expectDeposeDate;
 
     private Integer appointDispatchCadreId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date appointDate;
 
     private Integer deposeDispatchCadreId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date deposeDate;
 
     private String remark;

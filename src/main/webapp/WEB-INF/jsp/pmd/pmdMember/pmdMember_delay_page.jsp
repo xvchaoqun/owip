@@ -78,13 +78,25 @@
                         <i class="fa fa-rmb"></i> 批量代缴党费
                     </button>
                     <shiro:hasPermission name="pmdMember:setIsOnlinePay">
-                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
+                    <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                            data-url="${ctx}/pmd/pmdMember_changeDuePay"
+                            data-grid-id="#jqGrid2">
+                        <i class="fa fa-edit"></i> 修改应交金额
+                    </button>
                     </shiro:hasPermission>
                 </c:if>
+                    <button class="jqOpenViewBtn btn btn-info btn-sm"
+                            data-grid-id="#jqGrid2"
+                            data-url="${ctx}/sysApprovalLog"
+                            data-width="850"
+                            data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER%>">
+                        <i class="fa fa-history"></i> 操作记录
+                    </button>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
@@ -142,5 +154,6 @@
         })
 
         $("#helpBatchPayBtn").prop("disabled", !canBatchPay || ids.length==1);
+        $("#setDuePayBtn").prop("disabled", !canBatchPay);
     }
 </script>

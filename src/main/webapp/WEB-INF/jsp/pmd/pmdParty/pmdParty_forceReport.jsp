@@ -25,7 +25,7 @@
 <script type="text/template" id="itemListTpl">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-        <h3>未设置应缴额度的党员</h3>
+        <h3>未设置类别或应缴额度的党员</h3>
     </div>
     <div class="modal-body">
         <table class="table table-striped table-bordered table-condensed table-unhover2">

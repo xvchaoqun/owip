@@ -278,7 +278,9 @@ public class CadreEduService extends BaseMapper {
      * @param id             待添加或更新的记录ID
      * @param isSecondDegree 更新为是否第二个学位
      */
-    public void adjustHighDegree(int id, int cadreId, boolean isSecondDegree) {
+    public void adjustHighDegree(int id, Integer cadreId, boolean isSecondDegree) {
+
+        if(cadreId==null) return;
 
         CadreEdu cadreEdu = cadreEduMapper.selectByPrimaryKey(id);
         if (cadreEdu == null || BooleanUtils.isNotTrue(cadreEdu.getIsHighDegree())) {
@@ -641,14 +643,16 @@ public class CadreEduService extends BaseMapper {
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
                 CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
-                modify.setId(originalId);
-                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-
                 CadreEdu original = cadreEduMapper.selectByPrimaryKey(originalId);
-                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
+                if(original!=null) {
+                    modify.setId(originalId);
+                    modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-                checkUpdate(modify);
-                cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                    modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加其间工作经历
+
+                    checkUpdate(modify);
+                    cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                }
 
                 id = originalId;
                 cadreId = modify.getCadreId();
@@ -658,14 +662,16 @@ public class CadreEduService extends BaseMapper {
 
                 CadreEdu original = cadreEduMapper.selectByPrimaryKey(originalId);
 
-                // 更新最后删除的记录内容
-                record.setOriginalJson(JSONUtils.toString(cadreEduMapper.selectByPrimaryKey(originalId), false));
-                // 删除原纪录
-                cadreEduMapper.deleteByPrimaryKey(originalId);
+                if(original!=null){
+                    // 更新最后删除的记录内容
+                    record.setOriginalJson(JSONUtils.toString(original, false));
+                    // 删除原纪录
+                    cadreEduMapper.deleteByPrimaryKey(originalId);
 
-                id = originalId;
-                cadreId = original.getCadreId();
-                isSecondHighDegree = BooleanUtils.isTrue(original.getIsSecondDegree());
+                    id = originalId;
+                    cadreId = original.getCadreId();
+                    isSecondHighDegree = BooleanUtils.isTrue(original.getIsSecondDegree());
+                }
             }
 
             // 调整最高学位

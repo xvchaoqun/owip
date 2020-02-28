@@ -65,8 +65,8 @@ public class LogConstants {
         LOG_MAP.put(LOG_CLA, "干部请假");
         LOG_MAP.put(LOG_PCS, "党代会");
         LOG_MAP.put(LOG_OA, "协同办公");
-        LOG_MAP.put(LOG_QY, "党费收缴");
-        LOG_MAP.put(LOG_PMD, "七一表彰");
+        LOG_MAP.put(LOG_PMD, "党费收缴");
+        LOG_MAP.put(LOG_QY, "七一表彰");
         LOG_MAP.put(LOG_PM, "三会一课");
         LOG_MAP.put(LOG_CPC, "干部职数");
 

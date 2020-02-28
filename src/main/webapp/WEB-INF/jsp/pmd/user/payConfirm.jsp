@@ -49,7 +49,9 @@
             data-loading-text="支付中，已跳转至支付页面"
             class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
     <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="查看支付结果">
-    <%--<a id="testCallback" target="_blank">test成功</a>--%>
+        <c:if test="${devMode}">
+    <a id="testCallback" target="_blank">test成功</a>
+            </c:if>
 </div>
 <style>
     #submitTip, #tip{
@@ -92,9 +94,11 @@
                     $("#submitTip,#finishBtn").show();
                     $("#closeBtn").hide();
 
+                    <c:if test="${devMode}">
                     // test
-                    /*$("#testCallback").attr("href", "${ctx}/pmd/pay/callback/newcampuscard?" + data.ret);
-                    console.log(data.order)*/
+                    $("#testCallback").attr("href", "${ctx}/pmd/pay/callback/newcampuscard?" + data.ret);
+                    console.log(data.order)
+                    </c:if>
 
                     $("#payForm").html(_.template($("#payFormTpl").html())({order: data.order, thirdurl:data.thirdurl}))
                     $("#payForm").submit();

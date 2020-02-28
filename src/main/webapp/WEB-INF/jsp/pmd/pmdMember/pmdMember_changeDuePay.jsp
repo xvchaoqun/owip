@@ -3,10 +3,10 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>设定缴纳额度</h3>
+    <h3>修改往月应交金额</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_setDuePay" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_changeDuePay" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
         <c:if test="${num==1}">

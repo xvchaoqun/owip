@@ -14,6 +14,7 @@ import service.party.PartyService;
 import service.sys.SysConfigService;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.ExcelUtils;
 import sys.utils.NumberUtils;
@@ -46,8 +47,15 @@ public class PcsVoteExportService extends PcsBaseMapper {
         byte type = pcsVoteGroup.getType();
 
         boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
-        String filePath = isDw ? "classpath:xlsx/pcs/vote_dw_jp.xlsx"
-                : "classpath:xlsx/pcs/vote_jw_jp.xlsx";
+        String filePath = "";
+        String title = "";
+        if(isDw){
+            filePath = "classpath:xlsx/pcs/vote_dw_jp.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员计票结果报告单";
+        }else{
+            filePath = "classpath:xlsx/pcs/vote_jw_jp.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员计票结果报告单";
+        }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -56,6 +64,7 @@ public class PcsVoteExportService extends PcsBaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
+                .replace("title", title)
                 .replace("name", StringUtils.trimToEmpty(pcsVoteGroup.getName()));
         cell.setCellValue(str);
 
@@ -138,19 +147,33 @@ public class PcsVoteExportService extends PcsBaseMapper {
     public XSSFWorkbook vote(byte type) throws IOException {
 
         boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
-        String filePath = isDw ? "classpath:xlsx/pcs/vote_dw.xlsx"
-                : "classpath:xlsx/pcs/vote_jw.xlsx";
+
+        String filePath = "";
+        String title = "";
+        if(isDw){
+            filePath = "classpath:xlsx/pcs/vote_dw.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员";
+        }else{
+            filePath = "classpath:xlsx/pcs/vote_jw.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员";
+        }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         PcsVoteGroup pcsVoteGroup = iPcsMapper.statPcsVoteGroup(type);
 
-        XSSFRow row = sheet.getRow(1);
-        XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue()
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
                 .replace("jc", NumberUtils.trimToEmpty(currentPcsConfig.getCommitteeJoinCount()) + "")
                 .replace("sv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwSendVote()) :
                         NumberUtils.trimToEmpty(currentPcsConfig.getJwSendVote()) + ""))
@@ -217,19 +240,33 @@ public class PcsVoteExportService extends PcsBaseMapper {
     public XSSFWorkbook vote_zj(byte type) throws IOException {
 
         boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
-        String filePath = isDw ? "classpath:xlsx/pcs/vote_dw_zj.xlsx"
-                : "classpath:xlsx/pcs/vote_jw_zj.xlsx";
+
+        String filePath = "";
+        String title = "";
+        if(isDw){
+            filePath = "classpath:xlsx/pcs/vote_dw_zj.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届委员会委员计票结果报告单";
+        }else{
+            filePath = "classpath:xlsx/pcs/vote_jw_zj.xlsx";
+            title = "中共" + CmTag.getSysConfig().getSchoolName() + "第十三届纪律检查委员会委员计票结果报告单";
+        }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         PcsVoteGroup pcsVoteGroup = iPcsMapper.statPcsVoteGroup(type);
 
-        XSSFRow row = sheet.getRow(1);
-        XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue()
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
                 .replace("jc", NumberUtils.trimToEmpty(currentPcsConfig.getCommitteeJoinCount()) + "")
                 .replace("sv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwSendVote())
                         : NumberUtils.trimToEmpty(currentPcsConfig.getJwSendVote())) + "")
@@ -288,7 +325,7 @@ public class PcsVoteExportService extends PcsBaseMapper {
         return wb;
     }
 
-    // 当选名单
+    // 当选名单 TODO 根据具体学校情况修改Excel里的表头名称
     public XSSFWorkbook member() throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/vote_member.xlsx"));

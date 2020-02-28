@@ -1,4 +1,6 @@
 
+2020.2.28
+北师大更新
 
 ALTER TABLE `cadre_position_report`
 	ADD COLUMN `code` CHAR(50) NULL DEFAULT NULL COMMENT '工作证号' AFTER `year`,
@@ -12,6 +14,16 @@ ALTER TABLE `cadre_position_report`
 
 -- INSERT INTO cadre_position_report (cadre_id, user_id, `year`, `code`, `unit`, title, job, content, create_time)
 -- SELECT cadre_id, user_id, CAST(left(nf,4) AS SIGNED) AS year, zgh AS code, ssdwm AS unit, dzzwm AS title, fggz AS job, grsz AS content, cast(czsj as DATE) AS create_time FROM t_zz_bgrjbqk WHERE nf IS NOT NULL and cadre_id IS NOT NULL
+
+/*ALTER TABLE `pmd_member_pay`
+	ADD COLUMN `has_check` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否线下补缴登记，用于已结算的月份，由未缴费变更为已缴费' AFTER `charge_branch_id`,
+	ADD COLUMN `check_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '线下补缴登记人' AFTER `has_check`,
+	ADD COLUMN `check_real_pay` DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '线下补缴登记实缴金额' AFTER `check_user_id`,
+	ADD COLUMN `check_date` DATE NULL DEFAULT NULL COMMENT '线下补缴登记日期' AFTER `check_real_pay`,
+	ADD COLUMN `check_remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '线下补缴登记备注' AFTER `check_date`;*/
+-- 更新 pmd_member_pay_view
+
+update sys_resource set permission='pmdMember:changeDuePay' where permission='pmdMember:setDuePay';
 
 2020.1.15
 北师大更新
@@ -192,6 +204,9 @@ ALTER TABLE `ow_branch`
 -- 转出bug
 -- SELECT USER_id FROM ow_member_out WHERE STATUS=2  AND user_id IN (SELECT user_id FROM ow_member WHERE STATUS=1);
 UPDATE ow_member om, ow_member_out omo SET om.`status`=4 WHERE omo.user_id=om.user_id AND omo.`status`=2 AND om.`status`=1;
+
+-- 有可能转出后又转入了
+
 
 ALTER TABLE `leader_unit`
 	CHANGE COLUMN `user_id` `user_id` INT(10) UNSIGNED NOT NULL COMMENT '校级领导，可以从干部库提取，也可以从校领导和党委常委中选择' AFTER `id`;

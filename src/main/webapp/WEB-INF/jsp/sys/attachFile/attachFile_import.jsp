@@ -8,9 +8,18 @@
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/attachFile_import" method="post">
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Zip文件</label>
+			<label class="col-xs-4 control-label">单个Excel文件</label>
 			<div class="col-xs-6">
-				<input type="file" name="zip" required extension="zip"/>
+				<input type="file" name="xls" extension="xlsx|xls"/>
+                <span class="help-block">
+                    注：文件名命名方式必须为“[唯一标识]表中文名”
+                </span>
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-xs-4 control-label">或 Zip文件</label>
+			<div class="col-xs-6">
+				<input type="file" name="zip" extension="zip"/>
 			</div>
 		</div>
         </form>
@@ -32,13 +41,16 @@
 
 		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
-				messages: {
-                    "zip": {
-                        required: "请选择文件",
-                        extension: "请上传zip格式的文件"
-                    }
-                },
 				submitHandler: function (form) {
+
+				    var xls = $('#modalForm input[name=xls]').val();
+				    var zip = $('#modalForm input[name=zip]').val();
+				    if(xls==''&&zip==''){
+
+				        SysMsg.error("请选择文件");
+				        return;
+                    }
+
 				     var $btn = $("#submitBtn").button('loading');
 					$(form).ajaxSubmit({
 						dataType:"json",

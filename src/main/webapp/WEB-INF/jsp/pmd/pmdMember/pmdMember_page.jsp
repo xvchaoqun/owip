@@ -128,12 +128,6 @@
                                 data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
                                 data-need-id="false"><i class="fa fa-send"></i> 发送提醒
                         </button>
-
-                       <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
-                                data-url="${ctx}/pmd/pmdMember_setDuePay"
-                                data-grid-id="#jqGrid2">
-                            <i class="fa fa-edit"></i> 设定缴纳额度
-                        </button>--%>
                         <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectMemberType"
                                 data-grid-id="#jqGrid2">

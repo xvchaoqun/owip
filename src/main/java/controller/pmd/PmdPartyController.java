@@ -183,7 +183,7 @@ public class PmdPartyController extends PmdBaseController {
     @ResponseBody
     public Map pmdParty_checkForceReport(int id, HttpServletRequest request) {
 
-        List<PmdMember> pmdMembers = pmdPartyService.listUnsetDuepayMembers(id);
+        List<PmdMember> pmdMembers = pmdPartyService.listCannotReportMembers(id);
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("unsetDuepayMembers", pmdMembers);

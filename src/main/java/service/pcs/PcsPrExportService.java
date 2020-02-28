@@ -26,6 +26,7 @@ import service.sys.TeacherInfoService;
 import sys.constants.CadreConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
@@ -202,25 +203,27 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        String title = "";
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表候选人%s人选统计表";
         String stageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = "初步";
+                title = String.format(title, "初步");
                 stageStr = "一上";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = "预备";
+                title = String.format(title, "预备");
                 stageStr = "二上";
                 break;
             case PcsConstants.PCS_STAGE_THIRD:
                 stageStr = "三上";
+                title = String.format(title, "");
                 break;
         }
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
+        String str = cell.getStringCellValue().replace("title", title)
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
@@ -236,7 +239,8 @@ public class PcsPrExportService extends PcsBaseMapper {
 
         row = sheet.getRow(5);
         cell = row.getCell(1);
-        str = cell.getStringCellValue().replace("stage", stageStr);
+        str = cell.getStringCellValue()
+                .replace("stage", stageStr);
         cell.setCellValue(str);
 
         PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
@@ -259,21 +263,22 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        String title = "";
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表候选人%s人选统计表";
         String deadline = "";
         String stageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = "初步";
+                title = String.format(title, "初步");
                 deadline = "9月6号前";
                 stageStr = "一上";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = "预备";
+                title = String.format(title, "预备");
                 deadline = "9月11日前";
                 stageStr = "二上";
                 break;
             case PcsConstants.PCS_STAGE_THIRD:
+                title = String.format(title, "");
                 stageStr = "三上";
                 deadline = "9月18日前";
                 break;
@@ -282,7 +287,9 @@ public class PcsPrExportService extends PcsBaseMapper {
         PcsPartyView pv = pcsPartyViewService.get(partyId);
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage))
+        String str = cell.getStringCellValue()
+                .replace("title", title)
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage))
                 .replace("deadline", deadline);
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
@@ -538,15 +545,15 @@ public class PcsPrExportService extends PcsBaseMapper {
         String stageStr = "";
 
         if(stage != PcsConstants.PCS_STAGE_THIRD) {
-            String title = "";
+            String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表候选人%s人选统计表";
 
             switch (stage) {
                 case PcsConstants.PCS_STAGE_FIRST:
-                    title = "初步";
+                    title = String.format(title, "初步");
                     stageStr = "一上";
                     break;
                 case PcsConstants.PCS_STAGE_SECOND:
-                    title = "预备";
+                    title = String.format(title, "预备");
                     stageStr = "二上";
                     break;
             }
@@ -558,8 +565,14 @@ public class PcsPrExportService extends PcsBaseMapper {
                     .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
             cell.setCellValue(str);
         }else{
-
+            String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表情况统计表";
             stageStr = "三上";
+
+            row = sheet.getRow(0);
+            cell = row.getCell(0);
+            str = cell.getStringCellValue()
+                    .replace("title", title);
+            cell.setCellValue(str);
         }
 
         Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
@@ -657,13 +670,17 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会";
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
                 PcsConstants.PCS_STAGE_FIRST, partyId, null);
 
         List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
-
-        XSSFRow row = null;
-        XSSFCell cell = null;
 
         int startRow = 5;
         int rowCount = candidates.size();
@@ -705,12 +722,16 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会";
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
                 PcsConstants.PCS_STAGE_FIRST, partyId, null);
         List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
-
-        XSSFRow row = null;
-        XSSFCell cell = null;
 
         int startRow = 7;
         int rowCount = candidates.size();
@@ -759,19 +780,19 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        String title = "";
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表候选人%s人选名单";
         String deadline = "";
         String rate = "";
         String nextStageStr = "";
         switch (stage) {
             case PcsConstants.PCS_STAGE_FIRST:
-                title = "初步";
+                title = String.format(title, "初步");
                 rate = "30%";
                 deadline = "9月6号前";
                 nextStageStr = "二下";
                 break;
             case PcsConstants.PCS_STAGE_SECOND:
-                title = "预备";
+                title = String.format(title, "预备");
                 rate = "20%";
                 deadline = "9月11日前";
                 nextStageStr = "三下";
@@ -967,6 +988,13 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表名单";
+        row = sheet.getRow(0);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         PcsPartyView pv = pcsPartyViewService.get(partyId);
         mc = pv.getMemberCount() + "";
         //pc = pv.getPositiveCount() + "";
@@ -1086,13 +1114,20 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表名单";
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
         // 使用阶段二的数据？
         Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId,
                 PcsConstants.PCS_STAGE_SECOND);
 
-        XSSFRow row = sheet.getRow(1);
-        XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue()
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
                 .replace("mc", schoolMemberCountMap.get("mc") + "")
                 .replace("tc", schoolMemberCountMap.get("tc") + "")
                 .replace("sc", schoolMemberCountMap.get("sc") + "")
@@ -1206,11 +1241,18 @@ public class PcsPrExportService extends PcsBaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, PcsConstants.PCS_STAGE_THIRD);
-
-        XSSFRow row = sheet.getRow(1);
+        String title = "中国共产党" + CmTag.getSysConfig().getSchoolName() + "第十三次党员代表大会代表情况统计表";
+        XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
+                    .replace("title", title);
+        cell.setCellValue(str);
+
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, PcsConstants.PCS_STAGE_THIRD);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
                 .replace("mc", schoolMemberCountMap.get("mc") + "")
                 .replace("tc", schoolMemberCountMap.get("tc") + "")
                 .replace("sc", schoolMemberCountMap.get("sc") + "")

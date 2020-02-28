@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${attachFile.id}">
 
         <div class="form-group">
-            <label class="col-xs-3 control-label">${empty attachFile.id?"*":""}附件</label>
+            <label class="col-xs-3 control-label">${empty attachFile.id?'<span class="star">*</span>':''}附件</label>
             <div class="col-xs-6">
                 <input ${empty attachFile.id?"required":""} class="form-control" type="file" name="_file" />
             </div>
