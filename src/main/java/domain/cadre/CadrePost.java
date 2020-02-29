@@ -30,7 +30,7 @@ public class CadrePost implements Serializable {
     }
 
     public Dispatch getLpDispatch(){
-        return CmTag.getDispatch(npDispatchId);
+        return CmTag.getDispatch(lpDispatchId);
     }
 
     private Integer id;

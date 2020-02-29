@@ -548,10 +548,10 @@ public class UnitPostController extends BaseController {
             CadrePost cadrePost = record.getCadrePost();
 
             String[] values = {
-                record.getCode()+"",
+                            record.getCode()+"",
                             record.getName(),
-                    record.getUnitCode(),
-                    record.getUnitName(),
+                            record.getUnitCode(),
+                            record.getUnitName(),
                             record.getJob(),
                             BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否",
                             metaTypeService.getName(record.getAdminLevel()),
@@ -561,10 +561,10 @@ public class UnitPostController extends BaseController {
                             cadre==null?"":cadre.getRealname(),
                             cadre==null?"":metaTypeService.getName(record.getCpAdminLevel()),
                             cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
-                            "",
-                            "",
-                            "",
-                            "",
+                            DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            DateUtils.yearOffNow(cadrePost.getLpWorkTime()) + "",
+                            DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            DateUtils.yearOffNow(cadrePost.getNpWorkTime()) + "",
                             record.getRemark()
             };
             valuesList.add(values);
