@@ -672,7 +672,8 @@ public class SyncService extends BaseMapper {
             /*teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
                     || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
                     || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
-            record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
+            record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
+                    ||StringUtils.equals(extJzg.getRyzt(), "离世"));
 
             //teacher.setRetireTime(); 退休时间
             record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));

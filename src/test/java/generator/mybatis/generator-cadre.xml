@@ -118,7 +118,8 @@
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="cadre_train" domainObjectName="cadre.CadreTrain">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="cadre_course" domainObjectName="cadre.CadreCourse">

@@ -34,7 +34,9 @@ public class ShiroHelper extends BaseShiroHelper{
 		List<String> roleCodes = new ArrayList<>();
 		for (String roleIdStr : roleIdStrs) {
 			SysRole sysRole = roleMap.get(Integer.valueOf(roleIdStr));
-			roleCodes.add(sysRole.getCode());
+			if(sysRole!=null) {
+				roleCodes.add(sysRole.getCode());
+			}
 		}
 
 		String[] _roles = new String[roleCodes.size()];

@@ -235,12 +235,14 @@
             <tr class="due-pay">
                 <td>应缴纳党费额度</td>
                 <td colspan="2" style="text-align: center">
+                    <span id="duePaySpan">
                     <c:if test="${param.view==1 || param.view==2}">
                         ${cm:stripTrailingZeros(pmdConfigMember.duePay)}
                     </c:if>
                     <c:if test="${param.view!=1 && param.view!=2}">
-                        <span id="duePaySpan">${duePay}</span>
+                        ${duePay}
                     </c:if>
+                    </span>
                 </td>
                 <td align="center" style="width: 150px">
                     <c:if test="${param.view!=1}">

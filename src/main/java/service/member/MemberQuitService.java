@@ -4,6 +4,8 @@ import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
+import domain.pmd.PmdMemberPayViewExample;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.pmd.PmdMemberPayViewMapper;
 import service.LoginUserService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -21,6 +24,7 @@ import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 
 import java.util.List;
 
@@ -340,6 +344,25 @@ public class MemberQuitService extends MemberBaseMapper {
         record.setStatus(status);
         //record.setBranchId(member.getBranchId());
         memberService.updateByPrimaryKeySelective(record);
+
+        // 存在未缴纳党费时，不允许转出
+        if(status==MemberConstants.MEMBER_STATUS_TRANSFER){
+
+            PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
+            if(pmdMemberPayViewMapper!=null){
+
+                PmdMemberPayViewExample example = new PmdMemberPayViewExample();
+                example.createCriteria()
+                        .andUserIdEqualTo(userId)
+                        .andHasPayEqualTo(false);
+
+                long count = pmdMemberPayViewMapper.countByExample(example);
+                if(count > 0){
+                    SysUserView uv = CmTag.getUserById(userId);
+                    throw new OpException("{0}存在{1}条未缴纳党费记录，请缴纳后再办理转出程序。", uv.getRealname(), count);
+                }
+            }
+        }
 
         // 更新系统角色  党员->访客
         enterApplyService.changeRoleMemberToGuest(userId);

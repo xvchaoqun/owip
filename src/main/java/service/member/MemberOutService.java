@@ -451,6 +451,7 @@ public class MemberOutService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
+    // 批量导入，直接转出
     @Transactional
     public int batchImport(List<MemberOut> records) {
 
@@ -474,6 +475,9 @@ public class MemberOutService extends MemberBaseMapper {
 
                 memberOutMapper.updateByPrimaryKeySelective(record);
             }
+
+            // 直接转出
+            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), userId,
