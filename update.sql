@@ -1,4 +1,6 @@
 
+2020.3.9
+北师大更新
 
 ALTER TABLE `cadre_train`
 	CHANGE COLUMN `content` `content` TEXT NULL DEFAULT NULL COMMENT '培训内容' AFTER `end_time`;
