@@ -166,6 +166,9 @@ public class MetaTypeController extends BaseController {
             MetaType metaType = metaTypeMapper.selectByPrimaryKey(id);
             modelMap.put("metaType", metaType);
             //metaClass = metaClassService.findAll().get(metaType.getClassId());
+
+            modelMap.put("valid", metaTypeService.getValid(id));
+
         } else if (classId != null) {
             MetaType metaType = new MetaType();
             metaType.setClassId(classId);
@@ -219,7 +222,7 @@ public class MetaTypeController extends BaseController {
     public void metaType_export(MetaTypeExample example, HttpServletResponse response) {
 
         List<MetaType> metaTypes = metaTypeMapper.selectByExample(example);
-        int rownum = metaTypeMapper.countByExample(example);
+        int rownum = (int) metaTypeMapper.countByExample(example);
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);

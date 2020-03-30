@@ -256,6 +256,12 @@
                                                            data-need-id="false" data-url="${ctx}/cadreWork_data">
                                                             <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
                                                     </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreEva_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出近五年考核结果（批量）</a>
+                                                    </li>
                                                 </shiro:hasPermission>
                                                 <shiro:hasPermission name="cadre:exportFamily">
                                                     <li role="separator" class="divider"></li>

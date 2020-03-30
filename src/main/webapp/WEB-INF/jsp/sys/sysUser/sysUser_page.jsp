@@ -13,44 +13,68 @@
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li class="<c:if test="${!locked}">active</c:if>">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/sysUser?locked=0"><i
+                                class="fa fa-circle-o-notch"></i> 账号管理</a>
+                    </li>
+                    <li class="<c:if test="${locked}">active</c:if>">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/sysUser?locked=1"><i class="fa fa-history"></i> 已禁用</a>
+                    </li>
+                </ul>
+                <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="sysUser:edit">
-                        <a class="editBtn btn btn-info btn-sm">
-                            <i class="fa fa-plus"></i> 添加账号
-                        </a>
-                        <button class="jqEditBtn btn btn-default btn-sm">
-                            <i class="fa fa-edit"></i> 修改账号信息
-                        </button>
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sysUser:editInfo">
-                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                data-url="${ctx}/sysUserInfo_au"
-                                data-open-by="page" data-id-name="userId">
-                            <i class="fa fa-info-circle"></i> 修改人员信息
-                        </button>
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sysUser:auth">
-                        <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/sysUser_updateRoles">
-                            <i class="fa fa-user-circle"></i> 修改角色
-                        </button>
-                        <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
-                                data-url="${ctx}/sysUser_lock" data-title="账号解禁"
-                                data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
-                            <i class="fa fa-unlock"></i> 解禁
-                        </button>
-                        <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
-                                data-url="${ctx}/sysUser_lock" data-title="账号禁用"
-                                data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
-                            <i class="fa fa-lock"></i> 禁用
-                        </button>
+                        <c:if test="${!locked}">
+                            <a class="editBtn btn btn-info btn-sm">
+                                <i class="fa fa-plus"></i> 添加账号
+                            </a>
+                            <button class="jqEditBtn btn btn-default btn-sm">
+                                <i class="fa fa-edit"></i> 修改账号信息
+                            </button>
+                        </c:if>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="sysUser:editInfo">
+                        <c:if test="${!locked}">
+                            <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                    data-url="${ctx}/sysUserInfo_au"
+                                    data-open-by="page" data-id-name="userId">
+                                <i class="fa fa-info-circle"></i> 修改人员信息
+                            </button>
+                        </c:if>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="sysUser:auth">
+                        <c:if test="${!locked}">
+                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                    data-url="${ctx}/sysUser_updateRoles">
+                                <i class="fa fa-user-circle"></i> 修改角色
+                            </button>
+                        </c:if>
+                        <c:if test="${locked}">
+                            <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/sysUser_lock" data-title="账号解禁"
+                                    data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
+                                <i class="fa fa-unlock"></i> 解禁
+                            </button>
+                        </c:if>
+                        <c:if test="${!locked}">
+                            <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
+                                    data-url="${ctx}/sysUser_lock" data-title="账号禁用"
+                                    data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
+                                <i class="fa fa-lock"></i> 禁用
+                            </button>
+                        </c:if>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="menu:preview">
-                            <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                    data-url="${ctx}/sysUser_menu" data-width="850"
-                                    data-id-name="userId">
-                                <i class="fa fa-search"></i> 菜单预览
-                            </button>
+                            <c:if test="${!locked}">
+                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                        data-url="${ctx}/sysUser_menu" data-width="850"
+                                        data-id-name="userId">
+                                    <i class="fa fa-search"></i> 菜单预览
+                                </button>
+                            </c:if>
                         </shiro:hasPermission>
                     <shiro:hasPermission name="sysUser:edit">
                     <div class="btn-group">
@@ -157,7 +181,7 @@
                                         $("#searchForm select[name=roleId]").val('${param.roleId}');
                                     </script>
                                 </div>
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label>状态</label>
                                     <select name="locked" data-placeholder="请选择">
                                         <option></option>
@@ -167,7 +191,7 @@
                                     <script>
                                         $("#searchForm select[name=locked]").val('${param.locked}');
                                     </script>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label>账号来源</label>
                                     <select name="source" data-width="120" data-placeholder="请选择" data-rel="select2">

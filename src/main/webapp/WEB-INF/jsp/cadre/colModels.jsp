@@ -202,8 +202,8 @@
             label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {
             // 短信称谓
             var msgTitle = $.trim(cellvalue);
-            if (msgTitle == '' || msgTitle == rowObject.user.realname) {
-                msgTitle = '无'
+            if (msgTitle == '' || rowObject.user==undefined || msgTitle == rowObject.user.realname) {
+                msgTitle = '--'
             }
             return msgTitle;
         }

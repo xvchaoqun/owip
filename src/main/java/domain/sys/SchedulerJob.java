@@ -30,6 +30,8 @@ public class SchedulerJob implements Serializable {
 
     private Date createTime;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -102,5 +104,13 @@ public class SchedulerJob implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

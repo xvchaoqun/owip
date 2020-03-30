@@ -31,6 +31,10 @@
                domainObjectName="pmd.PmdOrder" mapperName="pmd.PmdOrderMapper">
              <columnOverride column="params" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+        <table tableName="pmd_party_donate"
+               domainObjectName="pmd.PmdPartyDonate" mapperName="pmd.PmdPartyDonateMapper">
+            <columnOverride column="explain" jdbcType="VARCHAR"></columnOverride>
+        </table>
         <!--<table tableName="pmd_order_item"
                domainObjectName="pmd.PmdOrderItem" mapperName="pmd.PmdOrderItemMapper">
         </table>-->
@@ -46,8 +50,8 @@
         </table>-->
         <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
         </table>-->
-        <table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
-        </table>
+        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
+        </table>-->
         <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
         </table>-->
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">

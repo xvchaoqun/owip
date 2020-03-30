@@ -7,7 +7,7 @@ import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -383,6 +383,25 @@ public class CadreEduService extends BaseMapper {
             }
         }
 
+        if(cadreEdus.size()==0){ // 如果没有设置最高学位
+
+            if(records.size() > 1){ // 先后读了两次相同的学位、学历，非最高学位
+
+                CadreEdu cadreEdu0 = records.get(0);
+                CadreEdu cadreEdu1 = records.get(1);
+                if(NumberUtils.intEqual(cadreEdu0.getEduId(), cadreEdu1.getEduId())
+                        && NumberUtils.byteEqual(cadreEdu0.getDegreeType(), cadreEdu1.getDegreeType())){
+                    cadreEdus.add(cadreEdu1); // 按入学时间升序加入
+                    cadreEdus.add(cadreEdu0);
+                }else{
+                    cadreEdus.add(cadreEdu0);
+                }
+
+            }else if(records.size()==1){
+                cadreEdus.add(records.get(0));
+            }
+        }
+
         return cadreEdus;
     }
 
@@ -400,8 +419,14 @@ public class CadreEduService extends BaseMapper {
     // 更新或添加时，检查规则
     public void checkUpdate(CadreEdu record) {
 
+        CadreView cv = CmTag.getCadreById(record.getCadreId());
+        String realname = "";
+        if(cv.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            realname = cv.getRealname(); // 非本人操作，需提示具体的人名
+        }
+
         if (isNotGraduated(record.getId(), record.getCadreId(), record.getIsGraduated())) {
-            throw new OpException("已经存在一条在读记录");
+            throw new OpException(realname+"已经存在一条在读记录");
         }
 
         // 非第二最高学位，不允许存在多个最高学历
@@ -410,9 +435,9 @@ public class CadreEduService extends BaseMapper {
 
             if(BooleanUtils.isTrue(record.getIsHighDegree())){
 
-                throw new OpException("已经存在最高学历（注：如获得了双学位请勾选“第二个最高学位”选项）");
+                throw new OpException(realname+"已经存在最高学历（注：如获得了双学位请勾选“第二个最高学位”选项）");
             }else {
-                throw new OpException("已经存在最高学历");
+                throw new OpException(realname+"已经存在最高学历");
             }
         }
     }
@@ -508,6 +533,11 @@ public class CadreEduService extends BaseMapper {
         record.setId(null);
         record.setStatus(null);
         if (cadreEduMapper.updateByExampleSelective(record, example) > 0) {
+
+            if(record.getEduId()==null){ // 没有学历
+                commonMapper.excuteSql("update cadre_edu set edu_id=null where id=" + id);
+            }
+
             if (!record.getHasDegree()) { // 没有获得学位，清除学位名称等字段
                 commonMapper.excuteSql("update cadre_edu set degree=null, is_high_degree=null,is_second_degree=0," +
                         " degree_country=null, degree_unit=null, degree_time=null where id=" + id);
@@ -708,7 +738,7 @@ public class CadreEduService extends BaseMapper {
             CadreView cadre = CmTag.getCadreById(record.getCadreId());
 
             Unit unit = CmTag.getUnit(cadre.getUnitId());
-            boolean hasDegree = org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree());
+            boolean hasDegree = BooleanUtils.isTrue(record.getHasDegree());
             String[] values = {
                     cadre.getCode(),
                     cadre.getRealname(),
@@ -716,17 +746,17 @@ public class CadreEduService extends BaseMapper {
                     cadre.getTitle(),
                     metaTypeService.getName(record.getEduId()),
 
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsGraduated()) ? "毕业" : "在读",
+                    BooleanUtils.isTrue(record.getIsGraduated()) ? "毕业" : "在读",
                     DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getIsHighDegree()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsHighDegree()) ? "是" : "否",
                     record.getSchool(),
 
                     record.getDep(),
                     record.getMajor(),
                     CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     metaTypeService.getName(record.getLearnStyle()),
-                    org.apache.commons.lang3.BooleanUtils.isTrue(record.getHasDegree()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getHasDegree()) ? "是" : "否",
 
                     hasDegree ? record.getDegree() : "-",
                     hasDegree ? (record.getIsHighDegree() ? "是" : "否") : "-",

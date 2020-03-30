@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dr.DrOnlineInspectorMapper">
+  <resultMap id="BaseResultMap" type="domain.dr.DrOnlineInspector">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="log_id" jdbcType="INTEGER" property="logId" />
+    <result column="online_id" jdbcType="INTEGER" property="onlineId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="passwd_change_type" jdbcType="TINYINT" property="passwdChangeType" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="tempdata" jdbcType="VARCHAR" property="tempdata" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_mobile" jdbcType="BIT" property="isMobile" />
+    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="submit_ip" jdbcType="VARCHAR" property="submitIp" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, log_id, online_id, username, passwd, passwd_change_type, type_id, unit_id, type, 
+    tempdata, status, is_mobile, pub_status, remark, submit_time, submit_ip, create_time
+  </sql>
+  <select id="selectByExample" parameterType="domain.dr.DrOnlineInspectorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dr_online_inspector
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dr_online_inspector
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dr_online_inspector
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.dr.DrOnlineInspectorExample">
+    delete from dr_online_inspector
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.dr.DrOnlineInspector">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dr_online_inspector (log_id, online_id, username, 
+      passwd, passwd_change_type, type_id, 
+      unit_id, type, tempdata, 
+      status, is_mobile, pub_status, 
+      remark, submit_time, submit_ip, 
+      create_time)
+    values (#{logId,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{passwd,jdbcType=VARCHAR}, #{passwdChangeType,jdbcType=TINYINT}, #{typeId,jdbcType=INTEGER}, 
+      #{unitId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{tempdata,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{isMobile,jdbcType=BIT}, #{pubStatus,jdbcType=TINYINT}, 
+      #{remark,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{submitIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.dr.DrOnlineInspector">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dr_online_inspector
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="onlineId != null">
+        online_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="passwdChangeType != null">
+        passwd_change_type,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="tempdata != null">
+        tempdata,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isMobile != null">
+        is_mobile,
+      </if>
+      <if test="pubStatus != null">
+        pub_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="submitIp != null">
+        submit_ip,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineId != null">
+        #{onlineId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="passwdChangeType != null">
+        #{passwdChangeType,jdbcType=TINYINT},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="tempdata != null">
+        #{tempdata,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isMobile != null">
+        #{isMobile,jdbcType=BIT},
+      </if>
+      <if test="pubStatus != null">
+        #{pubStatus,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitIp != null">
+        #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.dr.DrOnlineInspectorExample" resultType="java.lang.Long">
+    select count(*) from dr_online_inspector
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dr_online_inspector
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.logId != null">
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineId != null">
+        online_id = #{record.onlineId,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwdChangeType != null">
+        passwd_change_type = #{record.passwdChangeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.tempdata != null">
+        tempdata = #{record.tempdata,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isMobile != null">
+        is_mobile = #{record.isMobile,jdbcType=BIT},
+      </if>
+      <if test="record.pubStatus != null">
+        pub_status = #{record.pubStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitTime != null">
+        submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.submitIp != null">
+        submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dr_online_inspector
+    set id = #{record.id,jdbcType=INTEGER},
+      log_id = #{record.logId,jdbcType=INTEGER},
+      online_id = #{record.onlineId,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      passwd = #{record.passwd,jdbcType=VARCHAR},
+      passwd_change_type = #{record.passwdChangeType,jdbcType=TINYINT},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      tempdata = #{record.tempdata,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      is_mobile = #{record.isMobile,jdbcType=BIT},
+      pub_status = #{record.pubStatus,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dr.DrOnlineInspector">
+    update dr_online_inspector
+    <set>
+      <if test="logId != null">
+        log_id = #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineId != null">
+        online_id = #{onlineId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="passwdChangeType != null">
+        passwd_change_type = #{passwdChangeType,jdbcType=TINYINT},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="tempdata != null">
+        tempdata = #{tempdata,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isMobile != null">
+        is_mobile = #{isMobile,jdbcType=BIT},
+      </if>
+      <if test="pubStatus != null">
+        pub_status = #{pubStatus,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitIp != null">
+        submit_ip = #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.dr.DrOnlineInspector">
+    update dr_online_inspector
+    set log_id = #{logId,jdbcType=INTEGER},
+      online_id = #{onlineId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      passwd_change_type = #{passwdChangeType,jdbcType=TINYINT},
+      type_id = #{typeId,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      tempdata = #{tempdata,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      is_mobile = #{isMobile,jdbcType=BIT},
+      pub_status = #{pubStatus,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      submit_ip = #{submitIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dr.DrOnlineInspectorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dr_online_inspector
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

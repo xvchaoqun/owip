@@ -39,7 +39,7 @@ public class IndexController extends BaseController {
 
 	@Autowired(required = false)
 	private SysMsgService sysMsgService;
-	@Autowired
+	@Autowired(required = false)
 	private OaTaskUserService oaTaskUserService;
 
 	// 系统消息数量
@@ -49,12 +49,16 @@ public class IndexController extends BaseController {
 
 		Map<String, Integer> menuCountMap = new HashMap<>();
 		int sysMsgCount = sysMsgService.getSysMsgCount(ShiroHelper.getCurrentUserId());
-		int oaTaskUserCount = oaTaskUserService.getTaskUserCount(ShiroHelper.getCurrentUserId());
 		if(sysMsgCount>0){
 			menuCountMap.put("sysMsg:list", sysMsgCount);
 		}
-		if (oaTaskUserCount>0){
-			menuCountMap.put("userOaTask:*",oaTaskUserCount);
+
+		if(oaTaskUserService!=null){
+
+			int oaTaskUserCount = oaTaskUserService.getTaskUserCount(ShiroHelper.getCurrentUserId());
+			if (oaTaskUserCount>0){
+				menuCountMap.put("userOaTask:*",oaTaskUserCount);
+			}
 		}
 
 		Map<String, Map> infoMap = new HashMap<>();

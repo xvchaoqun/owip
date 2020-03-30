@@ -45,6 +45,8 @@ public class HtmlFragment implements Serializable {
 
     private String attr;
 
+    private Boolean isDeleted;
+
     private String remark;
 
     private Integer sortOrder;
@@ -121,6 +123,14 @@ public class HtmlFragment implements Serializable {
 
     public void setAttr(String attr) {
         this.attr = attr == null ? null : attr.trim();
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getRemark() {

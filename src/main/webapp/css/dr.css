@@ -1,0 +1,18 @@
+.component {
+
+ }
+table {
+    border-collapse: collapse;
+    margin-bottom: 3em;
+   /*  width: 100%; */
+    background: #fff;
+}
+td.err {
+	background-color: #e992b9;
+	color: #fff;
+	font-size: 0.75em;
+	text-align: center;
+	line-height: 1;
+}
+
+

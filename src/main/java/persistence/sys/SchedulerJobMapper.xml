@@ -11,6 +11,7 @@
     <result column="need_log" jdbcType="BIT" property="needLog" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, summary, clazz, cron, is_started, need_log, sort_order, create_time
+    id, name, summary, clazz, cron, is_started, need_log, sort_order, create_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SchedulerJobExample" resultMap="BaseResultMap">
     select
@@ -106,12 +107,12 @@
   <insert id="insert" parameterType="domain.sys.SchedulerJob">
     insert into sys_scheduler_job (id, name, summary, 
       clazz, cron, is_started, 
-      need_log, sort_order, create_time
-      )
+      need_log, sort_order, create_time, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{clazz,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR}, #{isStarted,jdbcType=BIT}, 
-      #{needLog,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{needLog,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SchedulerJob">
     insert into sys_scheduler_job
@@ -143,6 +144,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -171,6 +175,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -210,6 +217,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -225,7 +235,8 @@
       is_started = #{record.isStarted,jdbcType=BIT},
       need_log = #{record.needLog,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -257,6 +268,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -269,7 +283,8 @@
       is_started = #{isStarted,jdbcType=BIT},
       need_log = #{needLog,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SchedulerJobExample" resultMap="BaseResultMap">

@@ -5,6 +5,8 @@ import domain.member.MemberReport;
 import domain.member.MemberReportExample;
 import domain.member.MemberReportExample.Criteria;
 import domain.party.Branch;
+import domain.party.BranchMemberView;
+import domain.party.BranchMemberViewExample;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
@@ -139,6 +141,13 @@ public class MemberReportController extends MemberBaseController {
         record.setReportFile(upload(_reportFile, "owMemberReport"));
         record.setEvaFile(upload(_evaFile, "owMemberReport"));
         if (id == null) {
+            BranchMemberViewExample example = new BranchMemberViewExample();
+            example.createCriteria().andUserIdEqualTo(record.getUserId()).andGroupPartyIdEqualTo(record.getPartyId());
+            List<BranchMemberView> branchMembers=branchMemberViewMapper.selectByExample(example);
+            if(branchMembers.size()>0){
+                int branchId=branchMembers.get(0).getGroupBranchId();
+                record.setBranchId(branchId);
+            }
             record.setStatus(OW_REPORT_STATUS_UNREPORT);
             memberReportService.insertSelective(record);
             logger.info(log(LogConstants.LOG_MEMBER, "添加党组织书记考核：{0}", record.getId()));
@@ -306,7 +315,7 @@ public class MemberReportController extends MemberBaseController {
             if (party == null) {
                 throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
             }
-            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),party.getId())){
                 throw new OpException("您没有权限导入第{0}行党支部数据", row);
             }
             record.setPartyId(party.getId());

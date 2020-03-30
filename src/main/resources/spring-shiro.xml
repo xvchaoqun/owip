@@ -143,6 +143,8 @@
                 /m/login = anon
                 /m/logout = anon
 
+                /dr/drOnline/** = anon
+
                 /pmd/pay/** = anon,currentUser
 
                 /public/** = anon

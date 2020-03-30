@@ -2,13 +2,12 @@ package persistence.base;
 
 import domain.base.MetaType;
 import domain.base.MetaTypeExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface MetaTypeMapper {
-    int countByExample(MetaTypeExample example);
+    long countByExample(MetaTypeExample example);
 
     int deleteByExample(MetaTypeExample example);
 

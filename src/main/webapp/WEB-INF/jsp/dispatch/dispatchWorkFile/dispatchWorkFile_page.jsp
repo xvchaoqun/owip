@@ -163,7 +163,7 @@
                 if ($.trim(pdfFilePath) != '') {
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary" data-width="900"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
                             + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
@@ -187,13 +187,13 @@
             },
             {label: '所属专项工作', name: 'workType', width: 180, formatter: $.jgrid.formatter.MetaType},
             {label: '保密级别', name: 'privacyType', width: 120, formatter: $.jgrid.formatter.MetaType},
-            {
+            /*{
                 label: '查看权限', name: '_auth', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return '<button class="popupBtn btn btn-xs btn-success"' +
                         'data-url="${ctx}/dispatchWorkFileAuth?id={0}"><i class="fa fa-search"></i> 查看权限({1})</button>'
                                 .format(rowObject.id, rowObject.postCount);
             }
-            },
+            },*/
             {label: '备注', name: 'remark', width: 250, align:"left"}
         ]
     }).jqGrid("setFrozenColumns")

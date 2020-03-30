@@ -49,6 +49,7 @@ public class OaTaskController extends OaBaseController {
     @RequestMapping("/oaTask")
     public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls,
                          @RequestParam(required = false, defaultValue = "1") Boolean showAll,
+                         Integer userId,
                          ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -60,6 +61,9 @@ public class OaTaskController extends OaBaseController {
         OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
         modelMap.put("oaTaskAdmin", oaTaskAdmin);
 
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
         return "oa/oaTask/oaTask_page";
     }
 

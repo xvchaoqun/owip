@@ -1,21 +1,9 @@
 package domain.base;
 
-import domain.sys.SysUserView;
-import service.base.ContentTplService;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class ContentTpl implements Serializable {
-
-    public List<SysUserView> getReceivers(){
-
-        ContentTplService contentTplService = CmTag.getBean(ContentTplService.class);
-        return contentTplService.getShorMsgReceivers(id);
-    }
-
     private Integer id;
 
     private String name;
@@ -51,6 +39,8 @@ public class ContentTpl implements Serializable {
     private Integer userId;
 
     private Date createTime;
+
+    private Boolean isDeleted;
 
     private String remark;
 
@@ -198,6 +188,14 @@ public class ContentTpl implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getRemark() {

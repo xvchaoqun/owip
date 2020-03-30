@@ -97,10 +97,10 @@ public class UserRealm extends AuthorizingRealm {
             }
 
             password = new SimpleHash(
-                        credentialsMatcher.getHashAlgorithmName(),
-                        inputPasswd,
-                        ByteSource.Util.bytes(salt),
-                        credentialsMatcher.getHashIterations()).toHex();
+                    credentialsMatcher.getHashAlgorithmName(),
+                    inputPasswd,
+                    ByteSource.Util.bytes(salt),
+                    credentialsMatcher.getHashIterations()).toHex();
         } else {
 
             password = uv.getPasswd();

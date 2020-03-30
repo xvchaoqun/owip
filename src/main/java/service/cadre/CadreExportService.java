@@ -71,13 +71,13 @@ public class CadreExportService extends BaseMapper {
                 /*15*/"出生地|100", "身份证号|150", "出生时间|100", "年龄|50", "政治面貌|150",
                 /*20*/"党派加入时间|120", "参加工作时间|120", "到校时间|100", "最高学历|120", "最高学位|120",
                 /*25*/"毕业时间|100", "学习方式|120", "毕业学校|200", "学校类型|100", "所学专业|200",
-                /*30*/"全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150", "在职教育毕业院系及专业|400",
-                /*34*//*"岗位类别|100", "主岗等级|160",*/ "专业技术职务|150", "专技职务评定时间|200",
-                /*36*//*"专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", */"现职务任命文件|150",
-                /*37*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
-                /*42*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
-                /*47*/"联系方式|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所在党组织|500",
-                 /*50*/"是否有挂职经历|100", "备注|500"}));
+                /*30*/"全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150", "在职教育毕业院系及专业|400", "最高毕业院校及专业|400",
+                /*35*//*"岗位类别|100", "主岗等级|160",*/ "专业技术职务|150", "专技职务评定时间|200",
+                /*37*//*"专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200", */"现职务任命文件|150",
+                /*38*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
+                /*43*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
+                /*48*/"联系方式|100", "办公电话|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所在党组织|500",
+                 /*52*/"是否有挂职经历|100", "备注|500"}));
     }
 
     // 导出一览表
@@ -124,8 +124,8 @@ public class CadreExportService extends BaseMapper {
         boolean useCadreState = CmTag.getBoolProperty("useCadreState");
         boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 7, 8, 9, 11,12,13,14,16, 17, 18, 19, 20, 23, 34, 37,
-                38,39,40,41,47, 48};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 5, 6, 7, 8, 9, 11,12,13,14,16, 17, 18, 19, 20, 23, 35, 38,
+                39,40,41,42,48, 50};
         if (exportType == 1) {
             //新增一个角色，限制查看干部库权限，
             // 字段为：1工作证号，姓名，干部类型，5部门属性，所在单位、7所在单位及职务、行政级别、职务属性，11是否班子负责人、12性别、13民族、14籍贯
@@ -290,10 +290,13 @@ public class CadreExportService extends BaseMapper {
             String _fulltimeMajor = "";
             String _onjobEdu = "";
             String _onjobMajor = "";
+            String _highMajor = ""; // 最高毕业院校及专业
+
             CadreEdu[] cadreEdus = record.getCadreEdus();
             CadreEdu fulltimeEdu = cadreEdus[0];
             CadreEdu onjobEdu = cadreEdus[1];
             if (fulltimeEdu != null) {
+
                 Integer eduId = fulltimeEdu.getEduId();
                 if(eduId!=null) {
                     //String degree = fulltimeEdu.getDegree();
@@ -302,8 +305,11 @@ public class CadreExportService extends BaseMapper {
                 _fulltimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeEdu.getDep())
                             + StringUtils.trimToEmpty(fulltimeEdu.getMajor());
+
+                _highMajor = _fulltimeMajor;
             }
             if (onjobEdu != null) {
+                Byte degreeType = onjobEdu.getDegreeType();
                 Integer eduId = onjobEdu.getEduId();
                 if(eduId!=null) {
                     //String degree = onjobEdu.getDegree();
@@ -312,6 +318,33 @@ public class CadreExportService extends BaseMapper {
                 _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getSchool())
                             + StringUtils.trimToEmpty(onjobEdu.getDep())
                             + StringUtils.trimToEmpty(onjobEdu.getMajor());
+
+                if(fulltimeEdu == null){
+                   _highMajor = _onjobMajor;
+                }else{
+                    Byte fullDegreeType = fulltimeEdu.getDegreeType();
+                    Integer fullEduId = fulltimeEdu.getEduId();
+                    if(fullDegreeType==null && degreeType!=null){
+                        _highMajor = _onjobMajor;
+                    }else if(fullDegreeType!=null && degreeType!=null){
+                        if(degreeType>fullDegreeType) {
+                            _highMajor = _onjobMajor;
+                        }else if(degreeType==fullDegreeType){
+
+                            if(fullEduId==null && eduId!=null){
+                                _highMajor = _onjobMajor;
+                            }else if(fullEduId!=null && eduId!=null){
+
+                                MetaType fullEdu = CmTag.getMetaType(fullEduId);
+                                MetaType edu = CmTag.getMetaType(eduId);
+                                if((fullEdu==null && edu!=null)
+                                        || (fullEdu!=null && edu!=null && fullEdu.getSortOrder()<edu.getSortOrder())){
+                                    _highMajor = _onjobMajor;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             Unit unit = record.getUnit();
@@ -357,6 +390,7 @@ public class CadreExportService extends BaseMapper {
                     _fulltimeMajor,
                     _onjobEdu,
                     _onjobMajor,
+                    _highMajor,
 
                     /*record.getPostClass(),
                     record.getMainPostLevel(),*/
@@ -383,6 +417,7 @@ public class CadreExportService extends BaseMapper {
                     doubleUnit,
 
                     record.getMobile(),
+                    record.getPhone(),
                     /*"", // 党委委员
                     "",*/
                     record.getEmail(),

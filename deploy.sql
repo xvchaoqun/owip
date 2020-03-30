@@ -9,11 +9,11 @@
 
 
 -- 导出数据库结构
-mysqldump  -uroot -p'123' --default-character-set=utf8 -d db_owip>/tmp/db_owip.sql
+mysqldump  -uroot -p123 --default-character-set=utf8 -d db_owip>/tmp/db_owip.sql
 -- 提取基础表数据
-mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B db_owip --tables base_annual_type base_content_tpl base_country base_location base_meta_class base_meta_type base_sitemap base_sitemap_role base_stroke_count sys_attach_file sys_role sys_resource sys_config sys_html_fragment sys_property sys_scheduler_job  >/tmp/b.sql
+mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables base_annual_type base_content_tpl base_country base_location base_meta_class base_meta_type base_sitemap base_sitemap_role base_stroke_count sys_attach_file sys_role sys_resource sys_config sys_html_fragment sys_property sys_scheduler_job  >/tmp/b.sql
 -- 提取控制台账号
-mysqldump  -uroot -p'xxx' --default-character-set=utf8 -t -B db_owip --tables sys_user -w "username='zzbgz'" >/tmp/u.sql
+mysqldump  -uroot -p123 --default-character-set=utf8 -t -B db_owip --tables sys_user -w "username='zzbgz'" >/tmp/u.sql
 
 
 -- 统一修改干部的称谓（仅更新还没设置称谓的）
@@ -27,6 +27,7 @@ update base_content_tpl set content = replace(content, '58806879', '64434910');
 update base_content_tpl set content = replace(content, '58808302', '64434910');
 update base_content_tpl set content = replace(content, '64434910、64434910', '64434910');
 update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
+update base_content_tpl set content = replace(content, 'zzgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
 update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');
 
 -- 更新系统说明
@@ -38,6 +39,8 @@ update sys_html_fragment set content = replace(content, '58808302', '88888888');
 update sys_html_fragment set content = replace(content, '58806879', '88888888');
 update sys_html_fragment set content = replace(content, '64434910', '88888888');
 update sys_html_fragment set content = replace(content, 'zzbgz.bnu.edu.cn', 'gbgz.xjtu.edu.cn');
+update sys_html_fragment set content = replace(content, '龙海明', '***');
+update sys_html_fragment set content = replace(content, '杨学玉', '***');
 
 --
 update sys_role set remark=null;

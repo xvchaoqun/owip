@@ -86,15 +86,44 @@ public class ContentTplService extends BaseMapper {
         contentTplMapper.deleteByPrimaryKey(id);
     }
 
+    //删除消息模版
     @Transactional
-    @CacheEvict(value="ContentTpl:Code:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
+        for (Integer id : ids) {
+            ContentTpl contentTpl = new ContentTpl();
+            contentTpl.setId(id);
+            contentTpl.setIsDeleted(true);
+            contentTpl.setSortOrder(getNextSortOrder("base_content_tpl","is_deleted="+true));
+            contentTplMapper.updateByPrimaryKeySelective(contentTpl);
+        }
+    }
+
+    //彻底删除消息模板
+    @Transactional
+    public void doBatchUnDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
         ContentTplExample example = new ContentTplExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIsDeletedEqualTo(true).andIdIn(Arrays.asList(ids));
         contentTplMapper.deleteByExample(example);
+    }
+
+    //返回列表
+    @Transactional
+    public void batchUnDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        for (Integer id : ids) {
+            ContentTpl contentTpl = new ContentTpl();
+            contentTpl.setId(id);
+            contentTpl.setIsDeleted(false);
+            contentTpl.setSortOrder(getNextSortOrder("base_content_tpl","is_deleted="+false));
+            contentTplMapper.updateByPrimaryKeySelective(contentTpl);
+        }
     }
 
     @Transactional

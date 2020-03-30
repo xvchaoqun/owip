@@ -7,6 +7,7 @@
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
+                <c:if test="${!isDeleted}">
                 <a class="popupBtn btn btn-info btn-sm"
                    data-url="${ctx}/schedulerJob_au"><i class="fa fa-plus"></i> 添加定时任务</a>
 
@@ -22,7 +23,28 @@
                 <button class="jqBatchBtn btn btn-danger btn-sm"
                    data-url="${ctx}/schedulerJob_del" data-title="删除定时任务"
                    data-msg="确定删除这{0}个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
+                    <button class="jqBatchBtn btn btn-info btn-sm"
+                            data-url="${ctx}/schedulerJob_changeIsStarted" data-title="手动启动"
+                            data-querystr="isStarted=0"
+                            data-msg="确定将这{0}个定时任务改为手动启动吗？" data-callback="_reload">
+                        <i class="fa fa-hand-pointer-o"></i> 手动启动</button>
+                    <button class="jqBatchBtn btn btn-success btn-sm"
+                            data-url="${ctx}/schedulerJob_changeIsStarted" data-title="自动启动"
+                            data-querystr="isStarted=1"
+                            data-msg="确定将这{0}个定时任务改为自动启动吗？" data-callback="_reload">
+                        <i class="fa fa-desktop"></i> 自动启动</button>
             </div>
+            </c:if>
+            <c:if test="${isDeleted}">
+                <button class="jqBatchBtn btn btn-warning btn-sm"
+                        data-url="${ctx}/schedulerJob_batchUnDel" data-title="返回列表"
+                        data-msg="确定返回这{0}个定时任务吗？" data-callback="_reload">
+                    <i class="fa fa-reply"></i> 返回列表</button>
+                <button class="jqBatchBtn btn btn-danger btn-sm"
+                        data-url="${ctx}/schedulerJob_doBatchDel" data-title="彻底删除定时任务"
+                        data-msg="确定彻底删除这{0}个定时任务吗？" data-callback="_reload">
+                    <i class="fa fa-trash"></i> 彻底删除</button>
+            </c:if>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

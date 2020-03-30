@@ -156,6 +156,7 @@
                 }
             },
             {label: '年度', name: 'year'},
+            {label: '学工号', name: 'user.code'},
             {label: '姓名', name: 'user.realname'},
             {label: '所属${_p_partyName}', name: 'party.name', algin: "left", width: 400},
             {

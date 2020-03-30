@@ -93,7 +93,7 @@
       "showColumns": "type,name,norm_id,is_auto,remark",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PMD",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pmd_config_member",
@@ -101,6 +101,15 @@
       "searchColumns": "user_id,config_member_type,config_member_type_id",
       "showColumns": "user_id,config_member_type,config_member_type_id",
       "excludeEditColumns": "user_id",
+      "logType": "LogConstants.LOG_PMD",
+      "ignore": true
+    },
+    {
+      "table": "pmd_party_donate",
+      "key": "id",
+      "searchColumns": "user_id,party_id,branch_id",
+      "showColumns": "user_id,party_id,branch_id,donate_date,money,explain",
+      "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PMD",
       "ignore": false
     }

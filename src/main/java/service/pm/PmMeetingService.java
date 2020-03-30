@@ -8,15 +8,19 @@ import domain.pm.PmMeetingExample;
 import domain.pm.PmMeetingFile;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.common.FreemarkerService;
 import service.party.BranchMemberService;
 import service.party.MemberService;
+import service.sys.LogService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.helper.PartyHelper;
+import sys.utils.JSONUtils;
 
 import java.io.Writer;
 import java.util.*;
@@ -25,13 +29,15 @@ import static sys.constants.PmConstants.*;
 
 @Service("PmMeetingService")
 public class PmMeetingService extends PmBaseMapper {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     MemberService memberService;
     @Autowired
     BranchMemberService branchMemberService;
     @Autowired
     FreemarkerService freemarkerService;
+    @Autowired
+    private LogService logService;
 
     @Transactional
     public void insertSelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles) throws InterruptedException {
@@ -73,7 +79,7 @@ public class PmMeetingService extends PmBaseMapper {
 
         PmMeeting pmMeeting=pmMeetingMapper.selectByPrimaryKey(record.getId());
 
-        if(pmMeeting.getStatus()==PM_MEETING_STATUS_PASS&&!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
+        if(pmMeeting.getStatus()==PM_MEETING_STATUS_PASS&&!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId())){
             throw new OpException("该记录已审核通过，不能再次修改");
         }
         pmMeetingMapper.updateByPrimaryKeySelective(record);
@@ -91,8 +97,11 @@ public class PmMeetingService extends PmBaseMapper {
 
         PmMeetingExample example = new PmMeetingExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        pmMeetingMapper.deleteByExample(example);
-
+        List<PmMeeting> pmMeetings=pmMeetingMapper.selectByExample(example);
+        if (pmMeetings.size() > 0) {
+            logger.info(logService.log(LogConstants.LOG_PM, "批量删除三会一课记录：" + JSONUtils.toString(pmMeetings, false)));
+            pmMeetingMapper.deleteByExample(example);
+        }
     }
 
     @Transactional

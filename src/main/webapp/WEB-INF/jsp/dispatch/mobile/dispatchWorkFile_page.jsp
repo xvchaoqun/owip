@@ -62,7 +62,7 @@
                     <span style="color:{{=f.status?'':'red'}}">{{=f.fileName}}</span>
                     {{}}}
                 </td>
-                <td nowrap>{{=_cMap.DISPATCH_WORK_FILE_TYPE_MAP[f.type]}}</td>
+                <td nowrap>{{=_cMap.metaTypeMap[f.type].name}}</td>
             </tr>
             {{});}}
             </tbody>

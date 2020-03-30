@@ -6,7 +6,6 @@ import domain.dispatch.DispatchWorkFileAuth;
 import domain.dispatch.DispatchWorkFileAuthExample;
 import domain.dispatch.DispatchWorkFileExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +14,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DispatchWorkFileService extends BaseMapper {
@@ -129,7 +122,7 @@ public class DispatchWorkFileService extends BaseMapper {
 
         for (Integer id : ids) {
             DispatchWorkFile dwf = dispatchWorkFileMapper.selectByPrimaryKey(id);
-            Byte type = dwf.getType();
+            int type = dwf.getType();
             int nextSortOrder = getNextSortOrder("dispatch_work_file", "status=0 and type=" + type);
 
             DispatchWorkFile record = new DispatchWorkFile();
@@ -141,7 +134,7 @@ public class DispatchWorkFileService extends BaseMapper {
     }
 
     @Transactional
-    public void batchTransfer(Integer[] ids, byte type) {
+    public void batchTransfer(Integer[] ids, int type) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -180,50 +173,12 @@ public class DispatchWorkFileService extends BaseMapper {
         }
     }
 
-    /**
-     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
-     *
-     * @param id
-     * @param addNum
-     */
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
         DispatchWorkFile entity = dispatchWorkFileMapper.selectByPrimaryKey(id);
-
-        Integer baseSortOrder = entity.getSortOrder();
-        Byte type = entity.getType();
-        Boolean status = entity.getStatus();
-
-        DispatchWorkFileExample example = new DispatchWorkFileExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andStatusEqualTo(status).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andStatusEqualTo(status).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<DispatchWorkFile> overEntities = dispatchWorkFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            DispatchWorkFile targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("dispatch_work_file", "status="+ status +" and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("dispatch_work_file", "status="+ status +" and type=" + type, baseSortOrder, targetEntity.getSortOrder());
-
-            DispatchWorkFile record = new DispatchWorkFile();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
-        }
+        int type = entity.getType();
+        boolean status = entity.getStatus();
+        changeOrder("dispatch_work_file", "status="+ status +" and type=" + type, ORDER_BY_DESC, id, addNum);
     }
-
-
 }

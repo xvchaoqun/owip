@@ -326,7 +326,7 @@ public class MetaClassController extends BaseController {
             MetaTypeExample.Criteria criteria = example.createCriteria().andClassIdEqualTo(id);
             example.setOrderByClause("sort_order asc");
 
-            int count = metaTypeMapper.countByExample(example);
+            int count = (int) metaTypeMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
 
                 pageNo = Math.max(1, pageNo - 1);

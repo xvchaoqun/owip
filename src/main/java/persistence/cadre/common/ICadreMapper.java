@@ -128,6 +128,9 @@ public interface ICadreMapper {
     @Select("select cv.* from cadre_view cv, dispatch_cadre_view dcv where cv.id=dcv.cadre_id and cv.status=3 and cv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017")
     List<CadreView> leaveCadres(@Param("unitId")int unitId);*/
 
+    List<CadreEva> getCadreEvas(@Param("startYear") int startYear, @Param("endYear") int endYear,
+                                @Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+
     // 查询干部家庭成员
     List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 

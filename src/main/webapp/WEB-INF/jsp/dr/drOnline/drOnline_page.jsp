@@ -1,0 +1,235 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=DrConstants.DR_ONLINE_NOT_RELEASE%>" var="DR_ONLINE_NOT_RELEASE"/>
+<c:set value="<%=DrConstants.DR_ONLINE_RELEASE%>" var="DR_ONLINE_RELEASE"/>
+<c:set value="<%=DrConstants.DR_ONLINE_WITHDRAW%>" var="DR_ONLINE_WITHDRAW"/>
+<c:set value="<%=DrConstants.DR_ONLINE_FINISH%>" var="DR_ONLINE_FINISH"/>
+<div class="row">
+    <div class="col-xs-12">
+        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <c:set var="_query" value="${not empty param.recordId ||not empty param.year ||not empty param._recommendDate ||not empty param.seq ||not empty param.status ||not empty param.type ||not empty param._startTime ||not empty param._endTime || not empty param.code || not empty param.sort}"/>
+            <div class="tabbable">
+                <jsp:include page="menu.jsp"/>
+                <div class="tab-content">
+                    <div class="tab-pane in active">
+            <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasPermission name="drOnline:edit">
+                    <button class="popupBtn btn btn-info btn-sm"
+                            data-url="${ctx}/dr/drOnline_au">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/dr/drOnline_au"
+                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        修改</button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="drOnline:del">
+                    <button data-url="${ctx}/dr/drOnline_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="drOnline:edit">
+                    <button data-url="${ctx}/dr/drOnline_changeStatus?status=1"
+                            data-title="发布"
+                            data-msg="确定发布这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-success btn-sm">
+                        <i class="fa fa-check-circle-o"></i> 发布
+                    </button>
+                    <button data-url="${ctx}/dr/drOnline_changeStatus?status=2"
+                            data-title="撤回"
+                            data-msg="确定撤回这{0}条数据？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-warning btn-sm">
+                        <i class="fa fa-times-circle-o"></i> 撤回
+                    </button>
+                    <button data-url="${ctx}/dr/drOnline_changeStatus?status=3"
+                            data-title="完成推荐"
+                            data-msg="确定这{0}条数据完成推荐？"
+                            data-grid-id="#jqGrid"
+                            class="jqBatchBtn btn btn-success btn-sm">
+                        <i class="fa fa-check"></i> 完成推荐
+                    </button>
+                </shiro:hasPermission>
+                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-url="${ctx}/dr/drOnline_data"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>--%>
+            </div>
+            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
+                    <span class="widget-note">${note_searchbar}</span>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form class="form-inline search-form" id="searchForm">
+                        <div class="form-group">
+                            <label>年份</label>
+                            <input class="form-control search-query" name="year" type="text" value="${param.year}"
+                                   placeholder="请输入年份">
+                        </div>
+                        <div class="form-group">
+                            <label>推荐日期</label>
+                            <div class="input-group tooltip-success" data-rel="tooltip" title="推荐日期范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                                <input placeholder="请选择推荐日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_recommendDate" value="${param._recommendDate}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select name="status" data-width="150" data-rel="select2"
+                                    data-placeholder="请选择状态">
+                                <option></option>
+                                <c:forEach items="<%=DrConstants.DR_ONLINE_MAP%>" var="status">
+                                    <option value="${status.key}">${status.value}</option>
+                                </c:forEach>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=status]").val('${param.status}');
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label>推荐类型</label>
+                            <select data-width="230" name="type" data-rel="select2" data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_dr_type"/>
+                            </select>
+                            <script>         $("#searchForm select[name=type]").val('${param.type}');     </script>
+                        </div>
+                        <div class="form-group">
+                            <label>推荐开始时间</label>
+                            <div class="input-group tooltip-success" data-rel="tooltip" title="开始时间范围">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                </span>
+                                <input placeholder="请选择开始时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_startTime" value="${param._startTime}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>推荐截止时间</label>
+                            <div class="input-group tooltip-success" data-rel="tooltip" title="截止时间范围">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                </span>
+                                <input placeholder="请选择截止时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_endTime" value="${param._endTime}"/>
+                            </div>
+                        </div>
+                            <div class="clearfix form-actions center">
+                                <a class="jqSearchBtn btn btn-default btn-sm"
+                                   data-url="${ctx}/dr/drOnline?cls=1"
+                                   data-target="#page-content"
+                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                <c:if test="${_query}">&nbsp;
+                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/dr/drOnline?cls=1"
+                                            data-target="#page-content">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <table id="jqGrid" class="jqGrid table-striped"></table>
+            <div id="jqGridPager"></div>
+            </div>
+        </div>
+            </div>
+    </div>
+        <div id="body-content-view"></div>
+    </div>
+</div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script>
+    $("#jqGrid").jqGrid({
+        rownumbers:true,
+        url: '${ctx}/dr/drOnline_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+                { label: '年份',name: 'year', frozen:true},
+                { label: '编号',name: 'code', width:210,frozen: true},
+                { label: '状态',name: 'status',formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == ${DR_ONLINE_NOT_RELEASE}) {
+                            return '未发布';
+                        } else if (cellvalue == ${DR_ONLINE_RELEASE}) {
+                            return '已发布';
+                        } else if (cellvalue == ${DR_ONLINE_WITHDRAW}) {
+                            return '已撤销';
+                        } else if (cellvalue == ${DR_ONLINE_FINISH}) {
+                            return '已完成';
+                        }
+                    }},
+                { label: '推荐类型',name: 'type', width: 85, formatter: $.jgrid.formatter.MetaType},
+                { label: '推荐日期',name: 'recommendDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '干部民主推荐说明', name: '_notice', width:130, formatter: function (cellvalue, options, rowObject) {
+                    var str = '<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}"><i class="fa fa-edit"></i> 编辑</button>'
+                        .format(rowObject.id);
+                    return  str;
+                }},
+                {
+                    label: '推荐职务及资格条件', name: '_post', width:150, formatter: function (cellvalue, options, rowObject) {
+                            var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlinePost_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
+                                .format(rowObject.id);
+                            return  str;
+                }},
+                {
+                    label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
+                            var str = '';
+                            str +='<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
+                                .format(rowObject.id) + "&nbsp;";
+                            return  str + '<button class="downloadBtn btn btn-success btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult_data?export=1&onlineId={0}"><i class="fa fa-download"></i> 导出</button>'
+                                .format(rowObject.id);
+                    }, width: 150
+                },
+                {
+                    label: '账号管理', name: '_account', width:110, formatter: function (cellvalue, options, rowObject) {
+                        var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
+                            .format(rowObject.id);
+                        return  str;
+                }},
+                {label: '推荐组负责人', name: 'chiefMember.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                        var val = $.trim(cellvalue);
+                        if(val=='') return '--'
+                        if(rowObject.chiefMember.status!='<%=DrConstants.DR_MEMBER_STATUS_NOW%>'){
+                            return '<span class="delete">{0}</span>'.format(val)
+                        }
+                        return val;
+                    }},
+                {
+                    label: '推荐组成员', name: 'drMembers', formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == undefined || cellvalue.length == 0) return '--';
+                        var names = []
+                        cellvalue.forEach(function(drMember, i){
+                            if (drMember.user.realname)
+                                names.push(drMember.user.realname)
+                        })
+
+                        return names.join("，")
+                    }, width: 250
+                },
+                { label: '推荐起始时间',name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '推荐截止时间',name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '备注', name: 'remark', width: 350}
+        ]
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
+    $.initNavGrid("jqGrid", "jqGridPager");
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
+</script>

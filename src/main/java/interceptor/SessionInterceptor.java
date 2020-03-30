@@ -126,15 +126,17 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                         return false;
                     }
 
-                    if (!servletPath.startsWith("/m/")) { // 移动端
+                    if (!servletPath.startsWith("/dr/drOnline")) {
+                        if (!servletPath.startsWith("/m/")) { // 移动端
 
-                        String redirectUrl = "/m/index";
-                        if(StringUtils.isNotBlank(servletPath)
-                                && !StringUtils.equals(StringUtils.trim(servletPath), "/")){
-                            redirectUrl = "/m" + servletPath;
+                            String redirectUrl = "/m/index";
+                            if (StringUtils.isNotBlank(servletPath)
+                                    && !StringUtils.equals(StringUtils.trim(servletPath), "/")) {
+                                redirectUrl = "/m" + servletPath;
+                            }
+                            WebUtils.issueRedirect(request, response, redirectUrl);
+                            return false;
                         }
-                        WebUtils.issueRedirect(request, response, redirectUrl);
-                        return false;
                     }
                 }
             } else {

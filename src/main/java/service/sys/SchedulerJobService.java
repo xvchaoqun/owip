@@ -96,7 +96,7 @@ public class SchedulerJobService extends BaseMapper {
 
         record.setCreateTime(new Date());
         record.setSortOrder(getNextSortOrder("sys_scheduler_job", null));
-        return schedulerJobMapper.insert(record);
+        return schedulerJobMapper.insertSelective(record);
     }
 
     public Map<String, Map<String, Object>> allJobsMap() {
@@ -203,8 +203,41 @@ public class SchedulerJobService extends BaseMapper {
         schedulerJobMapper.updateByPrimaryKeySelective(record);
     }
 
+    //返回列表
+    @Transactional
+    public void batchUnDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            stopJob(id);
+            SchedulerJob schedulerJob = new SchedulerJob();
+            schedulerJob.setId(id);
+            schedulerJob.setIsDeleted(false);
+            schedulerJob.setSortOrder(getNextSortOrder("sys_scheduler_job","is_deleted="+false));
+            schedulerJobMapper.updateByPrimaryKeySelective(schedulerJob);
+        }
+    }
+
+    //删除定时任务
     @Transactional
     public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            stopJob(id);
+            SchedulerJob schedulerJob = new SchedulerJob();
+            schedulerJob.setId(id);
+            schedulerJob.setIsDeleted(true);
+            schedulerJob.setSortOrder(getNextSortOrder("sys_scheduler_job","is_deleted="+true));
+            schedulerJobMapper.updateByPrimaryKeySelective(schedulerJob);
+        }
+    }
+
+    //彻底删除定时任务
+    @Transactional
+    public void doBatchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -213,7 +246,7 @@ public class SchedulerJobService extends BaseMapper {
         }
 
         SchedulerJobExample example = new SchedulerJobExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
         schedulerJobMapper.deleteByExample(example);
     }
 
@@ -221,5 +254,19 @@ public class SchedulerJobService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         changeOrder("sys_scheduler_job", null, ORDER_BY_DESC, id, addNum);
+    }
+
+    //手动启动、自动启动
+    @Transactional
+    public void changeIsStarted(Integer[] ids,boolean isStarted){
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+
+            SchedulerJob schedulerJob = new SchedulerJob();
+            schedulerJob.setId(id);
+            schedulerJob.setIsStarted(isStarted);
+            schedulerJobMapper.updateByPrimaryKeySelective(schedulerJob);
+        }
     }
 }

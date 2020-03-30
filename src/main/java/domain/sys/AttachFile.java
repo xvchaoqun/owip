@@ -1,16 +1,9 @@
 package domain.sys;
 
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class AttachFile implements Serializable {
-
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
-
     private Integer id;
 
     private String code;
@@ -30,6 +23,8 @@ public class AttachFile implements Serializable {
     private String remark;
 
     private Date createTime;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -111,5 +106,13 @@ public class AttachFile implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

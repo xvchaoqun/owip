@@ -4,14 +4,27 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/contentTpl"
+             data-url-page="${ctx}/contentTpl?isDeleted=${isDeleted}"
              data-url-export="${ctx}/contentTpl_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.content
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
 
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="<c:if test="${!isDeleted}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/contentTpl?isDeleted=0"><i
+                            class="fa fa-circle-o-notch"></i> 消息模板</a>
+                </li>
+                <li class="<c:if test="${isDeleted}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/contentTpl?isDeleted=1"><i class="fa fa-history"></i> 已删除</a>
+                </li>
+            </ul>
+            <div class="space-4"></div>
             <div class="jqgrid-vertical-offset  buttons">
                 <shiro:hasPermission name="contentTpl:edit">
+                    <c:if test="${!isDeleted}">
                     <a class="openView btn btn-success btn-sm"
                        data-url="${ctx}/contentTpl_au?contentType=<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>">
                         <i class="fa fa-plus"></i> 添加普通文本
@@ -28,17 +41,30 @@
                     <button data-url="${ctx}/contentTpl_receivers" class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-user"></i> 设置消息接收人
                     </button>
+                    </c:if>
                 </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_ADMIN}">
+                    <c:if test="${!isDeleted}">
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/contentTplRole">
                         <i class="fa fa-pencil"></i> 修改角色
                     </button>
+                    </c:if>
                 </shiro:hasRole>
                 <shiro:hasPermission name="contentTpl:del">
+                    <c:if test="${!isDeleted}">
                     <a class="jqBatchBtn btn btn-danger btn-sm"
                        data-url="${ctx}/contentTpl_batchDel" data-title="删除"
                        data-msg="确定删除这{0}个模板吗？"><i class="fa fa-trash"></i> 删除</a>
+                    </c:if>
+                    <c:if test="${isDeleted}">
+                        <a class="jqBatchBtn btn btn-warning btn-sm"
+                           data-url="${ctx}/contentTpl_batchUnDel" data-title="返回列表"
+                           data-msg="确定返回这{0}个模板吗？"><i class="fa fa-reply"></i> 返回列表</a>
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/contentTpl_doBatchDel" data-title="彻底删除"
+                           data-msg="确定彻底删除这{0}个模板吗？"><i class="fa fa-trash"></i> 彻底删除</a>
+                    </c:if>
                 </shiro:hasPermission>
 
             </div>

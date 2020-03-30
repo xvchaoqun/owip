@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
+import sys.utils.MD5Util;
 
 import java.util.*;
 
@@ -98,7 +100,7 @@ public class MetaTypeService extends BaseMapper {
             code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
             MetaTypeExample example = new MetaTypeExample();
             example.createCriteria().andCodeEqualTo(code).andAvailableEqualTo(true);
-            count = metaTypeMapper.countByExample(example);
+            count = (int) metaTypeMapper.countByExample(example);
         } while(count>0);
         return code;
     }
@@ -225,5 +227,12 @@ public class MetaTypeService extends BaseMapper {
 
         MetaType entity = metaTypeMapper.selectByPrimaryKey(id);
         changeOrder("base_meta_type", "class_id=" + entity.getClassId(), ORDER_BY_ASC, id, addNum);
+    }
+
+    // 获取校验码
+    public String getValid(int id){
+
+        String key = CmTag.getStringProperty("meta_type_valid_key");
+        return MD5Util.md5Hex(StringUtils.trimToEmpty(key) + id, "utf-8");
     }
 }

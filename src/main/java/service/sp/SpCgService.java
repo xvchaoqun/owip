@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 public class SpCgService extends SpBaseMapper {
 
-    @Autowired
+    @Autowired(required = false)
     private CgMemberMapper cgMemberMapper;
 
     public boolean idDuplicate(Integer id, Byte type,Integer userId){

@@ -61,11 +61,13 @@ public class OaTaskUserController extends OaBaseController {
     @RequestMapping("/oaTaskUser_data")
     public void oaTaskUser_data(HttpServletResponse response,
                                 HttpServletRequest request,
-                                int taskId,
+                                Integer taskId,
                                 Integer userId,
                                 String mobile,
                                 Boolean hasReport,
                                 Byte status,
+                                Integer type,
+                                String name,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录, userId
                                 Integer pageSize,
@@ -83,11 +85,13 @@ public class OaTaskUserController extends OaBaseController {
 
         OaTaskUserViewExample example = new OaTaskUserViewExample();
         OaTaskUserViewExample.Criteria criteria =
-                example.createCriteria().andTaskIdEqualTo(taskId)
-                        .andIsDeleteEqualTo(false);
-
+                example.createCriteria().andIsDeleteEqualTo(false);
+        //.andTaskIdEqualTo(taskId)
         example.setOrderByClause("sort_order asc");
 
+        if (taskId != null) {
+            criteria.andTaskIdEqualTo(taskId);
+        }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -100,7 +104,12 @@ public class OaTaskUserController extends OaBaseController {
         if (status != null) {
             criteria.andStatusEqualTo(status);
         }
-
+        if (type != null) {
+            criteria.andTaskTypeEqualTo(type);
+        }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andTaskNameLike(SqlUtils.like(name));
+        }
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andUserIdIn(Arrays.asList(ids));

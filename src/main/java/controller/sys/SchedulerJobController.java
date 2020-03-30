@@ -46,9 +46,12 @@ public class SchedulerJobController extends BaseController {
 
     @RequiresPermissions("schedulerJob:list")
     @RequestMapping("/schedulerJob")
-    public String schedulerJob(@RequestParam(required = false, defaultValue = "1")Byte cls, ModelMap modelMap) {
+    public String schedulerJob(@RequestParam(required = false, defaultValue = "1")Byte cls,
+                               @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
+                               ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("isDeleted",isDeleted);
         if(cls==2){
             return "sys/schedulerLog/schedulerLog_page";
         }
@@ -59,7 +62,9 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:list")
     @RequestMapping("/schedulerJob_data")
     @ResponseBody
-    public void schedulerJob_data(HttpServletRequest request, Integer pageSize, Integer pageNo) throws IOException {
+    public void schedulerJob_data(HttpServletRequest request,
+                                  @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
+                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -71,6 +76,10 @@ public class SchedulerJobController extends BaseController {
 
         SchedulerJobExample example = new SchedulerJobExample();
         example.setOrderByClause(" sort_order desc");
+
+        if (isDeleted != null) {
+            example.createCriteria().andIsDeletedEqualTo(isDeleted);
+        }
 
         long count = schedulerJobMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
@@ -137,6 +146,7 @@ public class SchedulerJobController extends BaseController {
         return "sys/schedulerJob/schedulerJob_au";
     }
 
+    //删除定时任务
     @RequiresPermissions("schedulerJob:del")
     @RequestMapping(value="/schedulerJob_del", method=RequestMethod.POST)
     @ResponseBody
@@ -144,6 +154,30 @@ public class SchedulerJobController extends BaseController {
 
         schedulerJobService.batchDel(ids);
         logger.info(addLog(LogConstants.LOG_ADMIN, "删除定时任务：%s", StringUtils.join(ids, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //彻底删除定时任务
+    @RequiresPermissions("schedulerJob:del")
+    @RequestMapping(value="/schedulerJob_doBatchDel", method=RequestMethod.POST)
+    @ResponseBody
+    public Map doBatchDel(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        schedulerJobService.doBatchDel(ids);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除定时任务：%s", StringUtils.join(ids, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //返回列表
+    @RequiresPermissions("schedulerJob:del")
+    @RequestMapping(value="/schedulerJob_batchUnDel", method=RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(@RequestParam(value = "ids[]") Integer[] ids) {
+
+        schedulerJobService.batchUnDel(ids);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除定时任务：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -250,5 +284,17 @@ public class SchedulerJobController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    //返回列表
+    @RequiresPermissions("schedulerJob:edit")
+    @RequestMapping(value="/schedulerJob_changeIsStarted", method=RequestMethod.POST)
+    @ResponseBody
+    public Map changeIsStarted(@RequestParam(value = "ids[]") Integer[] ids,Boolean isStarted) {
+
+        isStarted = BooleanUtils.isTrue(isStarted);
+        schedulerJobService.changeIsStarted(ids,isStarted);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改定时任务为%s：%s",isStarted?"自动启动":"手动启动", StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
     }
 }

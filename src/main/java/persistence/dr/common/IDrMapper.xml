@@ -22,4 +22,17 @@
         <include refid="selectUserList_where"/>
     </select>
 
+    <insert id="batchInsert_result" parameterType="map">
+        insert into dr_online_result (id, online_id, post_id,
+        candidate_id, inspector_id, inspector_type_id,
+        ins_option, remark)
+        VALUES
+        <foreach collection="records" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.onlineId,jdbcType=INTEGER}, #{item.postId,jdbcType=INTEGER},
+            #{item.candidateId,jdbcType=INTEGER}, #{item.inspectorId,jdbcType=INTEGER},
+            #{item.inspectorTypeId,jdbcType=INTEGER},
+            #{item.insOption,jdbcType=BIT}, #{item.remark,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
 </mapper>

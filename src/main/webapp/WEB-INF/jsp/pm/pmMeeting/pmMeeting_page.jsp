@@ -66,14 +66,25 @@
                                        data-open-by="page"><i class="fa fa-edit"></i>
                                         重新提交</a>
                                 </c:if>
-
-                              <c:if test="${cls==1||addPermits==false&&cls==3}">
-                                  <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                               data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
-                                               data-grid-id="#jqGrid"
-                                               data-open-by="page"><i class="fa fa-edit"></i>
-                                        修改</a>
-                              </c:if>
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
+                                  <c:if test="${cls==1||cls==3}">
+                                   <%-- <c:if test="${cls==1||addPermits==false&&cls==3}">--%>
+                                      <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                                   data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
+                                                   data-grid-id="#jqGrid"
+                                                   data-open-by="page"><i class="fa fa-edit"></i>
+                                            修改</a>
+                                  </c:if>
+                                </shiro:hasAnyRoles>
+                                <shiro:lacksPermission name="pmMeeting:approve">
+                                    <c:if test="${cls==1}">
+                                        <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                           data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
+                                           data-grid-id="#jqGrid"
+                                           data-open-by="page"><i class="fa fa-edit"></i>
+                                            修改</a>
+                                    </c:if>
+                                </shiro:lacksPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
@@ -83,7 +94,7 @@
                                    data-open-by="page"><i class="fa fa-download"></i>
                                     导出工作记录</a>--%>
 
-                                <c:if test="${cls!=3}">
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
@@ -91,7 +102,7 @@
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
-                            </c:if>
+                                </shiro:hasAnyRoles>
                             </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

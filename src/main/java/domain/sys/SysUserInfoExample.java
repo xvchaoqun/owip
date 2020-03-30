@@ -2031,6 +2031,66 @@ public class SysUserInfoExample {
             addCriterion("resume not between", value1, value2, "resume");
             return (Criteria) this;
         }
+
+        public Criteria andSyncIsNull() {
+            addCriterion("sync is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncIsNotNull() {
+            addCriterion("sync is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncEqualTo(Integer value) {
+            addCriterion("sync =", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncNotEqualTo(Integer value) {
+            addCriterion("sync <>", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncGreaterThan(Integer value) {
+            addCriterion("sync >", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sync >=", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncLessThan(Integer value) {
+            addCriterion("sync <", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncLessThanOrEqualTo(Integer value) {
+            addCriterion("sync <=", value, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncIn(List<Integer> values) {
+            addCriterion("sync in", values, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncNotIn(List<Integer> values) {
+            addCriterion("sync not in", values, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncBetween(Integer value1, Integer value2) {
+            addCriterion("sync between", value1, value2, "sync");
+            return (Criteria) this;
+        }
+
+        public Criteria andSyncNotBetween(Integer value1, Integer value2) {
+            addCriterion("sync not between", value1, value2, "sync");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

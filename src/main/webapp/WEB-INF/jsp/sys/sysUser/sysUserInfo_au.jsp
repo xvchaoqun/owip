@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<h3>修改人员基本信息（其中带*的字段每天会被校园门户账号信息进行同步覆盖）</h3>
+<h3>修改人员基本信息（其中带<span style="color: red">*</span>的字段每天会被校园门户账号信息进行同步覆盖）</h3>
 <hr/>
 <form class="form-horizontal" action="${ctx}/sysUserInfo_au" autocomplete="off" disableautocomplete id="modalForm"
       method="post" enctype="multipart/form-data">
@@ -10,21 +10,33 @@
     <div class="row">
         <div class="col-xs-4">
             <div class="form-group">
-                <label class="col-xs-3 control-label">头像</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.avatar}"><span class="star">*</span></c:if> 头像</label>
 
                 <div class="col-xs-6" style="width:170px">
                     <input type="file" name="_avatar" id="_avatar"/>
                 </div>
+                <c:if test="${!sync.avatar}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.avatar?"checked":""}
+                               data-name="avatar" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>姓名</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.realname}"><span class="star">*</span></c:if> 姓名</label>
 
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="realname" value="${ui.realname}">
                 </div>
+                <c:if test="${!sync.realname}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.realname?"checked":""}
+                               data-name="realname" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>性别</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.gender}"><span class="star">*</span></c:if> 性别</label>
 
                 <div class="col-xs-6 label-text">
                     <div class="input-group">
@@ -37,9 +49,15 @@
                         </c:forEach>
                     </div>
                 </div>
+                <c:if test="${!sync.gender}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.gender?"checked":""}
+                               data-name="gender" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>出生日期</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.birth}"><span class="star">*</span></c:if> 出生日期</label>
 
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
@@ -48,16 +66,28 @@
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
+                <c:if test="${!sync.birth}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.birth?"checked":""}
+                               data-name="birth" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>身份证号码</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.idcard}"><span class="star">*</span></c:if> 身份证号码</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="idcard" value="${ui.idcard}">
                 </div>
+                <c:if test="${!sync.idcard}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.idcard?"checked":""}
+                               data-name="idcard" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>民族</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.nation}"><span class="star">*</span></c:if> 民族</label>
 
                 <div class="col-xs-6">
                      <select name="nation" data-rel="select2" data-placeholder="请选择" data-width="150">
@@ -70,29 +100,53 @@
                         $("#modalForm select[name=nation]").val('${cm:ensureEndsWith(ui.nation, '族')}');
                     </script>
                 </div>
+                <c:if test="${!sync.nation}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.nation?"checked":""}
+                               data-name="nation" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">籍贯</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.nativePlace}"><span class="star">*</span></c:if> 籍贯</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nativePlace" value="${ui.nativePlace}">
                     <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
+                <c:if test="${!sync.nativePlace}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.nativePlace?"checked":""}
+                               data-name="nativePlace" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">出生地</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.homeplace}"><span class="star">*</span></c:if> 出生地</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="homeplace" value="${ui.homeplace}">
                     <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
+                <c:if test="${!sync.homeplace}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.homeplace?"checked":""}
+                               data-name="homeplace" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">户籍地</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.household}"><span class="star">*</span></c:if> 户籍地</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="household" value="${ui.household}">
                     <span class="help-block">${_pMap['nativePlaceHelpBlock']}</span>
                 </div>
+                <c:if test="${!sync.household}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.household?"checked":""}
+                               data-name="household" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
 
         </div>
@@ -100,36 +154,59 @@
 
             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                 <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span>专业技术职务</label>
-
+                <label class="col-xs-3 control-label"><c:if test="${!sync.proPost}"><span class="star">*</span></c:if> 专业技术职务</label>
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
                 </div>
+                <c:if test="${!sync.proPost}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.proPost?"checked":""}
+                               data-name="proPost" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             </c:if>
 
 
             <div class="form-group">
-                <label class="col-xs-3 control-label">手机号</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.mobile}"><span class="star">*</span></c:if> 手机号</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="mobile" value="${ui.mobile}">
                 </div>
+                <c:if test="${!sync.mobile}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.mobile?"checked":""}
+                               data-name="mobile" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">邮箱</label>
+                <label class="col-xs-3 control-label"><c:if test="${!sync.email}"><span class="star">*</span></c:if> 邮箱</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="email" value="${ui.email}">
                 </div>
+                <c:if test="${!sync.email}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.email?"checked":""}
+                               data-name="email" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
             </div>
             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">办公电话</label>
+                    <label class="col-xs-3 control-label"><c:if test="${!sync.phone}"><span class="star">*</span></c:if> 办公电话</label>
 
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="phone" value="${ui.phone}">
                     </div>
+                    <c:if test="${!sync.phone}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.phone?"checked":""}
+                               data-name="phone" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">短信称谓</label>
@@ -139,11 +216,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">家庭电话</label>
+                    <label class="col-xs-3 control-label"><c:if test="${!sync.homePhone}"><span class="star">*</span></c:if> 家庭电话</label>
 
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="homePhone" value="${ui.homePhone}">
                     </div>
+                    <c:if test="${!sync.homePhone}">
+                    <div class="col-xs-6">
+                        <input type="checkbox" ${userSync.homePhone?"checked":""}
+                               data-name="homePhone" class="syncOnce big"/> 仅同步一次
+                    </div>
+                </c:if>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">熟悉专业有何特长</label>
@@ -248,7 +331,14 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+            var syncNames = $.map($("input.syncOnce:checked"), function(input){
+                console.log(input)
+                return $(input).data("name");
+            })
+            console.log("syncNames="+ syncNames.join(","))
             $(form).ajaxSubmit({
+                data:{syncNames:syncNames.join(",")},
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
@@ -259,6 +349,6 @@
         }
     });
     $.register.date($('.date-picker'));
-    $("#modalForm :checkbox").bootstrapSwitch();
+    //$("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
 </script>

@@ -13,7 +13,7 @@
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="privacy_type" jdbcType="INTEGER" property="privacyType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="BIT" property="status" />
     <result column="post_count" jdbcType="INTEGER" property="postCount" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -121,7 +121,7 @@
     values (#{id,jdbcType=INTEGER}, #{unitType,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
       #{workType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{pubDate,jdbcType=DATE}, 
       #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
-      #{privacyType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{privacyType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{status,jdbcType=BIT}, #{postCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
@@ -212,7 +212,7 @@
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
@@ -271,7 +271,7 @@
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=BIT},
@@ -303,7 +303,7 @@
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       privacy_type = #{record.privacyType,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER},
       status = #{record.status,jdbcType=BIT},
       post_count = #{record.postCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -346,7 +346,7 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=BIT},
@@ -375,7 +375,7 @@
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       privacy_type = #{privacyType,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
       status = #{status,jdbcType=BIT},
       post_count = #{postCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},

@@ -11,8 +11,21 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query"
                        value="${not empty param.type || not empty param.code || not empty param.filename}"/>
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li class="<c:if test="${!isDeleted}">active</c:if>">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/attachFile?isDeleted=0"><i
+                                class="fa fa-circle-o-notch"></i> 系统附件</a>
+                    </li>
+                    <li class="<c:if test="${isDeleted}">active</c:if>">
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/attachFile?isDeleted=1"><i class="fa fa-history"></i> 已删除</a>
+                    </li>
+                </ul>
+                <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="attachFile:edit">
+                        <c:if test="${!isDeleted}">
                         <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/attachFile_au"><i
                                 class="fa fa-plus"></i> 添加</a>
                         <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -25,8 +38,10 @@
                                 class="fa fa-upload"></i>
                             批量导入更新
                         </button>
+                        </c:if>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="attachFile:del">
+                        <c:if test="${!isDeleted}">
                         <button data-url="${ctx}/attachFile_batchDel"
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？"
@@ -34,6 +49,23 @@
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
+                        </c:if>
+                        <c:if test="${isDeleted}">
+                            <button data-url="${ctx}/attachFile_batchUnDel"
+                                    data-title="返回列表"
+                                    data-msg="确定返回这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-warning btn-sm">
+                                <i class="fa fa-reply"></i> 返回列表
+                            </button>
+                            <button data-url="${ctx}/attachFile_doBatchDel"
+                                    data-title="彻底删除"
+                                    data-msg="确定彻底删除这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i> 彻底删除
+                            </button>
+                        </c:if>
                     </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

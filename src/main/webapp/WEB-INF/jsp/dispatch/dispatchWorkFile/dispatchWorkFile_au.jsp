@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="DISPATCH_WORK_FILE_TYPE_MAP" value="<%=DispatchConstants.DISPATCH_WORK_FILE_TYPE_MAP%>"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${dispatchWorkFile!=null}">编辑</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>干部工作文件
-	（${DISPATCH_WORK_FILE_TYPE_MAP.get(type)}）
+	（${cm:getMetaType(type).name}）
 	</h3>
 </div>
 <div class="modal-body">

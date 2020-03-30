@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.DBServcie;
+import service.common.SyncStatus;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -169,8 +170,10 @@ public class SysUserController extends BaseController {
 
     @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser")
-    public String sysUser(ModelMap modelMap) {
+    public String sysUser(@RequestParam(required = false, defaultValue = "0") Boolean locked,
+                          ModelMap modelMap) {
 
+        modelMap.put("locked",locked);
         return "sys/sysUser/sysUser_page";
     }
 
@@ -230,7 +233,6 @@ public class SysUserController extends BaseController {
         if (locked != null) {
             criteria.andLockedEqualTo(locked);
         }
-
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -361,12 +363,18 @@ public class SysUserController extends BaseController {
     public Map do_sysUserInfo_au(int userId,
                                  SysUserInfo record,
                                  String proPost,
+                                 String syncNames,
                                  MultipartFile _avatar,
                                  MultipartFile _sign) throws IOException {
 
         record.setUserId(userId);
         record.setAvatar(avatarService.uploadAvatar(_avatar));
         record.setSign(sysUserService.uploadSign(userId, _sign));
+
+        // 个人数据同步设置
+        SyncStatus userStatus = new SyncStatus(0);
+        userStatus.setByNames(syncNames);
+        record.setSync(userStatus.toSync());
 
         TeacherInfo teacherInfo = null;
         if(proPost!=null){
@@ -387,6 +395,9 @@ public class SysUserController extends BaseController {
             SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
             modelMap.put("ui", ui);
 
+            SyncStatus userSync = new SyncStatus(ui.getSync());
+            modelMap.put("userSync", userSync);
+
             SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
             modelMap.put("sysUser", sysUser);
 
@@ -395,6 +406,10 @@ public class SysUserController extends BaseController {
                 modelMap.put("teacherInfo", teacherInfo);
             }
         }
+
+        // 系统同步覆盖设置
+        SyncStatus sysSync = new SyncStatus(CmTag.getStringProperty("sync"));
+        modelMap.put("sync", sysSync);
 
         return "sys/sysUser/sysUserInfo_au";
     }

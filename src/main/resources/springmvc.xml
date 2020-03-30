@@ -43,6 +43,10 @@
 			<mvc:mapping path="/**/cet/**"/>
 			<bean class="interceptor.CetSessionInterceptor"/>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/dr/drOnline/**"/>
+			<bean class="interceptor.DrSessionInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- 激活@Controller模式-->

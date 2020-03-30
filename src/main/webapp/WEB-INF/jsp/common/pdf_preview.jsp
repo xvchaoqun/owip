@@ -23,11 +23,11 @@
         ${filename}
     </h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="background-color: grey;padding: 0">
     <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
     <img data-src="${ctx}/pdf_image?path=${path}&pageNo=${pageNo}"
          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
-         style="width: 100%">
+         style="width: 100%;padding-bottom: 5px;">
     </c:forEach>
 </div>
 <div class="modal-footer">
@@ -43,11 +43,11 @@
 </div>
 <style>
     .modal .modal-body {
-        max-height: 600px;
+        max-height: 750px;
         padding: 0;
     }
     .modal-content {
-        width: 742px !important;
+        min-width: 900px;
     }
 </style>
 </c:if>

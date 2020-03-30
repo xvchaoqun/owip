@@ -390,7 +390,7 @@ public class StatCadreController extends BaseController {
         unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
         firstTypeCode = StringUtils.trimToNull(firstTypeCode);
 
-        if (firstTypeCode == null)//全部类型
+        if (StringUtils.equals(firstTypeCode,"all"))//全部类型
             cadreViews = statCadreService.allCadreList(unitTypeGroup,cadreType,secondNum);
 
         if (StringUtils.equals(firstTypeCode,"adminLevel"))//行政级别

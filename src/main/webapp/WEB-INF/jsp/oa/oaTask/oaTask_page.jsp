@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OA_TASK_STATUS_ABOLISH" value="<%=OaConstants.OA_TASK_STATUS_ABOLISH%>"/>
+<c:set var="OA_TASK_STATUS_FINISH" value="<%=OaConstants.OA_TASK_STATUS_FINISH%>"/>
 <div class="row">
     <div class="col-xs-12 rownumbers">
 
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/oa/oaTask"
+             data-url-page="${ctx}/oa/oaTask?cls=${cls}"
              data-url-export="${ctx}/oa/oaTask_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
@@ -22,7 +25,11 @@
                     </li>
                     <li class="<c:if test="${cls==3}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3&showAll=${showAll?1:0}"><i
-                                class="fa fa-trash-o"></i> 作废</a>
+                                class="fa fa-trash-o"></i> 已作废</a>
+                    </li>
+                    <li class="<c:if test="${cls==4}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=4&showAll=${showAll?1:0}"><i
+                                class="fa fa-trash-o"></i> 任务对象列表</a>
                     </li>
                     <c:if test="${oaTaskAdmin.showAll}">
                     <div class="type-select">
@@ -58,10 +65,12 @@
                                     下发任务通知</a>
                             </shiro:hasPermission>
                             </c:if>
-                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            <c:if test="${cls!=4}">
+                                <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-url="${ctx}/oa/oaTaskUser"
                                    data-id-name="taskId"
                                    data-open-by="page"><i class="fa fa-search"></i> 报送详情</button>
+                            </c:if>
                             <c:if test="${cls==1}">
                                 <button id="finishBtn" class="jqItemBtn btn btn-success btn-sm"
                                    data-url="${ctx}/oa/oaTask_finish"
@@ -109,6 +118,7 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="showAll" value="${showAll?1:0}">
+                                        <input type="hidden" name="cls" value="${cls}" />
                                         <div class="form-group">
                                             <label>工作类型</label>
                                             <select class="form-control" name="type"
@@ -131,6 +141,16 @@
                                                    value="${param.name}"
                                                    placeholder="请输入标题">
                                         </div>
+                                        <c:if test="${cls==4}">
+                                            <div class="form-group">
+                                                <label>姓名</label>
+                                                <select data-rel="select2-ajax" data-width="200"
+                                                        data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                                        name="userId" data-placeholder="请输入账号或姓名或工号">
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                </select>
+                                            </div>
+                                        </c:if>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
@@ -166,6 +186,7 @@
 
     $("#jqGrid").jqGrid({
         rownumbers: true,
+        <c:if test="${cls !=4}">
         url: '${ctx}/oa/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '发布日期', name: 'pubDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
@@ -246,8 +267,60 @@
             }},
             </c:if>
             {label: '创建时间', name: 'createTime', width: 180}, {name: 'userCount', hidden:true}
-        ]/*,
-        onSelectRow: function (id, status) {
+        ]
+        </c:if>
+        <c:if test="${cls==4}">
+        url: '${ctx}/oa/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '任务标题', name: 'taskName', width: 170},
+            {label: '工作类型', name: 'taskType', formatter: $.jgrid.formatter.MetaType},
+            {label: '工作证号', name: 'code', width:120},
+            {label: '姓名', name: 'realname', width:120},
+            {label: '所在单位及职务', name: 'title', width:280, align:'left'},
+            {label: '手机号码', name: 'mobile', width:120},
+            {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    return cellvalue + "({0})".format(rowObject.assignCode)
+                }},
+            {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    return cellvalue
+                }},
+            {label: '报送情况', name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
+
+                    if(!cellvalue) return '未报送';
+
+                    return '<button class="popupBtn btn btn-success btn-xs" data-width="800" ' +
+                        'data-url="${ctx}/oa/oaTaskUser_report?id={0}"><i class="fa fa-search"></i> 已报送</button>'
+                            .format(rowObject.id)
+                }},
+            {label: '报送人', name: 'reportRealname', width:120, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    return cellvalue
+                }},
+            {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                <c:set var="taskCanEdit" value="${cellvalue != OA_TASK_STATUS_ABOLISH && cellvalue != OA_TASK_STATUS_FINISH}" />
+                    <c:if test="${!taskCanEdit}"> return '--'</c:if>
+                    if(cellvalue==undefined) return '--'
+                    if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
+                        return '<button class="popupBtn btn btn-primary btn-xs"' +
+                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
+                                .format(rowObject.taskId, rowObject.userId)
+                    }
+
+                    return _cMap.OA_TASK_USER_STATUS_MAP[cellvalue];
+                }},
+            { label: '通知提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
+                    if(rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_DENY%>')
+                        return ('<button class="popupBtn btn btn-warning btn-xs" ' +
+                            'data-url="${ctx}/oa/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 通知提醒</button>')
+                            .format(rowObject.id);
+                    return "-";
+                }},
+            {hidden:true, name: 'userId', key:true}
+        ]
+        </c:if>
+        /*,onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             _onSelectRow(this)
         },
@@ -272,4 +345,5 @@
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    $.register.user_select($("#searchForm select[name=userId]"));
 </script>

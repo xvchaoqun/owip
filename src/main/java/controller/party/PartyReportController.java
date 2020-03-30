@@ -295,7 +295,7 @@ public class PartyReportController extends BaseController {
             if (party == null) {
                 throw new OpException("第{0}行分党委编码[{1}]不存在", row, partyCode);
             }
-            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),party.getId())){
                 throw new OpException("您没有权限导入第{0}行党支部数据", row);
             }
             record.setPartyId(party.getId());

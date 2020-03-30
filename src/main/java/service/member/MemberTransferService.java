@@ -183,13 +183,18 @@ public class MemberTransferService extends MemberBaseMapper {
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
 
-        if(memberTransfer.getPartyId().intValue()==memberTransfer.getToPartyId()){
+        boolean samePartyTransfer = memberTransfer.getPartyId().intValue()==memberTransfer.getToPartyId();
+        if(samePartyTransfer){
             record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         }else {
             record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
+
+        if(samePartyTransfer){
+            doTransfer(userId, memberTransfer.getToPartyId(), memberTransfer.getToBranchId());
+        }
     }
 
     // 转入分党委审核通过
@@ -210,16 +215,25 @@ public class MemberTransferService extends MemberBaseMapper {
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
 
+        doTransfer(userId, memberTransfer.getToPartyId(), memberTransfer.getToBranchId());
+    }
+
+    private void doTransfer(int userId, Integer toPartyId, Integer toBranchId){
+
         // 更改该党员的所在党组织
         Member member = memberMapper.selectByPrimaryKey(userId);
-        member.setPartyId(memberTransfer.getToPartyId());
-        member.setBranchId(memberTransfer.getToBranchId());
+        member.setPartyId(toPartyId);
+        member.setBranchId(toBranchId);
         memberMapper.updateByPrimaryKeySelective(member);
 
-        if(memberTransfer.getToPartyId()!=null && memberTransfer.getToBranchId()==null){
+        if(toPartyId!=null && toBranchId==null){
+
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(memberTransfer.getToPartyId()), "not direct branch");
-            iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, memberTransfer.getToPartyId());
+            if(!partyService.isDirectBranch(toPartyId)){
+                throw new OpException("转入党委有误，非直属党支部。");
+            }
+
+            iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, toPartyId);
         }
     }
 

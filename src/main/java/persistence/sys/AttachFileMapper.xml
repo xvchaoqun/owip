@@ -12,6 +12,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, user_id, path, filename, ext, type, sort_order, remark, create_time
+    id, code, user_id, path, filename, ext, type, sort_order, remark, create_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sys.AttachFileExample" resultMap="BaseResultMap">
     select
@@ -108,11 +109,11 @@
     insert into sys_attach_file (id, code, user_id, 
       path, filename, ext, 
       type, sort_order, remark, 
-      create_time)
+      create_time, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{path,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, 
       #{type,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.AttachFile">
     insert into sys_attach_file
@@ -147,6 +148,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -178,6 +182,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -220,6 +227,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +246,8 @@
       type = #{record.type,jdbcType=TINYINT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -271,6 +282,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -284,7 +298,8 @@
       type = #{type,jdbcType=TINYINT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.AttachFileExample" resultMap="BaseResultMap">

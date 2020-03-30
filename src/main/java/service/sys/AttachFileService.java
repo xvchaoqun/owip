@@ -66,14 +66,45 @@ public class AttachFileService extends BaseMapper {
         attachFileMapper.deleteByPrimaryKey(id);
     }
 
+    //删除系统附件
     @Transactional
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
+        for (Integer id : ids) {
+            AttachFile attachFile = new AttachFile();
+            attachFile.setId(id);
+            attachFile.setIsDeleted(true);
+            attachFile.setSortOrder(getNextSortOrder("sys_attach_file","is_deleted="+true));
+            attachFileMapper.updateByPrimaryKeySelective(attachFile);
+        }
+    }
+
+    //彻底删除系统附件
+    @Transactional
+    public void doBatchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
         AttachFileExample example = new AttachFileExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
         attachFileMapper.deleteByExample(example);
+    }
+
+    //返回列表
+    @Transactional
+    public void batchUnDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            AttachFile attachFile = new AttachFile();
+            attachFile.setId(id);
+            attachFile.setIsDeleted(false);
+            attachFile.setSortOrder(getNextSortOrder("sys_attach_file","is_deleted="+false));
+            attachFileMapper.updateByPrimaryKeySelective(attachFile);
+        }
     }
 
     @Transactional

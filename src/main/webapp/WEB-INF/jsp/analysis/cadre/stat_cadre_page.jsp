@@ -79,6 +79,7 @@
                         <td colspan=2 height=23 class=xl70>总数</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="1"/>
+                            <jsp:param name="firstTypeCode" value="all" />
                         </jsp:include>
                     </tr>
                     <tr>

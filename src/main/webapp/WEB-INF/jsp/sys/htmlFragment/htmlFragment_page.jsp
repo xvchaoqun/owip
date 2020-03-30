@@ -5,27 +5,41 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/htmlFragment_au"
-             data-url-page="${ctx}/htmlFragment"
+             data-url-page="${ctx}/htmlFragment?isDeleted=${isDeleted}"
              data-url-export="${ctx}/htmlFragment_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.title || not empty param.code
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
 
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="<c:if test="${!isDeleted}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/htmlFragment?isDeleted=0"><i
+                            class="fa fa-circle-o-notch"></i> 系统说明</a>
+                </li>
+                <li class="<c:if test="${isDeleted}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/htmlFragment?isDeleted=1"><i class="fa fa-history"></i> 已删除</a>
+                </li>
+            </ul>
+            <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset  buttons">
-                        <shiro:hasPermission name="htmlFragment:edit">
+                    <shiro:hasPermission name="htmlFragment:edit">
+                        <c:if test="${!isDeleted}">
                             <a class="openView btn btn-info btn-sm" data-url="${ctx}/htmlFragment_au">
                                 <i class="fa fa-plus"></i> 添加
                             </a>
                             <button class="jqEditBtn btn btn-primary btn-sm" data-open-by="page">
                                 <i class="fa fa-edit"></i> 修改信息
                             </button>
-
+                        </c:if>
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
                                     data-url="${ctx}/hf_content">
                                 <i class="fa fa-search"></i> 查看内容
                             </button>
 
                         </shiro:hasPermission>
+                    <c:if test="${!isDeleted}">
                         <shiro:hasRole name="${ROLE_ADMIN}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/htmlFragmentRole">
@@ -38,7 +52,19 @@
                                data-url="${ctx}/htmlFragment_batchDel" data-title="删除"
                                data-msg="确定删除这{0}项配置吗？"><i class="fa fa-trash"></i> 删除</a>
                         </shiro:hasPermission>
-
+                    </c:if>
+                    <c:if test="${isDeleted}">
+                    <shiro:hasPermission name="htmlFragment:del">
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/htmlFragment_doBatchDel" data-title="彻底删除"
+                           data-msg="确定彻底删除这{0}项配置吗？删除后数据将无法恢复。"><i class="fa fa-trash"></i> 彻底删除</a>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="htmlFragment:edit">
+                        <a class="jqBatchBtn btn btn-warning btn-sm"
+                           data-url="${ctx}/htmlFragment_batchUnDel" data-title="返回列表"
+                           data-msg="确定返回这{0}项配置吗？"><i class="fa fa-reply"></i> 返回列表</a>
+                    </shiro:hasPermission>
+                    </c:if>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

@@ -1,10 +1,91 @@
 
-2020.3.9
-北师大更新
 
-ALTER TABLE `cadre_train`
-	CHANGE COLUMN `content` `content` TEXT NULL DEFAULT NULL COMMENT '培训内容' AFTER `end_time`;
+-- 修复 转接bug
+select m.code, m.realname from ow_member_view m
+,(select user_id, to_party_id, to_branch_id from ow_member_transfer where party_id=to_party_id and status=2)tmp
+ where m.user_id=tmp.user_id and m.branch_id != tmp.to_branch_id;
 
+update ow_member m
+,(select user_id, to_party_id, to_branch_id from ow_member_transfer where party_id=to_party_id and status=2)tmp
+set m.branch_id = tmp.to_branch_id
+ where m.user_id=tmp.user_id and m.party_id=tmp.to_party_id and m.branch_id != tmp.to_branch_id;
+-- bug
+
+-- 更新 cadre_view
+
+-- ===========更新文件综合管理（已更新北化工）
+ALTER TABLE `dispatch_work_file_auth`
+	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NOT NULL COMMENT '职务属性，每个文件按照职务属性设置权限。' AFTER `work_file_id`;
+
+ALTER TABLE `dispatch_work_file`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `remark`;
+-- // 干部工作文件类别  1 干部选拔任用  2 干部管理监督  3 机关学院换届  4 干部队伍建设 5 干部考核工作 6  干部教育培训
+-- // 党建工作文件 类别 11 专题教育活动 12 基层党组织建设 13 党员队伍建设 14 党内民主建设 15各类工作总结
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`,
+                               `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (310, NULL, '工作文件类别', '文件综合管理', '', 'mc_work_file_type', '', '文件大类', 'gb|干部工作文件,dj|党建工作文件,dx|党校工作文件', 2613, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '干部选拔任用', 'mt_work_file_xbry', NULL, 'gb', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '干部管理监督', 'mt_work_file_gljd', NULL, 'gb', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '机关学院换届', 'mt_work_file_xyhj', NULL, 'gb', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '干部队伍建设', 'mt_work_file_dwjs', NULL, 'gb', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '干部考核工作', 'mt_work_file_khgz', NULL, 'gb', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '干部教育培训', 'mt_work_file_jypx', NULL, 'gb', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '专题教育活动', 'mt_work_file_ztjy', NULL, 'dj', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '基层党组织建设', 'mt_work_file_jcdj', NULL, 'dj', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '党员队伍建设', 'mt_work_file_dydw', NULL, 'dj', '', 9, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '党内民主建设', 'mt_work_file_dnmz', NULL, 'dj', '', 10, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (310, '各类工作总结', 'mt_work_file_gzzj', NULL, 'dj', '', 11, 1);
+
+
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_xbry') where type=1;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_gljd') where type=2;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_xyhj') where type=3;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_dwjs') where type=4;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_khgz') where type=5;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_jypx') where type=6;
+
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_ztjy') where type=11;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_jcdj') where type=12;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_dydw') where type=13;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_dnmz') where type=14;
+update dispatch_work_file set type = (select id from base_meta_type where code='mt_work_file_gzzj') where type=15;
+
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_xbry')) where url='/dispatchWorkFile?type=1';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_gljd')) where url='/dispatchWorkFile?type=2';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_xyhj')) where url='/dispatchWorkFile?type=3';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_dwjs')) where url='/dispatchWorkFile?type=4';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_khgz')) where url='/dispatchWorkFile?type=5';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_jypx')) where url='/dispatchWorkFile?type=6';
+
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_ztjy')) where url='/dispatchWorkFile?type=11';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_jcdj')) where url='/dispatchWorkFile?type=12';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_dydw')) where url='/dispatchWorkFile?type=13';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_dnmz')) where url='/dispatchWorkFile?type=14';
+update sys_resource set url=concat('/dispatchWorkFile?type=',(select id from base_meta_type where code='mt_work_file_gzzj')) where url='/dispatchWorkFile?type=15';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1101, 0, '查看文件列表', '给用户赋予的权限', 'function', '', NULL, 61, '0/1/61/', 1, 'userDispatchWorkFile:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1102, 0, '2019年度总结报告', '给用户赋予的权限', 'url', '', '/user/dispatchWorkFile?type=767&valid=f2201f5191c4e92cc5af043eebfd0946', 61, '0/1/61/', 1, 'userDispatchWorkFile:767', NULL, NULL, NULL, 1, NULL);
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('meta_type_valid_key', '元数据类型校验秘钥', 'u7^&*hJ^*()@', 1, 43, '');
+
+-- ============更新文件综合管理
+
+-- 更新同步设置（已更新北航）
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `sync` INT UNSIGNED NULL DEFAULT NULL COMMENT '同步字段是否只同步一次，0或空代表每次都同步覆盖，1代表仅同步一次，后面不覆盖，字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像' AFTER `resume`;
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('sync', '同步字段是否只同步一次', '01101111011011', 1, 51,
+        '0或空代表每次都同步覆盖，1代表仅同步一次，后面不覆盖，字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像');
+-- -
+
+-- 桑文帅
+ALTER TABLE `sys_html_fragment` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `remark`;
+ALTER TABLE `base_content_tpl` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `update_time`;
+ALTER TABLE `sys_scheduler_job` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `create_time`;
+ALTER TABLE `sys_attach_file` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `create_time`;
+--
+
+2020.03.10 15:30
+新建西北工大
 
 2020.2.28
 北师大更新

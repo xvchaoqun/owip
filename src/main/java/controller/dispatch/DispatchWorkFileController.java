@@ -64,7 +64,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequestMapping("/dispatchWorkFile_data")
     public void dispatchWorkFile_data(HttpServletResponse response,
                                       String fileName,
-                                      Byte type,
+                                      Integer type,
                                       @RequestParam(required = false, defaultValue = "1") Boolean status,
                                       Integer startYear,
                                       Integer endYear,
@@ -251,7 +251,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping("/dispatchWorkFile_au")
     public String dispatchWorkFile_au(Integer id,
-                                      Byte type,
+                                      Integer type,
                                       ModelMap modelMap) {
 
         if (id != null) {
@@ -291,7 +291,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, byte type ) {
+    public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, int type ) {
 
         dispatchWorkFileService.batchTransfer(ids, type);
         logger.info(addLog(LogConstants.LOG_ADMIN, "批量转移干部工作文件：%s", StringUtils.join(ids, ",")));

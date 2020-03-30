@@ -19,11 +19,6 @@ CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
 select cp.*, op.code as party_code, op.name as party_name, op.is_deleted as party_is_deleted, op.sort_order
 from cet_party cp left join ow_party op on cp.party_id=op.id ;
 
-DROP VIEW IF EXISTS `cet_party_school_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_party_school_view` AS
-select cps.*, ps.name as party_school_name, ps.is_history as party_school_is_history, ps.sort_order
-from cet_party_school cps left join party_school ps on cps.party_school_id=ps.id ;
-
 DROP VIEW IF EXISTS `cet_project_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp
@@ -449,11 +444,6 @@ left join sys_teacher_info t on t.user_id=cm.user_id
 left join cadre_view c on c.user_id=cm.user_id;
 
 --
-DROP VIEW IF EXISTS `crs_applicant_adjust_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_adjust_view` AS
-select caa.* from crs_applicant_adjust caa
-        left join crs_post cp on (cp.meeting_status = 0 or cp.meeting_status is null)
-        and find_in_set(cp.id , caa.after_post_ids) group by caa.id having count(cp.id)>0 ;
 
 DROP VIEW IF EXISTS `crs_expert_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_expert_view` AS

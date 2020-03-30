@@ -86,13 +86,41 @@ public class HtmlFragmentService extends BaseMapper {
             @CacheEvict(value = "HtmlFragment:Code:ALL", allEntries = true),
             @CacheEvict(value = "HtmlFragment:Code:Tree", allEntries = true)
     })
-    public void batchDel(Integer[] ids) {
+
+    //彻底删除系统说明
+    public void doBatchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
         HtmlFragmentExample example = new HtmlFragmentExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
         htmlFragmentMapper.deleteByExample(example);
+    }
+
+    //删除系统说明
+    public void batchDel(Integer[] ids) {
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            HtmlFragment htmlFragment = new HtmlFragment();
+            htmlFragment.setId(id);
+            htmlFragment.setIsDeleted(true);
+            htmlFragment.setSortOrder(getNextSortOrder("sys_html_fragment","is_deleted="+true));
+            htmlFragmentMapper.updateByPrimaryKeySelective(htmlFragment);
+        }
+    }
+
+    //返回系统说明
+    public void batchUnDel(Integer[] ids) {
+        if (ids == null || ids.length == 0) return;
+
+        for (Integer id : ids) {
+            HtmlFragment htmlFragment = new HtmlFragment();
+            htmlFragment.setId(id);
+            htmlFragment.setIsDeleted(false);
+            htmlFragment.setSortOrder(getNextSortOrder("sys_html_fragment","is_deleted="+false));
+            htmlFragmentMapper.updateByPrimaryKeySelective(htmlFragment);
+        }
     }
 
     @Transactional
@@ -108,7 +136,6 @@ public class HtmlFragmentService extends BaseMapper {
 
         htmlFragmentMapper.updateByPrimaryKeySelective(htmlFragment);
     }
-
 
     // 读取二级目录（只返回第二级列表）
     @Cacheable(value = "HtmlFragment:Code:Tree", key = "#code")

@@ -4,12 +4,14 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.dp.DpEdu;
 import domain.dp.DpEduExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -103,8 +105,14 @@ public class DpEduService extends DpBaseMapper {
     // 更新或添加时，检查规则
     public void checkUpdate(DpEdu record) {
 
+        SysUserView uv = CmTag.getUserById(record.getUserId());
+        String realname = "";
+        if(uv.getUserId().intValue()!= ShiroHelper.getCurrentUserId()){
+            realname = uv.getRealname(); // 非本人操作，需提示具体的人名
+        }
+
         if (isNotGraduated(record.getId(), record.getUserId(), record.getIsGraduated())) {
-            throw new OpException("已经存在一条在读记录");
+            throw new OpException(realname + "已经存在一条在读记录");
         }
 
         // 非第二最高学位，不允许存在多个最高学历
@@ -113,9 +121,9 @@ public class DpEduService extends DpBaseMapper {
 
             if(BooleanUtils.isTrue(record.getIsHighDegree())){
 
-                throw new OpException("已经存在最高学历（注：如获得了双学位请勾选“第二个最高学位”选项）");
+                throw new OpException(realname + "已经存在最高学历（注：如获得了双学位请勾选“第二个最高学位”选项）");
             }else {
-                throw new OpException("已经存在最高学历");
+                throw new OpException(realname + "已经存在最高学历");
             }
         }
     }

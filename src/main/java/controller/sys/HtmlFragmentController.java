@@ -44,8 +44,10 @@ public class HtmlFragmentController extends BaseController {
 
     @RequiresPermissions("htmlFragment:list")
     @RequestMapping("/htmlFragment")
-    public String htmlFragment() {
+    public String htmlFragment(@RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
+                               ModelMap modelMap) {
 
+        modelMap.put("isDeleted",isDeleted);
         return "sys/htmlFragment/htmlFragment_page";
     }
     @RequiresPermissions("htmlFragment:list")
@@ -54,6 +56,7 @@ public class HtmlFragmentController extends BaseController {
     public void htmlFragment_data(@CurrentUser SysUserView loginUser,
                                HttpServletResponse response,
                                String title, String code,
+                               @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -79,6 +82,9 @@ public class HtmlFragmentController extends BaseController {
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
+        }
+        if (isDeleted != null) {
+            criteria.andIsDeletedEqualTo(isDeleted);
         }
 
         int count = htmlFragmentMapper.countByExample(example);
@@ -133,6 +139,20 @@ public class HtmlFragmentController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //返回列表
+    @RequiresPermissions("htmlFragment:edit")
+    @RequestMapping(value = "/htmlFragment_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids) {
+            htmlFragmentService.batchUnDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量返回系统说明：%s", StringUtils.join(ids, ",")));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    //删除系统说明
     @RequiresPermissions("htmlFragment:del")
     @RequestMapping(value = "/htmlFragment_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -141,6 +161,19 @@ public class HtmlFragmentController extends BaseController {
         if (null != ids) {
             htmlFragmentService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除系统说明：%s", StringUtils.join(ids, ",")));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    //真删除，只有已删除状态才能进行
+    @RequiresPermissions("htmlFragment:del")
+    @RequestMapping(value = "/htmlFragment_doBatchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids) {
+            htmlFragmentService.doBatchDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除系统说明：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

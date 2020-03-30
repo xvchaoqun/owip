@@ -39,7 +39,7 @@ public class DispatchWorkFile implements Serializable {
 
     private String remark;
 
-    private Byte type;
+    private Integer type;
 
     private Boolean status;
 
@@ -139,11 +139,11 @@ public class DispatchWorkFile implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

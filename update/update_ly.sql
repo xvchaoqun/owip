@@ -1,0 +1,16 @@
+
+-- 2020.3.10
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2528, 0, '推荐职务及资格条件', '', 'function', '', '/dr/drOnlinePost', 2527, '0/1/339/890/895/2527/', 1, 'drOnlinePost:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2529, 0, '推荐结果', '', 'function', '', '/dr/drOnlineResult', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineResult:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2530, 0, '线上推荐参数', '', 'url', '', '/dr/drOnlineParam', 896, '0/1/339/890/896/', 0, 'drOnlineParam:menu', NULL, NULL, NULL, 1, 300);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2531, 0, '推荐人身份类型', '', 'function', '', '/dr/drOnlineInspectorType', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineInspectorType:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2532, 0, '线上民主推荐情况模板', '', 'function', '', '/dr/drOnlineNotice', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineNotice:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
+
+
+--
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2527, 0, '单个岗位推荐', '', 'url', '', '/dr/drOnline', 895, '0/1/339/890/895/', 1, 'drOnline:*', NULL, NULL, NULL, 1, 500);
+UPDATE `sys_resource` SET `type`='menu', `url`=null WHERE  `id`=895;

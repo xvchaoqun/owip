@@ -41,8 +41,10 @@ public class AttachFileController extends BaseController {
 
     @RequiresPermissions("attachFile:list")
     @RequestMapping("/attachFile")
-    public String attachFile() {
+    public String attachFile(@RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
+                             ModelMap modelMap) {
 
+        modelMap.put("isDeleted",isDeleted);
         return "sys/attachFile/attachFile_page";
     }
 
@@ -53,6 +55,7 @@ public class AttachFileController extends BaseController {
                                 String filename,
                                 String code,
                                 Byte type,
+                                @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -80,7 +83,9 @@ public class AttachFileController extends BaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-
+        if (isDeleted != null) {
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
         int count = (int) attachFileMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -171,15 +176,43 @@ public class AttachFileController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //删除系统附件
     @RequiresPermissions("attachFile:del")
     @RequestMapping(value = "/attachFile_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length > 0) {
             attachFileService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除系统附件%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //彻底删除系统附件
+    @RequiresPermissions("attachFile:del")
+    @RequestMapping(value = "/attachFile_doBatchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+            attachFileService.doBatchDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除系统附件%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //返回列表
+    @RequiresPermissions("attachFile:del")
+    @RequestMapping(value = "/attachFile_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+            attachFileService.batchUnDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "返回系统附件%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -35,6 +35,8 @@ import java.util.List;
 public class SyncService extends BaseMapper {
 
     @Autowired
+    private ExtCommonService extCommonService;
+    @Autowired
     private SysSyncService sysSyncService;
     @Autowired
     private SysUserService sysUserService;
@@ -657,6 +659,7 @@ public class SyncService extends BaseMapper {
                 record.setRegularTime(DateUtils.parseStringToDate(extJzg.getZzdjsj()));
             record.setOnJob(extJzg.getSfzg());
             record.setPersonnelStatus(extJzg.getRszf());
+            record.setProPost(extJzg.getZc()); // 职称？？
             //teacher.setTitleLevel(extJzg.get); // 职称级别
             //teacher.setPost(extJzg.getXzjb());  行政职务
             // teacher.setPostLevel(); 任职级别
@@ -678,14 +681,19 @@ public class SyncService extends BaseMapper {
             //teacher.setRetireTime(); 退休时间
             record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
-            syncFilter(ui);
+            extCommonService.syncFilter(ui, teacherInfo==null?null:record, null);
             sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
 
         if (teacherInfo == null)
             teacherInfoMapper.insertSelective(record);
-        else
+        else {
+            // 保证下面的职称只同步一次
+            if(record.getProPost()==null){
+                extJzg.setZwmc(teacherInfo.getProPost());
+            }
             teacherInfoMapper.updateByPrimaryKeySelective(record);
+        }
 
         // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息； 如果是系统注册账号，则不同步人事库信息
         if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
@@ -767,7 +775,7 @@ public class SyncService extends BaseMapper {
 
                 record.setXjStatus(extBks.getXjzt());
 
-                syncFilter(ui);
+                extCommonService.syncFilter(ui, null, studentInfo==null?null:record);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
@@ -812,7 +820,7 @@ public class SyncService extends BaseMapper {
 
                 record.setXjStatus(extYjs.getZt());
 
-                syncFilter(ui);
+                extCommonService.syncFilter(ui, null, studentInfo==null?null:record);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
@@ -821,57 +829,5 @@ public class SyncService extends BaseMapper {
             studentInfoMapper.insertSelective(record);
         else
             studentInfoMapper.updateByPrimaryKeySelective(record);
-    }
-
-    // 同步信息过滤（部分信息只同步第一次）
-    public void syncFilter(SysUserInfo record) {
-
-        SysUser _sysUser = sysUserService.dbFindById(record.getUserId());
-        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
-
-        if (sysUserInfo == null) {
-
-            record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
-        } else {
-            // 性别不覆盖
-            if(sysUserInfo.getGender()!=null){
-                record.setGender(null);
-            }
-            // 出生年月
-            if(sysUserInfo.getBirth()!=null){
-                record.setBirth(null);
-            }
-            // 民族
-            if(sysUserInfo.getNation()!=null){
-                record.setNation(null);
-            }
-
-            // 籍贯
-            if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
-                record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
-            } else {
-                record.setNativePlace(null);
-            }
-            // 出生地
-            if (StringUtils.isNotBlank(sysUserInfo.getHomeplace())) {
-                record.setHomeplace(null);
-            }
-            // 户籍地
-            if (StringUtils.isNotBlank(sysUserInfo.getHousehold())) {
-                record.setHousehold(null);
-            }
-            if (StringUtils.isNotBlank(sysUserInfo.getEmail())) {
-                record.setEmail(null);
-            }
-            if (StringUtils.isNotBlank(sysUserInfo.getMobile())) {
-                record.setMobile(null);
-            }
-            if (StringUtils.isNotBlank(sysUserInfo.getHomePhone())) {
-                record.setHomePhone(null);
-            }
-            if (StringUtils.isNotBlank(sysUserInfo.getAvatar())) {
-                record.setAvatar(null);
-            }
-        }
     }
 }

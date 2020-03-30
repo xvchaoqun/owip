@@ -64,6 +64,8 @@ public class SysUserInfo implements Serializable {
 
     private String resume;
 
+    private Integer sync;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -288,5 +290,13 @@ public class SysUserInfo implements Serializable {
 
     public void setResume(String resume) {
         this.resume = resume == null ? null : resume.trim();
+    }
+
+    public Integer getSync() {
+        return sync;
+    }
+
+    public void setSync(Integer sync) {
+        this.sync = sync;
     }
 }

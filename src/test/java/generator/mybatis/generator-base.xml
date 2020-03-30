@@ -31,19 +31,19 @@
 
         <!--<table tableName="base_country" domainObjectName="base.Country">
         </table>-->
-          <!-- <table tableName="base_content_tpl" domainObjectName="base.ContentTpl" mapperName="base.ContentTplMapper">
-                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-                 <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-                 <ignoreColumn column="update_time"/>
-             </table>-->
+        <!--<table tableName="base_content_tpl" domainObjectName="base.ContentTpl" mapperName="base.ContentTplMapper">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+               <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+               <ignoreColumn column="update_time"/>
+           </table>-->
         <!--<table tableName="base_location" domainObjectName="base.Location">
         </table>-->
          <!--<table tableName="base_meta_class" domainObjectName="base.MetaClass">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="base_meta_type" domainObjectName="base.MetaType">
+        <table tableName="base_meta_type" domainObjectName="base.MetaType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>-->
+         </table>
         <!--<table tableName="base_layer_type" domainObjectName="base.LayerType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
@@ -88,15 +88,15 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+        <!--<table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-        </table>
-         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+        </table>-->
+         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
          <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
-          </table>
+          </table>&ndash;&gt;-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
@@ -118,8 +118,8 @@
           <!--<table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>-->
-       <!-- <table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
-        </table>-->
+       <!--<table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
+        </table> -->
         <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -131,14 +131,14 @@
         <!--<table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-           <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
-           </table>-->
+        <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
+        </table>-->
            <!--<table tableName="sys_scheduler_log" domainObjectName="sys.SchedulerLog"  mapperName="sys.SchedulerLogMapper">
            </table>-->
 
-        <table tableName="sys_msg" domainObjectName="sys.SysMsg" mapperName="sys.SysMsgMapper">
+        <!--<table tableName="sys_msg" domainObjectName="sys.SysMsg" mapperName="sys.SysMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

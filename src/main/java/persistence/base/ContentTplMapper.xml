@@ -20,6 +20,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List">
     id, name, role_id, type, code, wx_msg_type, wx_title, wx_url, wx_pic, content, content_type, 
     engine, param_count, param_names, param_def_values, sort_order, user_id, create_time, 
-    remark
+    is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.base.ContentTplExample" resultMap="BaseResultMap">
     select
@@ -124,15 +125,15 @@
       wx_url, wx_pic, content, 
       content_type, engine, param_count, 
       param_names, param_def_values, sort_order, 
-      user_id, create_time, remark
-      )
+      user_id, create_time, is_deleted, 
+      remark)
     values (#{name,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{code,jdbcType=VARCHAR}, #{wxMsgType,jdbcType=TINYINT}, #{wxTitle,jdbcType=VARCHAR}, 
       #{wxUrl,jdbcType=VARCHAR}, #{wxPic,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{contentType,jdbcType=TINYINT}, #{engine,jdbcType=TINYINT}, #{paramCount,jdbcType=INTEGER}, 
       #{paramNames,jdbcType=VARCHAR}, #{paramDefValues,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.ContentTpl">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -191,6 +192,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -246,6 +250,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -315,6 +322,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -343,6 +353,7 @@
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -402,6 +413,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -427,6 +441,7 @@
       sort_order = #{sortOrder,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

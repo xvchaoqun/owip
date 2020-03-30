@@ -2,6 +2,7 @@ package persistence.dr.common;
 
 import domain.dr.DrMember;
 import domain.dr.DrOfflineView;
+import domain.dr.DrOnlineResult;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,8 @@ public interface IDrMapper {
     List<DrMember> selectMemberList(@Param("status") Byte status,
                                     @Param("search") String search, RowBounds rowBounds);
     int countMemberList(@Param("status") Byte status, @Param("search") String search);
+
+    //批量插入推荐结果
+    int batchInsert_result(@Param("records") List<DrOnlineResult> resultList);
+
 }

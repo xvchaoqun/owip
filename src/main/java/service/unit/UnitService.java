@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
 import org.apache.commons.lang.StringUtils;
+import org.olap4j.impl.ArrayMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -201,6 +202,7 @@ public class UnitService extends BaseMapper {
         return unitMapper.updateByPrimaryKeySelective(record);
     }
 
+    //正在运转和历史单位
     @Cacheable(value = "Unit:ALL")
     public Map<Integer, Unit> findAll() {
 
@@ -347,5 +349,97 @@ public class UnitService extends BaseMapper {
 
             unitMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    //线上民主推荐 可选单位
+    public TreeNode getTree(Set<Integer> selectIdSet){
+
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "单位";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<>();
+        root.children = rootChildren;
+
+        //Map<Integer, String> unitTypes = getUnitType();
+        //Map<类型名称, 单位>
+        Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.setOrderByClause(" sort_order asc");
+        List<Unit> units = unitMapper.selectByExample(example);
+        for (Unit unit : units){
+
+            List<Unit> list = null;
+            String unitType = metaTypeService.getName(unit.getTypeId());
+            if (unitMap.containsKey(unitType)){
+                list = unitMap.get(unitType);
+            }
+            if (null == list) list = new ArrayList<>();
+            list.add(unit);
+
+            unitMap.put(unitType, list);
+        }
+
+        for (Map.Entry<String, List<Unit>> entry : unitMap.entrySet()){
+            TreeNode titleNode = new TreeNode();
+            titleNode.title = entry.getKey();
+            titleNode.expand = false;
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<>();
+            titleNode.children = titleChildren;
+
+            for (Unit unit : entry.getValue()){
+                TreeNode node = new TreeNode();
+                node.title = unit.getName();
+                node.key = unit.getId() + "";
+                if (selectIdSet.contains(unit.getId().intValue())){
+                    node.select = true;
+                }
+                titleChildren.add(node);
+            }
+            rootChildren.add(titleNode);
+        }
+        return root;
+    }
+
+    public Map<Integer, String> getUnitType(){
+
+        Map<Integer, MetaType> metaTypeMap =  metaTypeService.metaTypes("mc_unit_type");
+        Map<Integer, String> unitTypes = new ArrayMap<>();
+        for (Map.Entry<Integer, MetaType> entry : metaTypeMap.entrySet()){
+            unitTypes.put(entry.getValue().getId(), entry.getValue().getName());
+        }
+
+        return unitTypes;
+    }
+
+    //获得正在运转的单位
+    public Map<Integer, Unit> getRunAll() {
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.setOrderByClause("sort_order asc");
+        List<Unit> unites = unitMapper.selectByExample(example);
+        Map<Integer, Unit> map = new LinkedHashMap<>();
+        for (Unit unit : unites) {
+            map.put(unit.getId(), unit);
+        }
+
+        return map;
+    }
+
+    public List<Integer> getUnitIdsLikeUnitName(List<Unit> units){
+
+        List<Integer> unitIds = new ArrayList<>();
+        for (Unit unit : units){
+            unitIds.add(unit.getId());
+        }
+
+        return unitIds;
     }
 }

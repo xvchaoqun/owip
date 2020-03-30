@@ -24,6 +24,7 @@
             <table class="table table-actived table-center table-striped table-bordered table-hover">
                 <thead>
                 <tr>
+                    <th width="50">ID</th>
                     <th nowrap>名称</th>
                     <c:if test="${not empty metaClass.boolAttr}">
                         <th nowrap width="80">${metaClass.boolAttr}</th>
@@ -46,6 +47,7 @@
                 <tbody>
                 <c:forEach items="${metaTypes}" var="metaType" varStatus="st">
                     <tr>
+                        <td>${metaType.id}</td>
                         <td style="text-align: left">${metaType.name}</td>
                         <c:if test="${not empty metaClass.boolAttr}">
                             <td nowrap>
@@ -58,7 +60,7 @@
                                 <td>
                                     <c:if test="${fn:length(metaClass.options)>0}">
                                         <c:set var="op" value="${metaClass.options.get(metaType.extraAttr)}"/>
-                                        ${op.name}<c:if test="${not empty op.detail}">|${op.detail}</c:if>
+                                        ${op.name}<c:if test="${not empty op.detail && !(op.detail eq op.name)}">|${op.detail}</c:if>
                                     </c:if>
                                     <c:if test="${fn:length(metaClass.options)==0}">
                                         ${metaType.extraAttr}

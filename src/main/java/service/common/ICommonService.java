@@ -2,10 +2,14 @@ package service.common;
 
 import controller.global.OpException;
 import domain.member.MemberApply;
-import domain.sys.SysUserView;
+import domain.sys.*;
+import ext.service.ExtService;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.sys.SysUserInfoMapper;
 import service.sys.SysUserService;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -14,6 +18,10 @@ public abstract class ICommonService {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysUserInfoMapper sysUserInfoMapper;
+    @Autowired
+    private ExtService extService;
 
     // 党员发展时间节点限制
     public void checkMemberApplyData(MemberApply record) {
@@ -72,6 +80,83 @@ public abstract class ICommonService {
         Date positiveTime = record.getPositiveTime();
         if (growTime != null && positiveTime!=null && positiveTime.before(growTime)) {
             throw new OpException("转正时间应该在入党时间之后");
+        }
+    }
+
+     // 同步信息过滤（部分信息只同步第一次）
+    public void syncFilter(SysUserInfo ui, TeacherInfo ti, StudentInfo si) {
+
+        SysUser _sysUser = sysUserService.dbFindById(ui.getUserId());
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(ui.getUserId());
+
+        // 系统同步覆盖设置
+        SyncStatus sysSync = new SyncStatus(CmTag.getStringProperty("sync"));
+
+        if (sysUserInfo == null) {
+            ui.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+        } else {
+            // 个人同步覆盖设置
+            SyncStatus userSync = new SyncStatus(sysUserInfo.getSync());
+            sysSync.combine(userSync);
+
+            // 姓名不覆盖
+            if(sysSync.realname && sysUserInfo.getRealname()!=null){
+                ui.setRealname(null);
+            }
+
+            // 性别不覆盖
+            if(sysSync.gender && sysUserInfo.getGender()!=null){
+                ui.setGender(null);
+            }
+            // 出生年月
+            if(sysSync.birth && sysUserInfo.getBirth()!=null){
+                ui.setBirth(null);
+            }
+            // 民族
+            if(sysSync.nation && sysUserInfo.getNation()!=null){
+                ui.setNation(null);
+            }
+
+            // 籍贯
+            if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
+                ui.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+            } else if(sysSync.nativePlace) {
+                ui.setNativePlace(null);
+            }
+            // 出生地
+            if (sysSync.homeplace && StringUtils.isNotBlank(sysUserInfo.getHomeplace())) {
+                ui.setHomeplace(null);
+            }
+            // 户籍地
+            if (sysSync.household && StringUtils.isNotBlank(sysUserInfo.getHousehold())) {
+                ui.setHousehold(null);
+            }
+
+            if (sysSync.mobile && StringUtils.isNotBlank(sysUserInfo.getMobile())) {
+                ui.setMobile(null);
+            }
+
+            if (sysSync.email && StringUtils.isNotBlank(sysUserInfo.getEmail())) {
+                ui.setEmail(null);
+            }
+
+            if (sysSync.phone && StringUtils.isNotBlank(sysUserInfo.getPhone())) {
+                ui.setPhone(null);
+            }
+
+            if (sysSync.homePhone && StringUtils.isNotBlank(sysUserInfo.getHomePhone())) {
+                ui.setHomePhone(null);
+            }
+            if (sysSync.avatar && StringUtils.isNotBlank(sysUserInfo.getAvatar())) {
+                ui.setAvatar(null);
+            }
+        }
+
+        if(ti!=null){
+            // 专业技术职务不覆盖
+            if(sysSync.proPost && StringUtils.isNotBlank(ti.getProPost())){
+                ti.setProPost(null);
+            }
         }
     }
 }

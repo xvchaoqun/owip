@@ -544,4 +544,22 @@ public class MemberService extends MemberBaseMapper {
 
         return DateUtils.monthOffNow(date)>gapMonth;
     }
+
+    // 查询用户是否是支部成员
+    public boolean isMember(Integer userId, Integer partyId, Integer branchId) {
+        if (userId == null) return false;
+        if (partyId == null && branchId == null) return false;
+        MemberExample example = new MemberExample();
+        MemberExample.Criteria criteria=example.createCriteria().andUserIdEqualTo(userId);
+
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        List<Member> records = memberMapper.selectByExample(example);
+        return records.size() == 0 ? false : true;
+
+    }
 }

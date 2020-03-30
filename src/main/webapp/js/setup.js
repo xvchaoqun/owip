@@ -362,7 +362,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
         if (ret.success) {
 
             if (fn) {
-                window[fn]($this);
+                window[fn]($this, ret);
             } else {
                 //SysMsg.success('操作成功。', '成功',function(){
                 if ($this.hasClass("pageReload")) {
@@ -542,14 +542,14 @@ $(document).on("click", ".runBtn", function (e) {
                  //console.log(fn)
                  //console.log($this)
                 if(typeof window[fn] == "function") {
-                    window[fn]($this);
+                    window[fn]($this, ret);
                 }else{
                     var evalFn = eval(fn);
                     if (typeof evalFn != "function"){
                         //console.log(fn + " is not a function");
                         return false;
                     }
-                    evalFn($this);
+                    evalFn($this, ret);
                 }
             }
         }
@@ -1145,7 +1145,7 @@ $(document).on("click", ".popTableDiv .delBtn", function () {
                 if (ret.success) {
                     pop_reload(function(){
                         if (fn) {
-                            window[fn]($this);
+                            window[fn]($this, ret);
                         }
                     });
                     //SysMsg.success('操作成功。', '成功');
@@ -1183,7 +1183,7 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function () {
         if (ret.success) {
            pop_reload(function(){
                 if (fn) {
-                    window[fn]($this);
+                    window[fn]($this, ret);
                 }
             });
             //SysMsg.success('操作成功。', '成功');

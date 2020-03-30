@@ -48,7 +48,8 @@
 									data-placeholder="请选择">
 								<option></option>
 								<c:forEach items="${metaClass.options}" var="entry">
-									<option value="${entry.key}">${entry.value.name}<c:if test="${not empty entry.value.detail}">|${entry.value.detail}</c:if></option>
+									<option value="${entry.key}">${entry.value.name}<c:if test="${not empty entry.value.detail
+									&& !(entry.value.detail eq entry.value.name)}">|${entry.value.detail}</c:if></option>
 								</c:forEach>
 							</select>
 							<script>
@@ -60,9 +61,18 @@
 						</c:if>
 				</div>
 			</div>
+			<c:if test="${not empty metaType && cm:isSuperAccount(_user.username)}">
+			<div class="form-group">
+				<label class="col-xs-3 control-label">校验码</label>
+				<div class="col-xs-6 label-text">
+					${valid}
+				</div>
+			</div>
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
+
 						<textarea class="form-control limited" name="remark">${metaType.remark}</textarea>
 				</div>
 			</div>

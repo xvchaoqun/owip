@@ -41,10 +41,11 @@ public class ContentTplController extends BaseController {
 
     @RequiresPermissions("contentTpl:list")
     @RequestMapping("/contentTpl")
-    public String contentTpl(HttpServletResponse response,
-                                  Byte type,
-                                  String content) {
+    public String contentTpl(HttpServletResponse response, Byte type, String content,
+                             @RequestParam(required = false, defaultValue = "0") boolean isDeleted,
+                             ModelMap modelMap) {
 
+        modelMap.put("isDeleted",isDeleted);
         return "base/contentTpl/contentTpl_page";
     }
     @RequiresPermissions("contentTpl:list")
@@ -54,6 +55,7 @@ public class ContentTplController extends BaseController {
                                     String name,
                                     String content,
                                     String code,
+                                @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -80,7 +82,9 @@ public class ContentTplController extends BaseController {
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
         }
-
+        if (isDeleted!=null) {
+            criteria.andIsDeletedEqualTo(isDeleted);
+        }
         if (export == 1) {
             contentTpl_export(example, response);
             return;
@@ -162,15 +166,43 @@ public class ContentTplController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //返回列表
+    @RequiresPermissions("contentTpl:del")
+    @RequestMapping(value = "/contentTpl_batchUnDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            contentTplService.batchUnDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量返回内容模板：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //删除消息模板
     @RequiresPermissions("contentTpl:del")
     @RequestMapping(value = "/contentTpl_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             contentTplService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除内容模板：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    //彻底删除消息模板
+    @RequiresPermissions("contentTpl:del")
+    @RequestMapping(value = "/contentTpl_doBatchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            contentTplService.doBatchUnDel(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "彻底删除内容模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

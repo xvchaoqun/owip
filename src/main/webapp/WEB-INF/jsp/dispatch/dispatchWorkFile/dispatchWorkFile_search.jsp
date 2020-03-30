@@ -51,7 +51,7 @@
           {{=f.fileName}}
           {{}}}
         </td>
-        <td nowrap>{{=_cMap.DISPATCH_WORK_FILE_TYPE_MAP[f.type]}}</td>
+        <td nowrap>{{=_cMap.metaTypeMap[f.type].name}}</td>
         <td>{{=f.status?'有效':'失效'}}</td>
         <td><a href="javascript:;" class="btn btn-success btn-xs hashchange"
                data-url="${ctx}/dispatchWorkFile?type={{=f.type}}&status={{=f.status}}&fileName={{=f.fileName}}">

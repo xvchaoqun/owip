@@ -127,10 +127,12 @@ pageEncoding="UTF-8" %>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                     class="fa fa-download"></i> 导出</a>
+                            <shiro:hasPermission name="passportDraw:*">
                             <a class="jqOpenViewBtn btn btn-info btn-sm"
                                data-open-by="page" data-url="${ctx}/abroad/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
+                            </shiro:hasPermission>
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_LOST}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/abroad/passport_au" data-querystr="&op=back">
@@ -283,6 +285,7 @@ pageEncoding="UTF-8" %>
             }  },
             <c:if test="${status!=ABROAD_PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },
+            <shiro:hasPermission name="passportDraw:*">
             { label:'是否借出', name: 'isLent', formatter:function(cellvalue, options, rowObject){
                 return cellvalue?($.trim(rowObject.refuseReturnReason)!=''?"拒不交回":"借出"):"-";
             }, title:false,cellattr: function (rowId, val, rawObject, cm, rdata) {
@@ -290,6 +293,7 @@ pageEncoding="UTF-8" %>
                 if($.trim(rawObject.refuseReturnReason)!=''){
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'+rawObject.refuseReturnReason+'"';
                 } }},
+            </shiro:hasPermission>
             </c:if>
             <c:if test="${status==4}">
             { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },

@@ -32,27 +32,23 @@ public class MemberReportService extends MemberBaseMapper {
     }
     @Transactional
     public void insertSelective(MemberReport record){
-       Member member= memberMapper.selectByPrimaryKey(record.getUserId());
-        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), record.getBranchId())){
-            throw new UnauthorizedException();
+
+        if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
+                throw new UnauthorizedException();
         }
+
         Assert.isTrue(!idDuplicate(null, record.getUserId(),record.getYear()), "duplicate");
-       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
-            record.setStatus(OW_REPORT_STATUS_REPORT);
-        }*/
-        if(member!=null){
-        record.setBranchId(member.getBranchId());
-        }
+
         memberReportMapper.insertSelective(record);
     }
 
     @Transactional
     public void del(Integer id){
         MemberReport record= memberReportMapper.selectByPrimaryKey(id);
-        Member member= memberMapper.selectByPrimaryKey(record.getUserId());
-        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),record.getPartyId(), member.getBranchId())){
+        if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())){
             throw new UnauthorizedException();
         }
+
         memberReportMapper.deleteByPrimaryKey(id);
     }
 
@@ -84,10 +80,16 @@ public class MemberReportService extends MemberBaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(MemberReport record){
-        Member member= memberMapper.selectByPrimaryKey(record.getUserId());
+
         MemberReport memberReport= memberReportMapper.selectByPrimaryKey(record.getId());
-        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId(), member.getBranchId())){
-            throw new UnauthorizedException();
+        if(memberReport.getBranchId()!=null){
+            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId(), memberReport.getBranchId())){
+                throw new UnauthorizedException();
+            }
+        }else {
+            if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId())){
+                throw new UnauthorizedException();
+            }
         }
         if(record.getUserId()!= null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(),record.getYear()), "duplicate");
