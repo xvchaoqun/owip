@@ -50,7 +50,7 @@ public class MemberReportController extends MemberBaseController {
 
     @RequiresPermissions("memberReport:list")
     @RequestMapping("/memberReport")
-    public String memberReport(@RequestParam(required = false, defaultValue = "1") Integer cls, Integer partyId, ModelMap modelMap) {
+    public String memberReport(@RequestParam(required = false, defaultValue = "1") Integer cls, Integer partyId,Integer userId, ModelMap modelMap) {
         modelMap.put("cls", cls);
         if (cls != 1) {
             return "forward:/partyReport";
@@ -58,6 +58,8 @@ public class MemberReportController extends MemberBaseController {
         Map<Integer, Party> partyMap = partyService.findAll();
         if (partyId != null)
             modelMap.put("party", partyMap.get(partyId));
+        if (userId != null)
+            modelMap.put("memberReport", sysUserService.findById(userId));
         return "member/memberReport/memberReport_page";
     }
 

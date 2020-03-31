@@ -398,7 +398,7 @@ public class PmMeetingController extends PmBaseController {
        if(type!=PARTY_MEETING_BRANCH_ACTIVITY){
           resultMap = importMeeting(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
        }else{
-           resultMap = importMeeting_Activity(xlsRows, runPartyMap, runBranchMap, partyMeetingMap);
+           resultMap = importMeeting_Activity(xlsRows, runPartyMap, runBranchMap);
        }
         int successCount = (int) resultMap.get("successCount");
         int totalCount = (int) resultMap.get("total");
@@ -435,13 +435,14 @@ public class PmMeetingController extends PmBaseController {
                 throw new OpException("您没有权限导入第{0}行党支部数据", row);
             }
             record.setPartyId(party.getId());
+
+            String branchCode = StringUtils.trim(xlsRow.get(2));
+            Branch branch = runBranchMap.get(branchCode);
             if (!partyService.isDirectBranch(party.getId())) {
 
-                String branchCode = StringUtils.trim(xlsRow.get(2));
                 if (StringUtils.isBlank(branchCode)) {
                     throw new OpException("第{0}行党支部编码为空", row);
                 }
-                Branch branch = runBranchMap.get(branchCode);
                 if (branch == null) {
                     throw new OpException("第{0}行党支部编码[{1}]不存在", row, partyCode);
                 }
@@ -461,22 +462,21 @@ public class PmMeetingController extends PmBaseController {
 
             String presenterCode = StringUtils.trim(xlsRow.get(5));
             if (StringUtils.isBlank(presenterCode)) {
-                continue;
+                throw new OpException("第{0}行主持人学工号为空", row);
             }
-
             SysUserView presenter = sysUserService.findByCode(presenterCode);
-            if (presenter == null) {
-                throw new OpException("第{0}行主持人学工号[{1}]不存在", row, presenterCode);
+            if (presenter==null||!memberService.isMember(presenter.getId(),party.getId(),branch.getId())) {
+                throw new OpException("第{0}行主持人学工号[{1}]不属于该党支部的成员", row, presenterCode);
             }
             record.setPresenter(presenter.getId());
 
             String recorderCode = StringUtils.trim(xlsRow.get(7));
             if (StringUtils.isBlank(recorderCode)) {
-                continue;
+                throw new OpException("第{0}行记录人学工号为空", row);
             }
             SysUserView recorder = sysUserService.findByCode(recorderCode);
-            if (recorder == null) {
-                throw new OpException("第{0}行记录人学工号[{1}]不存在", row, recorderCode);
+            if (recorder==null||!memberService.isMember(recorder.getId(),party.getId(),branch.getId())) {
+                throw new OpException("第{0}行记录人学工号[{1}]不属于该党支部的成员", row, recorderCode);
             }
             record.setRecorder(recorder.getId());
 
@@ -486,10 +486,31 @@ public class PmMeetingController extends PmBaseController {
             record.setDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             //record.setCreateTime(now);
             record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setDueNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
-            record.setAttendNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
-            record.setAbsentNum(Integer.valueOf(StringUtils.trimToNull(xlsRow.get(col++))));
-            record.setInvitee(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            String _dueNum = StringUtils.trimToNull(xlsRow.get(col++));
+            if(_dueNum==null && !NumberUtils.isDigits(_dueNum)){
+                throw new OpException("第{0}行应到人数有误（必须是整数）", row, _dueNum);
+            }
+            record.setDueNum(Integer.valueOf(_dueNum));
+
+            String _attendNum = StringUtils.trimToNull(xlsRow.get(col++));
+            if(_attendNum==null && !NumberUtils.isDigits(_attendNum)){
+                throw new OpException("第{0}行实到人数有误（必须是整数）", row, _attendNum);
+            }
+            record.setAttendNum(Integer.valueOf(_attendNum));
+
+            String _absentNum = StringUtils.trimToNull(xlsRow.get(col++));
+            if(_absentNum==null && !NumberUtils.isDigits(_absentNum)){
+                throw new OpException("第{0}行请假人数有误（必须是整数）", row, _absentNum);
+            }
+            record.setAbsentNum(Integer.valueOf(_absentNum));
+
+            String _invitee =  StringUtils.trimToNull(xlsRow.get(col++));
+            if(_invitee!=null&&_invitee.length()>200){
+                throw new OpException("第{0}行列席人员（长度过长）", row, _invitee);
+            }
+            record.setInvitee(_invitee);
+
             record.setIssue(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setContent(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setDecision(StringUtils.trimToNull(xlsRow.get(col++)));
@@ -509,8 +530,7 @@ public class PmMeetingController extends PmBaseController {
 
     private Map<String, Object> importMeeting_Activity(List<Map<Integer, String>> xlsRows,
                                               Map<String, Party> runPartyMap,
-                                              Map<String, Branch> runBranchMap,
-                                              Map<String, Byte> partyMeetingMap) throws InterruptedException {
+                                              Map<String, Branch> runBranchMap) throws InterruptedException {
 
         //Date now = new Date();
         List<PmMeeting> records = new ArrayList<>();
@@ -553,7 +573,7 @@ public class PmMeetingController extends PmBaseController {
                 throw new OpException("第{0}行记录人学工号为空", row);
             }
             SysUserView recorder = sysUserService.findByCode(recorderCode);
-            if (!memberService.isMember(recorder.getId(),party.getId(),branch.getId())) {
+            if (recorder==null||!memberService.isMember(recorder.getId(),party.getId(),branch.getId())) {
                 throw new OpException("第{0}行记录人学工号[{1}]不属于该党支部的成员", row, recorderCode);
             }
             record.setRecorder(recorder.getId());
@@ -565,26 +585,30 @@ public class PmMeetingController extends PmBaseController {
             record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setIssue(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setContent(StringUtils.trimToNull(xlsRow.get(col++)));
-            String _dueNum = StringUtils.trimToNull(xlsRow.get(col++));
 
+            String _dueNum = StringUtils.trimToNull(xlsRow.get(col++));
             if(_dueNum==null && !NumberUtils.isDigits(_dueNum)){
-                throw new OpException("第{0}行应到人数有误（必须是整数）", row, recorderCode);
+                throw new OpException("第{0}行应到人数有误（必须是整数）", row, _dueNum);
             }
             record.setDueNum(Integer.valueOf(_dueNum));
 
             String _attendNum = StringUtils.trimToNull(xlsRow.get(col++));
             if(_attendNum==null && !NumberUtils.isDigits(_attendNum)){
-                throw new OpException("第{0}行实到人数有误（必须是整数）", row, recorderCode);
+                throw new OpException("第{0}行实到人数有误（必须是整数）", row, _attendNum);
             }
             record.setAttendNum(Integer.valueOf(_attendNum));
 
             String _absentNum = StringUtils.trimToNull(xlsRow.get(col++));
             if(_absentNum==null && !NumberUtils.isDigits(_absentNum)){
-                throw new OpException("第{0}行请假人数有误（必须是整数）", row, recorderCode);
+                throw new OpException("第{0}行请假人数有误（必须是整数）", row, _absentNum);
             }
             record.setAbsentNum(Integer.valueOf(_absentNum));
 
-            record.setInvitee(StringUtils.trimToNull(xlsRow.get(col++)));
+            String _invitee =  StringUtils.trimToNull(xlsRow.get(col++));
+            if(_invitee!=null&&_invitee.length()>200){
+                throw new OpException("第{0}行列席人员（长度过长）", row, _invitee);
+            }
+            record.setInvitee(_invitee);
 
             records.add(record);
         }
