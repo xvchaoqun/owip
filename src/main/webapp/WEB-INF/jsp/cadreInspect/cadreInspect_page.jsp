@@ -66,6 +66,14 @@ pageEncoding="UTF-8" %>
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>
                         </shiro:hasPermission>
                         </c:if>
+                        <c:if test="${status==CADRE_INSPECT_STATUS_ASSIGN}">
+                            <shiro:hasPermission name="cadreInspect:edit">
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/cadreInspect_rollback">
+                                    <i class="fa fa-backward"></i> 返回考察对象
+                                </button>
+                            </shiro:hasPermission>
+                        </c:if>
                         <c:if test="${status==CADRE_INSPECT_STATUS_ABOLISH}">
                             <shiro:hasPermission name="cadreInspect:abolish">
                             <button data-url="${ctx}/cadreInspect_batchDel"
