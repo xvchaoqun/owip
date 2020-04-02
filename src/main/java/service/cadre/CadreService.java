@@ -13,6 +13,8 @@ import domain.sys.TeacherInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,17 +32,17 @@ import service.global.CacheHelper;
 import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.AbroadConstants;
-import sys.constants.CadreConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.HttpResponseMethod;
+import sys.constants.*;
 import sys.tags.CmTag;
 import sys.utils.JSONUtils;
 
 import java.util.*;
 
 @Service
-public class CadreService extends BaseMapper {
+public class CadreService extends BaseMapper implements HttpResponseMethod {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public static final String TABLE_NAME = "cadre";
 
@@ -384,6 +386,10 @@ public class CadreService extends BaseMapper {
 
             // 删除干部身份
             sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
+
+            SysUserView uv = cadre.getUser();
+            logger.info(addLog(LogConstants.LOG_ADMIN,
+                    "删除干部：id=%s, code=%s, realname=%s", id, uv.getCode(), uv.getRealname()));
         }
     }
 
