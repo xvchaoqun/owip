@@ -94,12 +94,12 @@
                                     <option value="${party.id}">${party.name}</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="userIdDiv" style="${(empty memberReport.userId)?'display: none':''}">
                                 <label>姓名</label>
-                                <select required disabled data-rel="select2-ajax"
+                                <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/pb_member_selects"
                                         name="userId" data-width="272" data-placeholder="请输入账号或姓名或学工号">
-                                    <option value="${memberReport.userId}">${memberReport.user.realname}-${memberReport.user.code}</option>
+                                    <option value="${memberReport.userId}">${memberReport.realname}-${memberReport.code}</option>
                                 </select>
                             </div>
                         </shiro:hasPermission>
@@ -236,12 +236,13 @@
     $("#searchForm select[name=partyId]").change(function () {
         var partyId = $("#searchForm select[name=partyId]").val();
         if ($.isBlank(partyId)) {
-            $("#searchForm select[name=partyId]").attr("disabled", true);
+            $("#searchForm select[name=userId]").val(null).trigger("change");
+            $("#userIdDiv").hide();
             return;
         }
         $('#searchForm select[name="userId"]').data('ajax-url', "${ctx}/member/pb_member_selects?partyId=" + partyId);
         $.register.user_select($("#searchForm select[name=userId]"));
-        $("#searchForm select[name=userId]").removeAttr("disabled");
+        $("#userIdDiv").show();
     });
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();

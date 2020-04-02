@@ -323,7 +323,11 @@
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"
-                                            data-msg="确定删除这{0}条数据（<span class='text-danger'>相关联数据全部删除，不可恢复</span>）？"
+                                            data-msg="<span style='font-size:larger'>确定删除这{0}条数据？</span>
+                                                        <br/><br/><div class='text-danger' style='text-indent:0;color:red'>注：<br/>
+                                                        1、该操作将删除所有干部档案及干部任免审批表的相关数据，包含学习经历、工作经历、家庭情况等；<br/>
+                                                        2、删除后数据不可恢复，请谨慎操作。
+                                                        </div>"
                                             data-grid-id="#jqGrid"
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除
