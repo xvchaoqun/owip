@@ -212,6 +212,27 @@ public class CadreInspectController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 返回考察对象
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping(value = "/cadreInspect_rollback", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreInspect_rollback(@RequestParam(required = false, defaultValue = "0") Boolean isCadre,
+                                        Integer inspectId,HttpServletRequest request) {
+
+        cadreInspectService.rollback(inspectId,isCadre);
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "常委会任命返回考察对象：%s",inspectId));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping("/cadreInspect_rollback")
+    public String cadreInspect_rollback(Integer id, ModelMap modelMap) {
+
+        modelMap.put("id",id);
+        return "cadreInspect/cadreInspect_rollback";
+    }
+
     @RequiresPermissions("cadreInspect:abolish")
     @RequestMapping(value = "/cadreInspect_abolish", method = RequestMethod.POST)
     @ResponseBody

@@ -6,6 +6,7 @@ import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectExample;
 import domain.cadreReserve.CadreReserve;
+import domain.cadreReserve.CadreReserveExample;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -370,6 +371,68 @@ public class CadreInspectService extends BaseMapper {
 
         CadreInspect entity = cadreInspectMapper.selectByPrimaryKey(id);
         changeOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + entity.getType(), ORDER_BY_ASC, id, addNum);
+    }
 
+    //返回考察对象
+    @Transactional
+    public void rollback(Integer inspectId, Boolean isCadre){
+
+            CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(inspectId);
+            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
+
+            // 只有已任命的考察对象，才可以返回
+            if(cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_ASSIGN){
+                throw new OpException("已任命对象"
+                        +cadre.getUser().getRealname()+"状态异常:" + cadreInspect.getStatus());
+            }
+
+            // 如果原来是优秀年轻干部发展过来的，此时肯定有一条记录在优秀年轻干部【年轻干部已使用】，需要这条记录的状态更改为【已列为考察对象】
+            {
+                CadreReserve fromTempRecord = getReserve(cadre.getId());
+                if(fromTempRecord!=null){
+                    fromTempRecord.setStatus(CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT);
+                    cadreReserveMapper.updateByPrimaryKeySelective(fromTempRecord);
+                }
+            }
+
+            //如果不是现任干部，改变账号角色，干部->考核对象
+            if (!isCadre)
+                sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT);
+
+            //更新考察对象状态
+            cadreInspect.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+            cadreInspectMapper.updateByPrimaryKeySelective(cadreInspect);
+
+            //更新干部状态
+            Byte oldStatus = cadre.getStatus();
+            cadre.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
+
+            cadreMapper.updateByPrimaryKeySelective(cadre);
+
+            //记录干部状态改变日志
+            cadreAdLogService.addLog(cadre.getId(),
+                    "干部状态由"+CadreConstants.CADRE_STATUS_MAP.get(oldStatus)+"改为考察对象",
+                    CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreInspect.getId());
+
+            //记录任免日志
+            cadreAdLogService.addLog(cadreInspect.getCadreId(),
+                    "返回考察对象",
+                    CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreInspect.getId());
+        }
+
+    // 获取已使用优秀年轻干部，用于返回考察对象
+    public CadreReserve getReserve(int cadreId){
+
+        CadreReserveExample example = new CadreReserveExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(CadreConstants.CADRE_RESERVE_STATUS_ASSIGN);
+        List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+        if(cadreReserves.size()>1){
+            CadreReserve cadreReserve = cadreReserves.get(0);
+            CadreView cadre = iCadreMapper.getCadre(cadreReserve.getCadreId());
+            throw new OpException("年轻干部"+cadre.getUser().getRealname()
+                    +"状态异常，存在多条年轻干部[已使用]记录");
+        }
+        return (cadreReserves.size()==0)?null:cadreReserves.get(0);
     }
 }
