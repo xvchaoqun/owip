@@ -60,7 +60,7 @@ pageEncoding="UTF-8" %>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>对象级别</label>
+                                <label>行政级别</label>
                                 <select data-width="300" name="adminLevel" data-rel="select2" data-placeholder="请选择">
                                     <option></option>
                                     <c:import url="/metaTypes?__code=mc_admin_level"/>
@@ -238,7 +238,7 @@ pageEncoding="UTF-8" %>
                     },frozen:true},
                 { label: '执行日期',name: 'startDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
                 { label: '时任职务',name: 'post',align:'left',width:350},
-                { label: '对象级别',name: 'adminLevel',formatter:$.jgrid.formatter.MetaType},
+                { label: '行政级别',name: 'adminLevel',formatter:$.jgrid.formatter.MetaType},
                 { label: '组织处理方式',name: 'type',formatter:$.jgrid.formatter.MetaType},
                 { label: '开展方式',name: 'way',width:210,formatter:$.jgrid.formatter.MetaType},
                 { label: '谈话人类型',name: 'talkType',width:150,formatter:$.jgrid.formatter.MetaType},

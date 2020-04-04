@@ -10,6 +10,7 @@
 <t:link href="${ctx}/mobile/css/main.css"/>
 <t:link href="${ctx}/mobile/css/extend.css"/>
 <t:link href="${ctx}/mobile/css/setup.css"/>
+<style>${_pMap['globalCss']}</style>
 <title>${_sysConfig.mobileTitle}</title>
 <script src="${ctx}/assets/js/ace-extra.js"></script>
 <t:script src="/mobile/js/main.js"/>

@@ -10,3 +10,4 @@
 <![endif]-->
 <t:link href="/css/extend.css"/>
 <t:link href="/css/setup.css"/>
+<style>${_pMap['globalCss']}</style>

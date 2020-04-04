@@ -2,7 +2,7 @@
 -- 打包commit文件
 cd /cygdrive/d/IdeaProjects/owip 
 # 打包更新文件（不含删除文件）
-git diff-tree --diff-filter=d -r --no-commit-id --name-only 3c863699bc68e2418e3f0478a39ff53041ff84b4 | xargs tar -cf /cygdrive/d/tmp/update.tar
+git diff-tree --diff-filter=d -r --no-commit-id --name-only cce88b819d552195c5270bea05319ce8d146a8b0 | xargs tar -cf /cygdrive/d/tmp/update.tar
 # 查看删除的文件
 git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd6217ce9e72751e0e9e645777c3
 

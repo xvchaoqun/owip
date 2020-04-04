@@ -12,6 +12,7 @@
     <t:link href="/extend/css/faq.css"/>
     <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     <style>${_pMap['loginCss']}</style>
+    <style>${_pMap['globalCss']}</style>
 </head>
 <body style="background-color: #f8f8f8">
 <div class="top"

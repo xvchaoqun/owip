@@ -19,7 +19,7 @@
                     </li>
                     <li class="<c:if test="${isDeleted}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
-                           data-url="${ctx}/attachFile?isDeleted=1"><i class="fa fa-history"></i> 已删除</a>
+                           data-url="${ctx}/attachFile?isDeleted=1"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                 </ul>
                 <div class="space-4"></div>

@@ -1,6 +1,8 @@
 
+2020.4.3
 
--- 修复 转接bug
+北师大更新
+-- 修复 转接bug  谨慎操作！（北邮、北师应该已经都更新了）
 select m.code, m.realname from ow_member_view m
 ,(select user_id, to_party_id, to_branch_id from ow_member_transfer where party_id=to_party_id and status=2)tmp
  where m.user_id=tmp.user_id and m.branch_id != tmp.to_branch_id;
@@ -11,7 +13,9 @@ set m.branch_id = tmp.to_branch_id
  where m.user_id=tmp.user_id and m.party_id=tmp.to_party_id and m.branch_id != tmp.to_branch_id;
 -- bug
 
+-- ！！！！！！！！！！
 -- 更新 cadre_view
+-- 更新 jx.utils
 
 -- ===========更新文件综合管理（已更新北化工）
 ALTER TABLE `dispatch_work_file_auth`

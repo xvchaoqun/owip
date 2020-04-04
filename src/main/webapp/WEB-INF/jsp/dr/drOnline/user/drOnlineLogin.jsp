@@ -17,6 +17,7 @@
     <![endif]-->
     <script src="${ctx}/assets/js/jquery.js"></script>
     <style>${_pMap['loginCss']}</style>
+    <style>${_pMap['globalCss']}</style>
 </head>
 <body>
 <div class="top"

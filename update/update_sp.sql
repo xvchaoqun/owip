@@ -1,4 +1,4 @@
-2019-10-22
+-- 2019-10-22
 
 -- 添加源数据类别 桑文帅
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (3000, NULL, '人大代表和政协委员类型', '干部其他信息', '八类代表信息', 'mc_sp_npc_type', '', '', '', 2601, 1);
@@ -33,7 +33,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3029, 0, '八类代表操作', '', 'function', '', NULL, 3009, '0/1/314/3009/', 1, 'sp:edit', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3030, 0, '八类代表查看', '', 'function', '', NULL, 3009, '0/1/314/3009/', 1, 'sp:list', NULL, NULL, NULL, 1, NULL);
 
---建表语句
+-- 建表语句
 
 -- 导出  表 db_owip_1.sp_cg 结构
 CREATE TABLE IF NOT EXISTS `sp_cg` (

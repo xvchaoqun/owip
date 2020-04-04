@@ -14,6 +14,7 @@
     <t:link href="/extend/css/faq.css"/>
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <style>${_pMap['loginCss']}</style>
+    <style>${_pMap['globalCss']}</style>
 </head>
 <body>
 <div class="top" style="background:url(/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) #dbf5ff top right no-repeat; z-index:1">
