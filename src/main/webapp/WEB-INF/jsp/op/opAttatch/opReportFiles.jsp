@@ -3,16 +3,29 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>上报材料</h3>
+    <h3>报送材料</h3>
 </div>
 <div class="modal-body">
     <div class="popTableDiv"
          data-url-page="${ctx}/op/opReportFiles?reportId=${opReport.id}">
         <table class="table table-actived table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>材料名称</th>
+                <th>下载</th>
+            </tr>
+            </thead>
             <tbody>
             <c:forEach items="${opAttatchs}" var="opAttatch" varStatus="st">
                 <tr>
-                    <td nowrap width="400">${opAttatch.fileName}</td>
+                    <td nowrap width="300">${opAttatch.fileName}</td>
+                    <td nowrap width="80" align="center">
+                        <div class="hidden-sm hidden-xs action-buttons">
+                            <button class="downloadBtn btn btn-xs btn-info" data-type="download"
+                                    data-url="${ctx}/attach_download?path=${cm:encodeURI(opAttatch.filePath)}&filename=${opAttatch.fileName}">
+                                <i class="fa fa-download"></i> 下载</button>
+                        </div>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -80,7 +80,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/op/opReport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '报送日期',name: 'reportDate',formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
-                { label: '报送上级单位',name: 'unit',width:350},
+                { label: '报送上级单位',name: 'unit',width:350,align:'left'},
                 { label: '数据统计开始时间',name: 'startDate',width:150,formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
                 { label: '数据统计截止时间',name: 'endDate',width:150,formatter:$.jgrid.formatter.date,formatoptions:{newformat:'Y.m.d'}},
                 { label: '报送材料',name: 'files',formatter: function (cellvalue, options, rowObject) {
