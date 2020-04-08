@@ -183,5 +183,16 @@
 </div>
 <script src="${ctx}/extend/js/jquery.form.js"></script>
 <t:script src="/js/login.js"/>
+<script>
+
+    $('#zg_login_zhmm_tysfrz').click(function(){
+        $('#zg_login_zhmm').hide();
+        $('#zg_login_tysfrz').show();
+    });
+    $('#zg_login_tysfrz_zhmmdl').click(function(){
+        $('#zg_login_tysfrz').hide();
+        $('#zg_login_zhmm').show();
+    });
+</script>
 </body>
 </html>
