@@ -40,7 +40,45 @@
         <div id="login" class="visible login-layout">
             <div class="login-error" style="display: none">
                 <i class="fa fa-times"></i> ${error}</div>
-            <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
+
+                <div id="zg_login_tysfrz" class="col-xs-5" style="width: 280px; margin-left: 50px;margin-top: 40px;">
+                    <div id="zg_login_tysfrz_btn" onclick=""><i class="ace-icon fa fa-university "></i> 统一身份认证登录</div>
+                    <div id="zg_login_tysfrz_zhmmdl"><i class="ace-icon fa fa-user "></i> 其他用户登录</div>
+                    <div style="width: 210px; padding: 35px;">
+                        <a href="${ctx}/page/browsers.jsp" target="_blank" style="text-decoration:underline;color: #333;">推荐浏览器</a>&nbsp;&nbsp;
+                    </div>
+                </div>
+                <div  id="zg_login_zhmm" hidden>
+                    <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
+                        <dt>登录账号</dt>
+                        <dd>
+                            <div class="input_box"><span class="account"></span>
+                                <input name="username" class="account" type="text"/></div>
+                        </dd>
+                        <dt>登录密码</dt>
+                        <dd>
+                            <div class="input_box"><span class="password"></span>
+                                <input name="passwd" class="password" type="password" <c:if test="${useCaptcha}">autocomplete="new-password"</c:if>/></div>
+                        </dd>
+                        <dt>验证码</dt>
+                        <dd><input name="captcha" class="yz" type="text" maxlength="4"
+                                   <c:if test="${!useCaptcha}">value="test"</c:if> />
+                            <img class="captcha" src="${ctx}/captcha" title="点击刷新" alt="验证码"/></dd>
+                        <dt></dt>
+                        <dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd>
+                        </dt>
+                        <dt></dt>
+                        <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
+                        <dd style="width: 330px;padding-left: 50px">
+                            <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
+                            <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
+                            <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
+                            <a id="zg_login_zhmm_tysfrz"class="to_reg_btn">统一身份认证</a>
+                        </dd>
+                    </form>
+                </div>
+
+         <%--   <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
                     <div class="input_box"><span class="account"></span>
@@ -66,7 +104,7 @@
                     <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
                     <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
                 </dd>
-            </form>
+            </form>--%>
 
             <div class="msg">
                 ${_sysConfig.loginMsg}

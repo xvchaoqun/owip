@@ -23,7 +23,7 @@ iframe{background: transparent;}
 .login_box{width:100%;height:100%;min-height:600px;}
 .login_con{position:absolute;top:0;left:50%;margin-left:-500px;}
 .bg{width:100%;height:100%;}
-.login_box .login-layout{width:950px;height:561px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/login_new.png) top center no-repeat;margin:200px  0 0 200px;}
+.login_box .login-layout{width:900px;height:561px;padding:110px 30px 0 90px;float:left;background:url(/extend/img/login_new.png) top center no-repeat;margin:200px  0 0 200px;}
 .login_box.no-msg .login-layout{width:395px;height:561px;padding:110px 30px 0 30px;float:left;background:url(/extend/img/login1.png) top center no-repeat;margin:150px  0 0 540px;}
 .login_box .login-layout dt{width:110px;padding:5px 0;padding-right:10px;height:40px;float:left;font-size:16px;line-height:40px;font-weight:bold;text-align:right;}
 .login_box .login-layout dd{width:250px;padding:5px 0;height:40px;float:left;font-size:0;}
@@ -38,7 +38,7 @@ iframe{background: transparent;}
 
 .login_box #login-form{
 	width: 395px;
-	padding-left: 50px;
+	padding-left: 0px;
 }
 .login_box.no-msg #login-form{
 	padding-left: 0px;
@@ -87,7 +87,7 @@ iframe{background: transparent;}
 .login_box #login .msg{
 	position: relative;
 	top: -580px;
-	left: 430px;
+	left: 380px;
 	width: 380px;
 	/* border: 1px solid; */
 	padding-top: 500px;
@@ -151,4 +151,64 @@ input:-webkit-autofill {
 	-o-transform: scale(0,1) translate(-150px);
 	-ms-transform: scale(0,1) translate(-150px);
 	transform: scale(0,1) translate(-150px);
+}
+
+/**********统一身份认证呼吸按钮样式***************************/
+#zg_login_tysfrz_btn{
+	width:250px;
+	height:60px;
+	font-size:18px;
+	margin:0 auto;
+	text-align:center;
+	line-height:60px;
+	border-radius: 4px;
+	cursor:pointer;
+	font-weight:bold;
+	color: #fff;
+	background-color: rgb(102, 159, 199);
+	box-shadow: 1px 2px 5px #ccc;/********IE9的情况下会用到box-shadow***********/
+	-webkit-box-shadow: 1px 2px 5px #ccc;
+	-moz-box-shadow: 1px 2px 5px #ccc;
+	-o-box-shadow: 1px 2px 5px #ccc;
+	animation: myfirst 2s infinite linear;/********呼吸效果box-shadow background***********/
+	-webkit-animation: myfirst 2s infinite linear;
+	-moz-animation: myfirst 2s infinite linear;
+	-o-animation: myfirst 2s infinite linear;
+}
+#zg_login_tysfrz_zhmmdl{
+	width:250px;
+	height:55px;
+	font-size:18px;
+	margin:0 auto;
+	margin-top:35px;
+	margin-bottom:15px;
+	text-align:center;
+	line-height:55px;
+	border-radius: 4px;
+	cursor:pointer;
+	font-weight:bold;
+	color: #fff;
+	background-color: rgb(102, 159, 199);
+	box-shadow: 1px 2px 5px #ccc;/********IE9的情况下会用到box-shadow***********/
+	-webkit-box-shadow: 1px 2px 5px #ccc;
+	-moz-box-shadow: 1px 2px 5px #ccc;
+	-o-box-shadow: 1px 2px 5px #ccc;
+	animation: mysecond 2s infinite linear;/********呼吸效果box-shadow background***********/
+	-webkit-animation: mysecond 2s infinite linear;
+	-moz-animation: mysecond 2s infinite linear;
+	-o-animation: mysecond 2s infinite linear;
+}
+#zg_login_tysfrz_btn:hover,#zg_login_tysfrz_zhmmdl:hover{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+	background-color: rgb(102, 159, 199);
+	box-shadow: 1px 2px 5px #aaa;
+	-webkit-box-shadow: 1px 2px 5px #aaa;
+	-moz-box-shadow: 1px 2px 5px #aaa;
+	-o-box-shadow: 1px 2px 5px #aaa;
+}
+#zg_login_tysfrz_btn:active,#zg_login_tysfrz_zhmmdl:active{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+	background-color: rgb(102, 159, 199);
+	box-shadow: 1px 2px 5px #ccc;
+	-webkit-box-shadow: 1px 2px 5px #ccc;
+	-moz-box-shadow: 1px 2px 5px #ccc;
+	-o-box-shadow: 1px 2px 5px #ccc;
 }
