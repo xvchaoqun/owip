@@ -32,20 +32,56 @@
         </table>
         <table tableName="dr_voter_type" domainObjectName="dr.DrVoterType" mapperName="dr.DrVoterTypeMapper">
         </table>-->
-        <table tableName="dr_offline" domainObjectName="dr.DrOffline" mapperName="dr.DrOfflineMapper">
+        <!--<table tableName="dr_offline" domainObjectName="dr.DrOffline" mapperName="dr.DrOfflineMapper">
             <columnOverride column="voters" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="dr_offline_view"
+        </table>-->
+        <!--<table tableName="dr_offline_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="dr.DrOfflineView"
                mapperName="dr.DrOfflineViewMapper">
             <columnOverride column="voters" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="dr_offline_candidate" domainObjectName="dr.DrOfflineCandidate" mapperName="dr.DrOfflineCandidateMapper">
         <columnOverride column="voters" jdbcType="VARCHAR"></columnOverride>
         </table>
         -->
+
+        <!--线上民主推荐-->
+        <!--<table tableName="dr_online" domainObjectName="dr.DrOnline" mapperName="dr.DrOnlineMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <table tableName="dr_online_candidate" domainObjectName="dr.DrOnlineCandidate" mapperName="dr.DrOnlineCandidateMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dr_online_post_view" domainObjectName="dr.DrOnlinePostView" mapperName="dr.DrOnlinePostViewMapper">
+            <columnOverride column="exist_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
+        <!--<table tableName="dr_online_inspector" domainObjectName="dr.DrOnlineInspector" mapperName="dr.DrOnlineInspectorMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="dr_online_inspector_log" domainObjectName="dr.DrOnlineInspectorLog" mapperName="dr.DrOnlineInspectorLogMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="dr_online_inspector_type" domainObjectName="dr.DrOnlineInspectorType" mapperName="dr.DrOnlineInspectorTypeMapper">
+        </table>-->
+        <!--<table tableName="dr_online_notice" domainObjectName="dr.DrOnlineNotice" mapperName="dr.DrOnlineNoticeMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="dr_online_post" domainObjectName="dr.DrOnlinePost" mapperName="dr.DrOnlinePostMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
+        </table>-->
+        <!--<table tableName="dr_online_result_view" domainObjectName="dr.DrOnlineResultView" mapperName="dr.DrOnlineResultViewMapper">
+            <columnOverride column="option_sum" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="pub_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="finish_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+
+
     </context>
 </generatorConfiguration>

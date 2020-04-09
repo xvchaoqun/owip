@@ -1,12 +1,18 @@
 package domain.dr;
 
 import persistence.dr.DrOnlineInspectorTypeMapper;
+import persistence.dr.DrOnlineMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class DrOnlineInspector implements Serializable {
+
+    public DrOnline getDrOnline(){
+        DrOnlineMapper drOnlineMapper = CmTag.getBean(DrOnlineMapper.class);
+        return drOnlineMapper.selectByPrimaryKey(onlineId);
+    }
 
     public DrOnlineInspectorType getInspectorType(){
         DrOnlineInspectorTypeMapper inspectorTypeMapper = CmTag.getBean(DrOnlineInspectorTypeMapper.class);

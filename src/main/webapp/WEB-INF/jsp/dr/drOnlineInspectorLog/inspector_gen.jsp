@@ -19,44 +19,50 @@
               		<c:forEach items="${inspectorTypes}" var="inspectorType" >
               		<c:set var="totalKey" value="total_${unit.id}_${inspectorType.id}"/>
               		<td>
-              		<input type="text"  name="total_${unit.id}_${inspectorType.id}" value="${requestScope[totalKey]}">
-              		</td>	
-              		</c:forEach>
+						<input type="text"  name="total_${unit.id}_${inspectorType.id}" value="${requestScope[totalKey]}">
+					</td>
+					</c:forEach>
               	</tr>
               	</c:forEach>
               </tbody>
             </table>
             </div>
             <button class="btn btn-lg btn-block btn-primary" style="margin-bottom: 100px;" type="button" id="add_entity">生成</button>
-</form>            
+</form>
 <style>
-
-body{
-	background-color: inherit;
-}
-input{
-	width: 30px;
-}
-.table{
-	width: auto;
-}
-table.table > tbody> tr > td{
-	text-align: center;vertical-align: middle;
-}
-.table thead th{
-	vertical-align: top;
-}
--->
+	.sticky-wrap {
+		overflow-x: auto;
+		overflow-y: hidden;
+		position: relative;
+		/* margin: 3em 0; */
+		width: 100%;
+	}
+	body{
+		background-color: inherit;
+	}
+	input{
+		width: 30px;
+	}
+	.table{
+		width: auto;
+	}
+	table.table > tbody> tr > td{
+		text-align: center;vertical-align: middle;
+	}
+	.table thead th{
+		vertical-align: top;
+	}
 </style>
 <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
-<script src="${ctx}/js/extend.js"></script>
+<script src="${ctx}/js/jquery.ba-throttle-debounce.js"></script>
+<script src="${ctx}/js/dr.stickyheader.js"></script>
 <script>
 $(function(){
 	stickheader();
 
 	$("#add_entity").click(function(){
-		//console.log("-----------")
 		
 		$("#genForm").submit();return false;
 	});
@@ -76,10 +82,9 @@ $(function(){
 			$(form).ajaxSubmit({
 				success:function(data){
 					if(data.success){
-						window.opener._reload();
 						$("#modal").modal('hide');
 						toastr.success('操作成功。', '成功');
-						
+						window.opener._reload();
 					}
 				}
 			});

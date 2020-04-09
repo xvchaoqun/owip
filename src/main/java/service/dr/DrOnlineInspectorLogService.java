@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.unit.UnitService;
 import sys.constants.DrConstants;
 
 import java.util.*;
@@ -19,6 +20,10 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
 
     @Autowired
     protected DrOnlineInspectorService drOnlineInspectorService;
+    @Autowired
+    private UnitService unitService;
+    @Autowired
+    private DrOnlineInspectorTypeService drOnlineInspectorTypeService;
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -48,6 +53,10 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
+        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
+        inspectorExample.createCriteria().andLogIdIn(Arrays.asList(ids));
+        drOnlineInspectorMapper.deleteByExample(inspectorExample);
+
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         drOnlineInspectorLogMapper.deleteByExample(example);
@@ -72,33 +81,29 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
         return map;
     }
 
-    //生成参评人日志和参评人账号
+    //生成参评人日志和参评人账号（单个生成）
     @Transactional
-    public Integer generateInspector(Integer inspectorTypeId, Integer unitId, int type, boolean isAppended, Integer totalCount, Integer onlineId) {
+    public Integer generateInspector(Integer inspectorTypeId, Integer unitId, int type, boolean isAppended, Integer count, Integer onlineId) {
 
         int logId = 0;
-        int newCount = totalCount;
-        //Calendar cal = Calendar.getInstance();
         Date now = new Date();
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
         example.createCriteria().andTypeIdEqualTo(inspectorTypeId).andUnitIdEqualTo(unitId).andOnlineIdEqualTo(onlineId);
         List<DrOnlineInspectorLog> inspectorLogs = drOnlineInspectorLogMapper.selectByExample(example);
-        if (inspectorLogs != null && !inspectorLogs.isEmpty()) {
+        if (count > 0){
+            if (inspectorLogs != null && !inspectorLogs.isEmpty()){
+                DrOnlineInspectorLog drOnlineInspectorLog = inspectorLogs.get(0);
+                logId = drOnlineInspectorLog.getId();
+                if (type == 1){
+                    count = count - drOnlineInspectorLog.getTotalCount() > 0 ? count - drOnlineInspectorLog.getTotalCount() : 0;
+                }
 
-            DrOnlineInspectorLog drOnlineInspectorLog = inspectorLogs.get(0);
-            logId = drOnlineInspectorLog.getId();
-
-            if (type == 1){//列表生成
-                newCount = totalCount - drOnlineInspectorLog.getTotalCount() > 0 ? totalCount - drOnlineInspectorLog.getTotalCount() : 0;
-            }
-        } else {
-            if (newCount > 0){
-
+            }else {
                 DrOnlineInspectorLog inspectorLog = new DrOnlineInspectorLog();
                 inspectorLog.setTypeId(inspectorTypeId);
                 inspectorLog.setUnitId(unitId);
                 inspectorLog.setCreateTime(now);
-                inspectorLog.setTotalCount(newCount);
+                inspectorLog.setTotalCount(count);
                 inspectorLog.setExportCount(0);
                 inspectorLog.setOnlineId(onlineId);
                 inspectorLog.setFinishCount(0);
@@ -112,13 +117,13 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
 
         Assert.isTrue(logId > 0);
 
-        //个别生成，非补发时，标记为列表生成
-        if (!isAppended && type == 2){
+        // 个别生成，非补发时，标记为列表生成
+        if(!isAppended && type==2){
             type = 1;
         }
 
-        if (newCount > 0){
-            for (int i = 0; i < newCount; i++){
+        if (count > 0){
+            for (int i = 0; i < count; i++){
 
                 DrOnlineInspector inspector = new DrOnlineInspector();
                 inspector.setLogId(logId);
@@ -137,14 +142,7 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
             }
 
             //生成账号后更新参评人日志总数
-            DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
-            inspectorExample.createCriteria().andLogIdEqualTo(logId).andStatusNotEqualTo((byte) 1);
-            int count = (int) drOnlineInspectorMapper.countByExample(inspectorExample);
-
-            DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
-            inspectorLog.setTotalCount(count);
-            drOnlineInspectorLogMapper.updateByPrimaryKeySelective(inspectorLog);
-
+            updateTotalCount(logId);
         }
         return logId;
     }
@@ -160,18 +158,49 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
             inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
             int pubCount = drOnlineInspectorMapper.updateByExampleSelective(inspector, example);
 
-
-
-            if (pubCount > 0){
-                DrOnlineInspectorLog inspectorLog = new DrOnlineInspectorLog();
-                inspectorLog.setId(id);
-                inspectorLog.setPubCount(pubCount);
-
-                //带selective的更新语句，会对字段进行判断再更新（如果为null就忽略更新）
-                // 而不带selective的更新语句会对注入的字段都进行更新
-                drOnlineInspectorLogMapper.updateByPrimaryKeySelective(inspectorLog);
-            }
+            updateTotalCount(id);
+            updatePubCount(id);
+            updateFinishCount(id);
         }
 
     }
+
+    //更新总数
+    @Transactional
+    public void updateTotalCount(Integer logId){
+
+        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
+        inspectorExample.createCriteria().andLogIdEqualTo(logId);
+        List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(inspectorExample);
+
+        DrOnlineInspectorLog record = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
+        record.setTotalCount(inspectors.size());
+        updateByPrimaryKeySelective(record);
+
+    }
+
+    //更新已分发数目
+    @Transactional
+    public void updatePubCount(Integer logId){
+        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
+        inspectorExample.createCriteria().andLogIdEqualTo(logId).andPubStatusEqualTo(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
+        List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(inspectorExample);
+
+        DrOnlineInspectorLog record = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
+        record.setPubCount(inspectors.size());
+        drOnlineInspectorLogMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //更新已完成数目
+    @Transactional
+    public void updateFinishCount(Integer logId){
+        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
+        inspectorExample.createCriteria().andLogIdEqualTo(logId).andStatusEqualTo(DrConstants.INSPECTOR_STATUS_FINISH);
+        List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(inspectorExample);
+
+        DrOnlineInspectorLog record = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
+        record.setFinishCount(inspectors.size());
+        updateByPrimaryKeySelective(record);
+    }
+
 }

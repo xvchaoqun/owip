@@ -19,6 +19,8 @@ public class DrOnlineCandidate implements Serializable {
 
     private Integer sortOrder;
 
+    private Byte sign;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +55,14 @@ public class DrOnlineCandidate implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Byte getSign() {
+        return sign;
+    }
+
+    public void setSign(Byte sign) {
+        this.sign = sign;
     }
 
     public String getRemark() {

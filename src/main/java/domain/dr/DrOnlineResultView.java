@@ -1,6 +1,7 @@
 package domain.dr;
 
 import domain.sys.SysUserView;
+import persistence.dr.DrOnlineCandidateMapper;
 import service.dr.DrOnlinePostService;
 import sys.tags.CmTag;
 
@@ -8,9 +9,15 @@ import java.io.Serializable;
 
 public class DrOnlineResultView implements Serializable {
 
-    DrOnlinePostService drOnlinePostService = CmTag.getBean(DrOnlinePostService.class);
+    public DrOnlineCandidate getCandidate(){
+        DrOnlineCandidateMapper drOnlineCandidateMapper = CmTag.getBean(DrOnlineCandidateMapper.class);
+        return drOnlineCandidateMapper.selectByPrimaryKey(candidateId);
+    }
 
-    public DrOnlinePostView getPost(){ return drOnlinePostService.getPost(postId); }
+    public DrOnlinePostView getPost(){
+        DrOnlinePostService drOnlinePostService = CmTag.getBean(DrOnlinePostService.class);
+        return drOnlinePostService.getPost(postId);
+    }
 
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
@@ -86,5 +93,17 @@ public class DrOnlineResultView implements Serializable {
 
     public void setFinishCounts(Integer finishCounts) {
         this.finishCounts = finishCounts;
+    }
+
+    public String toString() {
+        return "DrOnlineResultView{" +
+                "onlineId=" + onlineId +
+                ", postId=" + postId +
+                ", candidateId=" + candidateId +
+                ", optionSum=" + optionSum +
+                ", userId=" + userId +
+                ", pubCounts=" + pubCounts +
+                ", finishCounts=" + finishCounts +
+                '}';
     }
 }

@@ -52,9 +52,9 @@
         <!--<table tableName="dp_member_view" domainObjectName="dp.DpMemberView" mapperName="dp.DpMemberViewMapper">
 
         </table>-->
-        <table tableName="dp_npm" domainObjectName="dp.DpNpm" mapperName="dp.DpNpmMapper">
+        <!--<table tableName="dp_npm" domainObjectName="dp.DpNpm" mapperName="dp.DpNpmMapper">
 
-        </table>
+        </table>-->
         <!--<table tableName="dp_npm_view" domainObjectName="dp.DpNpmView" mapperName="dp.DpNpmViewMapper">
 
         </table>-->
@@ -70,11 +70,26 @@
         <!--<table tableName="dp_om_view" domainObjectName="dp.DpOmView" mapperName="dp.DpOmViewMapper">
 
         </table>-->
-       <!-- <table tableName="dp_pr_cm" domainObjectName="dp.DpPrCm" mapperName="dp.DpPrCmMapper">
+        <!--<table tableName="dp_pr_cm" domainObjectName="dp.DpPrCm" mapperName="dp.DpPrCmMapper">
+
+        </table>
+        <table tableName="dp_pr_cm_view" domainObjectName="dp.DpPrCmView" mapperName="dp.DpPrCmViewMapper">
 
         </table>-->
-        <!--<table tableName="dp_pr_cm_view" domainObjectName="dp.DpPrCmView" mapperName="dp.DpPrCmViewMapper">
+        <!--<table tableName="dp_eva" domainObjectName="dp.DpEva" mapperName="dp.DpEvaMapper">
 
         </table>-->
+        <!--<table tableName="dp_family" domainObjectName="dp.DpFamily" mapperName="dp.DpFamilyMapper">
+
+        </table>-->
+        <!--<table tableName="dp_work" domainObjectName="dp.DpWork" mapperName="dp.DpWorkMapper">
+
+        </table>-->
+        <!--<table tableName="dp_edu" domainObjectName="dp.DpEdu" mapperName="dp.DpEduMapper">
+
+        </table>-->
+        <table tableName="dp_reward" domainObjectName="dp.DpReward" mapperName="dp.DpRewardMapper">
+
+        </table>
     </context>
 </generatorConfiguration>

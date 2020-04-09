@@ -56,6 +56,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     public String drOnlineInspectorLog(Integer typeId,
                                        Integer onlineId,
                                        ModelMap modelMap,
+                                       String unitName,
                                        HttpServletRequest request) {
         if (typeId != null) {
             DrOnlineInspectorType inspectorType = drOnlineInspectorTypeMapper.selectByPrimaryKey(typeId);
@@ -72,9 +73,9 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @ResponseBody
     public void drOnlineInspectorLog_data(HttpServletResponse response,
                                     Integer id,
+                                    Integer onlineId,
                                     Integer typeId,
                                     String unitName,
-                                 Integer unitId,
                                 
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -89,7 +90,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         pageNo = Math.max(1, pageNo);
 
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andOnlineIdEqualTo(onlineId);
         example.setOrderByClause("id desc");
 
         if (id!=null) {
@@ -103,8 +104,12 @@ public class DrOnlineInspectorLogController extends DrBaseController {
             unitExample.createCriteria().andNameLike(SqlUtils.like(unitName));
             List<Unit> units = unitMapper.selectByExample(unitExample);
             List<Integer> unitIds = unitService.getUnitIdsLikeUnitName(units);
+            if (units.size() > 0) {
 
-            criteria.andUnitIdIn(unitIds);
+                criteria.andUnitIdIn(unitIds);
+            }else {
+                criteria.andUnitIdEqualTo(-1);
+            }
         }
 
 
@@ -140,11 +145,13 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @ResponseBody
     public Map do_drOnlineInspectorLog_au(@CurrentUser SysUserView user,
                                           Integer onlineId,
+                                          Integer addCount,
                                           Boolean isAppended,
                                           DrOnlineInspectorLog record, HttpServletRequest request) {
 
 
-        Integer logId = drOnlineInspectorLogService.generateInspector(record.getTypeId(), record.getUnitId(), 1, isAppended == null ? false : isAppended, record.getTotalCount(), onlineId);
+        isAppended = isAppended == null ? false : isAppended;
+        Integer logId = drOnlineInspectorLogService.generateInspector(record.getTypeId(), record.getUnitId(), 2, isAppended, addCount, onlineId);
         logger.info(log( LogConstants.LOG_DR, "{1}创建参评人账号个别生成：{0}", logId, user.getUsername()));
 
 
@@ -239,7 +246,9 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         modelMap.put("units", units);
         modelMap.put("inspectorTypes", inspectorTypes);
 
-        List<DrOnlineInspectorLog> inspectorLogs = drOnlineInspectorLogMapper.selectByExample(new DrOnlineInspectorLogExample());
+        DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
+        example.createCriteria().andOnlineIdEqualTo(onlineId);
+        List<DrOnlineInspectorLog> inspectorLogs = drOnlineInspectorLogMapper.selectByExample(example);
         for (DrOnlineInspectorLog inspectorLog : inspectorLogs){
             modelMap.put("total_" + inspectorLog.getUnitId() + "_" + inspectorLog.getTypeId(), inspectorLog.getTotalCount());
         }
@@ -294,7 +303,6 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @RequestMapping(value = "/drOnlineInspectorLog_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map drOnlineInspectorLog_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
 
         if (null != ids && ids.length>0){
             drOnlineInspectorLogService.batchDel(ids);

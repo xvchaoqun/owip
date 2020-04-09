@@ -14,7 +14,7 @@ public class TempResult implements Serializable {
     public boolean mobileAgree;
     // 可选单位
     public Set<Integer> unitIds;
-
+    //<postId, nameCodes>
     public Map<Integer, String> otherResultMap;
     //<onlineId, TempInspectorResult>
     public Map<String, TempInspectorResult> tempInspectorResultMap;

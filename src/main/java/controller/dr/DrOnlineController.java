@@ -1,13 +1,12 @@
 package controller.dr;
 
-import domain.base.MetaType;
 import domain.dr.DrMember;
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineExample;
 import domain.dr.DrOnlineExample.Criteria;
 import domain.dr.DrOnlineNotice;
-import domain.sc.scRecord.ScRecordView;
-import domain.sc.scRecord.ScRecordViewExample;
+import domain.unit.UnitPostView;
+import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -23,10 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.DrConstants;
 import sys.constants.LogConstants;
-import sys.constants.ScConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -47,16 +45,22 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:list")
     @RequestMapping("/drOnline")
     public String drOnline(Integer id,
+                           Byte status,
                            ModelMap modelMap,
                            @RequestParam(required = false, defaultValue = "1") Byte cls) {
 
+        if (status != null){
+            modelMap.put("status", status);
+        }
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
         modelMap.put("drOnline", drOnline);
         modelMap.put("cls", cls);
         if (cls == 1) {
             return "dr/drOnline/drOnline_page";
+        }else if (cls == 2) {
+            return "dr/drOnline/drOnlinePost";
         }
-        return "";
+        return  "dr/drOnline/drOnline_page";
     }
 
     @RequiresPermissions("drOnline:list")
@@ -90,6 +94,8 @@ public class DrOnlineController extends DrBaseController {
 
         if (status != null){
             criteria.andStatusEqualTo(status);
+        }else {
+            criteria.andStatusNotEqualTo(DrConstants.DR_ONLINE_FINISH);
         }
         if (year != null) {
             criteria.andYearEqualTo(year);
@@ -150,21 +156,12 @@ public class DrOnlineController extends DrBaseController {
     @RequestMapping(value = "/drOnline_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_drOnline_au(DrOnline record,
-                              Integer noticeId,
-                              String _recommendDate,
-                              String _startTime,
-                              String _endTime,
                               @RequestParam(value = "memberIds", required = false) Integer[] memberIds,
                               HttpServletRequest request) {
 
         Integer id = record.getId();
         Integer seq = record.getSeq();
         record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
-        record.setRecommendDate(DateUtils.parseDate(_recommendDate, DateUtils.YYYY_MM_DD));
-        record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
-        record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
-        DrOnlineNotice drOnlineNotice = drOnlineNoticeMapper.selectByPrimaryKey(noticeId);
-        record.setNotice(HtmlUtils.htmlUnescape(drOnlineNotice.getContent()));
 
         if (id == null) {
             drOnlineService.insertSelective(record);
@@ -201,10 +198,6 @@ public class DrOnlineController extends DrBaseController {
             modelMap.put("selectMemberIds", new ArrayList<>(selectMemberIds));
         }
 
-        Map<Integer,DrOnlineNotice> drOnlineNotices = drOnlineNoticeService.findAll();
-
-        modelMap.put("drOnlineNotices", drOnlineNotices);
-
         Map<Byte, List<DrMember>> drMemberListMap = new HashMap<>();
         for (Map.Entry<Byte, String> entry: DrConstants.DR_MEMBER_STATUS_MAP.entrySet()){
             List<DrMember> drMembers = drMemberService.getMembers(entry.getKey());
@@ -221,16 +214,12 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:edit")
     @RequestMapping(value = "/drOnline_noticeEdit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOnline_noticeEdit(DrOnline record, HttpServletRequest request) {
+    public Map do_drOnline_noticeEdit(DrOnline record, String notice, HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setNotice(HtmlUtils.htmlUnescape(record.getNotice()));
+        record.setNotice(HtmlUtils.htmlUnescape(notice));
 
-        if (id == null) {
-
-            drOnlineService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_DR, "添加线上民主推荐说明模板：{0}", record.getCode()));
-        } else {
+        if (id != null) {
 
             drOnlineService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_DR, "更新线上民主推荐说明模板：{0}", record.getCode()));
@@ -242,6 +231,9 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:edit")
     @RequestMapping("/drOnline_noticeEdit")
     public String drOnline_noticeEdit(Integer id, ModelMap modelMap){
+
+        Map<Integer,DrOnlineNotice> noticeMap = drOnlineNoticeService.findAll();
+        modelMap.put("noticeMap", noticeMap);
 
         if (id != null) {
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
@@ -284,15 +276,10 @@ public class DrOnlineController extends DrBaseController {
 
     @RequiresPermissions("drOnline:edit")
     @RequestMapping("/drOnline_selectPost")
-    public String drOnline_selectPost(Integer id,
-                                      Integer pageSize,
+    public String drOnline_selectPost(Integer pageSize,
                                       Integer pageNo,
                                       ModelMap modelMap) {
 
-        if (id != null) {
-            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
-            modelMap.put("drOnline", drOnline);
-        }
 
         if (null == pageSize) {
             pageSize = 5;
@@ -302,21 +289,15 @@ public class DrOnlineController extends DrBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        // 从干部选任纪实-单个岗位调整（正在进行、选任暂停，选拔方式为“民主推荐”）中选择岗位
-        MetaType scTypeDr = CmTag.getMetaTypeByCode("mt_sctype_dr");
-        List<Byte> statusList = new ArrayList<>();
-        statusList.add(ScConstants.SC_RECORD_STATUS_INIT);
-        statusList.add(ScConstants.SC_RECORD_STATUS_SUSPEND);
-        ScRecordViewExample example = new ScRecordViewExample();
-        example.createCriteria().andStatusIn(statusList)
-                .andScTypeEqualTo(scTypeDr.getId());
+        UnitPostViewExample example = new UnitPostViewExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
 
-        long count = scRecordViewMapper.countByExample(example);
+        long count = unitPostViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScRecordView> records = scRecordViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<UnitPostView> records = unitPostViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         modelMap.put("records", records);

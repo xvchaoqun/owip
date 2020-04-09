@@ -4,18 +4,14 @@ import bean.TempResult;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
-import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.sys.SysUserViewMapper;
 import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
@@ -25,7 +21,6 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +29,8 @@ import java.util.Map;
 public class DrOnlineLoginController extends DrBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private SysUserViewMapper sysUserViewMapper;
 
+    //手机端登录
     @RequestMapping("/iLogin")
     public String mobileLogin(String username, String passwd,
                               HttpServletRequest request, ModelMap modelMap){
@@ -58,8 +52,13 @@ public class DrOnlineLoginController extends DrBaseController {
         return "dr/drOnline/mobile/login";
     }
 
+    //pc端登录
     @RequestMapping("/login")
     public String drOnlineLogin(HttpServletRequest request, ModelMap modelMap){
+
+        Map<Integer, DrOnlineInspector> inspectorMap = drOnlineInspectorService.findAll();
+
+        modelMap.put("inspectorMap", inspectorMap);
 
         return "dr/drOnline/user/drOnlineLogin";
     }
@@ -77,20 +76,41 @@ public class DrOnlineLoginController extends DrBaseController {
                 logger.info(sysLoginLogService.log(null, username,
                         SystemConstants.LOGIN_TYPE_NET, false, "登录失败，账号或密码错误！"));
                 return failed("账号或密码错误！");
-            }
-            if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH){
-                logger.info(sysLoginLogService.log(null, username,
-                        SystemConstants.LOGIN_TYPE_NET, false, "登录失败，用户已完成测评！"));
-                return failed("该账号已测评完成！");
+            }else {
+                if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_NOT_RELEASE){
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐还未发布！"));
+                    return failed("该账号对应的民主推荐还未发布！");
+                }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_WITHDRAW) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐暂时撤回！"));
+                    return failed("该账号对应的民主推荐还未发布！");
+                }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_FINISH) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐已完成！"));
+                    return failed("该账号对应的民主推荐已完成！");
+                }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号还未发布！"));
+                    return failed("该账号还未发布！");
+                }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已作废！"));
+                    return failed("该账号已作废！");
+                }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已完成测评！"));
+                    return failed("该账号已完成测评！");
+                }
             }
             logger.info(sysLoginLogService.log(null, username,
-                    SystemConstants.LOGIN_TYPE_NET, false, "登陆成功！"));
+                    SystemConstants.LOGIN_TYPE_NET, false, "登录成功！"));
             DrHelper.setDrInspector(request, inspector);
         }
 
         String successUrl=request.getContextPath() + "/dr/drOnline/drOnlineIndex";
 
-        Map<String, Object> resultMap = success("登入成功");
+        Map<String, Object> resultMap = success("登录成功");
         resultMap.put("url", successUrl);
         return resultMap;
     }
@@ -111,11 +131,12 @@ public class DrOnlineLoginController extends DrBaseController {
     @RequestMapping("/drOnlineIndex")
     public String drIndex(Byte isMobile, ModelMap modelMap, HttpServletRequest request){
 
-        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
+        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
 
         if (inspector != null) {
             modelMap.put("inspector", inspector);
-            modelMap.put("drOnline", drOnlineMapper.selectByPrimaryKey(inspector.getOnlineId()));
+            modelMap.put("drOnline", inspector.getDrOnline());
             List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(inspector.getOnlineId());
             modelMap.put("postViews", postViews);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(inspector.getOnlineId());
@@ -123,7 +144,7 @@ public class DrOnlineLoginController extends DrBaseController {
             TempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
             modelMap.put("tempResult", tempResult);
             try {
-                modelMap.put("sysUser", JSONUtils.toString(sysUser_selects(SystemConstants.USER_TYPE_JZG)));
+                modelMap.put("sysUser", JSONUtils.toString(drOnlineCandidateService.sysUser_selects(SystemConstants.USER_TYPE_JZG)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -157,28 +178,6 @@ public class DrOnlineLoginController extends DrBaseController {
         drOnlineInspectorService.changePasswd(inspector.getId(), passwd, DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_SELF);
 
         return success(FormUtils.SUCCESS);
-    }
-
-    public List sysUser_selects(Byte type) throws IOException {
-
-        SysUserViewExample example = new SysUserViewExample();
-        SysUserViewExample.Criteria criteria = example.createCriteria();
-
-        if (type != null){
-            criteria.andTypeEqualTo(type);
-        }
-
-        long count = sysUserViewMapper.countByExample(example);
-
-        List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
-        List<String> options = new ArrayList<String>();
-        String nameCode = null;
-        for (SysUserView uv : uvs){
-            nameCode = uv.getRealname() + "(" + uv.getCode() + ")";
-            options.add(nameCode);
-        }
-
-        return options;
     }
 
 }

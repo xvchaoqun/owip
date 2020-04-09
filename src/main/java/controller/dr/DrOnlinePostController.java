@@ -4,10 +4,10 @@ import domain.dr.DrOnline;
 import domain.dr.DrOnlinePost;
 import domain.dr.DrOnlinePostView;
 import domain.dr.DrOnlinePostViewExample;
-import domain.sc.scRecord.ScRecordView;
-import domain.sc.scRecord.ScRecordViewExample;
 import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
+import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +36,6 @@ import java.util.*;
 public class DrOnlinePostController extends DrBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    /*@Autowired
-    private ScRecordViewMapper scRecordViewMapper;*/
 
     @RequiresPermissions("drOnlinePost:list")
     @RequestMapping("/drOnlinePost_menu")
@@ -64,6 +61,9 @@ public class DrOnlinePostController extends DrBaseController {
     @ResponseBody
     public void drOnlinePost_data(HttpServletResponse response,
                                     Integer onlineId,
+                                 Integer onlineType,
+                                 String name,
+                                 @RequestParam(required = false, defaultValue = "1") Byte cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -80,8 +80,17 @@ public class DrOnlinePostController extends DrBaseController {
         DrOnlinePostViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if (onlineId != null){
-            criteria.andOnlineIdEqualTo(onlineId);
+
+        if (cls != 2) {
+            if (onlineId != null) {
+                criteria.andOnlineIdEqualTo(onlineId);
+            }
+        }
+        if (StringUtils.isNotBlank(name)) {
+            criteria.andNameLike(SqlUtils.like(name));
+        }
+        if (onlineType != null){
+            criteria.andTypeIdEqualTo(onlineType);
         }
 
         if (export == 1) {
@@ -114,28 +123,23 @@ public class DrOnlinePostController extends DrBaseController {
     @RequiresPermissions("drOnlinePost:edit")
     @RequestMapping(value = "/drOnlinePost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOnlinePost_au(DrOnlinePost record, Integer recordId, Integer[] candidates, HttpServletRequest request) {
+    public Map do_drOnlinePost_au(DrOnlinePost record, String items, HttpServletRequest request)throws IOException, InterruptedException {
 
         Integer id = record.getId();
-        ScRecordViewExample example = new ScRecordViewExample();
-        example.createCriteria().andIdEqualTo(recordId);
-        List<ScRecordView> scRecordViews = scRecordViewMapper.selectByExample(example);
-        record.setUnitPostId(scRecordViews.get(0).getUnitPostId());
-        if (record.getHasCompetitive() == null ? false : record.getHasCompetitive()) {
-            record.setCandidates(StringUtils.trimToEmpty(StringUtils.join(candidates, ",")));
-        }else {
-            record.setCandidates(null);
+        List<SysUserView> uvs = GsonUtils.toBeans(items, SysUserView.class);
+        if (record.getHasCandidate() == null){
+            record.setHasCandidate(false);
         }
-
+        if (record.getHasCompetitive() == null){
+            record.setHasCompetitive(false);
+        }
         if (id == null) {
-            
-            drOnlinePostService.insertSelective(record);
-            if (candidates != null)
-                drOnlineCandidateService.insertCandidate(record.getId(), candidates);
+
+            drOnlinePostService.insertPost(record, uvs);
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));
         } else {
 
-            drOnlinePostService.updateByPrimaryKeySelective(record, candidates);
+            drOnlinePostService.updatePost(record, uvs);
             logger.info(log( LogConstants.LOG_DR, "更新推荐职务：{0}", record.getId()));
         }
 
@@ -146,14 +150,22 @@ public class DrOnlinePostController extends DrBaseController {
     @RequestMapping("/drOnlinePost_au")
     public String drOnlinePost_au(Integer id, Integer onlineId, ModelMap modelMap) {
 
-        modelMap.put("onlineId", onlineId);
+        SysUserViewExample example = new SysUserViewExample();
+        example.createCriteria().andTypeEqualTo(SystemConstants.USER_TYPE_JZG);
+        List<SysUserView> uv = sysUserViewMapper.selectByExample(example);
+        modelMap.put("sysUser", uv);
 
         if (id != null) {
             DrOnlinePostView drOnlinePostView = drOnlinePostService.getPost(id);
             modelMap.put("drOnlinePost", drOnlinePostView);
-            ScRecordView scRecordView = iScMapper.getScRecordView(drOnlinePostView.getUnitPostId());
-            modelMap.put("scRecord", scRecordView);
+            onlineId = drOnlinePostView.getOnlineId();
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(drOnlinePostView.getUnitPostId());
+            modelMap.put("unitPost", unitPost);
+            List<SysUserView> candidates = drOnlineCandidateService.getCandidates(drOnlinePostView.getId());
+            modelMap.put("candidates", candidates);
         }
+        modelMap.put("onlineId", onlineId);
+
         return "dr/drOnlinePost/drOnlinePost_au";
     }
 

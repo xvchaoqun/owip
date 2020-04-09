@@ -2,13 +2,17 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
+<c:set var="INSPECTOR_PUB_STATUS_NOT_RELEASE" value="<%=DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE%>"/>
+<c:set var="DR_ONLINE_NOT_RELEASE" value="<%=DrConstants.DR_ONLINE_NOT_RELEASE%>"/>
+<c:set var="DR_ONLINE_WITHDRAW" value="<%=DrConstants.DR_ONLINE_WITHDRAW%>"/>
+<c:set var="DR_ONLINE_FINISH" value="<%=DrConstants.DR_ONLINE_FINISH%>"/>
 <!DOCTYPE html>
 <html>
 <head>
     <jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8"/>
-    <title>${_plantform_name}</title>
+    <title>线上民主推荐</title>
     <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <t:link href="/css/login.css"/>
@@ -23,9 +27,9 @@
 <div class="top"
      style="background:url(${ctx}/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) ${_sysConfig.loginTopBgColor} top right no-repeat">
     <div class="w1000">
-        <div class="logo"><t:img src="/img/logo.png"/></div>
+        <div class="logo"><t:img src="/img/recommend.png"/></div>
         <div class="separator"></div>
-        <div class="txt">${_plantform_name}</div>
+        <div class="txt">线上民主推荐</div>
     </div>
 </div>
 <div class="login_box ${_sysConfig.displayLoginMsg?'':'no-msg'}">
@@ -37,11 +41,12 @@
         <div id="login" class="visible login-layout">
             <div class="login-error" style="display: none">
                 <i class="fa fa-times"></i> ${error}</div>
-            <form id="login-form" method="POST" action="${ctx}/dr/drOnline/login" autocomplete="off" disableautocomplete>
+            <form id="login-form" method="post" action="${ctx}/dr/drOnline/login" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
                     <div class="input_box"><span class="account"></span>
                         <input name="username" class="account" type="text"/></div>
+
                 </dd>
                 <dt>登录密码</dt>
                 <dd>

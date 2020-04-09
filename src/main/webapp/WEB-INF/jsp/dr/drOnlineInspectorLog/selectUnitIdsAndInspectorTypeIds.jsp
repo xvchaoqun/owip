@@ -109,6 +109,7 @@
         return;
       }
       open_list_gen(onlineId, unitIds, inspectorTypeIds);
+      $("#modal").modal('hide');
     }
   });
 </script>

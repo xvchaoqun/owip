@@ -44,9 +44,9 @@ public class DrConstants {
     public final static Map<Byte, String> DR_ONLINE_INSPECTOR_TYPE_MAP= new LinkedHashMap<>();
 
     static {
-        DR_ONLINE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_FORMAL, "可用");
-        DR_ONLINE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_LOCK, "锁定");
-        DR_ONLINE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_CANCEL, "作废");
+        DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_FORMAL, "可用");
+        DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_LOCK, "锁定");
+        DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_CANCEL, "作废");
 
     }
 
@@ -55,11 +55,11 @@ public class DrConstants {
     public final static byte INSPECTOR_STATUS_ABOLISH = 1;
     public final static byte INSPECTOR_STATUS_FINISH = 2;
     public final static byte INSPECTOR_STATUS_SAVE = 3;
-    public static Map<Byte, String> INSPECTOR_STATUS_MAP = new LinkedHashMap<Byte, String>();
+    public final static Map<Byte, String> INSPECTOR_STATUS_MAP = new LinkedHashMap<Byte, String>();
 
     static {
 
-        INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_INIT, "可用");
+        INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_INIT, "待使用");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_ABOLISH, "已作废");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_FINISH, "已完成");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_SAVE, "暂存");
@@ -68,18 +68,17 @@ public class DrConstants {
     // 参评人账号状态
     public final static byte INSPECTOR_PUB_STATUS_NOT_RELEASE = 0;
     public final static byte INSPECTOR_PUB_STATUS_RELEASE = 1;
-    public static Map<Byte, String> INSPECTOR_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
+    public final static Map<Byte, String> INSPECTOR_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
 
     static {
-
-        INSPECTOR_STATUS_MAP.put(INSPECTOR_PUB_STATUS_RELEASE, "已分发");
-        INSPECTOR_STATUS_MAP.put(INSPECTOR_PUB_STATUS_NOT_RELEASE, "未分发");
+        INSPECTOR_PUB_STATUS_MAP.put(INSPECTOR_PUB_STATUS_NOT_RELEASE, "未发布");
+        INSPECTOR_PUB_STATUS_MAP.put(INSPECTOR_PUB_STATUS_RELEASE, "已发布");
     }
 
     //参评人密码修改类型行
     public final static byte INSPECTOR_PASSWD_CHANGE_TYPE_SELF = 1;
     public final static byte INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN = 2;
-    public static Map<Byte, String> INSPECTOR_PASSWD_CHANGE_TYPE_MAP = new LinkedHashMap<Byte, String>();
+    public final static Map<Byte, String> INSPECTOR_PASSWD_CHANGE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
 

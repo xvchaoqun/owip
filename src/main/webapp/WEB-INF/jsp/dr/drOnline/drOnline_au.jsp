@@ -13,7 +13,6 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						<input required style="width: 80px;" autocomplete="off" class="form-control date-picker"
 							   placeholder="请选择年份"
 							   name="year" type="text"
@@ -26,12 +25,11 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input required class="form-control date-picker"
-							   name="_recommendDate"
+						<input style="width: 272px;" required class="form-control datetime-picker"
+							   name="recommendDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${empty drOnline.recommendDate?_today:(cm:formatDate(drOnline.recommendDate,'yyyy-MM-dd'))}"/>
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+							   data-date-format="yyyy-mm-dd HH:mm"
+							   value="${empty drOnline.recommendDate?(cm:formatDate(now,'yyyy-MM-dd HH:mm')):(cm:formatDate(drOnline.recommendDate,'yyyy-MM-dd HH:mm'))}"/>
 					</div>
 				</div>
 			</div>
@@ -39,7 +37,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐类型</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" data-width="273"
-							name="type" data-placeholder="请选择">
+							name="type" data-placeholder="请选择推荐类型">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_dr_type"/>
 					</select>
@@ -49,31 +47,10 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 说明模板</label>
-				<div class="col-xs-6">
-					<select data-rel="select2" data-width="273"
-							name="noticeId" data-placeholder="请选择说明模板">
-						<option></option>
-						<c:forEach items="${drOnlineNotices}" var="drOnlineNotice">
-							<option value="${drOnlineNotice.value.id}">${drOnlineNotice.value.name}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<%--<div class="form-group">
-				<label class="col-xs-3 control-label">推荐职务</label>
-				<div class="col-xs-6">
-					<input type="hidden" name="recordId" value="${scRecord.id}">
-					<input id="postName" readonly class="form-control" type="text" value="${scRecord.postName}">
-				</div>
-				<button type="button" class="btn btn-sm btn-success" id="selectPostBtn"><i class="fa fa-plus"></i> 选择岗位
-				</button>
-			</div>--%>
-			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐组负责人</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/drMember_selects"
-							name="chiefMemberId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
+							name="chiefMemberId" data-placeholder="请输入账号或姓名或工作证号" data-width="270">
 						<option value="${chiefMember.id}" delete="${chiefMember.status!=DR_MEMBER_STATUS_NOW}">${chiefMember.user.realname}-${chiefMember.user.code}</option>
 					</select>
 				</div>
@@ -96,32 +73,33 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐开始时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input required class="form-control date-picker"
-							   name="_startTime"
+						<input style="width: 272px;" required class="form-control datetime-picker"
+							   name="startTime"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${(cm:formatDate(drOnline.startTime,'yyyy-MM-dd'))}"/>
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+							   data-date-format="yyyy-mm-dd HH:mm"
+							   value="${(cm:formatDate(drOnline.startTime,'yyyy-MM-dd HH:mm'))}"/>
 					</div>
+					<span id="tipSt" style="color: red;"></span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐截止时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input required class="form-control date-picker"
-							   name="_endTime"
+						<input style="width: 272px;" required class="form-control datetime-picker"
+							   name="endTime"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${(cm:formatDate(drOnline.endTime,'yyyy-MM-dd'))}"/>
-						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+							   data-date-format="yyyy-mm-dd HH:mm"
+							   value="${(cm:formatDate(drOnline.endTime,'yyyy-MM-dd HH:mm'))}"/>
 					</div>
+					<span id="tipEt" style="color: red;"></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"> 备注</label>
+				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="remark" value="${drOnline.remark}">
+							<textarea class="form-control limited noEnter" type="text"
+									  name="remark" rows="3">${drOnline.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -134,10 +112,31 @@ pageEncoding="UTF-8"%>
 </div>
 <script>
 
+	//控制时间
+	$('input[name=startTime]').focus(function () {
+		$('#tipSt').text('')
+	})
+	$('input[name=endTime]').on('change', function () {
+		var st = $('input[name=startTime]')
+		var et = $('input[name=endTime]')
+		console.log(st.val())
+		if (st.val() == undefined || st.val().length == 0){
+			et.val('')
+			//console.log(et.val())
+			$('#tipSt').text('请先填写推荐开始时间')
+		}else if (st.val() > et.val()){
+			st.val('')
+			et.val('')
+			$('#tipEt').text('截止时间应大于开始时间')
+		}else if (st.val() < et.val()){
+			$('#tipEt').text('')
+		}
+	})
+
 	$.register.multiselect($('#modalForm select[name=memberIds]'), ${cm:toJSONArray(selectMemberIds)}, {
-		enableClickableOptGroups: true,
-		enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
-	});
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+    });
 
 	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
@@ -160,5 +159,6 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('textarea.limited').inputlimiter();
-    $.register.date($('.date-picker'));
+	$.register.datetime($('.datetime-picker'));
+	$.register.date($('.date-picker'));
 </script>

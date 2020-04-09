@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label">数目</label>
 			<div class="col-xs-2">
-				<input required class="form-control" type="text" name="totalCount"oninput="value=value.replace(/[^\d]/g,'')" value="${inspectorLog.totalCount}">
+				<input required class="form-control digits" type="text" name="addCount">
 			</div>
 		</div>
 		<div class="form-group">

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-            <c:set var="_query" value="${not empty unitName || not empty param.id ||not empty param.typeId ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
+<div>
+            <c:set var="_query" value="${not empty param.unitName || not empty param.id ||not empty param.typeId ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspectorLog:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -46,7 +47,8 @@ pageEncoding="UTF-8" %>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
+                        <form class="form-inline search-form" id="searchForm2">
+                            <input type="hidden" name="onlineId" value="${onlineId}"/>
                             <div class="form-group">
                                 <label>所属身份类型</label>
                                 <div class="input-group">
@@ -60,18 +62,18 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>所属单位</label>
-                                <input class="form-control search-query" name="unitName" type="text" value="${unitName}"
+                                <input class="form-control search-query" name="unitName" type="text" value="${param.unitName}"
                                        placeholder="请输入所属单位">
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/dr/drOnlineInspectorLog"
-                                   data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                   data-url="${ctx}/dr/drOnlineInspectorLog_menu"
+                                   data-target="#body-content-view"
+                                   data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/dr/drOnlineInspectorLog"
-                                            data-target="#page-content">
+                                            data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId=${onlineId}"
+                                            data-target="#body-content-view">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>
@@ -81,9 +83,13 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="20"></table>
             <div id="jqGridPager2"></div>
+</div>
 <script>
+    function _reload() {
+        $("#jqGrid2").trigger("reloadGrid");
+    }
 
     var openWindow = null;
     function open_list_gen(onlineId, unitIds, inspectorTypeIds) {
@@ -134,14 +140,14 @@ pageEncoding="UTF-8" %>
                         return rate;
                     }, width: 110},
                 { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
-                { label: '导出次数',name: 'exportCount'},
-                { label: '备注',name: 'remark', width: 250},{hidden: true, key: true, name: 'id'}
+                { label: '导出次数',name: 'exportCount'},{hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $.register.user_select($('[data-rel="select2-ajax"]'));
-    $('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm2 [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
+
 </script>

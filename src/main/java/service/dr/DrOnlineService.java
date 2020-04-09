@@ -2,11 +2,14 @@ package service.dr;
 
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineExample;
+import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sys.constants.DrConstants;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 
@@ -97,5 +100,19 @@ public class DrOnlineService extends DrBaseMapper {
             drOnline.setId(id);
             drOnlineMapper.updateByPrimaryKeySelective(drOnline);
         }
+    }
+
+    public Map<Integer, SysUserView> getUser(){
+
+        SysUserViewExample example = new SysUserViewExample();
+        example.createCriteria().andTypeEqualTo(SystemConstants.USER_TYPE_JZG);
+        List<SysUserView> userViews = sysUserViewMapper.selectByExample(example);
+
+        Map<Integer, SysUserView> userViewMap = new HashMap<>();
+        for (SysUserView sysUserView : userViews){
+            userViewMap.put(sysUserView.getId(),sysUserView);
+        }
+
+        return userViewMap;
     }
 }

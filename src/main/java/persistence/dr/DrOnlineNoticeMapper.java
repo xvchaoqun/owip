@@ -17,10 +17,6 @@ public interface DrOnlineNoticeMapper {
 
     int insertSelective(DrOnlineNotice record);
 
-    List<DrOnlineNotice> selectByExampleWithBLOBsWithRowbounds(DrOnlineNoticeExample example, RowBounds rowBounds);
-
-    List<DrOnlineNotice> selectByExampleWithBLOBs(DrOnlineNoticeExample example);
-
     List<DrOnlineNotice> selectByExampleWithRowbounds(DrOnlineNoticeExample example, RowBounds rowBounds);
 
     List<DrOnlineNotice> selectByExample(DrOnlineNoticeExample example);
@@ -29,13 +25,9 @@ public interface DrOnlineNoticeMapper {
 
     int updateByExampleSelective(@Param("record") DrOnlineNotice record, @Param("example") DrOnlineNoticeExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") DrOnlineNotice record, @Param("example") DrOnlineNoticeExample example);
-
     int updateByExample(@Param("record") DrOnlineNotice record, @Param("example") DrOnlineNoticeExample example);
 
     int updateByPrimaryKeySelective(DrOnlineNotice record);
-
-    int updateByPrimaryKeyWithBLOBs(DrOnlineNotice record);
 
     int updateByPrimaryKey(DrOnlineNotice record);
 }

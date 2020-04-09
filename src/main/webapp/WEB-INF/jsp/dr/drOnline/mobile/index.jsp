@@ -118,8 +118,8 @@
 														<tr>
 															<td class="postName" colspan="2"><strong>${postView.name}</strong></td>
 														</tr>
-														<tr>
-															<c:if test="${!postView.hasCandidate}">
+														<c:if test="${!postView.hasCandidate}">
+															<tr>
 																<td>
 																	<input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
 																</td>
@@ -128,25 +128,39 @@
 																		<label>--</label>
 																	</div>
 																</td>
-															</c:if>
-															<c:if test="${postView.hasCandidate}">
-																<c:forEach items="${candidateMap}" var="candidateMap">
-																	<c:if test="${candidateMap.key == postView.id}">
-																		<td>${candidateMap.value.user.realname}</td>
-																		<td style="text-align: center;">
-																			<div>
-																				<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
-																				<label for="${postView.id}_${candidates.userId}_1">同&nbsp;&nbsp;&nbsp;意</label>
-																			</div>
-																			<div>
-																				<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
-																				<label for="${postView.id}_${candidates.userId}_0">不同意</label>
-																			</div>
-																		</td>
-																	</c:if>
-																</c:forEach>
-															</c:if>
-														</tr>
+															</tr>
+														</c:if>
+														<c:if test="${postView.hasCandidate}">
+															<c:forEach items="${candidateMap}" var="candidateMap">
+																<c:if test="${candidateMap.key == postView.id}">
+																	<c:forEach items="${candidateMap.value}" var="candidates">
+																		<tr>
+																			<td>${candidates.user.realname}</td>
+																			<td style="text-align: center;">
+																				<div>
+																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+																					<label for="${postView.id}_${candidates.userId}_1">同&nbsp;&nbsp;&nbsp;意</label>
+																				</div>
+																				<div>
+																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+																					<label for="${postView.id}_${candidates.userId}_0">不同意</label>
+																				</div>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+																			</td>
+																			<td>
+																				<div>
+																					<label>--</label>
+																				</div>
+																			</td>
+																		</tr>
+																	</c:forEach>
+																</c:if>
+															</c:forEach>
+														</c:if>
 													</c:if>
 													<c:if test="${postView.competitiveNum > 1}">
 														<c:if test="${postView.hasCandidate}">
@@ -154,7 +168,7 @@
 																<td class="postName" colspan="2"><strong>${postView.name}</strong></td>
 															</tr>
 															<c:forEach items="${candidateMap}" var="candidateMap">
-																<c:forEach items="${candidateMap.value}" var="candidates" begin="0" end="0">
+																<c:forEach items="${candidateMap.value}" var="candidates" begin="0" end="${postView.existNum}">
 																	<c:if test="${candidateMap.key == postView.id}">
 																		<tr>
 																			<td>${candidates.user.realname}</td>
@@ -172,37 +186,16 @@
 																	</c:if>
 																</c:forEach>
 															</c:forEach>
-															<c:forEach items="${candidateMap}" var="candidateMap">
-																<c:forEach items="${candidateMap.value}" var="candidates" begin="1" end="${postView.existNum}">
-																	<c:if test="${candidateMap.key == postView.id}">
-																		<tr>
-																			<td>${candidates.user.realname}</td>
-																			<td style="text-align: center;">
-																				<div>
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
-																					<label for="${postView.id}_${candidates.userId}_1">同意</label>
-																				</div>
-																				<div>
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
-																					<label for="${postView.id}_${candidates.userId}_0">不同意</label>
-																				</div>
-																			</td>
-																		</tr>
-																	</c:if>
-																</c:forEach>
-															</c:forEach>
-															<c:if test="${postView.competitiveNum > postView.existNum}">
-																<tr>
-																	<td>
-																		<input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
-																	</td>
-																	<td>
-																		<div>
-																			<label>--</label>
-																		</div>
-																	</td>
-																</tr>
-															</c:if>
+															<tr>
+																<td>
+																	<input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+																</td>
+																<td>
+																	<div>
+																		<label>--</label>
+																	</div>
+																</td>
+															</tr>
 														</c:if>
 														<c:if test="${!postView.hasCandidate}">
 															<tr>
@@ -327,8 +320,7 @@
 	<script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 	<script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 	<script type="text/javascript">
-		console.log($("#survey .form-field-tags").parent().attr("class"))
-
+		console.log($("#survey .form-field-tags").parent())
 
 		function drOnline_eva() {
 			$('.changePasswd').attr("disabled", "disabled");
@@ -394,52 +386,76 @@
 
 		//保存临时数据
 		var isSubmit = 0;
-		function doTempSave(){
+		var postViews = ${cm:toJSONObject(postViews)};
+		function doTempSave(i){
 			var onlineId = ${drOnline.id};
 			var datas = new Array();
 			$("table input:checked").each(function () {
-				var radioName = $(this).attr("name");
+				//var radioName = $(this).attr("name");
 				datas.push($(this).attr("id"));
-				//console.log(datas);
 			})
 
-			var count = 0;
+			var flag = 1;
+			var count = 0;//统计oehers的数组长度
 			var others = new Array();
+			var index = 0;
 			$("input[name=candidateCode]").each(function(){
+				//console.log($(this).val().length)
 				var postId = $(this).attr("postId");
 				var user;
 				var userIds = ($(this).val()).split(",");
-				if ($.trim(userIds).length == 0)
-					user = userIds;
-				else {
-					user = postId + "-" + userIds;
+				//console.log(userIds.length)
+				if ($.trim(userIds).length == 0) {
+					user = [];
+				}else {
+					$.each(postViews, function(i, item){
+						if (postId == item.id){
+							if (userIds.length > item.competitiveNum) {
+								SysMsg.info(item.name + '中另选候选人的人数，超过了最多推荐人数' + item.competitiveNum + ',请重新选择', '提示',function(){
+
+									//console.log($("#survey").find(".tags").get(index))
+									//$(this).parent().find('span').remove();
+									location.reload();
+									return;
+								})
+								flag = 0;
+							}
+						}
+					})
+					user = postId + "-" + userIds.join("-");
 					count++;
 				}
 				//console.log(user)
 				others.push(user)
+				index++;
 			})
-			/*console.log(datas)
-			console.log(others)*/
+			//console.log(others.length)
+			if (flag == 0)return;
 			if(isSubmit == 1){
-				if ($("#survey tr").length - 3 > datas.length + count.length) {
-					SysMsg.info('请完成推荐表后，再进行提交。', '提示')
-					return;
+				if (($("#survey tr").length - 3) > (datas.length + count)) {
+					SysMsg.info('请完成推荐表后，再进行提交。', '提示',function () {
+						return;
+					})
 				}else {
-					$.post("${ctx}/dr/drOnline/doTempSave?&isMobile=1&isSubmit=" + isSubmit,{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
-						if (ret.success) {
-							//location.reload();
-							SysMsg.success('提交成功。退出后账号将不能登录。', '成功', function(){
-								location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
-							});
-						}
+					SysMsg.confirm('提交成功将直接退出系统，然后该账号不能登录。请谨慎提交！', '确认提交',function () {
+						$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+							if (ret.success) {
+								SysMsg.success('提交成功。', '提交', function(){
+									location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
+								});
+							}
+						})
 					})
 				}
 			}else{
-				$.post("${ctx}/dr/drOnline/doTempSave?&isMobile=1&isSubmit=" + isSubmit,{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
-					if (ret.success) {
-						SysMsg.success('保存成功。', '成功')
-						//location.reload();
-					}
+				SysMsg.confirm("确认保存投票信息。", "保存", function () {
+					$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+						if (ret.success) {
+							SysMsg.success('保存成功。', '成功', function () {
+								location.reload();
+							})
+						}
+					})
 				})
 			}
 		}

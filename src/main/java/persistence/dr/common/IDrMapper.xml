@@ -34,5 +34,28 @@
             #{item.insOption,jdbcType=BIT}, #{item.remark,jdbcType=VARCHAR})
         </foreach>
     </insert>
+    <!--参评人过滤-->
+    <select id="selectInspectorFilter" parameterType="map" resultMap="persistence.dr.DrOnlineResultViewMapper.BaseResultMap">
+        SELECT dor1.*,doc.user_id,doil1.pub_counts,doil1.finish_counts
+        FROM (SELECT dor.online_id,dor.post_id,dor.candidate_id,sum(if(dor.ins_option=1, 1, 0)) AS option_sum
+        FROM dr_online_result dor
+        <where>
+            <if test="onlineId != null">
+                and dor.online_id = #{onlineId}
+            </if>
+            <if test="typeIds != null and typeIds.size > 0">
+                and dor.inspector_type_id in
+                <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
+                    #{typeId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY dor.post_id,dor.candidate_id) dor1
+        LEFT JOIN (SELECT doil.online_id,SUM(doil.pub_count) AS pub_counts,SUM(doil.finish_count)AS finish_counts
+        FROM dr_online_inspector_log doil
+        GROUP BY doil.online_id) doil1 ON doil1.online_id=dor1.online_id
+        LEFT JOIN dr_online_candidate doc ON doc.id=dor1.candidate_id
+        ORDER BY dor1.post_id desc
+    </select>
 
 </mapper>

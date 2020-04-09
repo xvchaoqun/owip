@@ -42,7 +42,7 @@ public class DrOnline implements Serializable {
 
     private Short year;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date recommendDate;
 
     private Integer seq;
@@ -55,10 +55,10 @@ public class DrOnline implements Serializable {
 
     private String members;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
     private String remark;

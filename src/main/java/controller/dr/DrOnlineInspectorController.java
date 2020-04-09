@@ -4,6 +4,9 @@ import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlineInspectorExample;
 import domain.dr.DrOnlineInspectorExample.Criteria;
+import domain.dr.DrOnlineInspectorType;
+import domain.unit.Unit;
+import domain.unit.UnitExample;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +40,12 @@ public class DrOnlineInspectorController extends DrBaseController {
     @RequestMapping("/drOnlineInspector")
     public String drOnlineInspector(Integer onlineId,
                                     Integer logId,
+                                    Integer typeId,
                                     ModelMap modelMap) {
+        if (typeId != null) {
+            DrOnlineInspectorType inspectorType = drOnlineInspectorTypeMapper.selectByPrimaryKey(typeId);
+            modelMap.put("inspectorType", inspectorType);
+        }
 
         modelMap.put("onlineId", onlineId);
         modelMap.put("logId", logId);
@@ -49,11 +57,12 @@ public class DrOnlineInspectorController extends DrBaseController {
     @RequestMapping("/drOnlineInspector_data")
     @ResponseBody
     public void drOnlineInspector_data(HttpServletResponse response,
-                                    Integer id,
+                                    Integer typeId,
                                     Integer logId,
                                     Byte pubStatus,
                                     Byte status,
                                     String username,
+                                 String unitName,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -70,13 +79,25 @@ public class DrOnlineInspectorController extends DrBaseController {
         Criteria criteria = example.createCriteria().andLogIdEqualTo(logId);
         example.setOrderByClause("id desc");
 
-        if (id!=null) {
-            criteria.andIdEqualTo(id);
+        if (typeId != null) {
+            criteria.andTypeIdEqualTo(typeId);
         }
-        if (pubStatus!=null) {
+        if (StringUtils.isNotBlank(unitName)) {
+            UnitExample unitExample = new UnitExample();
+            unitExample.createCriteria().andNameLike(SqlUtils.like(unitName));
+            List<Unit> units = unitMapper.selectByExample(unitExample);
+            List<Integer> unitIds = unitService.getUnitIdsLikeUnitName(units);
+            if (units.size() > 0) {
+
+                criteria.andUnitIdIn(unitIds);
+            }else {
+                criteria.andUnitIdEqualTo(-1);
+            }
+        }
+        if (pubStatus != null) {
             criteria.andPubStatusEqualTo(pubStatus);
         }
-        if (status!=null) {
+        if (status != null) {
             criteria.andStatusEqualTo(status);
         }
         if (StringUtils.isNotBlank(username)) {
@@ -137,6 +158,20 @@ public class DrOnlineInspectorController extends DrBaseController {
             modelMap.put("inspector", inspector);
         }
         return "dr/drOnlineInspector/drOnlineInspector_au";
+    }
+
+    @RequiresPermissions("drOnlineInspector:edit")
+    @RequestMapping(value = "/inspector_changeStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map inspector_changeStatus(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            drOnlineInspectorService.release(ids);
+            logger.info(log( LogConstants.LOG_DR, "发布账号参评人：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("drOnlineInspector:del")
