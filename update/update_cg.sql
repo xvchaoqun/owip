@@ -1,3 +1,7 @@
+2020-04-09
+-- 添加字段 桑文帅
+ALTER TABLE `cg_team` ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级ID' AFTER `id`,
+	ADD CONSTRAINT `FK_cg_team_cg_team` FOREIGN KEY (`fid`) REFERENCES `cg_team` (`id`) ON DELETE CASCADE;
 
 2019-09-19
 -- 添加字段 桑文帅

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OaConstants;
 import sys.tool.paging.CommonList;
@@ -86,8 +87,13 @@ public class OaTaskUserController extends OaBaseController {
         OaTaskUserViewExample example = new OaTaskUserViewExample();
         OaTaskUserViewExample.Criteria criteria =
                 example.createCriteria().andIsDeleteEqualTo(false);
-        //.andTaskIdEqualTo(taskId)
         example.setOrderByClause("sort_order asc");
+
+        Boolean showAll = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId()).getShowAll();
+
+        if (!showAll) {
+            criteria.isTaskUser(ShiroHelper.getCurrentUserId());
+        }
 
         if (taskId != null) {
             criteria.andTaskIdEqualTo(taskId);
