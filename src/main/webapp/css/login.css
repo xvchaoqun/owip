@@ -154,13 +154,32 @@ input:-webkit-autofill {
 }
 
 /**********统一身份认证呼吸按钮样式***************************/
-#zg_login_tysfrz_btn{
+.login-btns{
+	width: 280px;
+	margin: 30px 0 0 50px;
+	float:left;
+}
+.login-btns a{
+	font-size:14px;
+	/*float:right;*/
+	color: #333;
+	padding-right: 15px;
+	text-decoration: underline
+}
+.login-btns a:last-child{
+	padding-right:0;
+}
+.login-btns .hrefs{
+	padding-top: 30px;
+	text-align: right;
+}
+.login-btns .cas{
 	width:250px;
-	height:60px;
-	font-size:18px;
+	height:70px;
+	font-size:24px;
 	margin:0 auto;
-	text-align:center;
-	line-height:60px;
+	padding-left: 30px;
+	line-height:70px;
 	border-radius: 4px;
 	cursor:pointer;
 	font-weight:bold;
@@ -175,15 +194,15 @@ input:-webkit-autofill {
 	-moz-animation: myfirst 2s infinite linear;
 	-o-animation: myfirst 2s infinite linear;
 }
-#zg_login_tysfrz_zhmmdl{
+.login-btns .form{
 	width:250px;
-	height:55px;
-	font-size:18px;
+	height:65px;
+	font-size:24px;
 	margin:0 auto;
 	margin-top:35px;
 	margin-bottom:15px;
-	text-align:center;
-	line-height:55px;
+	padding-left: 30px;
+	line-height:65px;
 	border-radius: 4px;
 	cursor:pointer;
 	font-weight:bold;
@@ -198,15 +217,15 @@ input:-webkit-autofill {
 	-moz-animation: mysecond 2s infinite linear;
 	-o-animation: mysecond 2s infinite linear;
 }
-#zg_login_tysfrz_btn:hover,#zg_login_tysfrz_zhmmdl:hover{/*****IE9统一身份认证**账户密码登录按钮样式*****/
-	background-color: rgb(102, 159, 199);
+.login-btns .cas:hover, .login-btns .form:hover{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+	background-color: #337ab7;
 	box-shadow: 1px 2px 5px #aaa;
 	-webkit-box-shadow: 1px 2px 5px #aaa;
 	-moz-box-shadow: 1px 2px 5px #aaa;
 	-o-box-shadow: 1px 2px 5px #aaa;
 }
-#zg_login_tysfrz_btn:active,#zg_login_tysfrz_zhmmdl:active{/*****IE9统一身份认证**账户密码登录按钮样式*****/
-	background-color: rgb(102, 159, 199);
+.login-btns .cas:active, .login-btns .form:active{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+	background-color: #337ab7;
 	box-shadow: 1px 2px 5px #ccc;
 	-webkit-box-shadow: 1px 2px 5px #ccc;
 	-moz-box-shadow: 1px 2px 5px #ccc;

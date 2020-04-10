@@ -250,7 +250,7 @@ public class OpRecordController extends OpBaseController {
 
         List<OpRecord> records = opRecordMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号|100","处理对象|100","执行日期|100","时任职务|350","对象级别|100","组织处理方式|100",
+        String[] titles = {"工作证号|100","处理对象|100","执行日期|100","时任职务|350","行政级别|100","组织处理方式|100",
                 "开展方式|200","谈话人类型|200","具体谈话人|100","针对问题|350","其他针对问题|200","备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

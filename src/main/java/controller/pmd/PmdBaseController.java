@@ -63,6 +63,6 @@ public class PmdBaseController extends PmdBaseMapper implements HttpResponseMeth
     protected PmdExtService pmdExtService;
     @Autowired
     protected PmdSendMsgService pmdSendMsgService;
-    @Autowired
-    protected PmdFeeService pmdFeeService;
+    //@Autowired
+    //protected PmdFeeService pmdFeeService;
 }

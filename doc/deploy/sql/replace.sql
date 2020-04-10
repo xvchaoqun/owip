@@ -5,7 +5,7 @@
 
 
 -- 替换**
-select concat(left(realname, 1), repeat('*', char_length(realname)-1)) from sys_user_info order by user_id desc limit 10;
+-- select concat(left(realname, 1), repeat('*', char_length(realname)-1)) from sys_user_info order by user_id desc limit 10;
 
 
 -- update sys_user_info set realname = concat(left(realname, 1), repeat('*', char_length(realname)-1));

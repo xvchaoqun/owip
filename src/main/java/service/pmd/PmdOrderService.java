@@ -614,9 +614,12 @@ public class PmdOrderService extends PmdBaseMapper {
                 PmdOrder pmdOrder = pmdOrderMapper.selectByPrimaryKey(orderNo);
                 if (pmdOrder == null) {
                     logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
-                } else if (pmdOrder.getIsSuccess()) {
-                    logger.debug("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
                 } else {
+
+                    if (pmdOrder.getIsSuccess()) {
+                        // 缴费过程被误设置为延迟缴费，导致没回滚成功，所以在重置缴费状态后，此处允许继续往下处理？
+                        logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
+                    }
                     
                     // 更新订单状态为成功支付
                     PmdOrder record = new PmdOrder();

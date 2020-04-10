@@ -96,7 +96,7 @@ left join unit u on(main_cadre_post.unit_id=u.id)
 left join base_meta_type unit_type on(u.type_id=unit_type.id)
 left join cadre_admin_level cal on cal.cadre_id=c.id and cal.admin_level=main_cadre_post.admin_level
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
-left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id group by c.id;
+left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
 
 
 -- ----------------------------

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${empty _pMap['cas_url']?'/cas':_pMap['cas_url']}" var="_p_casUrl"/>
+<c:set value="${_pMap['default_login_btns']=='true'}" var="_p_defaultLoginBtns"/>
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
 <shiro:user>
     <c:redirect url="/"/>
@@ -40,45 +42,17 @@
         <div id="login" class="visible login-layout">
             <div class="login-error" style="display: none">
                 <i class="fa fa-times"></i> ${error}</div>
-
-                <div id="zg_login_tysfrz" class="col-xs-5" style="width: 280px; margin-left: 50px;margin-top: 40px;">
-                    <div id="zg_login_tysfrz_btn" onclick=""><i class="ace-icon fa fa-university "></i> 统一身份认证登录</div>
-                    <div id="zg_login_tysfrz_zhmmdl"><i class="ace-icon fa fa-user "></i> 其他用户登录</div>
-                    <div style="width: 210px; padding: 35px;">
-                        <a href="${ctx}/page/browsers.jsp" target="_blank" style="text-decoration:underline;color: #333;">推荐浏览器</a>&nbsp;&nbsp;
-                    </div>
+            <div class="login-btns" ${_p_defaultLoginBtns?'':'hidden'}>
+                <div class="cas" onclick="location.href='${_p_casUrl}'"><i class="ace-icon fa fa-user"></i> 统一身份认证登录</div>
+                <div class="form"><i class="ace-icon fa fa-key"></i> 其他用户登录</div>
+                <div class="hrefs">
+                    <a href="${ctx}/page/browsers.jsp" target="_blank">推荐浏览器</a>
+                    <a href="" data-target="#reg">立即注册</a>
+                    <a href="${ctx}/find_pass">忘记密码</a>
                 </div>
-                <div  id="zg_login_zhmm" hidden>
-                    <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
-                        <dt>登录账号</dt>
-                        <dd>
-                            <div class="input_box"><span class="account"></span>
-                                <input name="username" class="account" type="text"/></div>
-                        </dd>
-                        <dt>登录密码</dt>
-                        <dd>
-                            <div class="input_box"><span class="password"></span>
-                                <input name="passwd" class="password" type="password" <c:if test="${useCaptcha}">autocomplete="new-password"</c:if>/></div>
-                        </dd>
-                        <dt>验证码</dt>
-                        <dd><input name="captcha" class="yz" type="text" maxlength="4"
-                                   <c:if test="${!useCaptcha}">value="test"</c:if> />
-                            <img class="captcha" src="${ctx}/captcha" title="点击刷新" alt="验证码"/></dd>
-                        <dt></dt>
-                        <dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd>
-                        </dt>
-                        <dt></dt>
-                        <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
-                        <dd style="width: 330px;padding-left: 50px">
-                            <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
-                            <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
-                            <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
-                            <a id="zg_login_zhmm_tysfrz"class="to_reg_btn">统一身份认证</a>
-                        </dd>
-                    </form>
-                </div>
+            </div>
 
-         <%--   <form id="login-form" method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
+            <form id="login-form" ${_p_defaultLoginBtns?'hidden':''} method="POST" action="${ctx}/login" autocomplete="off" disableautocomplete>
                 <dt>登录账号</dt>
                 <dd>
                     <div class="input_box"><span class="account"></span>
@@ -98,14 +72,13 @@
                 </dt>
                 <dt></dt>
                 <dd><a href="javascript:;" class="submit_btn" id="login_btn"></a></dd>
-                <dt></dt>
-                <dd>
+                <dd style="width: 330px;padding-left: 50px">
                     <a href="${ctx}/page/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
                     <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
                     <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
+                    <a href="javascript:;" class="cas to_reg_btn">统一身份认证</a>
                 </dd>
-            </form>--%>
-
+            </form>
             <div class="msg">
                 ${_sysConfig.loginMsg}
             </div>
@@ -183,16 +156,5 @@
 </div>
 <script src="${ctx}/extend/js/jquery.form.js"></script>
 <t:script src="/js/login.js"/>
-<script>
-
-    $('#zg_login_zhmm_tysfrz').click(function(){
-        $('#zg_login_zhmm').hide();
-        $('#zg_login_tysfrz').show();
-    });
-    $('#zg_login_tysfrz_zhmmdl').click(function(){
-        $('#zg_login_tysfrz').hide();
-        $('#zg_login_zhmm').show();
-    });
-</script>
 </body>
 </html>

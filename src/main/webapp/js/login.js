@@ -153,5 +153,14 @@ $(function(){
             $("input[name=captcha]").val('');
             $('img.captcha').attr('src', '/captcha?' + Math.floor(Math.random() * 100));
         });
+
+        $('.login-btns .cas, #login-form .cas').click(function(){
+            $('#login-form').hide();
+            $('.login-btns').show();
+        });
+        $('.login-btns .form').click(function(){
+            $('.login-btns').hide();
+            $('#login-form').show();
+        });
     }
 })

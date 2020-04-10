@@ -1,7 +1,13 @@
 
+
+2020.4.10
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('default_login_btns', '登录页默认显示按钮', 'false', 3, 52, '');
+
+
 2020.4.3
 
-北师大更新
 -- 修复 转接bug  谨慎操作！（北邮、北师应该已经都更新了）
 select m.code, m.realname from ow_member_view m
 ,(select user_id, to_party_id, to_branch_id from ow_member_transfer where party_id=to_party_id and status=2)tmp
@@ -14,7 +20,7 @@ set m.branch_id = tmp.to_branch_id
 -- bug
 
 -- ！！！！！！！！！！
--- 更新 cadre_view
+-- XXXX 西安交大应该去掉此更新（group by id）更新 cadre_view
 -- 更新 jx.utils
 
 -- ===========更新文件综合管理（已更新北化工）

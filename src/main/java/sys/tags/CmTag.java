@@ -342,15 +342,20 @@ public class CmTag {
         return cadreService.getByUserId(userId);
     }
 
+    // 获取数据库干部表中的实体（也包含报名人员等非干部）
+    public static CadreView getCadreByDb(Integer id) {
+
+        if(id==null) return null;
+        return  cadreService.getCadre(id);
+    }
+
+    // 从缓存中获取干部（仅包含领导干部、优秀年轻干部、考察对象）
     public static CadreView getCadreById(Integer id) {
 
         if(id==null) return null;
 
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
-
-        /*CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
-        return  iCadreMapper.getCadre(id);*/
     }
 
     public static CadreView getCadreByUserId(Integer userId) {

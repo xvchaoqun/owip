@@ -419,7 +419,7 @@ public class CadreEduService extends BaseMapper {
     // 更新或添加时，检查规则
     public void checkUpdate(CadreEdu record) {
 
-        CadreView cv = CmTag.getCadreById(record.getCadreId());
+        CadreView cv = CmTag.getCadreByDb(record.getCadreId());
         String realname = "";
         if(cv.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
             realname = cv.getRealname(); // 非本人操作，需提示具体的人名
