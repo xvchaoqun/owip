@@ -1,4 +1,6 @@
 
+2020.4.13
+西北工大
 
 2020.4.10
 
@@ -93,6 +95,8 @@ ALTER TABLE `base_content_tpl` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT N
 ALTER TABLE `sys_scheduler_job` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `create_time`;
 ALTER TABLE `sys_attach_file` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `create_time`;
 --
+
+-- SyncService：参考3.30号的git修改日志进行修改
 
 2020.03.10 15:30
 新建西北工大

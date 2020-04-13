@@ -1,5 +1,6 @@
 package domain.dispatch;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import service.SpringProps;
 import sys.tags.CmTag;
@@ -12,6 +13,8 @@ import java.util.Date;
 public class DispatchWorkFile implements Serializable {
 
     public int getPages(){
+
+        if(StringUtils.isBlank(pdfFilePath)) return 0;
 
         SpringProps springProps = CmTag.getBean(SpringProps.class);
         return PdfUtils.getPages(springProps.uploadPath + pdfFilePath);

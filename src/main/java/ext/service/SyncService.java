@@ -689,8 +689,8 @@ public class SyncService extends BaseMapper {
             teacherInfoMapper.insertSelective(record);
         else {
             // 保证下面的职称只同步一次
-            if(record.getProPost()==null){
-                extJzg.setZwmc(teacherInfo.getProPost());
+            if(record.getProPost()==null && extJzg!=null){
+                extJzg.setZc(teacherInfo.getProPost());
             }
             teacherInfoMapper.updateByPrimaryKeySelective(record);
         }
