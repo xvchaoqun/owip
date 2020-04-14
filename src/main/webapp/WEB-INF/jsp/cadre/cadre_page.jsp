@@ -402,9 +402,12 @@
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="dpTypes"
                                                                 style="width: 250px;">
-                                                            <option value="-1">非党干部</option>
+                                                            <option value="-1">非中共党员</option>
                                                             <option value="0">中共党员</option>
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
+                                                           <shiro:hasRole name="${ROLE_ADMIN}">
+                                                            <option value="-2">空</option>
+                                                           </shiro:hasRole>
                                                         </select>
                                                     </td>
                                                     <c:if test="${fn:length(staffTypes)>0}">

@@ -2532,12 +2532,14 @@ public class CadreViewExample {
         public Criteria andDpTypeIdIn(Set<Integer> values) {
 
             List searchSqlList = new ArrayList<>();
-            if(values.contains(-1)){
+            if(values.contains(-2)){
                 searchSqlList.add("(dp_type_id is null and is_ow=0)");
-            }else if(values.contains(0)){
+            }else if(values.contains(-1)){
+                searchSqlList.add("is_ow!=1");
+            } else if(values.contains(0)){
                 searchSqlList.add("is_ow=1");
             }
-            values.remove(-1);
+            values.remove(-2);
             values.remove(0);
             if(values.size()>0){
                 searchSqlList.add("dp_type_id in (" + StringUtils.join(values, ",") + ")");

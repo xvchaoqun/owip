@@ -1458,11 +1458,12 @@ span.delete, span.delete a, li.delete label {
 }
 
 .notCpc, .notCpc a {
-    color: red;
+    color: green;
 }
 
 .isCpc, .isCpc a {
     color: green;
+    text-decoration: underline;
 }
 
 .unpre pre {

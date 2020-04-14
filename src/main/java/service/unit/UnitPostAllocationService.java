@@ -9,6 +9,7 @@ import domain.unit.Unit;
 import domain.unit.UnitPostCountView;
 import domain.unit.UnitPostCountViewExample;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.*;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetView;
@@ -70,12 +71,13 @@ public class UnitPostAllocationService extends BaseMapper {
         //isCpcFont.setFontHeightInPoints((short) 24); // 字体高度
         //isCpcFont.setFontName("宋体"); // 字体
         isCpcFont.setColor(IndexedColors.GREEN.getIndex());
+        isCpcFont.setUnderline(Font.U_SINGLE);
         //isCpcFont.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
 
         XSSFFont notCpcFont = wb.createFont();
         //notCpcFont.setFontHeightInPoints((short) 24); // 字体高度
         //notCpcFont.setFontName("宋体"); // 字体
-        notCpcFont.setColor(IndexedColors.RED.getIndex());
+        notCpcFont.setColor(IndexedColors.GREEN.getIndex());
         //notCpcFont.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
 
         XSSFRichTextString ts = new XSSFRichTextString(StringUtils.join(realnames, "、"));
