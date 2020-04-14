@@ -1,10 +1,10 @@
 package service.dr;
 
-import domain.dr.DrOnline;
-import domain.dr.DrOnlineExample;
+import domain.dr.*;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,6 +15,9 @@ import java.util.*;
 
 @Service
 public class DrOnlineService extends DrBaseMapper {
+
+    @Autowired
+    private DrOnlinePostService drOnlinePostService;
 
     public boolean idDuplicate(Integer id, Integer seq){
 
@@ -45,6 +48,34 @@ public class DrOnlineService extends DrBaseMapper {
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
+        //删除后相关信息全部删除
+        for (Integer id : ids){
+            List<DrOnlinePostView> posts = drOnlinePostService.getAllByOnlineId(id);
+            if (null != posts && posts.size() > 0) {
+                for (DrOnlinePostView post : posts) {
+                    DrOnlineCandidateExample candidateExample = new DrOnlineCandidateExample();
+                    candidateExample.createCriteria().andPostIdEqualTo(post.getId());
+                    drOnlineCandidateMapper.deleteByExample(candidateExample);
+                }
+            }
+
+            DrOnlineResultExample resultExample = new DrOnlineResultExample();
+            resultExample.createCriteria().andOnlineIdEqualTo(id);
+            drOnlineResultMapper.deleteByExample(resultExample);
+
+            DrOnlinePostExample postExample = new DrOnlinePostExample();
+            postExample.createCriteria().andOnlineIdEqualTo(id);
+            drOnlinePostMapper.deleteByExample(postExample);
+
+            DrOnlineInspectorLogExample logExample = new DrOnlineInspectorLogExample();
+            logExample.createCriteria().andOnlineIdEqualTo(id);
+            drOnlineInspectorLogMapper.deleteByExample(logExample);
+
+            DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
+            inspectorExample.createCriteria().andOnlineIdEqualTo(id);
+            drOnlineInspectorMapper.deleteByExample(inspectorExample);
+
+        }
 
         DrOnlineExample example = new DrOnlineExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

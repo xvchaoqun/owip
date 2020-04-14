@@ -1,7 +1,6 @@
 package controller.dr;
 
-import bean.TempInspectorResult;
-import bean.TempResult;
+import bean.DrTempResult;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -157,10 +156,7 @@ public class DrOnlineResultController extends DrBaseController {
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         Byte status = drOnline.getStatus();
         if (status == DrConstants.DR_ONLINE_FINISH ) {
-            List<Integer> postIds = drOnlineResultService.getPostId(onlineId);
-            for (Integer postId : postIds) {
-                drCommonService.exportOnlineResult(onlineId, postId, response);
-            }
+                drCommonService.exportOnlineResult(onlineId, response);
         }else
             throw new OpException("该批次线上民主推荐还未完成，不能导出结果！");
     }
@@ -186,7 +182,7 @@ public class DrOnlineResultController extends DrBaseController {
 
         DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
 
-        TempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
+        DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
 
         tempResult.setInspectorId(inspector.getId());
         tempResult.setAgree(agree);
@@ -195,7 +191,7 @@ public class DrOnlineResultController extends DrBaseController {
         DrOnlineInspector record = new DrOnlineInspector();
 
         XStream xStream = new XStream(new DomDriver());
-        xStream.alias("tempResult", TempResult.class);
+        xStream.alias("tempResult", DrTempResult.class);
 
         StringWriter sw = new StringWriter();
         xStream.marshal(tempResult, new CompactWriter(sw));
@@ -229,48 +225,37 @@ public class DrOnlineResultController extends DrBaseController {
             return success(FormUtils.SUCCESS);
 
         //查看是否有临时数据
-        TempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
-        //创建一个新的临时数据
-        TempInspectorResult inspectorResult = new TempInspectorResult();
-        inspectorResult.setOnlineId(onlineId);
-        inspectorResult.setOptionIdMap(new HashMap<String, Integer>());
-        Map<String, TempInspectorResult> tempInspectorResultMap = new HashMap<>();
-        tempInspectorResultMap.put(onlineId + "", inspectorResult);
-
-        if (tempResult.getTempInspectorResultMap() == null || !tempResult.getTempInspectorResultMap().containsKey(onlineId + "")) {
-
-            tempResult.setTempInspectorResultMap(tempInspectorResultMap);
-        }
+        DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
 
         //得到票数
-        Integer postViewId = null;
+        Integer postId = null;
         Integer userId = null;
         Integer option = null;
         Map<String, Integer> optionMap = new HashMap<>();
         if (datas != null && datas.length > 0) {
             for (String data : datas) {
                 String[] results = StringUtils.split(data, "_");
-                postViewId = Integer.valueOf(results[0]);
+                postId = Integer.valueOf(results[0]);
                 userId = Integer.valueOf(results[1]);
                 option = Integer.valueOf(results[2]);
 
-                optionMap.put(postViewId + "_" + userId, option);
+                optionMap.put(postId + "_" + userId, option);
             }
-            tempResult.tempInspectorResultMap.get(onlineId + "").setOptionIdMap(optionMap);
+            tempResult.setRawOptionMap(optionMap);
         }
 
         if (others != null && others.length > 0) {
-            Map<Integer, String> otherResultMap = drOnlineResultService.consoleOthers(others);
+            Map<Integer, String> otherResultMap = drOnlineResultService.consoleOthers(others, datas);
             tempResult.setOtherResultMap(otherResultMap);
         }else{
-            if(tempResult.getOtherResultMap().size() > 0)
+            if(null != tempResult.getOtherResultMap() && tempResult.getOtherResultMap().size() > 0)
                 tempResult.getOtherResultMap().clear();
         }
 
         //格式转化
         DrOnlineInspector record = new DrOnlineInspector();
         XStream xStream = new XStream(new DomDriver());
-        xStream.alias("tempResult", TempResult.class);
+        xStream.alias("tempResult", DrTempResult.class);
 
         StringWriter sw = new StringWriter();
         xStream.marshal(tempResult, new CompactWriter(sw));

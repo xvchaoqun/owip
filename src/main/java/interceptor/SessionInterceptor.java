@@ -45,7 +45,7 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
         });
 
         String servletPath = request.getServletPath();
-        if(servletPath.startsWith("/m/cet_eva")){
+        if(servletPath.startsWith("/m/cet_eva")){//对外培训
 
             if(StringUtils.equalsIgnoreCase(servletPath, "/m/cet_eva/login")){
                 return true;
@@ -56,6 +56,17 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                     return false;
                 }
                 return true;
+            }
+        }
+
+        //线上民主推荐移动端登录
+        if(request.getDispatcherType() == DispatcherType.REQUEST) {
+            if (HttpRequestDeviceUtils.isMobileDevice(request)) {
+                if (response.getStatus() == HttpStatus.SC_OK) {
+                    if (servletPath.startsWith("/dr/drOnline")) {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -126,17 +137,15 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                         return false;
                     }
 
-                    if (!servletPath.startsWith("/dr/drOnline")) {
-                        if (!servletPath.startsWith("/m/")) { // 移动端
+                    if (!servletPath.startsWith("/m/")) { // 移动端
 
-                            String redirectUrl = "/m/index";
-                            if (StringUtils.isNotBlank(servletPath)
-                                    && !StringUtils.equals(StringUtils.trim(servletPath), "/")) {
-                                redirectUrl = "/m" + servletPath;
-                            }
-                            WebUtils.issueRedirect(request, response, redirectUrl);
-                            return false;
+                        String redirectUrl = "/m/index";
+                        if (StringUtils.isNotBlank(servletPath)
+                                && !StringUtils.equals(StringUtils.trim(servletPath), "/")) {
+                            redirectUrl = "/m" + servletPath;
                         }
+                        WebUtils.issueRedirect(request, response, redirectUrl);
+                        return false;
                     }
                 }
             } else {

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="drOnlineUrl"/>
 <c:set value="<%=DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_SELF%>" var="INSPECTOR_PASSWD_CHANGE_TYPE_SELF"/>
 <c:set value="<%=DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN%>" var="INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN"/>
 
@@ -46,8 +47,8 @@
                             </td>
                             <td align="left">${drOnline.year}</td>
                             <td rowspan="4" align="center" width="150">
-                                <div class="qrcode"
-                                     data-url="<fmt:message key="site.home" bundle="${spring}"/>/dr/drOnline/login?u=${inspector.username}&p=${inspector.passwd}"
+                                    <div class="qrcode"
+                                     data-url="${drOnlineUrl}/dr/drOnline/iLogin"
                                      style="width:120px; height:120px;"></div>
                             </td>
                         </tr>

@@ -113,6 +113,51 @@
       "excludeEditColumns": "sort_order",
       "logType":"LogConstants.LOG_DPPARTY",
       "ignore": true
+    },
+    {
+      "table": "dp_eva",
+      "key": "id",
+      "searchColumns": "user_id,year",
+      "showColumns": "user_id,year,title,type,remark",
+      "excludeEditColumns": "sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_family",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,title,realname,birthday,tith_god,political_status,unit",
+      "excludeEditColumns": "sort_order",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_work",
+      "key": "id",
+      "searchColumns": "strat_time,end_time,work_types,is_cadre",
+      "showColumns": "strat_time,end_time,detail,unit_ids,work_types,is_cadre,remark",
+      "excludeEditColumns": "",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_edu",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "edu_id,is_graduated,enrol_time,finish_time,is_high_edu,school,dep,major,subject,first_subject,school_type,learn_style,has_degree,is_high_degree,degree_country,degree_unit,degree_time,tutor_name,tutor_title,certificate,remark",
+      "excludeEditColumns": "",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": true
+    },
+    {
+      "table": "dp_reward",
+      "key": "id",
+      "searchColumns": "user_id,reward_time,name,unit",
+      "showColumns": "reward_type,reward_time,name,unit,proof,rank,remark",
+      "excludeEditColumns": "",
+      "logType":"LogConstants.LOG_DPPARTY",
+      "ignore": false
     }
   ]
 }

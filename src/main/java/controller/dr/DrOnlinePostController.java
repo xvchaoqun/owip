@@ -1,9 +1,7 @@
 package controller.dr;
 
-import domain.dr.DrOnline;
-import domain.dr.DrOnlinePost;
-import domain.dr.DrOnlinePostView;
-import domain.dr.DrOnlinePostViewExample;
+import controller.global.OpException;
+import domain.dr.*;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
 import domain.unit.Unit;
@@ -78,7 +76,7 @@ public class DrOnlinePostController extends DrBaseController {
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         DrOnlinePostViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause(" id desc");
 
 
         if (cls != 2) {
@@ -127,6 +125,9 @@ public class DrOnlinePostController extends DrBaseController {
 
         Integer id = record.getId();
         List<SysUserView> uvs = GsonUtils.toBeans(items, SysUserView.class);
+        if(null != uvs && uvs.size() > record.getCompetitiveNum()){
+            return failed("候选人数超过最大推荐数！");
+        }
         if (record.getHasCandidate() == null){
             record.setHasCandidate(false);
         }
@@ -135,9 +136,22 @@ public class DrOnlinePostController extends DrBaseController {
         }
         if (id == null) {
 
+            DrOnlinePostExample example = new DrOnlinePostExample();
+            example.createCriteria().andOnlineIdEqualTo(record.getOnlineId()).andUnitPostIdEqualTo(record.getUnitPostId());
+            List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(example);
+            if (null != posts && posts.size() > 0)
+                throw new OpException("该推荐岗位已存在！");
+
             drOnlinePostService.insertPost(record, uvs);
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));
         } else {
+            //如有推荐结果，不可修改
+            DrOnlineResultExample example = new DrOnlineResultExample();
+            example.createCriteria().andPostIdEqualTo(record.getId());
+            List<DrOnlineResult> results = drOnlineResultMapper.selectByExample(example);
+            if (null != record && results.size() > 0){
+                throw new OpException("该职务已有测评结果，不可修改！");
+            }
 
             drOnlinePostService.updatePost(record, uvs);
             logger.info(log( LogConstants.LOG_DR, "更新推荐职务：{0}", record.getId()));

@@ -10,8 +10,8 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.type || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
-                    <div class="tab-content">
-                        <div class="tab-pane in active">
+                    <div class="tab-content multi-row-head-table">
+                        <div class="tab-pane in active multi-row-head-table">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspectorType:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -113,16 +113,15 @@ pageEncoding="UTF-8" %>
                             return '作废';
                         }
                     }},
-                <c:if test="${!_query}">
                 { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                    formatoptions:{url:'${ctx}/dr/drOnlineInspectorType_changeOrder'},frozen:true }
-                </c:if>
+                        formatoptions:{url:'${ctx}/dr/drOnlineInspectorType_changeOrder'},frozen:true }
+
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

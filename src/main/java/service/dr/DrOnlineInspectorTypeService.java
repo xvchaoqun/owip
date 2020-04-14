@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import sys.constants.DrConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -67,8 +66,8 @@ public class DrOnlineInspectorTypeService extends DrBaseMapper {
     public Map<Integer, DrOnlineInspectorType> findAll() {
 
         DrOnlineInspectorTypeExample example = new DrOnlineInspectorTypeExample();
-        example.createCriteria().andStatusEqualTo(DrConstants.DR_ONLINE_INSPECTOR_TYPE_FORMAL);
-        example.setOrderByClause("sort_order desc");
+        example.createCriteria();
+        example.setOrderByClause("sort_order asc");
         List<DrOnlineInspectorType> records = drOnlineInspectorTypeMapper.selectByExample(example);
         Map<Integer, DrOnlineInspectorType> map = new LinkedHashMap<>();
         for (DrOnlineInspectorType record : records) {

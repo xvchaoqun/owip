@@ -17,11 +17,11 @@ pageEncoding="UTF-8" %>
                     <shiro:hasPermission name="drOnlineResult:edit">
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/dr/drOnline/drOnlineResult_filter?onlineId=${onlineId}">
-                            <i class="fa fa-filter"></i> 参评人过滤${typeIds}</button>
+                            <i class="fa fa-filter"></i> 参评人过滤</button>
                         <c:if test="${drOnline.status==DR_ONLINE_FINISH}">
                             <button download="11" class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                     data-url="${ctx}/dr/drOnline/drOnlineResult_export?&onlineId=${onlineId}&cls=1"
-                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                                    data-rel="tooltip" data-placement="top" title="导出本批次最终统计结果">
                                 <i class="fa fa-download"></i> 导出</button>
                         </c:if>
                     </shiro:hasPermission>

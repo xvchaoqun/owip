@@ -1,11 +1,10 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class TempResult implements Serializable {
+public class DrTempResult implements Serializable {
 
     private static final long serialVersionUID = -3493827992980228346L;
     public Integer inspectorId;
@@ -14,15 +13,10 @@ public class TempResult implements Serializable {
     public boolean mobileAgree;
     // 可选单位
     public Set<Integer> unitIds;
-    //<postId, nameCodes>
+    //<postId, nameCodes> 另选他人得票
     public Map<Integer, String> otherResultMap;
-    //<onlineId, TempInspectorResult>
-    public Map<String, TempInspectorResult> tempInspectorResultMap;
-
-    public TempResult() {
-
-        tempInspectorResultMap = new HashMap<String, TempInspectorResult>();
-    }
+    //<postId_userId, option>   管理员设置的候选人得票
+    public Map<String, Integer> rawOptionMap;
 
     public Integer getInspectorId() {
         return inspectorId;
@@ -64,18 +58,23 @@ public class TempResult implements Serializable {
         this.otherResultMap = otherResultMap;
     }
 
-    public Map<String, TempInspectorResult> getTempInspectorResultMap() {
-        return tempInspectorResultMap;
+    public Map<String, Integer> getRawOptionMap() {
+        return rawOptionMap;
     }
 
-    public void setTempInspectorResultMap(Map<String, TempInspectorResult> tempInspectorResultMap) {
-        this.tempInspectorResultMap = tempInspectorResultMap;
+    public void setRawOptionMap(Map<String, Integer> rawOptionMap) {
+        this.rawOptionMap = rawOptionMap;
     }
 
     @Override
     public String toString() {
-        return "TempResult [inspectorId=" + inspectorId + ", agree=" + agree + ", mobileAgree=" + isMobileAgree() +
-                ", unitIds=" + unitIds + ", otherResultMap=" + otherResultMap + ", tempInspectorResultMap="
-                + tempInspectorResultMap + "]";
+        return "DrTempResult{" +
+                "inspectorId=" + inspectorId +
+                ", agree=" + agree +
+                ", mobileAgree=" + mobileAgree +
+                ", unitIds=" + unitIds +
+                ", otherResultMap=" + otherResultMap +
+                ", rawOptionMap=" + rawOptionMap +
+                '}';
     }
 }

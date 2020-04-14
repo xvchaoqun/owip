@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import sys.tags.CmTag;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class DrOnlineCandidateService extends DrBaseMapper {
@@ -193,5 +196,21 @@ public class DrOnlineCandidateService extends DrBaseMapper {
         }else {
             return null;
         }
+    }
+
+    //得到本次推荐所有的候选人
+    public List<DrOnlineCandidate> getAll(Integer onlineId){
+
+        List<DrOnlineCandidate> candidates = new ArrayList<>();
+        List<DrOnlinePostView> posts = drOnlinePostService.getAllByOnlineId(onlineId);
+        for (DrOnlinePostView post : posts){
+            DrOnlineCandidateExample example = new DrOnlineCandidateExample();
+            example.createCriteria().andPostIdEqualTo(post.getId());
+            List<DrOnlineCandidate> _candidates = drOnlineCandidateMapper.selectByExample(example);
+            if (null != _candidates && _candidates.size() > 0)
+                candidates.addAll(_candidates);
+        }
+
+        return candidates;
     }
 }

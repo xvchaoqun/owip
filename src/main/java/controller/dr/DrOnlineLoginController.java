@@ -1,6 +1,6 @@
 package controller.dr;
 
-import bean.TempResult;
+import bean.DrTempResult;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
@@ -21,6 +21,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,8 +100,12 @@ public class DrOnlineLoginController extends DrBaseController {
                     return failed("该账号已作废！");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已完成测评！"));
-                    return failed("该账号已完成测评！");
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已完成民主推荐！"));
+                    return failed("该账号已完成民主推荐！");
+                }else if (inspector.getDrOnline().getEndTime().before(new Date())) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，民主推荐已截止！"));
+                    return failed("该账号对应的民主推荐已截止！");
                 }
             }
             logger.info(sysLoginLogService.log(null, username,
@@ -141,7 +146,7 @@ public class DrOnlineLoginController extends DrBaseController {
             modelMap.put("postViews", postViews);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(inspector.getOnlineId());
             modelMap.put("candidateMap", candidateMap);
-            TempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
+            DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
             modelMap.put("tempResult", tempResult);
             try {
                 modelMap.put("sysUser", JSONUtils.toString(drOnlineCandidateService.sysUser_selects(SystemConstants.USER_TYPE_JZG)));

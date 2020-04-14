@@ -56,8 +56,6 @@
 <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
-<script src="${ctx}/js/jquery.ba-throttle-debounce.js"></script>
-<script src="${ctx}/js/dr.stickyheader.js"></script>
 <script>
 $(function(){
 	stickheader();

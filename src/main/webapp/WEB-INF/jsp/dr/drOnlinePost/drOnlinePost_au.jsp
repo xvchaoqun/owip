@@ -47,9 +47,7 @@ pageEncoding="UTF-8"%>
 			<div class="candidate">
 				<div class="form-group">
 					<label class="col-xs-3 control-label">候选人</label>
-
 					<div class="col-xs-6 selectUsers">
-
 						<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
 								name="userId" data-placeholder="请输入账号或姓名或学工号">
 							<option></option>
@@ -79,22 +77,12 @@ pageEncoding="UTF-8"%>
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty drOnlinePost?'确定':'添加'}</button>
 </div>
-<style>
-	.popover {
-		width:auto;
-		max-width:900px;
-	}
-</style>
+
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script type="text/template" id="itemListTpl">
 	<table class="table table-striped table-bordered table-condensed table-center table-unhover2">
 		<thead>
-		<tr>
-			<th colspan="4" style="text-align: left">
-				候选人总数：<span id="absentCount"></span>人
-			</th>
-		</tr>
 		<tr>
 			<th>姓名</th>
 			<th>工号</th>
@@ -155,11 +143,23 @@ pageEncoding="UTF-8"%>
 		var code = $select.select2("data")[0]['code'] || '';
 		var user = {userId: userId, realname:realname, code: code};
 
-		//console.log(user)
-		selectedUsers.push(user);
+		//控制添加的候选人数
+		if(selectedUsers.length < $("input[name=competitiveNum]").val()){
+			selectedUsers.push(user);
+		}else {
+			$.tip({
+				$target: $select.closest("div").find(".select2-container"),
+				at: 'top center', my: 'bottom center', type: 'fail',
+				msg: "候选人数量已达最大推荐人数！"
+			});
+			return;
+		}
+
+		//console.log(selectedUsers.length)
 		$("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedUsers}));
 		_displayItemList();
 	}
+
 	$(document).off("click","#itemList .del")
 			.on('click', "#itemList .del", function(){
 				var $tr = $(this).closest("tr");
@@ -235,6 +235,7 @@ pageEncoding="UTF-8"%>
 		}else{
 			$("#modalForm .candidate").hide();
 			selectedUsers = [];
+			$("#modalForm select[name=userId]").val("");
 			$("#itemList tbody tr").remove();
 
 		}

@@ -1,9 +1,9 @@
 package service.dr;
 
-import bean.TempInspectorResult;
-import bean.TempResult;
+import bean.DrTempResult;
 import controller.global.OpException;
 import domain.dr.*;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import sys.constants.DrConstants;
+import sys.tags.CmTag;
 import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ public class DrOnlineResultService extends DrBaseMapper {
     private DrOnlineCandidateService drOnlineCandidateService;
     @Autowired
     private DrOnlineInspectorLogService drOnlineInspectorLogService;
+    @Autowired
+    private DrOnlinePostService drOnlinePostService;
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -81,15 +84,45 @@ public class DrOnlineResultService extends DrBaseMapper {
     }
 
     //处理参评人自己添加的候选人
-    public Map<Integer, String> consoleOthers(String[] others){
+    public Map<Integer, String> consoleOthers(String[] others, String[] datas){
 
         Map<Integer, String> otherMap = new HashMap<>();
         for (String other : others){
+            int count = 0;
             if (StringUtils.isNotBlank(other)) {
-                String[] data = other.split("-");
-                Integer postId = Integer.valueOf(data[0]);
-                String nameCode = data[1];
-                otherMap.put(postId, nameCode);
+                String[] _nameCode = other.split("-");
+                Integer postId = Integer.valueOf(_nameCode[0]);
+
+                String[] nameCode = new String[_nameCode.length - 1];
+                //是否存在用户
+                for (Integer i = 1; i < _nameCode.length; i++) {
+                    try {
+                        String _code = (_nameCode[i].split("\\("))[1];
+                        String code = _code.substring(0, _code.length() - 1);
+                        SysUserView userView = CmTag.getUserByCode(code);
+                    }catch (Exception e) {
+                        throw new OpException("用户" + _nameCode[i] + "不存在！");
+                    }
+                    nameCode[i-1] = _nameCode[i];
+                }
+
+                //推荐人数是否超额
+                for (String data : datas) {
+                    String[] results = org.apache.commons.lang3.StringUtils.split(data, "_");
+                    if (postId != Integer.valueOf(results[0])){
+                        continue;
+                    }
+                    if (Integer.valueOf(results[2]) == 1){
+                        count++;
+                    }
+                }
+                count += nameCode.length;
+                DrOnlinePostView post = drOnlinePostService.getPost(postId);
+                if (count > post.getCompetitiveNum()){
+                    throw new OpException(post.getName() + "的推荐人数超过最大推荐人数");
+                }
+                String nameCodes = StringUtils.join(nameCode, "-");
+                otherMap.put(postId, nameCodes);
             }
         }
 
@@ -100,25 +133,24 @@ public class DrOnlineResultService extends DrBaseMapper {
     public Boolean submitResult(Boolean isMoblie, Integer inspectorId, HttpServletRequest request){
 
         DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(inspectorId);
-        TempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
+        DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
         Integer onlineId = inspector.getOnlineId();
 
         List<DrOnlineResult> resultList = new ArrayList<>();
         //TempInspectorResult inspectorResult = new TempInspectorResult();
-        for (Map.Entry<String, TempInspectorResult> entry : tempResult.getTempInspectorResultMap().entrySet()){
-            for (Map.Entry<String, Integer> entry1 : entry.getValue().getOptionIdMap().entrySet()){
-                String[] postUserId = entry1.getKey().split("_");
+        for (Map.Entry<String, Integer> entry : tempResult.getRawOptionMap().entrySet()){
+                String[] postUserId = entry.getKey().split("_");
                 DrOnlineResult result = new DrOnlineResult();
                 result.setOnlineId(onlineId);
                 result.setPostId(Integer.valueOf(postUserId[0]));
                 result.setCandidateId(drOnlineCandidateService.getId(Integer.valueOf(postUserId[1]), Integer.valueOf(postUserId[0])));
                 result.setInspectorId(inspector.getId());
                 result.setInspectorTypeId(inspector.getTypeId());
-                result.setInsOption(entry1.getValue() == 1 ? true : false);
+                result.setInsOption(entry.getValue() == 1 ? true : false);
 
                 resultList.add(result);
-            }
         }
+
         //另选的候选人
         Map<Integer, String> otherResultMap = tempResult.getOtherResultMap();
         if (otherResultMap == null || otherResultMap.size() > 0){

@@ -7,8 +7,8 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dr/drOnlineInspectorType/menu.jsp"/>
-                    <div class="tab-content">
-                        <div class="tab-pane in active">
+                    <div class="tab-content multi-row-head-table">
+                        <div class="tab-pane in active multi-row-head-table">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineNotice:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -90,6 +90,6 @@ pageEncoding="UTF-8" %>
     $.initNavGrid("jqGrid", "jqGridPager");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

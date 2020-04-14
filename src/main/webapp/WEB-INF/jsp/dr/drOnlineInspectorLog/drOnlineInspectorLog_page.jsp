@@ -139,8 +139,7 @@ pageEncoding="UTF-8" %>
                     else
                         return rate;
                     }, width: 110},
-                { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
-                { label: '导出次数',name: 'exportCount'},{hidden: true, key: true, name: 'id'}
+                { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

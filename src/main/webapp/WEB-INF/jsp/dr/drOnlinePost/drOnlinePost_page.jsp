@@ -36,11 +36,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 200, frozen: true},
-                { label: '分管工作',name: 'job', width: 180},
-                { label: '岗位级别',name: 'adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
-                { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
-                { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
-                { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '最多推荐人数',name: 'competitiveNum'},
                 { label: '候选人',name: 'users', align:'left', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == undefined || cellvalue.length == 0) return '--';
                         var names = new Array();
@@ -53,7 +49,12 @@ pageEncoding="UTF-8" %>
 
                         return names.join("，")
                     }, width: 250},
-                { label: '最多推荐人数',name: 'competitiveNum'},{hidden: true, key: true, name: 'id'}
+                { label: '分管工作',name: 'job', width: 180},
+                { label: '岗位级别',name: 'adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
+                { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
+                { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '备注', name: 'remark', width: 350},{hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

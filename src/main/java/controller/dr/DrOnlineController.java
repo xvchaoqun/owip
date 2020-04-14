@@ -249,6 +249,7 @@ public class DrOnlineController extends DrBaseController {
     public Map drOnline_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
+
         if (null != ids && ids.length>0){
             drOnlineService.batchDel(ids);
             logger.info(log( LogConstants.LOG_DR, "批量删除按批次管理线上民主推荐：{0}", StringUtils.join(ids, ",")));

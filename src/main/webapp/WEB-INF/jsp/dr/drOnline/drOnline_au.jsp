@@ -119,7 +119,7 @@ pageEncoding="UTF-8"%>
 	$('input[name=endTime]').on('change', function () {
 		var st = $('input[name=startTime]')
 		var et = $('input[name=endTime]')
-		console.log(st.val())
+		//console.log(st.val())
 		if (st.val() == undefined || st.val().length == 0){
 			et.val('')
 			//console.log(et.val())
@@ -127,7 +127,7 @@ pageEncoding="UTF-8"%>
 		}else if (st.val() > et.val()){
 			st.val('')
 			et.val('')
-			$('#tipEt').text('截止时间应大于开始时间')
+			$('#tipEt').text('截止时间应晚于开始时间')
 		}else if (st.val() < et.val()){
 			$('#tipEt').text('')
 		}

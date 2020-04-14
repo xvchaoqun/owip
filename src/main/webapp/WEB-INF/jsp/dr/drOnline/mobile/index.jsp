@@ -116,7 +116,7 @@
 												<c:forEach items="${postViews}" var="postView">
 													<c:if test="${postView.competitiveNum == 1}">
 														<tr>
-															<td class="postName" colspan="2"><strong>${postView.name}</strong></td>
+															<td class="postName" colspan="2"><strong>${postView.name}</strong>（${postView.competitiveNum}人）</td>
 														</tr>
 														<c:if test="${!postView.hasCandidate}">
 															<tr>
@@ -138,11 +138,11 @@
 																			<td>${candidates.user.realname}</td>
 																			<td style="text-align: center;">
 																				<div>
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
 																					<label for="${postView.id}_${candidates.userId}_1">同&nbsp;&nbsp;&nbsp;意</label>
 																				</div>
 																				<div>
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
 																					<label for="${postView.id}_${candidates.userId}_0">不同意</label>
 																				</div>
 																			</td>
@@ -165,7 +165,7 @@
 													<c:if test="${postView.competitiveNum > 1}">
 														<c:if test="${postView.hasCandidate}">
 															<tr>
-																<td class="postName" colspan="2"><strong>${postView.name}</strong></td>
+																<td class="postName" colspan="2"><strong>${postView.name}</strong>（${postView.competitiveNum}人）</td>
 															</tr>
 															<c:forEach items="${candidateMap}" var="candidateMap">
 																<c:forEach items="${candidateMap.value}" var="candidates" begin="0" end="${postView.existNum}">
@@ -174,11 +174,11 @@
 																			<td>${candidates.user.realname}</td>
 																			<td style="text-align: center;">
 																				<div >
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
 																					<label for="${postView.id}_${candidates.userId}_1">同意</label>
 																				</div>
 																				<div>
-																					<input type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
 																					<label for="${postView.id}_${candidates.userId}_0">不同意</label>
 																				</div>
 																			</td>
@@ -199,7 +199,7 @@
 														</c:if>
 														<c:if test="${!postView.hasCandidate}">
 															<tr>
-																<td class="postName" colspan="2"><strong>${postView.name}</strong></td>
+																<td class="postName" colspan="2"><strong>${postView.name}</strong>（${postView.competitiveNum}人）</td>
 															</tr>
 															<tr>
 																<td>
@@ -387,52 +387,53 @@
 		//保存临时数据
 		var isSubmit = 0;
 		var postViews = ${cm:toJSONObject(postViews)};
-		function doTempSave(i){
+		function doTempSave(){
 			var onlineId = ${drOnline.id};
 			var datas = new Array();
-			$("table input:checked").each(function () {
-				//var radioName = $(this).attr("name");
-				datas.push($(this).attr("id"));
-			})
-
-			var flag = 1;
-			var count = 0;//统计oehers的数组长度
 			var others = new Array();
-			var index = 0;
-			$("input[name=candidateCode]").each(function(){
-				//console.log($(this).val().length)
-				var postId = $(this).attr("postId");
-				var user;
-				var userIds = ($(this).val()).split(",");
-				//console.log(userIds.length)
-				if ($.trim(userIds).length == 0) {
-					user = [];
-				}else {
-					$.each(postViews, function(i, item){
-						if (postId == item.id){
-							if (userIds.length > item.competitiveNum) {
-								SysMsg.info(item.name + '中另选候选人的人数，超过了最多推荐人数' + item.competitiveNum + ',请重新选择', '提示',function(){
+			var flag = 1;   //是否提交数据
+			var totalCount = 0;
+			var _totalCount = 0;
 
-									//console.log($("#survey").find(".tags").get(index))
-									//$(this).parent().find('span').remove();
-									location.reload();
-									return;
-								})
-								flag = 0;
-							}
-						}
-					})
-					user = postId + "-" + userIds.join("-");
-					count++;
+			$.each(postViews, function (i, item) {
+				var count = 0;//统计各个推荐职务人数
+				var postId = item.id;
+				//管理员添加的候选人
+				$("table input[postId="+postId+"]:checked").each(function () {
+					if($(this).val() == 1) {
+						count++;
+					}
+					datas.push($(this).attr("id"));
+				})
+				//参评人添加的候选人
+				var user = "";
+				var userIds = ($("input[name=candidateCode][postId="+postId+"]").val()).split(",");
+				//console.log(userIds.length)
+				if ($.trim(userIds).length != 0){
+					count += userIds.length;
 				}
-				//console.log(user)
-				others.push(user)
-				index++;
+				//console.log(count)
+				if (count > item.competitiveNum){
+					SysMsg.info(item.name + '中另选候选人的人数，超过了最多推荐人数' + item.competitiveNum + ',请重新选择', '提示',function () {
+						return;
+					})
+					flag = 0;//放在提示信息中，falg赋不上值
+				}
+				if ($.trim(userIds).length == 0) {
+					user = "";
+				}else {
+					user = postId + "-" + userIds.join("-");
+					//console.log($("input[name=candidateCode][postId=" + postId + "]").val())
+				}
+				others.push(user);
+				totalCount += count;
+				_totalCount += item.competitiveNum;
+				if (flag == 0)return false;
 			})
-			//console.log(others.length)
+
 			if (flag == 0)return;
 			if(isSubmit == 1){
-				if (($("#survey tr").length - 3) > (datas.length + count)) {
+				if (_totalCount > totalCount) {
 					SysMsg.info('请完成推荐表后，再进行提交。', '提示',function () {
 						return;
 					})
@@ -490,22 +491,20 @@
 		//接收临时数据(管理员设置的候选人)，并在页面显示
 		var tempResult=${cm:toJSONObject(tempResult)};
 		//console.log(tempResult)
-		if (tempResult.tempInspectorResultMap != undefined){
-			$.each(tempResult.tempInspectorResultMap, function (onlineId, val) {
-				$.each(val.optionIdMap, function (key, value) {
-					var radioName, radioValue, userId, postId;
-					radioName = key;
-					radioValue = value;
-					var keys = key.split("_");
-					if (keys.length == 2) {
-						postId = keys[0];
-						userId = keys[1];
-					}else {
-						return true; //数据有误
-					}
-					$("[name=" + radioName + "][value=" + radioValue + "]").click();
-					//console.log($("[name=" + radioName + "][value=" + radioValue + "]"))
-				})
+		if (tempResult.rawOptionMap != undefined){
+			$.each(tempResult.rawOptionMap, function (key, value) {
+				var radioName, radioValue, userId, postId;
+				radioName = key;
+				radioValue = value;
+				var keys = key.split("_");
+				if (keys.length == 2) {
+					postId = keys[0];
+					userId = keys[1];
+				}else {
+					return true; //数据有误
+				}
+				$("[name=" + radioName + "][value=" + radioValue + "]").click();
+				//console.log($("[name=" + radioName + "][value=" + radioValue + "]"))
 			})
 		}
 
