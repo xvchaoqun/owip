@@ -1,6 +1,7 @@
 package service.common;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.member.MemberApply;
 import domain.sys.*;
 import ext.service.ExtService;
@@ -13,6 +14,9 @@ import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class ICommonService {
 
@@ -158,5 +162,36 @@ public abstract class ICommonService {
                 ti.setProPost(null);
             }
         }
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("formatNation(\"回族\") = " + formatNation("回族"));
+        System.out.println("formatNation(\"回族（区内）\") = " + formatNation("回族（区内）"));
+    }
+
+    // 转换学校的民族至标准格式
+    public static String formatNation(String mz){
+
+        if(StringUtils.isBlank(mz)
+                || StringUtils.equalsAnyIgnoreCase(mz.trim(),
+                "无", "空", "null", "未知", "其他", "其它")
+        ) return null;
+
+        mz = mz.trim();
+        if(mz.contains("族")){
+
+            if(!mz.endsWith("族")){
+                mz = mz.substring(0, mz.indexOf("族")+1);
+            }
+            return mz;
+        }
+
+        Map<Integer, MetaType> nations = CmTag.getMetaTypes("mc_nation");
+        Set<String> nationSet = nations.values().stream().map(MetaType::getName).collect(Collectors.toSet());
+        if(nationSet.contains(mz+"族")){
+            return mz+"族";
+        }
+        return mz;
     }
 }

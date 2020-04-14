@@ -187,11 +187,10 @@
                                             <label>民族</label>
                                             <div class="input-group">
                                                 <select class="multiselect" multiple="" name="nation">
-                                                    <c:forEach items="${nations}" var="nation">
-                                                        <option value="${nation}">${nation}</option>
+                                                    <c:forEach var="nation" items="${cm:getMetaTypes('mc_nation').values()}">
+                                                        <option value="${nation.name}">${nation.name}</option>
                                                     </c:forEach>
                                                 </select>
-
                                             </div>
                                         </div>
                                         <div class="form-group">

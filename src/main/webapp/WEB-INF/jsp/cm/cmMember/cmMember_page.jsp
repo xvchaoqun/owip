@@ -124,8 +124,8 @@
 
                                 <div class="input-group">
                                     <select class="multiselect" multiple="" name="nation">
-                                        <c:forEach items="${teacherNations}" var="nation">
-                                            <option value="${nation}">${nation}</option>
+                                        <c:forEach var="nation" items="${cm:getMetaTypes('mc_nation').values()}">
+                                            <option value="${nation.name}">${nation.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

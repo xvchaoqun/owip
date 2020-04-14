@@ -60,14 +60,9 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
         }
 
         //线上民主推荐移动端登录
-        if(request.getDispatcherType() == DispatcherType.REQUEST) {
-            if (HttpRequestDeviceUtils.isMobileDevice(request)) {
-                if (response.getStatus() == HttpStatus.SC_OK) {
-                    if (servletPath.startsWith("/dr/drOnline")) {
-                        return true;
-                    }
-                }
-            }
+        if (servletPath.startsWith("/dr/drOnline")
+                && HttpRequestDeviceUtils.isMobileDevice(request)) {
+            return true;
         }
 
         if (handler instanceof HandlerMethod) {

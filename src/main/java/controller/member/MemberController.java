@@ -887,7 +887,7 @@ public class MemberController extends MemberBaseController {
             modelMap.put("staffStatuses", iPropertyMapper.staffStatuses());
             modelMap.put("teacherEducationTypes", iPropertyMapper.teacherEducationTypes());
             modelMap.put("teacherPostClasses", iPropertyMapper.teacherPostClasses());
-            modelMap.put("nations", iPropertyMapper.teacherNations());
+            //modelMap.put("nations", iPropertyMapper.teacherNations());
             modelMap.put("nativePlaces", iPropertyMapper.teacherNativePlaces());
         } else if (cls == 1 || cls == 6) { // 学生党员
 
@@ -895,7 +895,7 @@ public class MemberController extends MemberBaseController {
 
             modelMap.put("studentGrades", iPropertyMapper.studentGrades());
             modelMap.put("studentTypes", iPropertyMapper.studentTypes());
-            modelMap.put("nations", iPropertyMapper.studentNations());
+            //modelMap.put("nations", iPropertyMapper.studentNations());
             modelMap.put("nativePlaces", iPropertyMapper.studentNativePlaces());
         } else if (cls == 10) {
             modelMap.put("nations", iPropertyMapper.nations());

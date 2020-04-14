@@ -1,4 +1,15 @@
 
+
+
+-- 更新 SyncService 标准化同步民族名称
+-- select distinct nation from sys_user_info where nation !='' or nation is null;
+update sys_user_info set nation=null where nation='族';
+update sys_user_info set nation='藏族' where nation='藏族（区内）';
+update sys_user_info set nation=null where nation='其他族';
+update sys_user_info set nation=null where nation='未知族';
+update sys_user_info set nation=null where nation='其他';
+update sys_user_info set nation=null where nation='未知';
+
 2020.4.13
 西北工大
 

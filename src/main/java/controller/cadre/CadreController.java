@@ -141,7 +141,7 @@ public class CadreController extends BaseController {
             modelMap.put("selectLeaderTypes", Arrays.asList(leaderTypes));
         }
 
-        modelMap.put("nations", iPropertyMapper.teacherNations());
+        //modelMap.put("nations", iPropertyMapper.teacherNations());
         if (nation != null) {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);

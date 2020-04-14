@@ -26,16 +26,16 @@ public interface IPropertyMapper {
     List<String> nativePlaces();
 
     // 学生民族
-    @Select("select distinct nation from ow_member_view where type=2 and nation is not null and nation!='' order by nation")
-    List<String> studentNations();
+    //@Select("select distinct nation from ow_member_view where type=2 and nation is not null and nation!='' order by nation")
+    //List<String> studentNations();
 
     // 学生籍贯
     @Select("select distinct native_place from ow_member_view where type=2 and native_place is not null and native_place!='' order by native_place")
     List<String> studentNativePlaces();
 
     // 教师民族
-    @Select("select distinct nation from ow_member_view where type=1 and nation is not null and nation!='' order by nation")
-    List<String> teacherNations();
+    //@Select("select distinct nation from sys_user_view where type=1 and nation is not null and nation!='' order by nation")
+    //List<String> teacherNations();
 
     // 教师籍贯
     @Select("select distinct native_place from ow_member_view where type=1 and native_place is not null and native_place!='' order by native_place")
