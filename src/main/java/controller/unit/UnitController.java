@@ -205,7 +205,7 @@ public class UnitController extends BaseController {
 
         if (StringUtils.isNotBlank(record.getCode())
                 && unitService.idDuplicate(id, record.getCode())) {
-            return failed("单位编码重复");
+            return failed("单位编码重复（"+record.getCode()+")");
         }
 
         if (id == null) {

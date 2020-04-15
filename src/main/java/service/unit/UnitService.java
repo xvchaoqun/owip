@@ -138,7 +138,7 @@ public class UnitService extends BaseMapper {
         Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         UnitExample example = new UnitExample();
-        UnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code)/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
+        UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN).andCodeEqualTo(code)/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return unitMapper.countByExample(example) > 0;
@@ -175,7 +175,12 @@ public class UnitService extends BaseMapper {
     public void abolish(Integer[] ids, boolean isAbolish) {
         if (ids == null || ids.length == 0) return;
 
+        Map<Integer,Unit> unitMap=findAll();
         for (Integer id : ids) {
+            if (idDuplicate(id, unitMap.get(id).getCode())) {
+                throw new OpException("单位编码重复(" + unitMap.get(id).getCode() + ")");
+            }
+
             Unit record = new Unit();
             record.setId(id);
             if (isAbolish) {

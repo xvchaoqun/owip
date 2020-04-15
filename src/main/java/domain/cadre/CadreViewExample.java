@@ -2023,8 +2023,29 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andNationIn(List<String> values) {
-            addCriterion("nation in", values, "nation");
+        public Criteria andNationIn(ArrayList<String> values) {
+            List searchSqlList = new ArrayList<>();
+            String str = "";
+
+            if(values.contains("其他")){
+                searchSqlList.add("nation not in(select name from  base_meta_type where class_id=134) or nation is null");
+                values.remove("其他");
+            }
+
+            if(values.size()>0){
+
+                for (int i = 0; i < values.size(); i++) {
+                    if (i < values.size() - 1) {
+                        str +="'"+values.get(i)+"',";
+                    } else {
+                        str +="'"+values.get(i)+"'";
+                    }
+                }
+
+                searchSqlList.add("nation in (" + str + ")");
+            }
+            if(searchSqlList.size()>0)
+                addCriterion("(" + StringUtils.join(searchSqlList, " or ") + ")");
             return (Criteria) this;
         }
 
@@ -2534,13 +2555,17 @@ public class CadreViewExample {
             List searchSqlList = new ArrayList<>();
             if(values.contains(-2)){
                 searchSqlList.add("(dp_type_id is null and is_ow=0)");
-            }else if(values.contains(-1)){
+            }
+            if(values.contains(-1)){
                 searchSqlList.add("is_ow!=1");
-            } else if(values.contains(0)){
+            }
+            if(values.contains(0)){
                 searchSqlList.add("is_ow=1");
             }
             values.remove(-2);
+            values.remove(-1);
             values.remove(0);
+
             if(values.size()>0){
                 searchSqlList.add("dp_type_id in (" + StringUtils.join(values, ",") + ")");
             }

@@ -340,8 +340,8 @@ public class CadreController extends BaseController {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
         }
         if (nation != null) {
-            List<String> selectNations = Arrays.asList(nation);
-            criteria.andNationIn(selectNations);
+           // List<String> selectNations = Arrays.asList(nation);
+            criteria.andNationIn(new ArrayList<>(Arrays.asList(nation)));
         }
         if (dpTypes != null) {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));

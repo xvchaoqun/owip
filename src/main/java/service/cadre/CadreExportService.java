@@ -527,7 +527,8 @@ public class CadreExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
             // 出生时间
-            String birth = DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);
+            String birth = DateUtils.formatDate(uv.getBirth(), CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+            /*DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);*/
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
@@ -604,14 +605,16 @@ public class CadreExportService extends BaseMapper {
             String adminLevelYear = ""; // 任现职级年限
 
             if(cv.getNpWorkTime()!=null) {
-                postStartTime = DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMM);
+                postStartTime = DateUtils.formatDate(cv.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+                        /*DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMM);*/
                 Integer year = DateUtils.intervalYearsUntilNow(cv.getNpWorkTime());
                 if (year == 0) postYear = "未满一年";
                 else postYear = year + "";
             }
 
             if(cv.getsWorkTime()!=null) {
-                adminLevelStartTime = DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYYMM);
+                adminLevelStartTime = DateUtils.formatDate(cv.getsWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+                       /* DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYYMM);*/
                 Date eWorkTime = cv.geteWorkTime();
                 Integer monthDiff = DateUtils.monthDiff(cv.getsWorkTime(), eWorkTime==null?new Date():eWorkTime);
                 int year = monthDiff / 12;

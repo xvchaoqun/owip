@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
+<c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -405,7 +406,7 @@
                                                             <option value="-1">非中共党员</option>
                                                             <option value="0">中共党员</option>
                                                             <c:import url="/metaTypes?__code=mc_democratic_party"/>
-                                                           <shiro:hasRole name="${ROLE_ADMIN}">
+                                                           <shiro:hasRole name="${ROLE_SUPER}">
                                                             <option value="-2">空</option>
                                                            </shiro:hasRole>
                                                         </select>
