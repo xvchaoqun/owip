@@ -364,3 +364,75 @@ form .star {
     -webkit-transform: translate3d(25%, 25%, 0);
     transform: translate3d(25%, 25%, 0);
 }
+/**********统一身份认证呼吸按钮样式***************************/
+.login-btns{
+    margin: 25px 0 0 0;
+}
+.login-btns a,#login-form a{
+    font-size:14px;
+    /*float:right;*/
+    color: #333;
+    padding-right: 15px;
+    text-decoration: underline
+}
+.login-btns a:last-child,#login-form a:last-child{
+    padding-right:0;
+}
+.login-btns .cas{
+    width:220px;
+    height:55px;
+    font-size:18px;
+    margin:0 auto;
+    padding-left: 30px;
+    line-height:55px;
+    border-radius: 4px;
+    cursor:pointer;
+    font-weight:bold;
+    color: #fff;
+    background-color: rgb(102, 159, 199);
+    box-shadow: 1px 2px 5px #ccc;/********IE9的情况下会用到box-shadow***********/
+    -webkit-box-shadow: 1px 2px 5px #ccc;
+    -moz-box-shadow: 1px 2px 5px #ccc;
+    -o-box-shadow: 1px 2px 5px #ccc;
+    animation: myfirst 2s infinite linear;/********呼吸效果box-shadow background***********/
+    -webkit-animation: myfirst 2s infinite linear;
+    -moz-animation: myfirst 2s infinite linear;
+    -o-animation: myfirst 2s infinite linear;
+}
+.login-btns .form{
+    width:220px;
+    height:55px;
+    font-size:18px;
+    margin:0 auto;
+    margin-top:25px;
+    margin-bottom:20px;
+    padding-left: 30px;
+    line-height:55px;
+    border-radius: 4px;
+    cursor:pointer;
+    font-weight:bold;
+    color: #fff;
+    background-color: rgb(102, 159, 199);
+    box-shadow: 1px 2px 5px #ccc;/********IE9的情况下会用到box-shadow***********/
+    -webkit-box-shadow: 1px 2px 5px #ccc;
+    -moz-box-shadow: 1px 2px 5px #ccc;
+    -o-box-shadow: 1px 2px 5px #ccc;
+    animation: mysecond 2s infinite linear;/********呼吸效果box-shadow background***********/
+    -webkit-animation: mysecond 2s infinite linear;
+    -moz-animation: mysecond 2s infinite linear;
+    -o-animation: mysecond 2s infinite linear;
+}
+.login-btns .cas:hover, .login-btns .form:hover{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+    background-color: #337ab7;
+    box-shadow: 1px 2px 5px #aaa;
+    -webkit-box-shadow: 1px 2px 5px #aaa;
+    -moz-box-shadow: 1px 2px 5px #aaa;
+    -o-box-shadow: 1px 2px 5px #aaa;
+}
+.login-btns .cas:active, .login-btns .form:active{/*****IE9统一身份认证**账户密码登录按钮样式*****/
+    background-color: #337ab7;
+    box-shadow: 1px 2px 5px #ccc;
+    -webkit-box-shadow: 1px 2px 5px #ccc;
+    -moz-box-shadow: 1px 2px 5px #ccc;
+    -o-box-shadow: 1px 2px 5px #ccc;
+}

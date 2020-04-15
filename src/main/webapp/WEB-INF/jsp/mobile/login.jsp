@@ -3,11 +3,13 @@
 <shiro:user>
 	<c:redirect url="/m/index"/>
 </shiro:user>
-<fmt:message key="login.useCAS" bundle="${spring}" var="_useCAS"/>
+<c:set value="${empty _pMap['cas_url']?'/cas':_pMap['cas_url']}" var="_p_casUrl"/>
+<c:set value="${_pMap['default_login_btns']=='true'}" var="_p_defaultLoginBtns"/>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
+		<t:link href="/mobile/css/setup.css"/>
 	</head>
 	<body class="login-layout blue-login">
 		<div class="main-container">
@@ -29,30 +31,14 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<c:if test="${_useCAS}">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-home green"></i>
-												信息门户账号登录：
-												<button type="button" onclick="javascript:location.href='${ctx}/cas'"
-														class="btn btn-xs btn-success">
-													<span class="bigger-130"><i class="fa fa-hand-o-right"></i> 单点登录</span>
-												</button>
-											</h4>
+											<div class="row">
+													<div class="login-btns" ${_p_defaultLoginBtns?'':'hidden'} >
+														<div class="cas" onclick="location.href='${_p_casUrl}'"><i class="ace-icon fa fa-user"></i> 统一身份认证登录</div>
+														<div class="form"><i class="ace-icon fa fa-key"></i> 其他用户登录</div>
+													</div>
+											</div>
 
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-key green"></i>
-												其他账号登录：
-											</h4>
-											</c:if>
-											<c:if test="${!_useCAS}">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-key green"></i>
-												请使用信息门户账号密码登录
-											</h4>
-											</c:if>
-											<div class="space-6"></div>
-
-											<form>
+											<form id="login-form" ${_p_defaultLoginBtns?'hidden':''}>
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -70,13 +56,15 @@
 
 													<input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span>
 													<div class="space"></div>
-													<div class="center">
+
+													<div style="width:60%;display:inline-block;float:left;text-align: right;">
 														<button type="button" class="width-35 btn btn-sm btn-primary">
 															<span class="bigger-130" id="login_btn">登录</span>
 														</button>
 													</div>
-
-													<div class="space-4"></div>
+													<div style="display:inline-block;float:right;padding-top: 20px">
+														<a href="javascript:;" class="cas to_reg_btn">统一身份认证</a>
+													</div>
 												</fieldset>
 											</form>
 										</div><!-- /.widget-main -->
@@ -92,6 +80,16 @@
 			</div><!-- /.main-content -->
 		</div><!-- /.main-container -->
 		<script type="text/javascript">
+
+			$('.login-btns .cas, #login-form .cas').click(function(){
+				$('#login-form').hide();
+				$('.login-btns').show();
+			});
+			$('.login-btns .form').click(function(){
+					$('.login-btns').hide();
+					$('#login-form').show();
+			});
+
 			$("#login_btn").click(function(){
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");

@@ -206,62 +206,61 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任职单位</div>
           <div class="profile-info-value td">
-            <span class="editable">${unitMap.get(mainCadrePost.unitId).name}</span>
+            <span class="editable">${unitMap.get(cadre.unitId).name}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 单位属性</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(unitMap.get(mainCadrePost.unitId).typeId).name}</span>
+            <span class="editable">${cm:getMetaType(unitMap.get(cadre.unitId).typeId).name}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 是否双肩挑</div>
           <div class="profile-info-value td">
             <span class="editable">
-              <c:if test="${not empty mainCadrePost}">
-                ${mainCadrePost.isDouble?"是":"否"}
-              </c:if>
+                 <c:if test="${not empty cadre.isDouble}">
+                      ${cadre.isDouble?"是":"否"}
+                 </c:if>
             </span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 现任职务</div>
           <div class="profile-info-value td">
-            <span class="editable">${mainCadrePost.post}</span>
+            <span class="editable">${cadre.post}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任现职时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.lpWorkTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(cadre.lpWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 现职务始任时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(mainCadrePost.npWorkTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(cadre.npWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevel).name}</span>
+            <span class="editable">${cm:getMetaType(cadre.adminLevel).name}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任现职级时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(cadreAdminLevel.startDispatch.workTime,'yyyy-MM-dd')}</span>
+            <span class="editable">${cm:formatDate(cadre.sWorkTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任现职级年限</div>
           <div class="profile-info-value td">
             <span class="editable">
-              <c:if test="${not empty cadreAdminLevel}">
-                <c:set value="${cm:intervalYearsUntilNow(cadreAdminLevel.startDispatch.workTime)}" var="workYear"/>
-                ${workYear==0?"未满一年":workYear}
+              <c:if test="${not empty cadre.adminLevelYear}">
+                ${cadre.adminLevelYear==0?"未满一年":cadre.adminLevelYear}
               </c:if>
             </span>
           </div>

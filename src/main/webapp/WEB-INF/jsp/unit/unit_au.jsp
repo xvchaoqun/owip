@@ -27,6 +27,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>单位编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${unit.code}">
+					    <span class="help-block">注：正在运转单位中编号不可重复，单位编号可与历史单位编号重复</span>
 				</div>
 			</div>
 			<div class="form-group">

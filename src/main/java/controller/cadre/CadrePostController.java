@@ -337,6 +337,7 @@ public class CadrePostController extends BaseController {
 
                     record.setUnitPostId(unitPost.getId());
                     record.setPostName(unitPost.getName());
+                    record.setIsPrincipal(unitPost.getIsPrincipal());
                     record.setAdminLevel(unitPost.getAdminLevel());
                     record.setPostType(unitPost.getPostType());
                     record.setPostClassId(unitPost.getPostClass());
@@ -350,7 +351,13 @@ public class CadrePostController extends BaseController {
                     }
                     record.setPost(post);
 
-                    String _postType = StringUtils.trimToNull(xlsRow.get(5));
+                    String isPrincipal = StringUtils.trimToNull(xlsRow.get(5));
+                    if (StringUtils.isBlank(isPrincipal)) {
+                        throw new OpException("第{0}行是否主职为空", row);
+                    }
+                    record.setIsPrincipal(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(5)), "是"));
+
+                    String _postType = StringUtils.trimToNull(xlsRow.get(6));
                     MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);
                     if (postType == null && record.getPostType() == null) {
                         throw new OpException("第{0}行职务属性[{1}]不存在", row, _postType);
@@ -358,7 +365,7 @@ public class CadrePostController extends BaseController {
                         record.setPostType(postType.getId());
                     }
 
-                    String _postClass = StringUtils.trimToNull(xlsRow.get(7));
+                    String _postClass = StringUtils.trimToNull(xlsRow.get(8));
                     MetaType postClass = CmTag.getMetaTypeByName("mc_post_class", _postClass);
                     if (postClass == null && record.getPostClassId() == null) {
                         throw new OpException("第{0}行职务类别[{1}]不存在", row, _postClass);
@@ -366,7 +373,7 @@ public class CadrePostController extends BaseController {
                         record.setPostClassId(postClass.getId());
                     }
 
-                    String unitCode = StringUtils.trimToNull(xlsRow.get(9));
+                    String unitCode = StringUtils.trimToNull(xlsRow.get(10));
                     if (StringUtils.isBlank(unitCode)) {
                         throw new OpException("第{0}行单位编码为空", row);
                     }
@@ -377,7 +384,7 @@ public class CadrePostController extends BaseController {
                     record.setUnitId(unit.getId());
                 }
 
-                String _adminLevel = StringUtils.trimToNull(xlsRow.get(6));
+                String _adminLevel = StringUtils.trimToNull(xlsRow.get(7));
                 MetaType adminLevel = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
                 if (unitPost == null && adminLevel == null) {
                     throw new OpException("第{0}行行政级别[{1}]不存在", row, _adminLevel);
@@ -385,11 +392,11 @@ public class CadrePostController extends BaseController {
                     record.setAdminLevel(adminLevel.getId());
                 }
 
-                record.setPost(StringUtils.trimToNull(xlsRow.get(10)));
-                record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(11)), "是"));
+                record.setPost(StringUtils.trimToNull(xlsRow.get(9)));
+                record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(12)), "是"));
 
-                record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
-                record.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+                record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
+                record.setNpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14))));
 
                 record.setIsMainPost(true);
                 records.add(record);
