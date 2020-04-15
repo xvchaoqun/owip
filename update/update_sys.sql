@@ -1,6 +1,10 @@
 2020-04-14
+UPDATE `db_owip`.`base_meta_type` SET `code`='mt_nation_qz' WHERE  `name`='mt_irw3y7';
+
+2020-04-14
 UPDATE `db_owip`.`base_meta_type` SET `name`='毛南族' WHERE  `name`='毛难族';
 ALTER TABLE `unit` DROP INDEX `code`;
+
 2020-02-24
 -- 添加字段 桑文帅
 ALTER TABLE `sys_html_fragment` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `remark`;

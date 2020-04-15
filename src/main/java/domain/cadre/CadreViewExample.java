@@ -1,6 +1,8 @@
 package domain.cadre;
 
+import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
 
@@ -2546,11 +2548,16 @@ public class CadreViewExample {
         // -2：空（不是中共党员也不是民主党派） -1：非中共党员 0：中共党员
         public Criteria andDpTypeIdIn(Set<Integer> values) {
 
+            MetaType metaType= CmTag.getMetaTypeByCode("mt_nation_qz");  //群众
             List searchSqlList = new ArrayList<>();
 
-            if(values.contains(-2)){
+            if(metaType!=null && values.contains(metaType.getId())){
+                searchSqlList.add("(dp_type_id is null and is_ow=0 or dp_type_id="+metaType.getId()+")");
+                values.remove(metaType.getId());
+            }else if(values.contains(-2)){
                 searchSqlList.add("(dp_type_id is null and is_ow=0)");
             }
+
             if(values.contains(-1)){
                 searchSqlList.add("is_ow!=1");
             }
