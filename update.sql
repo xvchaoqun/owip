@@ -10,6 +10,8 @@ update sys_user_info set nation=null where nation='未知族';
 update sys_user_info set nation=null where nation='其他';
 update sys_user_info set nation=null where nation='未知';
 
+-- 更新utils
+
 2020.4.13
 西北工大
 

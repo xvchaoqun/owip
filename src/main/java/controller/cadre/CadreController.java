@@ -340,8 +340,12 @@ public class CadreController extends BaseController {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
         }
         if (nation != null) {
-           // List<String> selectNations = Arrays.asList(nation);
-            criteria.andNationIn(new ArrayList<>(Arrays.asList(nation)));
+
+            Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_nation");
+            Set<String> nations = metaTypeMap.values()
+                    .stream().map(MetaType::getName).collect(Collectors.toSet());
+
+            criteria.andNationIn(Arrays.asList(nation), nations);
         }
         if (dpTypes != null) {
             criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));

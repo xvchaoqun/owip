@@ -107,15 +107,21 @@ public class CmTag {
         return sysConfigService.get();
     }
 
-    public static Boolean isSuperAccount(String username){
+    // 获取超级管理员账号
+    public static Set<String> getSuperAccounts(){
 
         String users = CmTag.getStringProperty("superUsers", "zzbgz");
-        if(StringUtils.isBlank(users)) return false;
+        if(StringUtils.isBlank(users)) return new HashSet<>();
 
         Set<String> userSet = new HashSet<>();
         userSet.addAll(Arrays.asList(users.split(",")));
 
-        return userSet.contains(username);
+        return userSet;
+    }
+
+    public static Boolean isSuperAccount(String username){
+
+        return getSuperAccounts().contains(username);
     }
 
     // 获取菜单显示处理数量

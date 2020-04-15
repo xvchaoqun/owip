@@ -202,6 +202,11 @@ public class SysUserController extends BaseController {
         SysUserViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
+        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+		if(!superAccount){
+			criteria.andUsernameNotIn(new ArrayList<>(CmTag.getSuperAccounts()));
+		}
+
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }

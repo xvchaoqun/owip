@@ -1463,7 +1463,8 @@ span.delete, span.delete a, li.delete label {
 
 .isCpc, .isCpc a {
     color: green;
-    text-decoration: underline;
+    padding-bottom: 1px;
+    border-bottom: solid 1px;
 }
 
 .unpre pre {

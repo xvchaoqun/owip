@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${empty _pMap['label_staffType']?'个人身份':_pMap['label_staffType']}" var="_p_label_staffType"/>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <div class="row">
@@ -412,7 +413,7 @@
                                                         </select>
                                                     </td>
                                                     <c:if test="${fn:length(staffTypes)>0}">
-                                                    <td class="name">个人身份</td>
+                                                    <td class="name">${_p_label_staffType}</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="staffTypes">
                                                             <c:forEach items="${staffTypes}" var="staffType">

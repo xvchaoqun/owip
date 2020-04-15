@@ -25,10 +25,7 @@ import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SysLoginLogController extends BaseController {
@@ -98,6 +95,11 @@ public class SysLoginLogController extends BaseController {
 		SysLoginLogExample.Criteria criteria = example.createCriteria();
 		if(type!=null) criteria.andTypeEqualTo(type);
 		example.setOrderByClause(" id desc");
+
+		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+		if(!superAccount){
+			criteria.andUsernameNotIn(new ArrayList<>(CmTag.getSuperAccounts()));
+		}
 
 		if (userId != null) {
 			criteria.andUserIdEqualTo(userId);

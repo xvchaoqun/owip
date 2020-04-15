@@ -16,13 +16,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +63,12 @@ public class SysLogController extends BaseController {
 		
 		SysLogExample example = new SysLogExample();
 		SysLogExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.AVAILABLE);
+
+		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+		if(!superAccount){
+			criteria.andOperatorNotIn(new ArrayList<>(CmTag.getSuperAccounts()));
+		}
+
 		if(typeId!=null) criteria.andTypeIdEqualTo(typeId);
 		example.setOrderByClause(" id desc");
 
