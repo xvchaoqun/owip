@@ -437,6 +437,7 @@
                                                         <input type="text" style="width: 200px" name="title"
                                                                value="${param.title}">
                                                     </td>
+                                                    <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
                                                     <td class="name">干部标签</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="labels"
@@ -444,6 +445,7 @@
                                                             <c:import url="/metaTypes?__code=mc_cadre_label"/>
                                                         </select>
                                                     </td>
+                                                        </c:if>
                                                     <c:if test="${_p_useCadreState}">
                                                         <td class="name">${_pMap['cadreStateName']}</td>
                                                         <td class="input">
@@ -459,6 +461,7 @@
                                                     </c:if>
                                                 </tr>
                                                 <tr>
+                                                    <c:if test="${fn:length(authorizedTypes)>0}">
                                                     <td class="name">编制类别</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="authorizedTypes">
@@ -467,6 +470,7 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
+                                                        </c:if>
                                                     <td class="name">部门属性</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitTypes">

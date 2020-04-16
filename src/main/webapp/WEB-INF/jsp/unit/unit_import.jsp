@@ -3,11 +3,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导入单位</h3>
+    <h3>导入${UNIT_STATUS_MAP.get(cm:toByte(param.status))}</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data"
 		  action="${ctx}/unit_import" method="post">
+		<input type="hidden" name="status" value="${param.status}">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">

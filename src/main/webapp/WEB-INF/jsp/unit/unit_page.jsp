@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/unit_au"
+             data-url-au="${ctx}/unit_au?status=${cls==1?UNIT_STATUS_RUN:UNIT_STATUS_HISTORY}"
              data-url-page="${ctx}/unit"
              data-url-export="${ctx}/unit_data"
              data-url-del="${ctx}/unit_del"
@@ -19,28 +19,40 @@
                 <div class="<shiro:hasPermission name="unitPost:*">multi-row-head-table </shiro:hasPermission>tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${status==1}">
                             <shiro:hasPermission name="unit:edit">
                                 <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                            </shiro:hasPermission>
-                            </c:if>
-                            <shiro:hasPermission name="unit:edit">
                                 <button class="jqEditBtn btn btn-primary btn-sm">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
-                                <a class="popupBtn btn btn-info btn-sm tooltip-info"
-                               data-url="${ctx}/unit_import?status=${status}"
-                               data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                批量导入</a>
-
-                                <a class="popupBtn btn btn-danger btn-sm tooltip-warning"
-                               data-url="${ctx}/unit_importCodes"
-                               data-rel="tooltip" data-placement="top" title="批量导入更新编码"><i class="fa fa-upload"></i>
-                                批量更新编码</a>
-                            </shiro:hasPermission>
-
                             <div class="btn-group">
-
+                                <button data-toggle="dropdown"
+                                        class="btn btn-info btn-sm dropdown-toggle">
+                                    <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                                    <li>
+                                        <a href="javascript:;" class="popupBtn"
+                                           data-url="${ctx}/unit_import?status=${cls==1?UNIT_STATUS_RUN:UNIT_STATUS_HISTORY}">
+                                            <i class="fa fa-upload"></i> 批量导入</a>
+                                    </li>
+                                    <c:if test="${cls==1}">
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="javascript:;" class="popupBtn"
+                                           data-url="${ctx}/unit_importCodes">
+                                            <i class="fa fa-refresh"></i> 批量更新单位编码</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="javascript:;" class="popupBtn"
+                                           data-url="${ctx}/unit_batchSort?status=${cls==1?UNIT_STATUS_RUN:UNIT_STATUS_HISTORY}">
+                                            <i class="fa fa-file-excel-o"></i> 批量排序</a>
+                                    </li>
+                                    </c:if>
+                                </ul>
+                            </div>
+                            </shiro:hasPermission>
+                            <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
                                         title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
@@ -60,48 +72,22 @@
                                     </li>
                                 </ul>
                             </div>
-                            <shiro:hasPermission name="unit:edit">
-                            <div class="btn-group">
-                                <button data-toggle="dropdown"
-                                        data-rel="tooltip" data-placement="top" data-html="true"
-                                        title="<div style='width:180px'>批量内设机构入口</div>"
-                                        class="btn btn-warning btn-sm dropdown-toggle tooltip-success">
-                                    <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                    <li>
-                                        <a href="javascript:;" class="popupBtn"
-                                           data-url="${ctx}/unit_batchSort?status=${status}">
-                                            <i class="fa fa-file-excel-o"></i> 批量排序</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                </ul>
-                            </div>
-                            </shiro:hasPermission>
-                                <shiro:hasPermission name="unit:abolish">
-                                    <c:if test="${status==1}">
-                                        <button class="jqBatchBtn btn btn-warning btn-sm"
-                                           data-url="${ctx}/unit_abolish" data-title="转移"
-                                           data-msg="确定将这{0}个单位转移到历史单位吗？">
-                                            <i class="fa fa-recycle"></i> 转移
+                            <shiro:hasPermission name="unit:abolish">
+                                <c:if test="${cls==1}">
+                                    <button class="jqBatchBtn btn btn-warning btn-sm"
+                                       data-url="${ctx}/unit_abolish" data-title="转移"
+                                       data-msg="确定将这{0}个单位转移到历史单位吗？">
+                                        <i class="fa fa-history"></i> 转移至历史单位
+                                    </button>
+                                 </c:if>
+                                 <c:if test="${cls==2}">
+                                      <button class="jqBatchBtn btn btn-warning btn-sm"
+                                           data-url="${ctx}/unit_abolish?isAbolish=0" data-title="返回正在运转单位"
+                                           data-msg="确定将这{0}个单位返回到运转单位吗？">
+                                            <i class="fa fa-reply"></i> 返回正在运转单位
                                         </button>
-                                     </c:if>
-                                     <c:if test="${status==2}">
-                                          <button class="jqBatchBtn btn btn-warning btn-sm"
-                                               data-url="${ctx}/unit_abolish?isAbolish=0" data-title="返回正在运转单位"
-                                               data-msg="确定将这{0}个单位返回到运转单位吗？">
-                                                <i class="fa fa-reply"></i> 返回正在运转单位
-                                            </button>
-                                          </c:if>
-                                </shiro:hasPermission>
-
-                            <%--<shiro:hasPermission name="unit:history">
-                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                        data-url="${ctx}/unit_history">
-                                    <i class="fa fa-history"></i> 编辑历史单位
-                                </button>
-                            </shiro:hasPermission>--%>
-
+                                      </c:if>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="unit:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/unit_batchDel" data-title="删除单位"
@@ -122,7 +108,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                                 <div class="form-group">
                                                     <label>单位编号</label>
-                                                        <input type="hidden" name="status" value="${status}">
+                                                        <input type="hidden" name="cls" value="${cls}">
                                                         <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                                placeholder="请输入单位编号">
                                                 </div>
@@ -144,7 +130,7 @@
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
-                                                <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="status=${status}">
+                                                <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -183,7 +169,7 @@
             </c:if>
             </shrio:hasPermission>
             { label: '单位类型', name: 'typeId', width: 140, formatter: $.jgrid.formatter.MetaType },
-            <c:if test="${status==1}">
+            <c:if test="${cls==1}">
             <shiro:hasPermission name="unitPost:*">
             { label: '正处级<br/>岗位数', name: 'mainPostCount', width: 80},
             { label: '副处级<br/>岗位数', name: 'vicePostCount', width: 80},

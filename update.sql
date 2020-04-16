@@ -18,9 +18,12 @@ UPDATE `base_meta_type` SET `name`='毛南族' WHERE  `name`='毛难族';
 
 -- 删除属性login.useCas，login.useSSO 增加数据库系统属性 cas_type（1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口）、mobile_login_useCas
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES ('mobile_login_useCas', '手机登录界面是否有CAS', 'false', 3, 55, '');
+VALUES ('mobile_login_useCas', '手机登录界面是否有CAS', 'true', 3, 55, '');
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES ('cas_type', '系统CAS类型', '3', 2, 56, '1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口');
+VALUES ('cas_type', '系统CAS类型', '1', 2, 56, '1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口');
+
+ALTER TABLE `unit`
+	DROP INDEX `code`;
 
 
 2020.4.13
@@ -120,7 +123,7 @@ ALTER TABLE `sys_scheduler_job` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT 
 ALTER TABLE `sys_attach_file` ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `create_time`;
 --
 
--- SyncService：参考3.30号的git修改日志进行修改
+-- SyncService：参考3.30/4.13/4.14号的git修改日志进行修改
 
 2020.03.10 15:30
 新建西北工大

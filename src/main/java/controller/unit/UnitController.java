@@ -89,12 +89,12 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit")
-    public String unit(@RequestParam(required = false, defaultValue = "1") Byte status,
+    public String unit(@RequestParam(required = false, defaultValue = "1") Byte cls,
                        @RequestParam(required = false, defaultValue = "0") int export,
                        ModelMap modelMap, HttpServletResponse response) throws IOException {
 
-        modelMap.put("status", status);
-        if (status == 3) {
+        modelMap.put("cls", cls);
+        if (cls == 3) {
 
             if (export == 1) {
 
@@ -123,7 +123,7 @@ public class UnitController extends BaseController {
     @RequestMapping("/unit_data")
     @ResponseBody
     public void unit_data(HttpServletResponse response,
-                          @RequestParam(required = false, defaultValue = "1") Byte status,
+                          @RequestParam(required = false, defaultValue = "1") Byte cls,
                           String code,
                           String name,
                           Integer typeId,
@@ -138,6 +138,11 @@ public class UnitController extends BaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
+
+        byte status = SystemConstants.UNIT_STATUS_RUN;
+        if(cls==2){
+           status = SystemConstants.UNIT_STATUS_HISTORY;
+        }
 
         UnitViewExample example = new UnitViewExample();
         UnitViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
@@ -204,20 +209,21 @@ public class UnitController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(record.getCode())
-                && unitService.idDuplicate(id, record.getCode())) {
+                && unitService.idDuplicate(id, record.getCode(), record.getStatus())) {
             return failed("单位编码重复（"+record.getCode()+")");
         }
 
         if (id == null) {
 
             record.setCreateTime(new Date());
-            record.setStatus(SystemConstants.UNIT_STATUS_RUN);
             unitService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加%s：%s",
+                    SystemConstants.UNIT_STATUS_MAP.get(record.getStatus()), record.getId()));
         } else {
 
             unitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新%s：%s",
+                    SystemConstants.UNIT_STATUS_MAP.get(record.getStatus()), record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -225,12 +231,18 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:edit")
     @RequestMapping("/unit_au")
-    public String unit_au(Integer id, Boolean update, ModelMap modelMap) {
+    public String unit_au(Integer id,
+                          Byte status,
+                          Boolean update, ModelMap modelMap) {
 
         if (id != null) {
             Unit unit = unitMapper.selectByPrimaryKey(id);
             modelMap.put("unit", unit);
+            status = unit.getStatus();
         }
+
+        modelMap.put("status", status);
+
         if (BooleanUtils.isTrue(update)) {
             DispatchUnitViewExample example = new DispatchUnitViewExample();
             example.createCriteria().andCategoryContain(DispatchConstants.DISPATCH_CATEGORY_UNIT, true)
@@ -457,7 +469,7 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:edit")
     @RequestMapping(value = "/unit_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_unit_import(byte status, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -468,7 +480,7 @@ public class UnitController extends BaseController {
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
 
-        Map<String, Object> retMap = unitService.batchImport(xlsRows);
+        Map<String, Object> retMap = unitService.batchImport(xlsRows, status);
         int successCount = (int) retMap.get("success");
         List<Map<Integer, String>> failedXlsRows = (List<Map<Integer, String>>) retMap.get("failedXlsRows");
         int totalCount = xlsRows.size();
@@ -561,7 +573,7 @@ public class UnitController extends BaseController {
             if (StringUtils.isBlank(unitCode)) {
                 throw new OpException("第{0}行单位编码为空", row);
             }
-            Unit unit = unitService.findUnitByCode(unitCode);
+            Unit unit = unitService.findRunUnitByCode(unitCode);
             if (unit == null){
                 throw new OpException("第{0}行单位[{1}]不存在", row, unit.getName());
             }

@@ -38,10 +38,22 @@ public class UnitService extends BaseMapper {
         return unitMapper.selectByExample(example);
     }
 
-    public Unit findUnitByCode(String code) {
+    // 查找正在运行单位
+    public Unit findRunUnitByCode(String code) {
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andCodeEqualTo(code);
+        example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        List<Unit> units = unitMapper.selectByExample(example);
+        if (units.size() > 0) return units.get(0);
+        return null;
+    }
+    // 查找第一个历史的运行单位，用于导入
+    public Unit findHistoryUnitByCode(String code, String name) {
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andCodeEqualTo(code)
+                .andStatusEqualTo(SystemConstants.UNIT_STATUS_HISTORY)
+                .andNameEqualTo(name);
         List<Unit> units = unitMapper.selectByExample(example);
         if (units.size() > 0) return units.get(0);
         return null;
@@ -133,13 +145,22 @@ public class UnitService extends BaseMapper {
         return root;
     }
 
-    public boolean idDuplicate(Integer id, String code) {
+    public boolean idDuplicate(Integer id, String code, byte status) {
 
         Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
+        if(status==SystemConstants.UNIT_STATUS_HISTORY){
+            // 历史单位的单位编码允许重复
+            return false;
+        }
+
         UnitExample example = new UnitExample();
-        UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN).andCodeEqualTo(code)/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
-        if (id != null) criteria.andIdNotEqualTo(id);
+        UnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+
+
+        if (id != null){
+            criteria.andIdNotEqualTo(id);
+        }
 
         return unitMapper.countByExample(example) > 0;
     }
@@ -177,7 +198,8 @@ public class UnitService extends BaseMapper {
 
         Map<Integer,Unit> unitMap=findAll();
         for (Integer id : ids) {
-            if (idDuplicate(id, unitMap.get(id).getCode())) {
+            Unit unit = unitMap.get(id);
+            if (idDuplicate(id, unit.getCode(), isAbolish?SystemConstants.UNIT_STATUS_HISTORY:SystemConstants.UNIT_STATUS_RUN)) {
                 throw new OpException("单位编码重复(" + unitMap.get(id).getCode() + ")");
             }
 
@@ -192,12 +214,6 @@ public class UnitService extends BaseMapper {
             }
             unitMapper.updateByPrimaryKeySelective(record);
         }
-        /*UnitExample example = new UnitExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        Unit record = new Unit();
-        record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
-        unitMapper.updateByExampleSelective(record, example);*/
     }
 
     @Transactional
@@ -241,7 +257,7 @@ public class UnitService extends BaseMapper {
     // 导入单位
     @Transactional
     @CacheEvict(value = "Unit:ALL", allEntries = true)
-    public Map<String, Object> batchImport(List<Map<Integer, String>> xlsRows) {
+    public Map<String, Object> batchImport(List<Map<Integer, String>> xlsRows, byte status) {
 
         int success = 0;
         List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
@@ -257,7 +273,7 @@ public class UnitService extends BaseMapper {
                     || StringUtils.isBlank(name)
                     || StringUtils.isBlank(type)) {
                 failedXlsRows.add(xlsRow);
-                throw new OpException("第{0}行数据有误[空字段]", row);
+                throw new OpException("第{0}行数据有误：单位编码或名称或类型为空", row);
             }
 
             MetaType unitType = metaTypeService.findByName("mc_unit_type", type);
@@ -266,7 +282,15 @@ public class UnitService extends BaseMapper {
                 throw new OpException("第{0}行单位类型[{1}]不存在", row, type);
             }
 
-            Unit _unit = findUnitByCode(code);
+            Unit _unit = null;
+
+            if(status==SystemConstants.UNIT_STATUS_RUN) {
+                // 如果是导入现运行单位，检查是否是更新操作。
+                _unit = findRunUnitByCode(code);
+            }else{
+                // 如果是导入历史单位，则只根据单位名称和编码查找第一个匹配的
+                _unit = findHistoryUnitByCode(code, name);
+            }
 
             Unit record = new Unit();
             record.setCode(code);
@@ -280,8 +304,8 @@ public class UnitService extends BaseMapper {
             int ret = 0;
             if (_unit == null) {
                 record.setCreateTime(new Date());
-                record.setStatus(SystemConstants.UNIT_STATUS_RUN);
-                record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
+                record.setStatus(status);
+                record.setSortOrder(getNextSortOrder("unit", "status=" + status));
                 ret = insertSelective(record);
             } else {
                 record.setId(_unit.getId());
@@ -318,10 +342,10 @@ public class UnitService extends BaseMapper {
                 throw new OpException("第{0}行数据有误[编码为空]", row);
             }
 
-            Unit unit = findUnitByCode(code);
+            Unit unit = findRunUnitByCode(code);
             if (unit != null) {
 
-                Unit _unit = findUnitByCode(newCode);
+                Unit _unit = findRunUnitByCode(newCode);
                 if (_unit != null) {
                     throw new OpException("第{0}行数据有误，编码重复[{1}]。", row, newCode);
                 }

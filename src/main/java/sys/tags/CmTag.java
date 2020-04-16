@@ -470,12 +470,6 @@ public class CmTag {
         return unitService.findAll().get(unitId);
     }
 
-    public static Unit findUnitByCode(String code) {
-
-        return unitService.findUnitByCode(StringUtils.trim(code));
-    }
-
-
     // 判断类别ID和代码是否匹配，比如判断党组织是否是直属党支部
     public static Boolean typeEqualsCode(Integer typeId, String code) {
 

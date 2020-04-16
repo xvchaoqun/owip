@@ -1,13 +1,11 @@
 package service.unit;
 
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreView;
 import domain.dispatch.DispatchCadreViewExample;
-import domain.unit.UnitPost;
-import domain.unit.UnitPostExample;
-import domain.unit.UnitPostView;
-import domain.unit.UnitPostViewExample;
+import domain.unit.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -132,9 +130,14 @@ public class UnitPostService extends BaseMapper {
     //根据单位编码生成岗位编码
     @Transactional
     public String generateCode(String unitCode) {
+
+        Unit unit = unitService.findRunUnitByCode(unitCode);
+        if(unit==null){
+            throw new OpException("单位编码不存在：" + unitCode);
+        }
         int num = 0;
         UnitPostExample example = new UnitPostExample();
-        example.createCriteria().andUnitIdEqualTo(unitService.findUnitByCode(unitCode).getId());
+        example.createCriteria().andUnitIdEqualTo(unit.getId());
         example.setOrderByClause("right(code,3) desc");
         List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
         if (unitPosts.size() > 0) {

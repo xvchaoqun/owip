@@ -1030,7 +1030,7 @@ public class CadreController extends BaseController {
 
                 String unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+3));
                 if (StringUtils.isNotBlank(unitCode)) {
-                    Unit unit = unitService.findUnitByCode(unitCode);
+                    Unit unit = unitService.findRunUnitByCode(unitCode);
                     if (unit == null) {
                         throw new OpException("第{0}行双肩挑单位1编码[{1}]不存在", row, unitCode);
                     }
@@ -1039,7 +1039,7 @@ public class CadreController extends BaseController {
 
                 unitCode = StringUtils.trimToNull(xlsRow.get(titleCol+5));
                 if (StringUtils.isNotBlank(unitCode)) {
-                    Unit unit = unitService.findUnitByCode(unitCode);
+                    Unit unit = unitService.findRunUnitByCode(unitCode);
                     if (unit == null) {
                         throw new OpException("第{0}行双肩挑单位2编码[{1}]不存在", row, unitCode);
                     }

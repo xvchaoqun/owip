@@ -3,11 +3,12 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${unit!=null}">编辑</c:if><c:if test="${unit==null}">添加</c:if></h3>
+    <h3><c:if test="${unit!=null}">编辑</c:if><c:if test="${unit==null}">添加</c:if>${UNIT_STATUS_MAP.get(status)}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unit_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unit.id}">
+        <input type="hidden" name="status" value="${status}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">选择学校单位</label>
 				<div class="col-xs-6">
@@ -27,7 +28,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>单位编号</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="code" value="${unit.code}">
-					    <span class="help-block">注：正在运转单位中编号不可重复，单位编号可与历史单位编号重复</span>
+					    <span class="help-block">注：正在运转单位中的单位编号不可重复（但可与历史单位的单位编号重复）</span>
 				</div>
 			</div>
 			<div class="form-group">

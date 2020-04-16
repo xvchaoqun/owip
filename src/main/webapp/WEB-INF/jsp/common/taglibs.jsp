@@ -93,6 +93,7 @@
 
 <c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
 
+<c:set value="<%=SystemConstants.UNIT_STATUS_MAP%>" var="UNIT_STATUS_MAP"/>
 <c:set value="<%=SystemConstants.UNIT_STATUS_RUN%>" var="UNIT_STATUS_RUN"/>
 <c:set value="<%=SystemConstants.UNIT_STATUS_HISTORY%>" var="UNIT_STATUS_HISTORY"/>
 <c:set value="点击此搜索条的任意位置可展开/收起搜索框" var="note_searchbar"/>

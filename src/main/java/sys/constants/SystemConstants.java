@@ -156,6 +156,13 @@ public class SystemConstants {
     public static final byte UNIT_STATUS_RUN = 1;
     public static final byte UNIT_STATUS_HISTORY = 2;
 
+    public final static Map<Byte, String> UNIT_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        UNIT_STATUS_MAP.put(UNIT_STATUS_RUN, "正在运转单位");
+        UNIT_STATUS_MAP.put(UNIT_STATUS_HISTORY, "历史单位");
+    }
+
     //岗位状态，1 正常 2 已撤销 3 已删除
     public static final byte UNIT_POST_STATUS_NORMAL = 1;
     public static final byte UNIT_POST_STATUS_ABOLISH = 2;

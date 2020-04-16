@@ -675,7 +675,7 @@ public class CetUpperTrainController extends CetBaseController {
                 if (StringUtils.isBlank(unitCode)) {
                     throw new OpException("第{0}行单位编码为空", row);
                 }
-                Unit unit = unitService.findUnitByCode(unitCode);
+                Unit unit = unitService.findRunUnitByCode(unitCode);
                 if (unit == null) {
                     throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
                 }
