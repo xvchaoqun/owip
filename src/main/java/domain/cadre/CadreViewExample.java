@@ -2548,7 +2548,7 @@ public class CadreViewExample {
         // -2：空（不是中共党员也不是民主党派） -1：非中共党员 0：中共党员
         public Criteria andDpTypeIdIn(Set<Integer> values) {
 
-            MetaType metaType= CmTag.getMetaTypeByCode("mt_nation_qz");  //群众
+            MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
             List searchSqlList = new ArrayList<>();
 
             if(metaType!=null && values.contains(metaType.getId())){

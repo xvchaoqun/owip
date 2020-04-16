@@ -1,5 +1,5 @@
 
-
+2020.4.16
 
 -- 更新 SyncService 标准化同步民族名称
 -- select distinct nation from sys_user_info where nation !='' or nation is null;
@@ -11,6 +11,11 @@ update sys_user_info set nation=null where nation='其他';
 update sys_user_info set nation=null where nation='未知';
 
 -- 更新utils
+
+UPDATE `base_meta_type` SET `code`='mt_dp_qz' WHERE  `name`='群众' and class_id=(select id from base_meta_class where code='mc_democratic_party');
+
+UPDATE `base_meta_type` SET `name`='毛南族' WHERE  `name`='毛难族';
+
 
 2020.4.13
 西北工大
