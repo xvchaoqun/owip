@@ -5,6 +5,7 @@
 </shiro:user>
 <c:set value="${empty _pMap['cas_url']?'/cas':_pMap['cas_url']}" var="_p_casUrl"/>
 <c:set value="${_pMap['default_login_btns']=='true'}" var="_p_defaultLoginBtns"/>
+<c:set value="${_pMap['mobile_login_useCas']=='true'}" var="_p_mobileLoginUseCas"/>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -39,6 +40,11 @@
 											</div>
 
 											<form id="login-form" ${_p_defaultLoginBtns?'hidden':''}>
+												<h4 class="header blue lighter bigger" style="white-space: nowrap">
+													<i class="ace-icon fa fa-key green"></i>
+													${!_p_mobileLoginUseCas?'请使用信息门户账号密码登录':'请使用系统账号密码登录'}
+												</h4>
+												<div class="space-6"></div>
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -57,14 +63,16 @@
 													<input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span>
 													<div class="space"></div>
 
-													<div style="width:60%;display:inline-block;float:left;text-align: right;">
+													<div class="center">
 														<button type="button" class="width-35 btn btn-sm btn-primary">
 															<span class="bigger-130" id="login_btn">登录</span>
 														</button>
 													</div>
-													<div style="display:inline-block;float:right;padding-top: 20px">
+													<c:if test="${_p_mobileLoginUseCas}">
+													<div style="position: absolute;right: 20px;top: 188px;">
 														<a href="javascript:;" class="cas to_reg_btn">统一身份认证</a>
 													</div>
+													</c:if>
 												</fieldset>
 											</form>
 										</div><!-- /.widget-main -->

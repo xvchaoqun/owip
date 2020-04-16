@@ -18,6 +18,7 @@ import service.sys.SysUserService;
 import sys.shiro.AuthToken;
 import sys.shiro.NeedCASLoginException;
 import sys.shiro.SSOException;
+import sys.tags.CmTag;
 
 import java.util.Set;
 
@@ -76,7 +77,9 @@ public class UserRealm extends AuthorizingRealm {
         String inputPasswd = String.valueOf(authToken.getPassword());
 
         if (uv.isCasUser()) {
-            if (springProps.useSSO) { // 如果提供了代理接口
+
+            byte casType = CmTag.getByteProperty("cas_type", (byte)1);
+            if (casType==2 || casType==3) { // 如果提供了代理接口
 
                 boolean tryLogin;
                 try {
@@ -88,7 +91,7 @@ public class UserRealm extends AuthorizingRealm {
                 if (!tryLogin) {
                     throw new IncorrectCredentialsException();
                 }
-            } else if (springProps.useCAS) { // 仅提供了CAS接口
+            } else if (casType==1) { // 仅提供了CAS接口
 
                 throw new NeedCASLoginException();
             }else{

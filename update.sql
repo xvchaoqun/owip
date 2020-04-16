@@ -16,6 +16,12 @@ UPDATE `base_meta_type` SET `code`='mt_dp_qz' WHERE  `name`='群众' and class_i
 
 UPDATE `base_meta_type` SET `name`='毛南族' WHERE  `name`='毛难族';
 
+-- 删除属性login.useCas，login.useSSO 增加数据库系统属性 cas_type（1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口）、mobile_login_useCas
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('mobile_login_useCas', '手机登录界面是否有CAS', 'false', 3, 55, '');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cas_type', '系统CAS类型', '3', 2, 56, '1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口');
+
 
 2020.4.13
 西北工大

@@ -27,18 +27,6 @@ public class SpringProps {
 	@Value("${avatar.folder.ext}")
 	public String avatarFolderExt;
 
-	/*@Value("${swfTools.command}")
-	public String swfToolsCommand;
-
-	@Value("${swfTools.languagedir}")
-	public String swfToolsLanguagedir;*/
-
-	@Value("${login.useSSO}")
-	public Boolean useSSO;
-
-	@Value("${login.useCAS}")
-	public Boolean useCAS;
-
 	@Value("${login.useCaptcha}")
 	public Boolean useCaptcha;
 
