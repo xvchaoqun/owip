@@ -12,7 +12,7 @@
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard
-            ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
+            ||not empty param.roleId ||not empty param.typeId}"/>
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!locked}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
