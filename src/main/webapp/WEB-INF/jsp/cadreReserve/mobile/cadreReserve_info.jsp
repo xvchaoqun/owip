@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['birthToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_birthFormat"/>
 <div class="back-btn">
   <c:if test="${empty param.backTo}">
     <a href="javascript:;" class="hideView"><i class="fa fa-reply"></i> 返回</a>
@@ -57,7 +58,7 @@
                 出生日期
               </td>
               <td>
-                ${cm:formatDate(uv.birth,'yyyy-MM-dd')}
+                ${cm:formatDate(uv.birth, _p_birthFormat)}
               </td>
             </tr>
             <tr>

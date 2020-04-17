@@ -65,7 +65,8 @@
       },
       {
           label: '现职务<br/>任职文件',
-          width: 150,
+          width: 180,
+          align:'left',
           name: 'cadrePost.lpDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
@@ -92,7 +93,8 @@
       },
       {
           label: '现任职务<br/>始任文件',
-          width: 150,
+          width: 180,
+          align:'left',
           name: 'cadrePost.npDispatch',
           formatter: function (cellvalue, options, rowObject) {
               if (!cellvalue || cellvalue.id == undefined) return '--';
@@ -116,12 +118,14 @@
           width: 120
       },
       </c:if>
+      <shiro:hasPermission name="dispatchCadre:list">
     { label: '历史<br/>任职干部',name: '_history', width: 85, formatter: function (cellvalue, options, rowObject) {
 
         return ('<button class="popupBtn btn btn-xs btn-warning" data-width="950"' +
             ' data-url="${ctx}/unitPost_cadres?unitPostId={0}">' +
             '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
     }},
+      </shiro:hasPermission>
     { label: '备注',name: 'remark', align:'left', width: 250}
   ]
 </script>

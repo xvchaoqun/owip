@@ -561,10 +561,10 @@ public class UnitPostController extends BaseController {
                             cadre==null?"":cadre.getRealname(),
                             cadre==null?"":metaTypeService.getName(record.getCpAdminLevel()),
                             cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
-                            DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
-                            DateUtils.yearOffNow(cadrePost.getLpWorkTime()) + "",
-                            DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
-                            DateUtils.yearOffNow(cadrePost.getNpWorkTime()) + "",
+                            cadrePost==null?"":DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            cadrePost==null?"":DateUtils.yearOffNow(cadrePost.getLpWorkTime()) + "",
+                            cadrePost==null?"":DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            cadrePost==null?"":DateUtils.yearOffNow(cadrePost.getNpWorkTime()) + "",
                             record.getRemark()
             };
             valuesList.add(values);

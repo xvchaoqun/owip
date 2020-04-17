@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
+<c:set value="${_pMap['birthToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_birthFormat"/>
 <c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
 <c:if test="${(cm:isPermitted(PERMISSION_CADREADMIN)&&!cm:isPermitted(PERMISSION_CADREONLYVIEW))
 	|| hasDirectModifyCadreAuth}">
@@ -70,7 +71,7 @@
                         </td>
                         <td>出生日期</td>
                         <td>
-                                ${cm:formatDate(cadre.birth,'yyyy.MM.dd')}
+                                ${cm:formatDate(cadre.birth, _p_birthFormat)}
                         </td>
                         <td>
                             年龄
@@ -542,7 +543,7 @@
                                 </td>
                                 <td class="bg-right">出生日期</td>
                                 <td class="bg-left">
-                                        ${cm:formatDate(uv.birth,'yyyy.MM.dd')}
+                                        ${cm:formatDate(uv.birth, _p_birthFormat)}
                                 </td>
                                 <td class="bg-right">
                                     年龄

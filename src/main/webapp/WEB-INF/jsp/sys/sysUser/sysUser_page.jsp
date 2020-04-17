@@ -2,13 +2,13 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysUser_au"
              data-url-page="${ctx}/sysUser"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard

@@ -4,6 +4,7 @@
 <c:set value="<%=CrpConstants.CRP_RECORD_TYPE_OUT%>" var="CRP_RECORD_TYPE_OUT"/>
 <c:set value="<%=CrpConstants.CRP_RECORD_TYPE_IN%>" var="CRP_RECORD_TYPE_IN"/>
 <c:set value="<%=CrpConstants.CRP_RECORD_TYPE_TRANSFER%>" var="CRP_RECORD_TYPE_TRANSFER"/>
+<c:set value="${_pMap['birthToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_birthToDayFormat"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -79,7 +80,7 @@
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
             {label: '行政级别', name: 'cadre.adminLevel', formatter: $.jgrid.formatter.MetaType},
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
-            {label: '出生日期', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '出生日期', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
