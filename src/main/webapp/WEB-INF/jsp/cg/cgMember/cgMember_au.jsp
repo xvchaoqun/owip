@@ -249,7 +249,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
 
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        $("#jqGrid_cgMember").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

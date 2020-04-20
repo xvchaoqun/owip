@@ -9,12 +9,12 @@ pageEncoding="UTF-8" %>
                     <li class="<c:if test="${isCurrent}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/cg/cgTeam?isCurrent=1">
                             <i class="fa fa-circle-o-notch fa-spin"></i>
-                            正在运转委员会和领导小组</a>
+                            正在运转</a>
                     </li>
                     <li class="<c:if test="${!isCurrent}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/cg/cgTeam?isCurrent=0">
                             <i class="fa fa-history"></i>
-                            已撤销委员会和领导小组</a>
+                            已撤销</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -26,27 +26,27 @@ pageEncoding="UTF-8" %>
                                 <button class="popupBtn btn btn-info btn-sm"
                                         data-url="${ctx}/cg/cgTeam_au"><i class="fa fa-plus"></i>
                                     添加</button>
-
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cg/cgTeam_au"
                                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     修改</button>
-
+                                <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                        data-url="${ctx}/cg/cgTeam_updateUser"
+                                        data-width="1200" data-grid-id="#jqGrid"><i class="fa fa-clock-o"></i>
+                                    席位制更新</button>
                             </shiro:hasPermission>
                             <c:if test="${isCurrent}">
-                            <button class="jqBatchBtn btn btn-warning btn-sm"
-                                    data-url="${ctx}/cg/cgTeam_plan?isCurrent=0"
-                                    data-title="撤销"
-                                    data-msg="确定撤销这{0}条数据？"
-                                    data-grid-id="#jqGrid"><i class="fa fa-recycle"></i>
+                                <button class="jqBatchBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/cg/cgTeam_plan?isCurrent=0"
+                                        data-title="撤销"
+                                        data-msg="确定撤销这{0}条数据？"
+                                        data-grid-id="#jqGrid"><i class="fa fa-recycle"></i>
                                 撤销</button>
-
                                 <button class="popupBtn btn btn-info btn-sm tooltip-info"
                                         data-url="${ctx}/cg/cgTeam_import"
                                         data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                 批量导入</button>
-
                             </c:if>
                             <c:if test="${!isCurrent}">
                                 <button class="jqBatchBtn btn btn-warning btn-sm"
@@ -55,57 +55,41 @@ pageEncoding="UTF-8" %>
                                         data-msg="确定重新使用这{0}条数据？"
                                         data-grid-id="#jqGrid"><i class="fa fa-backward"></i>
                                     返回</button>
-
                             </c:if>
                             <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
                                         title="<div style='width:180px'>导出数据入口</div>"
                                         class="btn btn-success btn-sm dropdown-toggle tooltip-success">
-                                    <i class="fa fa-download"></i> 导出 <span class="caret"></span>
+                                    <i class="fa fa-download"></i>
+                                    导出 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
                                     <li>
                                         <a class="jqExportBtn tooltip-success"
-                                                title="导出选中记录或所有搜索结果"
-                                                data-url="${ctx}/cg/cgTeam_data"
-                                                data-rel="tooltip"
-                                                data-placement="top"><i class="fa fa-file-excel-o"></i>
+                                           title="导出选中记录或所有搜索结果"
+                                           data-url="${ctx}/cg/cgTeam_data"
+                                           data-rel="tooltip"
+                                           data-placement="top"><i class="fa fa-file-excel-o"></i>
                                         导出（基本信息）</a>
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         <a href="javascript:;" class="jqLinkBtn"
-                                                data-need-id="false" data-grid-id="#jqGrid"
-                                                data-url="${ctx}/cg/cgTeam_download?isWord=1">
-                                            <i class="fa fa-file-word-o"></i> 导出概况（word）</a>
+                                           data-need-id="false" data-grid-id="#jqGrid"
+                                           data-url="${ctx}/cg/cgTeam_download?isWord=1"><i class="fa fa-file-word-o"></i>
+                                        导出概况（word）</a>
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         <a href="javascript:;" class="jqLinkBtn"
-                                                data-need-id="false" data-grid-id="#jqGrid"
-                                                data-url="${ctx}/cg/cgTeam_download?isWord=0">
-                                            <i class="fa fa-file-zip-o"></i> 导出概况（zip）</a>
+                                           data-need-id="false" data-grid-id="#jqGrid"
+                                           data-url="${ctx}/cg/cgTeam_download?isWord=0">
+                                            <i class="fa fa-file-zip-o"></i>
+                                        导出概况（zip）</a>
                                     </li>
                                 </ul>
                             </div>
-                            <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                    title="导出选中记录或所有搜索结果"
-                                    data-url="${ctx}/cg/cgTeam_data"
-                                    data-rel="tooltip"
-                                    data-placement="top"><i class="fa fa-download"></i>
-                            导出</button>
-
-                            <button href="javascript:;" class="jqLinkBtn btn btn-success btn-sm"
-                               data-need-id="false" data-grid-id="#jqGrid"
-                               data-url="${ctx}/cg/cgTeam_download?isWord=1">
-                                <i class="fa fa-file-word-o"></i> 导出概况(word)</button>
-
-                            <button href="javascript:;" class="jqLinkBtn btn btn-success btn-sm"
-                                    data-need-id="false" data-grid-id="#jqGrid"
-                                    data-url="${ctx}/cg/cgTeam_download?isWord=0">
-                                <i class="fa fa-file-word-o"></i> 导出概况(zip)</button>--%>
-
                             <shiro:hasPermission name="cgTeam:del">
                                 <button class="jqBatchBtn btn btn-danger btn-sm"
                                         data-url="${ctx}/cg/cgTeam_batchDel"
@@ -113,9 +97,7 @@ pageEncoding="UTF-8" %>
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"><i class="fa fa-trash"></i>
                                     删除</button>
-
                             </shiro:hasPermission>
-
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -179,12 +161,10 @@ pageEncoding="UTF-8" %>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
                                                data-url="${ctx}/cg/cgTeam"
-                                               data-target="#page-content"
                                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-url="${ctx}/cg/cgTeam"
-                                                        data-target="#page-content">
+                                                        data-url="${ctx}/cg/cgTeam">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -201,42 +181,17 @@ pageEncoding="UTF-8" %>
             </div>
         </div>
         <div id="body-content-view"></div>
+        <div id="body-content-view2"></div>
     </div>
 </div>
+<jsp:include page="colModel.jsp"/>
 <script>
+
     $("#jqGrid").jqGrid({
         rownumbers:true,
         pager:"jqGridPager",
         url: '${ctx}/cg/cgTeam_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-                { label: '委员会和领导小组名称',name: 'name', formatter:function(cellvalue, options, rowObject){
-
-                    return ('<a href="javascript:;" class="openView" data-url="${ctx}/cg/cgTeam_view?teamId={0}">{1}</a>')
-                            .format(rowObject.id, cellvalue);},width:300,align:'left'
-                },
-                <c:if test="${!_query}">
-                    { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                        formatoptions:{url:'${ctx}/cg/cgTeam_changeOrder'}},
-                </c:if>
-                { label: '类型',name: 'type', formatter: function (cellvalue, options, rowObject) {
-
-                    return rowObject.type == <%=CgConstants.CG_TEAM_TYPE_MEMBER%>?"委员会":"领导小组"
-                }},
-                { label: '类别',name: 'category',width: 200,formatter: $.jgrid.formatter.MetaType},
-                { label: '概况',name: 'cgTeamBase',width: 80,formatter:function(cellvalue, options, rowObject){
-
-                        return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/cg/cgTeam_base?id={0}"><i class="fa fa-search"></i> {1}</button>'
-                            .format(rowObject.id, '详情');
-                }},
-                { label: '是否需要调整',name: 'countNeedAdjust', formatter: function (cellvalue, options, rowObject) {
-
-                    return cellvalue != 0?"<span class='badge badge-danger'>"+cellvalue+"</span>":"--";
-                }},
-                { label: '挂靠单位',name: 'unit.name',width:250,align:'left'},
-                { label: '办公室主任',name: 'user.realname'},
-                { label: '联系方式',name: 'phone',width: 130},
-                { label: '备注',name: 'remark',width: 200}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

@@ -3,6 +3,7 @@
 <mapper namespace="persistence.cg.CgTeamViewMapper">
   <resultMap id="BaseResultMap" type="domain.cg.CgTeamView">
     <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="category" jdbcType="INTEGER" property="category" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type, category, is_current, need_adjust, sort_order, remark, unit_id, user_id, 
-    phone
+    id, fid, name, type, category, is_current, need_adjust, sort_order, remark, unit_id, 
+    user_id, phone
   </sql>
   <select id="selectByExample" parameterType="domain.cg.CgTeamViewExample" resultMap="BaseResultMap">
     select
@@ -100,14 +101,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cg_team_view (name, type, category, 
-      is_current, need_adjust, sort_order, 
-      remark, unit_id, user_id, 
-      phone)
-    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{category,jdbcType=INTEGER}, 
-      #{isCurrent,jdbcType=BIT}, #{needAdjust,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR})
+    insert into cg_team_view (fid, name, type, 
+      category, is_current, need_adjust, 
+      sort_order, remark, unit_id, 
+      user_id, phone)
+    values (#{fid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{category,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, #{needAdjust,jdbcType=BIT}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cg.CgTeamView">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -115,6 +116,9 @@
     </selectKey>
     insert into cg_team_view
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fid != null">
+        fid,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -147,6 +151,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fid != null">
+        #{fid,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -191,6 +198,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.fid != null">
+        fid = #{record.fid,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -229,6 +239,7 @@
   <update id="updateByExample" parameterType="map">
     update cg_team_view
     set id = #{record.id,jdbcType=INTEGER},
+      fid = #{record.fid,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
       category = #{record.category,jdbcType=INTEGER},

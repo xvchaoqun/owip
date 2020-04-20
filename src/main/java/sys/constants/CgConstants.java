@@ -14,6 +14,16 @@ public class CgConstants {
         CG_TEAM_TYPE_MAP.put(CG_TEAM_TYPE_GROUP, "领导小组");
     }
 
+    //分委会可共组小组类型 3、分委会 4、工作小组
+    public final static byte CG_TEAM_TYPE_BRANCH = 3;
+    public final static byte CG_TEAM_TYPE_WORKGROUP = 4;
+    public final static Map<Byte, String> CG_CHILD_TEAM_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CG_CHILD_TEAM_TYPE_MAP.put(CG_TEAM_TYPE_BRANCH,"分委会");
+        CG_CHILD_TEAM_TYPE_MAP.put(CG_TEAM_TYPE_WORKGROUP,"工作小组");
+    }
+
     //委员会和领导小组成员类型 1、现任干部 2、各类代表
     public final static byte CG_MEMBER_TYPE_CADRE = 1;
     public final static byte CG_MEMBER_TYPE_USER = 2;

@@ -2,10 +2,9 @@ package persistence.cg;
 
 import domain.cg.CgTeamView;
 import domain.cg.CgTeamViewExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface CgTeamViewMapper {
     long countByExample(CgTeamViewExample example);

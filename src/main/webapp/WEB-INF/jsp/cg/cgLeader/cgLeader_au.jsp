@@ -163,7 +163,7 @@ function clearSelect(){
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        $("#jqGrid_cgLeader").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"> 确定时间</label>
 			<div class="col-xs-6">
-				<div class="input-group" style="width: 200px">
+				<div class="input-group" style="width: 272px">
 					<input class="form-control date-picker" name="confirmDate" type="text"
 					   data-date-format="yyyy.mm.dd"
 					   value="${cm:formatDate(cgUnit.confirmDate,'yyyy.MM.dd')}"/>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        $("#jqGrid_cgUnit").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 }

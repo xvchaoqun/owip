@@ -33,10 +33,9 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">规程确定时间</label>
 			<div class="col-xs-6">
-				<div class="input-group" style="width: 200px">
-					<input class="form-control date-picker"
-						   name="confirmDate"
-						   type="text"
+				<div class="input-group">
+					<input class="form-control date-picker" name="confirmDate"
+						   type="text" data-width="200"
 						   data-date-format="yyyy.mm.dd"
 						   value="${cm:formatDate(cgRule.confirmDate,'yyyy.MM.dd')}"/>
 					<span class="input-group-addon">

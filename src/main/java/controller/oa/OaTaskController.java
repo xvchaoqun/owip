@@ -102,9 +102,10 @@ public class OaTaskController extends OaBaseController {
                 break;
         }
 
+        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId());
+
         showAll = BooleanUtils.isTrue(showAll)
-                && BooleanUtils.isTrue(oaTaskAdminMapper
-                .selectByPrimaryKey(ShiroHelper.getCurrentUserId()).getShowAll());
+                && BooleanUtils.isTrue(oaTaskAdmin!=null && oaTaskAdmin.getShowAll());
 
         if(!showAll){
             criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
