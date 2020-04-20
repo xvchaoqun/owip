@@ -1,17 +1,11 @@
 package controller.dr;
 
 import bean.DrTempResult;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.CompactWriter;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import controller.global.OpException;
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;
-import domain.dr.DrOnlineResultView;
-import domain.dr.DrOnlineResultViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.dr.common.DrFinalResult;
 import sys.constants.DrConstants;
 import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
@@ -30,11 +25,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dr/drOnline")
@@ -61,7 +52,7 @@ public class DrOnlineResultController extends DrBaseController {
     @ResponseBody
     public void drOnlineResult_data(HttpServletResponse response,
                                     Integer onlineId,
-                                    String a,
+                                    String _typeIds,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                     Integer postId,
                                     Integer candidateId,
@@ -69,8 +60,8 @@ public class DrOnlineResultController extends DrBaseController {
                                     @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
+        List<Integer> list = new ArrayList<>();
         if (null != typeIds && typeIds.length > 0) {
-            List<Integer> list = new ArrayList<>();
             for (String str : typeIds) {
                 list.add(Integer.valueOf(str));
             }
@@ -84,59 +75,33 @@ public class DrOnlineResultController extends DrBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        if (null != typeIds && typeIds.length > 0) {
-            List<Integer> _typesIds = new ArrayList<>();
-            for (String typeId : typeIds) {
-                _typesIds.add(Integer.valueOf(typeId));
-            }
-            List<DrOnlineResultView> resultViews = iDrMapper.selectInspectorFilter(_typesIds, onlineId);
-            int count = resultViews.size();
-            CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-            Map resultMap = new HashMap();
-            resultMap.put("rows", resultViews);
-            resultMap.put("records", count);
-            resultMap.put("page", pageNo);
-            resultMap.put("total", commonList.pageNum);
 
-            Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-            //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
-            JSONUtils.jsonp(resultMap, baseMixins);
-            return;
-            //System.out.println(resultViews);
-        }
-
-        DrOnlineResultViewExample example = new DrOnlineResultViewExample();
-        DrOnlineResultViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(" post_id desc");
-
-        if (onlineId != null){
-            criteria.andOnlineIdEqualTo(onlineId);
-        }
-        if (postId != null) {
-            criteria.andPostIdEqualTo(postId);
-        }
-        if (candidateId != null) {
-            criteria.andCandidateIdEqualTo(candidateId);
-        }
-/*
         if (export == 1) {
-            if (candidateIds != null && candidateIds.length > 0)
-                criteria.andCandidateIdIn(Arrays.asList(candidateIds));
-            drOnlineResult_export(example, response);
+            List<Integer> typesFilter = new ArrayList<>();
+            if (StringUtils.isNotBlank(_typeIds)) {
+                for (String typeId : _typeIds.split(",")) {
+                    typesFilter.add(Integer.valueOf(typeId));
+                }
+            }
+            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
+            Byte status = drOnline.getStatus();
+            if (status == DrConstants.DR_ONLINE_FINISH ) {
+                drCommonService.exportOnlineResult(typesFilter, onlineId, response);
+            }else
+                throw new OpException("该批次线上民主推荐还未完成，不能导出结果！");
             return;
-        }*/
-
-        long count = drOnlineResultViewMapper.countByExample(example);
+        }
+        long count = iDrMapper.countResult(list, onlineId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrOnlineResultView> records = drOnlineResultViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(list, onlineId);
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", records);
+        resultMap.put("rows", drFinalResults);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
@@ -145,20 +110,6 @@ public class DrOnlineResultController extends DrBaseController {
         //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("drOnlineResult:list")
-    @RequestMapping("/drOnlineResult_export")
-    public void drOnlineResult_export(Integer onlineId,
-                                      @RequestParam(required = false, value = "ids[]") Integer[] candidateIds,
-                                        HttpServletResponse response) throws IOException {
-
-        DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
-        Byte status = drOnline.getStatus();
-        if (status == DrConstants.DR_ONLINE_FINISH ) {
-                drCommonService.exportOnlineResult(onlineId, response);
-        }else
-            throw new OpException("该批次线上民主推荐还未完成，不能导出结果！");
     }
 
     @RequiresPermissions("drOnlineResult:list")
@@ -189,19 +140,14 @@ public class DrOnlineResultController extends DrBaseController {
         tempResult.setMobileAgree((isMobile != null && isMobile == 1) ? agree : false);
 
         DrOnlineInspector record = new DrOnlineInspector();
+        String tempData = drCommonService.getStringTemp(tempResult);
 
-        XStream xStream = new XStream(new DomDriver());
-        xStream.alias("tempResult", DrTempResult.class);
-
-        StringWriter sw = new StringWriter();
-        xStream.marshal(tempResult, new CompactWriter(sw));
-        String tempData = sw.toString();
-
+        record.setId(inspector.getId());
         record.setTempdata(tempData);
         record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
         record.setIsMobile(false);
 
-        drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(inspector.getId(), record);
+        drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(record);
 
         logger.info(String.format("%s已阅读说明", inspector.getUsername()));
         return success(FormUtils.SUCCESS);
@@ -221,10 +167,11 @@ public class DrOnlineResultController extends DrBaseController {
         DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
         inspectorId = inspector.getId();
 
-        if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH)//已经完成推荐
-            return success(FormUtils.SUCCESS);
+        //投票时，防止管理员操作，实时读取批次的状态
+        if (!drOnlineInspectorService.checkStatus(inspector))
+            return failed("线上民主推荐内容更新，请重新登录！");
 
-        //查看是否有临时数据
+        //临时数据
         DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
 
         //得到票数
@@ -254,25 +201,19 @@ public class DrOnlineResultController extends DrBaseController {
 
         //格式转化
         DrOnlineInspector record = new DrOnlineInspector();
-        XStream xStream = new XStream(new DomDriver());
-        xStream.alias("tempResult", DrTempResult.class);
+        String tempData = drCommonService.getStringTemp(tempResult);
 
-        StringWriter sw = new StringWriter();
-        xStream.marshal(tempResult, new CompactWriter(sw));
-        String tempData = sw.toString();
-
+        record.setId(inspectorId);
         record.setTempdata(tempData);
         record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
-        record.setIsMobile(false);
+        record.setIsMobile(isMoblie);
 
-        drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(inspectorId, record);
-
-        logger.info(String.format("%s保存批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
         if (isSubmit == 1) {
-            //提交推荐结果
-            return drOnlineResultService.submitResult(isMoblie, inspectorId, request) ? success(FormUtils.SUCCESS) : failed(FormUtils.FAILED);
+            logger.info(String.format("%s保存并提交批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
+        }else {
+            logger.info(String.format("%s保存批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
         }
 
-        return success(FormUtils.SUCCESS);
+        return drOnlineResultService.saveOrSubmit(isMoblie, isSubmit, inspectorId, record, request) ? success(FormUtils.SUCCESS) : failed(FormUtils.FAILED);
     }
 }

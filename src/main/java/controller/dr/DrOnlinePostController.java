@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.dr.*;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
-import domain.unit.Unit;
 import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,16 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
-import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/dr")
@@ -121,13 +125,10 @@ public class DrOnlinePostController extends DrBaseController {
     @RequiresPermissions("drOnlinePost:edit")
     @RequestMapping(value = "/drOnlinePost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOnlinePost_au(DrOnlinePost record, String items, HttpServletRequest request)throws IOException, InterruptedException {
+    public Map do_drOnlinePost_au(DrOnlinePost record, HttpServletRequest request)throws IOException, InterruptedException {
 
         Integer id = record.getId();
-        List<SysUserView> uvs = GsonUtils.toBeans(items, SysUserView.class);
-        if(null != uvs && uvs.size() > record.getCompetitiveNum()){
-            return failed("候选人数超过最大推荐数！");
-        }
+
         if (record.getHasCandidate() == null){
             record.setHasCandidate(false);
         }
@@ -142,18 +143,20 @@ public class DrOnlinePostController extends DrBaseController {
             if (null != posts && posts.size() > 0)
                 throw new OpException("该推荐岗位已存在！");
 
-            drOnlinePostService.insertPost(record, uvs);
+            drOnlinePostService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));
         } else {
-            //如有推荐结果，不可修改
-            DrOnlineResultExample example = new DrOnlineResultExample();
-            example.createCriteria().andPostIdEqualTo(record.getId());
-            List<DrOnlineResult> results = drOnlineResultMapper.selectByExample(example);
-            if (null != record && results.size() > 0){
-                throw new OpException("该职务已有测评结果，不可修改！");
-            }
+            //防止中途修改数据
+            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(record.getOnlineId());
+            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_RELEASE)
+                throw new OpException("民主推荐进行中或已完成，不能修改数据！");
 
-            drOnlinePostService.updatePost(record, uvs);
+            List<DrOnlineCandidate> candidates = drOnlineCandidateService.getByPostId(record.getId());
+
+            if (null != candidates && candidates.size() > record.getCompetitiveNum())
+                throw new OpException("最大推荐人数不能少于已有候选人数" + candidates.size() + "！");
+
+            drOnlinePostService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_DR, "更新推荐职务：{0}", record.getId()));
         }
 
@@ -208,6 +211,10 @@ public class DrOnlinePostController extends DrBaseController {
 
     public void drOnlinePost_export(DrOnlinePostViewExample example, HttpServletResponse response) {
 
+    }
+
+    /*public void drOnlinePost_export(DrOnlinePostViewExample example, HttpServletResponse response) {
+
         List<DrOnlinePostView> records = drOnlinePostViewMapper.selectByExample(example);
         int rownum = records.size();
         logger.info("共" + rownum + "条记录");
@@ -219,7 +226,7 @@ public class DrOnlinePostController extends DrBaseController {
             Integer onlineId = record.getOnlineId();
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
             Unit unit = unitMapper.selectByPrimaryKey(record.getUnitId());
-            List<SysUserView> users = record.getUsers();
+            List users = record.getUsers();
             List<String> usernames = new ArrayList<>();
             for (SysUserView user : users){
                 usernames.add(user.getRealname());
@@ -242,5 +249,5 @@ public class DrOnlinePostController extends DrBaseController {
         }
         String fileName = String.format("推荐职务(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
+    }*/
 }

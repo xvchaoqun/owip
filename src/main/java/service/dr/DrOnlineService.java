@@ -1,15 +1,11 @@
 package service.dr;
 
 import domain.dr.*;
-import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import sys.constants.DrConstants;
-import sys.constants.SystemConstants;
 
 import java.util.*;
 
@@ -18,17 +14,6 @@ public class DrOnlineService extends DrBaseMapper {
 
     @Autowired
     private DrOnlinePostService drOnlinePostService;
-
-    public boolean idDuplicate(Integer id, Integer seq){
-
-        Assert.isTrue(seq != null, "null");
-
-        DrOnlineExample example = new DrOnlineExample();
-        DrOnlineExample.Criteria criteria = example.createCriteria().andSeqEqualTo(seq);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-
-        return drOnlineMapper.countByExample(example) > 0;
-    }
 
     @Transactional
     public void insertSelective(DrOnline record){
@@ -44,10 +29,34 @@ public class DrOnlineService extends DrBaseMapper {
         drOnlineMapper.deleteByPrimaryKey(id);
     }
 
+    //假删除
+    @Transactional
+    public void missDel(Integer[] ids, Integer isDeleted){
+
+        if(ids==null || ids.length==0) return;
+
+        //假删除
+        for (Integer id : ids){
+            DrOnline record = new DrOnline();
+            record.setId(id);
+            record.setIsDeleteed(isDeleted == 1 ? true : false);
+            drOnlineMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    /*
+        删除候选人
+        删除结果
+        删除岗位
+        删除日志
+        删除参评人
+        删除批次
+    * */
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
+
         //删除后相关信息全部删除
         for (Integer id : ids){
             List<DrOnlinePostView> posts = drOnlinePostService.getAllByOnlineId(id);
@@ -131,19 +140,5 @@ public class DrOnlineService extends DrBaseMapper {
             drOnline.setId(id);
             drOnlineMapper.updateByPrimaryKeySelective(drOnline);
         }
-    }
-
-    public Map<Integer, SysUserView> getUser(){
-
-        SysUserViewExample example = new SysUserViewExample();
-        example.createCriteria().andTypeEqualTo(SystemConstants.USER_TYPE_JZG);
-        List<SysUserView> userViews = sysUserViewMapper.selectByExample(example);
-
-        Map<Integer, SysUserView> userViewMap = new HashMap<>();
-        for (SysUserView sysUserView : userViews){
-            userViewMap.put(sysUserView.getId(),sysUserView);
-        }
-
-        return userViewMap;
     }
 }

@@ -17,9 +17,9 @@ public class DrOnlineCandidate implements Serializable {
 
     private Integer userId;
 
-    private Integer sortOrder;
+    private String candidate;
 
-    private Byte sign;
+    private Integer sortOrder;
 
     private String remark;
 
@@ -49,20 +49,20 @@ public class DrOnlineCandidate implements Serializable {
         this.userId = userId;
     }
 
+    public String getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(String candidate) {
+        this.candidate = candidate == null ? null : candidate.trim();
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
-    }
-
-    public Byte getSign() {
-        return sign;
-    }
-
-    public void setSign(Byte sign) {
-        this.sign = sign;
     }
 
     public String getRemark() {

@@ -5,23 +5,40 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="description" content="overview &amp; stats" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
     <title>线上民主推荐投票</title>
     <link rel="stylesheet" href="${ctx}/css/main.css" />
     <link rel="stylesheet" href="${ctx}/extend/css/navbar.css?t=20180411" />
+
+    <style>
+        h1[id],h2[id]{
+            padding-top:95px;
+            margin-top:-95px;
+        }
+        #survey th,td{
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            width: 200px;
+            height: 50px;
+        }
+        #survey table{
+            background-color: white;
+            border: 1px black;
+        }
+        body #navbar{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div id="navbar" class="navbar navbar-default navbar-fixed-top" style="width: 70%;border-radius:10px;margin-top: 10px;margin-left: 15%;margin-right: 15%">
+<div id="navbar" class="navbar navbar-default navbar-fixed-top" style="width: 70%;border-radius:10px;margin-top: 10px;margin-left: 15%;margin-right: 15%;padding-left: 10%;">
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                 <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
-            <div class="txt" style="cursor: pointer;" onclick="location.href='#'">线上民主推荐投票</div>
+            <div class="txt" style="cursor: pointer;">线上民主推荐投票</div>
         </div>
         <div class="navbar-header pull-left hidden-md hidden-lg ">
             <a href="${ctx}/" class="navbar-brand">
@@ -32,7 +49,22 @@
         </div>
     </div>
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
-        <ul class="nav nav-pills">
+        <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
+            <li class="">
+                <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i>测评</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i>测评说明</a>
+            </li>
+            <li>
+
+                <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
+            </li>
+            <li>
+                <a href="${ctx}/dr/drOnline/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+            </li>
+        </ul>
+        <ul class="nav nav-pills hidden-lg" style="margin-left: 0px">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> 功能操作</span>
                     <i class="fa fa-caret-down"> </i></a>
@@ -52,6 +84,26 @@
                 </ul>
             </li>
         </ul>
+        <%--<ul class="nav nav-pills" hidden>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> 功能操作</span>
+                    <i class="fa fa-caret-down"> </i></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i>测评</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i>测评说明</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
+                    </li>
+                    <li>
+                        <a href="${ctx}/dr/drOnline/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>--%>
     </div>
 </div>
 <div class="main-container" id="main-container" style="padding-top: 100px;margin-left: 15%;margin-right: 15%">
@@ -74,10 +126,10 @@
                 <form id="evaluateForm"  method="post">
                     <c:if test="${!tempResult.agree}">
                         <div style="width:70%; margin:0 auto;">
-                            <div class="modal-header" style="padding-top: 30px!important;" align="center">
+                            <div class="modal-header" style="padding-top: 20px!important;" align="center">
                                 <h2>测评说明</h2>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="text-align: left;word-wrap:break-word">
                                     ${drOnline.notice}
                             </div>
                         </div>
@@ -98,7 +150,7 @@
                         <thead>
                         <tr style="height: 70px">
                             <th colspan="3" style="font-size: 30px!important;">
-                                干部民主推荐表<a href="#" class="tag"><font size="2">${drOnline.code}</font></a>
+                                干部民主推荐表&nbsp;<a href="#"><font size="2">${drOnline.code}</font></a>
                             </th>
 
                         </tr>
@@ -115,7 +167,8 @@
                                     <tr>
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
                                         </td>
                                         <td>
                                             <div>
@@ -130,7 +183,7 @@
                                         <c:if test="${candidateMap.key == postView.id}">
                                             <td rowspan="2">${postView.name}（${postView.competitiveNum}人）</td>
                                             <c:forEach items="${candidateMap.value}" var="candidates">
-                                                <td>${candidates.user.realname}</td>
+                                                <td>${candidates.candidate}</td>
                                                 <td>
                                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                                         <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -147,7 +200,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
                                         </td>
                                         <td>
                                             <div>
@@ -164,7 +218,7 @@
                                             <c:if test="${candidateMap.key == postView.id}"><%--有候选人--%>
                                                 <tr>
                                                     <td rowspan="${postView.existNum+1}">${postView.name}（${postView.competitiveNum}人）</td><%--existNum不变，候选人列表要增加--%>
-                                                    <td>${candidates.user.realname}</td>
+                                                    <td>${candidates.candidate}</td>
                                                     <td>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                                             <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -183,7 +237,7 @@
                                         <c:forEach items="${candidateMap.value}" var="candidates" begin="1" end="${postView.existNum}">
                                             <c:if test="${candidateMap.key == postView.id}">
                                                 <tr>
-                                                    <td>${candidates.user.realname}</td>
+                                                    <td>${candidates.candidate}</td>
                                                     <td>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                                             <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -201,7 +255,7 @@
                                     <tr>
                                         <td>
                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
                                         </td>
                                         <td>
                                             <div>
@@ -214,7 +268,8 @@
                                     <tr>
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>" postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后选择候选人或按回车 ..." />
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
                                         </td>
                                         <td>
                                             <div>
@@ -300,7 +355,7 @@
                             </div>
                         </div>
 
-                        <div class="clearfix form-actions" style="background-color: white;">
+                        <div class="clearfix" style="background-color: white;margin-top: 20px;">
                             <div class="col-md-offset-3 col-md-9" style="padding-left:15%">
                                 <button class="btn btn-info" type="submit">
                                     <i class="ace-icon fa fa-check bigger-110"></i>
@@ -319,26 +374,6 @@
                 </div><!-- /.span -->
             </div>
 </div>
-<style>
-    h1[id],h2[id]{
-        padding-top:95px;
-        margin-top:-95px;
-    }
-    #survey th,td{
-        margin: 0px;
-        padding: 0px;
-        text-align: center;
-        width: 200px;
-        height: 50px;
-    }
-    #survey table{
-        background-color: white;
-        border: 1px black;
-    }
-    body #navbar{
-        text-align: center;
-    }
-</style>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
@@ -353,7 +388,6 @@
         $('.eva').removeAttr("disabled");
         $('.eva').removeAttr("hidden");
     }
-
 
     function drOnline_notice() {
         $('.changePasswd').attr("disabled", "disabled");
@@ -398,8 +432,7 @@
     try{
         tag_input.tag(
             {
-                placeholder:tag_input.attr('placeholder'),
-                source: ${sysUser}
+                placeholder:tag_input.attr('placeholder')
             }
         )
     } catch(e) {
@@ -414,8 +447,8 @@
         var datas = new Array();
         var others = new Array();
         var flag = 1;   //是否提交数据
-        var totalCount = 0;
-        var _totalCount = 0;
+        var totalCount = 0;//已投
+        var _totalCount = 0;//应投
 
         $.each(postViews, function (i, item) {
             var count = 0;//统计各个推荐职务人数
@@ -428,19 +461,34 @@
                 datas.push($(this).attr("id"));
             })
             //参评人添加的候选人
-            var user = "";
             var userIds = ($("input[name=candidateCode][postId="+postId+"]").val()).split(",");
-            //console.log(userIds.length)
+            //console.log($.trim(userIds))
+
+            //检查是否名字有重复
             if ($.trim(userIds).length != 0){
+                for(var i = 0; i < userIds.length; i++){
+                    //console.log($.inArray(userIds[i], item.cans))
+                    //var index = $.inArray(b, array);
+                    //返回 -1 表示没有包含
+                    //返回大于 0 表示包含
+                    if ($.inArray(userIds[i], item.cans) >= 0){
+                        SysMsg.info('候选人姓名重复，请加以区别！', '提示',function () {
+                            return;
+                        })
+                        flag = 0;
+                    }
+                }
                 count += userIds.length;
             }
             //console.log(count)
             if (count > item.competitiveNum){
-                SysMsg.info(item.name + '中另选候选人的人数，超过了最多推荐人数' + item.competitiveNum + ',请重新选择', '提示',function () {
+                SysMsg.info(item.name + '中投同意票的总数，超过了最大推荐人数' + item.competitiveNum + ',请重选！', '提示',function () {
                     return;
                 })
                 flag = 0;//放在提示信息中，falg赋不上值
             }
+
+            var user = "";
             if ($.trim(userIds).length == 0) {
                 user = "";
             }else {
@@ -533,11 +581,6 @@
 
     $("#form button[type=submit]").click(function(){$("#form").submit();return false;});
     $("#form").validate({
-        rules: {
-            repasswd:{
-                equalTo:'#passwd'
-            }
-        },
         submitHandler: function (form) {
 
             $(form).ajaxSubmit({

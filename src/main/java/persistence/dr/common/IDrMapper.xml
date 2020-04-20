@@ -23,39 +23,64 @@
     </select>
 
     <insert id="batchInsert_result" parameterType="map">
-        insert into dr_online_result (id, online_id, post_id,
-        candidate_id, inspector_id, inspector_type_id,
-        ins_option, remark)
+        insert into dr_online_result (id, online_id, post_id,user_id,
+        candidate, inspector_id, inspector_type_id,
+        is_agree, remark)
         VALUES
         <foreach collection="records" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=INTEGER}, #{item.onlineId,jdbcType=INTEGER}, #{item.postId,jdbcType=INTEGER},
-            #{item.candidateId,jdbcType=INTEGER}, #{item.inspectorId,jdbcType=INTEGER},
+            (#{item.id,jdbcType=INTEGER}, #{item.onlineId,jdbcType=INTEGER}, #{item.postId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER},
+            #{item.candidate,jdbcType=VARCHAR}, #{item.inspectorId,jdbcType=INTEGER},
             #{item.inspectorTypeId,jdbcType=INTEGER},
-            #{item.insOption,jdbcType=BIT}, #{item.remark,jdbcType=VARCHAR})
+            #{item.isAgree,jdbcType=BIT}, #{item.remark,jdbcType=VARCHAR})
         </foreach>
     </insert>
-    <!--参评人过滤-->
-    <select id="selectInspectorFilter" parameterType="map" resultMap="persistence.dr.DrOnlineResultViewMapper.BaseResultMap">
-        SELECT dor1.*,doc.user_id,doil1.pub_counts,doil1.finish_counts
-        FROM (SELECT dor.online_id,dor.post_id,dor.candidate_id,sum(if(dor.ins_option=1, 1, 0)) AS option_sum
-        FROM dr_online_result dor
-        <where>
-            <if test="onlineId != null">
-                and dor.online_id = #{onlineId}
-            </if>
-            <if test="typeIds != null and typeIds.size > 0">
-                and dor.inspector_type_id in
-                <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
-                    #{typeId}
-                </foreach>
-            </if>
-        </where>
-        GROUP BY dor.post_id,dor.candidate_id) dor1
-        LEFT JOIN (SELECT doil.online_id,SUM(doil.pub_count) AS pub_counts,SUM(doil.finish_count)AS finish_counts
-        FROM dr_online_inspector_log doil
-        GROUP BY doil.online_id) doil1 ON doil1.online_id=dor1.online_id
-        LEFT JOIN dr_online_candidate doc ON doc.id=dor1.candidate_id
-        ORDER BY dor1.post_id desc
-    </select>
 
+    <!--所有的统计结果/参评人过滤-->
+    <select id="resultOne" parameterType="map" resultType="persistence.dr.common.DrFinalResult">
+        SELECT dor1.online_id as onlineId,dor1.post_id as postId,dor1.candidate as candidate,
+              dor1.options as options,doil1.pub_counts as pubCounts,doil1.finish_counts as finishCounts,round(dor1.options/doil1.finish_counts*100, 2) as scoreRate
+        FROM (SELECT dor.online_id,dor.post_id,dor.candidate,sum(if(dor.is_agree=1, 1, 0)) AS options
+              FROM dr_online_result dor
+            <where>
+                <if test="onlineId != null">
+                    and dor.online_id = #{onlineId}
+                </if>
+                <if test="typeIds != null and typeIds.size > 0">
+                    and dor.inspector_type_id in
+                    <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
+                        #{typeId}
+                    </foreach>
+                </if>
+            </where>
+              GROUP BY dor.post_id,dor.candidate) dor1
+        LEFT JOIN (SELECT doil.online_id,SUM(doil.pub_count) AS pub_counts,SUM(doil.finish_count)AS finish_counts
+                FROM dr_online_inspector_log doil
+                <where>
+                    <if test="typeIds != null and typeIds.size > 0">
+                        and doil.type_id in
+                        <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
+                            #{typeId}
+                        </foreach>
+                    </if>
+                </where>
+                GROUP BY doil.online_id) doil1 ON doil1.online_id=dor1.online_id
+        ORDER BY postId,options desc;
+    </select>
+    <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
+        SELECT count(*)
+        FROM (SELECT dor.online_id,dor.post_id,dor.candidate,sum(if(dor.is_agree=1, 1, 0)) AS options
+            FROM dr_online_result dor
+            <where>
+                <if test="onlineId != null">
+                    and dor.online_id = #{onlineId}
+                </if>
+                <if test="typeIds != null and typeIds.size > 0">
+                    and dor.inspector_type_id in
+                    <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
+                        #{typeId}
+                    </foreach>
+                </if>
+            </where>
+            GROUP BY dor.post_id,dor.candidate) dor1
+    </select>
 </mapper>

@@ -69,7 +69,7 @@ pageEncoding="UTF-8"%>
         var queryData= {
             "typeIds[]": typeIds
         }
-
+        changeUrl(queryData);
         $("#modal").modal('hide');
         $("#jqGrid2").jqGrid("setGridParam", { postData: queryData}).trigger("reloadGrid");
         //console.log(typeIds)

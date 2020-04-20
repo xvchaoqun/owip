@@ -16,7 +16,7 @@
 									<t:img src="/img/aa.png"/>
 								</div>
 								<h1 class="white">
-									<div style="font-size:smaller">线上民主推荐（手机版）</div>
+									<div style="font-size:smaller">线上民主推荐投票<br>（手机版）</div>
 								</h1>
 							</div>
 							<div class="space-10"></div>
@@ -57,9 +57,9 @@
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->
-							<div class="center" style="padding-top: 50px">
+							<%--<div class="center" style="padding-top: 50px">
 								<h4 class="white" id="id-company-text">${_sysConfig.schoolName}党委组织部</h4>
-							</div>
+							</div>--%>
 						</div>
 					</div><!-- /.col -->
 				</div><!-- /.row -->

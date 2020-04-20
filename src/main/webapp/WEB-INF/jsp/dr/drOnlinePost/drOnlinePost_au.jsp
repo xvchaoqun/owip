@@ -35,33 +35,33 @@ pageEncoding="UTF-8"%>
 					<input required style="width: 78px;" class="form-control digits" type="text"  name="competitiveNum" placeholder="请填写阿拉伯数字！" value="${drOnlinePost.competitiveNum}">
 				</div>
 			</div>
-			<div class="form-group" id="hasCandidate">
-				<label class="col-xs-3 control-label"> 是否有候选人</label>
-				<div class="col-xs-6">
-					<label>
-						<input name="hasCandidate" ${(drOnlinePost.hasCandidate)?"checked":""} type="checkbox"/>
-						<span class="lbl"></span>
-					</label>
-				</div>
-			</div>
-			<div class="candidate">
-				<div class="form-group">
-					<label class="col-xs-3 control-label">候选人</label>
-					<div class="col-xs-6 selectUsers">
-						<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
-								name="userId" data-placeholder="请输入账号或姓名或学工号">
-							<option></option>
-						</select>
-						<button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i class="fa fa-plus"></i> 选择
-						</button>
-					</div>
-				</div>
-				<div style="padding: 0 90px 0;margin:0 5px 10px;max-height: 218px;overflow: auto">
-					<div id="itemList">
+		<%--<div class="form-group" id="hasCandidate">
+            <label class="col-xs-3 control-label"> 是否有候选人</label>
+            <div class="col-xs-6">
+                <label>
+                    <input name="hasCandidate" ${(drOnlinePost.hasCandidate)?"checked":""} type="checkbox"/>
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
+        <div class="candidate">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">候选人</label>
+                <div class="col-xs-6 selectUsers">
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                        <option></option>
+                    </select>
+                    <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i class="fa fa-plus"></i> 选择
+                    </button>
+                </div>
+            </div>
+            <div style="padding: 0 90px 0;margin:0 5px 10px;max-height: 218px;overflow: auto">
+                <div id="itemList">
 
-					</div>
-				</div>
-			</div>
+                </div>
+            </div>
+        </div>--%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6"	>
@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%>
 
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
-<script type="text/template" id="itemListTpl">
+<%--<script type="text/template" id="itemListTpl">
 	<table class="table table-striped table-bordered table-condensed table-center table-unhover2">
 		<thead>
 		<tr>
@@ -106,10 +106,10 @@ pageEncoding="UTF-8"%>
 		{{});}}
 		</tbody>
 	</table>
-</script>
+</script>--%>
 <script>
 
-	var selectedUsers = ${cm:toJSONArrayWithFilter(candidates, "userId,code,realname")};
+	/*var selectedUsers = ${cm:toJSONArrayWithFilter(candidates, "userId,code,realname")};
 	$("#itemList").append(_.template($("#itemListTpl").html())({users: selectedUsers}));
 	function _selectUser() {
 
@@ -202,18 +202,9 @@ pageEncoding="UTF-8"%>
 		}));
 
 	}
-	_displayItemList()
+	_displayItemList()*/
 
-	/*$("#modalForm").find(".tags").css("width","270")*/
-	/*var canDiv = $("#modalForm .candidate input");
-	var maxNum = $("#modalForm input[name=competitiveNum]");
-	canDiv.on("change", function () {
-		var count = $('.candidate').find('.tags').find('span').size();
-		console.log(count)
-
-	})
-*/
-	var hasCandidate =  $("#modalForm input[name=hasCandidate]");
+	//var hasCandidate =  $("#modalForm input[name=hasCandidate]");
 	var hasCompetitive = $("#modalForm input[name=hasCompetitive]");
 
 	function hasCompetitiveChange() {
@@ -229,7 +220,7 @@ pageEncoding="UTF-8"%>
 	});
 	hasCompetitiveChange();
 
-	function hasCandidateChange(){
+	/*function hasCandidateChange(){
 		if (hasCandidate.bootstrapSwitch("state")){
 			$("#modalForm .candidate").show();
 		}else{
@@ -243,7 +234,7 @@ pageEncoding="UTF-8"%>
 	hasCandidate.on('switchChange.bootstrapSwitch', function(event, state) {
 		hasCandidateChange();
 	});
-	hasCandidateChange();
+	hasCandidateChange();*/
 
 	$("#submitBtn").click(function () {
 		$("#modalForm").submit();
@@ -254,7 +245,7 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 			var $btn = $("#committeeBtn").button('loading');
             $(form).ajaxSubmit({
-				data: {items: $.base64.encode(JSON.stringify(selectedUsers))},
+				//data: {items: $.base64.encode(JSON.stringify(selectedUsers))},
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');

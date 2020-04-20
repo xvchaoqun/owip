@@ -87,24 +87,20 @@ pageEncoding="UTF-8" %>
                 { label: '批次编号',name: 'drOnline.code', frozen: true, width: 210},
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 200, frozen: true},
+                { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
+                { label: '候选人',name: 'users',formatter: function (cellvalue, options, rowObject) {
+                        var count = rowObject.cans.length;
+                        //console.log(count.length)
+                        var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-edit"></i>编辑({1})</button>'
+                            .format(rowObject.id, count);
+                        return str;
+                    }, width: 90,frozen: true},
                 { label: '分管工作',name: 'job', width: 180},
                 { label: '岗位级别',name: 'adminLevel', width: 100, formatter: $.jgrid.formatter.MetaType},
                 { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
                 { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
                 { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
-                { label: '候选人',name: 'users', align:'left', formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == undefined || cellvalue.length == 0) return '--';
-                        var names = new Array();
-                        cellvalue.forEach(function(user, i){
-                            //console.log(user)//list中的值
-                            //console.log(i)//下标
-                            if (user.realname)
-                                names.push(user.realname)
-                        })
-
-                        return names.join("，")
-                    }, width: 203},
-                { label: '最多<br/>推荐人数',name: 'competitiveNum',width:75},{hidden: true, key: true, name: 'id'}
+                {hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

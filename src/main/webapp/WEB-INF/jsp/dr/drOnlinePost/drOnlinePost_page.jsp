@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
             <shiro:hasPermission name="drOnlinePost:del">
                 <button data-url="${ctx}/dr/drOnlinePost_batchDel"
                         data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
+                        data-msg="删除这{0}个岗位，将会删除它的候选人、候选人对应的结果。是否确认删除？"
                         data-grid-id="#jqGrid2"
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 删除
@@ -30,25 +30,26 @@ pageEncoding="UTF-8" %>
         <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="50"></table>
         <div id="jqGridPager2"></div>
 <script>
+
+    function openView(postId, pageNo){
+        pageNo = pageNo||1;
+        $.loadModal( "${ctx}/dr/drOnlineCandidate_page?postId="+postId + "&pageNo="+pageNo);
+    }
+
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnlinePost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 200, frozen: true},
-                { label: '最多推荐人数',name: 'competitiveNum'},
-                { label: '候选人',name: 'users', align:'left', formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == undefined || cellvalue.length == 0) return '--';
-                        var names = new Array();
-                        cellvalue.forEach(function(user, i){
-                            //console.log(user)//list中的值
-                            //console.log(i)//下标
-                            if (user.realname)
-                                names.push(user.realname)
-                        })
-
-                        return names.join("，")
-                    }, width: 250},
+                { label: '最多推荐<br/>人数',name: 'competitiveNum',width:70, frozen: true},
+                { label: '候选人',name: 'users', formatter: function (cellvalue, options, rowObject) {
+                    var count = rowObject.cans.length;
+                    //console.log(count.length)
+                        var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-edit"></i>编辑({1})</button>'
+                            .format(rowObject.id, count);
+                        return str;
+                    }, width: 90,frozen: true},
                 { label: '分管工作',name: 'job', width: 180},
                 { label: '岗位级别',name: 'adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
                 { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
@@ -56,7 +57,9 @@ pageEncoding="UTF-8" %>
                 { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
                 { label: '备注', name: 'remark', width: 350},{hidden: true, key: true, name: 'id'}
         ]
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        $('[data-rel="tooltip"]').tooltip();
+    });
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     //$.register.user_select($('[data-rel="select2-ajax"]'));

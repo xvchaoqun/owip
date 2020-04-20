@@ -5,10 +5,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="online_id" jdbcType="INTEGER" property="onlineId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="candidate_id" jdbcType="INTEGER" property="candidateId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="candidate" jdbcType="VARCHAR" property="candidate" />
     <result column="inspector_id" jdbcType="INTEGER" property="inspectorId" />
     <result column="inspector_type_id" jdbcType="INTEGER" property="inspectorTypeId" />
-    <result column="ins_option" jdbcType="BIT" property="insOption" />
+    <result column="is_agree" jdbcType="BIT" property="isAgree" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, online_id, post_id, candidate_id, inspector_id, inspector_type_id, ins_option, 
+    id, online_id, post_id, user_id, candidate, inspector_id, inspector_type_id, is_agree, 
     remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineResultExample" resultMap="BaseResultMap">
@@ -105,11 +106,13 @@
   </delete>
   <insert id="insert" parameterType="domain.dr.DrOnlineResult">
     insert into dr_online_result (id, online_id, post_id, 
-      candidate_id, inspector_id, inspector_type_id, 
-      ins_option, remark)
+      user_id, candidate, inspector_id, 
+      inspector_type_id, is_agree, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{candidateId,jdbcType=INTEGER}, #{inspectorId,jdbcType=INTEGER}, #{inspectorTypeId,jdbcType=INTEGER}, 
-      #{insOption,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+      #{userId,jdbcType=INTEGER}, #{candidate,jdbcType=VARCHAR}, #{inspectorId,jdbcType=INTEGER}, 
+      #{inspectorTypeId,jdbcType=INTEGER}, #{isAgree,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlineResult">
     insert into dr_online_result
@@ -123,8 +126,11 @@
       <if test="postId != null">
         post_id,
       </if>
-      <if test="candidateId != null">
-        candidate_id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="candidate != null">
+        candidate,
       </if>
       <if test="inspectorId != null">
         inspector_id,
@@ -132,8 +138,8 @@
       <if test="inspectorTypeId != null">
         inspector_type_id,
       </if>
-      <if test="insOption != null">
-        ins_option,
+      <if test="isAgree != null">
+        is_agree,
       </if>
       <if test="remark != null">
         remark,
@@ -149,8 +155,11 @@
       <if test="postId != null">
         #{postId,jdbcType=INTEGER},
       </if>
-      <if test="candidateId != null">
-        #{candidateId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="candidate != null">
+        #{candidate,jdbcType=VARCHAR},
       </if>
       <if test="inspectorId != null">
         #{inspectorId,jdbcType=INTEGER},
@@ -158,8 +167,8 @@
       <if test="inspectorTypeId != null">
         #{inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="insOption != null">
-        #{insOption,jdbcType=BIT},
+      <if test="isAgree != null">
+        #{isAgree,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -184,8 +193,11 @@
       <if test="record.postId != null">
         post_id = #{record.postId,jdbcType=INTEGER},
       </if>
-      <if test="record.candidateId != null">
-        candidate_id = #{record.candidateId,jdbcType=INTEGER},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.candidate != null">
+        candidate = #{record.candidate,jdbcType=VARCHAR},
       </if>
       <if test="record.inspectorId != null">
         inspector_id = #{record.inspectorId,jdbcType=INTEGER},
@@ -193,8 +205,8 @@
       <if test="record.inspectorTypeId != null">
         inspector_type_id = #{record.inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.insOption != null">
-        ins_option = #{record.insOption,jdbcType=BIT},
+      <if test="record.isAgree != null">
+        is_agree = #{record.isAgree,jdbcType=BIT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -209,10 +221,11 @@
     set id = #{record.id,jdbcType=INTEGER},
       online_id = #{record.onlineId,jdbcType=INTEGER},
       post_id = #{record.postId,jdbcType=INTEGER},
-      candidate_id = #{record.candidateId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      candidate = #{record.candidate,jdbcType=VARCHAR},
       inspector_id = #{record.inspectorId,jdbcType=INTEGER},
       inspector_type_id = #{record.inspectorTypeId,jdbcType=INTEGER},
-      ins_option = #{record.insOption,jdbcType=BIT},
+      is_agree = #{record.isAgree,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -227,8 +240,11 @@
       <if test="postId != null">
         post_id = #{postId,jdbcType=INTEGER},
       </if>
-      <if test="candidateId != null">
-        candidate_id = #{candidateId,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="candidate != null">
+        candidate = #{candidate,jdbcType=VARCHAR},
       </if>
       <if test="inspectorId != null">
         inspector_id = #{inspectorId,jdbcType=INTEGER},
@@ -236,8 +252,8 @@
       <if test="inspectorTypeId != null">
         inspector_type_id = #{inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="insOption != null">
-        ins_option = #{insOption,jdbcType=BIT},
+      <if test="isAgree != null">
+        is_agree = #{isAgree,jdbcType=BIT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -249,10 +265,11 @@
     update dr_online_result
     set online_id = #{onlineId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
-      candidate_id = #{candidateId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      candidate = #{candidate,jdbcType=VARCHAR},
       inspector_id = #{inspectorId,jdbcType=INTEGER},
       inspector_type_id = #{inspectorTypeId,jdbcType=INTEGER},
-      ins_option = #{insOption,jdbcType=BIT},
+      is_agree = #{isAgree,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

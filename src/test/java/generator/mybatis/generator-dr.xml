@@ -52,17 +52,14 @@
         <!--<table tableName="dr_online" domainObjectName="dr.DrOnline" mapperName="dr.DrOnlineMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="dr_online_candidate" domainObjectName="dr.DrOnlineCandidate" mapperName="dr.DrOnlineCandidateMapper">
+        <!--<table tableName="dr_online_candidate" domainObjectName="dr.DrOnlineCandidate" mapperName="dr.DrOnlineCandidateMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="dr_online_post_view" domainObjectName="dr.DrOnlinePostView" mapperName="dr.DrOnlinePostViewMapper">
-            <columnOverride column="exist_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
-        <!--<table tableName="dr_online_inspector" domainObjectName="dr.DrOnlineInspector" mapperName="dr.DrOnlineInspectorMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+        <!--<table tableName="dr_online_inspector" domainObjectName="dr.DrOnlineInspector" mapperName="dr.DrOnlineInspectorMapper">
+           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+           <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
+           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+       </table>-->
         <!--<table tableName="dr_online_inspector_log" domainObjectName="dr.DrOnlineInspectorLog" mapperName="dr.DrOnlineInspectorLogMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -73,15 +70,17 @@
         </table>-->
         <!--<table tableName="dr_online_post" domainObjectName="dr.DrOnlinePost" mapperName="dr.DrOnlinePostMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="dr_online_post_view" domainObjectName="dr.DrOnlinePostView" mapperName="dr.DrOnlinePostViewMapper">
+            <columnOverride column="exist_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <!--<table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
-        </table>-->
+        <table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
+        </table>
         <!--<table tableName="dr_online_result_view" domainObjectName="dr.DrOnlineResultView" mapperName="dr.DrOnlineResultViewMapper">
             <columnOverride column="option_sum" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="pub_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="finish_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-
 
     </context>
 </generatorConfiguration>

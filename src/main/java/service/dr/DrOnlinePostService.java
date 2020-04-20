@@ -1,7 +1,6 @@
 package service.dr;
 
 import domain.dr.*;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +28,25 @@ public class DrOnlinePostService extends DrBaseMapper {
         drOnlinePostMapper.deleteByPrimaryKey(id);
     }
 
+    /*
+        删除候选人
+        删除结果
+        删除岗位
+    */
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
+        int count = 0;
 
-        for (Integer id : ids){
-            drOnlineCandidateService.deleteCandidate(id);
-        }
+        //候选人、结果、岗位
+        DrOnlineCandidateExample candidateExample = new DrOnlineCandidateExample();
+        candidateExample.createCriteria().andPostIdIn(Arrays.asList(ids));
+        drOnlineCandidateMapper.deleteByExample(candidateExample);
+
+        DrOnlineResultExample resultExample = new DrOnlineResultExample();
+        resultExample.createCriteria().andPostIdIn(Arrays.asList(ids));
+        drOnlineResultMapper.deleteByExample(resultExample);
 
         DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -74,70 +84,6 @@ public class DrOnlinePostService extends DrBaseMapper {
         changeOrder("dr_online_post", null, ORDER_BY_DESC, id, addNum);
     }
 
-    @Transactional
-    public void insertPost(DrOnlinePost record, List<SysUserView> uvs){
-
-        insertSelective(record);
-
-        if (record.getHasCandidate() && uvs.size() > 0){
-
-            Integer postId = record.getId();
-            Integer userId = null;
-            List<Integer> canIds = new ArrayList<>();
-
-            for (SysUserView uv : uvs){
-                userId = uv.getUserId();
-                DrOnlineCandidate candidate = drOnlineCandidateService.insert(postId, userId);
-                canIds.add(candidate.getId());
-            }
-
-            DrOnlinePost post = new DrOnlinePost();
-            post.setId(postId);
-            post.setCandidates(StringUtils.join(canIds,","));
-            drOnlinePostMapper.updateByPrimaryKeySelective(post);
-        }
-    }
-
-    @Transactional
-    public void updatePost(DrOnlinePost record, List<SysUserView> uvs){
-
-        Integer postId = record.getId();
-
-        if (record.getHasCandidate() && uvs.size() > 0){
-            Map<Integer, DrOnlineCandidate> hadExist = drOnlineCandidateService.getByPostId(postId);
-            for (SysUserView uv : uvs){
-                if (hadExist.size() == 0){
-                    drOnlineCandidateService.insert(postId, uv.getUserId());
-                }else {
-                    if (hadExist.containsKey(uv.getUserId())) {
-                        hadExist.remove(uv.getUserId());
-                    } else {
-                        drOnlineCandidateService.insert(postId, uv.getUserId());
-                    }
-                }
-            }
-
-            //删除不需要的候选人
-            if (hadExist.size() > 0) {
-                for (Map.Entry<Integer, DrOnlineCandidate> entry : hadExist.entrySet()) {
-                    drOnlineCandidateMapper.deleteByPrimaryKey(entry.getValue().getId());
-                }
-            }
-            List<Integer> candidateIds = new ArrayList<>();
-            Integer candidateId = null;
-            for (SysUserView uv : uvs){
-                candidateId = drOnlineCandidateService.getId(uv.getUserId(), postId);
-                candidateIds.add(candidateId);
-            }
-            record.setCandidates(StringUtils.join(candidateIds, ","));
-            drOnlinePostMapper.updateByPrimaryKeySelective(record);
-        }else {
-            record.setCandidates("");
-            drOnlinePostMapper.updateByPrimaryKeySelective(record);
-            drOnlineCandidateService.deleteCandidate(postId);
-        }
-    }
-
     public DrOnlinePostView getPost(Integer id){
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
@@ -152,8 +98,49 @@ public class DrOnlinePostService extends DrBaseMapper {
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
+        example.setOrderByClause("id desc");
         List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
 
         return postViews;
+    }
+
+    //判断推荐职务是否超额推荐
+    public Boolean checkCandidateNum(Integer postId){
+
+        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        example.createCriteria().andIdEqualTo(postId);
+
+        List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(example);
+        if (null != posts && posts.size() > 0){
+            DrOnlinePostView post = posts.get(0);
+            return post.getExistNum() < post.getCompetitiveNum();
+        }
+
+        return false;
+    }
+
+    //更新岗位的candidates
+    @Transactional
+    public void updateCandidates(Integer postId){
+
+        DrOnlineCandidateExample example = new DrOnlineCandidateExample();
+        DrOnlineCandidateExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
+        example.setOrderByClause(" sort_order desc");
+        List<DrOnlineCandidate> records = drOnlineCandidateMapper.selectByExample(example);
+
+        String candidates = null;
+        List<Integer> ids = new ArrayList<>();
+        if (null != records && records.size() > 0){
+            for (DrOnlineCandidate record : records){
+                ids.add(record.getId());
+            }
+            candidates = StringUtils.join(ids, ",");
+        }
+
+        DrOnlinePost post = new DrOnlinePost();
+        post.setId(postId);
+        post.setHasCandidate(null != candidates);
+        post.setCandidates(candidates);
+        updateByPrimaryKeySelective(post);
     }
 }

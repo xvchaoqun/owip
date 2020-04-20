@@ -30,13 +30,6 @@
             <button class="btn btn-lg btn-block btn-primary" style="margin-bottom: 100px;" type="button" id="add_entity">生成</button>
 </form>
 <style>
-	.sticky-wrap {
-		overflow-x: auto;
-		overflow-y: hidden;
-		position: relative;
-		/* margin: 3em 0; */
-		width: 100%;
-	}
 	body{
 		background-color: inherit;
 	}
@@ -58,7 +51,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
 <script>
 $(function(){
-	stickheader();
 
 	$("#add_entity").click(function(){
 		

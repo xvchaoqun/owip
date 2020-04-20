@@ -47,11 +47,16 @@ public class DrOnlineController extends DrBaseController {
     public String drOnline(Integer id,
                            Byte status,
                            ModelMap modelMap,
+                           Byte isDeleted,
                            @RequestParam(required = false, defaultValue = "1") Byte cls) {
+
+        if (null != isDeleted)
+            modelMap.put("isDeleted", isDeleted);
 
         if (status != null){
             modelMap.put("status", status);
         }
+
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
         modelMap.put("drOnline", drOnline);
         modelMap.put("cls", cls);
@@ -73,6 +78,7 @@ public class DrOnlineController extends DrBaseController {
                                     Integer seq,
                                     Byte status,
                                     Integer type,
+                                    @RequestParam(required = false, defaultValue = "0") Byte isDeleted,
                                     @RequestDateRange DateRange _startTime,
                                     @RequestDateRange DateRange _endTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -91,12 +97,22 @@ public class DrOnlineController extends DrBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
+        if (null != isDeleted){
+            criteria.andIsDeleteedEqualTo(isDeleted == 1 ? true : false);
+            if (isDeleted == 0 && null != status){
+                criteria.andStatusEqualTo(status);
+            }else if (isDeleted == 0 && null == status){
+                criteria.andStatusNotEqualTo(DrConstants.DR_ONLINE_FINISH);
+            }else if (status != null){
+                criteria.andStatusEqualTo(status);
+            }
+        }
 
-        if (status != null){
+        /*if (status != null){
             criteria.andStatusEqualTo(status);
         }else {
             criteria.andStatusNotEqualTo(DrConstants.DR_ONLINE_FINISH);
-        }
+        }*/
         if (year != null) {
             criteria.andYearEqualTo(year);
         }
@@ -162,6 +178,7 @@ public class DrOnlineController extends DrBaseController {
         Integer id = record.getId();
         Integer seq = record.getSeq();
         record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
+        record.setIsDeleteed(false);
 
         if (id == null) {
             drOnlineService.insertSelective(record);
@@ -244,11 +261,25 @@ public class DrOnlineController extends DrBaseController {
     }
 
     @RequiresPermissions("drOnline:del")
+    @RequestMapping(value = "/drOnline_missDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map drOnline_missDel(HttpServletRequest request,
+                                @RequestParam(value = "ids[]") Integer[] ids,
+                                Integer isDeleted,
+                                ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            drOnlineService.missDel(ids, isDeleted);
+            logger.info(log( LogConstants.LOG_DR, "假删除按批次管理线上民主推荐：{0}", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("drOnline:del")
     @RequestMapping(value = "/drOnline_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map drOnline_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
 
         if (null != ids && ids.length>0){
             drOnlineService.batchDel(ids);

@@ -9,13 +9,15 @@ public class DrOnlineResult implements Serializable {
 
     private Integer postId;
 
-    private Integer candidateId;
+    private Integer userId;
+
+    private String candidate;
 
     private Integer inspectorId;
 
     private Integer inspectorTypeId;
 
-    private Boolean insOption;
+    private Boolean isAgree;
 
     private String remark;
 
@@ -45,12 +47,20 @@ public class DrOnlineResult implements Serializable {
         this.postId = postId;
     }
 
-    public Integer getCandidateId() {
-        return candidateId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setCandidateId(Integer candidateId) {
-        this.candidateId = candidateId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(String candidate) {
+        this.candidate = candidate == null ? null : candidate.trim();
     }
 
     public Integer getInspectorId() {
@@ -69,12 +79,12 @@ public class DrOnlineResult implements Serializable {
         this.inspectorTypeId = inspectorTypeId;
     }
 
-    public Boolean getInsOption() {
-        return insOption;
+    public Boolean getIsAgree() {
+        return isAgree;
     }
 
-    public void setInsOption(Boolean insOption) {
-        this.insOption = insOption;
+    public void setIsAgree(Boolean isAgree) {
+        this.isAgree = isAgree;
     }
 
     public String getRemark() {

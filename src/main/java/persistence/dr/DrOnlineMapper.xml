@@ -13,6 +13,7 @@
     <result column="members" jdbcType="VARCHAR" property="members" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_deleteed" jdbcType="BIT" property="isDeleteed" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.dr.DrOnline">
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, record_id, year, recommend_date, seq, status, type, chief_member_id, members, 
-    start_time, end_time, remark
+    start_time, end_time, is_deleteed, remark
   </sql>
   <sql id="Blob_Column_List">
     notice
@@ -135,13 +136,13 @@
     insert into dr_online (id, record_id, year, 
       recommend_date, seq, status, 
       type, chief_member_id, members, 
-      start_time, end_time, remark, 
-      notice)
+      start_time, end_time, is_deleteed, 
+      remark, notice)
     values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, 
       #{recommendDate,jdbcType=DATE}, #{seq,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       #{type,jdbcType=INTEGER}, #{chiefMemberId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{notice,jdbcType=LONGVARCHAR})
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isDeleteed,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{notice,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnline">
     insert into dr_online
@@ -178,6 +179,9 @@
       </if>
       <if test="endTime != null">
         end_time,
+      </if>
+      <if test="isDeleteed != null">
+        is_deleteed,
       </if>
       <if test="remark != null">
         remark,
@@ -219,6 +223,9 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleteed != null">
+        #{isDeleteed,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -270,6 +277,9 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleteed != null">
+        is_deleteed = #{record.isDeleteed,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -294,6 +304,7 @@
       members = #{record.members,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_deleteed = #{record.isDeleteed,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       notice = #{record.notice,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -313,6 +324,7 @@
       members = #{record.members,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_deleteed = #{record.isDeleteed,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -351,6 +363,9 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleteed != null">
+        is_deleteed = #{isDeleteed,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -372,6 +387,7 @@
       members = #{members,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_deleteed = #{isDeleteed,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       notice = #{notice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -388,6 +404,7 @@
       members = #{members,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_deleteed = #{isDeleteed,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

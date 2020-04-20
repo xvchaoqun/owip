@@ -1,6 +1,6 @@
 package domain.dr;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.dr.DrMemberMapper;
 import sys.tags.CmTag;
@@ -60,6 +60,8 @@ public class DrOnline implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
+
+    private Boolean isDeleteed;
 
     private String remark;
 
@@ -153,6 +155,14 @@ public class DrOnline implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getIsDeleteed() {
+        return isDeleteed;
+    }
+
+    public void setIsDeleteed(Boolean isDeleteed) {
+        this.isDeleteed = isDeleteed;
     }
 
     public String getRemark() {

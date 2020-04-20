@@ -124,7 +124,7 @@ pageEncoding="UTF-8"%>
 			et.val('')
 			//console.log(et.val())
 			$('#tipSt').text('请先填写推荐开始时间')
-		}else if (st.val() > et.val()){
+		}else if (st.val() >= et.val()){
 			st.val('')
 			et.val('')
 			$('#tipEt').text('截止时间应晚于开始时间')

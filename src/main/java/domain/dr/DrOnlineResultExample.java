@@ -284,63 +284,133 @@ public class DrOnlineResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdIsNull() {
-            addCriterion("candidate_id is null");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdIsNotNull() {
-            addCriterion("candidate_id is not null");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdEqualTo(Integer value) {
-            addCriterion("candidate_id =", value, "candidateId");
+        public Criteria andUserIdEqualTo(Integer value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdNotEqualTo(Integer value) {
-            addCriterion("candidate_id <>", value, "candidateId");
+        public Criteria andUserIdNotEqualTo(Integer value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdGreaterThan(Integer value) {
-            addCriterion("candidate_id >", value, "candidateId");
+        public Criteria andUserIdGreaterThan(Integer value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("candidate_id >=", value, "candidateId");
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdLessThan(Integer value) {
-            addCriterion("candidate_id <", value, "candidateId");
+        public Criteria andUserIdLessThan(Integer value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdLessThanOrEqualTo(Integer value) {
-            addCriterion("candidate_id <=", value, "candidateId");
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdIn(List<Integer> values) {
-            addCriterion("candidate_id in", values, "candidateId");
+        public Criteria andUserIdIn(List<Integer> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdNotIn(List<Integer> values) {
-            addCriterion("candidate_id not in", values, "candidateId");
+        public Criteria andUserIdNotIn(List<Integer> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdBetween(Integer value1, Integer value2) {
-            addCriterion("candidate_id between", value1, value2, "candidateId");
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("candidate_id not between", value1, value2, "candidateId");
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateIsNull() {
+            addCriterion("candidate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateIsNotNull() {
+            addCriterion("candidate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateEqualTo(String value) {
+            addCriterion("candidate =", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotEqualTo(String value) {
+            addCriterion("candidate <>", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateGreaterThan(String value) {
+            addCriterion("candidate >", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateGreaterThanOrEqualTo(String value) {
+            addCriterion("candidate >=", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLessThan(String value) {
+            addCriterion("candidate <", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLessThanOrEqualTo(String value) {
+            addCriterion("candidate <=", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLike(String value) {
+            addCriterion("candidate like", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotLike(String value) {
+            addCriterion("candidate not like", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateIn(List<String> values) {
+            addCriterion("candidate in", values, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotIn(List<String> values) {
+            addCriterion("candidate not in", values, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateBetween(String value1, String value2) {
+            addCriterion("candidate between", value1, value2, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotBetween(String value1, String value2) {
+            addCriterion("candidate not between", value1, value2, "candidate");
             return (Criteria) this;
         }
 
@@ -464,63 +534,63 @@ public class DrOnlineResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionIsNull() {
-            addCriterion("ins_option is null");
+        public Criteria andIsAgreeIsNull() {
+            addCriterion("is_agree is null");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionIsNotNull() {
-            addCriterion("ins_option is not null");
+        public Criteria andIsAgreeIsNotNull() {
+            addCriterion("is_agree is not null");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionEqualTo(Boolean value) {
-            addCriterion("ins_option =", value, "insOption");
+        public Criteria andIsAgreeEqualTo(Boolean value) {
+            addCriterion("is_agree =", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionNotEqualTo(Boolean value) {
-            addCriterion("ins_option <>", value, "insOption");
+        public Criteria andIsAgreeNotEqualTo(Boolean value) {
+            addCriterion("is_agree <>", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionGreaterThan(Boolean value) {
-            addCriterion("ins_option >", value, "insOption");
+        public Criteria andIsAgreeGreaterThan(Boolean value) {
+            addCriterion("is_agree >", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("ins_option >=", value, "insOption");
+        public Criteria andIsAgreeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_agree >=", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionLessThan(Boolean value) {
-            addCriterion("ins_option <", value, "insOption");
+        public Criteria andIsAgreeLessThan(Boolean value) {
+            addCriterion("is_agree <", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionLessThanOrEqualTo(Boolean value) {
-            addCriterion("ins_option <=", value, "insOption");
+        public Criteria andIsAgreeLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_agree <=", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionIn(List<Boolean> values) {
-            addCriterion("ins_option in", values, "insOption");
+        public Criteria andIsAgreeIn(List<Boolean> values) {
+            addCriterion("is_agree in", values, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionNotIn(List<Boolean> values) {
-            addCriterion("ins_option not in", values, "insOption");
+        public Criteria andIsAgreeNotIn(List<Boolean> values) {
+            addCriterion("is_agree not in", values, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionBetween(Boolean value1, Boolean value2) {
-            addCriterion("ins_option between", value1, value2, "insOption");
+        public Criteria andIsAgreeBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_agree between", value1, value2, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andInsOptionNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("ins_option not between", value1, value2, "insOption");
+        public Criteria andIsAgreeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_agree not between", value1, value2, "isAgree");
             return (Criteria) this;
         }
 

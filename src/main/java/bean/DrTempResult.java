@@ -6,14 +6,14 @@ import java.util.Set;
 
 public class DrTempResult implements Serializable {
 
-    private static final long serialVersionUID = -3493827992980228346L;
+    private static final long serialVersionUID = 5713315990601875781L;
     public Integer inspectorId;
     //同意测评说明
     public boolean agree;
     public boolean mobileAgree;
     // 可选单位
     public Set<Integer> unitIds;
-    //<postId, nameCodes> 另选他人得票
+    //<postId, names> 另选他人得票
     public Map<Integer, String> otherResultMap;
     //<postId_userId, option>   管理员设置的候选人得票
     public Map<String, Integer> rawOptionMap;

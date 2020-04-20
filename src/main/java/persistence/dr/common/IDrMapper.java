@@ -3,7 +3,6 @@ package persistence.dr.common;
 import domain.dr.DrMember;
 import domain.dr.DrOfflineView;
 import domain.dr.DrOnlineResult;
-import domain.dr.DrOnlineResultView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -25,8 +24,10 @@ public interface IDrMapper {
     //批量插入推荐结果
     int batchInsert_result(@Param("records") List<DrOnlineResult> resultList);
 
-    //参评人过滤
-    List<DrOnlineResultView>  selectInspectorFilter(@Param("typeIds") List<Integer> typeIds,
-                                                        @Param("onlineId")Integer onlineId);
+    //所有的统计结果
+    List<DrFinalResult>  resultOne(@Param("typeIds") List<Integer> typeIds,
+                                   @Param("onlineId")Integer onlineId);
+    int countResult(@Param("typeIds") List<Integer> typeIds,
+                    @Param("onlineId")Integer onlineId);
 
 }

@@ -19,17 +19,18 @@ CREATE TABLE IF NOT EXISTS `dr_online` (
   `year` smallint(5) unsigned DEFAULT NULL COMMENT '年份',
   `recommend_date` date NOT NULL COMMENT '推荐日期',
   `seq` int(10) unsigned NOT NULL COMMENT '编号',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态 0未发布 1已发布 2已撤回 3已完成 ',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态 0未发布 1已发布 2已撤回 3已完成',
   `type` int(10) unsigned DEFAULT NULL COMMENT '推荐类型 会议推荐和谈话推荐 关联元数据',
   `chief_member_id` int(10) unsigned DEFAULT NULL COMMENT '推荐组负责人',
   `members` varchar(300) DEFAULT NULL COMMENT '推荐组成员',
   `notice` text COMMENT '干部民主推荐说明',
   `start_time` datetime DEFAULT NULL COMMENT '推荐起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '推荐截止时间',
+  `is_deleteed` tinyint(1) unsigned DEFAULT NULL COMMENT '是否被删除',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   UNIQUE KEY `recommend_date_seq` (`recommend_date`,`seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='按批次管理线上民主推荐';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='按批次管理线上民主推荐';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dr_online_candidate
@@ -37,12 +38,12 @@ DROP TABLE IF EXISTS `dr_online_candidate`;
 CREATE TABLE IF NOT EXISTS `dr_online_candidate` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `post_id` int(10) unsigned DEFAULT NULL COMMENT '推荐职务id',
-  `user_id` int(10) unsigned NOT NULL COMMENT '候选人id',
+  `user_id` int(10) unsigned NOT NULL COMMENT '候选人user_id',
+  `candidate` varchar(50) NOT NULL COMMENT '更改后的候选人姓名',
   `sort_order` int(10) unsigned NOT NULL COMMENT '排序',
-  `sign` tinyint(3) unsigned DEFAULT NULL COMMENT '是否管理员添加',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='线上推荐候选人';
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='线上推荐候选人（管理员添加的候选人）';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dr_online_inspector
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `dr_online_inspector` (
   `submit_ip` varchar(50) DEFAULT NULL COMMENT 'IP',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='参评人';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='参评人';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dr_online_inspector_log
@@ -83,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `dr_online_inspector_log` (
   `create_time` datetime NOT NULL COMMENT '生成时间',
   `export_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '导出次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='参评人账号生成记录';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COMMENT='参评人账号生成记录';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dr_online_inspector_type
@@ -114,13 +115,13 @@ CREATE TABLE IF NOT EXISTS `dr_online_post` (
   `unit_post_id` int(11) NOT NULL COMMENT '推荐职务，关联岗位ID',
   `online_id` int(10) unsigned NOT NULL COMMENT '所属批次',
   `has_candidate` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有候选人',
-  `candidates` varchar(300) DEFAULT NULL COMMENT '候选人id',
+  `candidates` varchar(500) DEFAULT NULL COMMENT '候选人user_id，逗号分割',
   `has_competitive` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否差额',
   `competitive_num` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '最多推荐人数',
   `sort_order` int(10) unsigned NOT NULL COMMENT '排序',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='推荐职务';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='推荐职务';
 
 -- Data exporting was unselected.
 -- Dumping structure for table db_owip.dr_online_result
@@ -129,10 +130,11 @@ CREATE TABLE IF NOT EXISTS `dr_online_result` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `online_id` int(10) unsigned NOT NULL COMMENT '批次id',
   `post_id` int(10) unsigned NOT NULL COMMENT '推荐职务id',
-  `candidate_id` int(10) unsigned NOT NULL COMMENT '候选人id',
+  `user_id` int(10) unsigned DEFAULT NULL COMMENT '候选人user_id（仅管理员添加的有）',
+  `candidate` varchar(200) NOT NULL COMMENT '候选人姓名',
   `inspector_id` int(10) unsigned NOT NULL COMMENT '参评人id',
   `inspector_type_id` int(10) unsigned NOT NULL COMMENT '参评人身份id',
-  `ins_option` tinyint(1) unsigned DEFAULT NULL COMMENT '推荐意见',
+  `is_agree` tinyint(1) unsigned DEFAULT NULL COMMENT '推荐意见',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='线上民主推荐结果';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='线上民主推荐结果';
