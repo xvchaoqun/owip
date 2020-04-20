@@ -40,7 +40,7 @@
                     <div class="profile-info-name"> 出生年月</div>
 
                     <div class="profile-info-value">
-                        <span class="editable">${cm:formatDate(sysUser.birth,'yyyy-MM-dd')}</span>
+                        <span class="editable">${cm:formatDate(sysUser.birth,'yyyy.MM')}</span>
                     </div>
                 </div>
 

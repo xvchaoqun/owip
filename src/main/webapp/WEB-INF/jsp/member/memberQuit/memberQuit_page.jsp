@@ -274,7 +274,7 @@
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             {label: '性别', name: 'user.gender', frozen:true, formatter:$.jgrid.formatter.GENDER},
-            {label: '出生年月', name: 'user.birth', frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '出生年月', name: 'user.birth', frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '入党时间', name: 'growTime', frozen:true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '所在党组织', name: 'from',  width: 450, align:'left',

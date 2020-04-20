@@ -45,7 +45,7 @@
     出生年月
   </td>
   <td class="bg-left" style="min-width: 80px;white-space: nowrap">
-    ${cm:formatDate(userBean.birth,'yyyy-MM-dd')}
+    ${cm:formatDate(userBean.birth,'yyyy.MM')}
   </td>
   <td class="bg-right"  style="white-space: nowrap">
     入党时间

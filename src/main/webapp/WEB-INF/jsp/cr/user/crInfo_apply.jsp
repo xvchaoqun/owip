@@ -49,7 +49,7 @@
                                     <td width="100">性 别</td>
                                     <td width="150">${GENDER_MAP.get(bean.gender)}</td>
                                     <td width="100">出生年月</td>
-                                    <td width="">${cm:formatDate(bean.birth,'yyyy.MM.dd')}</td>
+                                    <td width="">${cm:formatDate(bean.birth,'yyyy.MM')}</td>
                                 </tr>
                                 <tr>
                                     <td>民族</td>

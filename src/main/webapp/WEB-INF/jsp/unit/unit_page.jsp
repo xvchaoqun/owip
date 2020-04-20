@@ -173,14 +173,14 @@
             <shiro:hasPermission name="unitPost:*">
             { label: '正处级<br/>岗位数', name: 'mainPostCount', width: 80},
             { label: '副处级<br/>岗位数', name: 'vicePostCount', width: 80},
-            { label: '无行政级别<br/>岗位数', name: 'nonePostCount', width: 90},
+            { label: '${_p_label_adminLevelNone}<br/>岗位数', name: 'nonePostCount', width: 90},
             <c:if test="${_p_hasKjCadre}">
             { label: '正科级<br/>岗位数', name: 'mainKjPostCount', width: 80},
             { label: '副科级<br/>岗位数', name: 'viceKjPostCount', width: 80},
             </c:if>
             { label: '正处级<br/>干部职数', name: 'mainCount', width: 80},
             { label: '副处级<br/>干部职数', name: 'viceCount', width: 80},
-            { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90},
+            { label: '${_p_label_adminLevelNone}<br/>干部职数', name: 'noneCount', width: 90},
             <c:if test="${_p_hasKjCadre}">
             { label: '正科级<br/>干部职数', name: 'mainKjCount', width: 80},
             { label: '副科级<br/>干部职数', name: 'viceKjCount', width: 80},

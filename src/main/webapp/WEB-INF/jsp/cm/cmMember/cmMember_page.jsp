@@ -185,7 +185,7 @@
             {label: '民族', name: 'nation', width: 60},
             {label: '职称', name: 'proPost'},
             {label: '出生年月', name: 'birth', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
+            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: 'Y.m'}},
             {label: '入党时间', name: 'growTime', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '任命文件', name: 'postFilePath',formatter: function (cellvalue, options, rowObject) {

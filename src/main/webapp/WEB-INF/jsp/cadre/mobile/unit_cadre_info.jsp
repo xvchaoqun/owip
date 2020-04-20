@@ -87,7 +87,7 @@
         </div>
     </div>
     <div class="profile-info-row">
-        <div class="profile-info-name"> 无行政级别干部</div>
+        <div class="profile-info-name"> ${_p_label_adminLevelNone}干部</div>
     </div>
     <div class="profile-info-row">
         <div class="profile-info-name td"> 职数</div>

@@ -9,8 +9,8 @@ CREATE ALGORITHM = UNDEFINED VIEW `ext_user_view` AS
 DROP VIEW IF EXISTS `ext_cadre_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ext_cadre_view` AS
 select u.code AS code,ui.realname AS realname,unit.code AS unit_code,
-unit.name AS unit_name,_unittype.name AS unit_type,
-posttype.name AS post, cadretype.name AS admin_level, c.lp_work_time as post_work_time from
+unit.name AS unit_name,_unittype.name AS unit_type, c.title, c.post,
+posttype.name AS post_type, cadretype.name AS admin_level, c.lp_work_time as post_work_time from
 cadre_view c left join unit on c.unit_id = unit.id
 left join base_meta_type cadretype on cadretype.id = c.admin_level
 left join base_meta_type posttype on posttype.id = c.post_type

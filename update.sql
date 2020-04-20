@@ -1,5 +1,8 @@
 
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1', '57', '无行政级别、聘任制');
+
 2020.4.16
 北航，西北工大4.17
 

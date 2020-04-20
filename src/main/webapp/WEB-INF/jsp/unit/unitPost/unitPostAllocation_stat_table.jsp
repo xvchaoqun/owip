@@ -59,7 +59,7 @@
   border-left:none;width:164pt'>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级岗位</td>
     <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td colspan=4 class=xl882001 width=216 style='border-right:1pt solid black;
-  border-left:none;width:164pt'>无行政级别岗位</td>
+  border-left:none;width:164pt'>${_p_label_adminLevelNone}岗位</td>
     </c:if>
   </tr>
   <tr class=xl652001 height=37 style='mso-height-source:userset;height:27.75pt'>

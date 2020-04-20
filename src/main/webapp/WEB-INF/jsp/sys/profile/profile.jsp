@@ -107,7 +107,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="input-medium">
                                                         <div class="label-text">
-                                                            ${cm:formatDate(_user.birth,'yyyy-MM-dd')}
+                                                            ${cm:formatDate(_user.birth,'yyyy.MM')}
                                                         </div>
                                                         <%--<div class="input-group">
                                                           <input name="_birth" class="input-medium date-picker" id="form-field-date"

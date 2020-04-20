@@ -42,7 +42,7 @@
     </td>
     <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td colspan=4 class=xl8024425 width=272 style='border-right: 2.0pt double black;'>
-      无行政级别干部
+      ${_p_label_adminLevelNone}干部
     </td>
     </c:if>
   </tr>

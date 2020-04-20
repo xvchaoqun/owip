@@ -410,12 +410,12 @@ public class UnitController extends BaseController {
         boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
         if (isUnitPostAdmin) {
             titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级岗位数|70",
-                    "副处级岗位数|70", "无行政级别岗位数|70"})));
+                    "副处级岗位数|70", CmTag.getStringProperty("label_adminLevelNone")+"岗位数|70"})));
             if (hasKjCadre) {
                 titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级岗位数|70", "副科级岗位数|70"})));
             }
             titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级干部职数|70",
-                    "副处级干部职数|70", "无行政级别干部职数|90"})));
+                    "副处级干部职数|70", CmTag.getStringProperty("label_adminLevelNone")+"干部职数|90"})));
             if (hasKjCadre) {
                 titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级干部职数|70", "副科级干部职数|70"})));
             }

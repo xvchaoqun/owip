@@ -83,7 +83,7 @@
                                         <option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级
                                         </option>
                                         <option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">
-                                            无行政级别
+                                            ${_p_label_adminLevelNone}
                                         </option>
                                     </select>
                                     <script type="text/javascript">

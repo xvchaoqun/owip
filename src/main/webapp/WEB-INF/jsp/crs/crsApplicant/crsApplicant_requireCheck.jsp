@@ -97,7 +97,7 @@
                             ${cm:getMetaType(cadre.adminLevel).name}
                         </c:if>
                         <c:if test="${cadre.status!=CADRE_STATUS_MIDDLE}">
-                        无行政级别
+                        ${_p_label_adminLevelNone}
                         </c:if>
                     </td>
                 </tr>
