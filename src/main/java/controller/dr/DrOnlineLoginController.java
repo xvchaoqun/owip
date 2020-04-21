@@ -1,6 +1,6 @@
 package controller.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;

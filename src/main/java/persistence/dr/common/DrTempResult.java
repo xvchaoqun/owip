@@ -1,4 +1,4 @@
-package bean;
+package persistence.dr.common;
 
 import java.io.Serializable;
 import java.util.Map;

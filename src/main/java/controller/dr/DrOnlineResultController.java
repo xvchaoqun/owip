@@ -1,6 +1,6 @@
 package controller.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import controller.global.OpException;
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;

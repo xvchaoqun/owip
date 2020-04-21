@@ -1,6 +1,6 @@
 package service.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import controller.global.OpException;
 import domain.dr.*;
 import org.apache.commons.lang.StringUtils;

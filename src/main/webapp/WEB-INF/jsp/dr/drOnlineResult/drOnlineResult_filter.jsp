@@ -53,6 +53,7 @@ pageEncoding="UTF-8"%>
         return false;
     });
 
+
     $("#submit").click(function () {
 
         //tree中取得节点的方法
@@ -72,12 +73,6 @@ pageEncoding="UTF-8"%>
         changeUrl(queryData);
         $("#modal").modal('hide');
         $("#jqGrid2").jqGrid("setGridParam", { postData: queryData}).trigger("reloadGrid");
-        //console.log(typeIds)
-        /*$.post("${ctx}/dr/drOnline/drOnlineResult",{"onlineId": ${onlineId}, "typeIds[]": typeIds},function(ret) {
-            $("#modal").modal('hide');
-            $("#jqGrid2").jqGrid("setGridParam", { postData: queryData }).trigger("reloadGrid");
-
-        })*/
     })
     //$("#modalForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));

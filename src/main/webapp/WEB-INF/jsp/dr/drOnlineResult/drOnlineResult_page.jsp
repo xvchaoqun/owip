@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                                 data-url="${ctx}/dr/drOnline/drOnlineResult_filter?onlineId=${onlineId}">
                             <i class="fa fa-filter"></i> 参评人过滤</button>
                         <c:if test="${drOnline.status==DR_ONLINE_FINISH}">
-                            <button id="exportResult" download="11" class="btn btn-success btn-sm tooltip-success"
+                            <button id="exportResult" class="btn btn-success btn-sm tooltip-success"
                                     data-url="${ctx}/dr/drOnline/drOnlineResult_data?&onlineId=${onlineId}"
                                     data-rel="tooltip" data-placement="top" title="导出统计结果">
                                 <i class="fa fa-download"></i> 导出</button>

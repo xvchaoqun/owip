@@ -1,6 +1,6 @@
 package service.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -135,6 +135,7 @@ public class DrCommonService extends DrBaseMapper{
                 str = "推荐职务：" + postView.getName() + "（" + postView.getCompetitiveNum() + "名）";
             }
             cell.setCellValue(str);
+            //设置每一个岗位的第二行
             if (candidates.size() == 0) {//参评人为空
                 row = sheet.getRow(rowCount++);//2
                 cell = row.getCell(0);
