@@ -45,6 +45,9 @@
                 <if test="onlineId != null">
                     and dor.online_id = #{onlineId}
                 </if>
+                <if test="postId != null">
+                    and dor.post_id = #{postId}
+                </if>
                 <if test="typeIds != null and typeIds.size > 0">
                     and dor.inspector_type_id in
                     <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
@@ -73,6 +76,9 @@
             <where>
                 <if test="onlineId != null">
                     and dor.online_id = #{onlineId}
+                </if>
+                <if test="postId != null">
+                    and dor.post_id = #{postId}
                 </if>
                 <if test="typeIds != null and typeIds.size > 0">
                     and dor.inspector_type_id in

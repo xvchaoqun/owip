@@ -581,8 +581,12 @@
 
     $("#form button[type=submit]").click(function(){$("#form").submit();return false;});
     $("#form").validate({
+        rules: {
+            repasswd:{
+                equalTo:'#passwd'
+            }
+        },
         submitHandler: function (form) {
-
             $(form).ajaxSubmit({
                 success:function(data){
                     //console.log(data)

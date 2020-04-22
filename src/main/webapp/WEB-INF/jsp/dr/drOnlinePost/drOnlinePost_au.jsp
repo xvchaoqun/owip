@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 最大推荐人数</label>
 				<div class="col-xs-6">
-					<input required style="width: 78px;" class="form-control digits" type="text"  name="competitiveNum" placeholder="请填写阿拉伯数字！" value="${drOnlinePost.competitiveNum}">
+					<input required style="width: 78px;" class="form-control digits" type="text"  name="competitiveNum" value="${drOnlinePost.competitiveNum}">
 				</div>
 			</div>
 		<%--<div class="form-group" id="hasCandidate">

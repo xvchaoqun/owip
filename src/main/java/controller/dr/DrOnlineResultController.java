@@ -1,6 +1,5 @@
 package controller.dr;
 
-import persistence.dr.common.DrTempResult;
 import controller.global.OpException;
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.dr.common.DrFinalResult;
+import persistence.dr.common.DrTempResult;
 import sys.constants.DrConstants;
 import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
@@ -38,7 +38,6 @@ public class DrOnlineResultController extends DrBaseController {
     public String drOnlineResult(Integer onlineId,
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
-
         modelMap.put("onlineId", onlineId);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         modelMap.put("drOnline", drOnline);
@@ -51,10 +50,10 @@ public class DrOnlineResultController extends DrBaseController {
     @RequestMapping("/drOnlineResult_data")
     @ResponseBody
     public void drOnlineResult_data(HttpServletResponse response,
+                                    Integer id,
                                     Integer onlineId,
                                     String _typeIds,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
-                                    Integer postId,
                                     Integer candidateId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
@@ -92,12 +91,12 @@ public class DrOnlineResultController extends DrBaseController {
                 throw new OpException("该批次线上民主推荐还未完成，不能导出结果！");
             return;
         }
-        long count = iDrMapper.countResult(list, onlineId);
+        long count = iDrMapper.countResult(list, id, onlineId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(list, onlineId);
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(list, id, onlineId);
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -145,7 +144,7 @@ public class DrOnlineResultController extends DrBaseController {
         record.setId(inspector.getId());
         record.setTempdata(tempData);
         record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
-        record.setIsMobile(false);
+        record.setIsMobile((isMobile != null && isMobile == 1) ? agree : false);
 
         drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(record);
 

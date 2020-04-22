@@ -7,19 +7,20 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
 <shiro:hasPermission name="drOnlinePost:*">
-
-    <form class="form-inline" action="${ctx}/dr/drOnlineCandidate_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <shiro:hasPermission name="drOnlinePost:*">
-            <div class="form-group">
-                <input type="hidden" name="postId" value="${postId}">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/dr/dr_sysUser_selects"
-                        name="userId" data-placeholder="请选择单位">
-                    <option></option>
-                </select>
-            </div>
-            <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/><br/>
-        </shiro:hasPermission>
-    </form>
+    <div align="center">
+        <form class="form-inline" action="${ctx}/dr/drOnlineCandidate_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+            <shiro:hasPermission name="drOnlinePost:*">
+                <div class="form-group">
+                    <input type="hidden" name="postId" value="${postId}">
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dr/dr_sysUser_selects"
+                            name="userId" data-placeholder="请选择单位">
+                        <option></option>
+                    </select>
+                </div>
+                <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/><br/>
+            </shiro:hasPermission>
+        </form>
+    </div>
     <div class="space-6"></div>
     <span style="color: red">请编辑候选人姓名加以区别，若姓名相同，将导致最终统计结果有误！</span>
 </shiro:hasPermission>
@@ -108,6 +109,9 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+    $(".close").click(function () {
+        $("#jqGrid2").trigger("reloadGrid");
+    })
     $('[data-rel="select2"]').select2();
     $.register.user_select($('#modalForm select[name=userId]'));
 </script>

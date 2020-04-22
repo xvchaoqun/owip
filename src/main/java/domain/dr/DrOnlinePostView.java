@@ -33,21 +33,6 @@ public class DrOnlinePostView implements Serializable {
         return _candidates;
     }
 
-    /*public String getUsers(){
-        List<String> cans = new ArrayList<>();
-        if(StringUtils.isNotBlank(candidates)) {
-            DrOnlineCandidateMapper drOnlineCandidateMapper = CmTag.getBean(DrOnlineCandidateMapper.class);
-            Integer userId = null;
-            DrOnlineCandidateExample example = new DrOnlineCandidateExample();
-            example.createCriteria().andPostIdEqualTo(id);
-            List<DrOnlineCandidate> candidateList = drOnlineCandidateMapper.selectByExample(example);
-            for (DrOnlineCandidate can : candidateList){
-                cans.add(can.getCandidate());
-            }
-        }
-        return StringUtils.join(cans, ",");
-    }*/
-
     private Integer id;
 
     private Integer unitPostId;

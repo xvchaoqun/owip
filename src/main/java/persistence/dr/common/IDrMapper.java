@@ -24,10 +24,12 @@ public interface IDrMapper {
     //批量插入推荐结果
     int batchInsert_result(@Param("records") List<DrOnlineResult> resultList);
 
-    //所有的统计结果
+    //统计所有的结果
     List<DrFinalResult>  resultOne(@Param("typeIds") List<Integer> typeIds,
+                                   @Param("postId") Integer postId,
                                    @Param("onlineId")Integer onlineId);
     int countResult(@Param("typeIds") List<Integer> typeIds,
+                    @Param("postId") Integer postId,
                     @Param("onlineId")Integer onlineId);
 
 }

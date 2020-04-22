@@ -241,7 +241,7 @@
 															</tr>
 															<tr>
 																<td class="td1"><span class="star">*</span>新密码：</td>
-																<td><input required type="password" name="passwd"></td>
+																<td><input required type="password" name="passwd" id="passwd"></td>
 															</tr>
 															<tr>
 																<td class="td1"><span class="star">*</span>新密码确认：</td>
@@ -429,10 +429,10 @@
 					})
 				}else {
 					SysMsg.confirm('提交成功将直接退出系统，然后该账号不能登录。请谨慎提交！', '确认提交',function () {
-						$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+						$.post("${ctx}/dr/drOnline/doTempSave?isMoblie=1&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
 							if (ret.success) {
 								SysMsg.success('提交成功。', '提交', function(){
-									location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
+                                    location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
 								});
 							}
 						})
@@ -440,7 +440,7 @@
 				}
 			}else{
 				SysMsg.confirm("确认保存投票信息。", "保存", function () {
-					$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+					$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
 						if (ret.success) {
 							SysMsg.success('保存成功。', '成功', function () {
 								location.reload();
@@ -500,8 +500,12 @@
 
 		$("#form button[type=submit]").click(function(){$("#form").submit();return false;});
 		$("#form").validate({
+			rules: {
+				repasswd:{
+					equalTo:'#passwd'
+				}
+			},
 			submitHandler: function (form) {
-
 				$(form).ajaxSubmit({
 					success:function(data){
 						//console.log(data)

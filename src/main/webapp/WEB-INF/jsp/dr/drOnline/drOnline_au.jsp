@@ -25,11 +25,11 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input style="width: 272px;" required class="form-control datetime-picker"
-							   name="recommendDate"
+						<input style="width: 272px;" required class="form-control date-picker"
+							   name="_recommendDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd HH:mm"
-							   value="${empty drOnline.recommendDate?(cm:formatDate(now,'yyyy-MM-dd HH:mm')):(cm:formatDate(drOnline.recommendDate,'yyyy-MM-dd HH:mm'))}"/>
+							   data-date-format="yyyy-mm-dd"
+							   value="${empty drOnline.recommendDate?(cm:formatDate(now,'yyyy-MM-dd')):(cm:formatDate(drOnline.recommendDate,'yyyy-MM-dd'))}"/>
 					</div>
 				</div>
 			</div>
@@ -76,7 +76,6 @@ pageEncoding="UTF-8"%>
 						<input style="width: 272px;" required class="form-control datetime-picker"
 							   name="startTime"
 							   type="text"
-							   data-date-format="yyyy-mm-dd HH:mm"
 							   value="${(cm:formatDate(drOnline.startTime,'yyyy-MM-dd HH:mm'))}"/>
 					</div>
 					<span id="tipSt" style="color: red;"></span>
@@ -89,7 +88,6 @@ pageEncoding="UTF-8"%>
 						<input style="width: 272px;" required class="form-control datetime-picker"
 							   name="endTime"
 							   type="text"
-							   data-date-format="yyyy-mm-dd HH:mm"
 							   value="${(cm:formatDate(drOnline.endTime,'yyyy-MM-dd HH:mm'))}"/>
 					</div>
 					<span id="tipEt" style="color: red;"></span>

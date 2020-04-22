@@ -83,7 +83,7 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
             if (inspectorLogs != null && !inspectorLogs.isEmpty()){
                 DrOnlineInspectorLog drOnlineInspectorLog = inspectorLogs.get(0);
                 logId = drOnlineInspectorLog.getId();
-                if (type == 1){
+                if (type == 1){//列表生成
                     count = count - drOnlineInspectorLog.getTotalCount() > 0 ? count - drOnlineInspectorLog.getTotalCount() : 0;
                 }
 
@@ -126,6 +126,7 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
                 inspector.setStatus(DrConstants.INSPECTOR_STATUS_INIT);
                 inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE);
                 inspector.setCreateTime(now);
+                inspector.setRemark(isAppended ? "补发" : null);
 
                 drOnlineInspectorMapper.insert(inspector);
             }

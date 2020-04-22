@@ -35,7 +35,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
 
-    $(document).on("click", "#exportResult", function (e) {
+    $("#exportResult").on("click", function (e) {
 
         var $this = $(this);
 
@@ -45,7 +45,7 @@ pageEncoding="UTF-8" %>
         var idsName = $(this).data("ids-name") || 'ids[]';
         var _export = $(this).data("export") || '1';
         var type = $(this).data("type") || 'export';
-        console.log(_typeIds);
+        //console.log(_typeIds);
 
         var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
         var queryString = $this.data("querystr");
@@ -64,6 +64,7 @@ pageEncoding="UTF-8" %>
     });
 
     var _typeIds = new Array();
+    //console.log(_typeIds)
     function changeUrl(queryData){
 
         $.each(queryData,function () {
@@ -72,7 +73,6 @@ pageEncoding="UTF-8" %>
             _typeIds.push(this);
         })
     }
-
 
     $("#jqGrid2").jqGrid({
         multiselect:false,

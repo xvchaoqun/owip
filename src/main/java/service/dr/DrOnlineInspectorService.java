@@ -116,6 +116,7 @@ public class DrOnlineInspectorService extends DrBaseMapper {
         int pubCount  = 0;
         int finishCount = 0;
         int totalCount = 0;
+        Integer logId = null;
         for (Integer id : ids){
             DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
             if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
@@ -134,10 +135,10 @@ public class DrOnlineInspectorService extends DrBaseMapper {
                 totalCount--;
             }
             inspector.setStatus(DrConstants.INSPECTOR_STATUS_ABOLISH);
-
-            drOnlineInspectorLogService.updateCount(inspector.getLogId(), pubCount, finishCount, totalCount);
+            logId = inspector.getLogId();
             drOnlineInspectorMapper.updateByPrimaryKey(inspector);
         }
+        drOnlineInspectorLogService.updateCount(logId, pubCount, finishCount, totalCount);
     }
 
     //发布账号
@@ -149,7 +150,7 @@ public class DrOnlineInspectorService extends DrBaseMapper {
         for (Integer id : ids){
             DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
             logId = inspector.getLogId();
-            if (inspector.getStatus() != DrConstants.INSPECTOR_STATUS_ABOLISH)
+            if (inspector.getStatus() != DrConstants.INSPECTOR_STATUS_ABOLISH && inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE)
                 pubCount++;
             inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
             drOnlineInspectorMapper.updateByPrimaryKeySelective(inspector);

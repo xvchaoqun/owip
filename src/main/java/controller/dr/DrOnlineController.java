@@ -5,6 +5,7 @@ import domain.dr.DrOnline;
 import domain.dr.DrOnlineExample;
 import domain.dr.DrOnlineExample.Criteria;
 import domain.dr.DrOnlineNotice;
+import domain.unit.Unit;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -48,6 +49,8 @@ public class DrOnlineController extends DrBaseController {
                            Byte status,
                            ModelMap modelMap,
                            Byte isDeleted,
+                           Integer unitId,
+                           @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
                            @RequestParam(required = false, defaultValue = "1") Byte cls) {
 
         if (null != isDeleted)
@@ -63,6 +66,13 @@ public class DrOnlineController extends DrBaseController {
         if (cls == 1) {
             return "dr/drOnline/drOnline_page";
         }else if (cls == 2) {
+            if (unitTypes != null) {
+                modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+            }
+            if(unitId!=null){
+                Unit unit = unitService.findAll().get(unitId);
+                modelMap.put("unit", unit);
+            }
             return "dr/drOnline/drOnlinePost";
         }
         return  "dr/drOnline/drOnline_page";
@@ -172,11 +182,12 @@ public class DrOnlineController extends DrBaseController {
     @RequestMapping(value = "/drOnline_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_drOnline_au(DrOnline record,
+                              String _recommendDate,
                               @RequestParam(value = "memberIds", required = false) Integer[] memberIds,
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-        Integer seq = record.getSeq();
+        record.setRecommendDate(DateUtils.parseDate(_recommendDate, DateUtils.YYYY_MM_DD));
         record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
         record.setIsDeleteed(false);
 

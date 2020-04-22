@@ -65,6 +65,10 @@ public class DrOnlinePostController extends DrBaseController {
                                     Integer onlineId,
                                  Integer onlineType,
                                  String name,
+                                 Integer unitId,
+                                 Integer postType,
+                                  Integer adminLevel,
+                                 @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
                                  @RequestParam(required = false, defaultValue = "1") Byte cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -87,6 +91,18 @@ public class DrOnlinePostController extends DrBaseController {
             if (onlineId != null) {
                 criteria.andOnlineIdEqualTo(onlineId);
             }
+        }
+        if (adminLevel != null){
+            criteria.andAdminLevelEqualTo(adminLevel);
+        }
+        if (postType != null){
+            criteria.andPostTypeEqualTo(postType);
+        }
+        if (unitId != null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (null != unitTypes && unitTypes.length > 0){
+            criteria.andTypeIdIn(Arrays.asList(unitTypes));
         }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
