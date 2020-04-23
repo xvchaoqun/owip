@@ -611,4 +611,15 @@ public class UnitController extends BaseController {
         ExportHelper.export(titles, valueList, fileName, response);
     }
 
+    @RequiresPermissions("unit:abolish")
+    @RequestMapping(value = "/unit_not_stat_post", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_not_stat_post(@RequestParam(value = "ids[]") Integer[] ids,
+                               @RequestParam(required = false, defaultValue = "1") boolean notStatPost) {
+
+        unitService.changeNotStatPost(ids, notStatPost);
+        logger.info("abolish Unit:" + StringUtils.join(ids, ","));
+
+        return success(FormUtils.SUCCESS);
+    }
 }

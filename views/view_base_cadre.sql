@@ -57,6 +57,7 @@ SELECT c.*,
 	,`t`.`work_start_time` AS `work_start_time`
 	,t.talent_title
 	,main_cadre_post.id as main_cadre_post_id
+	,main_cadre_post.unit_post_id
 	,main_cadre_post.is_principal
 	,main_cadre_post.lp_dispatch_id
 	,main_cadre_post.lp_work_time

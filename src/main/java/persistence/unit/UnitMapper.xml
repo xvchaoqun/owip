@@ -13,6 +13,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="not_stat_post" jdbcType="BIT" property="notStatPost" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, type_id, dispatch_unit_id, work_time, url, remark, create_time, sort_order, 
-    status
+    status, not_stat_post
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitExample" resultMap="BaseResultMap">
     select
@@ -113,11 +114,11 @@
     insert into unit (code, name, type_id, 
       dispatch_unit_id, work_time, url, 
       remark, create_time, sort_order, 
-      status)
+      status, not_stat_post)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
       #{dispatchUnitId,jdbcType=INTEGER}, #{workTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{status,jdbcType=TINYINT}, #{notStatPost,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.Unit">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -155,6 +156,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="notStatPost != null">
+        not_stat_post,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
@@ -186,6 +190,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="notStatPost != null">
+        #{notStatPost,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -231,6 +238,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.notStatPost != null">
+        not_stat_post = #{record.notStatPost,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +258,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT}
+      status = #{record.status,jdbcType=TINYINT},
+      not_stat_post = #{record.notStatPost,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +297,9 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="notStatPost != null">
+        not_stat_post = #{notStatPost,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -300,7 +314,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=TINYINT},
+      not_stat_post = #{notStatPost,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitExample" resultMap="BaseResultMap">

@@ -736,6 +736,66 @@ public class UnitViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andNotStatPostIsNull() {
+            addCriterion("not_stat_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostIsNotNull() {
+            addCriterion("not_stat_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostEqualTo(Boolean value) {
+            addCriterion("not_stat_post =", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostNotEqualTo(Boolean value) {
+            addCriterion("not_stat_post <>", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostGreaterThan(Boolean value) {
+            addCriterion("not_stat_post >", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("not_stat_post >=", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostLessThan(Boolean value) {
+            addCriterion("not_stat_post <", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("not_stat_post <=", value, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostIn(List<Boolean> values) {
+            addCriterion("not_stat_post in", values, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostNotIn(List<Boolean> values) {
+            addCriterion("not_stat_post not in", values, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("not_stat_post between", value1, value2, "notStatPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotStatPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("not_stat_post not between", value1, value2, "notStatPost");
+            return (Criteria) this;
+        }
+
         public Criteria andMainPostCountIsNull() {
             addCriterion("main_post_count is null");
             return (Criteria) this;

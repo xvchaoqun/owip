@@ -28,15 +28,15 @@
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                 <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!--<table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
+        <table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
-
-        <table tableName="unit_function" domainObjectName="unit.UnitFunction" mapperName="unit.UnitFunctionMapper">
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>
+
+        <!--<table tableName="unit_function" domainObjectName="unit.UnitFunction" mapperName="unit.UnitFunctionMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
 
        <!-- <table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

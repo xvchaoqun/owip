@@ -235,14 +235,14 @@
                         '#modalForm select[name=historyUnitIds] option:selected'), function(option){
                     return $(option).val();
                 });
-                if(selectedUnitIds.length==0){
+                /*if(selectedUnitIds.length==0){
                     $.tip({
                         $target: $("#modalForm select[name=unitIds]").closest(".input-group"),
                         at: 'right center', my: 'left center', type: 'info',
                         msg: "请选择双肩挑单位。"
                     });
                     return;
-                }
+                }*/
             }
 
             var $btn = $("#submitBtn").button('loading');

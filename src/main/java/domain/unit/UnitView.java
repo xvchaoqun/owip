@@ -25,6 +25,8 @@ public class UnitView implements Serializable {
 
     private Byte status;
 
+    private Boolean notStatPost;
+
     private BigDecimal mainPostCount;
 
     private BigDecimal vicePostCount;
@@ -127,6 +129,14 @@ public class UnitView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getNotStatPost() {
+        return notStatPost;
+    }
+
+    public void setNotStatPost(Boolean notStatPost) {
+        this.notStatPost = notStatPost;
     }
 
     public BigDecimal getMainPostCount() {

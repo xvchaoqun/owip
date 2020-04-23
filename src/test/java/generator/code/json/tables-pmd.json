@@ -105,10 +105,10 @@
       "ignore": true
     },
     {
-      "table": "pmd_party_donate",
+      "table": "pmd_fee",
       "key": "id",
-      "searchColumns": "user_id,party_id,branch_id",
-      "showColumns": "user_id,party_id,branch_id,donate_date,money,explain",
+      "searchColumns": "user_id,party_id,branch_id,is_online_pay,has_pay,pay_time",
+      "showColumns": "type,pay_month,user_id,party_id,branch_id,amt,reason",
       "excludeEditColumns": "id",
       "logType": "LogConstants.LOG_PMD",
       "ignore": false

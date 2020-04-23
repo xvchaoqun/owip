@@ -24,348 +24,8 @@
                  ||not empty param.state  ||not empty param.title ||not empty param.labels }"/>
 
                 <div class="tabbable">
-
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}" class="loadPage"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
-                        </li>
-
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}"
-                               class="loadPage"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
-                        </li>
-                        <shiro:hasPermission name="cadre:list">
-                            <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
-                                <shiro:hasPermission name="leader:menu">
-                                <button type="button" class="popupBtn btn btn-danger btn-sm"
-                                        data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库
-                                </button>
-                                </shiro:hasPermission>
-                                <shiro:hasPermission name="cadre:edit">
-                                    <button type="button" class="popupBtn btn btn-info btn-sm"
-                                            data-url="${ctx}/cadre_transfer"><i class="fa fa-recycle"></i> 干部库转移
-                                    </button>
-                                </shiro:hasPermission>
-                            </div>
-                        </shiro:hasPermission>
-                    </ul>
-
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active rownumbers">
-                            <div class="jqgrid-vertical-offset buttons">
-
-                                <shiro:hasPermission name="cadre:changeCode">
-                                    <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
-                                       data-url="${ctx}/cadre_changeCode"
-                                       data-id-name="cadreId">
-                                        <i class="fa fa-refresh"></i> 更换工号</a>
-                                </shiro:hasPermission>
-
-                                <c:if test="${cm:roleIsPermitted(ROLE_CADREADMIN, 'cadreInspect:list')}">
-                                    <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
-                                        <shiro:hasPermission name="cadre:edit">
-                                            <button class="jqBatchBtn btn btn-warning btn-sm"
-                                                    data-title="重新任用"
-                                                    data-msg="确定重新任用这{0}个干部吗？（添加到考察对象中）"
-                                                    data-url="${ctx}/cadre_re_assign" data-callback="_reAssignCallback">
-                                                <i class="fa fa-reply"></i> 重新任用
-                                            </button>
-                                        </shiro:hasPermission>
-                                    </c:if>
-                                </c:if>
-
-                                <shiro:hasPermission name="cadre:edit">
-                                    <a class="popupBtn btn btn-info btn-sm btn-success"
-                                       data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i> 添加</a>
-                                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/cadre_au"
-                                            data-querystr="&status=${status}">
-                                        <i class="fa fa-edit"></i> 修改信息
-                                    </button>
-                                </shiro:hasPermission>
-                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:edit">
-                                        <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                                data-url="${ctx}/cadre_promote">
-                                            <i class="fa fa-level-up"></i> 提任校领导
-                                        </button>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="cadre:leave">
-                                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                                data-width="700"
-                                                data-url="${ctx}/cadre_leave"
-                                                data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">
-                                            <i class="fa fa-sign-out"></i> 离任
-                                        </button>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="cadre:import">
-                                        <div class="btn-group">
-                                            <button data-toggle="dropdown"
-                                                    data-rel="tooltip" data-placement="top" data-html="true"
-                                                    title="<div style='width:180px'>批量导入干部信息入口</div>"
-                                                    class="btn btn-info btn-sm dropdown-toggle tooltip-success">
-                                                <i class="fa fa-download"></i> 批量导入 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-success" role="menu"
-                                                style="z-index: 1031">
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE}">
-                                                        <i class="fa fa-file-excel-o"></i> 导入现任干部信息</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE_LEAVE}">
-                                                        <i class="fa fa-file-excel-o"></i> 导入离任干部信息</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadrePost_import?isMainPost=1">
-                                                        <i class="fa fa-file-excel-o"></i> 导入第一主职情况</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadrePost_importWorkTime">
-                                                        <i class="fa fa-file-excel-o"></i> 导入第一主职任职时间</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadreAdminLevel_import">
-                                                        <i class="fa fa-file-excel-o"></i> 导入任职级情况</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadrePost_import?isMainPost=0">
-                                                        <i class="fa fa-file-excel-o"></i> 导入干部兼职情况</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadreEva_import?isMainPost=0">
-                                                        <i class="fa fa-file-excel-o"></i> 导入考核信息</a>
-                                                </li>
-                                                <li role="separator" class="divider"></li>
-                                                <li>
-                                                    <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadreAdform_import">
-                                                        <i class="fa fa-file-excel-o"></i> 导入中组部干部任免审批表</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </shiro:hasPermission>
-                                </c:if>
-                                <shiro:hasPermission name="cadre:edit">
-                                    <div class="btn-group">
-                                        <button data-toggle="dropdown"
-                                                data-rel="tooltip" data-placement="top" data-html="true"
-                                                title="<div style='width:180px'>批量干部信息入口</div>"
-                                                class="btn btn-warning btn-sm dropdown-toggle tooltip-success">
-                                            <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                            <li>
-                                                <a href="javascript:;" class="popupBtn"
-                                                   data-url="${ctx}/cadre_batchSort?status=${status}">
-                                                    <i class="fa fa-file-excel-o"></i> 批量排序</a>
-                                            </li>
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqRunBtn" data-grid-id="#jqGrid"
-                                                   data-title="更新"
-                                                   data-msg="确定更新这{0}条数据（<span class='text-danger'>更新所有的“无此类情况”为“是”</span>）？"
-                                                   data-url="${ctx}/cadreInfoCheck_batchUpdate?status=${status}">
-                                                    <i class="fa fa-check-circle-o"></i> 更新“无此类情况”为“是”</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </shiro:hasPermission>
-                                <shiro:hasPermission name="cadre:export">
-                                    <div class="btn-group">
-                                        <button data-toggle="dropdown"
-                                                data-rel="tooltip" data-placement="top" data-html="true"
-                                                title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                                class="btn btn-success btn-sm dropdown-toggle tooltip-success">
-                                            <i class="fa fa-download"></i> 导出 <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                            <shiro:hasPermission name="cadre:list">
-                                                <li class="dropdown-hover" data-stopPropagation="true">
-                                                    <a href="javascript:;" data-need-id="false">
-                                                        <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）
-                                                        <i class="ace-icon fa fa-caret-right pull-right"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" style="width: 675px;top:-220px;">
-                                                        <form class="form-horizontal" id="exportForm">
-                                                            <div style="padding: 7px 0 10px 10px">
-                                                                <c:forEach items="${titles}" var="title" varStatus="vs">
-                                                                    <div style="padding-left:5px;float: left;width:220px">
-                                                                        <input class="big" type="checkbox"
-                                                                               value="${vs.index}">
-                                                                            ${fn:split(title, "|")[0]}</div>
-                                                                </c:forEach>
-                                                                <div style="clear: both"/>
-                                                            </div>
-                                                            <div class="form-actions center">
-                                                                <div style="position: absolute; float:left; left:10px;padding-top: 3px">
-                                                                    <input type="button" id="btnSelectAll"
-                                                                           class="btn btn-success btn-xs" value="全选"/>
-                                                                    <input type="button" id="btnDeselectAll"
-                                                                           class="btn btn-danger btn-xs" value="全不选"/>
-                                                                </div>
-                                                                <button type="button"
-                                                                        class="jqExportBtn btn btn-success"
-                                                                        data-need-id="false"
-                                                                        data-url="${ctx}/cadre_data"
-                                                                        data-querystr="format=1">
-                                                                    <i class="fa fa-file-excel-o"></i> 导出
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </li>
-                                            </shiro:hasPermission>
-                                            <shiro:hasPermission name="cadre:list2">
-                                                <li>
-                                                    <a href="javascript:;" class="jqExportBtn"
-                                                       data-need-id="false" data-url="${ctx}/cadre_data"
-                                                       data-querystr="format=1">
-                                                        <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
-                                                </li>
-                                            </shiro:hasPermission>
-                                            <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                                <shiro:hasPermission name="cadre:list">
-                                                    <li role="separator" class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadre_data"
-                                                           data-querystr="format=2">
-                                                            <i class="fa fa-file-excel-o"></i> 导出干部名单（部分字段，可单页打印）</a>
-                                                    </li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadreEdu_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出学习经历（批量）</a>
-                                                    </li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadreWork_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
-                                                    </li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadreEva_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出近五年考核结果（批量）</a>
-                                                    </li>
-                                                </shiro:hasPermission>
-                                                <shiro:hasPermission name="cadre:exportFamily">
-                                                    <li role="separator" class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cadreFamily_data">
-                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员（批量）</a>
-                                                    </li>
-                                                </shiro:hasPermission>
-                                            </c:if>
-                                            <shiro:hasPermission name="cadre:list">
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-export="2"
-                                                   data-url="${ctx}/cadre_data?format=1">
-                                                    <i class="fa fa-file-excel-o"></i> 导出Word版任免审批表（批量）</a>
-                                            </li>
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-export="2"
-                                                   data-url="${ctx}/cadre_data?format=2">
-                                                    <i class="fa fa-file-excel-o"></i> 导出中组部版任免审批表（批量）</a>
-                                            </li>
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-export="3"
-                                                   data-url="${ctx}/cadre_data">
-                                                    <i class="fa fa-file-excel-o"></i> 导出信息采集表（批量）</a>
-                                            </li>
-                                            <li role="separator" class="divider"></li>
-                                            <li>
-                                                <a href="javascript:;" class="jqExportBtn"
-                                                   data-need-id="false"
-                                                   data-export="5"
-                                                   data-url="${ctx}/cadre_data">
-                                                    <i class="fa fa-info-circle"></i> 干部信息完整性校验结果（批量）</a>
-                                            </li>
-                                            </shiro:hasPermission>
-                                        </ul>
-                                    </div>
-
-                                </shiro:hasPermission>
-
-                                <shiro:hasPermission name="cadre:archive">
-                                    <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
-                                            data-need-id="false"
-                                            data-ids-name="cadreIds"
-                                            data-open-by="page"
-                                            data-url="${ctx}/cadre_search_brief">
-                                        <i class="fa fa-hand-pointer-o"></i> 提取简介
-                                    </button>
-                                </shiro:hasPermission>
-                                <shiro:hasPermission name="cadre:del">
-                                    <button data-url="${ctx}/cadre_batchDel"
-                                            data-title="删除"
-                                            data-msg="<span style='font-size:larger'>确定删除这{0}条数据？</span>
-                                                        <br/><br/><div class='text-danger' style='text-indent:0;color:red'>注：<br/>
-                                                        1、该操作将删除所有干部档案及干部任免审批表的相关数据，包含学习经历、工作经历、家庭情况等；<br/>
-                                                        2、删除后数据不可恢复，请谨慎操作。
-                                                        </div>"
-                                            data-grid-id="#jqGrid"
-                                            class="jqBatchBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                </shiro:hasPermission>
-                                <div class="pull-right hidden-sm hidden-xs">
-                                    <select id="sortBy" data-placeholder="请选择排序方式">
-                                        <option></option>
-                                        <option value="birth?asc">按出生日期排序(升序)</option>
-                                        <option value="birth?desc">按出生日期排序(降序)</option>
-                                        <option value="lpWorkTime?asc">按任现职时间排序(升序)</option>
-                                        <option value="lpWorkTime?desc">按任现职时间排序(降序)</option>
-                                        <option value="sWorkTime?asc">按现职级时间排序(升序)</option>
-                                        <option value="sWorkTime?desc">按现职级时间排序(降序)</option>
-                                        <option value="growTime">按党派加入时间排序</option>
-                                        <option value="arriveTime">按到校时间排序</option>
-                                        <option value="finishTime">按毕业时间排序</option>
-                                    </select>
-                                    <script>
-                                        $("#sortBy").val('${param.sortBy}');
-                                        $("#searchForm input[name=sortBy]").val('${param.sortBy}');
-                                        $("#sortBy").select2({
-                                          theme: "default"
-                                        }).change(function () {
-                                            $("#searchForm input[name=sortBy]").val($(this).val());
-                                            $("#searchForm .jqSearchBtn").click();
-                                            if($(this).val()==''){
-                                                throw new Error();
-                                            }
-                                        })
-                                    </script>
-                                </div>
-                            </div>
-
                             <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
@@ -381,6 +41,8 @@
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cols">
                                             <input type="hidden" name="sortBy">
+                                            <input type="hidden" name="isKeepSalary" value="${param.isKeepSalary}" />
+                                            <input type="hidden" name="isEngage" value="${param.isEngage}" />
                                             <table>
                                                 <tr>
                                                     <td class="name">姓名</td>
@@ -547,12 +209,6 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="name">行政级别</td>
-                                                    <td class="input">
-                                                        <select class="multiselect" multiple="" name="adminLevels">
-                                                            <c:import url="/metaTypes?__code=mc_admin_level"/>
-                                                        </select>
-                                                    </td>
                                                     <td class="name">最高学历</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="maxEdus">
@@ -608,18 +264,6 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <td class="name">主职是否关联岗位</td>
-                                                    <td class="input">
-                                                        <select name="firstUnitPost" data-width="100"
-                                                                data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <option value="1">是</option>
-                                                            <option value="0">否</option>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=firstUnitPost]").val('${param.firstUnitPost}');
-                                                        </script>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否正职</td>
@@ -643,18 +287,6 @@
                                                                                                            value="${param.endNowLevelAge}">
 
                                                     </td>
-                                                    <%--<td class="name">现职级始任年限 </td>
-                                                    <td class="input">
-                                                        <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <c:forEach items="<%=MemberConstants.MEMBER_AGE_MAP%>" var="age">
-                                                                <option value="${age.key}">${age.value}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=age]").val('${param.age}');
-                                                        </script>
-                                                    </td>--%>
                                                     <td class="name">是否双肩挑</td>
                                                     <td class="input">
                                                         <select name="isDouble" data-width="100" data-rel="select2"
@@ -720,7 +352,6 @@
                                                             $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
                                                         </script>
                                                     </td>
-
                                                 </tr>
                                             </table>
                                             <div>
@@ -731,7 +362,7 @@
 
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-querystr="status=${status}">
+                                                            data-querystr="status=${status}&isKeepSalary=${param.isKeepSalary}&isEngage=${param.isEngage}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>
@@ -781,30 +412,6 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
-        //console.log($(e.target).hasClass("jqExportBtn"))
-        if (!$(e.target).hasClass("jqExportBtn")) {
-            e.stopPropagation();
-        }
-    });
-    $("#btnSelectAll").click(function () {
-        $("#exportForm :checkbox").prop("checked", true);
-        _updateCols()
-    });
-    $("#btnDeselectAll").click(function () {
-        $("#exportForm :checkbox").prop("checked", false);
-        _updateCols()
-    });
-    $("#exportForm :checkbox").click(function () {
-        _updateCols()
-    });
-
-    function _updateCols() {
-        var cols = $.map($("#exportForm :checkbox:checked"), function (chk) {
-            return $(chk).val();
-        });
-        $("#searchForm input[name=cols]").val(cols.join(','));
-    }
 
     $.register.multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNations)});
     $.register.multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});

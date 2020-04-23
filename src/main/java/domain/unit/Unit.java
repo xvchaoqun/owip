@@ -40,6 +40,8 @@ public class Unit implements Serializable {
 
     private Byte status;
 
+    private Boolean notStatPost;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -128,5 +130,13 @@ public class Unit implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getNotStatPost() {
+        return notStatPost;
+    }
+
+    public void setNotStatPost(Boolean notStatPost) {
+        this.notStatPost = notStatPost;
     }
 }

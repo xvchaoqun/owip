@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.global.CacheHelper;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -27,6 +28,8 @@ public class UnitService extends BaseMapper {
 
     @Autowired
     protected MetaTypeService metaTypeService;
+    @Autowired
+    protected CacheHelper cacheHelper;
 
     public List<Unit> findUnitByTypeAndStatus(Integer type, byte status) {
 
@@ -470,5 +473,18 @@ public class UnitService extends BaseMapper {
         }
 
         return unitIds;
+    }
+
+    @Transactional
+    public void changeNotStatPost(Integer[] ids, Boolean notStatPost){
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Unit unit = new Unit();
+        unit.setNotStatPost(notStatPost);
+        unitMapper.updateByExampleSelective(unit,example);
+
+        cacheHelper.clearCache("Unit:ALL",null);
     }
 }

@@ -80,6 +80,9 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "labels") Integer[] labels,
                              @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
                             @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+                             @RequestParam(required = false, defaultValue = "0")Boolean isEngage,//是否聘任制干部，指无行政级别的干部
+                             @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
+                             Boolean firstUnitPost,
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -178,6 +181,10 @@ public class CadreController extends BaseController {
 
         modelMap.put("titles", titles);
 
+        if (isEngage || isKeepSalary) {
+            return "cadre/cadre_engage_page";
+        }
+
         return "cadre/cadre_page";
     }
 
@@ -219,6 +226,9 @@ public class CadreController extends BaseController {
                            Integer state,
                            String title,
                            String sortBy, // 自定义排序
+                           Boolean firstUnitPost,
+                           @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
+                           @RequestParam(required = false, defaultValue = "0") Boolean isEngage,//是否聘任制干部，指无行政级别的干部
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -243,9 +253,12 @@ public class CadreController extends BaseController {
         String sortStr = "sort_order desc";
         if(StringUtils.isNotBlank(sortBy)) {
             switch (sortBy.trim()){
-                case "birth":
+                case "birth?asc":
                    sortStr = "birth asc";
                    break;
+                case "birth?desc":
+                    sortStr = "birth desc";
+                    break;
                 case "growTime":
                    sortStr = "ow_grow_time asc, dp_grow_time asc";
                    break;
@@ -255,15 +268,36 @@ public class CadreController extends BaseController {
                 case "finishTime":
                    sortStr = "finish_time asc";
                    break;
-                case "lpWorkTime":
+                case "lpWorkTime?asc":
                    sortStr = "lp_work_time asc";
                    break;
-                case "sWorkTime":
+                case "lpWorkTime?desc":
+                    sortStr = "lp_work_time desc";
+                    break;
+                case "sWorkTime?asc":
                    sortStr = "s_work_time asc";
                    break;
+                case "sWorkTime?desc":
+                    sortStr = "s_work_time desc";
+                    break;
             }
         }
         example.setOrderByClause(sortStr);
+
+        if (isEngage) {
+            Integer adminLevel = CmTag.getMetaTypeByCode("mt_admin_level_none").getId();
+            criteria.andAdminLevelEqualTo(adminLevel);
+        }
+        if (isKeepSalary) {
+                criteria.andUnitPostIdIsNull();
+        }
+        if (firstUnitPost != null) {
+            if (firstUnitPost){
+                criteria.andUnitPostIdIsNotNull();
+            }else {
+                criteria.andUnitPostIdIsNull();
+            }
+        }
 
         if (cadreId != null) {
             criteria.andIdEqualTo(cadreId);
@@ -790,9 +824,9 @@ public class CadreController extends BaseController {
         record.setIsDep(BooleanUtils.isTrue(record.getIsDep()));
         record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
         if(record.getIsDouble()){
-            if(unitIds==null || unitIds.length==0) {
+            /*if(unitIds==null || unitIds.length==0) {
                 return failed("请选择双肩挑单位");
-            }
+            }*/
             record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
         }
         record.setLabel(StringUtils.trimToEmpty(record.getLabel()));

@@ -48,6 +48,20 @@
                                            data-url="${ctx}/unit_batchSort?status=${cls==1?UNIT_STATUS_RUN:UNIT_STATUS_HISTORY}">
                                             <i class="fa fa-file-excel-o"></i> 批量排序</a>
                                     </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqBatchBtn"
+                                               data-url="${ctx}/unit_not_stat_post?notStatPost=1" data-title="转移"
+                                               data-msg="确定这{0}个单位不列入配备一览表吗？">
+                                                <i class="fa fa-times"></i> 不列入配备一览表</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqBatchBtn"
+                                               data-url="${ctx}/unit_not_stat_post?notStatPost=0" data-title="转移"
+                                               data-msg="确定这{0}个单位列入配备一览表吗？">
+                                                <i class="fa fa-check"></i> 列入配备一览表</a>
+                                        </li>
                                     </c:if>
                                 </ul>
                             </div>
@@ -185,6 +199,7 @@
             { label: '正科级<br/>干部职数', name: 'mainKjCount', width: 80},
             { label: '副科级<br/>干部职数', name: 'viceKjCount', width: 80},
             </c:if>
+            {label: '是否不列入<br/>配备一览表', name: 'notStatPost', formatter: $.jgrid.formatter.TRUEFALSE},
             </shiro:hasPermission>
             </c:if>
             /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

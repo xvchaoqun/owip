@@ -86,14 +86,13 @@
              <ignoreColumn column="update_time"/>
              <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-       <!-- <table tableName="ow_member_view" domainObjectName="member.MemberView"
+        <!--<table tableName="ow_member_view" domainObjectName="member.MemberView"
                mapperName="member.MemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-        </table>
--->
+        </table>-->
         <!--<table tableName="ow_member_check" domainObjectName="member.MemberCheck">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
@@ -161,9 +160,9 @@
             <columnOverride column="pub_users" jdbcType="VARCHAR"/>
         </table>-->
        <!-- <table tableName="ow_party_public_user" domainObjectName="party.PartyPublicUser">
-        </table>
+        </table>-->
 
-        <table tableName="ow_party" domainObjectName="party.Party">
+        <!--<table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>-->
@@ -206,10 +205,10 @@
                enableDeleteByExample="false">
         </table>-->
 
-        <!--<table tableName="ow_branch" domainObjectName="party.Branch">
+        <table tableName="ow_branch" domainObjectName="party.Branch">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         <ignoreColumn column="update_time"/>
-        </table>-->
+        </table>
         <!--<table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -220,12 +219,12 @@
 
         <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
         </table>-->
-        <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
+        <table tableName="ow_branch_view" domainObjectName="party.BranchView"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -241,16 +240,18 @@
         <!--<table tableName="ow_party_punish" domainObjectName="party.PartyPunish" mapperName="party.PartyPunishMapper">
 
         </table>-->
+        <!--<table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
        <!-- <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
 
-        </table>
-        <table tableName="ow_party_reward" domainObjectName="party.PartyReward" mapperName="party.PartyRewardMapper">
+        </table>-->
+        <!--<table tableName="ow_party_reward" domainObjectName="party.PartyReward" mapperName="party.PartyRewardMapper">
 
         </table>-->
         <!--<table tableName="ow_party_post" domainObjectName="party.PartyPost" mapperName="party.PartyPostMapper">
         </table>
         <table tableName="ow_party_punish_view" domainObjectName="party.PartyPunishView" mapperName="party.PartyPunishViewMapper">
         </table>-->
+        <!--<table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
       <!--  <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
 
         </table>-->
