@@ -288,11 +288,15 @@ public class CadreController extends BaseController {
 
         if (endAge != null) {
             //  >= 不含（减一）
-            criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1)));
+            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1));
+            Date brith_start=DateUtils.getFirstDayOfMonth(brith);
+            criteria.andBirthGreaterThanOrEqualTo(brith_start);
         }
         if (startAge != null) {
             // <= 包含
-            criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));
+            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge);
+            Date brith_end=DateUtils.getLastDayOfMonth(brith);
+            criteria.andBirthLessThanOrEqualTo(brith_end);
         }
         if (endDpAge != null) {
             criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endDpAge + 1)));

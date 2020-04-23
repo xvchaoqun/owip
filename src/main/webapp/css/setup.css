@@ -1466,7 +1466,12 @@ span.delete, span.delete a, li.delete label {
     padding-bottom: 1px;
     border-bottom: solid 1px;
 }
-
+.isCpc1, .isCpc1 a {
+    color: blue;
+    padding-bottom: 1px;
+    border-bottom: solid 1px;
+    font-style:oblique;
+}
 .unpre pre {
     display: inherit !important;
     padding: inherit !important;

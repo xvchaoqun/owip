@@ -8,6 +8,7 @@ import domain.cadre.CadreView;
 import domain.unit.Unit;
 import domain.unit.UnitPostCountView;
 import domain.unit.UnitPostCountViewExample;
+import domain.unit.UnitPostView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -20,6 +21,7 @@ import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
+import service.cadre.CadreService;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -38,7 +40,11 @@ public class UnitPostAllocationService extends BaseMapper {
     @Autowired
     protected UnitService unitService;
     @Autowired
+    protected UnitPostService unitPostService;
+    @Autowired
     protected CadrePostService cadrePostService;
+    @Autowired
+    protected CadreService cadreService;
 
     private XSSFRichTextString getCadres(XSSFWorkbook wb, List<CadrePost> cadrePosts) {
 
@@ -46,8 +52,10 @@ public class UnitPostAllocationService extends BaseMapper {
         List<String> isCpcPosList = new ArrayList<>();
         List<String> notCpcPosList = new ArrayList<>();
 
-        for (CadrePost cadrePost : cadrePosts) {
+       /* for (CadrePost cadrePost : cadrePosts) {*/
+        for ( int i =0 ; i < cadrePosts.size(); i++ ) {
 
+            CadrePost cadrePost=cadrePosts.get(i);
             CadreView cadre = cadrePost.getCadre();
             String realname = cadre.getRealname();
 
@@ -55,11 +63,30 @@ public class UnitPostAllocationService extends BaseMapper {
 
             if (cadrePost.getIsMainPost()) {
                 // 主职
-                realnames.add(realname);
+                if(CmTag.getBoolProperty("cadrePost_vacant")) {   //若 cadrePost_vacant为true 去除cadrePosts中重复的干部
+                    int k=0;
+                    for (int j = cadrePosts.size() - 1; j > i; j--) {
+                        if (cadrePost.getCadreId().equals(cadrePosts.get(j).getCadreId())&&cadrePosts.get(j).getIsMainPost()) {
+                            k=j;
+                            break;
+                        }
+                    }
+                    if(k!=0&&k==i){
+                        realnames.add(realname);
+                    }else if(k==0){
+                        realnames.add(realname);
+                    }
+                }
             } else if (cadrePost.getIsCpc()) {
                 // 副职、占职数
-                realnames.add("（" + realname + "）");
-                isCpcPosList.add(pos + "," + (pos + realname.length() + 2));
+                if(CmTag.getBoolProperty("cadrePost_vacant")){
+                    realnames.add(realname + "（兼任）");
+                    isCpcPosList.add(pos + "," + (pos + realname.length() + 4));
+                }else{
+                    realnames.add("（" + realname + "）");
+                    isCpcPosList.add(pos + "," + (pos + realname.length() + 2));
+                }
+
             } else {
                 // 副职、不占职数
                 realnames.add("（" + realname + "）");
@@ -70,7 +97,12 @@ public class UnitPostAllocationService extends BaseMapper {
         XSSFFont isCpcFont = wb.createFont();
         //isCpcFont.setFontHeightInPoints((short) 24); // 字体高度
         //isCpcFont.setFontName("宋体"); // 字体
-        isCpcFont.setColor(IndexedColors.GREEN.getIndex());
+        if(CmTag.getBoolProperty("cadrePost_vacant")){
+            isCpcFont.setColor(IndexedColors.BLUE.getIndex());
+            isCpcFont.setItalic(true);
+        }else {
+            isCpcFont.setColor(IndexedColors.GREEN.getIndex());
+        }
         isCpcFont.setUnderline(Font.U_SINGLE);
         //isCpcFont.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
 
@@ -93,13 +125,42 @@ public class UnitPostAllocationService extends BaseMapper {
         return ts;
     }
 
+    private XSSFRichTextString getPost(XSSFWorkbook wb, List<UnitPostView> cadrePosts) {
+
+        String post="";
+
+        for (int i=0;i< cadrePosts.size();i++) {
+            int count=i+1;
+            String postName =cadrePosts.get(i).getName();
+            if(cadrePosts.size()==1){
+                post +=postName;
+            }else{
+                post+=count+"."+postName+" \r\n";
+            }
+        }
+
+        XSSFFont postFont = wb.createFont();
+        postFont.setColor(IndexedColors.RED.getIndex());
+        XSSFRichTextString ts = new XSSFRichTextString(post);
+        ts.applyFont(postFont);
+
+        return ts;
+    }
+
     // 导出
     public XSSFWorkbook cpcInfo_Xlsx(byte cadreType) throws IOException {
 
+        Boolean cadrePost_vacant=CmTag.getBoolProperty("cadrePost_vacant");
         String xlsxFile = "classpath:xlsx/cpc/cpc_template.xlsx";
-        if(cadreType == CadreConstants.CADRE_TYPE_KJ) {
+
+        if(cadrePost_vacant&&cadreType == CadreConstants.CADRE_TYPE_CJ) {
+            xlsxFile = "classpath:xlsx/cpc/cpc_template1.xlsx";
+        }else if(cadrePost_vacant&&cadreType == CadreConstants.CADRE_TYPE_KJ) {
+            xlsxFile = "classpath:xlsx/cpc/cpc_template1_kj.xlsx";
+        }else if(!cadrePost_vacant&&cadreType == CadreConstants.CADRE_TYPE_KJ) {
             xlsxFile = "classpath:xlsx/cpc/cpc_template_kj.xlsx";
         }
+
         InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -161,7 +222,15 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getMainLack());
 
+          if(cadrePost_vacant){
+            // 正*级 空缺岗位
+            cell = row.getCell(column++);
+            cell.setCellValue(getPost(wb, bean.getMainLackPost()));
 
+            // 正*级 保留待遇
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres(wb,bean.getMainKeep()));
+          }
             // 副*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceNum());
@@ -177,6 +246,16 @@ public class UnitPostAllocationService extends BaseMapper {
             // 副*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(bean.getViceLack());
+
+            if(cadrePost_vacant){
+                // 正*级 空缺岗位
+                cell = row.getCell(column++);
+                cell.setCellValue(getPost(wb, bean.getViceLackPost()));
+
+                // 正*级 保留待遇
+                cell = row.getCell(column++);
+                cell.setCellValue(getCadres(wb,bean.getViceKeep()));
+            }
 
             if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
                 // 无行政级别 职数
@@ -217,6 +296,11 @@ public class UnitPostAllocationService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getMainLack());
 
+            if(cadrePost_vacant){
+                column++;
+                column++;
+            }
+
             // 副*级 职数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceNum());
@@ -230,6 +314,11 @@ public class UnitPostAllocationService extends BaseMapper {
             // 副*级 空缺数
             cell = row.getCell(column++);
             cell.setCellValue(totalBean.getViceLack());
+
+            if(cadrePost_vacant){
+                column++;
+                column++;
+            }
 
             if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
                 // 无行政级别 职数
@@ -367,6 +456,9 @@ public class UnitPostAllocationService extends BaseMapper {
                 List<CadrePost> mains = new ArrayList<>();
                 List<CadrePost> vices = new ArrayList<>();
                 List<CadrePost> nones = new ArrayList<>();
+                List<CadrePost> mainKeep = new ArrayList<>();
+                List<CadrePost> viceKeep = new ArrayList<>();
+
                 int mainCount = 0;
                 int viceCount = 0;
                 int noneCount = 0;
@@ -376,6 +468,9 @@ public class UnitPostAllocationService extends BaseMapper {
 
                     if (cadrePost.getAdminLevel().intValue() == mainMetaType.getId()) {
                         mains.add(cadrePost);
+                        if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
+                            mainKeep.add(cadrePost);
+                        }
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
                             // 主职或者副职占职数，就计数
@@ -384,6 +479,10 @@ public class UnitPostAllocationService extends BaseMapper {
                     }
                     if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
                         vices.add(cadrePost);
+                        if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
+                            viceKeep.add(cadrePost);
+                        }
+
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
                             // 主职或者副职占职数，就计数
                             viceCount++;
@@ -399,6 +498,15 @@ public class UnitPostAllocationService extends BaseMapper {
                         }
                     }
                 }
+
+                List<UnitPostView> mainLackPosts = unitPostService.query(unitId, mainMetaType.getId(), true);
+                List<UnitPostView> viceLackPosts = unitPostService.query(unitId, viceMetaType.getId(), true);
+
+                bean.setMainKeep(mainKeep);
+                bean.setViceKeep(viceKeep);
+
+                bean.setMainLackPost(mainLackPosts);
+                bean.setViceLackPost(viceLackPosts);
 
                 bean.setMains(mains);
                 bean.setVices(vices);
@@ -693,4 +801,184 @@ public class UnitPostAllocationService extends BaseMapper {
 
         return results;
     }
+
+   /* // 导出1（包含空岗情况）
+    public XSSFWorkbook cpcInfo_Xlsx_1(byte cadreType) throws IOException {
+
+        String xlsxFile = "classpath:xlsx/cpc/cpc_template1.xlsx";
+        if(cadreType == CadreConstants.CADRE_TYPE_KJ) {
+            xlsxFile = "classpath:xlsx/cpc/cpc_template1_kj.xlsx";
+        }
+        InputStream is = new FileInputStream(ResourceUtils.getFile(xlsxFile));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        // 打开页面布局
+        CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
+        view.setView(STSheetViewType.PAGE_LAYOUT);
+
+        // 横向打印
+        XSSFPrintSetup ps = sheet.getPrintSetup();
+        ps.setLandscape(true);
+      *//*  ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);*//*
+
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreType, true);
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        int cpRow = 5;
+        int rowCount = beans.size() - 1;
+        if (rowCount > 1)
+            ExcelUtils.insertRow(wb, sheet, cpRow, rowCount - 1);
+
+        int startRow = cpRow;
+        for (int i = 0; i < rowCount; i++) {
+
+            UnitPostAllocationInfoBean bean = beans.get(i);
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 单位
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getUnit().getName());
+
+            // 正*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainNum());
+
+            // 正*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainCount());
+
+            // 正*级 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres(wb, bean.getMains()));
+
+            // 正*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getMainLack());
+
+            // 正*级 空缺岗位
+            cell = row.getCell(column++);
+            cell.setCellValue(getPost(wb, bean.getMainLackPost()));
+
+            // 正*级 保留待遇
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres(wb,bean.getMainKeep()));
+
+            // 副*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceNum());
+
+            // 副*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceCount());
+
+            // 副*级 现任干部
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres(wb, bean.getVices()));
+
+            // 副*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getViceLack());
+
+            // 正*级 空缺岗位
+            cell = row.getCell(column++);
+            cell.setCellValue(getPost(wb, bean.getViceLackPost()));
+
+            // 正*级 保留待遇
+            cell = row.getCell(column++);
+            cell.setCellValue(getCadres(wb,bean.getViceKeep()));
+
+            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+                // 无行政级别 职数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneNum());
+
+                // 无行政级别 现任数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneCount());
+
+                // 无行政级别 现任干部
+                cell = row.getCell(column++);
+                cell.setCellValue(getCadres(wb, bean.getNones()));
+
+                // 无行政级别 空缺数
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getNoneLack());
+            }
+        }
+
+        // 统计结果
+        if (rowCount > 0) {
+
+            UnitPostAllocationInfoBean totalBean = beans.get(rowCount);
+            row = sheet.getRow(startRow);
+            int column = 2;
+            // 正*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainNum());
+
+            // 正*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainCount());
+
+            column++;
+
+            // 正*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getMainLack());
+
+            column++;
+            column++;
+
+            // 副*级 职数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceNum());
+
+            // 副*级 现任数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceCount());
+
+            column++;
+
+            // 副*级 空缺数
+            cell = row.getCell(column++);
+            cell.setCellValue(totalBean.getViceLack());
+
+            column++;
+            column++;
+
+            if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
+
+                // 无行政级别 职数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneNum());
+
+                // 无行政级别 现任数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneCount());
+
+                column++;
+
+                // 无行政级别 空缺数
+                cell = row.getCell(column++);
+                cell.setCellValue(totalBean.getNoneLack());
+            }
+        }
+
+        return wb;
+    }*/
 }

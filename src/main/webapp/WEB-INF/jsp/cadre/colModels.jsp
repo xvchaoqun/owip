@@ -50,7 +50,7 @@
         {label: '出生地', name: 'user.homeplace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
-        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
+        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE,formatoptions: {newformat: '${_p_birthToDayFormat}'}},
         {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
@@ -236,7 +236,7 @@
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
-        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
+        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '专业技术职务', name: 'proPost', width: 120},
         {

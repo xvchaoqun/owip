@@ -352,16 +352,39 @@ public class SysUserService extends BaseMapper {
         return roles;
     }
 
+    // 根据账号查找所有的角色（对象）,type=1 加权限  2 减权限
+    public Set<SysRole> findTypeRoles(String username,byte type) {
+
+        Set<SysRole> roles = new HashSet<>();
+
+        //SysUser user = findByUsername(username); 此处不可以调用缓存，否则清理了UserPermissions缓存，还要清理用户缓存
+        SysUserExample example = new SysUserExample();
+        example.createCriteria().andUsernameEqualTo(username);
+        List<SysUser> users = sysUserMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if (users.size() == 0) return roles;
+
+        SysUser user = users.get(0);
+        Set<Integer> roleIds = getUserRoleIdSet(user.getRoleIds());
+        Map<Integer, SysRole> roleMap = sysRoleService.findAll();
+        for (Integer roleId : roleIds) {
+            SysRole role = roleMap.get(roleId);
+            if (role != null&&role.getType()==type)
+                roles.add(role);
+        }
+
+        return roles;
+    }
     // 根据账号查找所拥有的全部资源
     private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
-        Set<SysRole> roles = findAllRoles(username);
+        Set<SysRole> roles_add = findTypeRoles(username, (byte) 1); // 账号加权限角色Set
+        Set<SysRole> roles_minus = findTypeRoles(username, (byte) 2); // 账号减权限角色Set
         List<Integer> resourceIds = new ArrayList<Integer>();
 
-        for (SysRole role : roles) {
+        for (SysRole role_add : roles_add) {
 
-            String resourceIdsStr = isMobile ? role.getmResourceIds() : role.getResourceIds();
+            String resourceIdsStr = isMobile ? role_add.getmResourceIds() : role_add.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -370,7 +393,21 @@ public class SysUserService extends BaseMapper {
                 if (StringUtils.isEmpty(resourceIdStr)) {
                     continue;
                 }
-                resourceIds.add(Integer.valueOf(resourceIdStr));
+                resourceIds.add(Integer.valueOf(resourceIdStr)); //账号加资源
+            }
+        }
+        for (SysRole role_minus : roles_minus) {
+
+            String resourceIdsStr = isMobile ? role_minus.getmResourceIds() : role_minus.getResourceIds();
+
+            if (StringUtils.isBlank(resourceIdsStr)) continue;
+
+            String[] resourceIdStrs = resourceIdsStr.split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+            for (String resourceIdStr : resourceIdStrs) {
+                if (StringUtils.isEmpty(resourceIdStr)) {
+                    continue;
+                }
+                resourceIds.remove(Integer.valueOf(resourceIdStr)); //账号减资源
             }
         }
 

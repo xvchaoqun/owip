@@ -68,7 +68,7 @@
               </td>
               <td style="border-bottom: none">
                 <c:if test="${not empty uv.birth}">
-                  ${cm:intervalYearsUntilNow (uv.birth)}岁
+                    ${cm:intervalYearsUntilNow(_pMap['birthToDay']==false?cm:getFirstDayOfMonth(uv.birth):uv.birth)}岁
                 </c:if>
               </td>
             </tr>

@@ -25,7 +25,6 @@
                         <div class="col-xs-6" style="width: 600px;float: left">
                             <form class="form-horizontal" id="submitForm" action="${ctx}/sysRole_au" method="post">
                                 <input type="hidden" name="id" value="${sysRole.id}">
-
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label"><span class="star">*</span>代码</label>
 
@@ -41,6 +40,17 @@
                                     <div class="col-xs-9">
                                         <input class="form-control" type="text" name="name"
                                                value="${sysRole.name}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label required class="col-xs-2 control-label"><span class="star">*</span>类型</label>
+
+                                    <div class="col-xs-9 ">
+                                        <input required name="type" type="radio" class="ace" value="1" ${type!=2?'checked':''}/>
+                                            <span class="lbl" style="padding-right: 5px;"> 加权限</span>
+                                        <input required name="type" type="radio" class="ace" value="2" ${type==2?'checked':''}/>
+                                            <span class="lbl" style="padding-right: 5px;"> 减权限</span>
+                                        <%--<input type="checkbox" class="big" name="type" ${type==null?"checked":""} data-off-text="减" data-on-text="加"/>--%>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -68,13 +78,25 @@
                         <shiro:hasPermission name="menu:preview">
                         <div class="col-xs-6 sidebar-review">
                             <div id="sidebar-review" style="float: left;margin-right: 20px;">
-                                <div class="title">网页菜单预览：</div>
+                                <div class="title">网页菜单预览：
+                                    <div style="position: absolute;left: 120px;top: 0px;">
+                                        <a href="javascript:;" class="popupBtn btn btn-xs btn-success" data-width="800" data-url="${ctx}/sysRole_permissions?id=${sysRole.id}&isMobile=0">
+                                            <i class="ace-icon fa fa-search"></i>
+                                            查看权限</a>
+                                    </div>
+                                </div>
                                 <div class="sidebar">
                                     <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}&isMobile=0"/>
                                 </div>
                             </div>
                             <div id="m-sidebar-review">
-                                <div class="title">手机菜单预览：</div>
+                                <div class="title">手机菜单预览：
+                                    <div style="position: absolute;left: 340px;top: 0px;">
+                                        <a href="javascript:;" class="popupBtn btn btn-xs btn-success" data-width="800" data-url="${ctx}/sysRole_permissions?id=${sysRole.id}&isMobile=1">
+                                            <i class="ace-icon fa fa-search"></i>
+                                            查看权限</a>
+                                    </div>
+                                </div>
                                 <div class="sidebar">
                                     <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}&isMobile=1"/>
                                 </div>
@@ -98,6 +120,11 @@
     $('#sidebar-review .sidebar').ace_sidebar();
     $('#m-sidebar-review .sidebar').ace_sidebar();
 
+    $("input[type=checkbox]").click(function(){
+        if($(this).prop("checked")){
+            $("input[type=checkbox]").not(this).prop("checked", false);
+        }
+    });
     function _initMenu() {
 
         $("#sidebar-review a").removeClass("hashchange").removeAttr("href")

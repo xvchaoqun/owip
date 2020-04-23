@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['cadrePost_vacant']}" var="cadrePost_vacant"/>
 <c:set var="mt_admin_level_main" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_main':'mt_admin_level_main_kj'}"/>
 <c:set var="mt_admin_level_vice" value="${cadreType==CADRE_TYPE_CJ?'mt_admin_level_vice':'mt_admin_level_vice_kj'}"/>
 <table border=0 cellpadding=0 cellspacing=0 width=1125 class=xl6324425
@@ -10,25 +11,47 @@
   <col class=xl6324425 width=57>
   <col class=xl7124425 width=${cadreType==CADRE_TYPE_CJ?116:380}>
   <col class=xl6324425 width=57>
+<c:if test="${cadrePost_vacant=='true'}">
+  <col class=xl7024425 width=116>
+  <col class=xl7924425 width=100>
+</c:if>
   <col class=xl6324425 width=42>
   <col class=xl6324425 width=57>
   <col class=xl7124425 width=242>
   <col class=xl6324425 width=57>
+  <c:if test="${cadrePost_vacant=='true'}">
+    <col class=xl7024425 width=116>
+    <col class=xl6324425 width=100>
+  </c:if>
   <col class=xl6324425 width=42>
   <col class=xl6324425 width=57>
   <col class=xl7124425 width=116>
   <col class=xl6324425 width=57>
   <tr height=52>
-    <td colspan=${cadreType==CADRE_TYPE_CJ?14:10} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
-    </td>
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td colspan=${cadreType==CADRE_TYPE_CJ?18:14} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
+      </td>
+    </c:if>
+
+    <c:if test="${cadrePost_vacant=='false'}">
+        <td colspan=${cadreType==CADRE_TYPE_CJ?14:10} height=52 class=xl8224425 width=1068>${_school}内设机构${CADRE_TYPE_MAP.get(cadreType)}配备情况
+        </td>
+    </c:if>
   </tr>
   <tr height=30>
-    <td colspan=7 height=30 class=xl8324426 width=1068>
+    <td colspan=${cadrePost_vacant=='true'?9:7} height=30 class=xl8324426 width=1068>
       统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}
     </td>
-    <td colspan=${cadreType==CADRE_TYPE_CJ?7:3} height=30 class=xl8324425 width=1068>
-      注：<span class="isCpc">(占职数)</span>/<span class="notCpc">(不占职数)</span>
-    </td>
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td colspan=${cadreType==CADRE_TYPE_CJ?9:5} height=30 class=xl8324425 width=1068>
+        注：<span class="isCpc1">(占职数)</span>/<span class="notCpc">(不占职数)</span>
+      </td>
+    </c:if>
+    <c:if test="${cadrePost_vacant=='false'}">
+        <td colspan=${cadreType==CADRE_TYPE_CJ?7:3} height=30 class=xl8324425 width=1068>
+          注：<span class="isCpc">(占职数)</span>/<span class="notCpc">(不占职数)</span>
+        </td>
+    </c:if>
   </tr>
   <tr class=xl6524425 height=30>
     <td rowspan=3 height=90 class=xl6624425 width=32>序号
@@ -36,9 +59,9 @@
     <td rowspan=3 class=xl6624425 width=200>单<span
             style='mso-spacerun:yes'>&nbsp; </span>位
     </td>
-    <td colspan=4 class=xl6624425 width=272>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级干部
+    <td colspan=${cadrePost_vacant=='true'?6:4} class=xl6624425 width=${cadrePost_vacant=='true'?488:272}>${cadreType==CADRE_TYPE_CJ?"正处":"正科"}级干部
     </td>
-    <td colspan=4 class=xl8524425 width=398>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级干部
+    <td colspan=${cadrePost_vacant=='true'?6:4} class=xl8524425 width=${cadrePost_vacant=='true'?614:398}>${cadreType==CADRE_TYPE_CJ?"副处":"副科"}级干部
     </td>
     <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td colspan=4 class=xl8024425 width=272 style='border-right: 2.0pt double black;'>
@@ -51,10 +74,26 @@
   border-top:none;width:32pt'>职数
     </td>
     <td colspan=2 class=xl6624425 width=173>现任干部情况</td>
-    <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td colspan=2 class=xl6624425 width=173>空岗情况</td>
+      <td rowspan=2 class=xl7924425 width=100>保留待遇</td>
+    </c:if>
+    <c:if test="${cadrePost_vacant=='false'}">
+      <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+    </c:if>
+
     <td rowspan=2 class=xl7824425 width=42>职数</td>
     <td colspan=2 class=xl6624425 width=299 style="border-right: none;">现任干部情况</td>
-    <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td colspan=2 class=xl7824425 width=173>空岗情况</td>
+      <td rowspan=2 class=xl7924425 width=100>保留待遇</td>
+    </c:if>
+    <c:if test="${cadrePost_vacant=='false'}">
+      <td rowspan=2 class=xl7924425 width=57>空缺数</td>
+    </c:if>
+
     <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td rowspan=2 class=xl7824425 width=42>职数</td>
     <td colspan=2 class=xl6624425 width=173 style="border-right: none;">现任干部情况</td>
@@ -66,10 +105,22 @@
     </td>
     <td class=xl7024425 width=116>现任干部
     </td>
+
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td height=30 class=xl6624425 width=57>空缺数</td>
+      <td class=xl7024425 width=116>空缺岗位</td>
+    </c:if>
+
     <td class=xl6624425 width=57>现任数
     </td>
     <td class=xl7024425 width=242>现任干部
     </td>
+
+    <c:if test="${cadrePost_vacant=='true'}">
+      <td height=30 class=xl6624425 width=57>空缺数</td>
+      <td class=xl7024425 width=116>空缺岗位</td>
+    </c:if>
+
     <c:if test="${cadreType==CADRE_TYPE_CJ}">
     <td class=xl7624425 width=57>现任数</td>
     <td class=xl7724425 width=116>现任干部
@@ -98,7 +149,7 @@
         <td class=xl6924425 width=116>
           <t:cpc_cadres cadrePosts="${bean.mains}"/>
         </td>
-        <td class=xl6824425 width=57>
+        <td width=57 class=${cadrePost_vacant=='true'?'xl6424425':'xl6824425'} >
           <c:if test="${bean.mainLack==0}">0</c:if>
           <c:if test="${bean.mainLack<0}">
             <span class="badge badge-danger">${bean.mainLack}</span>
@@ -110,6 +161,23 @@
             </a>
           </c:if>
         </td>
+
+        <c:if test="${cadrePost_vacant=='true'}">
+          <td class=xl6924425 width=116>
+            <c:forEach items="${bean.mainLackPost}" var="mainLackPost" varStatus="vs">
+              <c:if test="${fn:length(bean.mainLackPost)==1}">
+                <span style="color: red">${mainLackPost.name}</span>
+              </c:if>
+              <c:if test="${fn:length(bean.mainLackPost)>1}">
+                <span style="color: red">${vs.count}.${mainLackPost.name}</span><br/>
+              </c:if>
+            </c:forEach>
+          </td>
+          <td class=xl6824425 width=100>
+            <t:cpc_cadres cadrePosts="${bean.mainKeep}"/>
+          </td>
+        </c:if>
+
         <td class=xl6724425 width=42>
           <c:if test="${bean.viceNum==0}">0</c:if>
           <c:if test="${bean.viceNum>0}">
@@ -123,7 +191,7 @@
         <td class=xl6924425 width=242>
           <t:cpc_cadres cadrePosts="${bean.vices}"/>
         </td>
-        <td class=xl6824425 width=57>
+        <td width=57 class=${cadrePost_vacant=='true'?'xl6424425':'xl6824425'}>
           <c:if test="${bean.viceLack==0}">0</c:if>
           <c:if test="${bean.viceLack<0}">
             <span class="badge badge-danger">${bean.viceLack}</span>
@@ -135,6 +203,24 @@
             </a>
           </c:if>
         </td>
+
+        <c:if test="${cadrePost_vacant=='true'}">
+          <td class=xl6924425 width=116>
+            <c:forEach items="${bean.viceLackPost}" var="viceLackPost" varStatus="vs">
+              <c:if test="${fn:length(bean.viceLackPost)==1}">
+                <span style="color: red">${viceLackPost.name}</span>
+              </c:if>
+              <c:if test="${fn:length(bean.viceLackPost)>1}">
+                <span style="color: red">${vs.count}.${viceLackPost.name}</span><br/>
+              </c:if>
+            </c:forEach>
+          </td>
+
+          <td class=xl6824425 width=100>
+            <t:cpc_cadres cadrePosts="${bean.viceKeep}"/>
+          </td>
+        </c:if>
+
         <c:if test="${cadreType==CADRE_TYPE_CJ}">
         <td class=xl7524425 width=42>
           <c:if test="${bean.noneNum==0}">0</c:if>
@@ -172,11 +258,21 @@
         <td class=xl6424425 width=42>${bean.mainNum}</td>
         <td class=xl6424425 width=57>${bean.mainCount}</td>
         <td class=xl6924425 width=116>　</td>
-        <td class=xl6824425 width=57>${bean.mainLack}</td>
+        <td width=57 class=${cadrePost_vacant=='true'?'xl6424425':'xl6824425'}>${bean.mainLack}</td>
+
+        <c:if test="${cadrePost_vacant=='true'}">
+          <td class=xl6924425 width=116>　</td>
+          <td class=xl6824425 width=100>　</td>
+        </c:if>
+
         <td class=xl6724425 width=42>${bean.viceNum}</td>
         <td class=xl6424425 width=57>${bean.viceCount}</td>
         <td class=xl6924425 width=242>　</td>
-        <td class=xl6824425 width=57>${bean.viceLack}</td>
+        <td width=57 class=${cadrePost_vacant=='true'?'xl6424425':'xl6824425'}>${bean.viceLack}</td>
+        <c:if test="${cadrePost_vacant=='true'}">
+          <td class=xl6924425 width=116>　</td>
+          <td class=xl6924425 width=100>　</td>
+        </c:if>
         <c:if test="${cadreType==CADRE_TYPE_CJ}">
         <td class=xl6424425 width=42>${bean.noneNum}</td>
         <td class=xl6424425 width=57>${bean.noneCount}</td>

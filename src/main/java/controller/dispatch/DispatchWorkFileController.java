@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.*;
@@ -83,13 +84,6 @@ public class DispatchWorkFileController extends DispatchBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        /*if (export == 1) {
-            if (ids != null && ids.length > 0)
-                criteria.andIdIn(Arrays.asList(ids));
-            dispatchWorkFile_export(example, response);
-            return;
-        }*/
-
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN);
         List<Integer> postTypes = new ArrayList<>();
         if(!isAdmin){
@@ -106,6 +100,12 @@ public class DispatchWorkFileController extends DispatchBaseController {
         }
         List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, fileName, postTypes, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        if (export == 1) {
+
+            dispatchWorkFile_export(records,type,response);
+            return;
+        }
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -322,28 +322,26 @@ public class DispatchWorkFileController extends DispatchBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void dispatchWorkFile_export(DispatchWorkFileExample example, HttpServletResponse response) {
+    public void dispatchWorkFile_export(List<DispatchWorkFile> records,Integer type, HttpServletResponse response) {
 
-        List<DispatchWorkFile> records = dispatchWorkFileMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"发文单位", "年度", "所属专项工作", "排序", "发文号", "发文日期", "文件名", "保密级别", "备注"};
+        String[] titles = {"文件名|350","发文单位|200","发文号|200", "发文日期|200","年度", "所属专项工作|200","保密级别|200", "备注|350"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchWorkFile record = records.get(i);
             String[] values = {
-                    record.getUnitType() + "",
-                    record.getYear() + "",
-                    record.getWorkType() + "",
-                    record.getSortOrder() + "",
+                    record.getFileName(),
+                    record.getUnitType()!=null? CmTag.getMetaType(record.getUnitType()).getName():"",
                     record.getCode(),
                     DateUtils.formatDate(record.getPubDate(), DateUtils.YYYY_MM_DD),
-                    record.getFileName(),
-                    record.getPrivacyType() + "",
+                    record.getYear() + "",
+                    record.getWorkType()!=null?CmTag.getMetaType(record.getWorkType()).getName():"",
+                    record.getPrivacyType()!=null?CmTag.getMetaType(record.getPrivacyType()).getName():"" + "",
                     record.getRemark()
             };
             valuesList.add(values);
         }
-        String fileName = "干部工作文件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = type!=null?CmTag.getMetaType(type).getName():""+ "_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

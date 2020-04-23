@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
     <result column="m_resource_ids" jdbcType="VARCHAR" property="mResourceIds" />
     <result column="user_count" jdbcType="INTEGER" property="userCount" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
+    id, code, name, type, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
     sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysRoleExample" resultMap="BaseResultMap">
@@ -109,14 +110,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sys_role (code, name, resource_ids, 
-      m_resource_ids, user_count, available, 
-      is_sys_hold, sort_order, remark
-      )
-    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{resourceIds,jdbcType=VARCHAR}, 
-      #{mResourceIds,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, #{available,jdbcType=TINYINT}, 
-      #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+    insert into sys_role (code, name, type, 
+      resource_ids, m_resource_ids, user_count, 
+      available, is_sys_hold, sort_order, 
+      remark)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{resourceIds,jdbcType=VARCHAR}, #{mResourceIds,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, 
+      #{available,jdbcType=TINYINT}, #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -129,6 +130,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="resourceIds != null">
         resource_ids,
@@ -158,6 +162,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="resourceIds != null">
         #{resourceIds,jdbcType=VARCHAR},
@@ -200,6 +207,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
       <if test="record.resourceIds != null">
         resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
       </if>
@@ -231,6 +241,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
       resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
       user_count = #{record.userCount,jdbcType=INTEGER},
@@ -250,6 +261,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="resourceIds != null">
         resource_ids = #{resourceIds,jdbcType=VARCHAR},
@@ -279,6 +293,7 @@
     update sys_role
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
       resource_ids = #{resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
       user_count = #{userCount,jdbcType=INTEGER},

@@ -1577,6 +1577,15 @@ if ($.jgrid) {
         },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';
+            var newformat;
+            if(options.colModel.formatoptions!=null) {
+                newformat = options.colModel.formatoptions.newformat; //日期格式
+            }
+            if(newformat!=null&&newformat=="Y.m"){
+                cellvalue =new Date(cellvalue).format("yyyy-MM")
+            }else{
+                cellvalue = new Date(cellvalue).format("yyyy-MM-dd")
+            }
             return $.yearOffNow(cellvalue);
         },
         MetaType: function (cellvalue, options, rowObject) {

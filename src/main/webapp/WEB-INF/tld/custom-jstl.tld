@@ -374,6 +374,11 @@
 		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
 	</function>
 	<function>
+		<name>getFirstDayOfMonth</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.util.Date  getFirstDayOfMonth(java.util.Date)</function-signature>
+	</function>
+	<function>
 		<name>compareDate</name>
 		<function-class>sys.utils.DateUtils</function-class>
 		<function-signature>java.lang.Boolean compareDate(java.util.Date,java.util.Date)</function-signature>

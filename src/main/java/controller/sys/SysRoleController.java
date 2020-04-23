@@ -49,8 +49,9 @@ public class SysRoleController extends BaseController {
 
 	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole")
-	public String sysRole() {
+	public String sysRole(@RequestParam(required = false, defaultValue = "1")Byte type, ModelMap modelMap) {
 
+		modelMap.put("type", type);
 		return "sys/sysRole/sysRole_page";
 	}
 
@@ -61,6 +62,7 @@ public class SysRoleController extends BaseController {
 							 Integer resourceId,
 							 String code,
 							 String name,
+							 Byte type,// 1 加权限  2 减权限
 							 Integer pageSize,
 							 Integer pageNo) throws IOException {
 		
@@ -90,6 +92,9 @@ public class SysRoleController extends BaseController {
 		}
 		if(StringUtils.isNotBlank(name)){
 			criteria.andNameLike(SqlUtils.like(name));
+		}
+		if(type!=null){
+			criteria.andTypeEqualTo(type);
 		}
 
 		long count = sysRoleMapper.countByExample(example);
@@ -155,9 +160,9 @@ public class SysRoleController extends BaseController {
 
 	@RequiresPermissions("sysRole:edit")
 	@RequestMapping("/sysRole_au")
-	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
+	public String sysRole_au(Integer id,Byte type, ModelMap modelMap) throws IOException {
 
-
+		modelMap.put("type", type);
 		modelMap.addAttribute("op", "添加");
 
 		Set<Integer> selectIdSet = new HashSet<Integer>();
@@ -195,6 +200,93 @@ public class SysRoleController extends BaseController {
 		
 		return "sys/sysRole/sysRole_au";
 	}
+
+	@RequiresPermissions("sysRole:edit")
+	@RequestMapping(value="/sysRole_copy", method=RequestMethod.POST)
+	@ResponseBody
+	public Map do_sysRole_copy(@CurrentUser SysUserView loginUser,
+							 SysRole sysRole,
+							 HttpServletRequest request) {
+
+		String code = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getCode()));
+		if(!CmTag.isSuperAccount(loginUser.getUsername())
+				&& StringUtils.equals(code, RoleConstants.ROLE_ADMIN)) {
+			throw new OpException("不允许复制admin角色");
+		}
+		if (code!=null && sysRoleService.idDuplicate(sysRole.getId(), code)) {
+			return failed("添加重复");
+		}
+		SysRole old_sysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
+		SysRole record=new SysRole();
+		record.setCode(sysRole.getCode());
+		record.setName(sysRole.getName());
+		record.setType(sysRole.getType());
+		record.setResourceIds(old_sysRole.getResourceIds());
+		record.setmResourceIds(old_sysRole.getmResourceIds());
+
+		sysRoleService.insertSelective(record);
+		logger.info(addLog(LogConstants.LOG_ADMIN, "复制角色：%s-%s", JSONUtils.toString(old_sysRole, MixinUtils.baseMixins(), false),JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+
+		return success(FormUtils.SUCCESS);
+	}
+
+	@RequiresPermissions("sysRole:edit")
+	@RequestMapping("/sysRole_copy")
+	public String sysRole_copy(Integer id,Byte type, ModelMap modelMap) throws IOException {
+
+		modelMap.put("id", id);
+		modelMap.put("type", type);
+
+		return "sys/sysRole/sysRole_copy";
+	}
+	@RequiresPermissions("sysRole:list")
+	@RequestMapping("/sysRole_permissions")
+	public String sysRole_permissions(Integer id, boolean isMobile,ModelMap modelMap) {
+
+		if(id==null){
+			return "sys/sysRole/sysRole_permissions";
+		}
+
+		// Map<资源Id,Map<父节点Id,父节点是否被选中>>
+		Map<Integer,Map<Integer,Boolean>> permissions= new HashMap<>();
+		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
+		String resourceIdsStr = isMobile?sysRole.getmResourceIds():sysRole.getResourceIds();
+		Map<Integer, SysResource> sysResourceMap = sysResourceService.getSortedSysResources(isMobile);
+		if(resourceIdsStr!=null){
+			String[] resourceIds = resourceIdsStr.split(",");
+			for(String resourceId:resourceIds){
+				if(StringUtils.isNotBlank(resourceId)){
+					SysResource sysResource = sysResourceMap.get(Integer.parseInt(resourceId));
+					if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
+
+						String parentIds = sysResource.getParentIds();
+						String[] strings = parentIds.split("/");
+						Map<Integer,Boolean> _parentIds=new LinkedHashMap<>();
+					/*	for (String _parentId : strings) {*/
+						for (int i=2;i<strings.length;i++) {  //不包括顶级节点
+							Integer parentId = Integer.valueOf(strings[i]);
+							Boolean isSelectd=false;
+
+							for(String _resourceId:resourceIds){
+								if(Integer.parseInt(_resourceId)==parentId){
+									isSelectd=true;
+									break;
+								}
+							}
+							_parentIds.put(parentId,isSelectd);
+
+						}
+						permissions.put(Integer.parseInt(resourceId),_parentIds);
+					}
+				}
+			}
+		}
+		modelMap.put("permissions",permissions);
+		modelMap.put("sysResourceMap",sysResourceMap);
+
+		return "sys/sysRole/sysRole_permissions";
+	}
+
 	@RequiresPermissions("sysRole:del")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody

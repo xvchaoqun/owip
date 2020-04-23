@@ -1,3 +1,14 @@
+2020-04-23
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (52, 'cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 3, 53, '');
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (53, 'label_adminLevelNone', '无行政级别干部名称', '聘任制', 1, 54, '');
+
+update cadre_admin_level set s_work_time=DATE_FORMAT(s_work_time,'%y-%m-01');
+update cadre_admin_level set e_work_time=DATE_FORMAT(e_work_time,'%y-%m-01');
+update cadre_post set np_work_time=DATE_FORMAT(np_work_time,'%y-%m-01');
+
+ALTER TABLE `sys_role`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '0' COMMENT '类别，1加权限 2减权限' AFTER `name`;
+
 2020-04-14
 UPDATE `db_owip`.`base_meta_type` SET `code`='mt_nation_qz' WHERE  `name`='mt_irw3y7';
 

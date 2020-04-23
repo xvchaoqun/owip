@@ -77,7 +77,7 @@
                             年龄
                         </td>
                         <td>
-                                ${uv.birth==null?'':cm:intervalYearsUntilNow(uv.birth)}
+                                ${uv.birth==null?'':(cm:intervalYearsUntilNow(_pMap['birthToDay']==false?cm:getFirstDayOfMonth(uv.birth):uv.birth))}
                         </td>
                     </tr>
                     <tr>

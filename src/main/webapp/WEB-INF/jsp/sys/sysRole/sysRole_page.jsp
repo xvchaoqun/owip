@@ -4,12 +4,17 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv">
+            <jsp:include page="menu.jsp"/>
+            <div class="space-4"></div>
+
             <div class="jqgrid-vertical-offset buttons">
                 <a class="openView btn btn-info btn-sm"
-                   data-url="${ctx}/sysRole_au"
+                   data-url="${ctx}/sysRole_au?type=${type}"
                    data-open-by="page"><i class="fa fa-plus"></i> 添加角色</a>
-
-                <button class="jqEditBtn btn btn-warning btn-sm" data-url="${ctx}/sysRole_au"
+                <button class="jqEditBtn btn btn-success btn-sm" data-url="${ctx}/sysRole_copy?type=${type}">
+                    <i class="fa fa-user-plus"></i> 复制角色
+                </button>
+                <button class="jqEditBtn btn btn-warning btn-sm" data-url="${ctx}/sysRole_au?type=${type}"
                         data-open-by="page">
                     <i class="fa fa-edit"></i> 更新权限
                 </button>
@@ -56,10 +61,10 @@
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                data-url="${ctx}/sysRole"><i class="fa fa-search"></i> 查找</a>
+                                data-url="${ctx}/sysRole?type=${type}"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                    data-url="${ctx}/sysRole">
+                                    data-url="${ctx}/sysRole?type=${type}">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>
@@ -82,7 +87,7 @@
     }
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/sysRole_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysRole_data?type=${type}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '系统代码', name: 'code', width: 200, align: 'left', frozen: true},
             {label: '角色名称', name: 'name', width: 300, align: 'left', frozen: true},
@@ -106,7 +111,7 @@
                         .format(rowObject.id, Math.trimToZero(cellvalue));
                 }
             },
-            {label: '备注', name: 'remark', width: 850, align: 'left', formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '备注', name: 'remark', width: 815, align: 'left', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 name: '_isSysHold', hidden: true, formatter: function (cellvalue, options, rowObject) {
                     return rowObject.isSysHold;
