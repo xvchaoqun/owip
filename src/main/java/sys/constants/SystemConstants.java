@@ -434,4 +434,14 @@ public class SystemConstants {
         SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_UNREAD,"未读");
         SYS_MSG_STATUS_MAP.put(SYS_MSG_STATUS_READ,"已读");
     }
+
+    //角色类型 1.加权限 2.减权限
+    public final static byte SYS_ROLE_TYPE_ADD = 1;
+    public final static byte SYS_ROLE_TYPE_MINUS = 2;
+    public final static Map<Byte, String> SYS_ROLE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        SYS_ROLE_TYPE_MAP.put(SYS_ROLE_TYPE_ADD,"加权限");
+        SYS_ROLE_TYPE_MAP.put(SYS_ROLE_TYPE_MINUS,"减权限");
+    }
 }

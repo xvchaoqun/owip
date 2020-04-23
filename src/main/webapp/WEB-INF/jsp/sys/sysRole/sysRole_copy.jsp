@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.SYS_ROLE_TYPE_ADD%>" var="SYS_ROLE_TYPE_ADD"/>
+<c:set value="<%=SystemConstants.SYS_ROLE_TYPE_MINUS%>" var="SYS_ROLE_TYPE_MINUS"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>复制角色</h3>
@@ -27,9 +29,9 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
             <div class="col-xs-6 label-text">
-                <input required name="type" type="radio" class="ace" value="1" ${type!=2?'checked':''}/>
+                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_ADD}" ${type!=SYS_ROLE_TYPE_MINUS?'checked':''}/>
                       <span class="lbl" style="padding-right: 5px;"> 加权限</span>
-                <input required name="type" type="radio" class="ace" value="2" ${type==2?'checked':''}/>
+                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_MINUS}" ${type==SYS_ROLE_TYPE_MINUS?'checked':''}/>
                       <span class="lbl" style="padding-right: 5px;"> 减权限</span>
             </div>
         </div>

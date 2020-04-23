@@ -572,6 +572,28 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("sysUser:list")
+    @RequestMapping("/sysUser_updatePermission")
+    public String sysUser_updatePermission(Integer id, ModelMap modelMap) throws IOException {
+
+        Set<Integer> selectIdSet = new HashSet<Integer>();
+        if (id != null) {
+
+            SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
+            selectIdSet = sysUserService.getUserRoleIdSet(sysUser.getRoleIds());
+
+            modelMap.put("sysUser", sysUser);
+        }
+
+        TreeNode tree = sysResourceService.getTree(selectIdSet, false);
+        modelMap.put("tree", JSONUtils.toString(tree));
+
+        TreeNode mTree = sysResourceService.getTree(selectIdSet, true);
+        modelMap.put("mTree", JSONUtils.toString(mTree));
+
+        return "sys/sysUser/sysUser_updatePermission";
+    }
+
     // 抽取工号，根据姓名或身份证号导出带工号的列表
     @RequiresPermissions("sysUser:filterExport")
     @RequestMapping("/sysUser_filterExport")

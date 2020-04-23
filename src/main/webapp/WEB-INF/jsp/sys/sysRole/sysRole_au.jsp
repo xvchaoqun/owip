@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.SYS_ROLE_TYPE_ADD%>" var="SYS_ROLE_TYPE_ADD"/>
+<c:set value="<%=SystemConstants.SYS_ROLE_TYPE_MINUS%>" var="SYS_ROLE_TYPE_MINUS"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -46,9 +48,9 @@
                                     <label required class="col-xs-2 control-label"><span class="star">*</span>类型</label>
 
                                     <div class="col-xs-9 ">
-                                        <input required name="type" type="radio" class="ace" value="1" ${type!=2?'checked':''}/>
+                                        <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_ADD}" ${type!=SYS_ROLE_TYPE_MINUS?'checked':''}/>
                                             <span class="lbl" style="padding-right: 5px;"> 加权限</span>
-                                        <input required name="type" type="radio" class="ace" value="2" ${type==2?'checked':''}/>
+                                        <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_MINUS}" ${type==SYS_ROLE_TYPE_MINUS?'checked':''}/>
                                             <span class="lbl" style="padding-right: 5px;"> 减权限</span>
                                         <%--<input type="checkbox" class="big" name="type" ${type==null?"checked":""} data-off-text="减" data-on-text="加"/>--%>
                                     </div>

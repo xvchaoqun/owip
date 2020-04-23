@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -49,8 +50,7 @@ public class SysRoleController extends BaseController {
 
 	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole")
-	public String sysRole(@RequestParam(required = false, defaultValue = "1")Byte type, ModelMap modelMap) {
-
+	public String sysRole(@RequestParam(required = false, defaultValue = SystemConstants.SYS_ROLE_TYPE_ADD+"")Byte type, ModelMap modelMap) {
 		modelMap.put("type", type);
 		return "sys/sysRole/sysRole_page";
 	}

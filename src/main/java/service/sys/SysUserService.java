@@ -378,8 +378,8 @@ public class SysUserService extends BaseMapper {
     private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
-        Set<SysRole> roles_add = findTypeRoles(username, (byte) 1); // 账号加权限角色Set
-        Set<SysRole> roles_minus = findTypeRoles(username, (byte) 2); // 账号减权限角色Set
+        Set<SysRole> roles_add = findTypeRoles(username, SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限角色Set
+        Set<SysRole> roles_minus = findTypeRoles(username,SystemConstants.SYS_ROLE_TYPE_MINUS); // 账号减权限角色Set
         List<Integer> resourceIds = new ArrayList<Integer>();
 
         for (SysRole role_add : roles_add) {

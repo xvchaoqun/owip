@@ -165,14 +165,16 @@ public class UnitPostAllocationService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        // 打开页面布局
-        CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
-        view.setView(STSheetViewType.PAGE_LAYOUT);
+        if(!cadrePost_vacant){
+            // 打开页面布局
+            CTSheetView view = sheet.getCTWorksheet().getSheetViews().getSheetViewArray(0);
+            view.setView(STSheetViewType.PAGE_LAYOUT);
 
-        // 横向打印
-        XSSFPrintSetup ps = sheet.getPrintSetup();
-        ps.setLandscape(true);
-        ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+            // 横向打印
+            XSSFPrintSetup ps = sheet.getPrintSetup();
+            ps.setLandscape(true);
+            ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        }
 
         List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, cadreType, true);
 
@@ -469,9 +471,14 @@ public class UnitPostAllocationService extends BaseMapper {
                     if (cadrePost.getAdminLevel() == null) continue;
 
                     if (cadrePost.getAdminLevel().intValue() == mainMetaType.getId()) {
-                        mains.add(cadrePost);
+
                         if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
                             mainKeep.add(cadrePost);
+                            if(!CmTag.getBoolProperty("cadrePost_vacant")){
+                                mains.add(cadrePost);
+                            }
+                        }else{
+                            mains.add(cadrePost);
                         }
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
@@ -480,9 +487,14 @@ public class UnitPostAllocationService extends BaseMapper {
                         }
                     }
                     if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
-                        vices.add(cadrePost);
+
                         if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
                             viceKeep.add(cadrePost);
+                          if(!CmTag.getBoolProperty("cadrePost_vacant")){
+                              vices.add(cadrePost);
+                          }
+                        }else{
+                              vices.add(cadrePost);
                         }
 
                         if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
