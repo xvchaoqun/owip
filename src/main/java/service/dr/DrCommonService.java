@@ -1,18 +1,18 @@
 package service.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import domain.dr.DrOnline;
-import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlinePostView;
-import domain.dr.DrOnlineResultView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import persistence.dr.common.DrFinalResult;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +52,23 @@ public class DrCommonService extends DrBaseMapper{
         return tempResult;
     }
 
+    public String getStringTemp(DrTempResult record){
+
+        XStream xStream = new XStream(new DomDriver());
+        xStream.alias("tempResult", DrTempResult.class);
+
+        StringWriter sw = new StringWriter();
+        xStream.marshal(record, new CompactWriter(sw));
+        return sw.toString();
+    }
+
     //todo 导出线上民主推荐结果，按照各个岗位导出，模板中需要多预留一行
-    public void exportOnlineResult(Integer onlineId, HttpServletResponse response) throws IOException {
+    public void exportOnlineResult(List<Integer> typeIds, Integer onlineId, HttpServletResponse response) throws IOException {
 
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         List<Integer> postIds = drOnlineResultService.getPostId(onlineId);
-        Map<Integer ,List<DrOnlineCandidate>> candidateMap = drOnlineResultService.findCandidate(onlineId);
+        //Map<Integer ,List<DrOnlineCandidate>> candidateMap = drOnlineResultService.findCandidate(onlineId);
+        Map<Integer, List<String>> candidateMap = drOnlineResultService.findCandidate(typeIds, onlineId);
 
         InputStream is = new FileInputStream(ResourceUtils
                 .getFile("classpath:xlsx/dr/dr_online_template.xlsx"));
@@ -87,11 +99,11 @@ public class DrCommonService extends DrBaseMapper{
             return;
         }
 
-        sheet = wb.getSheetAt(0);
+        //sheet = wb.getSheetAt(0);
 
         //进行row扩充
         int startRow = 4;
-        int rowInsert = drOnlineCandidateService.getAll(onlineId).size() + (postIds.size() - 1) * 4;
+        int rowInsert = iDrMapper.countResult(typeIds, null, onlineId) + (postIds.size() - 1) * 4;
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert - 1);
         String[] tableHead = {"序号", "推荐人选", "票数", "得票比率"};
         //获得单元格样式
@@ -103,7 +115,8 @@ public class DrCommonService extends DrBaseMapper{
         for (Integer postId : postIds){
             //设置模板中每一个职务的第一行
             DrOnlinePostView postView = drOnlinePostService.getPost(postId);
-            List<DrOnlineCandidate> candidates = candidateMap.get(postId);
+            //List<DrOnlineCandidate> candidates = candidateMap.get(postId);
+            List<String> candidates = candidateMap.get(postId);
             row = sheet.getRow(rowCount++);//1
             cell = row.getCell(0);
             if (rowCount <= 2) {
@@ -112,6 +125,7 @@ public class DrCommonService extends DrBaseMapper{
                         .replace("post", postView.getName())
                         .replace("headcount", postView.getCompetitiveNum() + "");
             }else {
+                //合并单元格
                 CellRangeAddress cra = new CellRangeAddress(rowCount - 1,rowCount - 1,0,2);
                 sheet.addMergedRegion(cra);
                 for (int i = 3; i >= 0; i--){
@@ -121,7 +135,8 @@ public class DrCommonService extends DrBaseMapper{
                 str = "推荐职务：" + postView.getName() + "（" + postView.getCompetitiveNum() + "名）";
             }
             cell.setCellValue(str);
-            if (candidateMap.size() == 0) {//参评人为空
+            //设置每一个岗位的第二行
+            if (candidates.size() == 0) {//参评人为空
                 row = sheet.getRow(rowCount++);//2
                 cell = row.getCell(0);
                 str = cell.getStringCellValue()
@@ -137,7 +152,7 @@ public class DrCommonService extends DrBaseMapper{
                     cell.setCellValue(tableHead[i]);
                 }
             }else {
-                DrOnlineResultView _view = drOnlineResultService.findCount(onlineId, postId, null);
+                DrFinalResult _view = drOnlineResultService.findCount(onlineId, postId, null, typeIds);
                 row = sheet.getRow(rowCount++);//2
                 cell = row.getCell(0);
                 if (rowCount == 3) {
@@ -164,12 +179,12 @@ public class DrCommonService extends DrBaseMapper{
 
                 //处理得票
                 int i = 0;
-                for (DrOnlineCandidate record : candidates) {
-                    DrOnlineResultView _result = drOnlineResultService.findCount(onlineId, postId, record.getId());
+                for (String record : candidates) {
+                    DrFinalResult _result = drOnlineResultService.findCount(onlineId, postId, record, typeIds);
                     DecimalFormat df = new DecimalFormat("0.00");
-                    Double optionSum = Double.valueOf(_result.getOptionSum());
+                    Double options = Double.valueOf(_result.getOptions());
                     Double finishCounts = Double.valueOf(_result.getFinishCounts());
-                    String rate = df.format(optionSum/finishCounts*100) + "%";
+                    String rate = df.format(options/finishCounts*100) + "%";
 
                     row = sheet.getRow(rowCount++);
                     int column = 0;
@@ -179,14 +194,14 @@ public class DrCommonService extends DrBaseMapper{
 
                     // 推荐人选
                     cell = row.getCell(column++);
-                    cell.setCellValue(record.getUser().getRealname());
+                    cell.setCellValue(record);
 
                     // 票数
                     cell = row.getCell(column++);
-                    cell.setCellValue(_result.getOptionSum());
+                    cell.setCellValue(_result.getOptions());
 
                     //得票比率
-                    cell = row.getCell(column++);
+                    cell = row.getCell(column);
                     cell.setCellValue(rate);
                 }
             }

@@ -56,9 +56,19 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="well well-lg center noRecord" hidden>
+            <h4 class="green lighter">暂无记录</h4>
+        </div>
     </div>
 </div>
 <script>
+
+    var _opAttatchs = ${cm:toJSONObject(opAttatchs)};
+    if (_opAttatchs.length == 0){
+        $(".noRecord").show();
+    } else {
+        $(".noRecord").hide();
+    }
     //$.fileInput($('#modalForm input[type=file]'));
     $.fileInput($("#modalForm input[type=file]"),{
         no_file:'请选择pdf或word文件',

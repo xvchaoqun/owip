@@ -2,10 +2,9 @@ package persistence.dr;
 
 import domain.dr.DrOnlineResult;
 import domain.dr.DrOnlineResultExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface DrOnlineResultMapper {
     long countByExample(DrOnlineResultExample example);

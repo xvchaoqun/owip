@@ -1,9 +1,7 @@
 package controller.dr;
 
-import domain.dr.DrOnlineInspectorLog;
-import domain.dr.DrOnlineInspectorLogExample;
+import domain.dr.*;
 import domain.dr.DrOnlineInspectorLogExample.Criteria;
-import domain.dr.DrOnlineInspectorType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
@@ -20,21 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dr")
@@ -113,12 +107,12 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         }
 
 
-        /*if (export == 1) {
+        if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
             drOnlineInspectorLog_export(example, response);
             return;
-        }*/
+        }
 
         long count = drOnlineInspectorLogMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -176,7 +170,6 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @RequestMapping(value = "/inspectorLog_changeStatus", method = RequestMethod.POST)
     @ResponseBody
     public Map inspectorLog_changeStatus(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
 
         if (null != ids && ids.length>0){
             drOnlineInspectorLogService.changeStatus(ids);
@@ -312,30 +305,36 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*public void drOnlineInspectorLog_export(DrOnlineInspectorLogExample example, HttpServletResponse response) {
+    //导出参评人账号
+    public void drOnlineInspectorLog_export(DrOnlineInspectorLogExample example, HttpServletResponse response) {
 
         List<DrOnlineInspectorLog> records = drOnlineInspectorLogMapper.selectByExample(example);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(records.get(0).getOnlineId());
         int rownum = records.size();
-        String[] titles = {"所属身份类型|150","所属单位|150","总数|100","已发布/已完成|130","生成时间|150"};
+        String[] titles = {"登录账号|150","登录密码|150","推荐人身份类型|100","所属单位|130","测评状态|100","分发状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DrOnlineInspectorLog record = records.get(i);
-
-            Unit unit = unitMapper.selectByPrimaryKey(record.getUnitId());
-            String[] values = {
-                            record.getInspectorType().getType(),
-                            unit.getName(),
-                            record.getTotalCount()+"",
-                            record.getPubCount() + "" + "/" + record.getFinishCount() + "",
-                            DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-            };
-            valuesList.add(values);
+            List<DrOnlineInspector> inspectors = drOnlineInspectorService.findByLogId(record.getId());
+            if (null == inspectors)
+                continue;
+            for(DrOnlineInspector inspector : inspectors){
+                Unit unit = unitMapper.selectByPrimaryKey(record.getUnitId());
+                String[] value = {
+                        inspector.getUsername(),
+                        inspector.getPasswd(),
+                        inspector.getInspectorType().getType(),
+                        unit.getName(),
+                        DrConstants.INSPECTOR_STATUS_MAP.get(inspector.getStatus()),
+                        DrConstants.INSPECTOR_PUB_STATUS_MAP.get(inspector.getPubStatus())
+                };
+                valuesList.add(value);
+            }
         }
-        String fileName = String.format(drOnline.getCode() + "参评人账号生成记录(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        String fileName = String.format(drOnline.getCode() + "参评人账号(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
-        logger.info(log( LogConstants.LOG_DR, drOnline.getCode() + "导出参评人账号生成记录"));
-    }*/
+        logger.info(log( LogConstants.LOG_DR, drOnline.getCode() + "导出参评人账号"));
+    }
 
     @RequestMapping("/drOnlineInspectorLog_selects")
     @ResponseBody

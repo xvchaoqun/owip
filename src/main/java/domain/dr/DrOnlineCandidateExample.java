@@ -284,6 +284,76 @@ public class DrOnlineCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andCandidateIsNull() {
+            addCriterion("candidate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateIsNotNull() {
+            addCriterion("candidate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateEqualTo(String value) {
+            addCriterion("candidate =", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotEqualTo(String value) {
+            addCriterion("candidate <>", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateGreaterThan(String value) {
+            addCriterion("candidate >", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateGreaterThanOrEqualTo(String value) {
+            addCriterion("candidate >=", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLessThan(String value) {
+            addCriterion("candidate <", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLessThanOrEqualTo(String value) {
+            addCriterion("candidate <=", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateLike(String value) {
+            addCriterion("candidate like", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotLike(String value) {
+            addCriterion("candidate not like", value, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateIn(List<String> values) {
+            addCriterion("candidate in", values, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotIn(List<String> values) {
+            addCriterion("candidate not in", values, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateBetween(String value1, String value2) {
+            addCriterion("candidate between", value1, value2, "candidate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCandidateNotBetween(String value1, String value2) {
+            addCriterion("candidate not between", value1, value2, "candidate");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;
@@ -341,66 +411,6 @@ public class DrOnlineCandidateExample {
 
         public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignIsNull() {
-            addCriterion("sign is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignIsNotNull() {
-            addCriterion("sign is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignEqualTo(Byte value) {
-            addCriterion("sign =", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignNotEqualTo(Byte value) {
-            addCriterion("sign <>", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignGreaterThan(Byte value) {
-            addCriterion("sign >", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignGreaterThanOrEqualTo(Byte value) {
-            addCriterion("sign >=", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignLessThan(Byte value) {
-            addCriterion("sign <", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignLessThanOrEqualTo(Byte value) {
-            addCriterion("sign <=", value, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignIn(List<Byte> values) {
-            addCriterion("sign in", values, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignNotIn(List<Byte> values) {
-            addCriterion("sign not in", values, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignBetween(Byte value1, Byte value2) {
-            addCriterion("sign between", value1, value2, "sign");
-            return (Criteria) this;
-        }
-
-        public Criteria andSignNotBetween(Byte value1, Byte value2) {
-            addCriterion("sign not between", value1, value2, "sign");
             return (Criteria) this;
         }
 

@@ -17,8 +17,6 @@ public class DrBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected DrOnlineInspectorTypeMapper drOnlineInspectorTypeMapper;
     @Autowired(required = false)
-    protected DrOnlineResultViewMapper drOnlineResultViewMapper;
-    @Autowired(required = false)
     protected DrOnlineResultMapper drOnlineResultMapper;
     @Autowired(required = false)
     protected DrOnlineCandidateMapper drOnlineCandidateMapper;

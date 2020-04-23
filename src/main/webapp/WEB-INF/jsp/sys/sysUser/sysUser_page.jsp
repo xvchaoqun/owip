@@ -7,7 +7,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysUser_au"
-             data-url-page="${ctx}/sysUser"
+             data-url-page="${ctx}/sysUser?locked=${locked}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="col-sm-12">
                 <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname

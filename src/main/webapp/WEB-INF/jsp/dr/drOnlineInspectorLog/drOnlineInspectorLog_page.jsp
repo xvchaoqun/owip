@@ -23,17 +23,17 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="drOnlineInspectorLog:del">
                     <button data-url="${ctx}/dr/drOnlineInspectorLog_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="删除这{0}条信息，将会删除它的参评人信息，参评人投票信息。请谨慎删除！"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dr/drOnlineInspectorLog_data"
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${onlineId}"
                         data-grid-id="#jqGrid2"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>--%>
+                    <i class="fa fa-download"></i> 导出参评人账号</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -101,21 +101,9 @@ pageEncoding="UTF-8" %>
     }
 
     function openwindow(url, name, iWidth, iHeight){
-        /* var url; //转向网页的地址;
-        var name; //网页名称，可为空;
-        var iWidth; //弹出窗口的宽度;
-        var iHeight; //弹出窗口的高度;
-        var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
-        var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置; */
-        //win = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=yes,location=no,status=no');
-
         iWidth = iWidth || (screen.availWidth- 10);
         iHeight = iHeight || (screen.availHeight- 30);
         win = window.open(url,name,'width='+ iWidth +',height='+ iHeight +'fullscreen=yes,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no,status=no');
-        /*win.resizeTo(screen.width,screen.height);
-        win.moveTo(0,0);
-        win.focus();*/
-
         return win;
     }
 

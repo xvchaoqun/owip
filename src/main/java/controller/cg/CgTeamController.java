@@ -18,7 +18,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import service.ps.PsInfoService;
 import sys.constants.CgConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -43,9 +41,6 @@ import java.util.*;
 @RequestMapping("/cg")
 public class CgTeamController extends CgBaseController {
 
-    @Autowired
-    private PsInfoService psInfoService;
-
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     //二级党校概况
@@ -53,17 +48,14 @@ public class CgTeamController extends CgBaseController {
     @RequestMapping("/cgTeam_base")
     public String cgTeam_base(Integer id, ModelMap modelMap){
 
-        //委员会和领导小组组成规则
-        modelMap.put("cgRuleContentMap",cgTeamService.getRuleContent(id));
+        //委员会和领导小组
+        modelMap.put("cgTeamBases",cgTeamService.getTeamBase(id));
 
-        //现任委员会和领导小组成员
-        modelMap.put("cgMemberTypeMap",cgTeamService.getMember(id));
+        //分委会
+        modelMap.put("cgBranchList",cgTeamService.getChilds(id,CgConstants.CG_TEAM_TYPE_BRANCH));
 
-        //办公室主任
-        modelMap.put("cgLeader",cgTeamService.getCgLeader(id));
-
-        //委员会和领导小组基本信息
-        modelMap.put("cgTeam",cgTeamMapper.selectByPrimaryKey(id));
+        //工作小组
+        modelMap.put("cgWorkgroupList",cgTeamService.getChilds(id,CgConstants.CG_TEAM_TYPE_WORKGROUP));
 
         return "cg/cgTeam/cgTeam_base";
     }
@@ -71,10 +63,12 @@ public class CgTeamController extends CgBaseController {
     @RequiresPermissions("cgTeam:list")
     @RequestMapping("/cgTeam")
     public String cgTeam(@RequestParam(required = false, defaultValue = "1") boolean isCurrent,
+                         Integer fid,
                          Integer unitId,
                          Integer userId,
                          ModelMap modelMap) {
 
+        modelMap.put("isCurrent",isCurrent);
         if (unitId!=null){
 
             modelMap.put("unit",CmTag.getUnitById(unitId));
@@ -82,16 +76,24 @@ public class CgTeamController extends CgBaseController {
         if (userId!=null){
             modelMap.put("user",CmTag.getUserById(userId));
         }
-        modelMap.put("isCurrent",isCurrent);
+        if (fid!=null){
+            return "cg/cgTeam/cgTeam_child_page";
+        }
+
         return "cg/cgTeam/cgTeam_page";
     }
 
     @RequiresPermissions("cgTeam:view")
     @RequestMapping("/cgTeam_view")
-    public String cgTeam_view(Integer teamId, ModelMap modelMap) {
+    public String cgTeam_view(Integer fid,Integer teamId, ModelMap modelMap) {
 
         CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
         modelMap.put("cgTeam", cgTeam);
+
+        if(fid!=null) {
+            CgTeam fCgTeam = cgTeamMapper.selectByPrimaryKey(fid);
+            modelMap.put("fCgTeam",fCgTeam);
+        }
 
         return "cg/cgTeam/cgTeam_view";
     }
@@ -102,6 +104,7 @@ public class CgTeamController extends CgBaseController {
     public void cgTeam_data(HttpServletResponse response,
                             String name,
                             Byte type,
+                            Integer fid,
                             Integer category,
                             Integer unitId,
                             Integer userId,
@@ -122,6 +125,11 @@ public class CgTeamController extends CgBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
+        if (fid!=null){
+            criteria.andFidEqualTo(fid);
+        }else {
+            criteria.andFidIsNull();
+        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
@@ -228,9 +236,9 @@ public class CgTeamController extends CgBaseController {
     @RequiresPermissions("cgTeam:changeOrder")
     @RequestMapping(value = "/cgTeam_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cgTeam_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cgTeam_changeOrder(Integer id, Integer fid, Integer addNum, HttpServletRequest request) {
 
-        cgTeamService.changeOrder(id, addNum);
+        cgTeamService.changeOrder(id, fid, addNum);
         logger.info(log( LogConstants.LOG_CG, "委员会和领导小组调序：{0}, {1}", id, addNum));
         return success(FormUtils.SUCCESS);
     }
@@ -398,8 +406,7 @@ public class CgTeamController extends CgBaseController {
 
         if (isWord){//导出word
 
-            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + "委员会和领导小组" + ".doc";
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + "委员会和领导小组" + ".doc";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
@@ -410,5 +417,19 @@ public class CgTeamController extends CgBaseController {
         }else {// 导出zip
             cgTeamService.export(ids,request,response);
         }
+    }
+
+    @RequiresPermissions("cgMember:plan")
+    @RequestMapping("/cgTeam_updateUser")
+    public String cgMember_updateUser(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+            //获取委员会和领导小组中需要更新席位制的人员
+            List<Integer> cgMemberIdList = iCgMapper.getNeedAdjustMember(ids);
+            //获取人员信息，用于页面显示
+            List<Map> userList = cgMemberService.getOldAndNewUser(cgMemberIdList);
+            modelMap.put("userList",userList);
+        }
+        return "cg/cgMember/cgMember_update";
     }
 }

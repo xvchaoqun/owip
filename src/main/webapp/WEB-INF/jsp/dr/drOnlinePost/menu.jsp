@@ -11,7 +11,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
-            <div class="tab-content padding-8">
+            <div class="tab-content padding-8 multi-row-head-table">
     <c:import url="/dr/drOnlinePost?onlineId=${onlineId}&${cm:encodeQueryString(pageContext.request.queryString)}"/>
             </div>
         </div>

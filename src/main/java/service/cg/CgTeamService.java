@@ -33,7 +33,8 @@ public class CgTeamService extends CgBaseMapper {
     @Transactional
     public void insertSelective(CgTeam record){
 
-        record.setSortOrder(getNextSortOrder("cg_team", "is_current="+record.getIsCurrent()));
+        String whereSql = record.getFid()==null?"is_current="+record.getIsCurrent():String.format("is_current=%s and fid=%s",record.getIsCurrent(),record.getFid()) ;
+        record.setSortOrder(getNextSortOrder("cg_team", whereSql));
         cgTeamMapper.insertSelective(record);
     }
 
@@ -64,10 +65,11 @@ public class CgTeamService extends CgBaseMapper {
      * @param addNum
      */
     @Transactional
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, Integer fid, int addNum) {
 
         CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
-        changeOrder("cg_team", "is_current="+cgTeam.getIsCurrent(), ORDER_BY_DESC, id, addNum);
+        String whereSql = fid == null? "is_current="+cgTeam.getIsCurrent(): String.format("is_current=%s and fid=%s",cgTeam.getIsCurrent(),cgTeam.getFid()) ;
+        changeOrder("cg_team", whereSql, ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional
@@ -81,59 +83,6 @@ public class CgTeamService extends CgBaseMapper {
             record.setSortOrder(getNextSortOrder("cg_team", "is_current="+record.getIsCurrent()));
             cgTeamMapper.updateByPrimaryKeySelective(record);
         }
-    }
-
-    //根据委员会和领导小组ID获取组成规则
-    @Transactional
-    public Map getRuleContent(Integer id){
-
-        CgRuleExample cgRuleExample = new CgRuleExample();
-        cgRuleExample.createCriteria()
-                .andTeamIdEqualTo(id)
-                .andIsCurrentEqualTo(true);
-        cgRuleExample.setOrderByClause("sort_order desc");
-        List<CgRule> cgRules = cgRuleMapper.selectByExample(cgRuleExample);
-
-        Map cgRuleContentMap = new LinkedHashMap();
-        for (CgRule cgRule : cgRules) {
-
-            cgRuleContentMap.put(cgRule.getType(),cgRule.getContent());
-        }
-        return cgRuleContentMap;
-    }
-
-    //根据委员会和领导小组ID,查询职务以及对应现任人员
-    @Transactional
-    public Map<Integer,Set<Integer>> getMember(Integer id){
-
-        //查询所有现任成员
-        CgMemberExample cgMemberExample = new CgMemberExample();
-        cgMemberExample.setOrderByClause("sort_order desc");
-        cgMemberExample.createCriteria()
-                .andTeamIdEqualTo(id)
-                .andIsCurrentEqualTo(true);
-        List<CgMember> cgMembers = cgMemberMapper.selectByExample(cgMemberExample);
-
-        Map<Integer,Set<Integer>> cgMemberTypeMap = new LinkedHashMap<>();
-
-        //将现任成员类型放入map的key，并初始化map的value的数据类型；
-        for (CgMember cgMember : cgMembers){
-
-            cgMemberTypeMap.put(cgMember.getPost(),new LinkedHashSet<Integer>());
-        }
-
-        //将userId放入value中
-        for (CgMember cgMember : cgMembers){
-
-            Set typeValue = cgMemberTypeMap.get(cgMember.getPost());
-            if (cgMember.getUserId() != null){
-
-                typeValue.add(cgMember.getUserId());
-            }
-
-            cgMemberTypeMap.put(cgMember.getPost(),typeValue);
-        }
-        return cgMemberTypeMap;
     }
 
     public Byte findByType(String _type){
@@ -155,32 +104,85 @@ public class CgTeamService extends CgBaseMapper {
             insertSelective(record);
             addCount++;
         }
-
         return addCount;
     }
 
-    @Transactional
-    public CgLeader getCgLeader(Integer id){
+    //根据委员会和领导小组ID,查询职务以及对应现任人员
+    public Map<Integer,Set<Integer>> getMember(Integer id){
+
+        //查询所有现任成员
+        CgMemberExample cgMemberExample = new CgMemberExample();
+        cgMemberExample.setOrderByClause("sort_order desc");
+        cgMemberExample.createCriteria().andTeamIdEqualTo(id)
+                .andIsCurrentEqualTo(true);
+        List<CgMember> cgMembers = cgMemberMapper.selectByExample(cgMemberExample);
+
+        //按照职务对现任成员分类   Map<post，Set<userId>>
+        Map<Integer,Set<Integer>> cgMemberMap = new LinkedHashMap<>();
+        for (CgMember cgMember : cgMembers){
+            Integer postId = cgMember.getPost();
+            Set userIds = cgMemberMap.get(postId);
+
+            if (userIds == null)
+                userIds = new LinkedHashSet();
+
+            userIds.add(cgMember.getUserId());
+            cgMemberMap.put(postId,userIds);
+        }
+
+        return cgMemberMap;
+    }
+
+    //格式化委员会和领导小组现有职务以及职位对应成员（用于导出）
+    public List<String> formatCgMember(Map<Integer,Set<Integer>> cgMemberMap){
+
+        List<String> postAndNameList = new ArrayList();
+        for (Map.Entry<Integer, Set<Integer>> entry : cgMemberMap.entrySet()) {
+
+            MetaType metaType = metaTypeMapper.selectByPrimaryKey(entry.getKey());
+            StringBuffer postAndName = new StringBuffer();
+
+            if (metaType == null) continue;
+            postAndName.append(metaType.getName()+"：");
+
+            Set<Integer> userIds = entry.getValue();
+            for (Integer userId : userIds){
+                SysUserView user = CmTag.getUserById(userId);
+
+                if (user != null){
+                    postAndName.append(CmTag.realnameWithEmpty(user.getRealname()+"  "));
+                }
+            }
+            postAndNameList.add(postAndName.toString());
+        }
+        return postAndNameList;
+    }
+
+    //获取委员会和领导小组的办公室主任
+    public CgLeader getCgLeader(Integer cgTeamId){
 
         CgLeaderExample cgLeaderExample = new CgLeaderExample();
-        cgLeaderExample.createCriteria().andTeamIdEqualTo(id).andIsCurrentEqualTo(true);
+        cgLeaderExample.createCriteria().andTeamIdEqualTo(cgTeamId).andIsCurrentEqualTo(true);
         List<CgLeader> cgLeaders = cgLeaderMapper.selectByExample(cgLeaderExample);
 
         return cgLeaders.size()>0?cgLeaders.get(0):null;
     }
 
+    //根据委员会和领导小组规程类型获取规程内容
     public String getContentByType(Integer teamId, Byte type){
 
         CgRuleExample cgRuleExample = new CgRuleExample();
-        cgRuleExample.createCriteria()
-                .andTypeEqualTo(type)
-                .andIsCurrentEqualTo(true)
-                .andTeamIdEqualTo(teamId);
+        cgRuleExample.createCriteria().andTypeEqualTo(type)
+                .andIsCurrentEqualTo(true).andTeamIdEqualTo(teamId);
         List<CgRule> cgRules = cgRuleMapper.selectByExample(cgRuleExample);
 
-        return cgRules.size()>0?cgRules.get(0).getContent():null;
+        if (cgRules==null || cgRules.size()==0)
+            return null;
+
+        return cgRules.get(0).getContent();
     }
 
+    //格式化规程内容，将内容与样式标签进行分离
     public List<String> formatContent(String content){
 
         if (StringUtils.isBlank(content)) return null;
@@ -200,58 +202,34 @@ public class CgTeamService extends CgBaseMapper {
 
                 contentList.add(pHtml);
             }
-
+            if (StringUtils.isNotBlank(content) && contentList.size()==0)
+                contentList.add(content);
 
         return contentList;
     }
 
-    //导出委员会和领导小组概括
+    //导出委员会和领导小组概括（word）
     public void export(Integer[] teamIds, Writer out) throws IOException, TemplateException {
 
-        List cgTeams = new ArrayList<>();
+        List teamBaseList = new LinkedList();
+
         for (Integer teamId : teamIds) {
 
-            Map<String, Object> dataMap = new HashMap<String, Object>();
-            CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(teamId);
-            //委员会和领导小组基本信息
-            dataMap.put("cgTeam", cgTeam);
+            Map teamBaseMap = new HashMap();
+            teamBaseMap.put("parentTeamBase",getTeamBaseForWord(teamId));
+            teamBaseMap.put("branchTeanBases",getChildsForWord(teamId,CgConstants.CG_TEAM_TYPE_BRANCH));
+            teamBaseMap.put("workgroupTeanBases",getChildsForWord(teamId,CgConstants.CG_TEAM_TYPE_WORKGROUP));
 
-            //参数设置内容
-            List staffContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_STAFF));
-            List jobContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_JOB));
-            List debateContentList = formatContent(getContentByType(teamId, CgConstants.CG_RULE_TYPE_DEBATE));
-
-            dataMap.put("staffContentList", staffContentList);
-            dataMap.put("jobContentList", jobContentList);
-            dataMap.put("debateContentList", debateContentList);
-
-            //办公室主任
-            CgLeader cgLeader = getCgLeader(teamId);
-            if (cgLeader != null && cgLeader.getUser() != null)
-                dataMap.put("leaderName", cgLeader.getUser().getRealname());
-
-            //人员组成
-            Map<Integer, Set<Integer>> memberMap = getMember(teamId);
-            List<String> memberAndUserList = new LinkedList<>();
-
-            for (Map.Entry<Integer, Set<Integer>> entry : memberMap.entrySet()) {
-
-                MetaType metaType = metaTypeMapper.selectByPrimaryKey(entry.getKey());
-                if (metaType != null)
-                    memberAndUserList.add(metaType.getName() + "：" + getUserNamesById(entry.getValue()));
-
-            }
-
-            dataMap.put("memberAndUserList", memberAndUserList);
-
-            cgTeams.add(dataMap);
+            teamBaseList.add(teamBaseMap);
         }
 
         Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("cgTeams",cgTeams);
-        freemarkerService.process("/cg/cg.ftl", dataMap, out);
+
+        dataMap.put("teamBaseList",teamBaseList);
+        freemarkerService.process("/cg/cg1.ftl", dataMap, out);
     }
 
+    //导出委员会和领导小组概况（zip）
     public void export(Integer[] teamIds, HttpServletRequest request, HttpServletResponse response)
             throws IOException, TemplateException{
 
@@ -289,23 +267,12 @@ public class CgTeamService extends CgBaseMapper {
         FileUtils.deleteDir(new File(tmpdir));
     }
 
-    //查询Set中userId对应的用户姓名
-    public String getUserNamesById(Set<Integer> userIds){
-
-        StringBuffer userNames = new StringBuffer();
-        for (Integer userId : userIds){
-
-            SysUserView sysUserView = CmTag.getUserById(userId);
-            if (sysUserView != null) userNames.append(CmTag.realnameWithEmpty(sysUserView.getRealname())+"  ");
-        }
-        return userNames.toString();
-    }
-
+    //获取所有正在运行的委员会和领导小组ID
     public Integer[] getAllTeamId(Integer[] teamIds){
 
             CgTeamExample cgTeamExample = new CgTeamExample();
             cgTeamExample.setOrderByClause("sort_order desc");
-            cgTeamExample.createCriteria().andIsCurrentEqualTo(true);
+            cgTeamExample.createCriteria().andIsCurrentEqualTo(true).andFidIsNull();
 
             List<CgTeam> cgTeams = cgTeamMapper.selectByExample(cgTeamExample);
             List<Integer> idList = new ArrayList<>();
@@ -317,4 +284,102 @@ public class CgTeamService extends CgBaseMapper {
 
         return teamIds;
     }
+
+    //获取委员会和领导小组中所有的分委会或工作小组
+    public List getChilds(Integer fid,Byte type){
+
+        CgTeamExample example = new CgTeamExample();
+        example.createCriteria().andFidEqualTo(fid)
+                .andIsCurrentEqualTo(true).andTypeEqualTo(type);
+        List<CgTeam> cgTeamList = cgTeamMapper.selectByExample(example);
+
+        List<Map> childTeamBases = new LinkedList<>();
+
+        for (CgTeam cgTeam : cgTeamList) {
+
+            childTeamBases.add(getTeamBase(cgTeam.getId()));
+        }
+        return childTeamBases;
     }
+
+    //获取委员会和领导小组中所有的分委会或工作小组
+    public List getChildsForWord(Integer fid,Byte type){
+
+        CgTeamExample example = new CgTeamExample();
+        example.createCriteria().andFidEqualTo(fid)
+                .andIsCurrentEqualTo(true).andTypeEqualTo(type);
+        List<CgTeam> cgTeamList = cgTeamMapper.selectByExample(example);
+
+        List<Map> childTeamBases = new LinkedList<>();
+
+        for (CgTeam cgTeam : cgTeamList) {
+
+            childTeamBases.add(getTeamBaseForWord(cgTeam.getId()));
+        }
+        return childTeamBases;
+    }
+
+    //获取委员会和领导小组的详细信息
+    public Map getTeamBase(Integer cgTeamId){
+
+        //委员会和领导小组基本信息
+        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(cgTeamId);
+        //组成规则
+       String staffContent = getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_STAFF);
+       //工作职责
+        String jobContent = getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_JOB);
+        //议事规则
+        String debateContent = getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_DEBATE);
+        //职务以及担任该职务的所用成员姓名
+        Map<Integer,Set<Integer>> postAndNameMap = getMember(cgTeamId);
+        //办公室主任
+        CgLeader cgLeader = getCgLeader(cgTeamId);
+
+        Map teamBaseMap = new HashMap();
+        teamBaseMap.put("cgTeam",cgTeam);
+        teamBaseMap.put("staffContent",staffContent);
+        teamBaseMap.put("jobContent",jobContent);
+        teamBaseMap.put("debateContent",debateContent);
+        teamBaseMap.put("postAndNameMap",postAndNameMap);
+        teamBaseMap.put("cgLeader",cgLeader);
+
+        return teamBaseMap;
+    }
+
+    //获取委员会和领导小组的详细信息
+    public Map getTeamBaseForWord(Integer cgTeamId){
+
+        //委员会和领导小组基本信息
+        CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(cgTeamId);
+        //格式化后的组成规则
+        List staffContentList = formatContent(getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_STAFF));
+        //格式化后的工作职责
+        List jobContentList = formatContent(getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_JOB));
+        //格式化后的议事规则
+        List debateContentList = formatContent(getContentByType(cgTeamId,CgConstants.CG_RULE_TYPE_DEBATE));
+        //格式化后的职务以及担任该职务的所用成员姓名
+        List postAndNameList = formatCgMember(getMember(cgTeamId));
+        //办公室主任
+        String cgLeaderName = null;
+
+        CgLeader cgLeader = getCgLeader(cgTeamId);
+        if (cgLeader!=null && cgLeader.getUser()!=null) {
+            cgLeaderName=cgLeader.getUser().getRealname();
+        }
+
+        Map cgTeamType = new HashMap();
+        cgTeamType.putAll(CgConstants.CG_TEAM_TYPE_MAP);
+        cgTeamType.putAll(CgConstants.CG_CHILD_TEAM_TYPE_MAP);
+
+        Map teamBaseMap = new HashMap();
+        teamBaseMap.put("cgTeam",cgTeam);
+        teamBaseMap.put("cgTeamType",cgTeamType.get(cgTeam.getType()));
+        teamBaseMap.put("staffContentList",staffContentList);
+        teamBaseMap.put("jobContentList",jobContentList);
+        teamBaseMap.put("debateContentList",debateContentList);
+        teamBaseMap.put("postAndNameList",postAndNameList);
+        teamBaseMap.put("cgLeaderName",cgLeaderName);
+
+        return teamBaseMap;
+    }
+}

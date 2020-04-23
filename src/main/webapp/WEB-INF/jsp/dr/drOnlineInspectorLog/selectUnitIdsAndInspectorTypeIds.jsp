@@ -9,7 +9,7 @@
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/dr/selectUnitIdsAndInspectorTypeIds" id="modalFrom" method="post">
     <div class="col-xs-6">
-    <div id="unitsTree"></div>
+    <div id="unitsTree"><div id="circle"></div></div>
     </div>
     <div class="col-xs-6">
       <div id="inspectorTypesTree"></div>
@@ -27,6 +27,15 @@
   </div>
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="确认"/></div>
+<style>
+  #circle {
+    margin-top: 30%;
+    margin-left: 40%;
+    width: 48px;
+    height: 48px;
+    background: url('../img/fancybox/fancybox_loading@2x.gif');
+  }
+</style>
 <script>
 
   $.getJSON("${ctx}/dr/selectUnits_tree",{},function(data){

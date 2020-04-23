@@ -5,32 +5,9 @@
 <html>
 	<head>
 	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
 	</head>
-	<style>
-		h1[id],h2[id]{
-			padding-top:95px;
-			margin-top:-95px;
-		}
-		#survey th,td{
-			margin: 0px;
-			padding: 0px;
-			text-align: center;
-			width: 50%;
-			height: 50px;
-		}
-		#survey table{
-			background-color: white;
-			border: 1px black;
-		}
-		.changePasswd .td1{
-			width: 100%;
-			text-align: right;
-		}
-		.postName{
-			font-size: 17px;
-		}
-	</style>
-	<body class="no-skin">
+	<body class="no-skin m_dr">
 		<!-- #section:basics/navbar.layout -->
 		<div id="navbar" class="navbar navbar-default">
 			<script type="text/javascript">
@@ -93,7 +70,7 @@
 												<div class="modal-header" style="padding-top: 30px!important;" align="center">
 													<h2>测评说明</h2>
 												</div>
-												<div class="modal-body" style="word-wrap:break-word">
+												<div class="modal-body" style="align: left;word-wrap:break-word">
 													${drOnline.notice}
 												</div>
 											</div>
@@ -135,7 +112,7 @@
 																<c:if test="${candidateMap.key == postView.id}">
 																	<c:forEach items="${candidateMap.value}" var="candidates">
 																		<tr>
-																			<td>${candidates.user.realname}</td>
+																			<td>${candidates.candidate}</td>
 																			<td style="text-align: center;">
 																				<div>
 																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -171,7 +148,7 @@
 																<c:forEach items="${candidateMap.value}" var="candidates" begin="0" end="${postView.existNum}">
 																	<c:if test="${candidateMap.key == postView.id}">
 																		<tr>
-																			<td>${candidates.user.realname}</td>
+																			<td>${candidates.candidate}</td>
 																			<td style="text-align: center;">
 																				<div >
 																					<input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -264,7 +241,7 @@
 															</tr>
 															<tr>
 																<td class="td1"><span class="star">*</span>新密码：</td>
-																<td><input required type="password" name="oldPasswd"></td>
+																<td><input required type="password" name="passwd" id="passwd"></td>
 															</tr>
 															<tr>
 																<td class="td1"><span class="star">*</span>新密码确认：</td>
@@ -297,7 +274,7 @@
 				</div>
 			</div><!-- /.main-content -->
 
-			<div class="footer">
+			<%--<div class="footer">
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
@@ -305,7 +282,7 @@
 						</span>
 					</div>
 				</div>
-			</div>
+			</div>--%>
 
 			<a href="javascript:;" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
@@ -332,7 +309,6 @@
 			$('.eva').removeAttr("disabled");
 			$('.eva').removeAttr("hidden");
 		}
-
 
 		function drOnline_notice() {
 			$('.changePasswd').attr("disabled", "disabled");
@@ -376,8 +352,7 @@
 		try{
 			tag_input.tag(
 					{
-						placeholder:tag_input.attr('placeholder'),
-						source: ${sysUser}
+						placeholder:tag_input.attr('placeholder')
 					}
 			)
 		} catch(e) {
@@ -392,8 +367,8 @@
 			var datas = new Array();
 			var others = new Array();
 			var flag = 1;   //是否提交数据
-			var totalCount = 0;
-			var _totalCount = 0;
+			var totalCount = 0;//已投
+			var _totalCount = 0;//应投
 
 			$.each(postViews, function (i, item) {
 				var count = 0;//统计各个推荐职务人数
@@ -406,19 +381,34 @@
 					datas.push($(this).attr("id"));
 				})
 				//参评人添加的候选人
-				var user = "";
 				var userIds = ($("input[name=candidateCode][postId="+postId+"]").val()).split(",");
 				//console.log(userIds.length)
+				//检查是否名字有重复
 				if ($.trim(userIds).length != 0){
+					for(var i = 0; i < userIds.length; i++){
+						//console.log($.inArray(userIds[i], item.cans))
+						//var index = $.inArray(b, array);
+						//返回 -1 表示没有包含
+						//返回大于 0 表示包含
+						if ($.inArray(userIds[i], item.cans) >= 0){
+							SysMsg.info('候选人姓名重复，请加以区别！', '提示',function () {
+								return;
+							})
+							flag = 0;
+						}
+					}
+
 					count += userIds.length;
 				}
 				//console.log(count)
 				if (count > item.competitiveNum){
-					SysMsg.info(item.name + '中另选候选人的人数，超过了最多推荐人数' + item.competitiveNum + ',请重新选择', '提示',function () {
+					SysMsg.info(item.name + '中投同意票的总数，超过了最多推荐人数' + item.competitiveNum + ',请重选！', '提示',function () {
 						return;
 					})
 					flag = 0;//放在提示信息中，falg赋不上值
 				}
+
+				var user = "";
 				if ($.trim(userIds).length == 0) {
 					user = "";
 				}else {
@@ -439,10 +429,10 @@
 					})
 				}else {
 					SysMsg.confirm('提交成功将直接退出系统，然后该账号不能登录。请谨慎提交！', '确认提交',function () {
-						$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+						$.post("${ctx}/dr/drOnline/doTempSave?isMoblie=1&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
 							if (ret.success) {
 								SysMsg.success('提交成功。', '提交', function(){
-									location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
+                                    location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
 								});
 							}
 						})
@@ -450,7 +440,7 @@
 				}
 			}else{
 				SysMsg.confirm("确认保存投票信息。", "保存", function () {
-					$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+					$.post("${ctx}/dr/drOnline/doTempSave?isMobile=1&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
 						if (ret.success) {
 							SysMsg.success('保存成功。', '成功', function () {
 								location.reload();
@@ -516,11 +506,11 @@
 				}
 			},
 			submitHandler: function (form) {
-
 				$(form).ajaxSubmit({
 					success:function(data){
 						//console.log(data)
 						if(data.success){
+							console.log(data)
 							SysMsg.success('修改密码成功，请重新登录。', '成功', function(){
 								location.href ="${ctx}/dr/drOnline/logout?isMobile=1"
 							});

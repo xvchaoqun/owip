@@ -18,8 +18,9 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
-                    <div class="tab-pane in active multi-row-head-table">
+                    <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
+                <c:if test="${isDeleted!=1}">
                 <c:if test="${status!=3}">
                     <shiro:hasPermission name="drOnline:edit">
                         <button class="popupBtn btn btn-info btn-sm"
@@ -30,50 +31,70 @@ pageEncoding="UTF-8" %>
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
                     </shiro:hasPermission>
-                <shiro:hasPermission name="drOnline:del">
-                    <button data-url="${ctx}/dr/drOnline_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i> 删除
-                    </button>
-                </shiro:hasPermission>
+                    <shiro:hasPermission name="drOnline:del">
+                        <button data-url="${ctx}/dr/drOnline_missDel?isDeleted=1"
+                                data-title="删除"
+                                data-msg="确定删除这{0}条数据移入已删除批次？"
+                                data-grid-id="#jqGrid"
+                                class="jqBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
+                        </button>
+                    </shiro:hasPermission>
+                    </c:if>
+                    <shiro:hasPermission name="drOnline:edit">
+                        <c:if test="${status==3}">
+                            <button data-url="${ctx}/dr/drOnline_changeStatus?status=1"
+                                    data-title="撤回"
+                                    data-msg="确定撤回这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-success btn-sm">
+                                <i class="fa fa-reply"></i> 撤回
+                            </button>
+                        </c:if>
+                        <c:if test="${status!=3}">
+                            <button data-url="${ctx}/dr/drOnline_changeStatus?status=1"
+                                    data-title="发布"
+                                    data-msg="确定发布这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-success btn-sm">
+                                <i class="fa fa-check-circle-o"></i> 发布
+                            </button>
+                            <button data-url="${ctx}/dr/drOnline_changeStatus?status=2"
+                                    data-title="撤回"
+                                    data-msg="确定撤回这{0}条数据？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-warning btn-sm">
+                                <i class="fa fa-times-circle-o"></i> 撤回
+                            </button>
+                            <button data-url="${ctx}/dr/drOnline_changeStatus?status=3"
+                                    data-title="完成推荐"
+                                    data-msg="确定这{0}条数据完成推荐？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-success btn-sm">
+                                <i class="fa fa-check"></i> 完成推荐
+                            </button>
+                        </c:if>
+                    </shiro:hasPermission>
                 </c:if>
-                <shiro:hasPermission name="drOnline:edit">
-                    <c:if test="${status==3}">
-                        <button data-url="${ctx}/dr/drOnline_changeStatus?status=1"
+                <c:if test="${isDeleted==1}">
+                    <shiro:hasPermission name="drOnline:del">
+                        <button data-url="${ctx}/dr/drOnline_missDel?isDeleted=0"
                                 data-title="撤回"
                                 data-msg="确定撤回这{0}条数据？"
                                 data-grid-id="#jqGrid"
                                 class="jqBatchBtn btn btn-success btn-sm">
                             <i class="fa fa-reply"></i> 撤回
                         </button>
-                    </c:if>
-                    <c:if test="${status!=3}">
-                        <button data-url="${ctx}/dr/drOnline_changeStatus?status=1"
-                                data-title="发布"
-                                data-msg="确定发布这{0}条数据？"
+                        <button data-url="${ctx}/dr/drOnline_batchDel"
+                                data-title="删除"
+                                data-msg="确定删除这{0}条民主推荐数据的相关数据吗？"
                                 data-grid-id="#jqGrid"
-                                class="jqBatchBtn btn btn-success btn-sm">
-                            <i class="fa fa-check-circle-o"></i> 发布
+                                class="jqBatchBtn btn btn-danger btn-sm"
+                                title="该功能会删除该批次民主推荐的所有相关数据，请谨慎使用！">
+                            <i class="fa fa-times"></i> 完全删除
                         </button>
-                        <button data-url="${ctx}/dr/drOnline_changeStatus?status=2"
-                                data-title="撤回"
-                                data-msg="确定撤回这{0}条数据？"
-                                data-grid-id="#jqGrid"
-                                class="jqBatchBtn btn btn-warning btn-sm">
-                            <i class="fa fa-times-circle-o"></i> 撤回
-                        </button>
-                        <button data-url="${ctx}/dr/drOnline_changeStatus?status=3"
-                                data-title="完成推荐"
-                                data-msg="确定这{0}条数据完成推荐？"
-                                data-grid-id="#jqGrid"
-                                class="jqBatchBtn btn btn-success btn-sm">
-                            <i class="fa fa-check"></i> 完成推荐
-                        </button>
-                    </c:if>
-                </shiro:hasPermission>
+                    </shiro:hasPermission>
+                </c:if>
                 <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/dr/drOnline_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -106,13 +127,13 @@ pageEncoding="UTF-8" %>
                                 <input placeholder="请选择推荐日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_recommendDate" value="${param._recommendDate}"/>
                             </div>
                         </div>
-                        <c:if test="${status!=3}">
+                        <c:if test="${status!=3||isDeleted==1}">
                             <div class="form-group">
                                 <label>状态</label>
                                 <select name="status" data-width="150" data-rel="select2"
                                         data-placeholder="请选择状态">
                                     <option></option>
-                                    <c:forEach items="<%=DrConstants.DR_ONLINE_MAP%>" var="status">
+                                    <c:forEach items="<%=DrConstants.DR_ONLINE_MAP%>" var="status" begin="0" end="2">
                                         <option value="${status.key}">${status.value}</option>
                                     </c:forEach>
                                 </select>
@@ -149,12 +170,12 @@ pageEncoding="UTF-8" %>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/dr/drOnline?cls=1<c:if test="${status==3}">&status=3</c:if>"
+                                   data-url="${ctx}/dr/drOnline?isDeleted=${isDeleted}&cls=1<c:if test="${status==3}">&status=3</c:if>"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/dr/drOnline?cls=1<c:if test="${status==3}">&status=3</c:if>"
+                                            data-url="${ctx}/dr/drOnline?isDeleted=${isDeleted}&cls=1<c:if test="${status==3}">&status=3</c:if>"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -205,13 +226,13 @@ pageEncoding="UTF-8" %>
                 { label: '推荐类型',name: 'type', width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐开始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
                 { label: '推荐截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
-                { label: '干部民主<br/>推荐说明', name: '_notice',  width:80, formatter: function (cellvalue, options, rowObject) {
+                { label: '干部民主<br/>推荐说明', name: '_notice',  width:85, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}"><i class="fa fa-edit"></i> 编辑</button>'
                         .format(rowObject.id);
                     return  str;
                 }},
                 {
-                    label: '推荐职务<br/>及资格条件', name: '_post', width:80, formatter: function (cellvalue, options, rowObject) {
+                    label: '推荐职务<br/>及资格条件', name: '_post', width:85, formatter: function (cellvalue, options, rowObject) {
                             var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlinePost_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id);
                             return  str;
@@ -219,12 +240,12 @@ pageEncoding="UTF-8" %>
                 {
                     label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                             var str ='<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.id) + "&nbsp;";
+                                .format(rowObject.id);
                         return str;
-                    }, width: 90
+                    }, width: 80
                 },
                 {
-                    label: '账号管理', name: '_account', width:90, formatter: function (cellvalue, options, rowObject) {
+                    label: '账号管理', name: '_account', width:80, formatter: function (cellvalue, options, rowObject) {
                         var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
                             .format(rowObject.id);
                         return  str;

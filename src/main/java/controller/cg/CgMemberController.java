@@ -116,7 +116,7 @@ public class CgMemberController extends CgBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cgMember.class, cgMemberMixin.class);
+        //baseMixins.put(CgMember.class, CgMemberMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
@@ -245,7 +245,34 @@ public class CgMemberController extends CgBaseController {
         if (null != ids && ids.length>0){
 
             cgMemberService.updateMemberState(ids,isCurrent);
-            logger.info(addLog(LogConstants.LOG_CG, "批量撤销委员会和领导小组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CG, "批量%s委员会和领导小组成员：%s",isCurrent?"返回":"撤销", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cgMember:plan")
+    @RequestMapping("/cgMember_updateUser")
+    public String cgMember_updateUser(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length>0){
+
+            List<Map> userList = cgMemberService.getOldAndNewUser(Arrays.asList(ids));
+            modelMap.put("userList",userList);
+        }
+        modelMap.put("ids",ids);
+        return "cg/cgMember/cgMember_update";
+    }
+
+    @RequiresPermissions("cgMember:plan")
+    @RequestMapping(value = "/cgMember_updateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cgMember_updateUser(@RequestParam(required = false,value = "ids[]") Integer[] ids) {
+
+        if (null != ids && ids.length>0){
+
+            cgMemberService.updateUser(ids);
+            logger.info(addLog(LogConstants.LOG_CG, "批量更新委员会和领导小组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

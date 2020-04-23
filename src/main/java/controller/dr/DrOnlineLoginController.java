@@ -1,6 +1,6 @@
 package controller.dr;
 
-import bean.DrTempResult;
+import persistence.dr.common.DrTempResult;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
@@ -16,7 +16,6 @@ import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
 import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +60,8 @@ public class DrOnlineLoginController extends DrBaseController {
 
         modelMap.put("inspectorMap", inspectorMap);
 
-        return "dr/drOnline/user/drOnlineLogin";
+        //return "dr/drOnline/user/drOnlineLogin";
+        return "dr/drOnline/user/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -80,12 +80,12 @@ public class DrOnlineLoginController extends DrBaseController {
             }else {
                 if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_NOT_RELEASE){
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐还未发布！"));
-                    return failed("该账号对应的民主推荐还未发布！");
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐未发布！"));
+                    return failed("该账号对应的民主推荐未发布！");
                 }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_WITHDRAW) {
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐暂时撤回！"));
-                    return failed("该账号对应的民主推荐还未发布！");
+                    return failed("该账号对应的民主推荐未发布！");
                 }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_FINISH) {
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐已完成！"));
@@ -93,7 +93,7 @@ public class DrOnlineLoginController extends DrBaseController {
                 }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE) {
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号还未发布！"));
-                    return failed("该账号还未发布！");
+                    return failed("该账号未发布！");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已作废！"));
@@ -134,25 +134,22 @@ public class DrOnlineLoginController extends DrBaseController {
     }
 
     @RequestMapping("/drOnlineIndex")
-    public String drIndex(Byte isMobile, ModelMap modelMap, HttpServletRequest request){
+    public String drOnlineIndex(Byte isMobile, ModelMap modelMap, HttpServletRequest request){
 
         DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
+        //获取最新数据
         DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
 
         if (inspector != null) {
+            Integer onlineId = inspector.getOnlineId();
             modelMap.put("inspector", inspector);
             modelMap.put("drOnline", inspector.getDrOnline());
-            List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(inspector.getOnlineId());
+            List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
             modelMap.put("postViews", postViews);
-            Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(inspector.getOnlineId());
+            Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(onlineId);
             modelMap.put("candidateMap", candidateMap);
             DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
             modelMap.put("tempResult", tempResult);
-            try {
-                modelMap.put("sysUser", JSONUtils.toString(drOnlineCandidateService.sysUser_selects(SystemConstants.USER_TYPE_JZG)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             if (isMobile != null && isMobile == 1){
                 return "dr/drOnline/mobile/index";
             }
@@ -160,7 +157,8 @@ public class DrOnlineLoginController extends DrBaseController {
             if (isMobile != null && isMobile == 1)
                 return "dr/drOnline/mobile/iLogin";
 
-            return "dr/drOnline/user/drOnlineLogin";
+            //return "dr/drOnline/user/drOnlineLogin";
+            return "dr/drOnline/user/login";
         }
         return "dr/drOnline/user/drOnlineIndex";
     }
@@ -176,6 +174,8 @@ public class DrOnlineLoginController extends DrBaseController {
         if (inspector == null){
             return failed(FormUtils.ILLEGAL);
         }
+        if (!drOnlineInspectorService.checkStatus(inspector))
+            return failed("线上民主推荐内容更新，修改密码失败，请重新登录！");
         if (!StringUtils.equalsIgnoreCase(inspector.getPasswd(), oldPasswd)){
             return failed(FormUtils.WRONG);
         }

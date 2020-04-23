@@ -1,7 +1,6 @@
 package domain.dr;
 
-import domain.sys.SysUserView;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import persistence.dr.DrOnlineCandidateMapper;
 import persistence.dr.DrOnlineMapper;
 import sys.tags.CmTag;
@@ -18,17 +17,20 @@ public class DrOnlinePostView implements Serializable {
         return drOnline;
     }
 
-    public List<SysUserView> getUsers(){
-        List<SysUserView> candidateList = new ArrayList<>();
+    public List<String> getCans(){
+
+        List<String> _candidates = new ArrayList<>();
         if(StringUtils.isNotBlank(candidates)) {
             DrOnlineCandidateMapper drOnlineCandidateMapper = CmTag.getBean(DrOnlineCandidateMapper.class);
-            Integer userId = null;
-            for (String candidateIdStr : candidates.split(",")) {
-                userId = drOnlineCandidateMapper.selectByPrimaryKey(Integer.valueOf(candidateIdStr)).getUserId();
-                candidateList.add(CmTag.getUserById(userId));
+            DrOnlineCandidateExample example = new DrOnlineCandidateExample();
+            example.createCriteria().andPostIdEqualTo(id);
+            List<DrOnlineCandidate> candidateList = drOnlineCandidateMapper.selectByExample(example);
+            for (DrOnlineCandidate can : candidateList){
+                _candidates.add(can.getCandidate());
             }
         }
-        return candidateList;
+
+        return _candidates;
     }
 
     private Integer id;

@@ -5,6 +5,7 @@ import domain.pmd.PmdOrderLog;
 import domain.pmd.PmdOrderLogExample;
 import domain.pmd.PmdOrderSumLog;
 import domain.pmd.PmdOrderSumLogExample;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,7 @@ import persistence.pmd.PmdOrderLogMapper;
 import persistence.pmd.PmdOrderSumLogMapper;
 import sys.utils.DateUtils;
 
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.List;
 
 @Service
@@ -29,10 +29,10 @@ public class PmdOrderLogService {
 
     public static final String fileLimitChar = "&";
     public static final int fieldAllCount = 17;
-    private int count;
 
     @Transactional
     public int loadFile(String path,String openFileStyle, String name){
+        int count = 0;
         try {
             RandomAccessFile raf = new RandomAccessFile(path, openFileStyle);
 
@@ -48,11 +48,50 @@ public class PmdOrderLogService {
                 }
 
                 parseRecord(line_record, name);
+                count++;
                 line_record = raf.readLine();
             }
             logger.info(name + ".txt文件中共有合法的记录" + count + "条");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Transactional
+    public int loadFile1(String path,String openFileStyle, String name){
+        int count = 0;
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader(path));
+            String line_record = null;
+            while ((line_record =in.readLine()) != null) {
+                // 解析每一条记录
+                if (!line_record.startsWith("#") && StringUtils.trimToNull(line_record) != null){
+                    parseRecord(line_record, name);
+                    count++;
+                }else if (line_record.startsWith("#totalcount")){
+                    line_record = in.readLine();
+                    totalParseRecord(line_record, name);
+                }else{
+                    continue;
+                }
+            }
+            logger.info(name + ".txt文件中共有合法的记录" + count + "条");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null){
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return count;
     }
@@ -135,15 +174,11 @@ public class PmdOrderLogService {
             pmdOrderLog.setJyDate(DateUtils.parseStringToDate(tranStr(fields[14])));
             pmdOrderLog.setThirdSystem(tranStr(fields[15]));
             pmdOrderLog.setSign(_sign.substring(0,_sign.length()-1));
-            count++;
             try {
                 pmdOrderLogMapper.insert(pmdOrderLog);
             }catch (Exception e){
                 throw new OpException(tranStr(fields[1]) + "订单插入数据库失败！");
             }
-
-
-
         }
     }
 

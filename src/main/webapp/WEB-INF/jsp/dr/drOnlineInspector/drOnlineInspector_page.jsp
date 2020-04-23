@@ -178,7 +178,8 @@ pageEncoding="UTF-8" %>
                             return '<font color="red">${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_NOT_RELEASE)}</font>';
                         else
                             return '<font color="green">${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_RELEASE)}</font>';
-                    }}
+                    }},
+                { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

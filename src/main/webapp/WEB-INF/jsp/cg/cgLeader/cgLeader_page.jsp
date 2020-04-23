@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
 
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/cg/cgLeader_au"
-                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                            data-grid-id="#jqGrid_cgLeader"><i class="fa fa-edit"></i>
                         修改</button>
 
                 </shiro:hasPermission>
@@ -21,29 +21,29 @@ pageEncoding="UTF-8" %>
                         data-url="${ctx}/cg/cgLeader_plan?isCurrent=0"
                         data-title="撤销"
                         data-msg="确定撤销这{0}条数据？"
-                        data-grid-id="#jqGrid2"><i class="fa fa-recycle"></i>
+                        data-grid-id="#jqGrid_cgLeader"><i class="fa fa-recycle"></i>
                     撤销</button>
                 <shiro:hasPermission name="cgLeader:del">
                     <button data-url="${ctx}/cg/cgLeader_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid2"
+                            data-grid-id="#jqGrid_cgLeader"
                             class="jqBatchBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i>
                         删除</button>
 
                 </shiro:hasPermission>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="30" data-width-reduce="20"></table>
-            <div id="jqGridPager2"></div>
+            <table id="jqGrid_cgLeader" class="jqGrid2 table-striped" data-height-reduce="30" data-width-reduce="20"></table>
+            <div id="jqGridPager_cgLeader"></div>
         </div>
-        <div id="body-content-view"></div>
     </div>
 </div>
 <script>
-    $("#jqGrid2").jqGrid({
+
+    $("#jqGrid_cgLeader").jqGrid({
         rownumbers:true,
-        pager:"jqGridPager2",
+        pager:"jqGridPager_cgLeader",
         url: '${ctx}/cg/cgLeader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '是否席位制',name: 'isPost',formatter: $.jgrid.formatter.TRUEFALSE},
@@ -57,9 +57,5 @@ pageEncoding="UTF-8" %>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
-    $.initNavGrid("jqGrid2", "jqGridPager2");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $.initNavGrid("jqGrid_cgLeader", "jqGridPager_cgLeader");
 </script>

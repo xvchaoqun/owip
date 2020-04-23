@@ -15,13 +15,13 @@ pageEncoding="UTF-8" %>
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="drOnlineResult:edit">
-                        <button class="popupBtn btn btn-info btn-sm"
+                        <button id="inspectorFilter" class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/dr/drOnline/drOnlineResult_filter?onlineId=${onlineId}">
                             <i class="fa fa-filter"></i> 参评人过滤</button>
                         <c:if test="${drOnline.status==DR_ONLINE_FINISH}">
-                            <button download="11" class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                    data-url="${ctx}/dr/drOnline/drOnlineResult_export?&onlineId=${onlineId}&cls=1"
-                                    data-rel="tooltip" data-placement="top" title="导出本批次最终统计结果">
+                            <button id="exportResult" class="btn btn-success btn-sm tooltip-success"
+                                    data-url="${ctx}/dr/drOnline/drOnlineResult_data?&onlineId=${onlineId}"
+                                    data-rel="tooltip" data-placement="top" title="导出统计结果">
                                 <i class="fa fa-download"></i> 导出</button>
                         </c:if>
                     </shiro:hasPermission>
@@ -34,16 +34,57 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+
+    $("#exportResult").on("click", function (e) {
+
+        var $this = $(this);
+
+        var gridId = $this.data("grid-id") || "#jqGrid";
+        var grid = $(gridId);
+        var ids = grid.getGridParam("selarrrow");
+        var idsName = $(this).data("ids-name") || 'ids[]';
+        var _export = $(this).data("export") || '1';
+        var type = $(this).data("type") || 'export';
+        //console.log(_typeIds);
+
+        var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
+        var queryString = $this.data("querystr");
+        if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+
+        //var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
+        var searchFormId = $this.data("search-form-id") || "#searchForm";
+
+        url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&_typeIds="+ _typeIds +"&"
+            encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();
+
+        $this.download(url, type);
+
+        e.stopPropagation();
+        return false;
+    });
+
+    var _typeIds = new Array();
+    //console.log(_typeIds)
+    function changeUrl(queryData){
+
+        $.each(queryData,function () {
+            //console.log(this)
+            _typeIds.length=0;
+            _typeIds.push(this);
+        })
+    }
+
     $("#jqGrid2").jqGrid({
+        multiselect:false,
+        rownumbers: false,
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnline/drOnlineResult_data?&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '推荐职务',name: 'post.name', width: 200},
-                { label: '推荐人选',name: 'user.realname', width: 80},
-                { label: '得票',name: 'optionSum'},
-                { label: '得票比率',name: '_rate',formatter: function (cellvalue, options, rowObject) {
-                        var val = (rowObject.optionSum/rowObject.finishCounts).toFixed(4);
-                        return (val*100)+"%";
+                { label: '推荐人选',name: 'candidate', width: 160},
+                { label: '得票',name: 'options'},
+                { label: '得票比率',name: 'scoreRate',formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue + "%";
                     }}
         ]
     }).jqGrid("setFrozenColumns");

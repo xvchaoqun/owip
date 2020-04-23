@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 模板名称</label>
                 <div class="col-xs-6">
-                    <select data-rel="select2" name="niticeName" data-placeholder="请选择模板">
+                    <select data-rel="select2" name="noticeName" data-placeholder="请选择模板">
                         <option></option>
                         <c:forEach items="${noticeMap}" var="entry">
                             <option value="${entry.value.id}">${entry.value.name}</option>
@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
 
 	var noticeMap = ${cm:toJSONObject(noticeMap)};
     var dr = ${cm:toJSONObject(drOnline)};
-    $("select[name=niticeName]").on("change",function(){
+    $("select[name=noticeName]").on("change",function(){
         //console.log($(this).val().length)
         var noticeId = $(this).val();
         if (noticeId.length == 0) {

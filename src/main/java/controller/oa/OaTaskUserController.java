@@ -89,7 +89,8 @@ public class OaTaskUserController extends OaBaseController {
                 example.createCriteria().andIsDeleteEqualTo(false);
         example.setOrderByClause("sort_order asc");
 
-        Boolean showAll = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId()).getShowAll();
+        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId());
+        Boolean showAll = BooleanUtils.isTrue(oaTaskAdmin!=null && oaTaskAdmin.getShowAll());
 
         if (!showAll) {
             criteria.isTaskUser(ShiroHelper.getCurrentUserId());
