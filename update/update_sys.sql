@@ -1,3 +1,11 @@
+2020-04-24
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `res_ids_add` TEXT NULL DEFAULT NULL COMMENT '网页端加权限资源id' AFTER `sync`,
+	ADD COLUMN `m_res_ids_add` TEXT NULL DEFAULT NULL COMMENT '手机端加权限资源id' AFTER `res_ids_add`,
+	ADD COLUMN `res_ids_minus` TEXT NULL DEFAULT NULL COMMENT '网页端减权限资源id' AFTER `m_res_ids_add`,
+	ADD COLUMN `m_res_ids_minus` TEXT NULL DEFAULT NULL COMMENT '手机端减权限资源id' AFTER `res_ids_minus`;
+
 2020-04-23
 -- 添加资源 桑文帅
 INSERT INTO `sys_resource` (`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (0, '聘任制干部信息', '', 'url', '', '/cadre?isEngage=1', 442, '0/1/88/442/', 1, 'statCadreEngage:list', NULL, NULL, NULL, 1, NULL);

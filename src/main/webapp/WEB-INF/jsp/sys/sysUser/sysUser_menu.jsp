@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.SYS_ROLE_TYPE_ADD%>" var="SYS_ROLE_TYPE_ADD"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${uv.realname}-菜单预览</h3>
@@ -19,8 +20,10 @@
                         <c:forEach items="${fn:split(uv.roleIds,',')}" var="id"
                                    varStatus="vs">
                             <li style="margin-top: 0">
-                                <i class="ace-icon fa fa-circle green"></i>
+                                <c:if test="${not empty roleMap.get(cm:toInt(id))}">
+                                    ${roleMap.get(cm:toInt(id)).type==SYS_ROLE_TYPE_ADD?'<i class="ace-icon fa fa-plus-circle green"></i>':'<i class="ace-icon fa fa-minus-circle red"></i>'}
                                     ${roleMap.get(cm:toInt(id)).name}
+                                </c:if>
                             </li>
                         </c:forEach>
                     </ul>

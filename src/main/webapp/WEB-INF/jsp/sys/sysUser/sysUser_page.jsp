@@ -51,6 +51,11 @@
                                     data-url="${ctx}/sysUser_updateRoles">
                                 <i class="fa fa-user-circle"></i> 修改角色
                             </button>
+                            <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/sysUser_updatePermission"
+                                    data-open-by="page" data-id-name="userId">
+                                <i class="fa fa-reorder"></i> 账号权限
+                            </button>
                         </c:if>
                         <c:if test="${locked}">
                             <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
