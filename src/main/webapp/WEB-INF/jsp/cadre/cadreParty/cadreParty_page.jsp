@@ -6,7 +6,7 @@
 
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-page="${ctx}/cadreParty"
+                 data-url-page="${ctx}/cadreParty?cls=${cls}"
                  data-url-export="${ctx}/cadreParty_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.adminLevel||not empty param.classId
@@ -25,15 +25,17 @@
                     <div class="tab-content">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
-                                <c:if test="${cls==1}">
                                 <shiro:hasPermission name="cadreParty:edit">
                                     <a class="popupBtn btn btn-sm btn-info"
-                                       data-url="${ctx}/cadreParty_au?type=${type}"><i class="fa fa-plus"></i> 添加</a>
+                                       data-url="${ctx}/cadreParty_au?type=${type}&cls=${cls}">
+                                        <i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                        data-url="${ctx}/cadreParty_au">
+                                        data-url="${ctx}/cadreParty_au?cls=${cls}">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
+                                <c:if test="${cls==1}">
+
                                 <a class="popupBtn btn btn-success btn-sm tooltip-success"
                                    data-url="${ctx}/cadreParty_import?type=${type}"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
@@ -116,7 +118,7 @@
 
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-querystr="type=${type}">
+                                                            data-querystr="type=${type}&cls=${cls}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>

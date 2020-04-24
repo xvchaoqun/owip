@@ -204,10 +204,10 @@ public interface ICadreMapper {
             "group by cp.admin_level, cp.is_main_post")
     public List<UnitPostAllocationStatBean> unitPostStatReal(@Param("unitTypeGroup") String unitTypeGroup);
 
-    // 删除某人在 民主党派库中的 “群众”记录
+    // 删除某人在 民主党派库中的记录(群众或者非群众)
     @Update("delete cp.* from cadre_party cp, base_meta_type bmt " +
-            "where cp.user_id=#{userId} and cp.class_id=bmt.id and bmt.bool_attr=1")
-    int deleteCrowd(Integer userId);
+            "where cp.user_id=#{userId} and cp.class_id=bmt.id and bmt.bool_attr=#{isCrowd}")
+    int deleteCadreParty(@Param("userId")Integer userId, @Param("isCrowd")boolean isCrowd);
 }
 
 

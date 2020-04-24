@@ -150,9 +150,19 @@ public class CadrePartyController extends BaseController {
     @ResponseBody
     public Map do_cadreParty_au(CadreParty record,
                                 String _growTime,
+                                Integer cls,
                                 HttpServletRequest request) {
 
         record.setGrowTime(DateUtils.parseStringToDate(_growTime));
+
+        if (cls==2){
+
+            cadrePartyService.addOrUpdateCrowd(record);
+
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新群众：%s",
+                    JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+            return success(FormUtils.SUCCESS);
+        }
 
         if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP) {
             record.setIsFirst(BooleanUtils.isTrue(record.getIsFirst()));

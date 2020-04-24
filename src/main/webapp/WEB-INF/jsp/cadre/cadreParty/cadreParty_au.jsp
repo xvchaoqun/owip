@@ -10,6 +10,7 @@
           method="post">
         <input type="hidden" name="id" value="${cadreParty.id}">
         <input type="hidden" name="type" value="${type}">
+        <input type="hidden" name="cls" value="${param.cls}">
         <c:if test="${empty sysUser}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
@@ -33,6 +34,8 @@
                 </div>
             </div>
         </c:if>
+
+        <c:if test="${param.cls != 2}">
         <c:if test="${type==2}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">政治面貌</label>
@@ -96,6 +99,8 @@
                 </div>
             </div>
         </c:if>
+        </c:if>
+
         <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
 
