@@ -2091,6 +2091,286 @@ public class SysUserInfoExample {
             addCriterion("sync not between", value1, value2, "sync");
             return (Criteria) this;
         }
+
+        public Criteria andResIdsAddIsNull() {
+            addCriterion("res_ids_add is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddIsNotNull() {
+            addCriterion("res_ids_add is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddEqualTo(String value) {
+            addCriterion("res_ids_add =", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddNotEqualTo(String value) {
+            addCriterion("res_ids_add <>", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddGreaterThan(String value) {
+            addCriterion("res_ids_add >", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddGreaterThanOrEqualTo(String value) {
+            addCriterion("res_ids_add >=", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddLessThan(String value) {
+            addCriterion("res_ids_add <", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddLessThanOrEqualTo(String value) {
+            addCriterion("res_ids_add <=", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddLike(String value) {
+            addCriterion("res_ids_add like", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddNotLike(String value) {
+            addCriterion("res_ids_add not like", value, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddIn(List<String> values) {
+            addCriterion("res_ids_add in", values, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddNotIn(List<String> values) {
+            addCriterion("res_ids_add not in", values, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddBetween(String value1, String value2) {
+            addCriterion("res_ids_add between", value1, value2, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsAddNotBetween(String value1, String value2) {
+            addCriterion("res_ids_add not between", value1, value2, "resIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddIsNull() {
+            addCriterion("m_res_ids_add is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddIsNotNull() {
+            addCriterion("m_res_ids_add is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddEqualTo(String value) {
+            addCriterion("m_res_ids_add =", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddNotEqualTo(String value) {
+            addCriterion("m_res_ids_add <>", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddGreaterThan(String value) {
+            addCriterion("m_res_ids_add >", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddGreaterThanOrEqualTo(String value) {
+            addCriterion("m_res_ids_add >=", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddLessThan(String value) {
+            addCriterion("m_res_ids_add <", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddLessThanOrEqualTo(String value) {
+            addCriterion("m_res_ids_add <=", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddLike(String value) {
+            addCriterion("m_res_ids_add like", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddNotLike(String value) {
+            addCriterion("m_res_ids_add not like", value, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddIn(List<String> values) {
+            addCriterion("m_res_ids_add in", values, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddNotIn(List<String> values) {
+            addCriterion("m_res_ids_add not in", values, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddBetween(String value1, String value2) {
+            addCriterion("m_res_ids_add between", value1, value2, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsAddNotBetween(String value1, String value2) {
+            addCriterion("m_res_ids_add not between", value1, value2, "mResIdsAdd");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusIsNull() {
+            addCriterion("res_ids_minus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusIsNotNull() {
+            addCriterion("res_ids_minus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusEqualTo(String value) {
+            addCriterion("res_ids_minus =", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusNotEqualTo(String value) {
+            addCriterion("res_ids_minus <>", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusGreaterThan(String value) {
+            addCriterion("res_ids_minus >", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusGreaterThanOrEqualTo(String value) {
+            addCriterion("res_ids_minus >=", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusLessThan(String value) {
+            addCriterion("res_ids_minus <", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusLessThanOrEqualTo(String value) {
+            addCriterion("res_ids_minus <=", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusLike(String value) {
+            addCriterion("res_ids_minus like", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusNotLike(String value) {
+            addCriterion("res_ids_minus not like", value, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusIn(List<String> values) {
+            addCriterion("res_ids_minus in", values, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusNotIn(List<String> values) {
+            addCriterion("res_ids_minus not in", values, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusBetween(String value1, String value2) {
+            addCriterion("res_ids_minus between", value1, value2, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andResIdsMinusNotBetween(String value1, String value2) {
+            addCriterion("res_ids_minus not between", value1, value2, "resIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusIsNull() {
+            addCriterion("m_res_ids_minus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusIsNotNull() {
+            addCriterion("m_res_ids_minus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusEqualTo(String value) {
+            addCriterion("m_res_ids_minus =", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusNotEqualTo(String value) {
+            addCriterion("m_res_ids_minus <>", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusGreaterThan(String value) {
+            addCriterion("m_res_ids_minus >", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusGreaterThanOrEqualTo(String value) {
+            addCriterion("m_res_ids_minus >=", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusLessThan(String value) {
+            addCriterion("m_res_ids_minus <", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusLessThanOrEqualTo(String value) {
+            addCriterion("m_res_ids_minus <=", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusLike(String value) {
+            addCriterion("m_res_ids_minus like", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusNotLike(String value) {
+            addCriterion("m_res_ids_minus not like", value, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusIn(List<String> values) {
+            addCriterion("m_res_ids_minus in", values, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusNotIn(List<String> values) {
+            addCriterion("m_res_ids_minus not in", values, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusBetween(String value1, String value2) {
+            addCriterion("m_res_ids_minus between", value1, value2, "mResIdsMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andMResIdsMinusNotBetween(String value1, String value2) {
+            addCriterion("m_res_ids_minus not between", value1, value2, "mResIdsMinus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

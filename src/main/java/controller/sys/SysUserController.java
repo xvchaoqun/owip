@@ -10,6 +10,7 @@ import domain.member.MemberView;
 import domain.sys.*;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MixinUtils;
 import mixin.SysUserListMixin;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +44,7 @@ import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.freemarker.TableNameMethod;
+import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -572,28 +574,142 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysUser:list")
-    @RequestMapping("/sysUser_updatePermission")
-    public String sysUser_updatePermission(Integer id, ModelMap modelMap) throws IOException {
+    @RequiresPermissions("sysUser:auth")
+    @RequestMapping(value="/sysUser_updatePermission", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_updatePermission(@CurrentUser SysUserView loginUser,
+                             SysUserInfo sysUserInfo,
+                             @RequestParam(value="addIds[]",required=false) Integer[] addIds,
+                             @RequestParam(value="m_addIds[]",required=false) Integer[] m_addIds,
+                             @RequestParam(value="minusIds[]",required=false) Integer[] minusIds,
+                             @RequestParam(value="m_minusIds[]",required=false) Integer[] m_minusIds,
+                             HttpServletRequest request) {
 
-        Set<Integer> selectIdSet = new HashSet<Integer>();
-        if (id != null) {
-
-            SysUser sysUser = sysUserMapper.selectByPrimaryKey(id);
-            selectIdSet = sysUserService.getUserRoleIdSet(sysUser.getRoleIds());
-
-            modelMap.put("sysUser", sysUser);
+        if(!CmTag.isSuperAccount(loginUser.getUsername())||!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
+            throw new OpException("不允许修改账号权限");
         }
 
-        TreeNode tree = sysResourceService.getTree(selectIdSet, false);
-        modelMap.put("tree", JSONUtils.toString(tree));
+        if(addIds==null || addIds.length==0)
+            sysUserInfo.setResIdsAdd("-1");
+        else
+            sysUserInfo.setResIdsAdd(org.apache.commons.lang.StringUtils.join(addIds, ","));
 
-        TreeNode mTree = sysResourceService.getTree(selectIdSet, true);
-        modelMap.put("mTree", JSONUtils.toString(mTree));
+        if(m_addIds==null || m_addIds.length==0)
+            sysUserInfo.setmResIdsAdd("-1");
+        else
+            sysUserInfo.setmResIdsAdd(org.apache.commons.lang.StringUtils.join(m_addIds, ","));
 
+        if(minusIds==null || minusIds.length==0)
+            sysUserInfo.setResIdsMinus("-1");
+        else
+            sysUserInfo.setResIdsMinus(org.apache.commons.lang.StringUtils.join(minusIds, ","));
+
+        if(m_minusIds==null || m_minusIds.length==0)
+            sysUserInfo.setmResIdsMinus("-1");
+        else
+            sysUserInfo.setmResIdsMinus(org.apache.commons.lang.StringUtils.join(m_minusIds, ","));
+
+        if(sysUserInfo.getUserId()!= null){
+            sysUserInfoMapper.updateByPrimaryKeySelective(sysUserInfo);
+           logger.info(addLog(LogConstants.LOG_ADMIN, "更新账号权限：%s", JSONUtils.toString(sysUserInfo, MixinUtils.baseMixins(), false)));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("sysUser:list")
+    @RequestMapping("/sysUser_updatePermission")
+    public String sysUser_updatePermission(Integer userId, ModelMap modelMap) throws IOException {
+
+        if (userId != null) {
+
+            SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+            modelMap.put("sysUserInfo", sysUserInfo);
+
+            Set<Integer> addIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getResIdsAdd());
+            Set<Integer> m_addIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsAdd());
+            Set<Integer>  minusIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getResIdsMinus());
+            Set<Integer>  m_minusIdsSet = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsMinus());
+
+            TreeNode addTree = sysResourceService.getTree(addIdsSet, false);
+            modelMap.put("addTree", JSONUtils.toString(addTree));
+
+            TreeNode m_addTree = sysResourceService.getTree(m_addIdsSet, true);
+            modelMap.put("m_addTree", JSONUtils.toString(m_addTree));
+
+            TreeNode minusTree = sysResourceService.getTree(minusIdsSet, false);
+            modelMap.put("minusTree", JSONUtils.toString(minusTree));
+
+            TreeNode m_minusTree = sysResourceService.getTree(m_minusIdsSet, true);
+            modelMap.put("m_minusTree", JSONUtils.toString(m_minusTree));
+        }
         return "sys/sysUser/sysUser_updatePermission";
     }
 
+    @RequiresPermissions("sysUser:list")
+    @RequestMapping("/sysUser_permissions")
+    public String sysUser_permissions(Integer userId, boolean isMobile,ModelMap modelMap) {
+
+        if(userId==null){
+            return "sys/sysRole/sysRole_permissions";
+        }
+
+        // Map<资源Id,Map<父节点Id,父节点是否被选中>>
+        Map<Integer,Map<Integer,Boolean>> permissions= new HashMap<>();
+        SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        String[] user_adds = sysUserService.findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_ADD);
+        String[] user_minus = sysUserService.findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);
+
+        List<Integer> resourceIds = new ArrayList<Integer>();
+        if(user_adds!=null) {
+            for (String user_add : user_adds) {
+                if (org.apache.commons.lang.StringUtils.isEmpty(user_add)) {
+                    continue;
+                }
+                resourceIds.add(Integer.valueOf(user_add)); //账号加资源
+            }
+        }
+        if(user_minus!=null) {
+            for (String user_minu : user_minus) {
+                if (org.apache.commons.lang.StringUtils.isEmpty(user_minu)) {
+                    continue;
+                }
+                resourceIds.remove(Integer.valueOf(user_minu)); //账号加资源
+            }
+        }
+        Map<Integer, SysResource> sysResourceMap = sysResourceService.getSortedSysResources(isMobile);
+
+            for(Integer resourceId:resourceIds){
+                if(resourceId!=null){
+                    SysResource sysResource = sysResourceMap.get(resourceId);
+                    if(sysResource!=null && org.apache.commons.lang.StringUtils.isNotBlank(sysResource.getPermission())){
+
+                        String parentIds = sysResource.getParentIds();
+                        String[] strings = parentIds.split("/");
+                        Map<Integer,Boolean> _parentIds=new LinkedHashMap<>();
+
+                        for (int i=2;i<strings.length;i++) {  //不包括顶级节点
+                            Integer parentId = Integer.valueOf(strings[i]);
+                            Boolean isSelectd=false;
+
+                            for(Integer _resourceId:resourceIds){
+                                if(_resourceId==parentId){
+                                    isSelectd=true;
+                                    break;
+                                }
+                            }
+                            _parentIds.put(parentId,isSelectd);
+
+                        }
+                        permissions.put(resourceId,_parentIds);
+                    }
+                }
+        }
+        modelMap.put("permissions",permissions);
+        modelMap.put("sysResourceMap",sysResourceMap);
+
+        return "sys/sysRole/sysRole_permissions";
+    }
     // 抽取工号，根据姓名或身份证号导出带工号的列表
     @RequiresPermissions("sysUser:filterExport")
     @RequestMapping("/sysUser_filterExport")

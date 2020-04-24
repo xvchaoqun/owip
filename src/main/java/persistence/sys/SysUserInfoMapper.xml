@@ -31,6 +31,10 @@
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
     <result column="resume" jdbcType="VARCHAR" property="resume" />
     <result column="sync" jdbcType="INTEGER" property="sync" />
+    <result column="res_ids_add" jdbcType="VARCHAR" property="resIdsAdd" />
+    <result column="m_res_ids_add" jdbcType="VARCHAR" property="mResIdsAdd" />
+    <result column="res_ids_minus" jdbcType="VARCHAR" property="resIdsMinus" />
+    <result column="m_res_ids_minus" jdbcType="VARCHAR" property="mResIdsMinus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -94,7 +98,7 @@
     user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
     post, msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
-    msg_title, resume, sync
+    msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, m_res_ids_minus
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -136,7 +140,9 @@
       msg_mobile, not_send_msg, file_number, 
       unit, phone, home_phone, 
       email, mailing_address, msg_title, 
-      resume, sync)
+      resume, sync, res_ids_add, 
+      m_res_ids_add, res_ids_minus, m_res_ids_minus
+      )
     values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
       #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, 
@@ -146,7 +152,9 @@
       #{msgMobile,jdbcType=VARCHAR}, #{notSendMsg,jdbcType=BIT}, #{fileNumber,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, 
-      #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER})
+      #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER}, #{resIdsAdd,jdbcType=VARCHAR}, 
+      #{mResIdsAdd,jdbcType=VARCHAR}, #{resIdsMinus,jdbcType=VARCHAR}, #{mResIdsMinus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -238,6 +246,18 @@
       <if test="sync != null">
         sync,
       </if>
+      <if test="resIdsAdd != null">
+        res_ids_add,
+      </if>
+      <if test="mResIdsAdd != null">
+        m_res_ids_add,
+      </if>
+      <if test="resIdsMinus != null">
+        res_ids_minus,
+      </if>
+      <if test="mResIdsMinus != null">
+        m_res_ids_minus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -326,6 +346,18 @@
       </if>
       <if test="sync != null">
         #{sync,jdbcType=INTEGER},
+      </if>
+      <if test="resIdsAdd != null">
+        #{resIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="mResIdsAdd != null">
+        #{mResIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="resIdsMinus != null">
+        #{resIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="mResIdsMinus != null">
+        #{mResIdsMinus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -425,6 +457,18 @@
       <if test="record.sync != null">
         sync = #{record.sync,jdbcType=INTEGER},
       </if>
+      <if test="record.resIdsAdd != null">
+        res_ids_add = #{record.resIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mResIdsAdd != null">
+        m_res_ids_add = #{record.mResIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resIdsMinus != null">
+        res_ids_minus = #{record.resIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mResIdsMinus != null">
+        m_res_ids_minus = #{record.mResIdsMinus,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -460,7 +504,11 @@
       mailing_address = #{record.mailingAddress,jdbcType=VARCHAR},
       msg_title = #{record.msgTitle,jdbcType=VARCHAR},
       resume = #{record.resume,jdbcType=VARCHAR},
-      sync = #{record.sync,jdbcType=INTEGER}
+      sync = #{record.sync,jdbcType=INTEGER},
+      res_ids_add = #{record.resIdsAdd,jdbcType=VARCHAR},
+      m_res_ids_add = #{record.mResIdsAdd,jdbcType=VARCHAR},
+      res_ids_minus = #{record.resIdsMinus,jdbcType=VARCHAR},
+      m_res_ids_minus = #{record.mResIdsMinus,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -552,6 +600,18 @@
       <if test="sync != null">
         sync = #{sync,jdbcType=INTEGER},
       </if>
+      <if test="resIdsAdd != null">
+        res_ids_add = #{resIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="mResIdsAdd != null">
+        m_res_ids_add = #{mResIdsAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="resIdsMinus != null">
+        res_ids_minus = #{resIdsMinus,jdbcType=VARCHAR},
+      </if>
+      <if test="mResIdsMinus != null">
+        m_res_ids_minus = #{mResIdsMinus,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -584,7 +644,11 @@
       mailing_address = #{mailingAddress,jdbcType=VARCHAR},
       msg_title = #{msgTitle,jdbcType=VARCHAR},
       resume = #{resume,jdbcType=VARCHAR},
-      sync = #{sync,jdbcType=INTEGER}
+      sync = #{sync,jdbcType=INTEGER},
+      res_ids_add = #{resIdsAdd,jdbcType=VARCHAR},
+      m_res_ids_add = #{mResIdsAdd,jdbcType=VARCHAR},
+      res_ids_minus = #{resIdsMinus,jdbcType=VARCHAR},
+      m_res_ids_minus = #{mResIdsMinus,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">

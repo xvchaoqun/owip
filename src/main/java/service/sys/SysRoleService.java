@@ -175,7 +175,26 @@ public class SysRoleService extends BaseMapper {
 		root.expand = true;
 		root.isFolder = true;
 		root.hideCheckbox = true;
-		root.children =  new ArrayList<TreeNode>();
+		List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+		root.children = rootChildren;
+
+		List<TreeNode> role_add = new ArrayList<TreeNode>();
+		List<TreeNode> role_minus = new ArrayList<TreeNode>();
+
+		TreeNode node = new TreeNode();
+		node.title = "角色（加权限）";
+		node.isFolder = true;
+		/*node.expand = true;*/
+		node.children = role_add;
+		rootChildren.add(node);
+
+		node = new TreeNode();
+		node.title = "角色（减权限）";
+		node.isFolder = true;
+		/*node.expand = true;*/
+		node.children = role_minus;
+		rootChildren.add(node);
+
 
 		SysRoleExample example = new SysRoleExample();
 		example.setOrderByClause("sort_order desc");
@@ -189,7 +208,7 @@ public class SysRoleService extends BaseMapper {
 				continue;
 			}
 
-			TreeNode node = new TreeNode();
+			node = new TreeNode();
 			node.title = sysRole.getName();
 			node.key = sysRole.getId() + "";
 			node.expand = false;
@@ -206,12 +225,20 @@ public class SysRoleService extends BaseMapper {
 					node.addClass = "unselectable";
 					if (superAccount){
 						// 系统自动维护角色，仅允许超级管理员修改
-						root.children.add(node);
+						if(sysRole.getType()==1){  //加权限
+							role_add.add(node);
+						}else{
+							role_minus.add(node);
+						}
 					}
 				}
 			}else{
 				// 手动维护角色
-				root.children.add(node);
+				if(sysRole.getType()==1){  //加权限
+					role_add.add(node);
+				}else{
+					role_minus.add(node);
+				}
 			}
 		}
 		

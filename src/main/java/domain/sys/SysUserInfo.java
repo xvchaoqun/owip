@@ -66,6 +66,14 @@ public class SysUserInfo implements Serializable {
 
     private Integer sync;
 
+    private String resIdsAdd;
+
+    private String mResIdsAdd;
+
+    private String resIdsMinus;
+
+    private String mResIdsMinus;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -298,5 +306,37 @@ public class SysUserInfo implements Serializable {
 
     public void setSync(Integer sync) {
         this.sync = sync;
+    }
+
+    public String getResIdsAdd() {
+        return resIdsAdd;
+    }
+
+    public void setResIdsAdd(String resIdsAdd) {
+        this.resIdsAdd = resIdsAdd == null ? null : resIdsAdd.trim();
+    }
+
+    public String getmResIdsAdd() {
+        return mResIdsAdd;
+    }
+
+    public void setmResIdsAdd(String mResIdsAdd) {
+        this.mResIdsAdd = mResIdsAdd == null ? null : mResIdsAdd.trim();
+    }
+
+    public String getResIdsMinus() {
+        return resIdsMinus;
+    }
+
+    public void setResIdsMinus(String resIdsMinus) {
+        this.resIdsMinus = resIdsMinus == null ? null : resIdsMinus.trim();
+    }
+
+    public String getmResIdsMinus() {
+        return mResIdsMinus;
+    }
+
+    public void setmResIdsMinus(String mResIdsMinus) {
+        this.mResIdsMinus = mResIdsMinus == null ? null : mResIdsMinus.trim();
     }
 }

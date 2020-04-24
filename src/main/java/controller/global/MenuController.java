@@ -76,6 +76,19 @@ public class MenuController extends BaseController {
         return "menu";
     }
 
+    @RequiresPermissions("menu:preview")
+    @RequestMapping("/menu_preview_byUser")
+    public String menu_preview_byUser(boolean isMobile, Integer userId, ModelMap modelMap) {
+
+        if (userId != null) {
+            Set<String> userPermissions  = sysUserService.findUserPermission(userId,isMobile);
+            List<SysResource> userMenus = sysUserService.makeMenus(userPermissions, isMobile);
+            modelMap.put("menus", userMenus);
+        }
+
+        return "menu";
+    }
+
     @RequestMapping("/menu_breadcrumbs")
     @ResponseBody
     public Map menu_breadcrumbs(String url, ModelMap modelMap) throws UnsupportedEncodingException {
