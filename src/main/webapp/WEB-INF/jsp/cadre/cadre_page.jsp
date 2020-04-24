@@ -608,13 +608,16 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <td class="name">主职是否关联岗位</td>
+                                                    <td class="name">第一主职是否已关联岗位</td>
                                                     <td class="input">
                                                         <select name="firstUnitPost" data-width="100"
                                                                 data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="1">是</option>
                                                             <option value="0">否</option>
+                                                            <shiro:hasRole name="${ROLE_SUPER}">
+                                                            <option value="-1">缺第一主职</option>
+                                                            </shiro:hasRole>
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=firstUnitPost]").val('${param.firstUnitPost}');

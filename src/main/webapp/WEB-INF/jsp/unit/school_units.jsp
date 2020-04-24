@@ -8,7 +8,7 @@
             <div class="tab-pane in active">
                 <div class="buttons">
                     <button type="button" class="downloadBtn btn btn-success btn-sm tooltip-success"
-                       data-url="${ctx}/unit?status=3&export=1"
+                       data-url="${ctx}/unit?cls=3&export=1"
                        data-rel="tooltip" data-placement="top" title="导出学校单位信息">
                         <i class="fa fa-download"></i> 导出</button>
                     <button class="runBtn btn btn-primary btn-sm" data-url="${ctx}/refreshSchoolUnits"

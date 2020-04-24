@@ -82,7 +82,6 @@ public class CadreController extends BaseController {
                             @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
                              @RequestParam(required = false, defaultValue = "0")Boolean isEngage,//是否聘任制干部，指无行政级别的干部
                              @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
-                             Boolean firstUnitPost,
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
@@ -226,7 +225,7 @@ public class CadreController extends BaseController {
                            Integer state,
                            String title,
                            String sortBy, // 自定义排序
-                           Boolean firstUnitPost,
+                           Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
                            @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
                            @RequestParam(required = false, defaultValue = "0") Boolean isEngage,//是否聘任制干部，指无行政级别的干部
                            @RequestParam(required = false, defaultValue = "0") int export,
@@ -288,14 +287,16 @@ public class CadreController extends BaseController {
             Integer adminLevel = CmTag.getMetaTypeByCode("mt_admin_level_none").getId();
             criteria.andAdminLevelEqualTo(adminLevel);
         }
-        if (isKeepSalary) {
-                criteria.andUnitPostIdIsNull();
+        if (isKeepSalary) { // 保留待遇干部，即第一主职已关联岗位
+           criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
         }
         if (firstUnitPost != null) {
-            if (firstUnitPost){
-                criteria.andUnitPostIdIsNotNull();
-            }else {
-                criteria.andUnitPostIdIsNull();
+            if(firstUnitPost==-1){ // 缺第一主职
+                criteria.andMainCadrePostIdIsNull();
+            }else if (firstUnitPost==1){ // 第一主职已关联岗位
+                criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNotNull();
+            }else if (firstUnitPost==0){ // 第一主职没关联岗位
+                criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
             }
         }
 

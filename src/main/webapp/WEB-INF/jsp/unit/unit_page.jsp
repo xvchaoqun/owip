@@ -199,7 +199,8 @@
             { label: '正科级<br/>干部职数', name: 'mainKjCount', width: 80},
             { label: '副科级<br/>干部职数', name: 'viceKjCount', width: 80},
             </c:if>
-            {label: '是否不列入<br/>配备一览表', name: 'notStatPost', formatter: $.jgrid.formatter.TRUEFALSE},
+            {label: '是否列入<br/>配备一览表', name: 'notStatPost',
+                formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '否', off: '是'}},
             </shiro:hasPermission>
             </c:if>
             /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

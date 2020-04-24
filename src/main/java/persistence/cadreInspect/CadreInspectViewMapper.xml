@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadreInspect.CadreInspectView">
     <result column="inspect_id" jdbcType="INTEGER" property="inspectId" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
-    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="assign_unit_post_id" jdbcType="INTEGER" property="assignUnitPostId" />
     <result column="inspect_type" jdbcType="TINYINT" property="inspectType" />
     <result column="inspect_status" jdbcType="TINYINT" property="inspectStatus" />
     <result column="inspect_remark" jdbcType="VARCHAR" property="inspectRemark" />
@@ -82,6 +82,7 @@
     <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="is_principal" jdbcType="BIT" property="isPrincipal" />
     <result column="lp_dispatch_id" jdbcType="INTEGER" property="lpDispatchId" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
@@ -137,7 +138,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    inspect_id, record_id, unit_post_id, inspect_type, inspect_status, inspect_remark, 
+    inspect_id, record_id, assign_unit_post_id, inspect_type, inspect_status, inspect_remark, 
     record_user_id, inspect_sort_order, id, user_id, type, is_dep, has_crp, is_double, 
     double_unit_ids, state, title, dispatch_cadre_id, label, profile, remark, sort_order, 
     status, unit_id, admin_level, post_type, post, is_committee_member, msg_title, mobile, 
@@ -147,7 +148,7 @@
     school, dep, school_type, major, degree_type, degree, authorized_type, staff_type, 
     post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
     pro_post, manage_level, manage_level_time, arrive_time, staff_status, is_temp, work_time, 
-    work_start_time, talent_title, main_cadre_post_id, is_principal, lp_dispatch_id, 
+    work_start_time, talent_title, main_cadre_post_id, unit_post_id, is_principal, lp_dispatch_id, 
     lp_work_time, np_dispatch_id, np_work_time, leader_type, cadre_post_year, admin_level_year, 
     s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
     max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
