@@ -3,8 +3,19 @@
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1', '57', '无行政级别、聘任制');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 3, 59, '');
+
+-- 如果任职时间精确到月，需要更新一下数据库
+-- update cadre_admin_level set s_work_time=DATE_FORMAT(s_work_time,'%y-%m-01');
+-- update cadre_admin_level set e_work_time=DATE_FORMAT(e_work_time,'%y-%m-01');
+-- update cadre_post set np_work_time=DATE_FORMAT(np_work_time,'%y-%m-01');
+
+ALTER TABLE `sys_role`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '类别，1加权限 2减权限' AFTER `name`;
+
 2020.4.16
-北航，西北工大4.17
+北航，西北工大4.17，南航
 
 2020.4.16
 
@@ -29,12 +40,15 @@ VALUES ('mobile_login_useCas', '手机登录界面是否有CAS', 'true', 3, 55, 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('cas_type', '系统CAS类型', '1', 2, 56, '1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cas_url', '单点登录地址', '/cas', 1, 53, '');
+
 ALTER TABLE `unit`
 	DROP INDEX `code`;
 
 
 2020.4.13
-西北工大
+西北工大，南航
 
 2020.4.10
 

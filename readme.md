@@ -2,7 +2,7 @@
 -- 打包commit文件
 cd /cygdrive/d/IdeaProjects/owip
 # 打包更新文件（不含删除文件）
-git diff-tree --diff-filter=d -r --no-commit-id --name-only dd94485c8fa0d6e625133cd1123bc54b4da0c570 | xargs tar -cf /cygdrive/d/tmp/update.tar
+git diff-tree --diff-filter=d -r --no-commit-id --name-only f854bc223a82f09db21661545f63cf0ae75e8841 | xargs tar -cf /cygdrive/d/tmp/update.tar
 # 查看删除的文件
 git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd6217ce9e72751e0e9e645777c3
 
@@ -10,7 +10,7 @@ git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd621
 git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前后”两个版本之间变更的文件
-git diff --diff-filter=d 76d049b5893574ac56ba4ff3d88b09b4cfeef4c1 603d732c9e17fd7e560e421d90f90b0a39419552 --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
+git diff --diff-filter=d 802b7909b57664591add8f73670277439647f6a1 0883bb0be73920f81bc451aac8417d404080a6f1 --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
 
 
 -- 忽略文件
@@ -166,17 +166,6 @@ select *  from cadre where status=1 and sort_order=410;
 2、运行TplParser.execute
 3、修改Controller和Service错误，添加ehcache缓存
 4、修改页面
-
-服务器
-219.224.19.170
-root
-zzgz)(*QAZ!@#zzgz
-数据库
-longtor@2016
-
-备份机：219.224.19.177
-
-219.143.237.234 root  zzgz@2015
 
 
 http://cas.bnu.edu.cn/cas/login?service=http%3A%2F%2Fzzbgz.bnu.edu.cn%2F

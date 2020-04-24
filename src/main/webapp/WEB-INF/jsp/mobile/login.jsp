@@ -42,7 +42,7 @@
 											<form id="login-form" ${_p_defaultLoginBtns?'hidden':''}>
 												<h4 class="header blue lighter bigger" style="white-space: nowrap">
 													<i class="ace-icon fa fa-key green"></i>
-													${!_p_mobileLoginUseCas?'请使用信息门户账号密码登录':'请使用系统账号密码登录'}
+													${!_p_mobileLoginUseCas?'请使用校园门户账号密码登录':'请使用系统账号密码登录'}
 												</h4>
 												<div class="space-6"></div>
 												<fieldset>
