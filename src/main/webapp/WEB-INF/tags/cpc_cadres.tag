@@ -17,7 +17,7 @@
             <c:forEach items="${cadrePosts}" var="cadrePost" varStatus="count">
                 <c:if test="${cadrePost.cadreId==p.cadreId&&cadrePost.isMainPost}">
                     <c:set var="iscontain" value="${count.index}" />
-                    <c:set var="post" value="${cadrePost.post}${post==''?'':'、'}${post}" />
+                    <c:set var="post" value="${post}${empty post?'':'、'}${cadrePost.post}" />
                 </c:if>
             </c:forEach>
             <c:if test="${iscontain!='0'&&_vs.index==iscontain}">

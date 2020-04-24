@@ -340,12 +340,12 @@
                                 <div class="pull-right hidden-sm hidden-xs">
                                     <select id="sortBy" data-placeholder="请选择排序方式">
                                         <option></option>
-                                        <option value="birth?asc">按出生日期排序(升序)</option>
-                                        <option value="birth?desc">按出生日期排序(降序)</option>
-                                        <option value="lpWorkTime?asc">按任现职时间排序(升序)</option>
-                                        <option value="lpWorkTime?desc">按任现职时间排序(降序)</option>
-                                        <option value="sWorkTime?asc">按现职级时间排序(升序)</option>
-                                        <option value="sWorkTime?desc">按现职级时间排序(降序)</option>
+                                        <option value="birth_asc">按出生日期排序(升序)</option>
+                                        <option value="birth_desc">按出生日期排序(降序)</option>
+                                        <option value="lpWorkTime_asc">按任现职时间排序(升序)</option>
+                                        <option value="lpWorkTime_desc">按任现职时间排序(降序)</option>
+                                        <option value="sWorkTime_asc">按现职级时间排序(升序)</option>
+                                        <option value="sWorkTime_desc">按现职级时间排序(降序)</option>
                                         <option value="growTime">按党派加入时间排序</option>
                                         <option value="arriveTime">按到校时间排序</option>
                                         <option value="finishTime">按毕业时间排序</option>

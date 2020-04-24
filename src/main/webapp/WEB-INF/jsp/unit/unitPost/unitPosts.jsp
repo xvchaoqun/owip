@@ -31,7 +31,9 @@
 </div>
 <div class="modal-footer">
     <c:if test="${param.displayEmpty==1}">
+        <shiro:hasPermission name="unitPost:edit">
         <div class="note">注：须在干部档案页的任职情况中进行相关岗位的关联之后（如果存在关联），此处才可正确显示空缺岗位</div>
+        </shiro:hasPermission>
     </c:if>
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>

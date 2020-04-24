@@ -1,6 +1,7 @@
 
 2020.4.24
 北航  -- 北师大
+
 ALTER TABLE `cg_team` ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级ID' AFTER `id`,
 	ADD CONSTRAINT `FK_cg_team_cg_team` FOREIGN KEY (`fid`) REFERENCES `cg_team` (`id`) ON DELETE CASCADE;
 
@@ -48,6 +49,9 @@ VALUES (837, 0, '查看内设机构配备统计权限', '', 'function', '', NULL
 
 update sys_role set resource_ids = CONCAT_WS(',', resource_ids, (select id from sys_resource where permission='unitPostAllocation:module2'))
 where FIND_IN_SET ((select id from sys_resource where permission='unitPost:allocation'), resource_ids);
+
+-- 更新 utils
+-- 清空所有系统缓存（物理）
 
 2020.4.16
 北航，西北工大4.17，南航

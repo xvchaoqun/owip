@@ -252,10 +252,10 @@ public class CadreController extends BaseController {
         String sortStr = "sort_order desc";
         if(StringUtils.isNotBlank(sortBy)) {
             switch (sortBy.trim()){
-                case "birth?asc":
+                case "birth_asc":
                    sortStr = "birth asc";
                    break;
-                case "birth?desc":
+                case "birth_desc":
                     sortStr = "birth desc";
                     break;
                 case "growTime":
@@ -267,16 +267,16 @@ public class CadreController extends BaseController {
                 case "finishTime":
                    sortStr = "finish_time asc";
                    break;
-                case "lpWorkTime?asc":
+                case "lpWorkTime_asc":
                    sortStr = "lp_work_time asc";
                    break;
-                case "lpWorkTime?desc":
+                case "lpWorkTime_desc":
                     sortStr = "lp_work_time desc";
                     break;
-                case "sWorkTime?asc":
+                case "sWorkTime_asc":
                    sortStr = "s_work_time asc";
                    break;
-                case "sWorkTime?desc":
+                case "sWorkTime_desc":
                     sortStr = "s_work_time desc";
                     break;
             }
