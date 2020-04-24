@@ -9,7 +9,9 @@
             <c:set var="_query"
                    value="${not empty param.unitId ||not empty param.postId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
-                <jsp:include page="unitPostAllocation_menu.jsp"/>
+                <shiro:hasPermission name="unitPostAllocation:module2">
+                    <jsp:include page="unitPostAllocation_menu.jsp"/>
+                </shiro:hasPermission>
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="space-4"></div>

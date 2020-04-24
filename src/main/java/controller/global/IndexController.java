@@ -131,13 +131,15 @@ public class IndexController extends BaseController {
 	public String user_base() {
 
 		int userId = ShiroHelper.getCurrentUserId();
-		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE)){
-
+		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE)
+				&& ShiroHelper.isPermitted("userCadre:menu")){
+			// 是干部且有干部个人信息查看的权限 （可能校领导去除了这个权限）
 			CadreView cadre = cadreService.dbFindByUserId(userId);
 			return "forward:/cadre_base?_auth=self&cadreId=" + cadre.getId();
 
-		}else if(ShiroHelper.hasRole(RoleConstants.ROLE_MEMBER)){
-
+		}else if(ShiroHelper.hasRole(RoleConstants.ROLE_MEMBER)
+			&& ShiroHelper.isPermitted("userMember:menu")){
+			// 是党员且有干部个人信息查看的权限 （可能校领导去除了这个权限）
 			return "forward:/user/member";
 		}else{
 			return "forward:/sysUser_base?userId="+userId;

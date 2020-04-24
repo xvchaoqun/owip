@@ -188,6 +188,8 @@ public class CadreReserveView implements Serializable {
 
     private Integer mainCadrePostId;
 
+    private Integer unitPostId;
+
     private Boolean isPrincipal;
 
     private Integer lpDispatchId;
@@ -868,6 +870,14 @@ public class CadreReserveView implements Serializable {
 
     public void setMainCadrePostId(Integer mainCadrePostId) {
         this.mainCadrePostId = mainCadrePostId;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Boolean getIsPrincipal() {

@@ -199,7 +199,7 @@ pageEncoding="UTF-8" %>
             {label: '现所在单位及职务', name: 'title', width: 300, align:'left'},
             {label: '现行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '现职务属性', name: 'postType', formatter:$.jgrid.formatter.MetaType, width: 150},
-            {label: '拟任职务', name: 'unitPost.name', width: 200, align:'left'},
+            {label: '拟任职务', name: 'assignUnitPost.name', width: 200, align:'left'},
             <shiro:hasPermission name="scRecord:list">
             {label: '对应的选任纪实', name: 'scRecord.code', width: 200},
             </shiro:hasPermission>

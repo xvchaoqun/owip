@@ -49,13 +49,13 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">拟任职务</label>
             <div class="col-xs-6">
-                <select name="unitPostId" data-rel="select2-ajax"
+                <select name="assignUnitPostId" data-rel="select2-ajax"
                         data-ajax-url="${ctx}/unitPost_selects" data-width="273"
                         data-placeholder="请选择">
-                    <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
+                    <option value="${assignUnitPost.id}" delete="${assignUnitPost.status!=UNIT_POST_STATUS_NORMAL}">${assignUnitPost.code}-${assignUnitPost.name}</option>
                 </select>
                 <script>
-                    $.register.del_select($("#modalForm select[name=unitPostId]"))
+                    $.register.del_select($("#modalForm select[name=assignUnitPostId]"))
                 </script>
             </div>
         </div>
@@ -128,5 +128,4 @@
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.user_select($('#modalForm select[name=userId]'));
-    $.register.ajax_select($('#modalForm select[name=unitPostId]'));
 </script>

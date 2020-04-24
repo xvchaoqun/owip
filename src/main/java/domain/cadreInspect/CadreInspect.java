@@ -7,7 +7,7 @@ public class CadreInspect implements Serializable {
 
     private Integer recordId;
 
-    private Integer unitPostId;
+    private Integer assignUnitPostId;
 
     private Integer cadreId;
 
@@ -39,12 +39,12 @@ public class CadreInspect implements Serializable {
         this.recordId = recordId;
     }
 
-    public Integer getUnitPostId() {
-        return unitPostId;
+    public Integer getAssignUnitPostId() {
+        return assignUnitPostId;
     }
 
-    public void setUnitPostId(Integer unitPostId) {
-        this.unitPostId = unitPostId;
+    public void setAssignUnitPostId(Integer assignUnitPostId) {
+        this.assignUnitPostId = assignUnitPostId;
     }
 
     public Integer getCadreId() {

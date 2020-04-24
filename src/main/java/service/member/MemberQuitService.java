@@ -333,17 +333,13 @@ public class MemberQuitService extends MemberBaseMapper {
      *
      * @param userId
      * @param status MemberConstants.MEMBER_STATUS_QUIT
-     *               MemberConstants.MEMBER_STATUS_RETIRE
+     *               MemberConstants.MEMBER_STATUS_TRANSFER
      */
     @Transactional
     public void quit(int userId, byte status) {
 
-        //Member member = memberMapper.selectByPrimaryKey(userId);
-        Member record = new Member();
-        record.setUserId(userId);
-        record.setStatus(status);
-        //record.setBranchId(member.getBranchId());
-        memberService.updateByPrimaryKeySelective(record);
+        commonMapper.excuteSql("update ow_member set party_id=null, branch_id=null, status="
+                + status +" where user_id=" + userId);
 
         // 存在未缴纳党费时，不允许转出
         if(status==MemberConstants.MEMBER_STATUS_TRANSFER){

@@ -224,63 +224,63 @@ public class CadreInspectExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdIsNull() {
-            addCriterion("unit_post_id is null");
+        public Criteria andAssignUnitPostIdIsNull() {
+            addCriterion("assign_unit_post_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdIsNotNull() {
-            addCriterion("unit_post_id is not null");
+        public Criteria andAssignUnitPostIdIsNotNull() {
+            addCriterion("assign_unit_post_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdEqualTo(Integer value) {
-            addCriterion("unit_post_id =", value, "unitPostId");
+        public Criteria andAssignUnitPostIdEqualTo(Integer value) {
+            addCriterion("assign_unit_post_id =", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdNotEqualTo(Integer value) {
-            addCriterion("unit_post_id <>", value, "unitPostId");
+        public Criteria andAssignUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("assign_unit_post_id <>", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdGreaterThan(Integer value) {
-            addCriterion("unit_post_id >", value, "unitPostId");
+        public Criteria andAssignUnitPostIdGreaterThan(Integer value) {
+            addCriterion("assign_unit_post_id >", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_post_id >=", value, "unitPostId");
+        public Criteria andAssignUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("assign_unit_post_id >=", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdLessThan(Integer value) {
-            addCriterion("unit_post_id <", value, "unitPostId");
+        public Criteria andAssignUnitPostIdLessThan(Integer value) {
+            addCriterion("assign_unit_post_id <", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_post_id <=", value, "unitPostId");
+        public Criteria andAssignUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("assign_unit_post_id <=", value, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdIn(List<Integer> values) {
-            addCriterion("unit_post_id in", values, "unitPostId");
+        public Criteria andAssignUnitPostIdIn(List<Integer> values) {
+            addCriterion("assign_unit_post_id in", values, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdNotIn(List<Integer> values) {
-            addCriterion("unit_post_id not in", values, "unitPostId");
+        public Criteria andAssignUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("assign_unit_post_id not in", values, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_post_id between", value1, value2, "unitPostId");
+        public Criteria andAssignUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("assign_unit_post_id between", value1, value2, "assignUnitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
+        public Criteria andAssignUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("assign_unit_post_id not between", value1, value2, "assignUnitPostId");
             return (Criteria) this;
         }
 

@@ -17,9 +17,9 @@ public class CadreInspectView implements Serializable {
 
     public SysUserView getRecordUser(){ return CmTag.getUserById(recordUserId);}
 
-    public UnitPost getUnitPost(){
-        if(unitPostId==null) return null;
-        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(unitPostId);
+    public UnitPost getAssignUnitPost(){
+        if(assignUnitPostId==null) return null;
+        return CmTag.getBean(UnitPostMapper.class).selectByPrimaryKey(assignUnitPostId);
     }
 
     public ScRecordView getScRecord(){
@@ -50,7 +50,7 @@ public class CadreInspectView implements Serializable {
 
     private Integer recordId;
 
-    private Integer unitPostId;
+    private Integer assignUnitPostId;
 
     private Byte inspectType;
 
@@ -206,6 +206,8 @@ public class CadreInspectView implements Serializable {
 
     private Integer mainCadrePostId;
 
+    private Integer unitPostId;
+
     private Boolean isPrincipal;
 
     private Integer lpDispatchId;
@@ -272,12 +274,12 @@ public class CadreInspectView implements Serializable {
         this.recordId = recordId;
     }
 
-    public Integer getUnitPostId() {
-        return unitPostId;
+    public Integer getAssignUnitPostId() {
+        return assignUnitPostId;
     }
 
-    public void setUnitPostId(Integer unitPostId) {
-        this.unitPostId = unitPostId;
+    public void setAssignUnitPostId(Integer assignUnitPostId) {
+        this.assignUnitPostId = assignUnitPostId;
     }
 
     public Byte getInspectType() {
@@ -894,6 +896,14 @@ public class CadreInspectView implements Serializable {
 
     public void setMainCadrePostId(Integer mainCadrePostId) {
         this.mainCadrePostId = mainCadrePostId;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Boolean getIsPrincipal() {

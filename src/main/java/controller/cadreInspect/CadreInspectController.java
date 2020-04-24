@@ -133,14 +133,14 @@ public class CadreInspectController extends BaseController {
     @RequestMapping(value = "/cadreInspect_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreInspect_au(int userId,
-                                  Integer recordId, Integer unitPostId,
+                                  Integer recordId, Integer assignUnitPostId,
                                   Integer inspectId, String inspectRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
 
         CadreInspect record = new CadreInspect();
         record.setId(inspectId);
         record.setRecordId(recordId);
-        record.setUnitPostId(unitPostId);
+        record.setAssignUnitPostId(assignUnitPostId);
         record.setRemark(inspectRemark);
         if (inspectId == null) {
             record.setRecordUserId(ShiroHelper.getCurrentUserId());
@@ -172,9 +172,9 @@ public class CadreInspectController extends BaseController {
                 }
             }
 
-            Integer unitPostId = cadreInspect.getUnitPostId();
-            if(unitPostId!=null){
-                modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+            Integer assignUnitPostId = cadreInspect.getAssignUnitPostId();
+            if(assignUnitPostId!=null){
+                modelMap.put("assignUnitPost", unitPostMapper.selectByPrimaryKey(assignUnitPostId));
             }
         }
 

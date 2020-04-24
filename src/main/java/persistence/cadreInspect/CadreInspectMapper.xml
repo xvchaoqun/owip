@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadreInspect.CadreInspect">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
-    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="assign_unit_post_id" jdbcType="INTEGER" property="assignUnitPostId" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -71,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, unit_post_id, cadre_id, type, status, record_user_id, remark, sort_order
+    id, record_id, assign_unit_post_id, cadre_id, type, status, record_user_id, remark, 
+    sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadreInspect.CadreInspectExample" resultMap="BaseResultMap">
     select
@@ -107,10 +108,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_inspect (record_id, unit_post_id, cadre_id, 
+    insert into cadre_inspect (record_id, assign_unit_post_id, cadre_id, 
       type, status, record_user_id, 
       remark, sort_order)
-    values (#{recordId,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
+    values (#{recordId,jdbcType=INTEGER}, #{assignUnitPostId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{recordUserId,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
@@ -123,8 +124,8 @@
       <if test="recordId != null">
         record_id,
       </if>
-      <if test="unitPostId != null">
-        unit_post_id,
+      <if test="assignUnitPostId != null">
+        assign_unit_post_id,
       </if>
       <if test="cadreId != null">
         cadre_id,
@@ -149,8 +150,8 @@
       <if test="recordId != null">
         #{recordId,jdbcType=INTEGER},
       </if>
-      <if test="unitPostId != null">
-        #{unitPostId,jdbcType=INTEGER},
+      <if test="assignUnitPostId != null">
+        #{assignUnitPostId,jdbcType=INTEGER},
       </if>
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
@@ -187,8 +188,8 @@
       <if test="record.recordId != null">
         record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitPostId != null">
-        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      <if test="record.assignUnitPostId != null">
+        assign_unit_post_id = #{record.assignUnitPostId,jdbcType=INTEGER},
       </if>
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -217,7 +218,7 @@
     update cadre_inspect
     set id = #{record.id,jdbcType=INTEGER},
       record_id = #{record.recordId,jdbcType=INTEGER},
-      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      assign_unit_post_id = #{record.assignUnitPostId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
@@ -234,8 +235,8 @@
       <if test="recordId != null">
         record_id = #{recordId,jdbcType=INTEGER},
       </if>
-      <if test="unitPostId != null">
-        unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      <if test="assignUnitPostId != null">
+        assign_unit_post_id = #{assignUnitPostId,jdbcType=INTEGER},
       </if>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -261,7 +262,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadreInspect.CadreInspect">
     update cadre_inspect
     set record_id = #{recordId,jdbcType=INTEGER},
-      unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      assign_unit_post_id = #{assignUnitPostId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},

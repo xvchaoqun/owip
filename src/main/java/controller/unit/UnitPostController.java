@@ -16,6 +16,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-import static domain.unit.UnitPostViewExample.*;
+import static domain.unit.UnitPostViewExample.Criteria;
 
 @Controller
 public class UnitPostController extends BaseController {
@@ -145,7 +146,7 @@ public class UnitPostController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("unitPost:list")
+    @RequiresPermissions(value={"unitPost:list", "unitPost:allocation"}, logical = Logical.OR)
     @RequestMapping("/unitPosts")
     public String unitPosts(int unitId, int adminLevel, Boolean displayEmpty, ModelMap modelMap) {
 
@@ -470,7 +471,7 @@ public class UnitPostController extends BaseController {
     @RequestMapping(value = "/unitPost_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unitPost_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
-                                   @DateTimeFormat(pattern=DateUtils.YYYY_MM_DD)Date abolishDate) {
+                                   @DateTimeFormat(pattern= DateUtils.YYYY_MM_DD)Date abolishDate) {
 
         if (null != ids && ids.length>0) {
             unitPostService.abolish(ids, abolishDate);
@@ -561,10 +562,10 @@ public class UnitPostController extends BaseController {
                             cadre==null?"":cadre.getRealname(),
                             cadre==null?"":metaTypeService.getName(record.getCpAdminLevel()),
                             cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
-                            cadrePost==null?"":DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
-                            cadrePost==null?"":DateUtils.yearOffNow(cadrePost.getLpWorkTime()) + "",
-                            cadrePost==null?"":DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
-                            cadrePost==null?"":DateUtils.yearOffNow(cadrePost.getNpWorkTime()) + "",
+                            cadrePost==null?"": DateUtils.formatDate(cadrePost.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            cadrePost==null?"": DateUtils.yearOffNow(cadrePost.getLpWorkTime()) + "",
+                            cadrePost==null?"": DateUtils.formatDate(cadrePost.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                            cadrePost==null?"": DateUtils.yearOffNow(cadrePost.getNpWorkTime()) + "",
                             record.getRemark()
             };
             valuesList.add(values);
@@ -607,11 +608,11 @@ public class UnitPostController extends BaseController {
 
                     BooleanUtils.isTrue(record.getCadreIsPrincipal())?"是":"否",
                     SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
-                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    gender==null?"": SystemConstants.GENDER_MAP.get(gender),
                     cv.getNation(),
                     DateUtils.formatDate(birth, DateUtils.YYYYMMDD_DOT),
 
-                    birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                    birth!=null? DateUtils.intervalYearsUntilNow(birth) + "":"",
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
                     DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMMDD_DOT), //参加工作时间
@@ -679,7 +680,7 @@ public class UnitPostController extends BaseController {
                 option.put("adminLevel", record.getAdminLevel());
                 option.put("id", record.getId() + "");
                 option.put("up", record);
-                option.put("del", record.getStatus()==SystemConstants.UNIT_POST_STATUS_ABOLISH);
+                option.put("del", record.getStatus()== SystemConstants.UNIT_POST_STATUS_ABOLISH);
                 options.add(option);
             }
         }
@@ -690,7 +691,7 @@ public class UnitPostController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("unitPost:list")
+    @RequiresPermissions("unitPost:allocation")
     @RequestMapping("/unitPostAllocation")
     public String unitPostAllocation(
             @RequestParam(required = false, defaultValue = "1") Byte module,
@@ -737,7 +738,7 @@ public class UnitPostController extends BaseController {
         return "unit/unitPost/unitPostAllocation_page";
     }
 
-    @RequiresPermissions("unitPost:list")
+    @RequiresPermissions("unitPost:allocation")
     @RequestMapping("/unitPost_unitType_cadres")
     public String unitPost_unitType_cadres(Integer adminLevel, boolean isMainPost, String unitType, ModelMap modelMap) {
 

@@ -39,6 +39,7 @@ public class CadrePostService extends BaseMapper {
     }
 
     // 添加或更新第一主职
+    @Transactional
     public void addOrUpdateMainCadrePost(CadrePost record){
 
         record.setIsMainPost(true);
@@ -48,21 +49,20 @@ public class CadrePostService extends BaseMapper {
         CadrePost mainCadrePost = getFirstMainCadrePost(cadreId);
         if(mainCadrePost!=null){
             record.setId(mainCadrePost.getId());
-            cadrePostMapper.updateByPrimaryKeySelective(record);
-
-            cacheHelper.clearCadreCache();
+            updateByPrimaryKeySelective(record);
         }else{
             insertSelective(record);
         }
     }
 
+    @Transactional
     public void insertSelective(CadrePost record) {
 
         // 如果是第一主职提交，则判断是否重复
         if (BooleanUtils.isTrue(record.getIsFirstMainPost())) {
             CadrePost cadreMainCadrePost = getFirstMainCadrePost(record.getCadreId());
             if (cadreMainCadrePost != null) {
-                if (record.getId() == null || cadreMainCadrePost.getId() != record.getId()) {
+                if (record.getId() == null || cadreMainCadrePost.getId().intValue() != record.getId()) {
                     throw new OpException("已存在第一主职");
                 }
             }
@@ -101,7 +101,18 @@ public class CadrePostService extends BaseMapper {
         cacheHelper.clearCadreCache();
     }
 
+    @Transactional
     public void updateByPrimaryKeySelective(CadrePost record) {
+
+        // 如果是第一主职提交，则判断是否重复
+        if (BooleanUtils.isTrue(record.getIsFirstMainPost())) {
+            CadrePost cadreMainCadrePost = getFirstMainCadrePost(record.getCadreId());
+            if (cadreMainCadrePost != null) {
+                if (cadreMainCadrePost.getId().intValue() != record.getId()) {
+                    throw new OpException("已存在第一主职");
+                }
+            }
+        }
 
         // 同步岗位信息
         if(record.getUnitPostId()!=null){
@@ -259,41 +270,9 @@ public class CadrePostService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
         CadrePost entity = cadrePostMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        Boolean isMainPost = entity.getIsMainPost();
+        boolean isMainPost = entity.getIsMainPost();
         int cadreId = entity.getCadreId();
-
-        CadrePostExample example = new CadrePostExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder)
-                    .andIsMainPostEqualTo(isMainPost);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder)
-                    .andIsMainPostEqualTo(isMainPost);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<CadrePost> overEntities = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            CadrePost targetEntity = overEntities.get(overEntities.size() - 1);
-            if (addNum > 0)
-                commonMapper.downOrder("cadre_post", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost,
-                        baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("cadre_post", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost,
-                        baseSortOrder, targetEntity.getSortOrder());
-
-            CadrePost record = new CadrePost();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadrePostMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder("unit", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost, ORDER_BY_DESC, id, addNum);
     }
 }

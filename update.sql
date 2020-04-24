@@ -1,10 +1,60 @@
 
+2020.4.24
+北航  -- 北师大
+
+ALTER TABLE `cg_team` ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级ID' AFTER `id`,
+	ADD CONSTRAINT `FK_cg_team_cg_team` FOREIGN KEY (`fid`) REFERENCES `cg_team` (`id`) ON DELETE CASCADE;
+
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1', '57', '无行政级别、聘任制');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 3, 59, '');
+
+-- 如果任职时间精确到月，需要更新一下数据库
+-- update cadre_admin_level set s_work_time=DATE_FORMAT(s_work_time,'%y-%m-01');
+-- update cadre_admin_level set e_work_time=DATE_FORMAT(e_work_time,'%y-%m-01');
+-- update cadre_post set np_work_time=DATE_FORMAT(np_work_time,'%y-%m-01');
+
+ALTER TABLE `sys_role`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '类别，1加权限 2减权限' AFTER `name`;
+
+-- 党员或民主党派变为群众，因删除其所属组织
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委' AFTER `user_id`;
+update  ow_member om, ow_member_quit omq set om.party_id=null , om.branch_id=null
+where om.user_id=omq.user_id and omq.`status`=3;
+update  ow_member om, cadre_party cp set om.party_id=null , om.branch_id=null
+where om.user_id=cp.user_id and cp.class_id=(select id from base_meta_type where code='mt_dp_qz');
+
+ALTER TABLE `unit` ADD COLUMN `not_stat_post` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否不列入配备一览表' AFTER `status`;
+
+-- 更新 unit_view
+
+INSERT INTO `sys_resource` (id,`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (444,0, '聘任制干部信息', '', 'url', '', '/cadre?isEngage=1', 442, '0/1/88/442/', 1, 'statCadreEngage:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (id,`is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (445,0, '保留待遇干部信息', '', 'url', '', '/cadre?isKeepSalary=1', 442, '0/1/88/442/', 1, 'statCadreKeepSalary:list', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `cadre_inspect`
+	CHANGE COLUMN `unit_post_id` `assign_unit_post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '拟任职务' AFTER `record_id`;
+
+-- 更新 cadre_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+VALUES (837, 0, '查看内设机构配备统计权限', '', 'function', '', NULL, 836, '0/1/836/', 1, 'unitPostAllocation:module2', NULL, NULL, NULL, 1, NULL);
+
+update sys_role set resource_ids = CONCAT_WS(',', resource_ids, (select id from sys_resource where permission='unitPostAllocation:module2'))
+where FIND_IN_SET ((select id from sys_resource where permission='unitPost:allocation'), resource_ids);
+
+-- 更新 utils
+-- 清空所有系统缓存（物理）
+
 2020.4.16
-北航，西北工大4.17
+北航，西北工大4.17，南航
 
 2020.4.16
 
@@ -29,12 +79,15 @@ VALUES ('mobile_login_useCas', '手机登录界面是否有CAS', 'true', 3, 55, 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('cas_type', '系统CAS类型', '1', 2, 56, '1：支持CAS 2：支持代理接口 3：同时支持CAS和代理接口');
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cas_url', '单点登录地址', '/cas', 1, 53, '');
+
 ALTER TABLE `unit`
 	DROP INDEX `code`;
 
 
 2020.4.13
-西北工大
+西北工大，南航
 
 2020.4.10
 

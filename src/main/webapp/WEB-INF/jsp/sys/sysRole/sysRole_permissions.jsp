@@ -17,7 +17,7 @@
         <c:forEach items="${permissions}" var="permission" varStatus="vs">
             <tr>
                 <td>${vs.count}</td>
-                <td <%--style="text-align:left;"--%>>
+                <td style="text-align:left;">
                     <c:set var="isSelect" value="0"/>
                     <c:forEach items="${permission.value}" var="parentId">
                         <span ${parentId.value?'style="color: green"':'style="color: red"'}>${sysResourceMap.get(parentId.key).name}(${sysResourceMap.get(parentId.key).permission})</span>/
