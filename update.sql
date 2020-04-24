@@ -14,6 +14,14 @@ VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 
 ALTER TABLE `sys_role`
 	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '类别，1加权限 2减权限' AFTER `name`;
 
+-- 党员或民主党派变为群众，因删除其所属组织
+ALTER TABLE `ow_member`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委' AFTER `user_id`;
+update  ow_member om, ow_member_quit omq set om.party_id=null , om.branch_id=null
+where om.user_id=omq.user_id and omq.`status`=3;
+update  ow_member om, cadre_party cp set om.party_id=null , om.branch_id=null
+where om.user_id=cp.user_id and cp.class_id=(select id from base_meta_type where code='mt_dp_qz');
+
 2020.4.16
 北航，西北工大4.17，南航
 
