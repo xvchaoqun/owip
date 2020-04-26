@@ -143,14 +143,14 @@
         rownumbers: true,
         url: '${ctx}/organizer_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            <c:if test="${cls==1 || cls==2}">
+            <%--<c:if test="${cls==1 || cls==2}">
             {label: '历史任职情况', name: '_history', width: 120, formatter: function (cellvalue, options, rowObject) {
                      return ('<button class="loadPage btn btn-primary btn-xs" ' +
                         'data-url="${ctx}/organizer?type=${type}&cls=3&userId={0}">'
                         + '<i class="fa fa-history"></i> 查看</button>')
                         .format(rowObject.userId);
             }, frozen: true},
-            </c:if>
+            </c:if>--%>
             {label: '年度', name: 'year', width: 80, frozen: true},
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
@@ -170,10 +170,10 @@
             {label: '入党时间', name: 'growTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '编制类别', name: 'authorizedType'},
             {label: '人员类别', name: 'staffType'},
-            {label: '岗位类别', name: 'postClass'},
-            {label: '主岗等级', name: 'mainPostLevel'},
+           /* {label: '岗位类别', name: 'postClass'},
+            {label: '主岗等级', name: 'mainPostLevel'},*/
             {label: '专业技术职务', name: 'proPost', width: 150},
-            {label: '是否离休', name: 'isRetire', formatter: $.jgrid.formatter.TRUEFALSE},
+            /*{label: '是否离休', name: 'isRetire', formatter: $.jgrid.formatter.TRUEFALSE},*/
             {label: '手机号码', name: 'user.mobile', width: 120},
             <c:if test="${type==OW_ORGANIZER_TYPE_SCHOOL && cls==1}">
             {label: '所在小组', name: '_history', width: 90, formatter: function (cellvalue, options, rowObject) {

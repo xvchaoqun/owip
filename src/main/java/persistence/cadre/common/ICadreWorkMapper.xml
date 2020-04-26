@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.cadre.common.ICadreWorkMapper">
-    <select id="getCadreIdForTypes" parameterType="map" resultType="java.lang.Integer" >
+    <select id="getCadreIdsOfWorkTypes" parameterType="map" resultType="java.lang.Integer" >
         select distinct cadre_id from cadre_work where
-        <if test="cadreWorkTypes.size>0">
-            <foreach collection="cadreWorkTypes" item="WorkType" index="index"
+        <if test="workTypes.size>0">
+            <foreach collection="workTypes" item="workType" index="index"
                      open="(" close=")" separator=" or ">
-                find_in_set(#{WorkType}, work_types)
+                find_in_set(#{workType}, work_types)
             </foreach>
         </if>
     </select>

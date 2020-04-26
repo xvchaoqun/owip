@@ -395,7 +395,7 @@ public class CrsApplicantService extends CrsBaseMapper {
             Cadre record  = new Cadre();
             record.setUserId(userId);
             record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
-            // 默认是处级干部
+            // 默认干部类型：其他
             if(record.getType()==null){
                 record.setType(CadreConstants.CADRE_TYPE_OTHER);
             }

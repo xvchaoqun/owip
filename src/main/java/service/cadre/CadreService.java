@@ -472,38 +472,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if (addNum == 0) return;
-
         Cadre entity = cadreMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-        byte status = entity.getStatus();
-
-        CadreExample example = new CadreExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andStatusEqualTo(status).andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andStatusEqualTo(status).andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Cadre> overEntities = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            Cadre targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder(TABLE_NAME, "status=" + status, baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder(TABLE_NAME, "status=" + status, baseSortOrder, targetEntity.getSortOrder());
-
-            Cadre record = new Cadre();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            cadreMapper.updateByPrimaryKeySelective(record);
-        }
+        changeOrder(TABLE_NAME, "status=" + entity.getStatus(), ORDER_BY_DESC, id, addNum);
     }
 
     @Transactional

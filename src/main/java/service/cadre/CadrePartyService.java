@@ -21,7 +21,6 @@ import sys.tags.CmTag;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lm on 2018/6/20.
@@ -211,14 +210,8 @@ public class CadrePartyService extends BaseMapper {
         //党员出党
         memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_QUIT);
 
-        //获取源数据中‘群众’类型的ID
-        Integer crowdId = null;
-        Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
-        for (MetaType metaType : dpTypes.values()) {
-            if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
-                crowdId = metaType.getId();
-            }
-        }
+        MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
 
         //查询当前用户是否已经是群众,是则更新，不是则插入
         CadrePartyExample example = new CadrePartyExample();
@@ -229,6 +222,7 @@ public class CadrePartyService extends BaseMapper {
 
             CadreParty cadreParty = cadreParties.get(0);
             record.setId(cadreParty.getId());
+            record.setIsFirst(true);
             cadrePartyMapper.updateByPrimaryKeySelective(record);
         }else {
 

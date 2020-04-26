@@ -204,7 +204,7 @@ public class CadreController extends BaseController {
                            Integer endNowPostAge,
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
-                           String[] workTypes,
+                           Integer[] workTypes,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
@@ -305,7 +305,7 @@ public class CadreController extends BaseController {
         }
 
         if (workTypes != null){
-            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdForTypes(Arrays.asList(workTypes));
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes));
             criteria.andIdIn(cadreIds);
         }
 
@@ -817,8 +817,11 @@ public class CadreController extends BaseController {
 
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         for (CadreView cadre : cadreMap.values()) {
-            // 添加干部身份
-            sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
+
+            if(CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus())) {
+                // 添加干部身份
+                sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
+            }
         }
 
         return success(FormUtils.SUCCESS);

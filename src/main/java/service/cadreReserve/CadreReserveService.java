@@ -206,6 +206,7 @@ public class CadreReserveService extends BaseMapper {
 
         SysUserView uv = sysUserService.findById(userId);
         if(CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRERECRUIT)){
+            // ??
             sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
         }
 

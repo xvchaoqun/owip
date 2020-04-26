@@ -99,23 +99,23 @@ pageEncoding="UTF-8"%>
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 
-			<table class="table table-unhover table-striped table-bordered">
+			<table class="table table-unhover table-striped table-bordered table-center">
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
 					<th width="150">学工号</th>
-					<th>类别</th>
+					<th style="text-align: left">类别</th>
 				</tr>
 				</thead>
 				<tbody>
 				<c:forEach items="${branchMembers}" var="branchMember" varStatus="st">
 					<c:set var="user" value="${cm:getUserById(branchMember.userId)}"/>
 					<tr>
-						<td ><c:if test="${branchMember.isAdmin}">
+						<td class="bg-right"><c:if test="${branchMember.isAdmin}">
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
 						</c:if>${user.realname}</td>
-						<td>${user.code}</td>
-						<td >
+						<td class="bg-center">${user.code}</td>
+						<td class="bg-left">
 								${typeMap.get(branchMember.typeId).name}
 						</td>
 					</tr>

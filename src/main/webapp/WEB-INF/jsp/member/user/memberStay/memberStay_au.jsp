@@ -467,7 +467,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label class="col-xs-6 control-label">${empty memberStay.letter?'<span class="star">*</span>':''}户档暂留证明<c:if
+                                    <label class="col-xs-6 control-label">户档暂留证明<c:if
                                             test="${not empty memberStay.letter}">
                                         <a class="various" title="户档暂留证明"
                                            data-path="${cm:encodeURI(memberStay.letter)}"
@@ -477,8 +477,7 @@
                                     </label>
 
                                     <div class="col-xs-6 uploader">
-                                        <input ${empty memberStay.letter?'required':''} class="form-control" type="file"
-                                                                                        name="_letter"/>
+                                        <input class="form-control" type="file" name="_letter"/>
 
                                     </div>
                                 </div>
