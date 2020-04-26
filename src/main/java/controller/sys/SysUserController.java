@@ -585,9 +585,9 @@ public class SysUserController extends BaseController {
     public Map do_sysUser_updatePermission(@CurrentUser SysUserView loginUser,
                              SysUserInfo sysUserInfo,
                              @RequestParam(value="addIds[]",required=false) Integer[] addIds,
-                             @RequestParam(value="m_addIds[]",required=false) Integer[] m_addIds,
+                             @RequestParam(value="mAddIds[]",required=false) Integer[] mAddIds,
                              @RequestParam(value="minusIds[]",required=false) Integer[] minusIds,
-                             @RequestParam(value="m_minusIds[]",required=false) Integer[] m_minusIds,
+                             @RequestParam(value="mMinusIds[]",required=false) Integer[] mMinusIds,
                              HttpServletRequest request) {
 
         if(!CmTag.isSuperAccount(loginUser.getUsername())||!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
@@ -599,20 +599,20 @@ public class SysUserController extends BaseController {
         else
             sysUserInfo.setResIdsAdd(org.apache.commons.lang.StringUtils.join(addIds, ","));
 
-        if(m_addIds==null || m_addIds.length==0)
+        if(mAddIds==null || mAddIds.length==0)
             sysUserInfo.setmResIdsAdd("-1");
         else
-            sysUserInfo.setmResIdsAdd(org.apache.commons.lang.StringUtils.join(m_addIds, ","));
+            sysUserInfo.setmResIdsAdd(org.apache.commons.lang.StringUtils.join(mAddIds, ","));
 
         if(minusIds==null || minusIds.length==0)
             sysUserInfo.setResIdsMinus("-1");
         else
             sysUserInfo.setResIdsMinus(org.apache.commons.lang.StringUtils.join(minusIds, ","));
 
-        if(m_minusIds==null || m_minusIds.length==0)
+        if(mMinusIds==null || mMinusIds.length==0)
             sysUserInfo.setmResIdsMinus("-1");
         else
-            sysUserInfo.setmResIdsMinus(org.apache.commons.lang.StringUtils.join(m_minusIds, ","));
+            sysUserInfo.setmResIdsMinus(org.apache.commons.lang.StringUtils.join(mMinusIds, ","));
 
         if(sysUserInfo.getUserId()!= null){
             sysUserInfoMapper.updateByPrimaryKeySelective(sysUserInfo);
@@ -632,21 +632,21 @@ public class SysUserController extends BaseController {
             modelMap.put("sysUserInfo", sysUserInfo);
 
             Set<Integer> addIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getResIdsAdd());
-            Set<Integer> m_addIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsAdd());
+            Set<Integer> mAddIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsAdd());
             Set<Integer>  minusIdsSet  = sysUserService.getUserResIdSet(sysUserInfo.getResIdsMinus());
-            Set<Integer>  m_minusIdsSet = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsMinus());
+            Set<Integer>  mMinusIdsSet = sysUserService.getUserResIdSet(sysUserInfo.getmResIdsMinus());
 
             TreeNode addTree = sysResourceService.getTree(addIdsSet, false);
-            modelMap.put("addTree", JSONUtils.toString(addTree));
+            modelMap.put("addTree", JSONUtils.toString(addTree)); //加权限网页端资源
 
-            TreeNode m_addTree = sysResourceService.getTree(m_addIdsSet, true);
-            modelMap.put("m_addTree", JSONUtils.toString(m_addTree));
+            TreeNode mAddTree = sysResourceService.getTree(mAddIdsSet, true);
+            modelMap.put("mAddTree", JSONUtils.toString(mAddTree)); //加权限手机端资源
 
             TreeNode minusTree = sysResourceService.getTree(minusIdsSet, false);
-            modelMap.put("minusTree", JSONUtils.toString(minusTree));
+            modelMap.put("minusTree", JSONUtils.toString(minusTree)); //减权限网页端资源
 
-            TreeNode m_minusTree = sysResourceService.getTree(m_minusIdsSet, true);
-            modelMap.put("m_minusTree", JSONUtils.toString(m_minusTree));
+            TreeNode mMinusTree = sysResourceService.getTree(mMinusIdsSet, true);
+            modelMap.put("mMinusTree", JSONUtils.toString(mMinusTree)); //减权限手机端资源
         }
         return "sys/sysUser/sysUser_updatePermission";
     }

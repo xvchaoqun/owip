@@ -46,6 +46,7 @@ public class MenuController extends BaseController {
     @RequiresPermissions("menu:preview")
     @RequestMapping("/menu_preview")
     public String menu_preview(boolean isMobile, @RequestParam(value = "resIds[]", required = false) Integer[] resIds,
+                               @RequestParam(value = "minusResIds[]", required = false) Integer[] minusResIds,
                                ModelMap modelMap) {
 
         Set<String> permissions = new HashSet<String>();
@@ -55,6 +56,14 @@ public class MenuController extends BaseController {
                 SysResource sysResource = sysResources.get(resId);
                 if (sysResource != null && StringUtils.isNotBlank(sysResource.getPermission())) {
                     permissions.add(sysResource.getPermission().trim());
+                }
+            }
+        }
+        if(minusResIds!=null) {
+            for (Integer minusResId : minusResIds) {
+                SysResource sysResource = sysResources.get(minusResId);
+                if (sysResource != null && StringUtils.isNotBlank(sysResource.getPermission())) {
+                    permissions.remove(sysResource.getPermission().trim());
                 }
             }
         }

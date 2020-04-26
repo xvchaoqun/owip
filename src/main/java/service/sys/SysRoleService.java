@@ -178,21 +178,21 @@ public class SysRoleService extends BaseMapper {
 		List<TreeNode> rootChildren = new ArrayList<TreeNode>();
 		root.children = rootChildren;
 
-		List<TreeNode> role_add = new ArrayList<TreeNode>();
-		List<TreeNode> role_minus = new ArrayList<TreeNode>();
+		List<TreeNode> roleAdd = new ArrayList<TreeNode>();
+		List<TreeNode> roleMinus = new ArrayList<TreeNode>();
 
 		TreeNode node = new TreeNode();
 		node.title = "角色（加权限）";
 		node.isFolder = true;
 		/*node.expand = true;*/
-		node.children = role_add;
+		node.children = roleAdd;
 		rootChildren.add(node);
 
 		node = new TreeNode();
 		node.title = "角色（减权限）";
 		node.isFolder = true;
 		/*node.expand = true;*/
-		node.children = role_minus;
+		node.children = roleMinus;
 		rootChildren.add(node);
 
 
@@ -226,18 +226,18 @@ public class SysRoleService extends BaseMapper {
 					if (superAccount){
 						// 系统自动维护角色，仅允许超级管理员修改
 						if(sysRole.getType()==1){  //加权限
-							role_add.add(node);
+							roleAdd.add(node);
 						}else{
-							role_minus.add(node);
+							roleMinus.add(node);
 						}
 					}
 				}
 			}else{
 				// 手动维护角色
 				if(sysRole.getType()==1){  //加权限
-					role_add.add(node);
+					roleMinus.add(node);
 				}else{
-					role_minus.add(node);
+					roleMinus.add(node);
 				}
 			}
 		}

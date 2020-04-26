@@ -29,12 +29,12 @@
                                     <div class="title" style="height: 40px;line-height: 50px;font-weight: bolder;">账号加权限：</div>
                                     <div class="form-group">
                                         <div class="col-xs-11" style="margin:10px;">
-                                            <div id="addTree" style="height: 238px;"></div>
+                                            <div class="treeDiv" data-add="1" data-mobile="0" style="height: 238px;"></div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-11" style="margin:10px;">
-                                            <div id="m_addTree" style="height: 238px;"></div>
+                                            <div class="treeDiv" data-add="1" data-mobile="1" style="height: 238px;"></div>
                                         </div>
                                     </div>
                             </div>
@@ -42,12 +42,12 @@
                                 <div class="title"  style="height: 40px;line-height: 50px;font-weight: bolder;">账号减权限：</div>
                                 <div class="form-group">
                                     <div class="col-xs-11" style="margin:10px;">
-                                        <div id="minusTree" style="height: 238px;"></div>
+                                        <div class="treeDiv" data-add="0" data-mobile="0"  style="height: 238px;"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-11" style="margin:10px;">
-                                        <div id="m_minusTree" style="height: 238px;"></div>
+                                        <div class="treeDiv" data-add="0" data-mobile="1"  style="height: 238px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -102,11 +102,11 @@
             $("input[type=checkbox]").not(this).prop("checked", false);
         }
     });
-    function _initMenu() {
-
-        $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
-        $("#sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
-        $("#sidebar-review ul.submenu").each(function () {
+    function _initMenu(isMobile) {
+        var $sidebar = $(isMobile==1?"#m-sidebar-review":"#sidebar-review");
+        $("a", $sidebar).removeClass("hashchange").removeAttr("href")
+        $("#sidebar-collapse", $sidebar).removeClass("sidebar-collapse")
+        $("ul.submenu", $sidebar).each(function () {
             if ($("li", this).length == 0) {
                 $(this).closest("li").find(".menu-text").css("color", "red");
                 $(this).remove();
@@ -114,129 +114,59 @@
         })
         //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
     }
-    _initMenu();
-    function _m_initMenu() {
-
-        $("#m-sidebar-review a").removeClass("hashchange").removeAttr("href")
-        $("#m-sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
-        $("#m-sidebar-review ul.submenu").each(function () {
-            if ($("li", this).length == 0) {
-                $(this).closest("li").find(".menu-text").css("color", "red");
-                $(this).remove();
-            }
-        })
-        //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
-    }
-    _m_initMenu()
-
+    _initMenu(0);
+    _initMenu(1);
 
     var addTreeData = ${addTree};
     addTreeData.title = "网页端资源";
-    $("#addTree").dynatree({
-        checkbox: true,
-        selectMode: 2,
-        children: addTreeData,
-        onSelect: function (select, node) {
-            //node.expand(node.data.isFolder && node.isSelected());
-            <shiro:hasPermission name="menu:preview">
-            var resIds = $.map($("#addTree").dynatree("getSelectedNodes"), function (node) {
-                //if(!node.data.isFolder)
-                return node.data.key;
-            });
-            $('#sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=0",{resIds:resIds},function(){
-                _initMenu();
-            });
-            </shiro:hasPermission>
-        },
-        onCustomRender: function (node) {
-            if (node.data.tooltip != null)
-                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
-                    .format(node.data.tooltip, node.data.title)
-        },
-        cookieId: "dynatree-Cb3",
-        idPrefix: "dynatree-Cb3-"
-    });
-
-    var m_addTreeData = ${m_addTree};
-    m_addTreeData.title = "手机端资源";
-    $("#m_addTree").dynatree({
-        checkbox: true,
-        selectMode: 2,
-        children: m_addTreeData,
-        onSelect: function (select, node) {
-            //node.expand(node.data.isFolder && node.isSelected());
-            <shiro:hasPermission name="menu:preview">
-            var resIds = $.map($("#m_addTree").dynatree("getSelectedNodes"), function (node) {
-                //if(!node.data.isFolder)
-                return node.data.key;
-            });
-            $('#m-sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=1",{resIds:resIds},function(){
-                _m_initMenu();
-            });
-            </shiro:hasPermission>
-        },
-        onCustomRender: function (node) {
-            if (node.data.tooltip != null)
-                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
-                    .format(node.data.tooltip, node.data.title)
-        },
-        cookieId: "dynatree-Cb3",
-        idPrefix: "dynatree-Cb3-"
-    });
+    initTree(1, 0, addTreeData)
+    var mAddTreeData = ${mAddTree};
+    mAddTreeData.title = "手机端资源";
+    initTree(1, 1, mAddTreeData)
 
     var minusTreeData = ${minusTree};
     minusTreeData.title = "网页端资源";
-    $("#minusTree").dynatree({
-        checkbox: true,
-        selectMode: 2,
-        children: minusTreeData,
-        onSelect: function (select, node) {
-            //node.expand(node.data.isFolder && node.isSelected());
-            <shiro:hasPermission name="menu:preview">
-            var resIds = $.map($("#minusTree").dynatree("getSelectedNodes"), function (node) {
-                //if(!node.data.isFolder)
-                return node.data.key;
-            });
-            $('#sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=0",{resIds:resIds},function(){
-                _initMenu();
-            });
-            </shiro:hasPermission>
-        },
-        onCustomRender: function (node) {
-            if (node.data.tooltip != null)
-                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
-                    .format(node.data.tooltip, node.data.title)
-        },
-        cookieId: "dynatree-Cb3",
-        idPrefix: "dynatree-Cb3-"
-    });
+    initTree(0, 0, minusTreeData)
 
-    var m_minusTreeData = ${m_minusTree};
-    m_minusTreeData.title = "手机端资源";
-    $("#m_minusTree").dynatree({
-        checkbox: true,
-        selectMode: 2,
-        children: m_minusTreeData,
-        onSelect: function (select, node) {
-            //node.expand(node.data.isFolder && node.isSelected());
-            <shiro:hasPermission name="menu:preview">
-            var resIds = $.map($("#m_minusTree").dynatree("getSelectedNodes"), function (node) {
-                //if(!node.data.isFolder)
-                return node.data.key;
-            });
-            $('#m-sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=1",{resIds:resIds},function(){
-                _m_initMenu();
-            });
-            </shiro:hasPermission>
-        },
-        onCustomRender: function (node) {
-            if (node.data.tooltip != null)
-                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
-                    .format(node.data.tooltip, node.data.title)
-        },
-        cookieId: "dynatree-Cb3",
-        idPrefix: "dynatree-Cb3-"
-    });
+    var mMinusTreeData = ${mMinusTree};
+    mMinusTreeData.title = "手机端资源";
+    initTree(0, 1, mMinusTreeData)
+
+    function initTree(add, mobile, initData){
+
+        $("div.treeDiv[data-add="+add+"][data-mobile="+mobile+"]").dynatree({
+            checkbox: true,
+            selectMode: 2,
+            children: initData,
+            onSelect: function (select, node) {
+                //node.expand(node.data.isFolder && node.isSelected());
+                <shiro:hasPermission name="menu:preview">
+                var resIds = $.map($("div.treeDiv[data-add=1][data-mobile="+mobile+"]").dynatree("getSelectedNodes"), function (node) {
+                    //if(!node.data.isFolder)
+                    return node.data.key;
+                });
+                var minusResIds = $.map($("div.treeDiv[data-add=0][data-mobile="+mobile+"]").dynatree("getSelectedNodes"), function (node) {
+                    //if(!node.data.isFolder)
+                    return node.data.key;
+                });
+                var $sidebar = $(mobile==1?"#m-sidebar-review":"#sidebar-review");
+                $('.sidebar',$sidebar).load("${ctx}/menu_preview",{isMobile:mobile, resIds:resIds, minusResIds:minusResIds},function(){
+                    _initMenu(mobile);
+                });
+
+
+                </shiro:hasPermission>
+            },
+            onCustomRender: function (node) {
+                if (node.data.tooltip != null)
+                    return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
+                        .format(node.data.tooltip, node.data.title)
+            },
+            cookieId: "dynatree-Cb3",
+            idPrefix: "dynatree-Cb3-"
+        });
+    }
+
     $("#submitBtn").click(function () {
         $("#submitForm").submit();
         return false;
@@ -244,25 +174,25 @@
     $("#submitForm").validate({
         submitHandler: function (form) {
 
-            var addIds = $.map($("#addTree").dynatree("getSelectedNodes"), function (node) {
+            var addIds = $.map($("div.treeDiv[data-add=1][data-mobile=0]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-            var m_addIds = $.map($("#m_addTree").dynatree("getSelectedNodes"), function (node) {
+            var mAddIds = $.map($("div.treeDiv[data-add=1][data-mobile=1]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-            var minusIds = $.map($("#minusTree").dynatree("getSelectedNodes"), function (node) {
+            var minusIds = $.map($("div.treeDiv[data-add=0][data-mobile=0]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-            var m_minusIds = $.map($("#m_minusTree").dynatree("getSelectedNodes"), function (node) {
+            var mMinusIds = $.map($("div.treeDiv[data-add=0][data-mobile=1]").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
-                data: {addIds: addIds, m_addIds:m_addIds,minusIds: minusIds, m_minusIds:m_minusIds},
+                data: {addIds: addIds, mAddIds:mAddIds,minusIds: minusIds, mMinusIds:mMinusIds},
                 success: function (data) {
                     if (data.success) {
                         $.reloadMetaData(function(){

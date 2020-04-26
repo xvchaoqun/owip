@@ -610,22 +610,22 @@ public class UnitPostController extends BaseController {
                     SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
                     cv.getNation(),
-                    DateUtils.formatDate(birth, DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(birth, CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
 
-                    birth!=null? DateUtils.intervalYearsUntilNow(birth) + "":"",
+                    birth== null ? "" : DateUtils.yearOffNow(CmTag.getBoolProperty("birthToDay")?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
-                    DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMMDD_DOT), //参加工作时间
+                    DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMM), //参加工作时间
                     metaTypeService.getName(cv.getEduId()),
 
                     cv.getDegree(),
                     cv.getMajor(),
                     cv.getProPost(),
-                    DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(cv.getNpWorkTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(cv.getLpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(cv.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
                     NumberUtils.trimToEmpty(cv.getCadrePostYear()),
 
-                    DateUtils.formatDate(cv.getsWorkTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(cv.getsWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
                     NumberUtils.trimToEmpty(cv.getAdminLevelYear())
             };
             valuesList.add(values);

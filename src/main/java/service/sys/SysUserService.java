@@ -393,24 +393,24 @@ public class SysUserService extends BaseMapper {
     public Set<String> findUserPermission(int userId, boolean isMobile) {
         Set<String> permissions = new HashSet<String>();
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
-        String[] user_adds = findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_ADD);
-        String[] user_minus = findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);
+        String[] usersAdd = findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_ADD);
+        String[] usersMinus = findUserResId(sysUser.getUsername(), isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);
 
         Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources(isMobile);
-        if(user_adds!=null){
-            for(String user_add:user_adds){
-                if(StringUtils.isNotBlank(user_add)){
-                    SysResource sysResource = sysResources.get(Integer.parseInt(user_add));
+        if(usersAdd!=null){
+            for(String userAdd:usersAdd){
+                if(StringUtils.isNotBlank(userAdd)){
+                    SysResource sysResource = sysResources.get(Integer.parseInt(userAdd));
                     if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
                         permissions.add(sysResource.getPermission().trim());
                     }
                 }
             }
         }
-        if(user_minus!=null){
-            for(String user_minu:user_minus){
-                if(StringUtils.isNotBlank(user_minu)){
-                    SysResource sysResource = sysResources.get(Integer.parseInt(user_minu));
+        if(usersMinus!=null){
+            for(String userMinus:usersMinus){
+                if(StringUtils.isNotBlank(userMinus)){
+                    SysResource sysResource = sysResources.get(Integer.parseInt(userMinus));
                     if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
                         permissions.remove(sysResource.getPermission().trim());
                     }
@@ -420,7 +420,7 @@ public class SysUserService extends BaseMapper {
        return permissions;
     }
 
-    // 根据账号查找账号加减权限
+    // 根据账号及类别查找权限
     public String[] findUserResId(String username, boolean isMobile,byte type) {
 
         String[] resIds=null;
@@ -453,17 +453,17 @@ public class SysUserService extends BaseMapper {
     private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
-        Set<SysRole> roles_add = findTypeRoles(username, SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限角色Set
-        Set<SysRole> roles_minus = findTypeRoles(username,SystemConstants.SYS_ROLE_TYPE_MINUS); // 账号减权限角色Set
+        Set<SysRole> rolesAdd = findTypeRoles(username, SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限角色Set
+        Set<SysRole> rolesMinus = findTypeRoles(username,SystemConstants.SYS_ROLE_TYPE_MINUS); // 账号减权限角色Set
 
-        String[] user_adds = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_ADD);
-        String[] user_minus = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);
+        String[] usersAdd = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限Set
+        String[] usersMinus = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);// 账号减权限Set
 
         List<Integer> resourceIds = new ArrayList<Integer>();
 
-        for (SysRole role_add : roles_add) {
+        for (SysRole roleAdd : rolesAdd) {
 
-            String resourceIdsStr = isMobile ? role_add.getmResourceIds() : role_add.getResourceIds();
+            String resourceIdsStr = isMobile ? roleAdd.getmResourceIds() : roleAdd.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -476,18 +476,18 @@ public class SysUserService extends BaseMapper {
             }
         }
 
-        if (user_adds!=null){
-            for (String user_add : user_adds) {
-                if (StringUtils.isEmpty(user_add)) {
+        if (usersAdd!=null){
+            for (String userAdd : usersAdd) {
+                if (StringUtils.isEmpty(userAdd)) {
                     continue;
                 }
-                resourceIds.add(Integer.valueOf(user_add)); //账号加资源
+                resourceIds.add(Integer.valueOf(userAdd)); //账号加资源
             }
         }
 
-        for (SysRole role_minus : roles_minus) {
+        for (SysRole roleMinus : rolesMinus) {
 
-            String resourceIdsStr = isMobile ? role_minus.getmResourceIds() : role_minus.getResourceIds();
+            String resourceIdsStr = isMobile ? roleMinus.getmResourceIds() : roleMinus.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -500,12 +500,12 @@ public class SysUserService extends BaseMapper {
             }
         }
 
-        if (user_minus!=null) {
-            for (String user_minu : user_minus) {
-                if (StringUtils.isEmpty(user_minu)) {
+        if (usersMinus!=null) {
+            for (String userMinus : usersMinus) {
+                if (StringUtils.isEmpty(userMinus)) {
                     continue;
                 }
-                resourceIds.remove(Integer.valueOf(user_minu)); //账号减资源
+                resourceIds.remove(Integer.valueOf(userMinus)); //账号减资源
             }
         }
 
