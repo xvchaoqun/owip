@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * 同步字段是否只同步一次，0或空代表每次都同步覆盖，1代表仅同步一次，后面不覆盖，
- * 字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像
+ * 字段顺序：姓名、性别、出生年月、身份证号码、民族、籍贯、出生地、户籍地、职称、手机号、邮箱、办公电话、家庭电话、头像、专业技术职务级别
  */
 public class SyncStatus {
 
@@ -26,6 +26,7 @@ public class SyncStatus {
     public boolean phone;
     public boolean homePhone;
     public boolean avatar;
+    public boolean proPostLevel; // 专业技术职务级别（职称）
 
     public SyncStatus(Integer sync) {
 
@@ -47,6 +48,7 @@ public class SyncStatus {
         int i = 0;
 
         // 倒序解析
+        proPostLevel = getBit(status, i++);
         avatar = getBit(status, i++);
         homePhone = getBit(status, i++);
         phone = getBit(status, i++);
@@ -79,7 +81,8 @@ public class SyncStatus {
                 + toBit(email)
                 + toBit(phone)
                 + toBit(homePhone)
-                + toBit(avatar), 2);
+                + toBit(avatar)
+                + toBit(proPostLevel), 2);
     }
 
     public void combine(SyncStatus other){
@@ -98,6 +101,7 @@ public class SyncStatus {
         this.phone = this.phone || other.phone;
         this.homePhone = this.homePhone || other.homePhone;
         this.avatar = this.avatar || other.avatar;
+        this.proPostLevel = this.proPostLevel || other.proPostLevel;
     }
 
     public void setByNames(String names){
@@ -121,6 +125,7 @@ public class SyncStatus {
         this.phone = this.phone || nameSet.contains("phone");
         this.homePhone = this.homePhone || nameSet.contains("homePhone");
         this.avatar = this.avatar || nameSet.contains("avatar");
+        this.proPostLevel = this.proPostLevel || nameSet.contains("proPostLevel");
     }
 
     // pos是status的倒序位数
@@ -206,4 +211,7 @@ public class SyncStatus {
     public boolean isAvatar() {
         return avatar;
     }
+
+    public boolean isProPostLevel() { return proPostLevel; }
+
 }

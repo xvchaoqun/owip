@@ -42,11 +42,11 @@
     <td colspan=${cadrePost_vacant=='true'?9:7} height=30 class=xl8324426 width=1068>
       统计日期：${cm:formatDate(now,'yyyy年MM月dd日')}
     </td>
-    <c:if test="${cadrePost_vacant=='true'}">
+    <%--<c:if test="${cadrePost_vacant=='true'}">
       <td colspan=${cadreType==CADRE_TYPE_CJ?9:5} height=30 class=xl8324425 width=1068>
         注：<span class="isCpc1">(占职数)</span>/<span class="notCpc">(不占职数)</span>
       </td>
-    </c:if>
+    </c:if>--%>
     <c:if test="${cadrePost_vacant=='false'}">
         <td colspan=${cadreType==CADRE_TYPE_CJ?7:3} height=30 class=xl8324425 width=1068>
           注：<span class="isCpc">(占职数)</span>/<span class="notCpc">(不占职数)</span>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
 <script>
   var colModel = [
     { label: '岗位编号',name: 'code', frozen:true},
@@ -51,7 +52,7 @@
           label: '任职日期',
           name: 'cadrePost.lpWorkTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y.m.d'}
+          formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
       },
       {
           label: '现任职务<br/>年限',
@@ -79,7 +80,7 @@
           label: '现任职务<br/>始任日期',
           name: 'cadrePost.npWorkTime',
           formatter: $.jgrid.formatter.date,
-          formatoptions: {newformat: 'Y.m.d'}
+          formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
       },
       {
           label: '现任职务<br/>始任年限',

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['birthToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_birthToDayFormat"/>
+<c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
 <script>
     var colModel = [
         {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
@@ -21,8 +23,8 @@
         },
         {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
         {label: '民族', name: 'cadre.nation', width: 60},
-        {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-        {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
+        {label: '出生时间', name: 'cadre.birth', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
+        {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE, formatoptions: {newformat: '${_p_birthToDayFormat}'}},
         {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
         {label: '党派<br/>加入时间', name: '_growTime', formatter: $.jgrid.formatter.growTime, formatoptions:{useCadre:true}},
         {
@@ -36,13 +38,13 @@
             label: '任现职时间',
             name: 'cadre.lpWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任时间',
             name: 'cadre.npWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '现职务<br/>始任年限',
@@ -56,7 +58,7 @@
             label: '现职级<br/>始任时间',
             name: 'cadre.sWorkTime',
             formatter: $.jgrid.formatter.date,
-            formatoptions: {newformat: 'Y.m.d'}
+            formatoptions: {newformat: '${_p_postTimeToDayFormat}'}
         },
         {
             label: '任现职级年限',

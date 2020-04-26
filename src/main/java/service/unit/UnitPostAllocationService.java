@@ -481,10 +481,18 @@ public class UnitPostAllocationService extends BaseMapper {
                             mains.add(cadrePost);
                         }
 
-                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                            // 主职或者副职占职数，就计数
-                            mainCount++;
+                        if(CmTag.getBoolProperty("cadrePost_vacant")) {
+                            if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
+                               //保留待遇干部不算到“现任数”中
+                                mainCount++;
+                            }
+                        }else{
+                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                                // 主职或者副职占职数，就计数
+                                mainCount++;
+                            }
                         }
+
                     }
                     if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
 
@@ -496,11 +504,18 @@ public class UnitPostAllocationService extends BaseMapper {
                         }else{
                               vices.add(cadrePost);
                         }
-
-                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                            // 主职或者副职占职数，就计数
-                            viceCount++;
+                        if(CmTag.getBoolProperty("cadrePost_vacant")) {
+                            if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
+                                //保留待遇干部不算到“现任数”中
+                                viceCount++;
+                            }
+                        }else{
+                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                                // 主职或者副职占职数，就计数
+                                viceCount++;
+                            }
                         }
+
                     }
                     if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
                         if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {
