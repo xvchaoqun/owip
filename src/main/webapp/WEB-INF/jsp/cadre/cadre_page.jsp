@@ -670,6 +670,15 @@
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
                                                         </script>
                                                     </td>
+                                                    <td class="name">工作类型</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="workTypes" data-placeholder="请选择">
+                                                            <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
+                                                        </select>
+                                                        <script type="text/javascript">
+                                                            $.register.multiselect($('#searchForm select[name=workTypes]'), '${param.workTypes}'.split(","));
+                                                        </script>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否班子负责人</td>
