@@ -160,11 +160,12 @@ pageEncoding="UTF-8" %>
 
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
-                                               data-url="${ctx}/cg/cgTeam"
+                                               data-url="${ctx}/cg/cgTeam?isCurrent=${isCurrent}"
                                                data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-url="${ctx}/cg/cgTeam">
+                                                        data-url="${ctx}/cg/cgTeam"
+                                                        data-querystr="isCurrent=${isCurrent}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>

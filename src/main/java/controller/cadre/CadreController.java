@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.cadre.common.ICadreWorkMapper;
 import service.cadre.CadreAdformService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
@@ -62,6 +63,8 @@ public class CadreController extends BaseController {
     private CadreAdformService cadreAdformService;
     @Autowired
     private CadreInfoFormService cadreInfoFormService;
+    @Autowired
+    private ICadreWorkMapper iCadreWorkMapper;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -201,6 +204,7 @@ public class CadreController extends BaseController {
                            Integer endNowPostAge,
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
+                           String[] workTypes,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
@@ -298,6 +302,11 @@ public class CadreController extends BaseController {
             }else if (firstUnitPost==0){ // 第一主职没关联岗位
                 criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
             }
+        }
+
+        if (workTypes != null){
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdForTypes(Arrays.asList(workTypes));
+            criteria.andIdIn(cadreIds);
         }
 
         if (cadreId != null) {

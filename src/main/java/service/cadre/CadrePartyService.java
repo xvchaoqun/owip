@@ -14,11 +14,14 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.member.MemberQuitService;
 import sys.constants.CadreConstants;
+import sys.constants.MemberConstants;
 import sys.tags.CmTag;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lm on 2018/6/20.
@@ -29,6 +32,8 @@ public class CadrePartyService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private MemberQuitService memberQuitService;
 
     // 判断类型是否重复（中共党员、第一民主党派）
     public boolean typeDuplicate(Integer id, int userId, byte type, Boolean isFirst) {
@@ -96,12 +101,18 @@ public class CadrePartyService extends BaseMapper {
     public void addOrUpdateCadreParty(CadreParty record) {
 
         int userId = record.getUserId();
+
         CadreView cv = cadreService.dbFindByUserId(userId);
+        if (cv == null) {
+            // 不在干部库中，需要添加为临时干部
+            cadreService.addTempCadre(userId);
+            cv = cadreService.dbFindByUserId(userId);
+        }
 
         if(record.getType()==CadreConstants.CADRE_PARTY_TYPE_DP){
 
             // 添加民主党派前，先删除“群众”
-            iCadreMapper.deleteCrowd(record.getUserId());
+            iCadreMapper.deleteCadreParty(record.getUserId(), true);
 
             if(cv.getDpTypeId() == null) {
 
@@ -144,11 +155,6 @@ public class CadrePartyService extends BaseMapper {
             }
             cadrePartyMapper.updateByPrimaryKeySelective(record);
         }
-
-        if (cv == null) {
-            // 不在干部库中，需要添加为临时干部
-            cadreService.addTempCadre(userId);
-        }
     }
 
      @Transactional
@@ -187,5 +193,48 @@ public class CadrePartyService extends BaseMapper {
             criteria.andTypeEqualTo(type);
         }
         cadrePartyMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public void addOrUpdateCrowd(CadreParty record) {
+
+        int userId = record.getUserId();
+
+        CadreView cv = cadreService.dbFindByUserId(userId);
+        if (cv == null) {
+            // 不在干部库中，需要添加为临时干部
+            cadreService.addTempCadre(userId);
+        }
+
+        // 删除某人在 民主党派库中非“群众”的记录
+        iCadreMapper.deleteCadreParty(userId,false);
+        //党员出党
+        memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_QUIT);
+
+        //获取源数据中‘群众’类型的ID
+        Integer crowdId = null;
+        Map<Integer, MetaType> dpTypes = CmTag.getMetaTypes("mc_democratic_party");
+        for (MetaType metaType : dpTypes.values()) {
+            if (BooleanUtils.isTrue(metaType.getBoolAttr())) {
+                crowdId = metaType.getId();
+            }
+        }
+
+        //查询当前用户是否已经是群众,是则更新，不是则插入
+        CadrePartyExample example = new CadrePartyExample();
+        example.createCriteria().andClassIdEqualTo(crowdId)
+                .andUserIdEqualTo(userId).andTypeEqualTo(record.getType());
+        List<CadreParty> cadreParties = cadrePartyMapper.selectByExample(example);
+        if (cadreParties!=null && cadreParties.size()>0){
+
+            CadreParty cadreParty = cadreParties.get(0);
+            record.setId(cadreParty.getId());
+            cadrePartyMapper.updateByPrimaryKeySelective(record);
+        }else {
+
+            record.setClassId(crowdId);
+            record.setIsFirst(true);
+            cadrePartyMapper.insert(record);
+        }
     }
 }
