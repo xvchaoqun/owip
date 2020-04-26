@@ -154,17 +154,30 @@
 
             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                 <div class="form-group">
-                <label class="col-xs-3 control-label"><c:if test="${!sync.proPost}"><span class="star">*</span></c:if> 专业技术职务</label>
-                <div class="col-xs-6">
-                    <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
-                </div>
-                <c:if test="${!sync.proPost}">
+                    <label class="col-xs-3 control-label"><c:if test="${!sync.proPost}"><span class="star">*</span></c:if> 专业技术职务</label>
                     <div class="col-xs-6">
-                        <input type="checkbox" ${userSync.proPost?"checked":""}
-                               data-name="proPost" class="syncOnce big"/> 仅同步一次
+                        <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
                     </div>
-                </c:if>
-            </div>
+                    <c:if test="${!sync.proPost}">
+                        <div class="col-xs-6">
+                            <input type="checkbox" ${userSync.proPost?"checked":""}
+                                   data-name="proPost" class="syncOnce big"/> 仅同步一次
+                        </div>
+                    </c:if>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label"><c:if test="${!sync.proPostLevel}"><span class="star">*</span></c:if> 专业技术职务级别</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
+                    </div>
+                    <c:if test="${!sync.proPostLevel}">
+                        <div class="col-xs-6">
+                            <input type="checkbox" ${userSync.proPostLevel?"checked":""}
+                                   data-name="proPostLevel" class="syncOnce big"/> 仅同步一次
+                        </div>
+                    </c:if>
+                </div>
             </c:if>
 
 

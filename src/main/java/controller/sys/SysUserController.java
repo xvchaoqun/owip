@@ -370,6 +370,7 @@ public class SysUserController extends BaseController {
     public Map do_sysUserInfo_au(int userId,
                                  SysUserInfo record,
                                  String proPost,
+                                 String proPostLevel,
                                  String syncNames,
                                  MultipartFile _avatar,
                                  MultipartFile _sign) throws IOException {
@@ -389,7 +390,11 @@ public class SysUserController extends BaseController {
             teacherInfo.setUserId(userId);
             teacherInfo.setProPost(proPost);
         }
-
+        if(proPostLevel!=null){
+            teacherInfo = new TeacherInfo();
+            teacherInfo.setUserId(userId);
+            teacherInfo.setProPostLevel(proPostLevel);
+        }
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
         return success(FormUtils.SUCCESS);
     }
