@@ -588,6 +588,9 @@ public class UnitPostController extends BaseController {
                 "最高学位|100", "所学专业|150", "专业技术职务|150","任现职时间|150","现职务始任时间|150","现职务始任年限|150",
                 "现职级始任时间|150", "任现职级年限|150"};
 
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
+        boolean postTimeToDay = CmTag.getBoolProperty("postTimeToDay");
+
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             UnitPostView record = records.get(i);
@@ -610,9 +613,9 @@ public class UnitPostController extends BaseController {
                     SystemConstants.UNIT_POST_LEADER_TYPE_MAP.get(record.getLeaderType()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
                     cv.getNation(),
-                    DateUtils.formatDate(birth, CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(birth, birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
 
-                    birth== null ? "" : DateUtils.yearOffNow(CmTag.getBoolProperty("birthToDay")?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
+                    birth== null ? "" : DateUtils.yearOffNow(birthToDay?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
                     StringUtils.trimToEmpty(partyName),
                     StringUtils.trimToEmpty(partyAddTime),
                     DateUtils.formatDate(cv.getWorkTime(), DateUtils.YYYYMM), //参加工作时间
@@ -621,11 +624,11 @@ public class UnitPostController extends BaseController {
                     cv.getDegree(),
                     cv.getMajor(),
                     cv.getProPost(),
-                    DateUtils.formatDate(cv.getLpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
-                    DateUtils.formatDate(cv.getNpWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(cv.getLpWorkTime(), postTimeToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(cv.getNpWorkTime(), postTimeToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
                     NumberUtils.trimToEmpty(cv.getCadrePostYear()),
 
-                    DateUtils.formatDate(cv.getsWorkTime(), CmTag.getBoolProperty("postTimeToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    DateUtils.formatDate(cv.getsWorkTime(), postTimeToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
                     NumberUtils.trimToEmpty(cv.getAdminLevelYear())
             };
             valuesList.add(values);

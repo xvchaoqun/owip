@@ -608,6 +608,7 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
+                                                    <shiro:hasRole name="${ROLE_ADMIN}">
                                                     <td class="name">第一主职是否已关联岗位</td>
                                                     <td class="input">
                                                         <select name="firstUnitPost" data-width="100"
@@ -623,6 +624,7 @@
                                                             $("#searchForm select[name=firstUnitPost]").val('${param.firstUnitPost}');
                                                         </script>
                                                     </td>
+                                                    </shiro:hasRole>
                                                 </tr>
                                                 <tr>
                                                     <td class="name">是否正职</td>

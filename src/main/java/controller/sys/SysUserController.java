@@ -391,8 +391,10 @@ public class SysUserController extends BaseController {
             teacherInfo.setProPost(proPost);
         }
         if(proPostLevel!=null){
-            teacherInfo = new TeacherInfo();
-            teacherInfo.setUserId(userId);
+            if(teacherInfo==null) {
+                teacherInfo = new TeacherInfo();
+                teacherInfo.setUserId(userId);
+            }
             teacherInfo.setProPostLevel(proPostLevel);
         }
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
