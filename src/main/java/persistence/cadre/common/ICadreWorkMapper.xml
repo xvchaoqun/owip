@@ -4,10 +4,18 @@
     <select id="getCadreIdsOfWorkTypes" parameterType="map" resultType="java.lang.Integer" >
         select distinct cadre_id from cadre_work where
         <if test="workTypes.size>0">
+            <if test="separator=='or'">
             <foreach collection="workTypes" item="workType" index="index"
-                     open="(" close=")" separator=" #{separator} ">
+                     open="(" close=")" separator=" or ">
                 find_in_set(#{workType}, work_types)
             </foreach>
+            </if>
+            <if test="separator=='and'">
+            <foreach collection="workTypes" item="workType" index="index"
+                     open="(" close=")" separator=" and ">
+                find_in_set(#{workType}, work_types)
+            </foreach>
+            </if>
         </if>
     </select>
 </mapper>
