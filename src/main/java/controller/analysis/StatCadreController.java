@@ -189,6 +189,8 @@ public class StatCadreController extends BaseController {
         int rownum = records.size();
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100", "性别|50",
                 "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150", "人才/荣誉称号|800|left"};
+
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ICarde record = records.get(i);
@@ -205,8 +207,8 @@ public class StatCadreController extends BaseController {
                     metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
-                    birth==null?"": DateUtils.calAge(birth),
+                    DateUtils.formatDate(birth, birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    birth== null ? "" : DateUtils.yearOffNow(birthToDay?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
                     cadreParty.get("partyName"),
                     cv.getProPost(),
                     cv.getTalentTitle()
@@ -225,6 +227,8 @@ public class StatCadreController extends BaseController {
         String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "行政级别|100", "性别|50",
                 "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150",
                 "挂职开始日期|120", "挂职结束日期|120", "挂职工作单位|150", "担任职务或者专技职务|300|left"};
+
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CrpRecord record = records.get(i);
@@ -256,8 +260,9 @@ public class StatCadreController extends BaseController {
                     metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
-                    birth==null?"": DateUtils.calAge(birth),
+                    DateUtils.formatDate(birth, birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    birth== null ? "" : DateUtils.yearOffNow(birthToDay?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
+
                     cadreParty.get("partyName"),
                     cv.getProPost(),
 
@@ -298,7 +303,7 @@ public class StatCadreController extends BaseController {
                 titles.set(11, "机关工作单位及担任职务或者专技职务");
                 break;
         }
-
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ICadreWork record = records.get(i);
@@ -316,8 +321,8 @@ public class StatCadreController extends BaseController {
                     metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
-                    birth==null?"": DateUtils.calAge(birth),
+                    DateUtils.formatDate(birth, birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    birth== null ? "" : DateUtils.yearOffNow(birthToDay?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
                     cadreParty.get("partyName"),
                     cv.getProPost(),
 
@@ -339,6 +344,7 @@ public class StatCadreController extends BaseController {
                 "出生日期|100", "年龄|50", "政治面貌|100", "专业技术职务|150", "最高学历|100",
                 "最高学位|100", "国（境）外学历|150", "入学时间|100", "毕业时间|100", "毕业/在读学校|200|left",
                 "院系|200|left", "所学专业|150"};
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ICadreEdu record = records.get(i);
@@ -355,8 +361,8 @@ public class StatCadreController extends BaseController {
                     metaTypeService.getName(cv.getAdminLevel()),
                     gender==null?"": SystemConstants.GENDER_MAP.get(gender),
 
-                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
-                    birth==null?"": DateUtils.calAge(birth),
+                    DateUtils.formatDate(birth, birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    birth== null ? "" : DateUtils.yearOffNow(birthToDay?birth:DateUtils.getFirstDayOfMonth(birth)) + "",
                     cadreParty.get("partyName"),
                     cv.getProPost(),
                     metaTypeService.getName(cv.getEduId()),
