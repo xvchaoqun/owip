@@ -205,6 +205,7 @@ public class CadreController extends BaseController {
                            Integer startNowLevelAge,
                            Integer endNowLevelAge,
                            Integer[] workTypes,
+                           Boolean workTypesSeparator,
                            @RequestParam(required = false, value = "nation") String[] nation,
                            @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                            @RequestDateRange DateRange _birth,
@@ -305,7 +306,8 @@ public class CadreController extends BaseController {
         }
 
         if (workTypes != null){
-            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes));
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
+                    BooleanUtils.isTrue(workTypesSeparator)?"and":"or");
             criteria.andIdIn(cadreIds);
         }
 

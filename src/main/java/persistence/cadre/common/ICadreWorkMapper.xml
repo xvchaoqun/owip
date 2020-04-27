@@ -5,7 +5,7 @@
         select distinct cadre_id from cadre_work where
         <if test="workTypes.size>0">
             <foreach collection="workTypes" item="workType" index="index"
-                     open="(" close=")" separator=" or ">
+                     open="(" close=")" separator=" #{separator} ">
                 find_in_set(#{workType}, work_types)
             </foreach>
         </if>

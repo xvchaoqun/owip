@@ -1,4 +1,6 @@
 
+2020.4.27
+北航  -- 北师大
 
 ALTER TABLE `sys_user_info`
 	ADD COLUMN `res_ids_add` TEXT NULL DEFAULT NULL COMMENT '网页端加权限资源id' AFTER `sync`,

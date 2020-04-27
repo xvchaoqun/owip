@@ -10,7 +10,7 @@ git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd621
 git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前后”两个版本之间变更的文件
-git diff --diff-filter=d 7a378b5474a66c1cb2647acc9b1ca85fa4f495bd 88a961d47f475f6002fd1616e30e158bde224bf9 --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
+git diff --diff-filter=d 9487316e817dd584ee8cf9bf4c10d5cc03429b7b 9b8fc7116e8f0da4532ee93d6e399a5053759135 --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
 
 
 -- 忽略文件
