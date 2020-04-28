@@ -1,3 +1,11 @@
+2020-04-27
+
+ALTER TABLE `ow_organizer`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '联系党委' AFTER `user_id`,
+	ADD COLUMN `branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '联系党支部' AFTER `party_id`;
+ALTER TABLE `ow_organizer`
+	ADD COLUMN `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系方式' AFTER `units`;
+
 2019-12-27
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2717, 0, '党支部书记考核：基本信息添加修改', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'memberReport:base', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2718, 0, '党支部考核：基本信息添加修改', '', 'function', '', NULL, 2712, '0/1/260/2712/', 1, 'partyReport:base', NULL, NULL, NULL, 1, NULL);

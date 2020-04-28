@@ -11,7 +11,6 @@ import domain.sys.TeacherInfo;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
@@ -21,6 +20,8 @@ import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 
 import java.util.*;
+
+import static sys.constants.OwConstants.OW_ORGANIZER_TYPE_MAP;
 
 @Service
 public class OrganizerService extends BaseMapper {
@@ -112,8 +113,12 @@ public class OrganizerService extends BaseMapper {
     @Transactional
     public void insertSelective(Organizer record) {
 
-        Assert.isTrue(!idDuplicate(null, record.getType(),
-                record.getUserId(), record.getStatus()), "duplicate");
+        if(idDuplicate(null, record.getType(), record.getUserId(), record.getStatus())){
+            throw new OpException(record.getUser().getRealname()+"("+record.getUser().getCode()+")"
+                    + "已经是"
+                    + OwConstants.OW_ORGANIZER_STATUS_MAP.get(record.getStatus())
+                    + OW_ORGANIZER_TYPE_MAP.get(record.getType()));
+        }
         record.setSortOrder(getNextSortOrder("ow_organizer",
                 "type=" + record.getType() + " and status=" + record.getStatus()));
 
@@ -202,7 +207,18 @@ public class OrganizerService extends BaseMapper {
         }
     }
 
+    // 批量导入
+    @Transactional
+    public int organizerImport(List<Organizer> records) throws InterruptedException {
 
+        int addCount = 0;
+
+        for (Organizer record : records) {
+            insertSelective(record);
+            addCount++;
+        }
+        return addCount;
+    }
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      *

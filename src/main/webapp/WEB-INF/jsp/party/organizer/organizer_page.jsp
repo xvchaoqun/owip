@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="OW_ORGANIZER_TYPE_SCHOOL" value="<%=OwConstants.OW_ORGANIZER_TYPE_SCHOOL%>"/>
 <c:set var="OW_ORGANIZER_TYPE_UNIT" value="<%=OwConstants.OW_ORGANIZER_TYPE_UNIT%>"/>
+<c:set var="OW_ORGANIZER_TYPE_BRANCH" value="<%=OwConstants.OW_ORGANIZER_TYPE_BRANCH%>"/>
 <c:set var="OW_ORGANIZER_STATUS_NOW" value="<%=OwConstants.OW_ORGANIZER_STATUS_NOW%>"/>
 <c:set var="OW_ORGANIZER_STATUS_LEAVE" value="<%=OwConstants.OW_ORGANIZER_STATUS_LEAVE%>"/>
 <div class="row">
@@ -21,7 +22,12 @@
                             data-url="${ctx}/organizer_au?cls=${cls}&type=${type}">
                         <i class="fa fa-plus"></i> 添加
                     </button>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+
+                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                       data-url="${ctx}/organizer_import?cls=${cls}&type=${type}"
+                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</button>
+
+                    <button class="jqOpenViewBtn btn btn-success btn-sm"
                             data-url="${ctx}/organizer_au"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改
@@ -54,11 +60,11 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/organizer_data?cls=${cls}&type=${type}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
-                </button>--%>
+                </button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -91,12 +97,12 @@
                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.username}</option>
                                  </select>
                             </div>
-                            <div class="form-group">
+                          <%--  <div class="form-group">
                                 <label>组别</label>
                                 <input class="form-control search-query" name="partyId" type="text"
                                        value="${param.partyId}"
                                        placeholder="请输入联系党委">
-                            </div>
+                            </div>--%>
                             <c:if test="${type==OW_ORGANIZER_TYPE_SCHOOL}">
                             <div class="form-group">
                                 <label>联系单位</label>
@@ -105,14 +111,30 @@
                                        placeholder="请输入">
                             </div>
                             </c:if>
-                            <c:if test="${type==OW_ORGANIZER_TYPE_UNIT}">
-                            <div class="form-group">
-                                <label>联系${_p_partyName}</label>
-                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
-                                        data-width="350" name="partyId" data-placeholder="请选择">
-                                     <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
-                                 </select>
-                            </div>
+                            <c:if test="${type!=OW_ORGANIZER_TYPE_SCHOOL}">
+                                <div class="form-group">
+                                    <label>联系${_p_partyName}</label>
+                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                            data-width="320" name="partyId" data-placeholder="请选择">
+                                         <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                     </select>
+                                </div>
+                                <c:if test="${type==OW_ORGANIZER_TYPE_BRANCH}">
+                                    <div class="form-group" style="${(empty branch)?'display: none':''}"
+                                         id="branchDiv">
+                                        <label> 联系党支部</label>
+                                        <select data-rel="select2-ajax" data-width="320"
+                                                    data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                    name="branchId" data-placeholder="请选择">
+                                                <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                        </select>
+
+                                    </div>
+                                    <script>
+                                        $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                    </script>
+                                </c:if>
                             </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -158,6 +180,7 @@
                     return $.user(rowObject.userId, cellvalue);
                 }, frozen: true
             },
+            {label: '联系方式', name: 'phone', width: 120},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid: '#jqGrid', url: "${ctx}/organizer_changeOrder"}
@@ -174,7 +197,6 @@
             {label: '主岗等级', name: 'mainPostLevel'},*/
             {label: '专业技术职务', name: 'proPost', width: 150},
             /*{label: '是否离休', name: 'isRetire', formatter: $.jgrid.formatter.TRUEFALSE},*/
-            {label: '手机号码', name: 'user.mobile', width: 120},
             <c:if test="${type==OW_ORGANIZER_TYPE_SCHOOL && cls==1}">
             {label: '所在小组', name: '_history', width: 90, formatter: function (cellvalue, options, rowObject) {
                     return ('<button class="loadPage btn btn-success btn-xs" ' +
@@ -183,10 +205,15 @@
                         .format(rowObject.userId);
             }, frozen: true},
             </c:if>
-            <c:if test="${type==OW_ORGANIZER_TYPE_UNIT}">
+            <c:if test="${type!=OW_ORGANIZER_TYPE_SCHOOL}">
             { label: '联系${_p_partyName}', name: 'partyId',align:'left', width: 350, formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             }},
+            </c:if>
+            <c:if test="${type==OW_ORGANIZER_TYPE_BRANCH}">
+            { label: '联系党支部', name: 'branchId',align:'left', width: 350, formatter:function(cellvalue, options, rowObject){
+                    return $.party(null,rowObject.branchId);
+                }},
             </c:if>
             {
                 label: '任职时间',

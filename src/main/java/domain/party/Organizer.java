@@ -24,7 +24,11 @@ public class Organizer implements Serializable {
 
     private Integer partyId;
 
+    private Integer branchId;
+
     private String units;
+
+    private String phone;
 
     private Date growTime;
 
@@ -106,12 +110,28 @@ public class Organizer implements Serializable {
         this.partyId = partyId;
     }
 
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
     public String getUnits() {
         return units;
     }
 
     public void setUnits(String units) {
         this.units = units == null ? null : units.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Date getGrowTime() {

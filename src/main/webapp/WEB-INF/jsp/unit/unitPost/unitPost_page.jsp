@@ -30,10 +30,12 @@
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="unitPost:edit">
                     <button class="popupBtn btn btn-info btn-sm"
+                            data-width="900"
                             data-url="${ctx}/unitPost_au?jqGrid=jqGrid">
                         <i class="fa fa-plus"></i> 添加
                     </button>
                      <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                             data-width="900"
                         data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                          修改</button>
