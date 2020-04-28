@@ -22,9 +22,33 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 表头名称</label>
-				<div class="col-xs-8">
+				<div class="col-xs-6">
 					<input required class="form-control" type="text" name="name" value="${crInfo.name}"/>
 					<span class="help-block">导出的报名表命名：${_sysConfig.schoolName}{表头名称}报名表</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 可填报志愿数量</label>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="applyPostNum" id="applyPostNum1" value="1">
+							<label for="applyPostNum1">
+								1个
+							</label>
+						</div>
+						&nbsp;&nbsp;
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="applyPostNum" id="applyPostNum2" value="2">
+							<label for="applyPostNum2">
+								2个
+							</label>
+						</div>
+					</div>
+					<script>
+						$("#modalForm input[name=applyPostNum][value=${empty crInfo.applyPostNum?2:crInfo.applyPostNum}]")
+								.prop("checked", true);
+					</script>
 				</div>
 			</div>
 			<div class="form-group">

@@ -309,6 +309,7 @@ public class CrExportService extends CrBaseMapper {
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         dataMap.put("infoName", crInfo.getName());
         dataMap.put("applicants", applicants);
+        dataMap.put("applyPostNum", crInfo.getApplyPostNum());
 
         freemarkerService.process("/cr/form.ftl", dataMap, out);
     }

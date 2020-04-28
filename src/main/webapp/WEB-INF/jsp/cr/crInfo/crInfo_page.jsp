@@ -108,6 +108,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 {label: '年度', name: 'year', width:'60', frozen: true},
                 {label: '表头名称', name: 'name', width:'160', align:'left', frozen: true},
+                {label: '可填志愿数', name: 'applyPostNum', frozen: true},
                 {label: '添加日期', name: 'addDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen: true},
                 {
                     label: '招聘通知', name: 'notice', width: 80, formatter: function (cellvalue, options, rowObject) {

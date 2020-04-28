@@ -115,13 +115,17 @@
                                     <td><span class="star">*</span>岗位志愿</td>
                                     <td colspan="5">
                                         <div class="input-group">
-                                            第一志愿：
-                                            <select required name="firstPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
+                                            <c:if test="${crInfo.applyPostNum==2}">第一志愿：</c:if>
+                                            <select required name="firstPostId" data-width="${crInfo.applyPostNum==2?273:550}" data-placeholder="请选择" data-rel="select2">
                                                 <option></option>
                                                 <c:forEach items="${crPosts}" var="post">
                                                     <option value="${post.id}">${post.name}</option>
                                                 </c:forEach>
                                             </select>
+                                            <script>
+                                                $("#modalForm select[name=firstPostId]").val('${crApplicant.firstPostId}');
+                                            </script>
+                                            <c:if test="${crInfo.applyPostNum==2}">
                                             &nbsp;&nbsp;&nbsp;
                                             第二志愿：
                                             <select name="secondPostId" data-width="273" data-rel="select2" data-placeholder="请选择">
@@ -131,9 +135,9 @@
                                                 </c:forEach>
                                             </select>
                                             <script>
-                                                $("#modalForm select[name=firstPostId]").val('${crApplicant.firstPostId}');
                                                 $("#modalForm select[name=secondPostId]").val('${crApplicant.secondPostId}');
                                             </script>
+                                            </c:if>
                                         </div>
                                     </td>
                                 </tr>

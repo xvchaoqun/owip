@@ -13,6 +13,8 @@ public class CrInfo implements Serializable {
 
     private String name;
 
+    private Integer applyPostNum;
+
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date addDate;
 
@@ -66,6 +68,14 @@ public class CrInfo implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getApplyPostNum() {
+        return applyPostNum;
+    }
+
+    public void setApplyPostNum(Integer applyPostNum) {
+        this.applyPostNum = applyPostNum;
     }
 
     public Date getAddDate() {

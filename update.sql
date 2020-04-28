@@ -7,7 +7,11 @@
 -- 修改竞争上岗，已更新南航
 ALTER TABLE `cr_info`
 	ADD COLUMN `name` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '表头名称，默认：干部竞争上岗' AFTER `year`;
-update cr_info set name='干部竞争上岗';*/
+update cr_info set name='干部竞争上岗';
+ALTER TABLE `cr_info`
+	ADD COLUMN `apply_post_num` INT NOT NULL COMMENT '允许填报的志愿数，1个或2个' AFTER `name`;
+update cr_info set apply_post_num=2;
+*/
 
 2020.4.27
 北航  -- 北师大
