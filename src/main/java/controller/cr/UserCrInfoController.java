@@ -1,5 +1,6 @@
 package controller.cr;
 
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cr.CrApplicant;
 import domain.cr.CrInfo;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -76,11 +78,17 @@ public class UserCrInfoController extends CrBaseController {
 
         CrInfo crInfo = crInfoMapper.selectByPrimaryKey(infoId);
         modelMap.put("crInfo", crInfo);
-
+        int year = crInfo.getYear();
         CrApplicant crApplicant = crApplicantService.get(userId, infoId);
         modelMap.put("crApplicant", crApplicant);
         if(crApplicant!=null){
-            modelMap.put("evas", Arrays.asList(crApplicant.getEva().split(",")));
+
+             Cadre cadre = cadreService.getByUserId(crApplicant.getUserId());
+             if(cadre!=null && cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE){
+                 modelMap.put("cadre", cadre);
+             }
+            String eva = crApplicantService.getEva(year, cadre, crApplicant);
+            modelMap.put("evas", Arrays.asList(eva.split(",")));
         }
 
         List<CrPost> crPosts = crPostService.getPosts(infoId);

@@ -11,6 +11,8 @@ public class CrInfo implements Serializable {
 
     private Integer year;
 
+    private String name;
+
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date addDate;
 
@@ -56,6 +58,14 @@ public class CrInfo implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Date getAddDate() {

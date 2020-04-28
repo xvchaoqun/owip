@@ -672,8 +672,9 @@
                                                             $("#searchForm select[name=isDouble]").val('${param.isDouble}');
                                                         </script>
                                                     </td>
-                                                    <td class="name">工作经历<br />
-                                                        <input ${not empty param.workTypesSeparator?'checked':''} type="checkbox" name="workTypesSeparator" value="1">(交集)
+                                                    <td class="name">工作经历<br/>
+                                                        (<input ${param.andWorkTypes==1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="1">交集
+                                                        <input ${param.andWorkTypes!=1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="0">并集)
                                                     </td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="workTypes" data-placeholder="请选择">
@@ -798,6 +799,13 @@
         //console.log($(e.target).hasClass("jqExportBtn"))
         if (!$(e.target).hasClass("jqExportBtn")) {
             e.stopPropagation();
+        }
+    });
+    $("input[name=andWorkTypes]").click(function () {
+        if($(this).is(":checked")){
+            $("input[name=andWorkTypes]").not(this).prop("checked", false);
+        }else{
+            $(this).prop("checked", true);
         }
     });
     $("#btnSelectAll").click(function () {

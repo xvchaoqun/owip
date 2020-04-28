@@ -1,4 +1,13 @@
 
+
+
+
+/*
+-- 修改竞争上岗，已更新南航
+ALTER TABLE `cr_info`
+	ADD COLUMN `name` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '表头名称，默认：干部竞争上岗' AFTER `year`;
+update cr_info set name='干部竞争上岗';*/
+
 2020.4.27
 北航  -- 北师大
 

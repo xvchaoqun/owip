@@ -49,7 +49,7 @@
                                     <td width="100">性 别</td>
                                     <td width="150">${GENDER_MAP.get(bean.gender)}</td>
                                     <td width="100">出生年月</td>
-                                    <td width="">${cm:formatDate(bean.birth,'yyyy.MM')}</td>
+                                    <td width="">${cm:formatDate(bean.birth,'yyyy.MM.dd')}</td>
                                 </tr>
                                 <tr>
                                     <td>民族</td>
@@ -138,12 +138,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><span class="star">*</span>年度考核结果</td>
+                                    <td>${empty cadre?'<span class="star">*</span>':''}年度考核结果</td>
                                     <td colspan="5">
                                         <div class="input-group">
                                             <c:set var="idx" value="0"/>
                                         <c:forEach begin="${crInfo.year-3}" end="${crInfo.year-1}" var="y">
-                                           ${y}年：<select required data-rel="select2" data-width="100"
+                                           ${y}年：<select ${empty cadre?"required":"disabled"} data-rel="select2" data-width="100"
                                                         name="eva" id="eva_${y}" data-placeholder="请选择">
                                                     <option></option>
                                                     <c:import url="/metaTypes?__code=mc_cadre_eva"/>

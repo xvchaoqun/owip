@@ -71,8 +71,11 @@ public class CrRequireService extends CrBaseMapper {
         resultMap.put(CrConstants.CR_POST_RULE_TYPE_ZZJS, combineTowString(proPost, proPostTime)
                 + "<br/>" + combineTowString(proPostLevel, proPostLevelTime));
 
-        String manageLevel = cv.getManageLevel();
-        String manageLevelTime = cv.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getManageLevelTime());
+        /*String manageLevel = cv.getManageLevel();
+        String manageLevelTime = cv.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getManageLevelTime());*/
+        // 非职员制，直接读行政级别、任现职级时间
+        String manageLevel = CmTag.getMetaTypeName(cv.getAdminLevel());
+        String manageLevelTime = cv.getsWorkTime() == null ? null : DateUtils.yearOffNow_cn(cv.getsWorkTime());
         resultMap.put(CrConstants.CR_POST_RULE_TYPE_GLGW, combineTowString(manageLevel, manageLevelTime));
 
         Integer adminLevel = cv.getAdminLevel();

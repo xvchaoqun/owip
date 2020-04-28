@@ -26,19 +26,19 @@
         </javaClientGenerator>
 
         <!--简版干部招聘-->
-        <!--<table tableName="cr_info" domainObjectName="cr.CrInfo" mapperName="cr.CrInfoMapper">
+        <table tableName="cr_info" domainObjectName="cr.CrInfo" mapperName="cr.CrInfoMapper">
             <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
         </table>
-        <table tableName="cr_post" domainObjectName="cr.CrPost" mapperName="cr.CrPostMapper">
+        <!--<table tableName="cr_post" domainObjectName="cr.CrPost" mapperName="cr.CrPostMapper">
         </table>
         <table tableName="cr_meeting" domainObjectName="cr.CrMeeting" mapperName="cr.CrMeetingMapper">
         </table>-->
 
-        <table tableName="cr_applicant" domainObjectName="cr.CrApplicant"  mapperName="cr.CrApplicantMapper">
+        <!--<table tableName="cr_applicant" domainObjectName="cr.CrApplicant"  mapperName="cr.CrApplicantMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="reason" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cr_applicant_check" domainObjectName="cr.CrApplicantCheck"  mapperName="cr.CrApplicantCheckMapper">
         </table>-->
         <!--<table tableName="cr_require" domainObjectName="cr.CrRequire" mapperName="cr.CrRequireMapper">

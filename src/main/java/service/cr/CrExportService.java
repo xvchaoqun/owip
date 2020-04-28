@@ -47,6 +47,8 @@ public class CrExportService extends CrBaseMapper {
     private FreemarkerService freemarkerService;
     @Autowired
     private CadreInfoFormService cadreInfoFormService;
+    @Autowired
+    private CrApplicantService crApplicantService;
 
     /**
      * 干部竞争上岗报名信息表.xlsx
@@ -210,7 +212,8 @@ public class CrExportService extends CrBaseMapper {
             cell.setCellValue(inSchoolDepMajor1);
 
             // 考核结果
-            String[] evaStrs = bean.getEva().split(",");
+            String evas = crApplicantService.getEva(infoId, bean.getUserId());
+            String[] evaStrs = evas.split(",");
             List<String> evaList = new ArrayList<>();
             for (String eva : evaStrs) {
                 evaList.add(metaTypeService.getName(Integer.valueOf(eva)));
@@ -288,7 +291,8 @@ public class CrExportService extends CrBaseMapper {
             }
             applicantDataMap.put("reason", crApplicant.getReason());
 
-            String[] evaStrs = crApplicant.getEva().split(",");
+            String evas = crApplicantService.getEva(infoId, crApplicant.getUserId());
+            String[] evaStrs = evas.split(",");
             int evaLength = evaStrs.length;
             List<String> evaList = new ArrayList<>();
             int i = 0;
@@ -303,6 +307,7 @@ public class CrExportService extends CrBaseMapper {
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
+        dataMap.put("infoName", crInfo.getName());
         dataMap.put("applicants", applicants);
 
         freemarkerService.process("/cr/form.ftl", dataMap, out);

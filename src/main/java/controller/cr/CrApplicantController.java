@@ -185,7 +185,7 @@ public class CrApplicantController extends CrBaseController {
             modelMap.put("crApplicant", crApplicant);
             infoId = crApplicant.getInfoId();
 
-            modelMap.put("evas", Arrays.asList(crApplicant.getEva().split(",")));
+            modelMap.put("evas", Arrays.asList(crApplicantService.getEva(infoId, crApplicant.getUserId()).split(",")));
         }
 
         modelMap.put("infoId", infoId);

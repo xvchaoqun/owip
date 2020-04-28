@@ -21,6 +21,13 @@ pageEncoding="UTF-8"%>
                     </div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 表头名称</label>
+				<div class="col-xs-8">
+					<input required class="form-control" type="text" name="name" value="${crInfo.name}"/>
+					<span class="help-block">导出的报名表命名：${_sysConfig.schoolName}{表头名称}报名表</span>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 添加日期</label>
 				<div class="col-xs-6">
 					<div class="input-group date" data-date-format="yyyy.mm.dd">

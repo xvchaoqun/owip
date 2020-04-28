@@ -45,11 +45,12 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 近三年<br/>年度考核结果</label>
+				<label class="col-xs-3 control-label">${empty cadre?'<span class="star">*</span>':''}近三年<br/>年度考核结果</label>
 				<div class="col-xs-8">
 					<c:set var="idx" value="0"/>
 					<c:forEach begin="${crInfo.year-3}" end="${crInfo.year-1}" var="y">
-					  <span style="margin-bottom: 5px;display: inline-block"> ${y}年：<select required data-rel="select2" data-width="100"
+					  <span style="margin-bottom: 5px;display: inline-block"> ${y}年：
+						  <select ${empty cadre?"required":"disabled"} data-rel="select2" data-width="100"
 									name="eva" id="eva_${y}" data-placeholder="请选择">
 								<option></option>
 								<c:import url="/metaTypes?__code=mc_cadre_eva"/>

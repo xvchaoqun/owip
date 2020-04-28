@@ -1053,16 +1053,7 @@
 						<w:w w:val="90"/>
 						<w:sz w:val="44"/>
 					</w:rPr>
-					<w:t>干部</w:t>
-				</w:r>
-				<w:r wsp:rsidR="003F6F01">
-					<w:rPr>
-						<w:rFonts w:ascii="方正小标宋简体" w:fareast="方正小标宋简体" w:h-ansi="Times New Roman"/>
-						<wx:font wx:val="方正小标宋简体"/>
-						<w:w w:val="90"/>
-						<w:sz w:val="44"/>
-					</w:rPr>
-					<w:t>竞争上岗</w:t>
+					<w:t>${infoName!}</w:t>
 				</w:r>
 				<w:r wsp:rsidRPr="00581CE7">
 					<w:rPr>
@@ -1444,7 +1435,7 @@
 									<w:sz w:val="24"/>
 									<w:sz-cs w:val="24"/>
 								</w:rPr>
-								<w:t><#if bean.isOw>中共<w:br/>${bean.owGrowTime!}<#else>${bean.dpPartyName!}<w:br/>${bean.dpGrowTime!}</#if></w:t>
+								<w:t><#if bean.isOw>中共党员<w:br/>${bean.owGrowTime!}<#else>${bean.dpPartyName!}<w:br/>${bean.dpGrowTime!}</#if></w:t>
 							</w:r>
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
@@ -2153,8 +2144,8 @@
 							</w:pPr>
 							<w:r wsp:rsidRPr="00190871">
 								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="仿宋_GB2312"/>
+									<w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+									<wx:font wx:val="黑体"/>
 									<w:sz w:val="24"/>
 									<w:sz-cs w:val="24"/>
 								</w:rPr>
