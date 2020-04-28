@@ -69,7 +69,7 @@ public class CrApplicantService extends CrBaseMapper {
             eva = String.format("%s,%s,%s", cadreEva_3 == null ? "" : cadreEva_3.getType()
                     , cadreEva_2 == null ? "" : cadreEva_2.getType()
                     , cadreEva_1 == null ? "" : cadreEva_1.getType());
-        } else {
+        } else if(crApplicant!=null){
             eva = crApplicant.getEva();
         }
 
