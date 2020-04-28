@@ -154,14 +154,16 @@ public class OwConstants {
         OW_PARTY_PUBLIC_TYPE_MAP.put(OW_PARTY_PUBLIC_TYPE_POSITIVE, "党员转正公示");
     }
 
-    // 组织员类型 1 校级组织员 2 院系级组织员
+    // 组织员类型 1 校级组织员 2 院系级组织员  3 支部组织员
     public final static byte OW_ORGANIZER_TYPE_SCHOOL = 1;
     public final static byte OW_ORGANIZER_TYPE_UNIT = 2;
+    public final static byte OW_ORGANIZER_TYPE_BRANCH = 3;
     public final static Map<Byte, String> OW_ORGANIZER_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         OW_ORGANIZER_TYPE_MAP.put(OW_ORGANIZER_TYPE_SCHOOL, "校级组织员");
         OW_ORGANIZER_TYPE_MAP.put(OW_ORGANIZER_TYPE_UNIT, "院系级组织员");
+        OW_ORGANIZER_TYPE_MAP.put(OW_ORGANIZER_TYPE_BRANCH, "支部组织员");
     }
     // 组织员状态
     public final static byte OW_ORGANIZER_STATUS_NOW = 1;

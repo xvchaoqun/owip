@@ -2,7 +2,9 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="OW_ORGANIZER_TYPE_MAP" value="<%=OwConstants.OW_ORGANIZER_TYPE_MAP%>"/>
+<c:set var="OW_ORGANIZER_TYPE_SCHOOL" value="<%=OwConstants.OW_ORGANIZER_TYPE_SCHOOL%>"/>
 <c:set var="OW_ORGANIZER_TYPE_UNIT" value="<%=OwConstants.OW_ORGANIZER_TYPE_UNIT%>"/>
+<c:set var="OW_ORGANIZER_TYPE_BRANCH" value="<%=OwConstants.OW_ORGANIZER_TYPE_BRANCH%>"/>
 <c:set var="OW_ORGANIZER_STATUS_MAP" value="<%=OwConstants.OW_ORGANIZER_STATUS_MAP%>"/>
 <c:set var="OW_ORGANIZER_STATUS_NOW" value="<%=OwConstants.OW_ORGANIZER_STATUS_NOW%>"/>
 <c:set var="OW_ORGANIZER_STATUS_LEAVE" value="<%=OwConstants.OW_ORGANIZER_STATUS_LEAVE%>"/>
@@ -36,7 +38,7 @@
                 </select>
             </div>
         </div>
-        <c:if test="${type==OW_ORGANIZER_TYPE_UNIT}">
+        <c:if test="${type!=OW_ORGANIZER_TYPE_SCHOOL}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 联系党委</label>
                 <div class="col-xs-6">
@@ -46,12 +48,35 @@
                     </select>
                 </div>
             </div>
+            <c:if test="${type==OW_ORGANIZER_TYPE_BRANCH}">
+                <div class="form-group" style="${(empty branch)?'display: none':''}"
+                     id="branchDiv">
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 联系党支部</label>
+                    <div class="col-xs-6">
+                        <select required data-width="272"
+                                data-ajax-url="${ctx}/branch_selects?auth=1"
+                                name="branchId" data-placeholder="请选择">
+                            <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                        </select>
+                    </div>
+                </div>
+                <script>
+                    $.register.party_branch_select($("#modalForm"), "branchDiv",
+                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                </script>
+            </c:if>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span> 任职时间</label>
+            <label class="col-xs-3 control-label"> 联系方式</label>
+            <div class="col-xs-6">
+                <input class="form-control" type="text" name="phone" value="${organizer.phone}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"> 任职时间</label>
             <div class="col-xs-6">
                 <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
-                    <input required class="form-control" name="appointDate" type="text"
+                    <input class="form-control" name="appointDate" type="text"
                            value="${cm:formatDate(organizer.appointDate,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
@@ -59,10 +84,10 @@
         </div>
         <c:if test="${status != OW_ORGANIZER_STATUS_NOW}">
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span> 离任时间</label>
+                <label class="col-xs-3 control-label"> 离任时间</label>
                 <div class="col-xs-6">
                     <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
-                        <input required class="form-control" name="dismissDate" type="text"
+                        <input class="form-control" name="dismissDate" type="text"
                                value="${cm:formatDate(organizer.dismissDate,'yyyy.MM.dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -98,6 +123,18 @@
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty organizer?'确定':'添加'}</button>
 </div>
 <script>
+
+   $('#modalForm select[name="userId"]').on('change',function(){
+
+        var userId=$('#modalForm select[name="userId"]').val();
+        if ($.isBlank(userId)){
+            $("#modalForm input[name=phone]").val('');
+            return;
+        }
+        var mobile = $('#modalForm select[name="userId"]').select2("data")[0].mobile;
+        $("#modalForm input[name=phone]").val(mobile);
+
+    });
     $("#submitBtn").click(function () {
         $("#modalForm").submit();
         return false;

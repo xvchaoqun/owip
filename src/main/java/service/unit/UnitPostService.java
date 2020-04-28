@@ -1,6 +1,7 @@
 package service.unit;
 
 import controller.global.OpException;
+import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadreView;
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadre.CadrePostService;
 import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -41,6 +43,8 @@ public class UnitPostService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private UnitService unitService;
+    @Autowired
+    private CadrePostService cadrePostService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -242,6 +246,22 @@ public class UnitPostService extends BaseMapper {
         Assert.isTrue(!leaderTypeDuplicate(record.getId(), record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
 
         return unitPostMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void syncCadrePost(UnitPost record) {
+
+        CadrePost cadrePost=cadrePostService.getByUnitPostId(record.getId());
+
+        cadrePost.setPostName(record.getName());
+        cadrePost.setIsPrincipal(record.getIsPrincipal());
+        cadrePost.setPostType(record.getPostType());
+        cadrePost.setAdminLevel(record.getAdminLevel());
+        cadrePost.setPostClassId(record.getPostClass());
+        cadrePost.setUnitId(record.getUnitId());
+
+        cadrePostService.updateByPrimaryKeySelective(cadrePost);
+
     }
 
     public List<UnitPostView> findAll() {

@@ -10,6 +10,8 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/unitPost_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${unitPost.id}">
         <input type="hidden" name="status" value="${status}">
+		<div class="col-xs-12">
+			<div class="col-xs-6">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>所属单位</label>
 				<%--<c:if test="${not empty unit}">
@@ -19,7 +21,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				</c:if>
 				<c:if test="${empty unit}">--%>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
 					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
 							name="unitId" data-placeholder="请选择"  data-width="272">
 						<option value="${unit.id}">${unit.name}</option>
@@ -29,25 +31,25 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>岗位编号</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                     <input required class="form-control" type="text" name="code" value="${unitPost.code}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>岗位名称</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                         <input required class="form-control" type="text" name="name" value="${unitPost.name}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">分管工作</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                         <textarea class="noEnter form-control" name="job">${unitPost.job}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>是否正职</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
 					<div class="input-group">
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 							<input required type="radio" name="isPrincipal" id="isPrincipal1" value="1">
@@ -71,8 +73,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>是否班子负责人</label>
-				<div class="col-xs-6">
+				<label class="col-xs-3 control-label"><span class="star">*</span>是否班子<br/>负责人</label>
+				<div class="col-xs-8">
 				<select required name="leaderType" data-width="272" data-placeholder="请选择" data-rel="select2">
 					<option></option>
 					<c:forEach items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>" var="leaderType">
@@ -84,8 +86,10 @@ pageEncoding="UTF-8"%>
 				</script>
 				</div>
 			</div>
+			</div>
+			<div class="col-xs-6">
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>岗位级别</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>岗位级别</label>
 				<div class="col-xs-6">
 					 <select required data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
 						<option></option>
@@ -98,7 +102,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>职务属性</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
 					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择">
 						<option></option>
@@ -110,7 +114,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>职务类别</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>职务类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="postClass"
 							data-width="272" data-placeholder="请选择">
@@ -123,8 +127,8 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>是否占干部职数</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>是否占干部职数</label>
+				<div class="col-xs-8">
 					<div class="input-group">
 						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
 							<input required type="radio" name="isCpc" id="isCpc1" value="1">
@@ -147,12 +151,37 @@ pageEncoding="UTF-8"%>
 					</c:if>
 				</div>
 			</div>
+		    <c:if test="${cadrePost!=null}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>是否同步<br/>任职情况</label>
+				<div class="col-xs-8">
+					<div class="input-group">
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isSync" id="isSync1" value="1">
+							<label for="isSync1">
+								是
+							</label>
+						</div>
+						&nbsp;&nbsp;
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isSync" id="isSync0" value="0" checked>
+							<label for="isSync0">
+								否
+							</label>
+						</div>
+					</div>
+					<span class="help-block blue">注：当前该岗位关联的干部是${cadrePost.cadre.realname}</span>
+				</div>
+			</div>
+		</c:if>
+			<div class="form-group">
+				<label class="col-xs-4 control-label">备注</label>
+				<div class="col-xs-8">
 					<textarea class="form-control limited" name="remark">${unitPost.remark}</textarea>
 				</div>
 			</div>
+			</div>
+		</div>
     </form>
 </div>
 <div class="modal-footer">
