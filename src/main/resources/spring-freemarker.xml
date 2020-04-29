@@ -26,10 +26,12 @@
             <map>
                 <entry key="eduSuffix" value-ref="eduSuffix"/>
                 <entry key="dayCountSuffix" value-ref="dayCountSuffix"/>
+                <entry key="toHanStrSuffix" value-ref="toHanStrSuffix" />
             </map>
         </property>
     </bean>
 
     <bean id="eduSuffix" class="freemarker.EduSuffix"/>
     <bean id="dayCountSuffix" class="freemarker.DayCountSuffix"/>
+    <bean id="toHanStrSuffix" class="freemarker.ToHanStrSuffix"/>
 </beans>

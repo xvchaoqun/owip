@@ -1,10 +1,13 @@
 package domain.cg;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import service.cg.CgTeamService;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CgRule implements Serializable {
     private Integer id;
@@ -19,6 +22,8 @@ public class CgRule implements Serializable {
     private Date confirmDate;
 
     private String content;
+
+    public List<String> getContentList(){return CmTag.getBean(CgTeamService.class).formatContent(content);}
 
     private String filePath;
 

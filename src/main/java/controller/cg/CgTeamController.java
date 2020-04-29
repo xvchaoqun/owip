@@ -49,13 +49,11 @@ public class CgTeamController extends CgBaseController {
     public String cgTeam_base(Integer id, ModelMap modelMap){
 
         //委员会和领导小组
-        modelMap.put("cgTeamBases",cgTeamService.getTeamBase(id));
-
+        modelMap.put("cgTeamBase",cgTeamService.getCgTeamBase(id));
         //分委会
-        modelMap.put("cgBranchList",cgTeamService.getChilds(id,CgConstants.CG_TEAM_TYPE_BRANCH));
-
+        modelMap.put("cgBranchList",cgTeamService.getCgTeamChildBaseList(id,CgConstants.CG_TEAM_TYPE_BRANCH));
         //工作小组
-        modelMap.put("cgWorkgroupList",cgTeamService.getChilds(id,CgConstants.CG_TEAM_TYPE_WORKGROUP));
+        modelMap.put("cgWorkgroupList",cgTeamService.getCgTeamChildBaseList(id,CgConstants.CG_TEAM_TYPE_WORKGROUP));
 
         return "cg/cgTeam/cgTeam_base";
     }
@@ -199,12 +197,26 @@ public class CgTeamController extends CgBaseController {
 
     @RequiresPermissions("cgTeam:edit")
     @RequestMapping("/cgTeam_au")
-    public String cgTeam_au(Integer id, ModelMap modelMap) {
+    public String cgTeam_au(Integer id, Integer fid, ModelMap modelMap) {
 
         if (id != null) {
             CgTeam cgTeam = cgTeamMapper.selectByPrimaryKey(id);
+            fid = cgTeam.getFid();
             modelMap.put("cgTeam", cgTeam);
         }
+
+        Map teamTypeMap = new LinkedHashMap();
+        teamTypeMap.putAll(CgConstants.CG_TEAM_TYPE_MAP);
+
+        if (fid != null) {
+            teamTypeMap.remove(CgConstants.CG_TEAM_TYPE_MEMBER);
+            teamTypeMap.remove(CgConstants.CG_TEAM_TYPE_GROUP);
+        }else {
+            teamTypeMap.remove(CgConstants.CG_TEAM_TYPE_BRANCH);
+            teamTypeMap.remove(CgConstants.CG_TEAM_TYPE_WORKGROUP);
+        }
+        modelMap.put("teamTypeMap",teamTypeMap);
+
         return "cg/cgTeam/cgTeam_au";
     }
 

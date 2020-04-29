@@ -22,16 +22,9 @@ pageEncoding="UTF-8"%>
 				<select required id="typeSelect1" name="type" data-placeholder="请选择类型"
 						data-rel="select2" data-width="270">
 					<option></option>
-					<c:if test="${hasFid}">
-						<c:forEach items="<%=CgConstants.CG_CHILD_TEAM_TYPE_MAP%>" var="cgTeamType">
-							<option value="${cgTeamType.key}">${cgTeamType.value}</option>
-						</c:forEach>
-					</c:if>
-					<c:if test="${!hasFid}">
-						<c:forEach items="<%=CgConstants.CG_TEAM_TYPE_MAP%>" var="cgTeamType">
-							<option value="${cgTeamType.key}">${cgTeamType.value}</option>
-						</c:forEach>
-					</c:if>
+					<c:forEach items="${teamTypeMap}" var="teamType">
+						<option value="${teamType.key}">${teamType.value}</option>
+					</c:forEach>
 				</select>
 				<script>
 					$("#typeSelect1").val('${cgTeam.type}');
