@@ -63,7 +63,7 @@
                                                 </c:if>
                                             </c:if>
                                             <c:if test="${empty bean.dpTypeId}">
-                                                <c:if test="${not empty bean.owGrowTime}">中共<br/>
+                                                <c:if test="${not empty bean.owGrowTime}">中共党员<br/>
                                                     ${cm:formatDate(bean.owGrowTime, "yyyy.MM")}
                                                 </c:if>
                                             </c:if>
@@ -154,7 +154,9 @@
                                                 </select>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <script>
+                                                <c:if test="${fn:length(evas)>idx}">
                                                 $("#modalForm select[id=eva_${y}]").val('${evas.get(idx)}');
+                                                </c:if>
                                             </script>
                                             <c:set var="idx" value="${idx+1}"/>
                                         </c:forEach>
