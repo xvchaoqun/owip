@@ -1,5 +1,13 @@
 
+ALTER TABLE `ow_organizer`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 校级组织员 2 院系级组织员   3支部组织员' AFTER `year`;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (2782, 0, '支部组织员信息', '', 'url', '', '/organizer?type=3', 1035, '0/1/105/1035/', 1, 'organizer:list3', NULL, NULL, NULL, 1, NULL);
 
+
+2020.4.29
+西北工大
 
 2020.4.28
 北航  -- 北师大

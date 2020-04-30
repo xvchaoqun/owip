@@ -12,12 +12,10 @@ import sys.utils.NumberUtils;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-
 /**
     数字转换汉语
  */
 public class ToHanStrSuffix implements TemplateDirectiveModel {
-
     @Override  
     public void execute(Environment env, Map params, TemplateModel[] templateModels,
             TemplateDirectiveBody body) throws TemplateException, IOException {
