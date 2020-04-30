@@ -81,15 +81,13 @@ public class UserCrInfoController extends CrBaseController {
         int year = crInfo.getYear();
         CrApplicant crApplicant = crApplicantService.get(userId, infoId);
         modelMap.put("crApplicant", crApplicant);
-        if(crApplicant!=null){
 
-             Cadre cadre = cadreService.getByUserId(crApplicant.getUserId());
-             if(cadre!=null && cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE){
-                 modelMap.put("cadre", cadre);
-             }
-            String eva = crApplicantService.getEva(year, cadre, crApplicant);
-            modelMap.put("evas", Arrays.asList(eva.split(",")));
+        Cadre cadre = cadreService.getByUserId(userId);
+        if(cadre!=null && cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE){
+            modelMap.put("cadre", cadre);
         }
+        String eva = crApplicantService.getEva(year, cadre, crApplicant);
+        modelMap.put("evas", Arrays.asList(eva.split(",")));
 
         List<CrPost> crPosts = crPostService.getPosts(infoId);
         modelMap.put("crPosts", crPosts);

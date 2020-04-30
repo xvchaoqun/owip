@@ -322,6 +322,66 @@ public class CrInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyPostNumIsNull() {
+            addCriterion("apply_post_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumIsNotNull() {
+            addCriterion("apply_post_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumEqualTo(Integer value) {
+            addCriterion("apply_post_num =", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumNotEqualTo(Integer value) {
+            addCriterion("apply_post_num <>", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumGreaterThan(Integer value) {
+            addCriterion("apply_post_num >", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_post_num >=", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumLessThan(Integer value) {
+            addCriterion("apply_post_num <", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_post_num <=", value, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumIn(List<Integer> values) {
+            addCriterion("apply_post_num in", values, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumNotIn(List<Integer> values) {
+            addCriterion("apply_post_num not in", values, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumBetween(Integer value1, Integer value2) {
+            addCriterion("apply_post_num between", value1, value2, "applyPostNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyPostNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_post_num not between", value1, value2, "applyPostNum");
+            return (Criteria) this;
+        }
+
         public Criteria andAddDateIsNull() {
             addCriterion("add_date is null");
             return (Criteria) this;

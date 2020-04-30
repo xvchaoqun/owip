@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.cadre.common.ICadreWorkMapper">
     <select id="getCadreIdsOfWorkTypes" parameterType="map" resultType="java.lang.Integer" >
-        select distinct cadre_id from cadre_work where
-        <if test="workTypes.size>0">
-            <if test="andWorkTypes">
+        <if test="andWorkTypes">
+            select distinct cadre_id from
+            (select  cadre_id, group_concat(work_types) as work_types from cadre_work group by cadre_id)tmp
+            where
             <foreach collection="workTypes" item="workType" index="index"
                      open="(" close=")" separator=" and ">
                 find_in_set(#{workType}, work_types)
             </foreach>
-            </if>
-            <if test="!andWorkTypes">
+        </if>
+        <if test="!andWorkTypes">
+            select distinct cadre_id from cadre_work where
             <foreach collection="workTypes" item="workType" index="index"
                      open="(" close=")" separator=" or ">
                 find_in_set(#{workType}, work_types)
             </foreach>
-            </if>
-
         </if>
     </select>
 </mapper>

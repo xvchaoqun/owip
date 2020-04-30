@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="apply_post_num" jdbcType="INTEGER" property="applyPostNum" />
     <result column="add_date" jdbcType="DATE" property="addDate" />
     <result column="notice" jdbcType="VARCHAR" property="notice" />
     <result column="post_num" jdbcType="INTEGER" property="postNum" />
@@ -78,8 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, name, add_date, notice, post_num, require_num, apply_num, meeting_num, 
-    requirement, qualification, start_time, end_time, create_time, status, remark
+    id, year, name, apply_post_num, add_date, notice, post_num, require_num, apply_num, 
+    meeting_num, requirement, qualification, start_time, end_time, create_time, status, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.cr.CrInfoExample" resultMap="BaseResultMap">
     select
@@ -113,17 +115,17 @@
   </delete>
   <insert id="insert" parameterType="domain.cr.CrInfo">
     insert into cr_info (id, year, name, 
-      add_date, notice, post_num, 
-      require_num, apply_num, meeting_num, 
-      requirement, qualification, start_time, 
-      end_time, create_time, status, 
-      remark)
+      apply_post_num, add_date, notice, 
+      post_num, require_num, apply_num, 
+      meeting_num, requirement, qualification, 
+      start_time, end_time, create_time, 
+      status, remark)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{addDate,jdbcType=DATE}, #{notice,jdbcType=VARCHAR}, #{postNum,jdbcType=INTEGER}, 
-      #{requireNum,jdbcType=INTEGER}, #{applyNum,jdbcType=INTEGER}, #{meetingNum,jdbcType=INTEGER}, 
-      #{requirement,jdbcType=VARCHAR}, #{qualification,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{applyPostNum,jdbcType=INTEGER}, #{addDate,jdbcType=DATE}, #{notice,jdbcType=VARCHAR}, 
+      #{postNum,jdbcType=INTEGER}, #{requireNum,jdbcType=INTEGER}, #{applyNum,jdbcType=INTEGER}, 
+      #{meetingNum,jdbcType=INTEGER}, #{requirement,jdbcType=VARCHAR}, #{qualification,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cr.CrInfo">
     insert into cr_info
@@ -136,6 +138,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="applyPostNum != null">
+        apply_post_num,
       </if>
       <if test="addDate != null">
         add_date,
@@ -186,6 +191,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="applyPostNum != null">
+        #{applyPostNum,jdbcType=INTEGER},
       </if>
       <if test="addDate != null">
         #{addDate,jdbcType=DATE},
@@ -246,6 +254,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.applyPostNum != null">
+        apply_post_num = #{record.applyPostNum,jdbcType=INTEGER},
+      </if>
       <if test="record.addDate != null">
         add_date = #{record.addDate,jdbcType=DATE},
       </if>
@@ -295,6 +306,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      apply_post_num = #{record.applyPostNum,jdbcType=INTEGER},
       add_date = #{record.addDate,jdbcType=DATE},
       notice = #{record.notice,jdbcType=VARCHAR},
       post_num = #{record.postNum,jdbcType=INTEGER},
@@ -320,6 +332,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="applyPostNum != null">
+        apply_post_num = #{applyPostNum,jdbcType=INTEGER},
       </if>
       <if test="addDate != null">
         add_date = #{addDate,jdbcType=DATE},
@@ -367,6 +382,7 @@
     update cr_info
     set year = #{year,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      apply_post_num = #{applyPostNum,jdbcType=INTEGER},
       add_date = #{addDate,jdbcType=DATE},
       notice = #{notice,jdbcType=VARCHAR},
       post_num = #{postNum,jdbcType=INTEGER},

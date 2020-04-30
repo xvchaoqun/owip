@@ -12,14 +12,14 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 报名人员</label>
 				<div class="col-xs-8">
-					<select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
-							name="userId" data-placeholder="请输入账号或姓名或工号">
+					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+							name="userId" data-width="273" data-placeholder="请输入账号或姓名或工号">
 						<option value="${crApplicant.user.id}">${crApplicant.user.realname}-${crApplicant.user.code}</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 第一志愿</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> ${crInfo.applyPostNum==1?"填报志愿":"第一志愿"}</label>
 				<div class="col-xs-8">
 					<select required name="firstPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
 						<option></option>
@@ -29,6 +29,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
+		<c:if test="${crInfo.applyPostNum==2}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label"> 第二志愿</label>
 				<div class="col-xs-8">
@@ -44,13 +45,14 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
+		</c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${empty cadre?'<span class="star">*</span>':''}近三年<br/>年度考核结果</label>
+				<label class="col-xs-3 control-label">近三年<br/>年度考核结果</label>
 				<div class="col-xs-8">
 					<c:set var="idx" value="0"/>
 					<c:forEach begin="${crInfo.year-3}" end="${crInfo.year-1}" var="y">
 					  <span style="margin-bottom: 5px;display: inline-block"> ${y}年：
-						  <select ${empty cadre?"required":"disabled"} data-rel="select2" data-width="100"
+						  <select ${empty cadre?"":"disabled"} data-rel="select2" data-width="100"
 									name="eva" id="eva_${y}" data-placeholder="请选择">
 								<option></option>
 								<c:import url="/metaTypes?__code=mc_cadre_eva"/>
@@ -62,6 +64,7 @@ pageEncoding="UTF-8"%>
 						</script>
 						<c:set var="idx" value="${idx+1}"/>
 					</c:forEach>
+					<span class="help-block">注：如果是现任干部无需选择，将同步年度考核结果</span>
 				</div>
 			</div>
 			<div class="form-group">

@@ -2221,8 +2221,8 @@
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
-							<w:tcW w:w="3402" w:type="dxa"/>
-							<w:gridSpan w:val="5"/>
+							<w:tcW w:w="${(applyPostNum==2)?string('3402','6804')}" w:type="dxa"/>
+							<w:gridSpan w:val="${(applyPostNum==2)?string('5','9')}"/>
 							<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
@@ -2250,6 +2250,7 @@
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
 					</w:tc>
+					<#if applyPostNum==2>
 					<w:tc>
 						<w:tcPr>
 							<w:tcW w:w="3402" w:type="dxa"/>
@@ -2281,6 +2282,7 @@
 							<w:proofErr w:type="gramEnd"/>
 						</w:p>
 					</w:tc>
+					</#if>
 				</w:tr>
 				<w:tr wsp:rsidR="00581CE7" wsp:rsidRPr="00190871" wsp:rsidTr="00190871">
 					<w:trPr>

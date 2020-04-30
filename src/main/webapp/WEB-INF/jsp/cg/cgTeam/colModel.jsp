@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CG_TEAM_TYPE_MAP" value="<%=CgConstants.CG_TEAM_TYPE_MAP%>" />
-<c:set var="CG_CHILD_TEAM_TYPE_MAP" value="<%=CgConstants.CG_CHILD_TEAM_TYPE_MAP%>" />
 <script>
-    var team_type = $.extend(${cm:toJSONObject(CG_CHILD_TEAM_TYPE_MAP)},${cm:toJSONObject(CG_TEAM_TYPE_MAP)});
     var jgridName = ${cm:toJSONObject(empty param.fid?"#jqGrid":"#jqGrid2")};
+    var team_type = ${cm:toJSONObject(CG_TEAM_TYPE_MAP)};
   var colModel = [
       { label: '名称',name: 'name', formatter:function(cellvalue, options, rowObject){
               var fid = rowObject.fid;

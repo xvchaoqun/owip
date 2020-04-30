@@ -116,7 +116,7 @@
                         </script>
                     </div>
                     <div class="form-group">
-                        <label>第一志愿</label>
+                        <label>${crInfo.applyPostNum==1?'填报志愿':'第一志愿'}</label>
                         <select required name="firstPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
                             <option></option>
                             <c:forEach items="${postMap}" var="post">
@@ -127,6 +127,7 @@
                             $("#searchForm2 select[name=firstPostId]").val('${param.firstPostId}')
                         </script>
                     </div>
+                    <c:if test="${crInfo.applyPostNum==2}">
                     <div class="form-group">
                         <label>第二志愿</label>
                         <select required name="secondPostId" data-width="273" data-placeholder="请选择" data-rel="select2">
@@ -139,6 +140,7 @@
                             $("#searchForm2 select[name=secondPostId]").val('${param.secondPostId}')
                         </script>
                     </div>
+                        </c:if>
                     <div class="form-group">
                         <label>纸质表</label>
                         <select data-rel="select2" data-width="100" name="hasReport"  data-placeholder="请选择">
@@ -189,9 +191,8 @@
                     hideId:'body-content-view'});
             }, frozen: true},
             {label: '工作证号', name: 'user.code', width:120},
-           /* { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid2',url:'${ctx}/crApplicant_changeOrder', frozen:true }},*/
-            {label: '第一志愿', name: 'firstPostId', width:280 , align:'left', formatter: function (cellvalue, options, rowObject) {
+
+            {label: '${crInfo.applyPostNum==1?"填报志愿":"第一志愿"}', name: 'firstPostId', width:280 , align:'left', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined || postMap[cellvalue]==undefined) return '--'
                     return postMap[cellvalue].name
                 }},
@@ -216,6 +217,7 @@
                         '        </button>').format(rowObject.id, cellvalue, btnCss, btnLabel)
                 }
             },
+            <c:if test="${crInfo.applyPostNum==2}">
             {label: '第二志愿', name: 'secondPostId', width:280 , align:'left', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined || postMap[cellvalue]==undefined) return '--'
                     return postMap[cellvalue].name
@@ -242,6 +244,7 @@
 
                 }
             },
+            </c:if>
             {label: '年度考核结果', name: 'eva', width:150 , align:'left', formatter: function (cellvalue, options, rowObject) {
                       if(cellvalue==undefined) return '--'
                     var evas = cellvalue.split(",")

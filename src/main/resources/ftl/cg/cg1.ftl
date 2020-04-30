@@ -1855,9 +1855,9 @@
 		<wx:sect>
 			<wx:sub-section>
 
-				<#list teamBaseList as teamBase>
-					<#assign parentTeamBase =teamBase.parentTeamBase />
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+				<#list teamBaseList as cgTeamBase>
+					<#assign teamBase =cgTeamBase.cgTeamBase />
+					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
 						<w:pPr>
 							<w:pStyle w:val="1"/>
 							<w:rPr>
@@ -1871,509 +1871,148 @@
 							<w:rPr>
 								<w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>
 							</w:rPr>
-							<w:t>${parentTeamBase.cgTeam.name}</w:t>
+							<w:t>${teamBase.cgTeam.name}</w:t>
 						</w:r>
 						<aml:annotation aml:id="0" w:type="Word.Bookmark.End"/>
 						<aml:annotation aml:id="1" w:type="Word.Bookmark.End"/>
 					</w:p>
 
-
-					<#if parentTeamBase.staffContentList??>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-						<w:pPr>
-							<w:adjustRightInd w:val="off"/>
-							<w:snapToGrid w:val="off"/>
-							<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<aml:annotation aml:id="2" w:type="Word.Bookmark.Start" w:name="_Toc15501_WPSOffice_Level1"/>
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="黑体"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>一、${parentTeamBase.cgTeamType}组成原则</w:t>
-						</w:r>
-						<aml:annotation aml:id="2" w:type="Word.Bookmark.End"/>
-					</w:p>
-					<#list parentTeamBase.staffContentList as staffContent>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:adjustRightInd w:val="off"/>
-								<w:snapToGrid w:val="off"/>
-								<w:spacing w:line="560" w:line-rule="exact"/>
-								<w:ind w:first-line-chars="200" w:first-line="640"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="仿宋_GB2312"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>${staffContent}</w:t>
-							</w:r>
-						</w:p>
-					</#list>
-					</#if>
-
-					<#if parentTeamBase.postAndNameList??>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-						<w:pPr>
-							<w:spacing w:line="560" w:line-rule="exact"/>
-							<w:ind w:first-line-chars="200" w:first-line="640"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="仿宋_GB2312"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
-						</w:r>
-					</w:p>
-					<#list parentTeamBase.postAndNameList as postAndName>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:spacing w:line="560" w:line-rule="exact"/>
-								<w:ind w:first-line-chars="200" w:first-line="640"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="仿宋_GB2312"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>${postAndName}</w:t>
-							</w:r>
-						</w:p>
-					</#list>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-						<w:pPr>
-							<w:spacing w:line="560" w:line-rule="exact"/>
-							<w:ind w:first-line-chars="200" w:first-line="640"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="仿宋_GB2312"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>办公室主任：${parentTeamBase.cgLeaderName!""}</w:t>
-						</w:r>
-					</w:p>
-					</#if>
-
-					<#if parentTeamBase.jobContentList??>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-						<w:pPr>
-							<w:adjustRightInd w:val="off"/>
-							<w:snapToGrid w:val="off"/>
-							<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="黑体"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>二、${parentTeamBase.cgTeamType}工作职责</w:t>
-						</w:r>
-						<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-					</w:p>
-					<#list parentTeamBase.jobContentList as jobContent>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:spacing w:line="560" w:line-rule="exact"/>
-								<w:ind w:first-line-chars="200" w:first-line="640"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>${jobContent}</w:t>
-							</w:r>
-						</w:p>
-					</#list>
-					</#if>
-
-					<#if parentTeamBase.debateContentList??>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-						<w:pPr>
-							<w:adjustRightInd w:val="off"/>
-							<w:snapToGrid w:val="off"/>
-							<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="黑体"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>三、${parentTeamBase.cgTeamType}议事规则</w:t>
-						</w:r>
-						<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-					</w:p>
-					<#list parentTeamBase.debateContentList as debateContent>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:spacing w:line="560" w:line-rule="exact"/>
-								<w:ind w:first-line-chars="200" w:first-line="640"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>${debateContent}</w:t>
-							</w:r>
-						</w:p>
-					</#list>
-					</#if>
-
-
-					<#if (teamBase.branchTeanBases?size > 0)>
-					<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5" wsp:rsidP="0095389A">
-						<w:pPr>
-							<w:adjustRightInd w:val="off"/>
-							<w:snapToGrid w:val="off"/>
-							<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-								<wx:font wx:val="Times New Roman"/>
-								<w:color w:val="FF0000"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-						</w:pPr>
-						<w:r wsp:rsidRPr="00350529">
-							<w:rPr>
-								<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
-								<wx:font wx:val="黑体"/>
-								<w:color w:val="FF0000"/>
-								<w:sz w:val="32"/>
-								<w:sz-cs w:val="32"/>
-							</w:rPr>
-							<w:t>三、分委会</w:t>
-						</w:r>
-					</w:p>
-					<#list teamBase.branchTeanBases as branchTeanBase>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:adjustRightInd w:val="off"/>
-								<w:snapToGrid w:val="off"/>
-								<w:spacing w:line="560" w:line-rule="exact"/>
-								<w:ind w:right-chars="26" w:right="55" w:first-line-chars="221" w:first-line="707"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:b/>
-									<w:color w:val="FF0000"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r wsp:rsidRPr="00350529">
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman" w:hint="fareast"/>
-									<wx:font wx:val="仿宋_GB2312"/>
-									<w:b/>
-									<w:color w:val="FF0000"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>${branchTeanBase.cgTeam.name}</w:t>
-							</w:r>
-						</w:p>
-
-						<#if branchTeanBase.staffContentList??>
-						<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-							<w:pPr>
-								<w:adjustRightInd w:val="off"/>
-								<w:snapToGrid w:val="off"/>
-								<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="Times New Roman"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-							</w:pPr>
-							<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-							<w:r>
-								<w:rPr>
-									<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-									<wx:font wx:val="黑体"/>
-									<w:sz w:val="32"/>
-									<w:sz-cs w:val="32"/>
-								</w:rPr>
-								<w:t>一、${branchTeanBase.cgTeamType}组成规则</w:t>
-							</w:r>
-							<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-						</w:p>
-						<#list branchTeanBase.staffContentList as staffContent>
+					<#assign number = 0/>
+					<#if (teamBase.cgRuleList?size > 0)>
+						<#assign number = teamBase.cgRuleList?size/>
+						<#list teamBase.cgRuleList as cgRule>
+							<#assign ruleType =cgRule.type />
+							<#assign teamType =teamBase.cgTeam.type />
 							<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
 								<w:pPr>
-									<w:spacing w:line="560" w:line-rule="exact"/>
-									<w:ind w:first-line-chars="200" w:first-line="640"/>
+									<w:adjustRightInd w:val="off"/>
+									<w:snapToGrid w:val="off"/>
+									<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
 									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
 										<wx:font wx:val="Times New Roman"/>
 										<w:sz w:val="32"/>
 										<w:sz-cs w:val="32"/>
 									</w:rPr>
 								</w:pPr>
+								<aml:annotation aml:id="2" w:type="Word.Bookmark.Start" w:name="_Toc15501_WPSOffice_Level1"/>
 								<w:r>
 									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="Times New Roman"/>
+										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+										<wx:font wx:val="黑体"/>
 										<w:sz w:val="32"/>
 										<w:sz-cs w:val="32"/>
 									</w:rPr>
-									<w:t>${staffContent}</w:t>
+									<w:t><@toHanStrSuffix number="${cgRule_index+1!}"/>、${cgTeamType["k"+teamType]!}${cgRuleType["k"+ruleType]!}</w:t>
 								</w:r>
+								<aml:annotation aml:id="2" w:type="Word.Bookmark.End"/>
 							</w:p>
+
+							<#if cgRule.contentList??>
+								<#list cgRule.contentList as content>
+									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+										<w:pPr>
+											<w:adjustRightInd w:val="off"/>
+											<w:snapToGrid w:val="off"/>
+											<w:spacing w:line="560" w:line-rule="exact"/>
+											<w:ind w:first-line-chars="200" w:first-line="640"/>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="Times New Roman"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+										</w:pPr>
+										<w:r>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="仿宋_GB2312"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+											<w:t>${content}</w:t>
+										</w:r>
+									</w:p>
+								</#list>
+							</#if>
+
+							<#if cgRule.type == cgRuleTypeStaff>
+								<#if teamBase.cgMemberList??>
+									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+										<w:pPr>
+											<w:spacing w:line="560" w:line-rule="exact"/>
+											<w:ind w:first-line-chars="200" w:first-line="640"/>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="Times New Roman"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+										</w:pPr>
+										<w:r>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="仿宋_GB2312"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+											<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
+										</w:r>
+									</w:p>
+									<#list teamBase.cgMemberList as cgMember>
+										<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+											<w:pPr>
+												<w:spacing w:line="560" w:line-rule="exact"/>
+												<w:ind w:first-line-chars="200" w:first-line="640"/>
+												<w:rPr>
+													<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+													<wx:font wx:val="Times New Roman"/>
+													<w:sz w:val="32"/>
+													<w:sz-cs w:val="32"/>
+												</w:rPr>
+											</w:pPr>
+											<w:r>
+												<w:rPr>
+													<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+													<wx:font wx:val="仿宋_GB2312"/>
+													<w:sz w:val="32"/>
+													<w:sz-cs w:val="32"/>
+												</w:rPr>
+												<w:t>${cgMember}</w:t>
+											</w:r>
+										</w:p>
+									</#list>
+								</#if>
+
+								<#if teamBase.cgLeader??>
+									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+										<w:pPr>
+											<w:spacing w:line="560" w:line-rule="exact"/>
+											<w:ind w:first-line-chars="200" w:first-line="640"/>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="Times New Roman"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+										</w:pPr>
+										<w:r>
+											<w:rPr>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="仿宋_GB2312"/>
+												<w:sz w:val="32"/>
+												<w:sz-cs w:val="32"/>
+											</w:rPr>
+											<w:t>办公室主任：${teamBase.cgLeader.user.realname!""}</w:t>
+										</w:r>
+									</w:p>
+								</#if>
+							</#if>
 						</#list>
-						</#if>
-						<#if branchTeanBase.postAndNameList??>
-							<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-								<w:pPr>
-									<w:spacing w:line="560" w:line-rule="exact"/>
-									<w:ind w:first-line-chars="200" w:first-line="640"/>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="Times New Roman"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="仿宋_GB2312"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-									<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
-								</w:r>
-							</w:p>
-							<#list branchTeanBase.postAndNameList as postAndName>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:spacing w:line="560" w:line-rule="exact"/>
-										<w:ind w:first-line-chars="200" w:first-line="640"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="仿宋_GB2312"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>${postAndName}</w:t>
-									</w:r>
-								</w:p>
-							</#list>
-							<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-								<w:pPr>
-									<w:spacing w:line="560" w:line-rule="exact"/>
-									<w:ind w:first-line-chars="200" w:first-line="640"/>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="Times New Roman"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="仿宋_GB2312"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-									<w:t>办公室主任：${branchTeanBase.cgLeaderName!""}</w:t>
-								</w:r>
-							</w:p>
-						</#if>
-
-						<#if branchTeanBase.jobContentList??>
-							<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-								<w:pPr>
-									<w:adjustRightInd w:val="off"/>
-									<w:snapToGrid w:val="off"/>
-									<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="Times New Roman"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-								</w:pPr>
-								<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="黑体"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-									<w:t>一、${branchTeanBase.cgTeamType}工作职责 </w:t>
-								</w:r>
-								<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-							</w:p>
-							<#list branchTeanBase.jobContentList as jobContent>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:spacing w:line="560" w:line-rule="exact"/>
-										<w:ind w:first-line-chars="200" w:first-line="640"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>${jobContent}</w:t>
-									</w:r>
-								</w:p>
-							</#list>
-						</#if>
-
-						<#if branchTeanBase.debateContentList??>
-							<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-								<w:pPr>
-									<w:adjustRightInd w:val="off"/>
-									<w:snapToGrid w:val="off"/>
-									<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="Times New Roman"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-								</w:pPr>
-								<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-										<wx:font wx:val="黑体"/>
-										<w:sz w:val="32"/>
-										<w:sz-cs w:val="32"/>
-									</w:rPr>
-									<w:t>一、${branchTeanBase.cgTeamType}议事规则 </w:t>
-								</w:r>
-								<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-							</w:p>
-							<#list branchTeanBase.debateContentList as debateContent>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:spacing w:line="560" w:line-rule="exact"/>
-										<w:ind w:first-line-chars="200" w:first-line="640"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>${debateContent}</w:t>
-									</w:r>
-								</w:p>
-							</#list>
-						</#if>
-					</#list>
 					</#if>
 
-
-					<#if (teamBase.workgroupTeanBases?size > 0)>
+					<#if (cgTeamBase.cgBranchList?size > 0)>
+						<#assign number = number + 1/>
 						<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5" wsp:rsidP="0095389A">
 							<w:pPr>
 								<w:adjustRightInd w:val="off"/>
@@ -2395,10 +2034,10 @@
 									<w:sz w:val="32"/>
 									<w:sz-cs w:val="32"/>
 								</w:rPr>
-								<w:t>三、工作小组</w:t>
+								<w:t><@toHanStrSuffix number="${number}"/>、分委会</w:t>
 							</w:r>
 						</w:p>
-						<#list teamBase.workgroupTeanBases as workgroupTeanBase>
+						<#list cgTeamBase.cgBranchList as teamBase>
 							<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5">
 								<w:pPr>
 									<w:adjustRightInd w:val="off"/>
@@ -2423,224 +2062,328 @@
 										<w:sz w:val="32"/>
 										<w:sz-cs w:val="32"/>
 									</w:rPr>
-									<w:t>${workgroupTeanBase.cgTeam.name}</w:t>
+									<w:t>（<@toHanStrSuffix number="${teamBase_index+1}"/>）、${teamBase.cgTeam.name}</w:t>
 								</w:r>
 							</w:p>
 
-							<#if workgroupTeanBase.staffContentList??>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:adjustRightInd w:val="off"/>
-										<w:snapToGrid w:val="off"/>
-										<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="黑体"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>一、${workgroupTeanBase.cgTeamType}组成规则</w:t>
-									</w:r>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-								</w:p>
-								<#list workgroupTeanBase.staffContentList as staffContent>
+							<#if teamBase.cgRuleList??>
+								<#list teamBase.cgRuleList as cgRule>
+									<#assign ruleType =cgRule.type />
+									<#assign teamType =teamBase.cgTeam.type />
 									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
 										<w:pPr>
-											<w:spacing w:line="560" w:line-rule="exact"/>
-											<w:ind w:first-line-chars="200" w:first-line="640"/>
+											<w:adjustRightInd w:val="off"/>
+											<w:snapToGrid w:val="off"/>
+											<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
 											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
 												<wx:font wx:val="Times New Roman"/>
 												<w:sz w:val="32"/>
 												<w:sz-cs w:val="32"/>
 											</w:rPr>
 										</w:pPr>
+										<aml:annotation aml:id="2" w:type="Word.Bookmark.Start" w:name="_Toc15501_WPSOffice_Level1"/>
 										<w:r>
 											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="Times New Roman"/>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="黑体"/>
 												<w:sz w:val="32"/>
 												<w:sz-cs w:val="32"/>
 											</w:rPr>
-											<w:t>${staffContent}</w:t>
+											<w:t><@toHanStrSuffix number="${cgRule_index+1!}"/>、${cgTeamType["k"+teamType]!}${cgRuleType["k"+ruleType]!}</w:t>
 										</w:r>
+										<aml:annotation aml:id="2" w:type="Word.Bookmark.End"/>
 									</w:p>
-								</#list>
-							</#if>
-							<#if workgroupTeanBase.postAndNameList??>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:spacing w:line="560" w:line-rule="exact"/>
-										<w:ind w:first-line-chars="200" w:first-line="640"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="仿宋_GB2312"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
-									</w:r>
-								</w:p>
-								<#list workgroupTeanBase.postAndNameList as postAndName>
-									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-										<w:pPr>
-											<w:spacing w:line="560" w:line-rule="exact"/>
-											<w:ind w:first-line-chars="200" w:first-line="640"/>
-											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="Times New Roman"/>
-												<w:sz w:val="32"/>
-												<w:sz-cs w:val="32"/>
-											</w:rPr>
-										</w:pPr>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="仿宋_GB2312"/>
-												<w:sz w:val="32"/>
-												<w:sz-cs w:val="32"/>
-											</w:rPr>
-											<w:t>${postAndName}</w:t>
-										</w:r>
-									</w:p>
-								</#list>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:spacing w:line="560" w:line-rule="exact"/>
-										<w:ind w:first-line-chars="200" w:first-line="640"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="仿宋_GB2312"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>办公室主任：${workgroupTeanBase.cgLeaderName!""}</w:t>
-									</w:r>
-								</w:p>
-							</#if>
 
-							<#if workgroupTeanBase.jobContentList??>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:adjustRightInd w:val="off"/>
-										<w:snapToGrid w:val="off"/>
-										<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="黑体"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>一、${workgroupTeanBase.cgTeamType}工作职责 </w:t>
-									</w:r>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-								</w:p>
-								<#list workgroupTeanBase.jobContentList as jobContent>
-									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-										<w:pPr>
-											<w:spacing w:line="560" w:line-rule="exact"/>
-											<w:ind w:first-line-chars="200" w:first-line="640"/>
-											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="Times New Roman"/>
-												<w:sz w:val="32"/>
-												<w:sz-cs w:val="32"/>
-											</w:rPr>
-										</w:pPr>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="Times New Roman"/>
-												<w:sz w:val="32"/>
-												<w:sz-cs w:val="32"/>
-											</w:rPr>
-											<w:t>${jobContent}</w:t>
-										</w:r>
-									</w:p>
+									<#if cgRule.contentList??>
+										<#list cgRule.contentList as content>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:adjustRightInd w:val="off"/>
+													<w:snapToGrid w:val="off"/>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>${content}</w:t>
+												</w:r>
+											</w:p>
+										</#list>
+									</#if>
+
+									<#if cgRule.type == cgRuleTypeStaff>
+										<#if (teamBase.cgMemberList?size>0)>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
+												</w:r>
+											</w:p>
+											<#list teamBase.cgMemberList as cgMember>
+												<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+													<w:pPr>
+														<w:spacing w:line="560" w:line-rule="exact"/>
+														<w:ind w:first-line-chars="200" w:first-line="640"/>
+														<w:rPr>
+															<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+															<wx:font wx:val="Times New Roman"/>
+															<w:sz w:val="32"/>
+															<w:sz-cs w:val="32"/>
+														</w:rPr>
+													</w:pPr>
+													<w:r>
+														<w:rPr>
+															<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+															<wx:font wx:val="仿宋_GB2312"/>
+															<w:sz w:val="32"/>
+															<w:sz-cs w:val="32"/>
+														</w:rPr>
+														<w:t>${cgMember}</w:t>
+													</w:r>
+												</w:p>
+											</#list>
+										</#if>
+
+										<#if teamBase.cgLeader??>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>办公室主任：${teamBase.cgLeader.user.realname!""}</w:t>
+												</w:r>
+											</w:p>
+										</#if>
+									</#if>
 								</#list>
 							</#if>
+						</#list>
+					</#if>
 
-							<#if workgroupTeanBase.debateContentList??>
-								<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
-									<w:pPr>
-										<w:adjustRightInd w:val="off"/>
-										<w:snapToGrid w:val="off"/>
-										<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="Times New Roman"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-									</w:pPr>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.Start" w:name="_Toc23082_WPSOffice_Level1"/>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
-											<wx:font wx:val="黑体"/>
-											<w:sz w:val="32"/>
-											<w:sz-cs w:val="32"/>
-										</w:rPr>
-										<w:t>一、${workgroupTeanBase.cgTeamType}议事规则 </w:t>
-									</w:r>
-									<aml:annotation aml:id="3" w:type="Word.Bookmark.End"/>
-								</w:p>
-								<#list workgroupTeanBase.debateContentList as debateContent>
+					<#if (cgTeamBase.cgWorkgroupList?size > 0)>
+					<#assign number = number + 1 />
+						<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5" wsp:rsidP="0095389A">
+							<w:pPr>
+								<w:adjustRightInd w:val="off"/>
+								<w:snapToGrid w:val="off"/>
+								<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
+								<w:rPr>
+									<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+									<wx:font wx:val="Times New Roman"/>
+									<w:color w:val="FF0000"/>
+									<w:sz w:val="32"/>
+									<w:sz-cs w:val="32"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r wsp:rsidRPr="00350529">
+								<w:rPr>
+									<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+									<wx:font wx:val="黑体"/>
+									<w:color w:val="FF0000"/>
+									<w:sz w:val="32"/>
+									<w:sz-cs w:val="32"/>
+								</w:rPr>
+								<w:t><@toHanStrSuffix number="${number}"/>、工作小组</w:t>
+							</w:r>
+						</w:p>
+						<#list cgTeamBase.cgWorkgroupList as teamBase>
+							<w:p wsp:rsidR="00FD0534" wsp:rsidRPr="00350529" wsp:rsidRDefault="00760FF5">
+								<w:pPr>
+									<w:adjustRightInd w:val="off"/>
+									<w:snapToGrid w:val="off"/>
+									<w:spacing w:line="560" w:line-rule="exact"/>
+									<w:ind w:right-chars="26" w:right="55" w:first-line-chars="221" w:first-line="707"/>
+									<w:rPr>
+										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+										<wx:font wx:val="Times New Roman"/>
+										<w:b/>
+										<w:color w:val="FF0000"/>
+										<w:sz w:val="32"/>
+										<w:sz-cs w:val="32"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00350529">
+									<w:rPr>
+										<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman" w:hint="fareast"/>
+										<wx:font wx:val="仿宋_GB2312"/>
+										<w:b/>
+										<w:color w:val="FF0000"/>
+										<w:sz w:val="32"/>
+										<w:sz-cs w:val="32"/>
+									</w:rPr>
+									<w:t>（<@toHanStrSuffix number="${teamBase_index+1}"/>）、${teamBase.cgTeam.name}</w:t>
+								</w:r>
+							</w:p>
+
+							<#if teamBase.cgRuleList??>
+								<#list teamBase.cgRuleList as cgRule>
+									<#assign ruleType =cgRule.type />
+									<#assign teamType =teamBase.cgTeam.type />
 									<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
 										<w:pPr>
-											<w:spacing w:line="560" w:line-rule="exact"/>
-											<w:ind w:first-line-chars="200" w:first-line="640"/>
+											<w:adjustRightInd w:val="off"/>
+											<w:snapToGrid w:val="off"/>
+											<w:spacing w:before-lines="50" w:before="156" w:after-lines="50" w:after="156" w:line="560" w:line-rule="exact"/>
 											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
 												<wx:font wx:val="Times New Roman"/>
 												<w:sz w:val="32"/>
 												<w:sz-cs w:val="32"/>
 											</w:rPr>
 										</w:pPr>
+										<aml:annotation aml:id="2" w:type="Word.Bookmark.Start" w:name="_Toc15501_WPSOffice_Level1"/>
 										<w:r>
 											<w:rPr>
-												<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-												<wx:font wx:val="Times New Roman"/>
+												<w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+												<wx:font wx:val="黑体"/>
 												<w:sz w:val="32"/>
 												<w:sz-cs w:val="32"/>
 											</w:rPr>
-											<w:t>${debateContent}</w:t>
+											<w:t><@toHanStrSuffix number="${cgRule_index+1!}"/>、${cgTeamType["k"+teamType]!}${cgRuleType["k"+ruleType]!}</w:t>
 										</w:r>
+										<aml:annotation aml:id="2" w:type="Word.Bookmark.End"/>
 									</w:p>
+
+									<#if cgRule.contentList??>
+										<#list cgRule.contentList as content>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:adjustRightInd w:val="off"/>
+													<w:snapToGrid w:val="off"/>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>${content}</w:t>
+												</w:r>
+											</w:p>
+										</#list>
+									</#if>
+
+									<#if cgRule.type == cgRuleTypeStaff>
+										<#if (teamBase.cgMemberList?size>0)>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>根据学校目前工作安排，具体人员组成为：</w:t>
+												</w:r>
+											</w:p>
+											<#list teamBase.cgMemberList as cgMember>
+												<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+													<w:pPr>
+														<w:spacing w:line="560" w:line-rule="exact"/>
+														<w:ind w:first-line-chars="200" w:first-line="640"/>
+														<w:rPr>
+															<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+															<wx:font wx:val="Times New Roman"/>
+															<w:sz w:val="32"/>
+															<w:sz-cs w:val="32"/>
+														</w:rPr>
+													</w:pPr>
+													<w:r>
+														<w:rPr>
+															<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+															<wx:font wx:val="仿宋_GB2312"/>
+															<w:sz w:val="32"/>
+															<w:sz-cs w:val="32"/>
+														</w:rPr>
+														<w:t>${cgMember}</w:t>
+													</w:r>
+												</w:p>
+											</#list>
+										</#if>
+
+										<#if teamBase.cgLeader??>
+											<w:p wsp:rsidR="00FD0534" wsp:rsidRDefault="00760FF5">
+												<w:pPr>
+													<w:spacing w:line="560" w:line-rule="exact"/>
+													<w:ind w:first-line-chars="200" w:first-line="640"/>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="Times New Roman"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+														<wx:font wx:val="仿宋_GB2312"/>
+														<w:sz w:val="32"/>
+														<w:sz-cs w:val="32"/>
+													</w:rPr>
+													<w:t>办公室主任：${teamBase.cgLeader.user.realname!""}</w:t>
+												</w:r>
+											</w:p>
+										</#if>
+									</#if>
 								</#list>
 							</#if>
 						</#list>
