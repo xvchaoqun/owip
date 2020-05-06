@@ -28,7 +28,7 @@ public class CetController extends CetBaseController{
         }
 
         Set<Byte> cadreStatusList = new HashSet<>();
-        cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
+        cadreStatusList.add(CadreConstants.CADRE_STATUS_CJ);
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
                 cadreStatusList, selectIdSet, null, false, true, false);
 

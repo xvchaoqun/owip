@@ -1,6 +1,23 @@
 
+2020.5.6
+北航  -- 北师大
+
+-- 现任科级干部
+update cadre set status=8 where type=2 and status=1;
+-- 离任科级干部
+update cadre set status=9 where type=2 and status=3;
+-- 删除干部类型（先检查一下）
+ALTER TABLE `cadre` DROP COLUMN `type`;
+-- 更新cadre_view
+-- 更新 unit_post_view
+
+insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+`parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (110, 0, '隐藏领导信息-基本信息的菜单', '只显示现任处级干部', 'function', '', NULL, 90, '0/1/88/90/', 1, 'hide:cadreMenu', NULL, NULL, NULL, 1, NULL);
+
+
 2020.4.29
-西北工大
+西北工大 -- 北师大
 
 ALTER TABLE `ow_organizer`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 校级组织员 2 院系级组织员   3支部组织员' AFTER `year`;

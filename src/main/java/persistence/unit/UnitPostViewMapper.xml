@@ -82,6 +82,9 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -101,6 +104,9 @@
     from unit_post_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}

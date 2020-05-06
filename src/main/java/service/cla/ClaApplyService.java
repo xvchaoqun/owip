@@ -109,7 +109,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 if(unitId!=null) {
                     List<CadreView> mainPostList = cadreCommonService.findMainPost(unitId);
                     for (CadreView _cadre : mainPostList) {
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && (mainPostBlackList.get(_cadre.getId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
                             _users.add(_cadre.getUser());
@@ -117,7 +117,7 @@ public class ClaApplyService extends ClaBaseMapper {
 
                     List<CadreView> additionalPost = claAdditionalPostService.findAdditionalPost(unitId);
                     for (CadreView _cadre : additionalPost) {
-                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
                             _users.add(_cadre.getUser());
                         }
@@ -133,7 +133,7 @@ public class ClaApplyService extends ClaBaseMapper {
                     List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderManagerType.getId());
                     for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                         CadreView _cadre = managerUnitLeader.getCadre();
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && leaderBlackList.get(_cadre.getId()) == null)  // 排除黑名单
                             users.add(_cadre.getUser());
@@ -145,7 +145,7 @@ public class ClaApplyService extends ClaBaseMapper {
                 List<ClaApprover> approvers = claApproverService.findByType(approvalTypeId);
                 for (ClaApprover approver : approvers) {
                     CadreView _cadre = approver.getCadre();
-                    if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                             || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                         users.add(approver.getUser());
                 }
@@ -246,7 +246,7 @@ public class ClaApplyService extends ClaBaseMapper {
         List<ClaApply> applys = null;
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+        if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) { // 审批人必须是现任干部才有审批权限
 
             //==============================================
@@ -496,7 +496,7 @@ public class ClaApplyService extends ClaBaseMapper {
     public ClaApproverTypeBean getApproverTypeBean(int userId) {
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+        if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                 && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) return null;
 
         // 本单位正职
@@ -643,7 +643,7 @@ public class ClaApplyService extends ClaBaseMapper {
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre != null
-                && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                && (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
 
@@ -675,7 +675,7 @@ public class ClaApplyService extends ClaBaseMapper {
         Map<Integer, ClaApproverBlackList> blackListMap = claApproverBlackListService.findAll(leaderApproverType.getId());
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+        if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                 || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId()) == null) { // 必须是现任干部，且不在黑名单
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
@@ -751,7 +751,7 @@ public class ClaApplyService extends ClaBaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (approvalTypeId <= 0) {
             return ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN);
-        } else if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+        } else if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                 && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) {
             return false; // 必须是现任干部才有审批权限
         }

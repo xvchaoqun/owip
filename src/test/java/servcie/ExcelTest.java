@@ -105,7 +105,7 @@ public class ExcelTest {
             row2.getCell(0).setCellComment(comment);*/
 
             CadreViewExample example = new CadreViewExample();
-            example.createCriteria().andUnitIdEqualTo(unit.getId()).andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+            example.createCriteria().andUnitIdEqualTo(unit.getId()).andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ);
             example.setOrderByClause("sort_order parseResumeRow");
             List<CadreView> cadres = cadreViewMapper.selectByExample(example);
 
@@ -117,7 +117,7 @@ public class ExcelTest {
             List<DispatchCadreView> filterLeaveCadres = new ArrayList<>();
             for (DispatchCadreView leaveCadre : leaveCadres) {
                 CadreView cadre = cadreMap.get(leaveCadre.getCadreId());
-                if(cadre.getStatus()!= CadreConstants.CADRE_STATUS_MIDDLE){
+                if(cadre.getStatus()!= CadreConstants.CADRE_STATUS_CJ){
                     filterLeaveCadres.add(leaveCadre);
                 }
             }

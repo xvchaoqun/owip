@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="is_dep" jdbcType="BIT" property="isDep" />
     <result column="has_crp" jdbcType="BIT" property="hasCrp" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
@@ -130,7 +129,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type, is_dep, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
+    id, user_id, is_dep, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
     label, profile, remark, sort_order, status, unit_id, admin_level, post_type, post, 
     is_committee_member, msg_title, mobile, phone, home_phone, email, code, realname, 
     gender, nation, native_place, idcard, birth, party_id, branch_id, member_status, 

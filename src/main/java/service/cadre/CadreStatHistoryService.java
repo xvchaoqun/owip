@@ -46,7 +46,7 @@ public class CadreStatHistoryService extends BaseMapper {
         switch (type) {
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE:
 
-                byte status = CadreConstants.CADRE_STATUS_MIDDLE;
+                byte status = CadreConstants.CADRE_STATUS_CJ;
                 CadreViewExample example = new CadreViewExample();
                 example.createCriteria().andStatusEqualTo(status);
                 example.setOrderByClause("sort_order desc");

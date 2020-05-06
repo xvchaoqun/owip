@@ -25,12 +25,6 @@
         </c:if>
         </c:if>
         </shiro:hasPermission>
-        <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
-        <c:if test="${_p_hasKjCadre}">
-        {label: '类型', name: 'type', width: 90, formatter: $.jgrid.formatter.MAP,
-                    formatoptions:{mapKey:'CADRE_TYPE_MAP'}},
-        </c:if>
-        </c:if>
         {label: '干部类别', name: 'isDep', width: 90, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '院系干部', off: '机关干部'}},
         <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
@@ -296,21 +290,13 @@
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
         </shiro:hasPermission>
-        <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
-        <c:if test="${_p_hasKjCadre}">
-        {label: '类型', name: 'type', width: 90, formatter: function (cellvalue, options, rowObject) {
-            if($.trim(cellvalue)=='') return '--';
-            return _cMap.CADRE_TYPE_MAP[cellvalue]
-        }},
-        </c:if>
-        </c:if>
         <c:if test="${_p_useCadreState}">
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
         </c:if>
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
-        <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+        <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         {
             label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
 

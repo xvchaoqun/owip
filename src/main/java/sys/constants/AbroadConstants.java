@@ -185,7 +185,7 @@ public class AbroadConstants {
     public final static Set<Byte> ABROAD_APPLICAT_CADRE_STATUS_SET = new HashSet<>(); // 因私申请人要求的干部状态
 
     static {
-        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_MIDDLE);
+        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_CJ);
         ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER);
         ABROAD_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER_LEAVE);
     }

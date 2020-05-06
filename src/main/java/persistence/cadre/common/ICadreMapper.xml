@@ -35,6 +35,13 @@
             and ce.cadre_id=c.id and ce.school_type =#{schoolType}
         </where>
     </select>
+    <select id="selectCadreIdListByEdu" resultType="java.lang.Integer" parameterType="map">
+        select distinct c.id from cadre_edu ce , cadre c
+        <where>
+            <include refid="statCadreSearchSql"/>
+            and ce.cadre_id=c.id and ce.school_type =#{schoolType}
+        </where>
+    </select>
 
     <resultMap id="ICadreWorkBaseResultMap" extends="persistence.cadre.CadreWorkMapper.BaseResultMap"
                type="persistence.cadre.common.ICadreWork"></resultMap>

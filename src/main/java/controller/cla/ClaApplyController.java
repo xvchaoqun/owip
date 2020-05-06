@@ -13,7 +13,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,7 +28,6 @@ import persistence.cla.common.ClaApproverTypeBean;
 import shiro.ShiroHelper;
 import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -401,7 +399,6 @@ public class ClaApplyController extends ClaBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequiresPermissions("claApply:approvalList")
     @RequestMapping("/claApplyList")
     public String claApplyList(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
@@ -421,7 +418,6 @@ public class ClaApplyController extends ClaBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequiresPermissions("claApply:approvalList")
     @RequestMapping("/claApplyList_data")
     public void claApplyList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,

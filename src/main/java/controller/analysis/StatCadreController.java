@@ -110,7 +110,7 @@ public class StatCadreController extends BaseController {
         int count = 0;
         List records = new ArrayList<>();
 
-        searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_MIDDLE); // 统计现任干部
+        searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_CJ); // 统计现任干部
         switch (type) {
             case 1: // 查找干部的（境外）学习经历
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class UnitPostViewExample {
     protected String orderByClause;
+    protected String groupByClause;
 
     protected boolean distinct;
 
@@ -24,6 +25,15 @@ public class UnitPostViewExample {
 
     public String getOrderByClause() {
         return orderByClause;
+    }
+
+    public String getGroupByClause() {
+        return groupByClause;
+    }
+
+    public UnitPostViewExample setGroupByClause(String groupByClause) {
+        this.groupByClause = groupByClause;
+        return this;
     }
 
     public void setDistinct(boolean distinct) {

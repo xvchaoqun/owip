@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<!-- 聘任制干部列表-->
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${empty _pMap['label_staffType']?'个人身份':_pMap['label_staffType']}" var="_p_label_staffType"/>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadre"
@@ -434,7 +434,7 @@
         $.hashchange('', '${ctx}/cadreInspect');
     }
 
-    <c:if test="${status==CADRE_STATUS_MIDDLE}">
+    <c:if test="${status==CADRE_STATUS_CJ}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
@@ -445,7 +445,7 @@
     });
     </c:if>
 
-    <c:if test="${status!=CADRE_STATUS_MIDDLE}">
+    <c:if test="${status!=CADRE_STATUS_CJ}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,

@@ -10,7 +10,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,6 @@ import persistence.abroad.common.ApprovalResult;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.AbroadHelper;
 import sys.shiro.CurrentUser;
@@ -44,26 +43,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-/*    @RequiresRoles(RoleConstants.ROLE_CADRE)
-    @RequestMapping("/applySelf_download")
-    public void applySelf_download(@CurrentUser SysUserView loginUser,
-                                   Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
-        
-        int userId= loginUser.getId();
-        CadreView cadre = cadreService.dbFindByUserId(userId);
-        Integer applyId = applySelfFile.getApplyId();
-        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
-        if(applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
-            throw new UnauthorizedException();
-        }
-
-        DownloadUtils.download(request, response,
-                springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
-    }*/
-
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/applySelf_view")
     public String applySelf_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -99,14 +79,14 @@ public class UserApplySelfController extends AbroadBaseController {
         return "abroad/user/applySelf/applySelf_view";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/applySelf")
     public String applySelf(ModelMap modelMap) {
 
         return "abroad/user/applySelf/applySelf_page";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/applySelf_data")
     @ResponseBody
     public void applySelf_data(@CurrentUser SysUserView loginUser,
@@ -162,7 +142,7 @@ public class UserApplySelfController extends AbroadBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -307,7 +287,7 @@ public class UserApplySelfController extends AbroadBaseController {
         return resultMap;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping(value = "/applySelfFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelfFile_del(@CurrentUser SysUserView loginUser, Integer id) {

@@ -31,25 +31,26 @@
                 <input type="text" name="realname"/>
             </div>
         </div>
-        <c:if test="${status==CADRE_STATUS_MIDDLE||status==CADRE_STATUS_MIDDLE_LEAVE}">
-            <c:if test="${_p_hasKjCadre}">
-                <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>干部类型</label>
-                    <div class="col-xs-6">
-                        <div class="input-group">
-                            <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="type" id="type${entity.key}"
-                                        ${cadre.type==entity.key?"checked":""} value="${entity.key}">
-                                    <label for="type${entity.key}">
-                                            ${entity.value}
-                                    </label>
-                                </div>
-                            </c:forEach>
+        <c:if test="${_p_hasKjCadre}">
+            <div class="form-group">
+                <label class="col-xs-4 control-label"><span class="star">*</span>干部类型</label>
+                <div class="col-xs-6">
+                    <div class="input-group">
+                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                            <input required type="radio" name="status" id="status1" value="${CADRE_STATUS_CJ}">
+                            <label for="status1">
+                                    处级干部
+                            </label>
+                        </div>
+                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                            <input required type="radio" name="status" id="status2" value="${CADRE_STATUS_KJ}">
+                            <label for="status1">
+                                    科级干部
+                            </label>
                         </div>
                     </div>
                 </div>
-            </c:if>
+            </div>
         </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label">离任后所在单位及职务</label>

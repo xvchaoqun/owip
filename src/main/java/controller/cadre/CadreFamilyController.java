@@ -95,7 +95,7 @@ public class CadreFamilyController extends BaseController {
             SecurityUtils.getSubject().checkPermission("cadre:exportFamily");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
+            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_CJ, response);
             return;
         }
 

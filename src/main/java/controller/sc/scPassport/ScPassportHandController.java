@@ -298,7 +298,7 @@ public class ScPassportHandController extends ScBaseController {
     @ResponseBody
     public Map scPassportHand_selectCadres_tree() throws IOException {
 
-        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                 CadreConstants.CADRE_STATUS_LEADER));
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
                 cadreStatusList, null, null, true, true, false);

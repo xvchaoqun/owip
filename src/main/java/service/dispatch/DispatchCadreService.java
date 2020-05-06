@@ -92,11 +92,9 @@ public class DispatchCadreService extends BaseMapper {
     public void addLeaveCadre(Integer userId, Boolean needCreate, String realname, Cadre record) {
 
         // 默认是处级干部
-        if (record.getType() == null) {
-            record.setType(CadreConstants.CADRE_TYPE_CJ);
+        if(record.getStatus()==null) {
+            record.setStatus(CadreConstants.CADRE_STATUS_CJ_LEAVE);
         }
-
-        record.setStatus(CadreConstants.CADRE_STATUS_MIDDLE_LEAVE);
 
         if (userId == null) {
             if (BooleanUtils.isNotTrue(needCreate)) {
@@ -118,7 +116,7 @@ public class DispatchCadreService extends BaseMapper {
             sysUser.setSalt(encrypt.getSalt());
             sysUser.setPasswd(encrypt.getPassword());
             sysUser.setCreateTime(new Date());
-            sysUser.setType(record.getType());
+            sysUser.setType(SystemConstants.USER_TYPE_JZG);
             sysUser.setSource(SystemConstants.USER_SOURCE_REG);
             sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
             sysUserService.insertSelective(sysUser);
@@ -135,7 +133,7 @@ public class DispatchCadreService extends BaseMapper {
             if (uv == null) {
                 throw new OpException("所选系统账号不存在。");
             }
-            if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE)) {
+            if (CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE_CJ)) {
                 throw new OpException("所选系统账号已是干部，无需添加。");
             }
         }

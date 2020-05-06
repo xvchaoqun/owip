@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         //SysMsg.success('操作成功。', '成功',function(){
-                        if(ret.status=='${CADRE_STATUS_MIDDLE_LEAVE}')
+                        if(ret.status=='${CADRE_STATUS_CJ_LEAVE}'||ret.status=='${CADRE_STATUS_KJ_LEAVE}')
                             $.hashchange('status='+ret.status, '${ctx}/cadre');
                         if(ret.status=='${CADRE_STATUS_LEADER_LEAVE}')
                             $.hashchange('status='+ret.status, '${ctx}/leaderInfo');

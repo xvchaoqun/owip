@@ -68,8 +68,8 @@
                         是否现任领导干部
                     </td>
                     <td colspan="3">
-                        ${cadre.status==CADRE_STATUS_MIDDLE?"是":"否"}
-                        <c:if test="${cadre.status==CADRE_STATUS_MIDDLE_LEAVE}">
+                        ${cadre.status==CADRE_STATUS_CJ?"是":"否"}
+                        <c:if test="${cadre.status==CADRE_STATUS_CJ_LEAVE}">
                             ，离任干部
                         </c:if>
                     </td>
@@ -93,10 +93,10 @@
                         行政级别
                     </td>
                     <td colspan="3">
-                        <c:if test="${cadre.status==CADRE_STATUS_MIDDLE}">
+                        <c:if test="${cadre.status==CADRE_STATUS_CJ}">
                             ${cm:getMetaType(cadre.adminLevel).name}
                         </c:if>
-                        <c:if test="${cadre.status!=CADRE_STATUS_MIDDLE}">
+                        <c:if test="${cadre.status!=CADRE_STATUS_CJ}">
                         ${_p_label_adminLevelNone}
                         </c:if>
                     </td>

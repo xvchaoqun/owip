@@ -763,8 +763,7 @@ public class CadreAdformService extends BaseMapper {
             cadre.setUserId(userId);
             cadre.setTitle(title.replaceAll("^" + sysConfig.getSchoolName().replaceAll("\\*", "\\\\*")
                     + "|" + sysConfig.getSchoolShortName().replaceAll("\\*", "\\\\*"), ""));
-            cadre.setStatus(CadreConstants.CADRE_STATUS_MIDDLE);
-            cadre.setType(CadreConstants.CADRE_TYPE_CJ);
+            cadre.setStatus(CadreConstants.CADRE_STATUS_CJ);
 
             cadreService.insertSelective(cadre);
 

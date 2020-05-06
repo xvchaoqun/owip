@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
 								</c:if>
 								<c:if test="${admin==1}">
 									<select required data-rel="select2-ajax"
-											data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE}"
+											data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_CJ_LEAVE}"
 											name="cadreId" data-width="300" data-placeholder="请输入账号或姓名或学工号">
 										<option value="${cadrePositionReport.cadreId}">${cadrePositionReport.cadre.user.realname}-${cadrePositionReport.cadre.user.code}</option>
 									</select>

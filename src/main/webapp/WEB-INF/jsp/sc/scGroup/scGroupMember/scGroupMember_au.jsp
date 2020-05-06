@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">成员</label>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax"
-                            data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER},${CADRE_STATUS_LEADER_LEAVE}"
+                            data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_CJ},${CADRE_STATUS_LEADER},${CADRE_STATUS_LEADER_LEAVE}"
                             name="userId" data-placeholder="请输入账号或姓名或教工号"  data-width="270">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

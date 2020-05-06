@@ -48,6 +48,8 @@ public interface ICadreMapper {
                                        @Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
     int countCadreEduList(@Param("schoolType") byte schoolType,
                           @Param("searchBean") CadreCategorySearchBean searchBean);
+    List<Integer> selectCadreIdListByEdu(@Param("schoolType") byte schoolType,
+                                       @Param("searchBean") CadreCategorySearchBean searchBean);
 
     // 主要工作经历修改为其间工作经历（结束时间不为空）
     @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
@@ -106,7 +108,8 @@ public interface ICadreMapper {
     // 获取主职、兼职在某单位的现任干部（不考虑干部类型）
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
     @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
-            "c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
+            "c.status in(" + CadreConstants.CADRE_STATUS_CJ + ","
+            + CadreConstants.CADRE_STATUS_KJ + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePosts(@Param("unitId") int unitId);
 
@@ -117,7 +120,8 @@ public interface ICadreMapper {
             "and cp.is_main_post=#{isMainPost} and cp.admin_level=#{adminLevel} " +
             "and exists(select 1 from unit_post_count_view where unit_id=cp.unit_id) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
-            "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
+            "and c.status in(" + CadreConstants.CADRE_STATUS_CJ + ","
+            + CadreConstants.CADRE_STATUS_KJ + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePostsByUnitType(@Param("adminLevel") Integer adminLevel,
                                                     @Param("isMainPost") boolean isMainPost,
@@ -200,7 +204,8 @@ public interface ICadreMapper {
             "where (cp.is_main_post=1 or (cp.is_main_post=0 and cp.is_cpc=1)) " +
             "and exists(select 1 from unit_post_count_view where unit_id=cp.unit_id) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitTypeGroup} and cp.cadre_id=c.id " +
-            "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
+            "and c.status in(" + CadreConstants.CADRE_STATUS_CJ + ","
+            + CadreConstants.CADRE_STATUS_KJ + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "group by cp.admin_level, cp.is_main_post")
     public List<UnitPostAllocationStatBean> unitPostStatReal(@Param("unitTypeGroup") String unitTypeGroup);
 

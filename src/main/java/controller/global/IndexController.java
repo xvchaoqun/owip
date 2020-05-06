@@ -131,7 +131,7 @@ public class IndexController extends BaseController {
 	public String user_base() {
 
 		int userId = ShiroHelper.getCurrentUserId();
-		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE)
+		if(ShiroHelper.hasRole(RoleConstants.ROLE_CADRE_CJ)
 				&& ShiroHelper.isPermitted("userCadre:menu")){
 			// 是干部且有干部个人信息查看的权限 （可能校领导去除了这个权限）
 			CadreView cadre = cadreService.dbFindByUserId(userId);

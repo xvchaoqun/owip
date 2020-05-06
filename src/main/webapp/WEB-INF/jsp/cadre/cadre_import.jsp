@@ -17,12 +17,6 @@
         </form>
         <div class="well">
             <c:choose>
-                <c:when test="${_p_hasKjCadre && _p_useCadreState}">
-                    <c:set var="sampleCode" value="sample_cadre_hasKjCadre_useCadreState"/>
-                </c:when>
-                <c:when test="${_p_hasKjCadre}">
-                    <c:set var="sampleCode" value="sample_cadre_hasKjCadre"/>
-                </c:when>
                 <c:when test="${_p_useCadreState}">
                     <c:set var="sampleCode" value="sample_cadre_useCadreState"/>
                 </c:when>

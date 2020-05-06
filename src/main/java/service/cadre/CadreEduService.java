@@ -720,7 +720,7 @@ public class CadreEduService extends BaseMapper {
 
         List<CadreEdu> cadreEdus = new ArrayList<>();
         if (exportType == 0) { // 现任干部
-            cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_MIDDLE);
+            cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
             cadreEdus = iCadreMapper.getCadreReserveEdus(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }

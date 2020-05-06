@@ -667,14 +667,13 @@ public class SysUserService extends BaseMapper {
         }
 
         // 干部
-        if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
+        if (userRoles.contains(RoleConstants.ROLE_CADRE_CJ)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
-            //科级干部、考察对象和离任干部不可以看到因私出国申请，现任干部和离任校领导可以
-            if (cadre == null || cadre.getType() == CadreConstants.CADRE_TYPE_KJ
-                    || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+            //科级干部、考察对象和离任处级干部不可以看到因私出国申请，现任处级干部和离任校领导可以
+            if (cadre == null || cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER
-                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
+                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
                 userPermissions.remove("abroad:user"); // 因私出国境申请（干部目录）
                 userPermissions.remove("userApplySelf:*"); // 申请因私出国境（干部）
                 userPermissions.remove("userPassportDraw:*"); // 申请使用证件（干部）
@@ -689,7 +688,7 @@ public class SysUserService extends BaseMapper {
             }
 
             // 没有审批权限的干部，没有（abroad:menu（目录）, applySelf:approvalList)
-            if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+            if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
                     !approverTypeBean.isApprover()) {
 
@@ -721,7 +720,7 @@ public class SysUserService extends BaseMapper {
         ApproverService approverService = CmTag.getBean(ApproverService.class);
         if (approverService != null) {
             // 是干部
-            if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
+            if (userRoles.contains(RoleConstants.ROLE_CADRE_CJ)) {
 
                 // 是干部管理员 或 没有因私审批权限
                 if (userRoles.contains(RoleConstants.ROLE_CADREADMIN) ||

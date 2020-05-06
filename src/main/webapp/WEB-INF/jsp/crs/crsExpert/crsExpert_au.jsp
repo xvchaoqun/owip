@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">请选择干部</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_LEADER},${CADRE_STATUS_MIDDLE}" data-width="350"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_LEADER},${CADRE_STATUS_CJ}" data-width="350"
                             name="userId" data-placeholder="请输入账号或姓名或工号">
                         <option></option>
                     </select>

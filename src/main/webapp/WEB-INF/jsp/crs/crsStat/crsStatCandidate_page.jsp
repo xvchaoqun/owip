@@ -197,7 +197,7 @@
                     .format(rowObject.ppt, rowObject.pptName)
         }},
         {label: '是否为现任干部', name: 'status', width: 180, formatter: function (cellvalue, options, rowObject) {
-            return cellvalue==${CADRE_STATUS_MIDDLE}?"是":"否"
+            return cellvalue==${CADRE_STATUS_CJ}?"是":"否"
         }}, {name: 'candidateId', key:true, hidden:true}
     ]
   }).jqGrid("setFrozenColumns");

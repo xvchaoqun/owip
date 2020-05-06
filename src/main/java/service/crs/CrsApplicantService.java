@@ -371,8 +371,7 @@ public class CrsApplicantService extends CrsBaseMapper {
         CadreView cv = cadreService.dbFindByUserId(userId);
 
         // 如果是 干部、考察对象或优秀年轻干部，则直接返回干部ID
-        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE,
-                RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRERESERVE)){
+        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRERESERVE)){
             return cv.getId();
         }
 
@@ -395,10 +394,7 @@ public class CrsApplicantService extends CrsBaseMapper {
             Cadre record  = new Cadre();
             record.setUserId(userId);
             record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
-            // 默认干部类型：其他
-            if(record.getType()==null){
-                record.setType(CadreConstants.CADRE_TYPE_OTHER);
-            }
+
             cadreService.insertSelective(record);
 
             cadreId = record.getId();

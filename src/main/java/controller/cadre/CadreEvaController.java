@@ -84,7 +84,7 @@ public class CadreEvaController extends BaseController {
         if (export == 1) {
             SecurityUtils.getSubject().checkPermission("cadre:export");
             int currentYear = DateUtils.getCurrentYear();
-            cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
+            cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_CJ, response);
             return;
         }
 

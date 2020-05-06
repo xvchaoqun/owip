@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
@@ -69,7 +70,7 @@ public class CadreController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/cadre")
-    public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
+    public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
                              @RequestParam(required = false, value = "nation") String[] nation,
                              @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                              @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
@@ -83,7 +84,7 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "labels") Integer[] labels,
                              @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
                             @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
-                             @RequestParam(required = false, defaultValue = "0")Boolean isEngage,//是否聘任制干部，指无行政级别的干部
+                             @RequestParam(required = false, defaultValue = "0")Boolean isEngage, //是否聘任制干部，指无行政级别的干部
                              @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
                              @RequestParam(required = false, value = "workTypes") Integer[] workTypes,
                              Integer cadreId, ModelMap modelMap) {
@@ -170,16 +171,10 @@ public class CadreController extends BaseController {
 
         // 导出的列名字
         List<String> titles = cadreExportService.getTitles();
-        boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
         boolean useCadreState = CmTag.getBoolProperty("useCadreState");
         boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
-        if(!hasKjCadre && !useCadreState){
-                titles.remove(2);
-                titles.remove(2);
-        }else if(!hasKjCadre){
+        if(!useCadreState){
             titles.remove(2);
-        }else if(!useCadreState){
-            titles.remove(3);
         }
         if(!hasPartyModule){
             titles.remove(titles.size()-3); // 去掉所在党组织
@@ -197,7 +192,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_data")
     public void cadre_data(HttpServletResponse response,
                            HttpServletRequest request,
-                           @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
+                           @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
                            Integer cadreId,
                            Byte gender,
                            Integer startAge,
@@ -228,9 +223,9 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
                            Boolean isDouble, // 是否双肩挑
                            Boolean hasCrp, // 是否有干部挂职经历
+                           Boolean hasAbroadEdu, // 是否有国外学习经历
                            Boolean isDep,
                            Byte degreeType,
-                           Byte type,
                            Integer state,
                            String title,
                            String sortBy, // 自定义排序
@@ -316,6 +311,19 @@ public class CadreController extends BaseController {
                 criteria.andIdIsNull();
             }else {
                 criteria.andIdIn(cadreIds);
+            }
+        }
+
+        if(hasAbroadEdu!=null){
+
+            CadreCategorySearchBean searchBean = new CadreCategorySearchBean();
+            searchBean.setCadreStatus(status);
+            List<Integer> cadreIds = iCadreMapper.selectCadreIdListByEdu(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
+
+            if(hasAbroadEdu){
+                criteria.andIdIn(cadreIds);
+            }else{
+                criteria.andIdNotIn(cadreIds);
             }
         }
 
@@ -436,9 +444,7 @@ public class CadreController extends BaseController {
         if(isDep!=null){
             criteria.andIsDepEqualTo(isDep);
         }
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
+
         if(degreeType!=null){
             if(degreeType==-1){
                 criteria.andDegreeTypeIsNull();
@@ -734,7 +740,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_base";
     }
 
-    // 提任（干部->校领导）
+    // 提任（现任处级干部->现任校领导 或 现任科级干部->现任处级干部）
     @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_promote")
     public String cadre_promote(int id, ModelMap modelMap) {
@@ -830,7 +836,7 @@ public class CadreController extends BaseController {
 
             if(CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus())) {
                 // 添加干部身份
-                sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
+                sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ);
             }
         }
 
@@ -856,10 +862,7 @@ public class CadreController extends BaseController {
 
         Integer id = record.getId();
         if (id == null) {
-            // 默认是处级干部
-            if(record.getType()==null){
-                record.setType(CadreConstants.CADRE_TYPE_CJ);
-            }
+
             cadreService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
         } else {
@@ -884,7 +887,7 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
-        if (id != null && (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE || status == CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
+        if (id != null && (status == CadreConstants.CADRE_STATUS_CJ_LEAVE || status == CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
             TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
@@ -1038,38 +1041,18 @@ public class CadreController extends BaseController {
             record.setIsDep(StringUtils.contains(StringUtils.trimToNull(xlsRow.get(2)), "院系"));
 
             boolean useCadreState = BooleanUtils.isTrue(CmTag.getBoolProperty("useCadreState"));
-            boolean hasKjCadre = BooleanUtils.isTrue(CmTag.getBoolProperty("hasKjCadre"));
 
-            int kjCol = 3;
             int stateCol = 4;
             int titleCol = 5;
             int remarkCol = 11;
 
-            if(hasKjCadre && useCadreState){
-                //
-            }else if(hasKjCadre) { // 只有科级
-                titleCol = 4;
-                remarkCol = 10;
-            }else if(useCadreState) { // 只有人员类别
+            if(useCadreState) { // 有人员类别
                 stateCol = 2;
                 titleCol = 3;
                 remarkCol = 4;
-            }else{ // 都没有
+            }else{ // 没有
                 titleCol = 3;
                 remarkCol = 9;
-            }
-
-            if(hasKjCadre) {
-                // 干部类型，仅针对干部
-                String _type = StringUtils.trim(xlsRow.get(kjCol));
-                if (status == CadreConstants.CADRE_STATUS_MIDDLE
-                        || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
-                    if (StringUtils.contains(_type, "科级")) {
-                        record.setType(CadreConstants.CADRE_TYPE_KJ);
-                    } else {
-                        record.setType(CadreConstants.CADRE_TYPE_CJ); // 默认是处级
-                    }
-                }
             }
 
             if(useCadreState) {
@@ -1115,8 +1098,6 @@ public class CadreController extends BaseController {
             }
 
             record.setRemark(StringUtils.trimToNull(xlsRow.get(remarkCol)));
-
-            record.setStatus(status);
 
             record.setStatus(status);
             records.add(record);

@@ -61,7 +61,7 @@ public class CrApplicantService extends CrBaseMapper {
     public String getEva(int year, Cadre cadre, CrApplicant crApplicant) {
 
         String eva = "";
-        if (cadre != null && cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE) {
+        if (cadre != null && cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ) {
             int cadreId = cadre.getId();
             CadreEva cadreEva_3 = cadreEvaService.get(cadreId, year - 3);
             CadreEva cadreEva_2 = cadreEvaService.get(cadreId, year - 2);

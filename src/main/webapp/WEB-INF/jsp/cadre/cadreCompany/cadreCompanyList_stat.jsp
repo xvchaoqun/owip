@@ -16,7 +16,7 @@
                 <i class="fa fa-download"></i> ${_school}离任校领导兼职情况统计表</a>
 </c:if>
 <c:if test="${module==2}">
-    <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_MIDDLE%>"
+    <a href="javascript:;" data-url="${ctx}/cadreCompanyList_statExport?cadreStatus=<%=CadreConstants.CADRE_STATUS_CJ%>"
        style="margin-left: 20px" class="downloadBtn">
         <i class="fa fa-download"></i> ${_school}现任干部兼职情况统计表</a>
 </c:if>

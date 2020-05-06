@@ -309,7 +309,7 @@
     $.register.user_select($('[data-rel="select2-ajax"]'), function (state) {
         var $status = state.status;
         //alert($("input[name=isPresentCadre]").bootstrapSwitch("state"))
-        if (($status == '${CADRE_STATUS_MIDDLE}' || $status == '${CADRE_STATUS_LEADER}') &&
+        if (($status == '${CADRE_STATUS_CJ}' || $status == '${CADRE_STATUS_LEADER}') &&
                 $("input[name=isPresentCadre]").bootstrapSwitch("state")) {
 
             $("#modalForm textarea[name=presentPost]").val(state.title);

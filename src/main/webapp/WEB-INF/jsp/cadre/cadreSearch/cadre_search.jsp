@@ -60,7 +60,8 @@
           var status = $.trim(ret.status);
           if(status!=''){
             ret.msg = _cMap.CADRE_STATUS_MAP[ret.status]
-            if(status=='${CADRE_STATUS_MIDDLE}' || status=='${CADRE_STATUS_MIDDLE_LEAVE}')
+            if(status=='${CADRE_STATUS_CJ}' || status=='${CADRE_STATUS_CJ_LEAVE}'
+            ||status=='${CADRE_STATUS_KJ}' || status=='${CADRE_STATUS_KJ_LEAVE}')
               ret.url='#${ctx}/cadre?status='+status;
             if(status=='${CADRE_STATUS_LEADER}' || status=='${CADRE_STATUS_LEADER_LEAVE}')
               ret.url='#${ctx}/leaderInfo?status='+status;

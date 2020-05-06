@@ -11,7 +11,7 @@
         <label class="col-xs-3 control-label">选择干部</label>
         <div class="col-xs-6">
             <select data-rel="select2-ajax"
-                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_MIDDLE}" data-width="350"
+                    data-ajax-url="${ctx}/cadre_selects?status=${CADRE_STATUS_CJ}" data-width="350"
                     name="cadreId" data-placeholder="请选择">
                 <option></option>
             </select>

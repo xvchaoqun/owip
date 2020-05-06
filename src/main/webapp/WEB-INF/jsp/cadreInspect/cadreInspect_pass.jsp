@@ -18,15 +18,20 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>干部类型</label>
                 <div class="col-xs-8">
-                    <c:forEach items="${CADRE_TYPE_MAP}" var="entity">
+                    <div class="input-group">
                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                            <input required type="radio" name="type" id="type${entity.key}"
-                            ${cadre.type==entity.key?"checked":""} value="${entity.key}">
-                            <label for="type${entity.key}">
-                                ${entity.value}
+                            <input required type="radio" name="status" id="status1" value="${CADRE_STATUS_CJ}">
+                            <label for="status1">
+                                    处级干部
                             </label>
                         </div>
-                    </c:forEach>
+                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                            <input required type="radio" name="status" id="status2" value="${CADRE_STATUS_KJ}">
+                            <label for="status1">
+                                    科级干部
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </c:if>

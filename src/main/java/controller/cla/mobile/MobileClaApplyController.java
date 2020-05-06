@@ -80,8 +80,6 @@ public class MobileClaApplyController extends ClaBaseController {
 		return "cla/mobile/claApply_page";
 	}
 
-
-	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("claApply:approvalList")
 	@RequestMapping("/claApplyList")
 	public String claApplyList(ModelMap modelMap) {
@@ -89,7 +87,6 @@ public class MobileClaApplyController extends ClaBaseController {
 		return "mobile/index";
 	}
 
-	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("claApply:approvalList")
 	@RequestMapping("/claApplyList_page")
 	public String claApplyList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,

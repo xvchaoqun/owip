@@ -69,7 +69,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         {
             CadreViewExample example = new CadreViewExample();
-            example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+            example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                     CadreConstants.CADRE_STATUS_LEADER));
             example.setOrderByClause("sort_order desc");
             List<CadreView> cadres = cadreViewMapper.selectByExample(example);

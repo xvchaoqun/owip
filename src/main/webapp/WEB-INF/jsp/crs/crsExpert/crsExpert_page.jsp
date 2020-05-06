@@ -90,7 +90,7 @@
                                         <input type="hidden" name="orderType">
                                         <div class="form-group">
                                             <label>专家组成员</label>
-                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_LEADER},${CADRE_STATUS_MIDDLE}" data-width="350"
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1&types=${CADRE_STATUS_LEADER},${CADRE_STATUS_CJ}" data-width="350"
                                                     name="userId" data-placeholder="请输入账号或姓名或工号">
                                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                             </select>

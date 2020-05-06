@@ -108,7 +108,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
         for (CadreView cadre : cadreMap.values()) {
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
@@ -127,7 +127,7 @@ public class ClaAdditionalPostService extends ClaBaseMapper {
         Map<String, ClaAdditionalPost> claAdditionalPostMap = findAll();
         for (ClaAdditionalPost cPost : claAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
-            if (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+            if (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();

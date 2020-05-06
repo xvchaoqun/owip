@@ -1245,7 +1245,7 @@ public class MemberController extends MemberBaseController {
             SysUserView uv = sysUserService.findById(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
-            if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+            if (cadre != null && (cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
                 post = cadre.getTitle();
                 if (cadre.getAdminLevel() != null) adminLevel = CmTag.getMetaType(cadre.getAdminLevel()).getName();

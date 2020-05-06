@@ -412,7 +412,6 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    //@RequiresRoles(RoleConstants.ROLE_CADRE)
     //@RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList")
     public String applySelfList(Integer userId, // 审批人
@@ -439,7 +438,6 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    //@RequiresRoles(RoleConstants.ROLE_CADRE)
     //@RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
     public void applySelfList_data(Integer userId, // 审批人

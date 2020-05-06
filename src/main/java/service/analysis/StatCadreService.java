@@ -1080,7 +1080,7 @@ public class StatCadreService extends BaseMapper {
     }
 
     //全部类型
-    public List<CadreView> allCadreList(String unitTypeGroup,Byte cadreType,Integer secondNum){
+    public List<CadreView> allCadreList(String unitTypeGroup, byte cadreType,Integer secondNum){
 
         List<CadreView> cadreViewList = statCadreMapper.allCadreList(unitTypeGroup,cadreType);
         return groupByCadre(cadreViewList,secondNum);

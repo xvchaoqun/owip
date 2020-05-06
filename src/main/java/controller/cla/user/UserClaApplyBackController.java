@@ -4,7 +4,7 @@ import controller.cla.ClaBaseController;
 import domain.cadre.CadreView;
 import domain.cla.ClaApply;
 import mixin.MixinUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -27,7 +26,7 @@ public class UserClaApplyBackController extends ClaBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping("/claApply_back")
     public String claApply_back(int applyId, ModelMap modelMap) {
 

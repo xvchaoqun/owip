@@ -135,27 +135,15 @@
     function _reAssignCallback(){
         $.hashchange('', '${ctx}/cadreInspect');
     }
-    <c:if test="${status==CADRE_STATUS_MIDDLE || status==CADRE_STATUS_LEADER}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
         url: '${ctx}/cadre_data?status=${status}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadre
+        colModel: ${(status==CADRE_STATUS_CJ || status==CADRE_STATUS_LEADER)?'colModels.cadre':'colModels.cadreLeave'}
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });
-    </c:if>
 
-    <c:if test="${status!=CADRE_STATUS_MIDDLE && status!=CADRE_STATUS_LEADER}">
-    $("#jqGrid").jqGrid({
-        //forceFit:true,
-        rownumbers: true,
-        url: '${ctx}/cadre_data?status=${status}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreLeave
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $('[data-rel="tooltip"]').tooltip();
-    });
-    </c:if>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 

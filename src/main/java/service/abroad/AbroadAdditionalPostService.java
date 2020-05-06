@@ -116,7 +116,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
         for (CadreView cadre : cadreMap.values()) {
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(cadre.getIsPrincipal())) {
                 List<CadrePostBean> list = null;
@@ -137,7 +137,7 @@ public class AbroadAdditionalPostService extends AbroadBaseMapper {
         Map<String, AbroadAdditionalPost> abroadAdditionalPostMap = findAll();
         for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                     || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();

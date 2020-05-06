@@ -110,7 +110,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 if(unitId!=null) {
                     List<CadreView> mainPostList = cadreCommonService.findMainPost(unitId);
                     for (CadreView _cadre : mainPostList) {
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && (approverBlackListMap.get(_cadre.getId() + "_" + _cadre.getUnitId()) == null))  // 排除本单位正职黑名单（不包括兼审单位正职）
                             _users.add(_cadre.getUser());
@@ -118,7 +118,7 @@ public class ApplySelfService extends AbroadBaseMapper {
 
                     List<CadreView> additionalPrincipals = abroadAdditionalPostService.findAdditionalPrincipals(unitId);
                     for (CadreView _cadre : additionalPrincipals) {
-                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                 && (approverBlackListMap.get(_cadre.getId() + "_" + unitId) == null)) {
                             _users.add(_cadre.getUser());
@@ -134,7 +134,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                     List<Approver> approvers = iAbroadMapper.findApprovarByTypeAndUnit(approverTypeId, unitId);
                     for (Approver approver : approvers) {
                         CadreView _cadre = approver.getCadre();
-                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                        if (_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                 || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                             _users.add(approver.getUser());
                     }
@@ -150,7 +150,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                         List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderType.getId());
                         for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                             CadreView _cadre = managerUnitLeader.getCadre();
-                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                     || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                     && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
                                 users.add(_cadre.getUser());
@@ -161,7 +161,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                         List<LeaderUnitView> managerUnitLeaders = iLeaderMapper.getManagerUnitLeaders(unitId, leaderType.getId());
                         for (LeaderUnitView managerUnitLeader : managerUnitLeaders) {
                             CadreView _cadre = managerUnitLeader.getCadre();
-                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                            if ((_cadre.getStatus() == CadreConstants.CADRE_STATUS_CJ
                                     || _cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                                     && approverBlackListMap.get(_cadre.getId()) == null)  // 排除黑名单
                                 users.add(_cadre.getUser());
@@ -175,7 +175,7 @@ public class ApplySelfService extends AbroadBaseMapper {
                 List<Approver> approvers = approverService.findByType(approverTypeId);
                 for (Approver approver : approvers) {
                     CadreView _cadre = approver.getCadre();
-                    if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                    if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_CJ
                             || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                         users.add(approver.getUser());
                 }
@@ -273,7 +273,7 @@ public class ApplySelfService extends AbroadBaseMapper {
         List<ApplySelf> applySelfs = null;
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre != null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+        if (cadre != null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_CJ
                 || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)) { // 审批人必须是现任干部才有审批权限
 
             //==============================================
@@ -496,7 +496,7 @@ public class ApplySelfService extends AbroadBaseMapper {
     public ApproverTypeBean getApproverTypeBean(int userId) {
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+        if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                 && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) return null;
 
         int cadreId = cadre.getId();

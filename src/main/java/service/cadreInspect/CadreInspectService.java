@@ -132,7 +132,6 @@ public class CadreInspectService extends BaseMapper {
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
                 cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
-                cadreRecord.setType(CadreConstants.CADRE_TYPE_OTHER);
                 cadreMapper.insertSelective(cadreRecord);
 
                 cadreId = cadreRecord.getId();
@@ -263,20 +262,18 @@ public class CadreInspectService extends BaseMapper {
         cadreAdLogService.addLog(cadreId, "通过常委会任命",
                 CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
 
-        Byte status = CadreConstants.CADRE_STATUS_MIDDLE;
+        Byte status = _cadre.getStatus();
         if(cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE){// 如果原来是离任校领导，重新任命之后也是离任校领导？
             status = CadreConstants.CADRE_STATUS_LEADER;
+        }
+        if(status==null){
+            status= CadreConstants.CADRE_STATUS_CJ;
         }
 
         // 覆盖干部库
         _cadre.setId(cadreId);
         _cadre.setStatus(status);
         _cadre.setUserId(null);
-
-        // 默认为处级干部
-        if(status==CadreConstants.CADRE_STATUS_MIDDLE && _cadre.getType()==null){
-            _cadre.setType(CadreConstants.CADRE_TYPE_CJ);
-        }
 
         _cadre.setIsDouble(cadre.getIsDouble());
         _cadre.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
@@ -295,7 +292,7 @@ public class CadreInspectService extends BaseMapper {
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 
         // 改变账号角色，考核对象->干部
-        sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRE);
+        sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRE_CJ);
 
         // 删除直接修改信息的权限（如果有的话）
         if(modifyCadreAuthService!=null && cadre!=null){
@@ -397,7 +394,7 @@ public class CadreInspectService extends BaseMapper {
 
             //如果不是现任干部，改变账号角色，干部->考核对象
             if (!isCadre)
-                sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT);
+                sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ, RoleConstants.ROLE_CADREINSPECT);
 
             //更新考察对象状态
             cadreInspect.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);

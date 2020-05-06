@@ -285,7 +285,7 @@ public class OaTaskController extends OaBaseController {
             selectIdSet = new HashSet<>(Arrays.asList(userIds));
         }
 
-        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                 CadreConstants.CADRE_STATUS_LEADER));
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
                 cadreStatusList, selectIdSet, null, false, true, false);

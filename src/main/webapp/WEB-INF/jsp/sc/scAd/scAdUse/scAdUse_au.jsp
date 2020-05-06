@@ -83,7 +83,7 @@
 
             <div class="col-xs-6">
                 <select required data-rel="select2-ajax"
-                        data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER}"
+                        data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_LEADER}"
                         name="cadreId" data-placeholder="请输入账号或姓名或教工号" data-width="270">
                     <option value="${scAdUse.cadre.id}">${scAdUse.cadre.realname}-${scAdUse.cadre.code}</option>
                 </select>

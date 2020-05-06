@@ -64,7 +64,7 @@ public class CadreCommonService extends BaseMapper {
         CadreViewExample example = new CadreViewExample();
         example.createCriteria().andUnitIdEqualTo(unitId)
                 .andIsPrincipalEqualTo(true)
-                .andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                .andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                         CadreConstants.CADRE_STATUS_LEADER));
 
         example.setOrderByClause("status desc, sort_order desc");

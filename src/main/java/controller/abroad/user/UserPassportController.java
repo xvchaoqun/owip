@@ -13,14 +13,12 @@ import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.AbroadConstants;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -45,7 +43,7 @@ import java.util.Map;
 @RequestMapping("/user/abroad")
 public class UserPassportController extends AbroadBaseController {
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passport")
     public String passport(HttpServletResponse response,
                                 // 1证件列表 2申请证件列表
@@ -59,7 +57,7 @@ public class UserPassportController extends AbroadBaseController {
         return "forward:/user/abroad/passportApply";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passportList_page")
     public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      // 1证件列表 2申请证件列表
@@ -99,7 +97,7 @@ public class UserPassportController extends AbroadBaseController {
         return "abroad/user/passport/passportList_page";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passport_useLogs")
     public String passport_useLogs(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -120,7 +118,7 @@ public class UserPassportController extends AbroadBaseController {
     }
 
     // 取消集中管理确认单
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passport_cancel")
     public String passport_cancel(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -136,7 +134,7 @@ public class UserPassportController extends AbroadBaseController {
         return "abroad/passport/passport_cancel";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passport_lost_view")
     public String passport_lost_view(@CurrentUser SysUserView loginUser,int id, ModelMap modelMap) {
 
@@ -152,7 +150,7 @@ public class UserPassportController extends AbroadBaseController {
         return "abroad/passport/passport_lost_view";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passport_lostProof_download")
     public void passport_lostProof_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
@@ -178,7 +176,7 @@ public class UserPassportController extends AbroadBaseController {
     }
 
     // 使用记录
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passportDraw_data")
     public void passportDraw_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,

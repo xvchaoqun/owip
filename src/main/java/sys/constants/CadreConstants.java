@@ -26,10 +26,12 @@ public class CadreConstants {
     public final static byte CADRE_STATUS_NOT_CADRE = 0; // 非干部（添加到党员干部库时，需要初始化到干部库）
     public final static byte CADRE_STATUS_INSPECT = 2;
     public final static byte CADRE_STATUS_RESERVE = 5;
-    public final static byte CADRE_STATUS_MIDDLE_LEAVE = 3;
-    public final static byte CADRE_STATUS_MIDDLE = 1;
-    public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
+    public final static byte CADRE_STATUS_CJ = 1;
+    public final static byte CADRE_STATUS_CJ_LEAVE = 3;
+    public final static byte CADRE_STATUS_KJ = 8;
+    public final static byte CADRE_STATUS_KJ_LEAVE = 9;
     public final static byte CADRE_STATUS_LEADER = 6;
+    public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_RECRUIT = 7; // 应聘干部
 
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
@@ -40,31 +42,35 @@ public class CadreConstants {
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任处级干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任处级干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_CJ, "现任处级干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_CJ_LEAVE, "离任处级干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_KJ, "现任科级干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_KJ_LEAVE, "离任科级干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "临时干部档案"); // 无角色
 
-        CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE);
-        CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
+        CADRE_STATUS_SET.add(CADRE_STATUS_CJ);
+        CADRE_STATUS_SET.add(CADRE_STATUS_CJ_LEAVE);
+        CADRE_STATUS_SET.add(CADRE_STATUS_KJ);
+        CADRE_STATUS_SET.add(CADRE_STATUS_KJ_LEAVE);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER_LEAVE);
 
-        CADRE_STATUS_NOW_SET.add(CADRE_STATUS_MIDDLE);
+        CADRE_STATUS_NOW_SET.add(CADRE_STATUS_CJ);
+        CADRE_STATUS_NOW_SET.add(CADRE_STATUS_KJ);
         CADRE_STATUS_NOW_SET.add(CADRE_STATUS_LEADER);
 
-        CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
+        CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_CJ_LEAVE);
+        CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_KJ_LEAVE);
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
     // 干部类别
     public final static byte CADRE_TYPE_CJ = 1; // 处级干部
     public final static byte CADRE_TYPE_KJ = 2; // 科级干部
-    public final static byte CADRE_TYPE_OTHER = 10; // 其他
     public final static Map<Byte, String> CADRE_TYPE_MAP = new LinkedHashMap<>();
-
     static {
         CADRE_TYPE_MAP.put(CADRE_TYPE_CJ, "处级干部");
         CADRE_TYPE_MAP.put(CADRE_TYPE_KJ, "科级干部");
@@ -80,7 +86,6 @@ public class CadreConstants {
         //CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_NONE, "无");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_DP, "民主党派");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_OW, "中共党员");
-
     }
 
     // 干部历史数据类别

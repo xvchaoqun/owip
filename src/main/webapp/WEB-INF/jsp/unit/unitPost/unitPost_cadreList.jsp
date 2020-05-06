@@ -24,7 +24,8 @@
                                                          value="-1"> 其他年限
             </span>
         </div>
-        <div style="float: left;">
+        <div style="float: right;padding-right: 30px">
+
             <select id="sortBy" data-placeholder="请选择排序方式">
                 <option></option>
                 <option value="lpWorkTime_asc">按任现职时间排序(升序)</option>
@@ -45,14 +46,15 @@
                     }
                 })
             </script>
-        </div>
-        <div style="float: right;padding-right: 30px">
-        <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+
+        <button class="jqExportBtn btn btn-success btn-sm tooltip-success" style="margin-bottom: 0"
                 data-url="${ctx}/unitPost_data"
                 data-querystr="exportType=1"
                 data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
             <i class="fa fa-download"></i> 导出
         </button>
+
+
         </div>
         <div style="clear: both"/>
     </div>
@@ -70,6 +72,7 @@
             <div class="widget-main no-padding">
                 <form class="form-inline search-form" id="searchForm">
                     <input type="hidden" name="displayType" value="${param.displayType}">
+                    <input type="hidden" name="sortBy" value="${param.sortBy}">
                     <c:set var="unit" value="${cm:getUnitById(param.unitId)}"/>
                     <c:set var="cadre" value="${cm:getCadreById(param.cadreId)}"/>
                     <div class="form-group">

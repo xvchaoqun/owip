@@ -79,7 +79,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 	}
 
 
-	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList")
 	public String applySelfList(ModelMap modelMap) {
@@ -87,7 +86,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 		return "mobile/index";
 	}
 
-	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList_page")
 	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,

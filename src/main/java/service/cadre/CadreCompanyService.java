@@ -407,7 +407,7 @@ public class CadreCompanyService extends BaseMapper {
             cadreType = "现任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
             cadreType = "离任校领导";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_MIDDLE) {
+        } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
             cadreType = "现任干部";
         }
 

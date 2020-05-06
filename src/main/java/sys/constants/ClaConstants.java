@@ -53,7 +53,7 @@ public class ClaConstants {
     public final static Set<Byte> CLA_APPLICAT_CADRE_STATUS_SET = new HashSet<>(); // 因私申请人要求的干部状态
 
     static {
-        CLA_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_MIDDLE);
+        CLA_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_CJ);
         CLA_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER);
         CLA_APPLICAT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER_LEAVE);
     }

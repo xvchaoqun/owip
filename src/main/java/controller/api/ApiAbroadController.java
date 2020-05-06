@@ -58,7 +58,7 @@ public class ApiAbroadController extends BaseController {
             }
 
             int userId = uv.getId();
-            if(!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE)
+            if(!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE_CJ)
                     || cadreService.dbFindByUserId(userId) == null
                     || !CmTag.getBean(ApproverService.class).hasApproveAuth(userId)){
 

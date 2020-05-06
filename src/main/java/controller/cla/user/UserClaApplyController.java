@@ -8,7 +8,7 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,6 @@ import persistence.cla.common.ClaApprovalResult;
 import shiro.ShiroHelper;
 import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.ClaHelper;
 import sys.shiro.CurrentUser;
@@ -45,7 +44,7 @@ public class UserClaApplyController extends ClaBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping("/claApply_view")
     public String claApply_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -81,14 +80,14 @@ public class UserClaApplyController extends ClaBaseController {
         return "cla/user/claApply/claApply_view";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping("/claApply")
     public String claApply(ModelMap modelMap) {
 
         return "cla/user/claApply/claApply_page";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping("/claApply_data")
     @ResponseBody
     public void claApply_data(@CurrentUser SysUserView loginUser,
@@ -144,7 +143,7 @@ public class UserClaApplyController extends ClaBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping(value = "/claApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_claApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -268,7 +267,7 @@ public class UserClaApplyController extends ClaBaseController {
         return resultMap;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userClaApply:*")
     @RequestMapping(value = "/claApplyFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_claApplyFile_del(@CurrentUser SysUserView loginUser, Integer id) {

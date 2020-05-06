@@ -13,7 +13,9 @@ public class RoleConstants {
     public static final String ROLE_SUPER = "super"; // 控制台
     public static final String ROLE_GUEST = "guest";
     public static final String ROLE_REG = "reg"; // 注册用户，未审核通过
-    public static final String ROLE_CADRE = "cadre";
+    public static final String ROLE_LEADER = "leader";
+    public static final String ROLE_CADRE_CJ = "cadre";
+    public static final String ROLE_CADRE_KJ = "kjCadre";
     public static final String ROLE_CADRERESERVE = "cadreReserve"; // 优秀年轻干部
     public static final String ROLE_CADREINSPECT = "cadreInspect"; // 考察对象
     public static final String ROLE_CADRERECRUIT = "cadreRecruit"; // 应聘干部（普通教师）
@@ -54,7 +56,9 @@ public class RoleConstants {
         ROLE_MAP.put(ROLE_ADMIN, "系统管理员");
         ROLE_MAP.put(ROLE_GUEST, "非党员");
         ROLE_MAP.put(ROLE_REG, "注册用户");
-        ROLE_MAP.put(ROLE_CADRE, "干部");
+        ROLE_MAP.put(ROLE_LEADER, "校领导");
+        ROLE_MAP.put(ROLE_CADRE_CJ, "处级干部");
+        ROLE_MAP.put(ROLE_CADRE_KJ, "科级干部");
         ROLE_MAP.put(ROLE_CADRERESERVE, "优秀年轻干部");
         ROLE_MAP.put(ROLE_CADREINSPECT, "考察对象");
         ROLE_MAP.put(ROLE_CADRERECRUIT, "应聘干部");

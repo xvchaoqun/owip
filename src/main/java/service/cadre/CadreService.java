@@ -76,10 +76,6 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         Cadre record = new Cadre();
         record.setUserId(userId);
         record.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
-        // 其他干部
-        if (record.getType() == null) {
-            record.setType(CadreConstants.CADRE_TYPE_OTHER);
-        }
         insertSelective(record);
 
         return record;
@@ -130,15 +126,23 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     })
     public void promote(int id, String title) {
 
+        CadreView cadre = getCadre(id);
+        byte status = cadre.getStatus();
+        if(status!=CadreConstants.CADRE_STATUS_KJ && status!=CadreConstants.CADRE_STATUS_CJ){
+            throw new OpException("仅现任干部可以提任");
+        }
+        byte toStatus = (status==CadreConstants.CADRE_STATUS_KJ)?
+                CadreConstants.CADRE_STATUS_CJ:CadreConstants.CADRE_STATUS_LEADER;
+
         Cadre record = new Cadre();
-        record.setStatus(CadreConstants.CADRE_STATUS_LEADER);
+        record.setStatus(toStatus);
         if (StringUtils.isNotBlank(title))
             record.setTitle(title);
-        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_STATUS_LEADER));
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + toStatus));
 
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+                .andStatusEqualTo(status);
 
         cadreMapper.updateByExampleSelective(record, example);
     }
@@ -154,19 +158,23 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         Byte status = null;
         Cadre cadre = cadreMapper.selectByPrimaryKey(id);
         byte orgStatus = cadre.getStatus();
-        if (orgStatus == CadreConstants.CADRE_STATUS_MIDDLE) {
-            status = CadreConstants.CADRE_STATUS_MIDDLE_LEAVE;
+        if (orgStatus == CadreConstants.CADRE_STATUS_CJ) {
+            status = CadreConstants.CADRE_STATUS_CJ_LEAVE;
+        } else if (orgStatus == CadreConstants.CADRE_STATUS_KJ) {
+            status = CadreConstants.CADRE_STATUS_KJ_LEAVE;
         } else if (orgStatus == CadreConstants.CADRE_STATUS_LEADER) {
             status = CadreConstants.CADRE_STATUS_LEADER_LEAVE;
         }
 
-        if (status == null) return -1;
+        if (status == null) {
+            throw new OpException("只有现任干部可以进行离任操作");
+        }
 
         // 记录任免日志
         cadreAdLogService.addLog(id, "干部离任",
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
-        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE && passportMapper != null) {
+        if (status == CadreConstants.CADRE_STATUS_CJ_LEAVE && passportMapper != null) {
 
             /**2016.11.08
              *
@@ -239,7 +247,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             int userId = cadre.getUserId();
-            if (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE_LEAVE
+            if (cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ_LEAVE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
                 throw new OpException("干部[" + cadre.getUser().getRealname() + "]状态异常：" + cadre.getStatus());
             }
@@ -320,7 +328,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
 
         if (CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())) {
             // 添加干部身份
-            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE_CJ);
 
             // 删除直接修改信息的权限（如果有的话）
             if (modifyCadreAuthService != null && cadre != null) {
@@ -352,10 +360,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             int userId = record.getUserId();
             CadreView cv = dbFindByUserId(userId);
             if (cv == null) {
-                // 默认是处级干部
-                if (record.getType() == null) {
-                    record.setType(CadreConstants.CADRE_TYPE_CJ);
-                }
+
                 insertSelective(record);
                 addCount++;
             } else {
@@ -385,7 +390,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             cadreMapper.deleteByPrimaryKey(id);
 
             // 删除干部身份
-            sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
+            sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ);
 
             SysUserView uv = cadre.getUser();
             logger.info(addLog(LogConstants.LOG_ADMIN,

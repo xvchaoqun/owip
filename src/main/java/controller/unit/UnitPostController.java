@@ -379,8 +379,9 @@ public class UnitPostController extends BaseController {
             criteria.andCpAdminLevelIn(Arrays.asList(adminLevels));
         }
         if (export == 1) {
-            if (ids != null && ids.length > 0)
-              criteria.andIdIn(Arrays.asList(ids));
+            if (ids != null && ids.length > 0) {
+                criteria.andIdIn(Arrays.asList(ids));
+            }
 
             if (displayType==null || displayType == 1 || displayType == 2) {
                 if (exportType == 0) {
@@ -393,9 +394,15 @@ public class UnitPostController extends BaseController {
                 }
             } else if (displayType == 3) {
 
+                example.setGroupByClause("cader_id");
                 unitPost_cadre_export(example, response);
+                return;
             }
         }
+
+         if (displayType == 3) {
+            example.setGroupByClause("cadre_id");
+         }
 
         long count = unitPostViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

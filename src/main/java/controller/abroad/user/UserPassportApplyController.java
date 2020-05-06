@@ -9,8 +9,7 @@ import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -78,7 +76,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success;
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -123,7 +121,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return "abroad/user/passportApply/passportApply_confirm";
     }
 
-    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passportApply")
     public String passportApply(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,

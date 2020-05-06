@@ -546,7 +546,7 @@ public class CetUpperTrainController extends CetBaseController {
         }
 
         TreeNode tree = cadreCommonService.getTree(cadreViews,
-                new HashSet<>(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                new HashSet<>(Arrays.asList(CadreConstants.CADRE_STATUS_CJ,
                         CadreConstants.CADRE_STATUS_LEADER)), null, null, false, true, cadreViews.size() <= 20);
 
         Map<String, Object> resultMap = success();

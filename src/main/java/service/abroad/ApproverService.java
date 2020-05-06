@@ -28,7 +28,7 @@ public class ApproverService extends AbroadBaseMapper {
         ApproverTypeBean approverTypeBean = AbroadHelper.getApproverTypeBean(userId);
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
-        if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+        if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                 && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || !approverTypeBean.isApprover()) {
             return false;
         }

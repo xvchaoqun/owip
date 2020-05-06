@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">选择离任干部</label>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax"
-                            data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER_LEAVE}"
+                            data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_LEADER_LEAVE}"
                             name="cadreId" data-placeholder="请输入账号或姓名或教工号"  data-width="270">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

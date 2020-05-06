@@ -96,7 +96,7 @@ public class CrsStatController extends CrsBaseController {
         }
         if(isMiddle!=null){
             if(isMiddle){
-                criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+                criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ);
             }
         }
 

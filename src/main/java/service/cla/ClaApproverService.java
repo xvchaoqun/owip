@@ -27,7 +27,7 @@ public class ClaApproverService extends ClaBaseMapper {
         ClaApproverTypeBean approverTypeBean = ClaHelper.getClaApproverTypeBean(userId);
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
-        if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+        if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_CJ
                 && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) ||
                 !(approverTypeBean.getMainPostUnitIds().size()>0
                         || approverTypeBean.isManagerLeader()

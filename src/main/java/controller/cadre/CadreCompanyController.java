@@ -161,7 +161,7 @@ public class CadreCompanyController extends BaseController {
                 cadreStatus = StringUtils.join(Arrays.asList(CadreConstants.CADRE_STATUS_LEADER,
                         CadreConstants.CADRE_STATUS_LEADER_LEAVE), ",");
             }else if(module==2){
-                cadreStatus = CadreConstants.CADRE_STATUS_MIDDLE+"";
+                cadreStatus = CadreConstants.CADRE_STATUS_CJ+"";
             }
             Map<Integer, CadreCompanyStatBean> statMap = cadreCompanyService.listCadreCompanyStatBeans(cadreStatus);
             modelMap.put("statMap", statMap);
@@ -283,8 +283,8 @@ public class CadreCompanyController extends BaseController {
                         CadreConstants.CADRE_STATUS_LEADER_LEAVE));
             }else{
                 if(cls!=10) {
-                    cadreStatus = CadreConstants.CADRE_STATUS_MIDDLE;
-                    criteria.andCadreStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+                    cadreStatus = CadreConstants.CADRE_STATUS_CJ;
+                    criteria.andCadreStatusEqualTo(CadreConstants.CADRE_STATUS_CJ);
                 }
             }
         }

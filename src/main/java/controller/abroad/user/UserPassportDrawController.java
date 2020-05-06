@@ -11,7 +11,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -41,7 +40,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping(value = "/passportDraw_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -64,7 +63,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passportDraw_select")
     public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -202,7 +201,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "abroad/user/passportDraw/passportDraw_self_confirm";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/passportDraw")
     public String passportDraw(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
@@ -212,7 +211,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         return "abroad/user/passportDraw/passportDraw_page";
     }
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping("/userPassportDraw_data")
     @ResponseBody
     public void userPassportDraw_data(@CurrentUser SysUserView loginUser,
@@ -267,7 +266,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
+    @RequiresPermissions("userApplySelf:*")
     @RequestMapping(value = "/passportDraw_self_sign_add", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_sign_add(@CurrentUser SysUserView loginUser, int id){

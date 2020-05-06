@@ -405,7 +405,7 @@
 
         $('#voteForm input[name=userId]').val(userId);
 
-        if(status==${CADRE_STATUS_MIDDLE} || status==${CADRE_STATUS_LEADER}){
+        if(status==${CADRE_STATUS_CJ} || status==${CADRE_STATUS_LEADER}){
 
             var title = '';
             var lpWorkTime = '';

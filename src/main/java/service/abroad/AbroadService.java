@@ -49,7 +49,7 @@ public class AbroadService extends AbroadBaseMapper {
         Map<Integer,  Map<Integer, List<SysUserView>>> cadreApproverListMap = new LinkedHashMap<>();
 
         CadreExample example = new CadreExample();
-        example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+        example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ);
         example.setOrderByClause("sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);
         for (Cadre cadre : cadres) {

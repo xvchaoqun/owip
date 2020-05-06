@@ -627,7 +627,7 @@ public class CadreWorkService extends BaseMapper {
 
         List<CadreWork> cadreWorks = new ArrayList<>();
         if (exportType == 0) { // 现任干部
-            cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_MIDDLE);
+            cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
             cadreWorks = iCadreMapper.getCadreReserveWorks(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }

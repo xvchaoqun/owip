@@ -21,21 +21,33 @@
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
-                 ||not empty param.state  ||not empty param.title ||not empty param.labels }"/>
+                 ||not empty param.state  ||not empty param.title ||not empty param.labels ||not empty param.workTypes
+                 ||not empty param.hasAbroadEdu }"/>
 
                 <div class="tabbable">
-
+                    <shiro:lacksPermission name="hide:cadreMenu">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}&type=${CADRE_TYPE_CJ}" class="loadPage"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
+                        <li class="<c:if test="${status==CADRE_STATUS_CJ}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_CJ}" class="loadPage"><i
+                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_CJ)}</a>
                         </li>
 
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}&type=${CADRE_TYPE_CJ}"
+                        <li class="<c:if test="${status==CADRE_STATUS_CJ_LEAVE}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_CJ_LEAVE}"
                                class="loadPage"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
+                                    class="fa fa-history"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_CJ_LEAVE)}</a>
                         </li>
+                        <c:if test="${_p_hasKjCadre}">
+                        <li class="<c:if test="${status==CADRE_STATUS_KJ}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_KJ}" class="loadPage"><i
+                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_KJ)}</a>
+                        </li>
+                        <li class="<c:if test="${status==CADRE_STATUS_KJ_LEAVE}">active</c:if>">
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_KJ_LEAVE}"
+                               class="loadPage"><i
+                                    class="fa fa-history"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_KJ_LEAVE)}</a>
+                        </li>
+                        </c:if>
                         <shiro:hasPermission name="cadre:list">
                             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                                 <shiro:hasPermission name="leader:menu">
@@ -51,7 +63,7 @@
                             </div>
                         </shiro:hasPermission>
                     </ul>
-
+                    </shiro:lacksPermission>
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
@@ -64,7 +76,7 @@
                                 </shiro:hasPermission>
 
                                 <c:if test="${cm:roleIsPermitted(ROLE_CADREADMIN, 'cadreInspect:list')}">
-                                    <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
+                                    <c:if test="${status==CADRE_STATUS_CJ_LEAVE}">
                                         <shiro:hasPermission name="cadre:edit">
                                             <button class="jqBatchBtn btn btn-warning btn-sm"
                                                     data-title="重新任用"
@@ -85,18 +97,17 @@
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
                                 </shiro:hasPermission>
-                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                <c:if test="${status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ}">
                                     <shiro:hasPermission name="cadre:edit">
                                         <button class="jqOpenViewBtn btn btn-success btn-sm"
                                                 data-url="${ctx}/cadre_promote">
-                                            <i class="fa fa-level-up"></i> 提任校领导
+                                            <i class="fa fa-level-up"></i> 提任${status==CADRE_STATUS_CJ?'校领导':'处级干部'}
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadre:leave">
                                         <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-width="700"
-                                                data-url="${ctx}/cadre_leave"
-                                                data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">
+                                                data-url="${ctx}/cadre_leave">
                                             <i class="fa fa-sign-out"></i> 离任
                                         </button>
                                     </shiro:hasPermission>
@@ -112,14 +123,14 @@
                                                 style="z-index: 1031">
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE}">
-                                                        <i class="fa fa-file-excel-o"></i> 导入现任干部信息</a>
+                                                       data-url="${ctx}/cadre_import?status=${status}">
+                                                        <i class="fa fa-file-excel-o"></i> 导入现任${status==CADRE_STATUS_CJ?'处级':'科级'}干部信息</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
-                                                       data-url="${ctx}/cadre_import?status=${CADRE_STATUS_MIDDLE_LEAVE}">
-                                                        <i class="fa fa-file-excel-o"></i> 导入离任干部信息</a>
+                                                       data-url="${ctx}/cadre_import?status=${status==CADRE_STATUS_CJ?CADRE_STATUS_CJ_LEAVE:CADRE_STATUS_KJ_LEAVE}">
+                                                        <i class="fa fa-file-excel-o"></i> 导入离任${status==CADRE_STATUS_CJ?'处级':'科级'}干部信息</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
@@ -239,7 +250,7 @@
                                                         <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
                                                 </li>
                                             </shiro:hasPermission>
-                                            <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                            <c:if test="${status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ}">
                                                 <shiro:hasPermission name="cadre:list">
                                                     <li role="separator" class="divider"></li>
                                                     <li>
@@ -693,22 +704,6 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <c:if test="${_p_hasKjCadre}">
-                                                        <td class="name">干部类型</td>
-                                                        <td class="input">
-                                                            <select name="type" data-width="150" data-rel="select2"
-                                                                    data-placeholder="请选择">
-                                                                <option></option>
-                                                                <c:forEach items="<%=CadreConstants.CADRE_TYPE_MAP%>"
-                                                                           var="_type">
-                                                                    <option value="${_type.key}">${_type.value}</option>
-                                                                </c:forEach>
-                                                            </select>
-                                                            <script>
-                                                                $("#searchForm select[name=type]").val('${param.type}');
-                                                            </script>
-                                                        </td>
-                                                    </c:if>
                                                     <td class="name">干部类别</td>
                                                     <td class="input">
                                                         <select name="isDep" data-width="150" data-rel="select2"
@@ -732,6 +727,19 @@
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
+                                                        </script>
+                                                    </td>
+
+                                                    <td class="name">是否有国外学习经历</td>
+                                                    <td class="input">
+                                                        <select name="hasAbroadEdu" data-width="100" data-rel="select2"
+                                                                data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=hasAbroadEdu]").val('${param.hasAbroadEdu}');
                                                         </script>
                                                     </td>
 
@@ -848,27 +856,17 @@
         $.hashchange('', '${ctx}/cadreInspect');
     }
 
-    <c:if test="${status==CADRE_STATUS_MIDDLE}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: ${cm:isPermitted("cadre:list")?"colModels.cadre":"colModels.cadre2"}
+        colModel: ${(status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ)
+        ?(cm:isPermitted("cadre:list")?"colModels.cadre":"colModels.cadre2")
+        :(cm:isPermitted("cadre:list")?"colModels.cadreLeave":"colModels.cadreLeave2")}
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });
-    </c:if>
 
-    <c:if test="${status!=CADRE_STATUS_MIDDLE}">
-    $("#jqGrid").jqGrid({
-        //forceFit:true,
-        rownumbers: true,
-        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: ${cm:isPermitted("cadre:list")?"colModels.cadreLeave":"colModels.cadreLeave2"}
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $('[data-rel="tooltip"]').tooltip();
-    });
-    </c:if>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 

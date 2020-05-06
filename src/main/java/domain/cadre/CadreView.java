@@ -49,8 +49,6 @@ public class CadreView implements Serializable {
 
     private Integer userId;
 
-    private Byte type;
-
     private Boolean isDep;
 
     private Boolean hasCrp;
@@ -255,14 +253,6 @@ public class CadreView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
     }
 
     public Boolean getIsDep() {

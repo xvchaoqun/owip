@@ -49,7 +49,9 @@
 <c:set var="ROLE_PARTYADMIN" value="<%=RoleConstants.ROLE_PARTYADMIN%>"/>
 <c:set var="ROLE_BRANCHADMIN" value="<%=RoleConstants.ROLE_BRANCHADMIN%>"/>
 <c:set var="ROLE_CADREADMIN" value="<%=RoleConstants.ROLE_CADREADMIN%>"/>
-<c:set var="ROLE_CADRE" value="<%=RoleConstants.ROLE_CADRE%>"/>
+<c:set var="ROLE_LEADER" value="<%=RoleConstants.ROLE_LEADER%>"/>
+<c:set var="ROLE_CADRE_CJ" value="<%=RoleConstants.ROLE_CADRE_CJ%>"/>
+<c:set var="ROLE_CADRE_KJ" value="<%=RoleConstants.ROLE_CADRE_KJ%>"/>
 <c:set var="ROLE_CADRERECRUIT" value="<%=RoleConstants.ROLE_CADRERECRUIT%>"/>
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
@@ -69,10 +71,12 @@
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 
-<c:set value="<%=CadreConstants.CADRE_STATUS_MIDDLE%>" var="CADRE_STATUS_MIDDLE"/>
+<c:set value="<%=CadreConstants.CADRE_STATUS_CJ%>" var="CADRE_STATUS_CJ"/>
+<c:set value="<%=CadreConstants.CADRE_STATUS_KJ%>" var="CADRE_STATUS_KJ"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER%>" var="CADRE_STATUS_LEADER"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_INSPECT%>" var="CADRE_STATUS_INSPECT"/>
-<c:set value="<%=CadreConstants.CADRE_STATUS_MIDDLE_LEAVE%>" var="CADRE_STATUS_MIDDLE_LEAVE"/>
+<c:set value="<%=CadreConstants.CADRE_STATUS_CJ_LEAVE%>" var="CADRE_STATUS_CJ_LEAVE"/>
+<c:set value="<%=CadreConstants.CADRE_STATUS_KJ_LEAVE%>" var="CADRE_STATUS_KJ_LEAVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_RESERVE%>" var="CADRE_STATUS_RESERVE"/>
 <c:set value="<%=CadreConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
