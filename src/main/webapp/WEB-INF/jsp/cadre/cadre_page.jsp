@@ -27,12 +27,12 @@
 
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}" class="loadPage"><i
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE}&type=${CADRE_TYPE_CJ}" class="loadPage"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
                         </li>
 
                         <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
-                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}"
+                            <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}&type=${CADRE_TYPE_CJ}"
                                class="loadPage"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
                         </li>

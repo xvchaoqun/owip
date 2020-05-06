@@ -560,8 +560,7 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-        <c:if test="${familyCount<=2}">
-        <c:forEach begin="0" end="${2-familyCount}">
+        <c:if test="${familyAbroadCount==1}">
         <tr class="r2">
             <td class="td15">
                 <p class="p18"></p>
@@ -583,7 +582,6 @@ td.padding10{
             <p class="p19"></p>
         </td>
         </tr>
-        </c:forEach>
         </c:if>
         </tbody>
     </table>

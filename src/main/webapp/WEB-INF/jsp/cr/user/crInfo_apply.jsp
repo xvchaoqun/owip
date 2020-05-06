@@ -261,6 +261,9 @@
                 SysMsg.warning("第一志愿与第二志愿相同，请重新选择");
                 return;
             }
+
+            $("#modalForm select[name=eva]").removeAttr("disabled");
+
             var $btn = $((hasSubmit==1)?"#submitBtn":"#saveBtn").button('loading');
             var hasSubmit = $("#modalForm input[name=hasSubmit]").val();
             $(form).ajaxSubmit({

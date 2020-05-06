@@ -224,6 +224,7 @@ public class CadrePostService extends BaseMapper {
 
                 record.setId(subCadrePost.getId());
                 record.setSortOrder(subCadrePost.getSortOrder());
+                record.setIsFirstMainPost(false);
                 // 覆盖更新
                 cadrePostMapper.updateByPrimaryKey(record);
             } else {

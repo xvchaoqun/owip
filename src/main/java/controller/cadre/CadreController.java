@@ -1065,9 +1065,9 @@ public class CadreController extends BaseController {
                 if (status == CadreConstants.CADRE_STATUS_MIDDLE
                         || status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
                     if (StringUtils.contains(_type, "科级")) {
-                        record.setType((byte) 2);
+                        record.setType(CadreConstants.CADRE_TYPE_KJ);
                     } else {
-                        record.setType((byte) 1); // 默认是处级
+                        record.setType(CadreConstants.CADRE_TYPE_CJ); // 默认是处级
                     }
                 }
             }

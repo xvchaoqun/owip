@@ -27,6 +27,9 @@ pageEncoding="UTF-8"%>
 							<option value="${post.id}">${post.name}</option>
 						</c:forEach>
 					</select>
+					<script>
+						$("#modalForm select[name=firstPostId]").val('${crApplicant.firstPostId}');
+					</script>
 				</div>
 			</div>
 		<c:if test="${crInfo.applyPostNum==2}">
@@ -40,7 +43,6 @@ pageEncoding="UTF-8"%>
 						</c:forEach>
 					</select>
 					<script>
-						$("#modalForm select[name=firstPostId]").val('${crApplicant.firstPostId}');
 						$("#modalForm select[name=secondPostId]").val('${crApplicant.secondPostId}');
 					</script>
 				</div>

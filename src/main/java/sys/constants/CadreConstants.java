@@ -40,8 +40,8 @@ public class CadreConstants {
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任处级干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任处级干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "年轻干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");

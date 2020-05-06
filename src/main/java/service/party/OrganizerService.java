@@ -214,7 +214,14 @@ public class OrganizerService extends BaseMapper {
         int addCount = 0;
 
         for (Organizer record : records) {
-            insertSelective(record);
+
+            Organizer organizer = get(record.getType(), record.getUserId());
+            if(organizer!=null){
+                record.setId(organizer.getId());
+                updateByPrimaryKeySelective(record, false);
+            }else {
+                insertSelective(record);
+            }
             addCount++;
         }
         return addCount;
