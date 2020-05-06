@@ -400,7 +400,7 @@ public class UnitPostAllocationService extends BaseMapper {
      */
     public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, byte cadreType, boolean hasSetCpc) {
 
-
+        boolean cadrePostVacant=CmTag.getBoolProperty("cadrePost_vacant");
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
         MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
         MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
@@ -474,48 +474,47 @@ public class UnitPostAllocationService extends BaseMapper {
 
                         if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
                             mainKeep.add(cadrePost);
-                            if(!CmTag.getBoolProperty("cadrePost_vacant")){
+                            if(!cadrePostVacant){
                                 mains.add(cadrePost);
                             }
                         }else{
                             mains.add(cadrePost);
                         }
 
-                        if(CmTag.getBoolProperty("cadrePost_vacant")) {
-                            if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
-                               //保留待遇干部不算到“现任数”中
-                                mainCount++;
-                            }
-                        }else{
-                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
-                                // 主职或者副职占职数，就计数
+                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+                            // 主职或者副职占职数，就计数
+                            if(cadrePostVacant) {
+                                if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
+                                    //保留待遇干部不算到“现任数”中
+                                    mainCount++;
+                                }
+                            }else{
                                 mainCount++;
                             }
                         }
-
                     }
                     if (cadrePost.getAdminLevel().intValue() == viceMetaType.getId()) {
 
                         if(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null){
                             viceKeep.add(cadrePost);
-                          if(!CmTag.getBoolProperty("cadrePost_vacant")){
+                          if(!cadrePostVacant){
                               vices.add(cadrePost);
                           }
                         }else{
                               vices.add(cadrePost);
                         }
-                        if(CmTag.getBoolProperty("cadrePost_vacant")) {
-                            if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
-                                //保留待遇干部不算到“现任数”中
-                                viceCount++;
-                            }
-                        }else{
-                            if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
+
+                        if (cadrePost.getIsMainPost() || cadrePost.getIsCpc()) {
                                 // 主职或者副职占职数，就计数
-                                viceCount++;
+                            if(cadrePostVacant) {
+                                if(!(cadrePost.getIsMainPost()&&cadrePost.getUnitPostId()==null)){
+                                        //保留待遇干部不算到“现任数”中
+                                    viceCount++;
+                                }
+                            }else{
+                                    viceCount++;
                             }
                         }
-
                     }
                     if(cadreType == CadreConstants.CADRE_TYPE_CJ) {
                         if (cadrePost.getAdminLevel().intValue() == noneMetaType.getId()) {

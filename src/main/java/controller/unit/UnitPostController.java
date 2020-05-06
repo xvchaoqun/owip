@@ -331,6 +331,7 @@ public class UnitPostController extends BaseController {
                 criteria.andCadreIdIsNull();
             }else if(displayType==2){
                 criteria.andIsMainPostEqualTo(false);
+                criteria.andIsCpcEqualTo(true);
             }else if(displayType==3){
                 criteria.andCadreIdIsNotNull();
             }
