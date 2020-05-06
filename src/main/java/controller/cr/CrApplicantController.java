@@ -165,7 +165,15 @@ public class CrApplicantController extends CrBaseController {
             record.setEnrollTime(new Date());
             record.setSubmitTime(new Date());
             record.setHasReport(false);
-            crApplicantService.insertSelective(record);
+
+            CrApplicant crApplicant = crApplicantService.get(record.getUserId(), record.getInfoId());
+            if(crApplicant==null) {
+                crApplicantService.insertSelective(record);
+            }else{
+                // 可能本人已提交
+                record.setId(crApplicant.getId());
+                crApplicantService.updateByPrimaryKeySelective(record);
+            }
             logger.info(log(LogConstants.LOG_CR, "添加报名人员：{0}", record.getId()));
         } else {
 
