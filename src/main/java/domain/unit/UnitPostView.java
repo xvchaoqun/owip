@@ -86,6 +86,10 @@ public class UnitPostView implements Serializable {
 
     private Integer cadrePostType;
 
+    private Date lpWorkTime;
+
+    private Date sWorkTime;
+
     private Boolean cadreIsPrincipal;
 
     private Integer cadrePostYear;
@@ -316,6 +320,22 @@ public class UnitPostView implements Serializable {
 
     public void setCadrePostType(Integer cadrePostType) {
         this.cadrePostType = cadrePostType;
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Date getsWorkTime() {
+        return sWorkTime;
+    }
+
+    public void setsWorkTime(Date sWorkTime) {
+        this.sWorkTime = sWorkTime;
     }
 
     public Boolean getCadreIsPrincipal() {
