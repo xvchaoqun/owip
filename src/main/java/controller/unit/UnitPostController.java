@@ -248,6 +248,7 @@ public class UnitPostController extends BaseController {
                               Integer endNowPostAge,
                               Integer startNowLevelAge,
                               Integer endNowLevelAge,
+                              String sortBy,//自定义排序
                               @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
 
@@ -266,7 +267,26 @@ public class UnitPostController extends BaseController {
 
         UnitPostViewExample example = new UnitPostViewExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("unit_sort_order asc, sort_order asc");
+        String sortStr = "unit_sort_order asc, sort_order asc";
+        if (displayType == 3) {
+            if (StringUtils.isNotBlank(sortBy)) {
+                switch (sortBy.trim()) {
+                    case "lpWorkTime_asc":
+                        sortStr = "lp_work_time asc";
+                        break;
+                    case "lpWorkTime_desc":
+                        sortStr = "lp_work_time desc";
+                        break;
+                    case "sWorkTime_asc":
+                        sortStr = "s_work_time asc";
+                        break;
+                    case "sWorkTime_desc":
+                        sortStr = "s_work_time desc";
+                        break;
+                }
+            }
+        }
+        example.setOrderByClause(sortStr);
         if(cls==1){
             criteria.andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
         }else if(cls==2){
@@ -311,6 +331,7 @@ public class UnitPostController extends BaseController {
                 criteria.andCadreIdIsNull();
             }else if(displayType==2){
                 criteria.andIsMainPostEqualTo(false);
+                criteria.andIsCpcEqualTo(true);
             }else if(displayType==3){
                 criteria.andCadreIdIsNotNull();
             }

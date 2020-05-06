@@ -110,18 +110,20 @@
                                         $("#searchForm select[name=postClass]").val(${param.postClass});
                                     </script>
                                 </div>
-                                <div class="form-group">
-                                    <label>是否占干部职数</label>
-                                    <select name="isCpc" data-width="100"
-                                            data-rel="select2" data-placeholder="请选择">
-                                        <option></option>
-                                        <option value="1">是</option>
-                                        <option value="0">否</option>
-                                    </select>
-                                    <script>
-                                        $("#searchForm select[name=isCpc]").val('${param.isCpc}');
-                                    </script>
-                                </div>
+                                <c:if test="${param.displayType==1}">
+                                    <div class="form-group">
+                                        <label>是否占干部职数</label>
+                                        <select name="isCpc" data-width="100"
+                                                data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isCpc]").val('${param.isCpc}');
+                                        </script>
+                                    </div>
+                                </c:if>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
                                        data-url="${ctx}/unitPostList"

@@ -24,6 +24,28 @@
                                                          value="-1"> 其他年限
             </span>
         </div>
+        <div style="float: left;">
+            <select id="sortBy" data-placeholder="请选择排序方式">
+                <option></option>
+                <option value="lpWorkTime_asc">按任现职时间排序(升序)</option>
+                <option value="lpWorkTime_desc">按任现职时间排序(降序)</option>
+                <option value="sWorkTime_asc">按现职级时间排序(升序)</option>
+                <option value="sWorkTime_desc">按现职级时间排序(降序)</option>
+            </select>
+            <script>
+                $("#sortBy").val('${param.sortBy}');
+                $("#searchForm input[name=sortBy]").val('${param.sortBy}');
+                $("#sortBy").select2({
+                    theme: "default"
+                }).change(function () {
+                    $("#searchForm input[name=sortBy]").val($(this).val());
+                    $("#searchForm .jqSearchBtn").click();
+                    if($(this).val()==''){
+                        throw new Error();
+                    }
+                })
+            </script>
+        </div>
         <div style="float: right;padding-right: 30px">
         <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                 data-url="${ctx}/unitPost_data"
