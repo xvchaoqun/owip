@@ -268,7 +268,7 @@ public class UnitPostController extends BaseController {
         UnitPostViewExample example = new UnitPostViewExample();
         Criteria criteria = example.createCriteria();
         String sortStr = "unit_sort_order asc, sort_order asc";
-        if (displayType == 3) {
+        if (displayType!=null && displayType == 3) {
             if (StringUtils.isNotBlank(sortBy)) {
                 switch (sortBy.trim()) {
                     case "lpWorkTime_asc":
@@ -400,7 +400,7 @@ public class UnitPostController extends BaseController {
             }
         }
 
-         if (displayType == 3) {
+         if (displayType!=null && displayType == 3) {
             example.setGroupByClause("cadre_id");
          }
 
