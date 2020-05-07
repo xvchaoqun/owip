@@ -383,15 +383,15 @@ public class CmTag {
         return cadrePostService.getCadrePostById(id);
     }
 
-    public static CadrePost getFirstMainCadrePost(int caderId) {
-        return cadrePostService.getFirstMainCadrePost(caderId);
+    public static CadrePost getFirstMainCadrePost(int cadreId) {
+        return cadrePostService.getFirstMainCadrePost(cadreId);
     }
 
     // 现任职务
-    public static CadreAdminLevel getPresentCadreAdminLevel(int caderId) {
+    public static CadreAdminLevel getPresentCadreAdminLevel(int cadreId) {
 
-        CadrePost mainCadrePost = getFirstMainCadrePost(caderId);
-        return cadreAdminLevelService.getByCadreId(caderId,
+        CadrePost mainCadrePost = getFirstMainCadrePost(cadreId);
+        return cadreAdminLevelService.getByCadreId(cadreId,
                 mainCadrePost != null ? mainCadrePost.getAdminLevel() : null);
     }
 
@@ -614,12 +614,12 @@ public class CmTag {
         return cadreInfoCheckService.cadreRewardCheck(cadreId, type);
     }
 
-    public static Boolean canDirectUpdateCadreInfo(Integer caderId){
+    public static Boolean canDirectUpdateCadreInfo(Integer cadreId){
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
         return ((ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN) &&
                 !ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREONLYVIEW))
                 || (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)
-                && CmTag.hasDirectModifyCadreAuth(caderId)));
+                && CmTag.hasDirectModifyCadreAuth(cadreId)));
     }
     // 判断干部是否拥有直接修改本人干部信息的权限
     public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {

@@ -394,7 +394,7 @@ public class UnitPostController extends BaseController {
                 }
             } else if (displayType == 3) {
 
-                example.setGroupByClause("cader_id");
+                example.setGroupByClause("cadre_id");
                 unitPost_cadre_export(example, response);
                 return;
             }
