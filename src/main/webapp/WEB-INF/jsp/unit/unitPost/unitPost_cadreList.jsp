@@ -4,7 +4,7 @@
 <div id="body-content" class="multi-row-head-table">
      <c:set var="_query" value="${not empty param.unitId ||not empty param.unitTypes
         ||not empty param.cadreIsPrincipal||not empty param.leaderType ||not empty param.gender  ||not empty param.cadreId
-         ||not empty param.cadrePostType ||
+         ||not empty param.cadrePostType||not empty param.adminLevel ||
          (not empty startNowPostAge && startNowPostAge!=8 && startNowPostAge!=10)
          ||not empty param.endNowPostAge
         || not empty param.code || not empty param.sort}"/>
@@ -26,12 +26,12 @@
         </div>
         <div style="float: right;padding-right: 30px">
 
-            <select id="sortBy" data-placeholder="请选择排序方式">
+            <select id="sortBy" data-placeholder="请选择排序方式" data-width="230">
                 <option></option>
-                <option value="lpWorkTime_asc">按任现职时间排序(升序)</option>
-                <option value="lpWorkTime_desc">按任现职时间排序(降序)</option>
-                <option value="sWorkTime_asc">按现职级时间排序(升序)</option>
-                <option value="sWorkTime_desc">按现职级时间排序(降序)</option>
+                <option value="npWorkTime_asc">按现职务始任年限排序(降序)</option>
+                <option value="npWorkTime_desc">按现职务始任年限排序(升序)</option>
+                <option value="sWorkTime_asc">按现职级年限排序(降序)</option>
+                <option value="sWorkTime_desc">按现职级年限排序(升序)</option>
             </select>
             <script>
                 $("#sortBy").val('${param.sortBy}');
@@ -94,6 +94,16 @@
                             <script>
                                 $("#searchForm select[name=gender]").val('${param.gender}');
                             </script>
+                    </div>
+                    <div class="form-group">
+                        <label>行政级别</label>
+                        <select data-rel="select2" name="adminLevel" data-width="150" data-placeholder="请选择行政级别">
+                            <option></option>
+                            <jsp:include page="/metaTypes?__code=mc_admin_level"/>
+                        </select>
+                        <script type="text/javascript">
+                            $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
+                        </script>
                     </div>
                     <div class="form-group">
                         <label>职务属性</label>

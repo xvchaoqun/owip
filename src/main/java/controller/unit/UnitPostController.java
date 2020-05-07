@@ -271,11 +271,11 @@ public class UnitPostController extends BaseController {
         if (displayType!=null && displayType == 3) {
             if (StringUtils.isNotBlank(sortBy)) {
                 switch (sortBy.trim()) {
-                    case "lpWorkTime_asc":
-                        sortStr = "lp_work_time asc";
+                    case "npWorkTime_asc":
+                        sortStr = "np_work_time asc";
                         break;
-                    case "lpWorkTime_desc":
-                        sortStr = "lp_work_time desc";
+                    case "npWorkTime_desc":
+                        sortStr = "np_work_time desc";
                         break;
                     case "sWorkTime_asc":
                         sortStr = "s_work_time asc";

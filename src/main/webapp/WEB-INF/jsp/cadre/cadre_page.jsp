@@ -349,14 +349,14 @@
                                     </button>
                                 </shiro:hasPermission>
                                 <div class="pull-right hidden-sm hidden-xs">
-                                    <select id="sortBy" data-placeholder="请选择排序方式">
+                                    <select id="sortBy" data-placeholder="请选择排序方式" data-width="250">
                                         <option></option>
-                                        <option value="birth_asc">按出生日期排序(升序)</option>
-                                        <option value="birth_desc">按出生日期排序(降序)</option>
-                                        <option value="lpWorkTime_asc">按任现职时间排序(升序)</option>
-                                        <option value="lpWorkTime_desc">按任现职时间排序(降序)</option>
-                                        <option value="sWorkTime_asc">按现职级时间排序(升序)</option>
-                                        <option value="sWorkTime_desc">按现职级时间排序(降序)</option>
+                                        <option value="birth_asc">按年龄排序(降序)</option>
+                                        <option value="birth_desc">按年龄排序(升序)</option>
+                                        <option value="npWorkTime_asc">按现职务始任年限排序(降序)</option>
+                                        <option value="npWorkTime_desc">按现职务始任年限排序(升序)</option>
+                                        <option value="sWorkTime_asc">按现职级年限排序(降序)</option>
+                                        <option value="sWorkTime_desc">按现职级年限排序(升序)</option>
                                         <option value="growTime">按党派加入时间排序</option>
                                         <option value="arriveTime">按到校时间排序</option>
                                         <option value="finishTime">按毕业时间排序</option>
@@ -443,6 +443,7 @@
                                                     <td class="name">民族</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="nation">
+                                                            <option value="-1">少数民族</option>
                                                             <c:forEach var="nation" items="${cm:getMetaTypes('mc_nation').values()}">
                                                                 <option value="${nation.name}">${nation.name}</option>
                                                             </c:forEach>
@@ -730,13 +731,13 @@
                                                         </script>
                                                     </td>
 
-                                                    <td class="name">是否有国外学习经历</td>
+                                                    <td class="name">国外学习经历</td>
                                                     <td class="input">
                                                         <select name="hasAbroadEdu" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
-                                                            <option value="1">是</option>
-                                                            <option value="0">否</option>
+                                                            <option value="1">有</option>
+                                                            <option value="0">无</option>
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=hasAbroadEdu]").val('${param.hasAbroadEdu}');

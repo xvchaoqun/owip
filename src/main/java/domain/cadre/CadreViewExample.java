@@ -4,6 +4,7 @@ import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.SqlUtils;
 
 import java.util.*;
 
@@ -1971,12 +1972,17 @@ public class CadreViewExample {
             if(values.contains("其他")){
 
                 nations.remove("其他");
-                //searchSql = "nation not in(" + SqlUtils.toParamValues(nations) + ") or nation is null";
+                searchSql = "nation not in(" + SqlUtils.toParamValues(nations) + ") or nation is null";
             }
 
             if(values.size()>0){
 
-                //searchSql += (searchSql!=""?" or ":"") + "nation in (" + SqlUtils.toParamValues(values) + ")";
+                searchSql += (searchSql!=""?" or ":"") + "nation in (" + SqlUtils.toParamValues(values) + ")";
+            }
+
+            if(values.contains("-1")){ // 少数民族
+                searchSql += (searchSql!=""?" or ":"")
+                        + "(nation != '汉族' and nation != '其他' and nation!='' and nation is not null)";
             }
 
             addCriterion("(" + searchSql + ")");
