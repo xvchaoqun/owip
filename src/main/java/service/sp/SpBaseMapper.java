@@ -37,6 +37,7 @@ public class SpBaseMapper extends CoreBaseMapper {
         List<Byte> currentList = new ArrayList<>();
         currentList.add(CadreConstants.CADRE_STATUS_LEADER);
         currentList.add(CadreConstants.CADRE_STATUS_CJ);
+        currentList.add(CadreConstants.CADRE_STATUS_KJ);
 
         return currentList.contains(status);
     }
@@ -47,6 +48,7 @@ public class SpBaseMapper extends CoreBaseMapper {
         List<Byte> leaveList = new ArrayList<>();
         leaveList.add(CadreConstants.CADRE_STATUS_LEADER_LEAVE);
         leaveList.add(CadreConstants.CADRE_STATUS_CJ_LEAVE);
+        leaveList.add(CadreConstants.CADRE_STATUS_KJ_LEAVE);
 
         return leaveList.contains(status);
     }

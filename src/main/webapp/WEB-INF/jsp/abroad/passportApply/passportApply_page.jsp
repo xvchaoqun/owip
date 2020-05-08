@@ -225,7 +225,7 @@ pageEncoding="UTF-8" %>
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
                 <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                 var expectDate = rowObject.expectDate;
-                if(expectDate<=new Date().format('yyyy-MM-dd'))
+                if(expectDate<=$.date(new Date(), 'yyyy-MM-dd'))
                     return "class='danger'";
                 </c:if>
             }, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

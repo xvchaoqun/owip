@@ -1,6 +1,6 @@
 
 2020.5.6
-北航  -- 北师大
+北航、西北工大  -- 北师大
 
 -- 现任科级干部
 update cadre set status=8 where type=2 and status=1;

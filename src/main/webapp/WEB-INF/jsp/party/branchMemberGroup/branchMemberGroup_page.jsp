@@ -202,7 +202,7 @@
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.isPresent &&
-                        rowObject.tranTime <= new Date().format('yyyy-MM-dd'))
+                        rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
             {

@@ -161,6 +161,10 @@ public abstract class ICommonService {
             if(sysSync.proPost && StringUtils.isNotBlank(ti.getProPost())){
                 ti.setProPost(null);
             }
+            // 专业技术职务级别不覆盖
+            if(sysSync.proPostLevel && StringUtils.isNotBlank(ti.getProPostLevel())){
+                ti.setProPostLevel(null);
+            }
         }
     }
 

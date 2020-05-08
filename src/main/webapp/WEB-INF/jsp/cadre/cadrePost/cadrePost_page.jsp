@@ -492,7 +492,7 @@
                     //console.log(rowObject.endDispatch)
                     var end = rowObject.eWorkTime;
                     if (rowObject.adminLevel == '${cadre.adminLevel}')
-                        end = new Date().format("yyyy-MM-dd");
+                        end = $.date(new Date(), 'yyyy-MM-dd');
                     if (end == undefined || rowObject.sWorkTime==undefined) return '--';
 
                     var month = $.monthDiff(rowObject.sWorkTime, end);

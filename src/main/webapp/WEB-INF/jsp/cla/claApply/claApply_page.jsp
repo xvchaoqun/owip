@@ -310,7 +310,7 @@
                 formatoptions:{on: '已销假', off: '未销假'},cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if (!rowObject.isBack)  {
                     var _date = $.date(rowObject.endTime, 'yyyy-MM-dd HH:mm');
-                    if (_date <= new Date().format('yyyy-MM-dd HH:mm'))
+                    if (_date <= $.date(new Date(), 'yyyy-MM-dd HH:mm'))
                         return "class='danger'";
                 }
             }},

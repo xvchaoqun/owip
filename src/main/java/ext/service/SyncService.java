@@ -687,10 +687,6 @@ public class SyncService extends BaseMapper {
         if (teacherInfo == null)
             teacherInfoMapper.insertSelective(record);
         else {
-            // 保证下面的职称只同步一次
-            if(record.getProPost()==null && extJzg!=null){
-                extJzg.setZc(teacherInfo.getProPost());
-            }
             teacherInfoMapper.updateByPrimaryKeySelective(record);
         }
 
@@ -698,9 +694,15 @@ public class SyncService extends BaseMapper {
         if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
 
             String proPost = SqlUtils.toParamValue(extJzg.getZc());
+            if(StringUtils.isBlank(proPost)){ // 保证下面的职称只同步一次，且不被空值覆盖
+                proPost = teacherInfo.getProPost();
+            }
             String proPostTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZyjszwpdsj()),
                     DateUtils.YYYY_MM_DD));
             String proPostLevel = SqlUtils.toParamValue(extJzg.getZjgwdj());
+            if(StringUtils.isBlank(proPostLevel)){ // 保证下面的职称级别只同步一次，且不被空值覆盖
+                proPostLevel = teacherInfo.getProPostLevel();
+            }
             String proPostLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
                     DateUtils.YYYY_MM_DD));
             String manageLevel = SqlUtils.toParamValue(extJzg.getGlgwdj());

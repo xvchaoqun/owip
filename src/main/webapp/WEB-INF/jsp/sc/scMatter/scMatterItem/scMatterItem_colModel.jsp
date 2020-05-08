@@ -12,7 +12,7 @@
       { label: '领表时间',name: 'drawTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'} },
       { label: '应交回时间',name: 'handTime',cellattr:function(rowId, val, rowObject, cm, rdata) {
           var _date = rowObject.handTime;
-          if ($.trim(rowObject.realHandTime)=='' && _date <= new Date().format('yyyy-MM-dd hh:mm'))
+          if ($.trim(rowObject.realHandTime)=='' && _date <= $.date(new Date(), 'yyyy-MM-dd HH:mm'))
               return "class='danger'";
       }, width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}},
       {label: '实交回日期', name: 'realHandTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

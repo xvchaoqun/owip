@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if($.trim(rowObject.handleType)=='') {
                     var _date = rowObject.endDate;
-                    if ($.trim(rowObject.passportCode)=='' && _date <= new Date().format('yyyy-MM-dd'))
+                    if ($.trim(rowObject.passportCode)=='' && _date <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }
             }
@@ -144,7 +144,7 @@ pageEncoding="UTF-8" %>
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if($.trim(rowObject.handleDate)=='') {
                     var _date = rowObject.expectDate;
-                    if (_date <= new Date().format('yyyy-MM-dd'))
+                    if (_date <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }
             }},

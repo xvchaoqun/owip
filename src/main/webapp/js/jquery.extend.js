@@ -898,7 +898,7 @@ var _modal_width;
 
         },
         monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
-            return $.monthDiff(date, new Date().format("yyyy-MM-dd"));
+            return $.monthDiff(date, $.date(new Date(), 'yyyy-MM-dd'));
         },
         yearOffNow: function (date) {// 距离现在多少年，date格式：yyyy-MM-dd
             return Math.floor($.monthOffNow(date) / 12);
@@ -1582,9 +1582,9 @@ if ($.jgrid) {
                 newformat = options.colModel.formatoptions.newformat; //日期格式
             }
             if(newformat!=null&&newformat=="Y.m"){
-                cellvalue =new Date(cellvalue).format("yyyy-MM")
+                cellvalue =$.date(cellvalue, 'yyyy-MM')
             }else{
-                cellvalue = new Date(cellvalue).format("yyyy-MM-dd")
+                cellvalue = $.date(cellvalue, 'yyyy-MM-dd')
             }
             return $.yearOffNow(cellvalue);
         },

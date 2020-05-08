@@ -454,7 +454,7 @@
                         && (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_KEEP}' ||
                             (rowObject.passport.type == '${ABROAD_PASSPORT_TYPE_CANCEL}' && !rowObject.passport.cancelConfirm))) {
                         var _date = rowObject.returnDate;
-                        if (_date <= new Date().format('yyyy-MM-dd'))
+                        if (_date <= $.date(new Date(), 'yyyy-MM-dd'))
                             return "class='danger'";
                     }
                 },
