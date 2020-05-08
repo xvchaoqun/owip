@@ -36,7 +36,7 @@
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
-                <t:img src="/img/logo_white.png"/></div>
+                <t:img src="/img/px.png"/></div><%--换成学校图标--%>
             <div class="separator"></div>
             <div class="txt" style="cursor: pointer;">线上民主推荐投票</div>
         </div>
