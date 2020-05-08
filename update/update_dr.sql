@@ -1,4 +1,7 @@
 
+-- 2020.5.8
+UPDATE `base_meta_class` SET `name`='推荐类型' WHERE  `id`=82;
+
 -- 2020.3.30
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (895, 0, '线上民主推荐', '', 'menu', '', NULL, 890, '0/1/339/890/', 0, 'drOnline:list', 2, NULL, NULL, 1, 700);

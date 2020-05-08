@@ -30,6 +30,11 @@ public class DrOnlineLoginController extends DrBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /*
+        登录地址
+        pc 端：localhost:8080/dr/drOnline/login
+        手机端：localhost:8080/dr/drOnline/iLogin
+    * */
     //手机端登录
     @RequestMapping("/iLogin")
     public String mobileLogin(String username, String passwd,
@@ -60,7 +65,6 @@ public class DrOnlineLoginController extends DrBaseController {
 
         modelMap.put("inspectorMap", inspectorMap);
 
-        //return "dr/drOnline/user/drOnlineLogin";
         return "dr/drOnline/user/login";
     }
 
@@ -157,7 +161,6 @@ public class DrOnlineLoginController extends DrBaseController {
             if (isMobile != null && isMobile == 1)
                 return "dr/drOnline/mobile/iLogin";
 
-            //return "dr/drOnline/user/drOnlineLogin";
             return "dr/drOnline/user/login";
         }
         return "dr/drOnline/user/drOnlineIndex";

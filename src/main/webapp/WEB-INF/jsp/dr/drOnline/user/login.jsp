@@ -16,7 +16,7 @@
             <tr>
                 <td class="login_top">
                     <div class="login_logo">
-                        <div class="logo"><t:img src="/img/default.png"/></div>
+                        <div class="logo"><t:img src="/img/px.png"/></div><%--换成学校图标--%>
                         <div class="txt">线&nbsp;&nbsp;上&nbsp;&nbsp;民&nbsp;&nbsp;主&nbsp;&nbsp;推&nbsp;&nbsp;荐&nbsp;&nbsp;投&nbsp;&nbsp;票</div>
                     </div>
                 </td>
