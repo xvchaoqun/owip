@@ -1090,9 +1090,9 @@ public class StatCadreService extends BaseMapper {
     public List<CadreView> adminLevelList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
         String adminLevelCode = null;
         if (firstTypeNum == 1) //正处
-            adminLevelCode = "mt_admin_level_main";
+            adminLevelCode = cadreType == 1 ? "mt_admin_level_main" : "mt_admin_level_main_kj";
         if (firstTypeNum == 2)//副处
-            adminLevelCode = "mt_admin_level_vice";
+            adminLevelCode = cadreType == 1 ? "mt_admin_level_vice" : "mt_admin_level_vice_kj";
         if (firstTypeNum == 3)//无行政级别
             adminLevelCode = "mt_admin_level_none";
 
@@ -1188,10 +1188,14 @@ public class StatCadreService extends BaseMapper {
 
                 if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_main"))
                     cadreViews.add(cadreView);
+                else if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_main_kj"))
+                    cadreViews.add(cadreView);
                 continue;
             }else if (secondNum == 3){//行政级别 副处
 
                 if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_vice"))
+                    cadreViews.add(cadreView);
+                else if (StringUtils.equals(cadreView.getAdminLevelCode(),"mt_admin_level_vice_kj"))
                     cadreViews.add(cadreView);
                 continue;
             }else if (secondNum == 4){//行政级别 无级别
