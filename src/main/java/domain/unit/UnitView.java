@@ -27,6 +27,8 @@ public class UnitView implements Serializable {
 
     private Boolean notStatPost;
 
+    private Boolean isDeleted;
+
     private BigDecimal mainPostCount;
 
     private BigDecimal vicePostCount;
@@ -137,6 +139,14 @@ public class UnitView implements Serializable {
 
     public void setNotStatPost(Boolean notStatPost) {
         this.notStatPost = notStatPost;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public BigDecimal getMainPostCount() {

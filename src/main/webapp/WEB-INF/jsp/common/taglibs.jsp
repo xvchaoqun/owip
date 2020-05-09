@@ -43,6 +43,7 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
+<c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <c:set var="ROLE_ADMIN" value="<%=RoleConstants.ROLE_ADMIN%>"/>
 <c:set var="ROLE_ODADMIN" value="<%=RoleConstants.ROLE_ODADMIN%>"/>
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>

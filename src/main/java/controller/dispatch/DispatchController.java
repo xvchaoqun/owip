@@ -87,6 +87,8 @@ public class DispatchController extends DispatchBaseController {
         DispatchViewExample example = new DispatchViewExample();
         DispatchViewExample.Criteria criteria = example.createCriteria();
 
+        example.setOrderByClause("work_time desc");
+
         if (year != null) {
             criteria.andYearEqualTo(year);
         }

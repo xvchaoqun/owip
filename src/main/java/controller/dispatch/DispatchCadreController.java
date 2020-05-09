@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -83,6 +85,7 @@ public class DispatchCadreController extends DispatchBaseController {
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre")
     public String dispatchCadre(@RequestParam(defaultValue = "1") Integer cls,
+                                     Integer unitId,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
                                      @RequestParam(required = false, value = "unitPostIds")Integer[] unitPostIds,
@@ -92,6 +95,10 @@ public class DispatchCadreController extends DispatchBaseController {
                                     Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        if(unitId!=null){
+            modelMap.put("unit", CmTag.getUnit(unitId));
+        }
 
         if (dispatchId!=null) {
             modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchId));
@@ -135,12 +142,12 @@ public class DispatchCadreController extends DispatchBaseController {
             Map<Integer, List<UnitPostView>> unitPostMap = new LinkedHashMap<>();
             List<Unit> units = new ArrayList<>();
             for (UnitPostView unitPostView : unitPostViews) {
-                int unitId = unitPostView.getUnitId();
-                List<UnitPostView> unitPosts = unitPostMap.get(unitId);
+                int _unitId = unitPostView.getUnitId();
+                List<UnitPostView> unitPosts = unitPostMap.get(_unitId);
                 if (unitPosts == null) {
                     unitPosts = new ArrayList<>();
-                    unitPostMap.put(unitId, unitPosts);
-                    units.add(CmTag.getUnit(unitId));
+                    unitPostMap.put(_unitId, unitPosts);
+                    units.add(CmTag.getUnit(_unitId));
                 }
                 unitPosts.add(unitPostView);
             }
@@ -161,6 +168,7 @@ public class DispatchCadreController extends DispatchBaseController {
                                    Integer year,
                                    Integer startYear,
                                    Integer endYear,
+                                   @RequestDateRange DateRange _workTime,
                                    Integer dispatchTypeId,
                                    String code,
                                     Integer dispatchId,
@@ -194,6 +202,8 @@ public class DispatchCadreController extends DispatchBaseController {
         //example.setOrderByClause(String.format("%s %s", sort, order));
         if(BooleanUtils.isTrue(asc)){
             example.setOrderByClause("year asc, sort_order asc, code asc, type asc");
+        }else{
+            example.setOrderByClause("work_time desc, type asc");
         }
         if (dispatchId!=null) {
             criteria.andDispatchIdEqualTo(dispatchId);
@@ -208,6 +218,15 @@ public class DispatchCadreController extends DispatchBaseController {
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
+
+        if (_workTime.getStart() != null) {
+            criteria.andWorkTimeGreaterThanOrEqualTo(_workTime.getStart());
+        }
+
+        if (_workTime.getEnd() != null) {
+            criteria.andWorkTimeLessThanOrEqualTo(_workTime.getEnd());
+        }
+
         if (dispatchTypeId!=null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
@@ -303,8 +322,8 @@ public class DispatchCadreController extends DispatchBaseController {
             if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
                 return failed("已经复核，不可修改。");
             }
-            record.setDispatchId(null);
-            dispatchCadreService.updateByPrimaryKeySelective(record);
+            record.setDispatchId(dispatchCadre.getDispatchId()); // 关联任免文件不变
+            dispatchCadreService.updateByPrimaryKey(record); // 覆盖更新
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
         }
 
@@ -401,9 +420,9 @@ public class DispatchCadreController extends DispatchBaseController {
 
         List<DispatchCadreView> records = dispatchCadreViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份", "发文号","任免日期","类别", "任免方式","任免程序",
-                "干部类型","工作证号", "姓名", "职务", "职务属性", "行政级别","所属单位","单位类型",
-                "发文类型","党委常委会日期", "发文日期", "是否复核", "备注"};
+        String[] titles = {"年份", "发文号|200","任免日期|100","类别", "任免方式","任免程序",
+                "干部类型","工作证号|100", "姓名|100", "职务|250|left", "职务属性|150", "行政级别","所属单位|250|left","单位类型|100",
+                "发文类型","党委常委会日期|100", "发文日期|100", "是否复核", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchCadreView record = records.get(i);

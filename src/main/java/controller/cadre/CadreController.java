@@ -102,19 +102,29 @@ public class CadreController extends BaseController {
 
         // MAP<unitTypeId, List<unitId>>
         Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
         Map<Integer, Unit> unitMap = unitService.findAll();
         for (Unit unit : unitMap.values()) {
 
-            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY) continue;
             Integer unitTypeId = unit.getTypeId();
-            List<Integer> units = unitListMap.get(unitTypeId);
-            if (units == null) {
-                units = new ArrayList<>();
-                unitListMap.put(unitTypeId, units);
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
             }
-            units.add(unit.getId());
         }
         modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         if (dpTypes != null) {
             modelMap.put("selectDpTypes", Arrays.asList(dpTypes));

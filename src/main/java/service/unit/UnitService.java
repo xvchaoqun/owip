@@ -34,7 +34,8 @@ public class UnitService extends BaseMapper {
     public List<Unit> findUnitByTypeAndStatus(Integer type, byte status) {
 
         UnitExample example = new UnitExample();
-        UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        UnitExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(false).andStatusEqualTo(status);
         if (type != null)
             criteria.andTypeIdEqualTo(type);
         example.setOrderByClause(" sort_order asc");
@@ -45,7 +46,8 @@ public class UnitService extends BaseMapper {
     public Unit findRunUnitByCode(String code) {
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andCodeEqualTo(code).andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
         List<Unit> units = unitMapper.selectByExample(example);
         if (units.size() > 0) return units.get(0);
         return null;
@@ -55,6 +57,7 @@ public class UnitService extends BaseMapper {
 
         UnitExample example = new UnitExample();
         example.createCriteria().andCodeEqualTo(code)
+                .andIsDeletedEqualTo(false)
                 .andStatusEqualTo(SystemConstants.UNIT_STATUS_HISTORY)
                 .andNameEqualTo(name);
         List<Unit> units = unitMapper.selectByExample(example);
@@ -93,7 +96,7 @@ public class UnitService extends BaseMapper {
         Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
 
         UnitExample example = new UnitExample();
-        UnitExample.Criteria criteria = example.createCriteria();
+        UnitExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         if (status != null) {
             criteria.andStatusEqualTo(status);
         }
@@ -158,7 +161,9 @@ public class UnitService extends BaseMapper {
         }
 
         UnitExample example = new UnitExample();
-        UnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
+        UnitExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(false) // 不考虑已删除单位
+                .andCodeEqualTo(code);
 
 
         if (id != null){
@@ -176,22 +181,26 @@ public class UnitService extends BaseMapper {
         return unitMapper.insertSelective(record);
     }
 
+    // 假删除
     @Transactional
     @CacheEvict(value = "Unit:ALL", allEntries = true)
-    public void del(Integer id) {
-
-        unitMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    @CacheEvict(value = "Unit:ALL", allEntries = true)
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
         if (ids == null || ids.length == 0) return;
 
-        UnitExample example = new UnitExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        unitMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            Unit unit = unitMapper.selectByPrimaryKey(id);
+
+            Unit record = new Unit();
+            record.setId(id);
+            record.setIsDeleted(isDeleted);
+            if(!isDeleted){
+                record.setSortOrder(getNextSortOrder("unit", "status=" + unit.getStatus()));
+            }
+
+            unitMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional
@@ -231,7 +240,7 @@ public class UnitService extends BaseMapper {
     public Map<Integer, Unit> findAll() {
 
         UnitExample example = new UnitExample();
-        example.createCriteria()/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
+        example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order asc");
         List<Unit> unites = unitMapper.selectByExample(example);
         Map<Integer, Unit> map = new LinkedHashMap<>();
@@ -401,7 +410,9 @@ public class UnitService extends BaseMapper {
         Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.createCriteria()
+                .andIsDeletedEqualTo(false)
+                .andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
         example.setOrderByClause(" sort_order asc");
         List<Unit> units = unitMapper.selectByExample(example);
         for (Unit unit : units){
@@ -454,7 +465,8 @@ public class UnitService extends BaseMapper {
     public Map<Integer, Unit> getRunAll() {
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
         example.setOrderByClause("sort_order asc");
         List<Unit> unites = unitMapper.selectByExample(example);
         Map<Integer, Unit> map = new LinkedHashMap<>();
@@ -476,7 +488,7 @@ public class UnitService extends BaseMapper {
     }
 
     @Transactional
-    public void changeNotStatPost(Integer[] ids, Boolean notStatPost){
+    public void updateNotStatPost(Integer[] ids, Boolean notStatPost){
 
         UnitExample example = new UnitExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

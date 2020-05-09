@@ -20,7 +20,6 @@
                                 <shiro:hasPermission name="dispatch:edit">
                                     <a class="openView btn btn-info btn-sm"
                                        data-url="${ctx}/dispatch_au_page"><i class="fa fa-plus"></i> 添加</a>
-                                </shiro:hasPermission>
                                 <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                         data-open-by="page" data-url="${ctx}/dispatch_au_page">
                                     <i class="fa fa-edit"></i> 修改信息
@@ -33,6 +32,7 @@
                                         data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_units">
                                     <i class="fa fa-plus"></i> 添加机构调整
                                 </button>
+                                    </shiro:hasPermission>
                                 <shiro:hasPermission name="dispatch:check">
                                     <button id="checkBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-open-by="page" data-id-name="dispatchId"
@@ -84,7 +84,14 @@
                                                            value="${param.year}"/>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label>发文类型</label>
+                                                <select data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/dispatchType_selects"
+                                                        name="dispatchTypeId" data-placeholder="请选择发文类型">
+                                                    <option value="${dispatchType.id}">${dispatchType.name}</option>
+                                                </select>
+                                            </div>
                                             <div class="form-group">
                                                 <label>任免日期</label>
 
@@ -97,14 +104,6 @@
                                                            class="form-control date-range-picker" type="text"
                                                            name="_workTime" value="${param._workTime}"/>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>发文类型</label>
-                                                <select data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/dispatchType_selects"
-                                                        name="dispatchTypeId" data-placeholder="请选择发文类型">
-                                                    <option value="${dispatchType.id}">${dispatchType.name}</option>
-                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label>发文日期</label>

@@ -169,7 +169,9 @@
     $.register.del_select($('#modalForm select[name=unitPostId]'), {templateResult:_templateResult,
 		templateSelection: _templateResult}).on("change", function () {
         //console.log($(this).select2("data")[0])
-        var up = $(this).select2("data")[0]['up'] ;
+        if($(this).select2("data")[0]!=undefined) {
+			  var up = $(this).select2("data")[0]['up'];
+		  }
         //console.log(up)
         if(up!=undefined){
             $('#modalForm textarea[name=postName]').val(up.name)

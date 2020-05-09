@@ -16,15 +16,19 @@
                 <c:set var="_query" value="${not empty param.startYear ||not empty param.endYear||not empty param.year||not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
                 || not empty param.type|| not empty param.dispatchId
             ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId
-            ||not empty param.adminLevel ||not empty param.unitId ||not empty param.unitPostIds }"/>
+            ||not empty param.adminLevel ||not empty param.unitId ||not empty param.unitPostIds ||not empty param._workTime }"/>
                 <div class="tabbable">
+                    <c:if test="${param.hasMenu!=0}"> <!-- 单独作为菜单展示时,hasMenu=0 -->
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
+                    </c:if>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
+                    <shiro:hasPermission name="dispatchCadre:edit">
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="800">
                         <i class="fa fa-edit"></i> 修改信息</button>
+                        </shiro:hasPermission>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchCadre:del">
@@ -46,6 +50,7 @@
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
                                 <input type="hidden" name="cls" value="${cls}">
+                                <input type="hidden" name="hasMenu" value="${param.hasMenu!=0?1:0}">
                                 <div class="form-group">
                                     <label>起止年份：</label>
                                         <input class="form-control date-picker" style="width: 50px" name="startYear" type="text"
@@ -53,6 +58,19 @@
                                     -
                                         <input class="form-control date-picker" style="width: 50px" name="endYear" type="text"
                                                data-date-format="yyyy" data-date-min-view-mode="2" value="${param.endYear}" />
+                                </div>
+                                <div class="form-group">
+                                    <label>任免日期</label>
+
+                                    <div class="input-group tooltip-success" data-rel="tooltip"
+                                         title="任免日期范围">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                        <input placeholder="请选择任免日期范围" data-rel="date-range-picker"
+                                               class="form-control date-range-picker" type="text"
+                                               name="_workTime" value="${param._workTime}"/>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>发文类型</label>
@@ -63,6 +81,18 @@
                                         <option value="${dispatchType.id}">${dispatchType.name}</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                            <label>类别</label>
+                                            <select data-rel="select2" name="type" data-placeholder="请选择">
+                                                <option></option>
+                                                <c:forEach var="entity" items="${DISPATCH_CADRE_TYPE_MAP}">
+                                                    <option value="${entity.key}">${entity.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=type]").val('${param.type}');
+                                            </script>
+                                        </div>
                                 <div class="form-group">
                                     <label>发文号</label>
                                     <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -75,18 +105,7 @@
                                                     <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>类别</label>
-                                            <select data-rel="select2" name="type" data-placeholder="请选择">
-                                                <option></option>
-                                                <c:forEach var="entity" items="${DISPATCH_CADRE_TYPE_MAP}">
-                                                    <option value="${entity.key}">${entity.value}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=type]").val('${param.type}');
-                                            </script>
-                                        </div>
+
                                         <div class="form-group">
                                             <label>任免方式</label>
                                                 <select class="multiselect" multiple="" name="wayId" data-placeholder="请选择">
@@ -107,14 +126,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>所属单位</label>
-                                                <select name="unitId" data-rel="select2" data-placeholder="请选择">
-                                                    <option></option>
-                                                    <c:forEach items="${unitMap}" var="unit">
-                                                        <option value="${unit.key}">${unit.value.name}</option>
-                                                    </c:forEach>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                                        name="unitId" data-placeholder="请选择">
+                                                    <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                                 </select>
                                                 <script>
-                                                    $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                                    $.register.del_select($('#searchForm select[name=unitId]'));
                                                 </script>
                                         </div>
                                         <div class="form-group">
@@ -139,7 +156,8 @@
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                     <c:if test="${_query}">&nbsp;
-                                        <button type="button" class="reloadBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
+                                        <button type="button" class="reloadBtn btn btn-warning btn-sm"
+                                                data-querystr="cls=${cls}&hasMenu=${param.hasMenu!=0?1:0}">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>

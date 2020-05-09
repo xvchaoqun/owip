@@ -54,6 +54,7 @@ pageEncoding="UTF-8"%>
         <div class="row">
             <div class="col-xs-6">
         <input type="hidden" name="id" value="${dispatchCadre.id}">
+                <input type="hidden" name="dispatchId" value="${dispatchCadre.dispatch.id}">
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span>任免职务</label>
                     <div class="col-xs-8">
@@ -227,7 +228,9 @@ pageEncoding="UTF-8"%>
         return $state;
     }).on("change", function () {
         //console.log($(this).select2("data")[0])
-        var up = $(this).select2("data")[0]['up'] ;
+        if($(this).select2("data")[0]!=undefined) {
+            var up = $(this).select2("data")[0]['up'];
+        }
         //console.log(up)
         if(up!=undefined){
             if(up.postClass=='${cm:getMetaTypeByCode("mt_post_dw").id}'){

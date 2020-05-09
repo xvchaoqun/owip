@@ -455,6 +455,7 @@ public class MemberOutService extends MemberBaseMapper {
     @Transactional
     public int batchImport(List<MemberOut> records) {
 
+        boolean memberOutNeedOwCheck = CmTag.getBoolProperty("memberOutNeedOwCheck");
         int addCount = 0;
         for (MemberOut record : records) {
 
@@ -463,6 +464,12 @@ public class MemberOutService extends MemberBaseMapper {
             if (memberOut != null
                     && memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
                 record.setId(memberOut.getId());
+            }
+
+            if (memberOutNeedOwCheck) {
+                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
+            } else {
+                record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
             }
 
             if (record.getId() == null) {
@@ -476,8 +483,10 @@ public class MemberOutService extends MemberBaseMapper {
                 memberOutMapper.updateByPrimaryKeySelective(record);
             }
 
-            // 直接转出
-            memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            if (!memberOutNeedOwCheck) {
+                // 直接转出
+                memberQuitService.quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
+            }
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), userId,

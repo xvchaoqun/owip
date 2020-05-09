@@ -14,6 +14,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="not_stat_post" jdbcType="BIT" property="notStatPost" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, type_id, dispatch_unit_id, work_time, url, remark, create_time, sort_order, 
-    status, not_stat_post
+    status, not_stat_post, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitExample" resultMap="BaseResultMap">
     select
@@ -114,11 +115,13 @@
     insert into unit (code, name, type_id, 
       dispatch_unit_id, work_time, url, 
       remark, create_time, sort_order, 
-      status, not_stat_post)
+      status, not_stat_post, is_deleted
+      )
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
       #{dispatchUnitId,jdbcType=INTEGER}, #{workTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{notStatPost,jdbcType=BIT})
+      #{status,jdbcType=TINYINT}, #{notStatPost,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.Unit">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -159,6 +162,9 @@
       <if test="notStatPost != null">
         not_stat_post,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
@@ -193,6 +199,9 @@
       </if>
       <if test="notStatPost != null">
         #{notStatPost,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -241,6 +250,9 @@
       <if test="record.notStatPost != null">
         not_stat_post = #{record.notStatPost,jdbcType=BIT},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -259,7 +271,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
-      not_stat_post = #{record.notStatPost,jdbcType=BIT}
+      not_stat_post = #{record.notStatPost,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -300,6 +313,9 @@
       <if test="notStatPost != null">
         not_stat_post = #{notStatPost,jdbcType=BIT},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -315,7 +331,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
-      not_stat_post = #{notStatPost,jdbcType=BIT}
+      not_stat_post = #{notStatPost,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitExample" resultMap="BaseResultMap">

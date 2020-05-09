@@ -91,7 +91,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>岗位级别</label>
 				<div class="col-xs-6">
-					 <select required data-rel="select2" name="adminLevel" data-width="272" data-placeholder="请选择">
+					 <select required data-rel="select2" name="adminLevel" data-placeholder="请选择">
 						<option></option>
 						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>
@@ -104,7 +104,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>职务属性</label>
 				<div class="col-xs-6">
-					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择">
+					<select required name="postType" data-rel="select2" data-placeholder="请选择">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_post"/>
 					</select>
@@ -117,7 +117,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label"><span class="star">*</span>职务类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="postClass"
-							data-width="272" data-placeholder="请选择">
+							 data-placeholder="请选择">
 						<option></option>
 						<c:import url="/metaTypes?__code=mc_post_class"/>
 					</select>
@@ -170,13 +170,13 @@ pageEncoding="UTF-8"%>
 							</label>
 						</div>
 					</div>
-					<span class="help-block blue">注：当前该岗位关联的干部是${cadrePost.cadre.realname}</span>
+					<span class="help-block blue">注：当前该岗位关联的干部是【${cadrePost.cadre.realname}】，如果选择“是”，则对应的任职信息也将更新。</span>
 				</div>
 			</div>
 		</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
-				<div class="col-xs-8">
+				<div class="col-xs-7">
 					<textarea class="form-control limited" name="remark">${unitPost.remark}</textarea>
 				</div>
 			</div>

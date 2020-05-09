@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${empty _pMap['label_staffType']?'个人身份':_pMap['label_staffType']}" var="_p_label_staffType"/>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
-<c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -539,6 +538,25 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
+                                                    <c:if test="${status==CADRE_STATUS_CJ_LEAVE || status==CADRE_STATUS_KJ_LEAVE}">
+                                                    <td class="name">历史单位</td>
+                                                    <td class="input">
+                                                        <select class="multiselect" multiple="" name="unitIds">
+                                                            <c:forEach var="unitType"
+                                                                       items="${cm:getMetaTypes('mc_unit_type')}">
+                                                                <optgroup label="${unitType.value.name}">
+                                                                    <c:forEach
+                                                                            items="${historyUnitListMap.get(unitType.value.id)}"
+                                                                            var="unitId">
+                                                                        <c:set var="unit"
+                                                                               value="${unitMap.get(unitId)}"></c:set>
+                                                                        <option value="${unit.id}">${unit.name}</option>
+                                                                    </c:forEach>
+                                                                </optgroup>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </td>
+                                                    </c:if>
                                                     <td class="name">年龄</td>
                                                     <td class="input">
                                                         <input class="num" type="text" name="startAge"

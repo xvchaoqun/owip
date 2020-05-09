@@ -21,15 +21,16 @@
                 if(rowObject.cadre==undefined) return '--'
                 return $.cadre(rowObject.cadre.id, cellvalue, '${param.type eq 'all'?'':'_blank'}');
             }},
-            { label:'任免职务', name: 'post', width: 150, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            { label:'任免职务', name: 'post', width: 220, cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if(rowObject.unitPostId==undefined)
                         return "class='warning'";
                 }, align:'left'},
             { label:'职务属性', name: 'postType', width: 120, align:'left', formatter: $.jgrid.formatter.MetaType},
             { label:'行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
-            { label:'所属单位', name: 'unit.name', width: 150, align:'left' },
+            { label:'所属单位', name: 'unit.name', width: 200, align:'left' },
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'发文类型', name: 'dispatch.dispatchType.name', width: 80},
+            <shiro:hasPermission name="scCommittee:list">
             <c:if test="${param.type eq 'all' || param.type1 eq 'team'}">
             {
                 label: '党委常委会', name: 'dispatch.scDispatch.scCommittees', width:210, formatter: function (cellvalue, options, rowObject) {
@@ -82,5 +83,6 @@
             }}
             </c:if>
             </c:if>
+            </shiro:hasPermission>
         ]
 </script>

@@ -304,7 +304,7 @@ public class SpTalentController extends SpBaseController {
             if (StringUtils.isBlank(unitCode)){
                 throw new OpException("第{0}行所在单位编号为空",row);
             }
-            Unit unit = getUnitByCode(unitCode);
+            Unit unit = unitService.findRunUnitByCode(unitCode);
             if (unit == null){
                 throw new OpException("第{0}行所在单位编号[{1}]不存在",row,unitCode);
             }

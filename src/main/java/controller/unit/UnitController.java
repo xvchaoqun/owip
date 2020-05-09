@@ -94,7 +94,7 @@ public class UnitController extends BaseController {
                        ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("cls", cls);
-        if (cls == 3) {
+        if (cls == 4) {
 
             if (export == 1) {
 
@@ -139,14 +139,24 @@ public class UnitController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        byte status = SystemConstants.UNIT_STATUS_RUN;
-        if(cls==2){
+        Byte status = null;
+        boolean isDeleted = false;
+        if(cls==1){
+            status = SystemConstants.UNIT_STATUS_RUN;
+        }else if(cls==2){
            status = SystemConstants.UNIT_STATUS_HISTORY;
+        }else if(cls==3){ // 已删除
+            isDeleted = true;
         }
 
         UnitViewExample example = new UnitViewExample();
-        UnitViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        UnitViewExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(isDeleted);
         example.setOrderByClause("sort_order asc");
+
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
@@ -259,19 +269,6 @@ public class UnitController extends BaseController {
         return "unit/unit_au";
     }
 
-    @RequiresPermissions("unit:del")
-    @RequestMapping(value = "/unit_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_unit_del(Integer id, HttpServletRequest request) {
-
-        if (id != null) {
-
-            unitService.del(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除单位：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
     @RequiresPermissions("unit:abolish")
     @RequestMapping(value = "/unit_abolish", method = RequestMethod.POST)
     @ResponseBody
@@ -287,12 +284,15 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:del")
     @RequestMapping(value = "/unit_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map unit_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map unit_batchDel(HttpServletRequest request,
+                             @RequestParam(defaultValue = "1")boolean isDeleted,
+                             @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
 
-            unitService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
+            unitService.batchDel(ids, isDeleted);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量"+(isDeleted?"删除":"回复")+"单位：%s",
+                    StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -366,7 +366,7 @@ public class UnitController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         UnitExample example = new UnitExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         if (status != null) criteria.andStatusEqualTo(status);
         example.setOrderByClause("status asc, sort_order asc");
 
@@ -591,7 +591,8 @@ public class UnitController extends BaseController {
     public void unit_sort_export(byte status, HttpServletResponse response){
 
         UnitViewExample example = new UnitViewExample();
-        example.createCriteria().andStatusEqualTo(status);
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andStatusEqualTo(status);
         example.setOrderByClause("sort_order desc");
         List<UnitView> records = unitViewMapper.selectByExample(example);
 
@@ -617,7 +618,7 @@ public class UnitController extends BaseController {
     public Map do_not_stat_post(@RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "1") boolean notStatPost) {
 
-        unitService.changeNotStatPost(ids, notStatPost);
+        unitService.updateNotStatPost(ids, notStatPost);
         logger.info("abolish Unit:" + StringUtils.join(ids, ","));
 
         return success(FormUtils.SUCCESS);

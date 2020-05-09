@@ -135,7 +135,7 @@ public class MemberOutController extends MemberBaseController {
             record.setHandleTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setHasReceipt(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(rowNum++)), "是"));
 
-            record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+            //record.setStatus(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
 
             records.add(record);
         }

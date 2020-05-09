@@ -22,6 +22,7 @@
     <c:if test="${cls==1||cls==2}">
     <shiro:hasPermission name="unitPost:edit">
         <button class="popupBtn btn btn-info btn-sm"
+                data-width="900"
                 ${cls==1 && cm:getUnitById(param.unitId).status==UNIT_STATUS_HISTORY ? "disabled":""}
                 data-url="${ctx}/unitPost_au?unitId=${param.unitId}&status=${cls==1?UNIT_POST_STATUS_NORMAL:UNIT_POST_STATUS_ABOLISH}&jqGrid=jqGrid2">
             <i class="fa fa-plus"></i> 添加
@@ -30,6 +31,7 @@
     </c:if>
     <shiro:hasPermission name="unitPost:edit">
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                data-width="900"
                 data-url="${ctx}/unitPost_au?unitId=${param.unitId}&jqGrid=jqGrid2"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             修改

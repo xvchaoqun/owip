@@ -109,7 +109,7 @@ public class DispatchUnitController extends DispatchBaseController {
 
         DispatchUnitViewExample example = new DispatchUnitViewExample();
         DispatchUnitViewExample.Criteria criteria = example.createCriteria();
-        //example.setOrderByClause("id desc");
+        example.setOrderByClause("pub_time desc");
 
         if (unitId!=null || partyId!=null) {
             List<Integer> _unitIds = new ArrayList<>();

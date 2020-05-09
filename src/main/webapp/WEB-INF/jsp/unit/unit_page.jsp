@@ -8,7 +8,6 @@
              data-url-au="${ctx}/unit_au?status=${cls==1?UNIT_STATUS_RUN:UNIT_STATUS_HISTORY}"
              data-url-page="${ctx}/unit"
              data-url-export="${ctx}/unit_data"
-             data-url-del="${ctx}/unit_del"
              data-url-bd="${ctx}/unit_batchDel"
              data-url-co="${ctx}/unit_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -19,6 +18,7 @@
                 <div class="<shiro:hasPermission name="unitPost:*">multi-row-head-table </shiro:hasPermission>tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <c:if test="${cls!=3}">
                             <shiro:hasPermission name="unit:edit">
                                 <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                                 <button class="jqEditBtn btn btn-primary btn-sm">
@@ -107,6 +107,12 @@
                                    data-url="${ctx}/unit_batchDel" data-title="删除单位"
                                    data-msg="确定删除这{0}个单位吗？"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
+                            </c:if>
+                             <c:if test="${cls==3}">
+                            <a class="jqBatchBtn btn btn-warning btn-sm"
+                                   data-url="${ctx}/unit_batchDel?isDeleted=0" data-title="恢复单位"
+                                   data-msg="确定恢复这{0}个单位吗？"><i class="fa fa-reply"></i> 恢复</a>
+                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

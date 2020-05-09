@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
-
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"

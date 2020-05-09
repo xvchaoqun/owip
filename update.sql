@@ -1,3 +1,18 @@
+2020.5.9
+北航-- 北师大
+
+ALTER TABLE `unit`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否已删除' AFTER `not_stat_post`;
+-- 更新 unit_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (50, 0, '干部任免信息', '', 'url', '', '/dispatchCadre?hasMenu=0', 1, '0/1/', 1, 'dispatchCadre:noMenu', NULL, NULL, NULL, 1, 6900);
+
+2020.5.8
+哈工大-- 北师大
+
+UPDATE `base_meta_class` SET `name`='推荐类型' WHERE  `id`=82;
 
 2020.5.6
 北航、西北工大  -- 北师大
@@ -556,10 +571,10 @@ left join (select count(*) as num,branch_id from ow_branch_group group by branch
 20191204
 北邮，南航
 
-更新 jx.utils.jar
+-- 更新 jx.utils.jar
 
-删除 CadreUnderEdu 相关类
-删除 cadreTutor 相关类
+-- 删除 CadreUnderEdu 相关类
+-- 删除 cadreTutor 相关类
 
 20191201
 北邮，南航
@@ -583,7 +598,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 重新分配党员信息管理模块的导入权限（党建、分党委、支部）
 
 20191130
-
+-- 删除 MemberApplyLayoutController
 -- 删除 RetireApplyController
 
 REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2520, 0, '党员信息采集表权限', '', 'function', '', NULL, 181, '0/1/260/181/', 1, 'memberInfoForm:*', NULL, NULL, NULL, 1, NULL);

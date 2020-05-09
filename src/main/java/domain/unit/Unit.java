@@ -42,6 +42,8 @@ public class Unit implements Serializable {
 
     private Boolean notStatPost;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -138,5 +140,13 @@ public class Unit implements Serializable {
 
     public void setNotStatPost(Boolean notStatPost) {
         this.notStatPost = notStatPost;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

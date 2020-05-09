@@ -369,7 +369,9 @@
         return $state;
     }).on("change", function () {
         //console.log($(this).select2("data")[0])
-        var up = $(this).select2("data")[0]['up'] ;
+        if($(this).select2("data")[0]!=undefined) {
+          var up = $(this).select2("data")[0]['up'];
+        }
          //console.log(up)
         if(up!=undefined){
             if(up.postClass=='${cm:getMetaTypeByCode("mt_post_dw").id}'){

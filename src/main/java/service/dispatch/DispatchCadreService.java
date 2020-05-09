@@ -75,16 +75,17 @@ public class DispatchCadreService extends BaseMapper {
         dispatchService.update_dispatch_real_count();
     }
 
+    // 覆盖更新
     @Transactional
-    public void updateByPrimaryKeySelective(DispatchCadre record) {
+    public void updateByPrimaryKey(DispatchCadre record) {
 
-        dispatchCadreMapper.updateByPrimaryKeySelective(record);
+        dispatchCadreMapper.updateByPrimaryKey(record);
 
         dispatchService.update_dispatch_real_count();
 
-        if(record.getRecordId()==null){
+        /*if(record.getRecordId()==null){
             commonMapper.excuteSql("update dispatch_cadre set record_id=null where id=" + record.getId());
-        }
+        }*/
     }
 
     // 添加历史离任干部

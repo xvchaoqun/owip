@@ -1,19 +1,16 @@
 package controller.sp;
 
-import domain.unit.Unit;
-import domain.unit.UnitExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import persistence.sp.*;
 import service.ps.PsBaseMapper;
 import service.sp.*;
+import service.unit.UnitService;
 import sys.HttpResponseMethod;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 public class SpBaseController extends PsBaseMapper implements HttpResponseMethod {
+
+    @Autowired
+    protected UnitService unitService;
 
     @Autowired
     protected SpCgService spCgService;
@@ -44,19 +41,4 @@ public class SpBaseController extends PsBaseMapper implements HttpResponseMethod
     protected SpTalentService spTalentService;
     @Autowired
     protected SpTalentMapper spTalentMapper;
-
-    @Transactional
-    public Unit getUnitByCode(String code){
-
-        UnitExample example = new UnitExample();
-        example.createCriteria();
-        example.setOrderByClause("sort_order asc");
-        List<Unit> unites = unitMapper.selectByExample(example);
-        Map<String, Unit> map = new LinkedHashMap<>();
-        for (Unit unit : unites) {
-            map.put(unit.getCode(), unit);
-        }
-
-        return map.get(code);
-    }
 }

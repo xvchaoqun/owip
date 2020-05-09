@@ -13,6 +13,7 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="not_stat_post" jdbcType="BIT" property="notStatPost" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="main_post_count" jdbcType="DECIMAL" property="mainPostCount" />
     <result column="vice_post_count" jdbcType="DECIMAL" property="vicePostCount" />
     <result column="none_post_count" jdbcType="DECIMAL" property="nonePostCount" />
@@ -58,8 +59,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, code, name, type_id, dispatch_unit_id, work_time, url, create_time, sort_order, 
-    status, not_stat_post, main_post_count, vice_post_count, none_post_count, main_kj_post_count, 
-    vice_kj_post_count, main_count, vice_count, main_kj_count, vice_kj_count, none_count
+    status, not_stat_post, is_deleted, main_post_count, vice_post_count, none_post_count, 
+    main_kj_post_count, vice_kj_post_count, main_count, vice_count, main_kj_count, vice_kj_count, 
+    none_count
   </sql>
   <sql id="Blob_Column_List">
     remark

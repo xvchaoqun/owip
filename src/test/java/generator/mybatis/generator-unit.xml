@@ -24,10 +24,10 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-         <!--<table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
+         <table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                 <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
+         </table>
         <table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

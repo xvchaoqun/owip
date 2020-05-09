@@ -2,7 +2,7 @@
 -- 打包commit文件
 cd /cygdrive/d/IdeaProjects/owip
 # 打包更新文件（不含删除文件）
-git diff-tree --diff-filter=d -r --no-commit-id --name-only d6e4dacc337d5e6482d73cdb0e52e66aec9b9505 | xargs tar -cf /cygdrive/d/tmp/update.zip
+git diff-tree --diff-filter=d -r --no-commit-id --name-only a0750d207cff5369fd16bc70c601c6ba05ed5d71 | xargs tar -cf /cygdrive/d/tmp/update.zip
 # 查看删除的文件
 git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd6217ce9e72751e0e9e645777c3
 
@@ -10,7 +10,7 @@ git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd621
 git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前（不含）后（含）”两个版本之间变更的文件
-git diff --diff-filter=d a3ca2c5da2c9b161446127cafe27a9146bcf1f41 7dfcab9883f823dcbe23c2b85fb491fb6773885a --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
+git diff --diff-filter=d e2e8ee69d7e3e493e42cb1c16fdaea6769e88ec4 e00fe1bfa16f3dd95806c3003a261c896b03daa9 --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
 
 
 -- 忽略文件
