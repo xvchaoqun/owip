@@ -19,6 +19,8 @@ import sys.tool.tree.TreeNode;
 
 import java.util.*;
 
+import static sys.constants.SystemConstants.SYS_ROLE_TYPE_ADD;
+
 @Service
 public class SysRoleService extends BaseMapper {
 
@@ -225,7 +227,7 @@ public class SysRoleService extends BaseMapper {
 					node.addClass = "unselectable";
 					if (superAccount){
 						// 系统自动维护角色，仅允许超级管理员修改
-						if(sysRole.getType()==1){  //加权限
+						if(sysRole.getType()==SYS_ROLE_TYPE_ADD){  //加权限
 							roleAdd.add(node);
 						}else{
 							roleMinus.add(node);
@@ -234,8 +236,8 @@ public class SysRoleService extends BaseMapper {
 				}
 			}else{
 				// 手动维护角色
-				if(sysRole.getType()==1){  //加权限
-					roleMinus.add(node);
+				if(sysRole.getType()==SYS_ROLE_TYPE_ADD){  //加权限
+					roleAdd.add(node);
 				}else{
 					roleMinus.add(node);
 				}

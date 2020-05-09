@@ -214,7 +214,7 @@ public class DispatchCadreController extends DispatchBaseController {
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeEqualTo(code);
         }
-        if(type!=null){
+        if(type!=null&&type!=-1){  //type!=-1  在历史任职干部页面中 -1 为全部类型
             criteria.andTypeEqualTo(type);
         }
 

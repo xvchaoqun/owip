@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static domain.unit.UnitPostViewExample.Criteria;
+import static sys.constants.DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT;
 
 @Controller
 public class UnitPostController extends BaseController {
@@ -53,10 +54,10 @@ public class UnitPostController extends BaseController {
     // 历史任职干部
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPost_cadres")
-    public String unitPost_cadres(int unitPostId, ModelMap modelMap) {
+    public String unitPost_cadres(int unitPostId,@RequestParam(required = false, defaultValue = DISPATCH_CADRE_TYPE_APPOINT+"") Byte type, ModelMap modelMap) {
 
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
-
+        modelMap.put("type", type);
         return "unit/unitPost/unitPost_cadres";
     }
 

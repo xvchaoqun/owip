@@ -16,6 +16,21 @@
                 <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
             </select>
         </div>
+        <div class="form-group">
+            <label>类型</label>
+            <select data-rel="select2" data-placeholder="请选择"
+                    name="type">
+                <option></option>
+                <c:forEach items="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"
+                           var="_type">
+                    <option value="${_type.key}">${_type.value}</option>
+                </c:forEach>
+                <option value="-1">全部</option>
+            </select>
+            <script>
+                $("#searchForm_popup select[name=type]").val('${type}');
+            </script>
+        </div>
         <c:set var="_query" value="${not empty param.cadreId}"/>
         <div  class="form-group">
             <button type="button" data-url="${ctx}/unitPost_cadres"
@@ -43,8 +58,6 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/dispatch/dispatchCadre/dispatchCadre_columns.jsp"/>
 <script>
-
-    $.register.user_select($('#searchForm_popup select[name=cadreId]'));
     $("#jqGrid_popup").jqGrid({
         multiselect:false,
         height:390,
@@ -52,8 +65,11 @@
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
-        url: "${ctx}/dispatchCadre_data?callback=?&unitPostIds=${param.unitPostId}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/dispatchCadre_data?callback=?&unitPostIds=${param.unitPostId}&type=${type}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel:colModel
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");
+
+    $('[data-rel="select2"]').select2();
+    $.register.user_select($('#searchForm_popup select[name=cadreId]'));
 </script>
