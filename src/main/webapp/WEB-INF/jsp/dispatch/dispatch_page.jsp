@@ -13,7 +13,9 @@
                 <c:set var="_query" value="${not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
             ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
                 <div class="tabbable">
+                    <c:if test="${param.hasMenu!=0}"> <!-- 单独作为菜单展示时,hasMenu=0 -->
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
+                        </c:if>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
@@ -72,6 +74,7 @@
                                     <div class="widget-main no-padding">
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
+                                            <input type="hidden" name="hasMenu" value="${param.hasMenu!=0?1:0}">
                                             <div class="form-group">
                                                 <label>年份</label>
 
@@ -123,6 +126,7 @@
                                                        value="${param.code}"
                                                        placeholder="请输入发文号">
                                             </div>
+                                            <shiro:hasPermission name="scCommittee:list">
                                             <div class="form-group">
                                                 <label>常委会</label>
 
@@ -136,12 +140,13 @@
                                                            name="_meetingTime" value="${param._meetingTime}"/>
                                                 </div>
                                             </div>
+                                            </shiro:hasPermission>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-querystr="cls=${cls}">
+                                                            data-querystr="cls=${cls}&hasMenu=${param.hasMenu!=0?1:0}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>
@@ -209,6 +214,7 @@
                     })
                 }
             },
+            <shiro:hasPermission name="scCommittee:list">
             {
                 label: '党委常委会',
                 name: 'scDispatch.scCommittees',
@@ -234,6 +240,7 @@
                         .format(rowObject.scDispatch.id, str);
                 }
             },
+            </shiro:hasPermission>
             {
                 label: '党委常委会<br/>日期',
                 name: 'meetingTime',
@@ -258,6 +265,7 @@
                     return cellvalue || '0';
                 }
             },
+            <c:if test="${param.hasMenu!=0}">
             {
                 label: '录入<br/>任命人数',
                 width: 80,
@@ -269,6 +277,7 @@
                     return cellvalue || '0';
                 }
             },
+            </c:if>
             {
                 label: '免职人数', name: 'dismissCount', width: 80, formatter: function (cellvalue, options, rowObject) {
 
@@ -277,6 +286,7 @@
                     return cellvalue || '0';
                 }
             },
+            <c:if test="${param.hasMenu!=0}">
             {
                 label: '录入<br/>免职人数',
                 width: 80,
@@ -353,6 +363,7 @@
                     return rowObject.hasChecked ? 1 : 0;
                 }
             }
+            </c:if>
         ], onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             _onSelectRow(this)

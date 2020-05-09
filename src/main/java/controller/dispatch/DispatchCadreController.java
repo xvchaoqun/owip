@@ -451,7 +451,7 @@ public class DispatchCadreController extends DispatchBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "干部发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "干部任免信息";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

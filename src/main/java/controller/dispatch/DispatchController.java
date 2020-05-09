@@ -441,7 +441,7 @@ public class DispatchController extends DispatchBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "任免文件信息";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

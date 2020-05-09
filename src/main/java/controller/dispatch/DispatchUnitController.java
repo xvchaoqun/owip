@@ -231,7 +231,7 @@ public class DispatchUnitController extends DispatchBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "单位发文_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "机构调整信息";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

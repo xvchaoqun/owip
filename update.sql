@@ -1,13 +1,22 @@
 2020.5.9
-北航-- 北师大
+北航，--西北工大-- 北师大
 
 ALTER TABLE `unit`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否已删除' AFTER `not_stat_post`;
 -- 更新 unit_view
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES
+(50, 0, '干部任免信息', '', 'menu', 'fa fa-files-o', NULL, 1, '0/1/', 0, 'dispatchCadre:menu', 4, NULL, NULL, 1, 6901);
+
+insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
 `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-VALUES (50, 0, '干部任免信息', '', 'url', '', '/dispatchCadre?hasMenu=0', 1, '0/1/', 1, 'dispatchCadre:noMenu', NULL, NULL, NULL, 1, 6900);
+VALUES (51, 0, '历史任免信息', '', 'url', '', '/dispatchCadre?hasMenu=0', 50, '0/1/50/', 1, 'dispatchCadre:noMenu', NULL, NULL, NULL, 1, 200);
+
+insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+`parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (52, 0, '历史任免文件', '', 'url', '', '/dispatch?hasMenu=0', 50, '0/1/50/', 1, 'dispatch:noMenu', NULL, NULL, NULL, 1, 100);
 
 2020.5.8
 哈工大-- 北师大
