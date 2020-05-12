@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label>类型</label>
-            <select data-rel="select2" data-placeholder="请选择" data-width="80"
+            <select data-rel="select2" data-placeholder="请选择"
                     name="type">
                 <option></option>
                 <c:forEach items="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"
@@ -32,7 +32,18 @@
                 $("#searchForm_popup select[name=type]").val('${type}');
             </script>
         </div>
-        <c:set var="_query" value="${not empty param.cadreId || (not empty param.type && cm:toByte(param.type) != DISPATCH_CADRE_TYPE_APPOINT)}"/>
+        <div class="form-group">
+            <label>岗位类别</label>
+            <select data-rel="select2" data-placeholder="请选择"
+                    name="postType">
+                <option value="1">按岗位编号</option>
+                <option value="2">按岗位名称</option>
+            </select>
+            <script>
+                $("#searchForm_popup select[name=postType]").val('${postType}');
+            </script>
+        </div>
+        <c:set var="_query" value="${not empty param.cadreId}"/>
         <div  class="form-group">
             <button type="button" data-url="${ctx}/unitPost_cadres"
                     data-target="#modal .modal-content" data-form="#searchForm_popup"
@@ -49,7 +60,7 @@
 
             <button type="button" class="downloadBtn btn btn-info btn-sm tooltip-success"
                     data-grid-id="#jqGrid_popup"
-                    data-url="${ctx}/dispatchCadre_data?unitPostIds=${param.unitPostId}&type=${type}&asc=1&export=2"
+                    data-url="${ctx}/dispatchCadre_data?unitPostIds=${param.unitPostId}&asc=1&export=2"
                data-rel="tooltip" data-placement="top" title="导出该岗位历史任职信息">
                 <i class="fa fa-download"></i> 导出</button>
         </div>
@@ -66,11 +77,11 @@
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
-        url: "${ctx}/dispatchCadre_data?callback=?&unitPostIds=${param.unitPostId}&type=${type}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/dispatchCadre_data?callback=?&unitPostIds=${param.unitPostId}&type=${type}&postType=${postType}&asc=1&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel:colModel
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");
-
     $('#searchForm_popup select[name=type]').select2({allowClear:false});
+    $('[data-rel="select2"]').select2();
     $.register.user_select($('#searchForm_popup select[name=cadreId]'));
 </script>

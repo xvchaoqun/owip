@@ -57,6 +57,7 @@ public class UnitPostController extends BaseController {
     public String unitPost_cadres(int unitPostId,
                                   Integer cadreId,
                                   @RequestParam(required = false, defaultValue = DISPATCH_CADRE_TYPE_APPOINT+"") Byte type,
+                                  @RequestParam(required = false, defaultValue = "1")Byte postType,
                                   ModelMap modelMap) {
 
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
@@ -66,6 +67,7 @@ public class UnitPostController extends BaseController {
         }
 
         modelMap.put("type", type);
+        modelMap.put("postType", postType);
         return "unit/unitPost/unitPost_cadres";
     }
 

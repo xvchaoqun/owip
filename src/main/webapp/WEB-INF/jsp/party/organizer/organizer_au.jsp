@@ -60,11 +60,11 @@
                         </select>
                     </div>
                 </div>
-                <script>
-                    $.register.party_branch_select($("#modalForm"), "branchDiv",
-                        '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
-                </script>
             </c:if>
+            <script>
+                $.register.party_branch_select($("#modalForm"), "branchDiv",
+                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+            </script>
         </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label"> 联系方式</label>
@@ -154,7 +154,7 @@
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
-    $.register.del_select($('#modalForm select[name=partyId]'));
+  /*  $.register.del_select($('#modalForm select[name=partyId]'));*/
     $.register.user_select($('#modalForm select[name=userId]'));
     //$('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

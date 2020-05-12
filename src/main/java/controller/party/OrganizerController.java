@@ -229,6 +229,9 @@ public class OrganizerController extends BaseController {
             status = organizer.getStatus();
 
             modelMap.put("sysUser", sysUserService.findById(organizer.getUserId()));
+            modelMap.put("party", partyService.findAll().get(organizer.getPartyId()));
+            modelMap.put("branch", branchService.findAll().get(organizer.getBranchId()));
+
         }
 
         modelMap.put("type", type);

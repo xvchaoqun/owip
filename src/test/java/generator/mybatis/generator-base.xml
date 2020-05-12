@@ -41,9 +41,9 @@
          <!--<table tableName="base_meta_class" domainObjectName="base.MetaClass">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="base_meta_type" domainObjectName="base.MetaType">
+       <!-- <table tableName="base_meta_type" domainObjectName="base.MetaType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="base_layer_type" domainObjectName="base.LayerType">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
@@ -94,9 +94,13 @@
                enableDeleteByExample="false">
             <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
-         <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
-          </table>&ndash;&gt;-->
+         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+             <columnOverride column="resume" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="res_ids_add" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="m_res_ids_add" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="res_ids_minus" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="m_res_ids_minus" jdbcType="VARCHAR"></columnOverride>
+          </table>
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
@@ -110,7 +114,7 @@
         </table>-->
         <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
          </table>-->
-         <!--<table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
+        <!-- <table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_resource_ids" jdbcType="VARCHAR"></columnOverride>

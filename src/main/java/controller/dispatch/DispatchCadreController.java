@@ -5,6 +5,7 @@ import domain.cadre.CadreView;
 import domain.dispatch.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
 import domain.unit.UnitPostView;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
@@ -172,7 +173,8 @@ public class DispatchCadreController extends DispatchBaseController {
                                    Integer dispatchTypeId,
                                    String code,
                                     Integer dispatchId,
-                                    Byte type,
+                                    Byte type,   //类型 任职免职  全部 -1
+                                    Byte postType,  //按岗位名称搜索 1 按岗位编号搜索 2
                                     String post,
                                    @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                    @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
@@ -256,7 +258,12 @@ public class DispatchCadreController extends DispatchBaseController {
         }
 
         if(unitPostIds!=null){
-            criteria.andUnitPostIdIn(Arrays.asList(unitPostIds));
+            if(postType!=null && postType==2){     //按岗位名称搜索
+                UnitPost unitPost =unitPostMapper.selectByPrimaryKey(unitPostIds[0]);
+                criteria.andPostNameEqualTo(unitPost.getName());
+            }else {
+                criteria.andUnitPostIdIn(Arrays.asList(unitPostIds));
+            }
         }
 
         if(workTimeStart!=null){

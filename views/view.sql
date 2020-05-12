@@ -590,10 +590,13 @@ where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq de
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_cadre_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `dispatch_cadre_view` AS
-select dc.*, d.category, d.year, d.pub_time,d.work_time,
+select dc.*,up.name as post_name,  bmt.extra_attr as post_team,
+d.category, d.year, d.pub_time,d.work_time,
 d.dispatch_type_id, d.code , d.has_checked,d.record_user_id
-from dispatch_cadre dc, dispatch d, dispatch_type dt
-where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
+from dispatch_cadre dc
+left join unit_post up on up.id=dc.unit_post_id
+left join base_meta_type bmt on bmt.id=dc.post_type, dispatch d, dispatch_type dt
+where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc;
 
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_unit_view`;

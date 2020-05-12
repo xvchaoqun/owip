@@ -1052,6 +1052,146 @@ public class DispatchCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostNameIsNull() {
+            addCriterion("post_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameIsNotNull() {
+            addCriterion("post_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameEqualTo(String value) {
+            addCriterion("post_name =", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameNotEqualTo(String value) {
+            addCriterion("post_name <>", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameGreaterThan(String value) {
+            addCriterion("post_name >", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameGreaterThanOrEqualTo(String value) {
+            addCriterion("post_name >=", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameLessThan(String value) {
+            addCriterion("post_name <", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameLessThanOrEqualTo(String value) {
+            addCriterion("post_name <=", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameLike(String value) {
+            addCriterion("post_name like", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameNotLike(String value) {
+            addCriterion("post_name not like", value, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameIn(List<String> values) {
+            addCriterion("post_name in", values, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameNotIn(List<String> values) {
+            addCriterion("post_name not in", values, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameBetween(String value1, String value2) {
+            addCriterion("post_name between", value1, value2, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostNameNotBetween(String value1, String value2) {
+            addCriterion("post_name not between", value1, value2, "postName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamIsNull() {
+            addCriterion("post_team is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamIsNotNull() {
+            addCriterion("post_team is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamEqualTo(String value) {
+            addCriterion("post_team =", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotEqualTo(String value) {
+            addCriterion("post_team <>", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamGreaterThan(String value) {
+            addCriterion("post_team >", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamGreaterThanOrEqualTo(String value) {
+            addCriterion("post_team >=", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLessThan(String value) {
+            addCriterion("post_team <", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLessThanOrEqualTo(String value) {
+            addCriterion("post_team <=", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLike(String value) {
+            addCriterion("post_team like", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotLike(String value) {
+            addCriterion("post_team not like", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamIn(List<String> values) {
+            addCriterion("post_team in", values, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotIn(List<String> values) {
+            addCriterion("post_team not in", values, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamBetween(String value1, String value2) {
+            addCriterion("post_team between", value1, value2, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotBetween(String value1, String value2) {
+            addCriterion("post_team not between", value1, value2, "postTeam");
+            return (Criteria) this;
+        }
+
         public Criteria andCategoryIsNull() {
             addCriterion("category is null");
             return (Criteria) this;
