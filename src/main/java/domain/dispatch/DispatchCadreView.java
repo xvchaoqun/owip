@@ -68,8 +68,6 @@ public class DispatchCadreView implements Serializable {
 
     private String postName;
 
-    private String postTeam;
-
     private String category;
 
     private Integer year;
@@ -208,12 +206,12 @@ public class DispatchCadreView implements Serializable {
         this.sortOrder = sortOrder;
     }
 
-    public String getPostTeam() {
-        return postTeam;
+    public String getPostName() {
+        return postName;
     }
 
-    public void setPostTeam(String postTeam) {
-        this.postTeam = postTeam == null ? null : postTeam.trim();
+    public void setPostName(String postName) {
+        this.postName = postName;
     }
 
     public String getCategory() {
