@@ -14,7 +14,6 @@ pageEncoding="UTF-8"%>
         pager: "#jqGridPager_dispatchCadre",
         url: '${ctx}/dispatchCadre_data?unitId=${unitTeam.unitId}'
             +'&type=<%=DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT%>'
-            +'&postTeam=xz'
             +'&workTimeStart=${cm:formatDate(unitTeam.appointDate, "yyyy-MM-dd")}'
             +'&workTimeEnd=${cm:formatDate(unitTeam.deposeDate, "yyyy-MM-dd")}',
         colModel:colModel

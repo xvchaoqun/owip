@@ -224,66 +224,6 @@ public class CetUpperTrainAdminExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeEqualTo(Boolean value) {
-            addCriterion("type =", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotEqualTo(Boolean value) {
-            addCriterion("type <>", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThan(Boolean value) {
-            addCriterion("type >", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("type >=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThan(Boolean value) {
-            addCriterion("type <", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThanOrEqualTo(Boolean value) {
-            addCriterion("type <=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<Boolean> values) {
-            addCriterion("type in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotIn(List<Boolean> values) {
-            addCriterion("type not in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeBetween(Boolean value1, Boolean value2) {
-            addCriterion("type between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;
@@ -341,66 +281,6 @@ public class CetUpperTrainAdminExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdIsNull() {
-            addCriterion("leader_user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdIsNotNull() {
-            addCriterion("leader_user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdEqualTo(Integer value) {
-            addCriterion("leader_user_id =", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdNotEqualTo(Integer value) {
-            addCriterion("leader_user_id <>", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdGreaterThan(Integer value) {
-            addCriterion("leader_user_id >", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("leader_user_id >=", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdLessThan(Integer value) {
-            addCriterion("leader_user_id <", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("leader_user_id <=", value, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdIn(List<Integer> values) {
-            addCriterion("leader_user_id in", values, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdNotIn(List<Integer> values) {
-            addCriterion("leader_user_id not in", values, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("leader_user_id between", value1, value2, "leaderUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andLeaderUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("leader_user_id not between", value1, value2, "leaderUserId");
             return (Criteria) this;
         }
 

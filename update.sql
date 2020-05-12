@@ -1,5 +1,30 @@
+
+2020.5.12
+西北工大-- 北师大
+
+update base_meta_type set code='mt_dr_type_meeting' where id=513 and name='会议推荐';
+ALTER TABLE `abroad_taiwan_record`
+	DROP FOREIGN KEY `FK_abroad_taiwan_cadre`;
+ALTER TABLE `abroad_taiwan_record`
+	ADD CONSTRAINT `FK_abroad_taiwan_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+ALTER TABLE `abroad_passport`
+	DROP FOREIGN KEY `FK_abroad_passport_abroad_taiwan_record`;
+ALTER TABLE `abroad_passport`
+	ADD CONSTRAINT `FK_abroad_passport_abroad_taiwan_record` FOREIGN KEY (`taiwan_record_id`) REFERENCES `abroad_taiwan_record` (`id`) ON DELETE CASCADE;
+
+-- 更新 dispatch_cadre_view
+
+ALTER TABLE `cadre_work`
+	CHANGE COLUMN `detail` `detail` TEXT NULL DEFAULT NULL COMMENT '工作单位及担任职务（或专技职务）' AFTER `end_time`;
+
+
+ALTER TABLE `cet_upper_train_admin`
+	DROP COLUMN `type`,
+	DROP COLUMN `leader_user_id`;
+
+
 2020.5.9
-北航，--西北工大-- 北师大
+北航，西北工大-- 北师大
 
 ALTER TABLE `unit`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否已删除' AFTER `not_stat_post`;

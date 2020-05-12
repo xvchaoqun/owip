@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导入${isMainPost?"干部第一主职情况":"干部兼职情况"}</h3>
+    <h3>导入${isMainPost?"干部任职情况（第一主职）":"干部任职情况（兼职）"}</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data"
@@ -19,7 +19,7 @@
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
             <a href="${ctx}/attach?code=${isMainPost?"sample_cadreMainPost":"sample_cadreSubPost"}">
-                ${isMainPost?"干部第一主职情况":"干部兼职情况"}录入样表.xlsx</a>（点击下载）的数据格式</span>
+                ${isMainPost?"干部任职情况（第一主职）":"干部任职情况（兼职）"}录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <c:set var="CET_UPPER_TRAIN_STATUS_INIT" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_INIT%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_UNPASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS%>"/>
 <c:set var="CET_UPPER_TRAIN_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_UNIT%>"/>
-<c:set var="isMultiSelect" value="${empty param.id && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
+<c:set var="isMultiSelect" value="${empty param.id && addType==CET_UPPER_TRAIN_ADD_TYPE_OW}"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrain.id}">
         <input type="hidden" name="upperType" value="${upperType}">
-		<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+		<c:if test="${!isMultiSelect && addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
         <input type="hidden" name="userId" value="${_user.id}">
 		</c:if>
         <input type="hidden" name="addType" value="${addType}">
@@ -52,11 +52,22 @@ pageEncoding="UTF-8"%>
 		</c:if>
 	<c:if test="${!isMultiSelect && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
 	<div class="form-group">
-		<label class="col-xs-4 control-label">参训人</label>
+		<label class="col-xs-4 control-label"><span class="star">*</span> 参训人</label>
 		<div class="col-xs-6 label-text">
-				${cetUpperTrain.user.realname}
+			<select required data-rel="select2-ajax"
+					data-width="273" data-ajax-url="${ctx}/sysUser_selects?types=<%=SystemConstants.USER_TYPE_JZG%>"
+					name="userId" data-placeholder="请选择">
+				<option value="${sysUser.id}">${sysUser.realname}</option>
+			</select>
 		</div>
 	</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">时任单位及职务</label>
+			<div class="col-xs-6">
+				<textarea class="form-control" name="title">${cetUpperTrain.title}</textarea>
+			</div>
+		</div>
+		</c:if>
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
 			<div class="col-xs-6">
@@ -73,7 +84,7 @@ pageEncoding="UTF-8"%>
 				</script>
 			</div>
 		</div>
-	</c:if>
+
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">

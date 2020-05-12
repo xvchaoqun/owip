@@ -757,7 +757,12 @@
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '--';
-                var progress= Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
+
+                 var a = rowObject.finishPeriod;
+                var b = rowObject.shouldFinishPeriod;
+                   a = (a>b?b:a)
+
+                var progress= Math.formatFloat(a*100/b, 2) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},

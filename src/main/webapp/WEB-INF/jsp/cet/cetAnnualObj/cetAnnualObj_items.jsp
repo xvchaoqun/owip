@@ -50,7 +50,7 @@
                 <c:if test="${not empty record.shouldFinishPeriod}">
                     <fmt:parseNumber value="${record.period}" var="period" />
                     <fmt:parseNumber value="${record.shouldFinishPeriod}" var="shouldFinishPeriod" />
-                    <fmt:formatNumber value="${period/shouldFinishPeriod}" type="percent"
+                    <fmt:formatNumber value="${(period>shouldFinishPeriod?shouldFinishPeriod:period)/shouldFinishPeriod}" type="percent"
                                           pattern="#0.00%" var="progress"/>
                     <div class="progress progress-striped pos-rel" data-percent="${progress}">
                         <div class="progress-bar progress-bar-success" style="width:${progress};"></div>

@@ -57,16 +57,16 @@
         <!--<table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-         <!--<table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
+         <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
                 mapperName="dispatch.DispatchCadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
 
-        <table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
+        <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
                mapperName="dispatch.DispatchWorkFileMapper">
-        </table>
+        </table>-->
        <!-- <table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
                mapperName="dispatch.DispatchWorkFileAuthMapper">
         </table>-->

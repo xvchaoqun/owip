@@ -59,19 +59,6 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <div class="form-group">
-                                <label>类型</label>
-                                <select data-rel="select2"
-                                        name="type" data-placeholder="请选择">
-                                    <option value="0">单位管理员</option>
-                                    <option value="1">校领导管理员</option>
-                                </select>
-                                <script>
-                                    $("#searchForm select[name=type]").val('${param.type}')
-                                </script>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label>所属单位</label>
                             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                                     name="unitId" data-placeholder="请选择">
@@ -79,7 +66,7 @@ pageEncoding="UTF-8" %>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>管理员</label>
+                            <label>姓名</label>
                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -115,21 +102,9 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetUpperTrainAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '类型',name: 'type', width:150, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on:'校领导管理员',off:'单位管理员'}},
-                { label: '所属单位',name: 'unit.name', width:250, formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.type) {
-                        return '--'
-                    }
-                    return $.trim(cellvalue)
-                }},
-                { label: '所属校领导',name: 'leaderUser.realname', width:150, formatter: function (cellvalue, options, rowObject) {
-                    if (!rowObject.type) {
-                        return '--'
-                    }
-                    return $.trim(cellvalue)
-                }},
-                { label: '管理员姓名',name: 'user.realname', width:150 },
-                { label: '管理员工号',name: 'user.code', width:150 }
+                { label: '所属单位',name: 'unit.name', width:250, align:'left'},
+                { label: '工作证号',name: 'user.code', width:150 },
+                { label: '姓名',name: 'user.realname', width:150 }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

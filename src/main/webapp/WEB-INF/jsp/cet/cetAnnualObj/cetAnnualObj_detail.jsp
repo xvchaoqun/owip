@@ -82,7 +82,7 @@
                             <label>完成百分比：</label>
                             <c:set var="progress" value="0%"/>
                             <c:if test="${cetAnnualObj.finishPeriodOffline>0 && cetAnnualObj.periodOffline>0}">
-                                <fmt:formatNumber var="progress" value="${(cm:divide(cetAnnualObj.finishPeriodOffline, cetAnnualObj.periodOffline, 3))}"
+                                <fmt:formatNumber var="progress" value="${(cm:divide((cetAnnualObj.finishPeriodOffline>cetAnnualObj.periodOffline?cetAnnualObj.periodOffline:cetAnnualObj.finishPeriodOffline), cetAnnualObj.periodOffline, 3))}"
                                                   type="percent" pattern="#0.0%"/>
                             </c:if>
                             <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
@@ -96,7 +96,7 @@
                             <label>完成百分比：</label>
                             <c:set var="progress" value="0%"/>
                             <c:if test="${cetAnnualObj.finishPeriodOnline>0 && cetAnnualObj.periodOnline>0}">
-                                <fmt:formatNumber var="progress" value="${(cm:divide(cetAnnualObj.finishPeriodOnline, cetAnnualObj.periodOnline, 3))}"
+                                <fmt:formatNumber var="progress" value="${(cm:divide((cetAnnualObj.finishPeriodOnline>cetAnnualObj.periodOnline?cetAnnualObj.periodOnline:cetAnnualObj.finishPeriodOnline), cetAnnualObj.periodOnline, 3))}"
                                                   type="percent" pattern="#0.0%"/>
                             </c:if>
                             <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">

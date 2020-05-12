@@ -421,7 +421,7 @@ public class CadreEduService extends BaseMapper {
 
         CadreView cv = CmTag.getCadreByDb(record.getCadreId());
         String realname = "";
-        if(cv.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+        if(cv.getUserId().intValue()!= ShiroHelper.getCurrentUserId()){
             realname = cv.getRealname(); // 非本人操作，需提示具体的人名
         }
 
@@ -773,5 +773,28 @@ public class CadreEduService extends BaseMapper {
         }
         String fileName = "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @Transactional
+    public void checkHighEdu(Integer cadreId, Boolean flag) {
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andHasDegreeEqualTo(flag)
+                .andIsGraduatedEqualTo(true);
+        example.setOrderByClause("finish_time asc");
+
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+        if (cadreEdus.size() > 0){
+            CadreEdu record = new CadreEdu();
+            record.setId(cadreEdus.get(cadreEdus.size() - 1).getId());
+            record.setIsHighDegree(flag);
+            record.setIsHighEdu(true);
+            cadreEduMapper.updateByPrimaryKeySelective(record);
+            if (!flag){
+                return;
+            }
+        }else if (cadreEdus.size() <= 0 && flag){
+            checkHighEdu(cadreId, false);
+        }
     }
 }

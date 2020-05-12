@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetUpperTrainAdmin;
 import domain.cet.CetUpperTrainAdminExample;
 import domain.cet.CetUpperTrainAdminExample.Criteria;
+import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -58,7 +60,6 @@ public class CetUpperTrainAdminController extends CetBaseController {
     @ResponseBody
     public void cetUpperTrainAdmin_data(HttpServletResponse response,
                                     byte upperType,
-                                    Boolean type,
                                     Integer unitId,
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -77,9 +78,6 @@ public class CetUpperTrainAdminController extends CetBaseController {
         Criteria criteria = example.createCriteria().andUpperTypeEqualTo(upperType);
         example.setOrderByClause("id desc");
 
-        if (type!=null) {
-            criteria.andTypeEqualTo(type);
-        }
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
         }
@@ -179,15 +177,16 @@ public class CetUpperTrainAdminController extends CetBaseController {
 
         List<CetUpperTrainAdmin> records = cetUpperTrainAdminMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"类型|100","所属单位|100","所属校领导|100","管理员|100"};
+        String[] titles = {"工作证号|100", "姓名|100", "所属单位|300|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUpperTrainAdmin record = records.get(i);
+            SysUserView uv = CmTag.getUserById(record.getUserId());
+            Unit unit = CmTag.getUnit(record.getUnitId());
             String[] values = {
-                record.getType()+"",
-                            record.getUnitId()+"",
-                            record.getLeaderUserId()+"",
-                            record.getUserId()+""
+                            uv.getCode(),
+                            uv.getRealname(),
+                            unit!=null?unit.getName():""
             };
             valuesList.add(values);
         }

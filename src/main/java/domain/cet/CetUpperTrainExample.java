@@ -376,14 +376,10 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitAdmin(Set<Integer> adminUnitIdSet, Set<Integer> adminLeaderUserIdSet) {
+        public Criteria andUnitAdmin(Set<Integer> adminUnitIdSet) {
             String sql = "";
             if(adminUnitIdSet.size()>0){
                 sql += String.format("unit_id in(%s)", StringUtils.join(adminUnitIdSet, ","));
-            }
-            if(adminLeaderUserIdSet.size()>0){
-                if(adminUnitIdSet.size()>0) sql += " or ";
-                sql += String.format("user_id in(%s)", StringUtils.join(adminLeaderUserIdSet, ","));
             }
             addCriterion("(" + sql + ")");
             return (Criteria) this;

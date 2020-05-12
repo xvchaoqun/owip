@@ -29,7 +29,7 @@
         {label: '报备时所作单位及职务', name: 'title', width: 320, align: 'left'},
         {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
          <c:if test="${param.type=='list'}">
-         {label: '报备编号', name: 'code', width: 180, frozen: true},
+         {label: '报备编号', name: 'code', width: 250, frozen: true},
             {label: '报备日期', name: 'recordDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         {
                 label: '报备表', name: '_file', width: 120, formatter: function (cellvalue, options, rowObject) {

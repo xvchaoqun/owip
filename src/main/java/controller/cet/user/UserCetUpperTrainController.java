@@ -81,14 +81,12 @@ public class UserCetUpperTrainController extends CetBaseController {
             criteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
         }
 
-
         long count = cetUpperTrainMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<CetUpperTrain> records = cetUpperTrainMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
-
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

@@ -2,12 +2,15 @@ package service.cadre;
 
 import bean.ResumeRow;
 import controller.global.OpException;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import sys.utils.DateUtils;
 import sys.utils.PatternUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by lm on 2018/4/27.
@@ -33,7 +36,20 @@ public class CadreUtils {
         int row = 1;
         List<ResumeRow> resumeRows = new ArrayList<>();
         String[] lines = resume.split("\n");
-        for (String line : lines) {
+        List<String> lineList = new ArrayList<>();
+        for (int i = 0; i < lines.length; i++) {
+
+            if(StringUtils.isBlank(lines[i]))continue;
+
+            if(i>0 && !PatternUtils.match(".*[0-9]{4}\\.[0-9]{2}[\\-—]{1,2}([0-9]{4}\\.[0-9]{2})?([\\u4e00-\\u9fa5]{2})?\\s+.*", lines[i])){
+                int lastIdx = lineList.size()-1;
+                lineList.set(lastIdx, StringUtils.trimToEmpty(lineList.get(lastIdx))+StringUtils.trimToEmpty(lines[i]));
+            }else{
+                lineList.add(lines[i]);
+            }
+        }
+
+        for (String line : lineList) {
 
             // 读取每行经历
             line = line.trim();
@@ -46,7 +62,7 @@ public class CadreUtils {
                 newRow.row = row++;
 
                 // 提取其间经历
-                subLine = PatternUtils.withdraw(".*([（|\\(].*[\\-—]{1,2}.*[）|\\)]).*", line);
+                subLine = PatternUtils.withdraw(".*([（|\\(].*[0-9]{4}\\.[0-9]{2}[\\-—]{1,2}.*[）|\\)]).*", line);
                 if (StringUtils.isNotBlank(subLine)) {
                     line = line.replace(subLine, "");
                 }
@@ -59,14 +75,17 @@ public class CadreUtils {
             if (StringUtils.isNotBlank(subLine)) {
                 subLine = subLine.trim();
 
-                subLine = PatternUtils.withdraw("[（|\\(](.*[\\-—]{1,2}.*)[）|\\)]", subLine);
+                subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—]{1,2})?.*)[）|\\)]", subLine);
                 String[] subLines = subLine.split("；");
                 for (String sub : subLines) {
-                    sub = sub.trim().replace("[其|期]间[：|:]", "");
+
+                    //sub = sub.trim().replace("[其|期]间[：|:]", "");
+                    sub = RegExUtils.removePattern(sub.trim(), "[其|期]间[：|:]");
                     ResumeRow r = new ResumeRow();
                     r.fRow = newRow.row;
                     r.isEduWork = newRow.isEdu;
-                    parseResumeRow(r, sub, realname);
+                    if (parseResumeRow(r, sub, realname) == 1)
+                        continue;
                     resumeRows.add(r);
                 }
             }
@@ -75,15 +94,18 @@ public class CadreUtils {
         return resumeRows;
     }
 
-    private static void parseResumeRow(ResumeRow r, String content, String realname) {
+    private static int parseResumeRow(ResumeRow r, String content, String realname) {
+
+        if(StringUtils.isBlank(content)) return 0;
 
         if(PatternUtils.match("\\s*[（|\\(].*", content)) { // 如果是换行的其间经历， 先去掉最外层的括号
             content = PatternUtils.withdraw("[（|\\(](.*)[）|\\)]", content);
         }
 
-        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{2}[\\-—]{1,2}([0-9]{4}\\.[0-9]{2})?)", content);
+        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{2}([\\-—]{1,2}[0-9]{4}\\.[0-9]{2})?)", content);
         if(StringUtils.isBlank(_times)){
-            throw new OpException(realname + "第{0}行{1}简历读取时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
+            return 1;
+            //throw new OpException(realname + "第{0}行{1}简历读取时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
         List<String> times = PatternUtils.withdrawAll("([0-9]{4}\\.[0-9]{2})", _times);
         if (times.size() >= 2) {
@@ -97,9 +119,15 @@ public class CadreUtils {
             throw new OpException(realname + "第{0}行{1}简历读取起始时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
 
-        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}[\\-—]{1,2}([0-9]{4}\\.[0-9]{2})?\\s*(.*)",
-                    content, 2);
-        r.desc = desc;
+        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}([\\-—]{1,2}[0-9]{4}\\.[0-9]{2})?\\s*(.*)",
+                content, 2);
+        Pattern c = Pattern.compile("至今");
+        Matcher mc=c.matcher(desc);
+        if (mc.find()){
+            //System.out.println(mc.end());
+            desc = desc.substring(mc.end());
+        }
+        r.desc = desc.trim().replaceAll("(；|。|;)*", "");
 
         if(StringUtils.isBlank(desc)){
             throw new OpException(realname + "第{0}行{1}简历读取为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
@@ -108,7 +136,7 @@ public class CadreUtils {
         // 判断是否是学习经历
         r.isEdu = (StringUtils.containsAny(desc,
                 "学习", "进修", "毕业", "中专", "大专", "专科", "学士", "硕士", "博士", "学位")
-        || desc.endsWith("学生")|| desc.endsWith("本科")|| desc.endsWith("本科生")|| desc.endsWith("研究生"));
+        || r.desc.endsWith("学生")|| r.desc.endsWith("本科")|| r.desc.endsWith("本科生")|| r.desc.endsWith("研究生") || r.desc.endsWith("读大学"));
 
         // 博士后算工作经历
         if(r.isEdu && StringUtils.contains(desc, "博士后")){
@@ -116,5 +144,6 @@ public class CadreUtils {
         }
 
         //System.out.println("desc = " + desc + "      "  + r.isEdu);
+        return 0;
     }
 }

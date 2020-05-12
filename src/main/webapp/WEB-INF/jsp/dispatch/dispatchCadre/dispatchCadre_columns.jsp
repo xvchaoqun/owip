@@ -76,12 +76,6 @@
             {label: '纪实人员', name: 'recordUser.realname'},
             { label:'备注', width: 250, name: 'remark'}
             </c:if>
-            <c:if test="${param.type1 eq 'team'}">
-            { label: '所属班子', name: 'postTeam', width: 80, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '--';
-                return cellvalue=='dw'?"党委班子":"行政班子";
-            }}
-            </c:if>
             </c:if>
             </shiro:hasPermission>
         ]

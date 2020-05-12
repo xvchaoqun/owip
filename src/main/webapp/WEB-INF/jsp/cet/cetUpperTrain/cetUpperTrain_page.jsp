@@ -48,7 +48,7 @@
                     <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-success btn-sm"
                             data-url="${ctx}/cet/cetUpperTrain_au?type=${param.type}&addType=${addType}&upperType=${upperType}"
-                            data-width="900">
+                            data-width="${addType==CET_UPPER_TRAIN_ADD_TYPE_OW?'900':'650'}">
                         <i class="fa fa-plus"></i> 添加
                     </button>
                     <button id="modifyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -212,7 +212,6 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/cet/cetUpperTrain/cetUpperTrain_colModel.jsp?addType=${addType}"/>
 <script>
-    var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/cet/cetUpperTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

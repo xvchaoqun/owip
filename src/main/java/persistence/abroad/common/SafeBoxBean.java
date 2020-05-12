@@ -20,7 +20,9 @@ public class SafeBoxBean {
         String[] unitIdStrArray = unitIds.split(",");
         for (String unitIdStr : unitIdStrArray) {
             Unit unit = CmTag.getUnit(Integer.parseInt(unitIdStr));
-            unitNameList.add(unit.getName());
+            if(unit!=null) {
+                unitNameList.add(unit.getName());
+            }
         }
         return StringUtils.join(unitNameList, ",");
     }

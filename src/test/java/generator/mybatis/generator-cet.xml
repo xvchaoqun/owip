@@ -56,9 +56,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
+        <table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
                mapperName="cet.CetUpperTrainAdminMapper">
-        </table>-->
+        </table>
 
        <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
         </table>
@@ -200,8 +200,8 @@
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
-        </table>
+        <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
+        </table>-->
         <!--<table tableName="cet_code_wx_sign" domainObjectName="cet.CetCodeWxSign" mapperName="cet.CetCodeWxSignMapper">
         </table>-->
         <!--<table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"

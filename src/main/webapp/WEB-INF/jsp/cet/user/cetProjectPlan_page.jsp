@@ -45,7 +45,8 @@
                             <c:if test="${cetProjectObj.shouldFinishPeriod!=null}">
                             <c:set var="progress" value="0%"/>
                             <c:if test="${cetProjectObj.shouldFinishPeriod>0 && cetProjectObj.finishPeriod>0}">
-                                <fmt:formatNumber var="progress" value="${(cm:divide(cetProjectObj.finishPeriod, cetProjectObj.shouldFinishPeriod, 3))}"
+                                <fmt:formatNumber var="progress"
+                                                  value="${(cm:divide(cetProjectObj.finishPeriod>cetProjectObj.shouldFinishPeriod?cetProjectObj.shouldFinishPeriod:cetProjectObj.finishPeriod, cetProjectObj.shouldFinishPeriod, 3))}"
                                                   type="percent" pattern="#0.0%"/>
                             </c:if>
                             <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">

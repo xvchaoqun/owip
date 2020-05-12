@@ -277,7 +277,10 @@
             },
             { label: '完成百分比<br/>(线下)',name: '_finishOffline',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.periodOffline)==0) return '--'
-                var progress = Math.formatFloat(getFinishPeriodOffline(rowObject)*100/rowObject.periodOffline, 1) + "%";
+                    var a = getFinishPeriodOffline(rowObject);
+                var b = rowObject.periodOffline;
+                   a = (a>b?b:a)
+                var progress = Math.formatFloat(a*100/b, 1) + "%";
                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
@@ -290,7 +293,12 @@
             },
             { label: '完成百分比<br/>(网络)',name: '_finishOnline',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.periodOnline)==0) return '--'
-                var progress = Math.formatFloat(getFinishPeriodOnline(rowObject)*100/rowObject.periodOnline, 1) + "%";
+
+                     var a = getFinishPeriodOffline(rowObject);
+                var b = rowObject.periodOffline;
+                   a = (a>b?b:a)
+
+                var progress = Math.formatFloat(a*100/b, 1) + "%";
                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},

@@ -3,17 +3,14 @@ package service.cet;
 import domain.cet.CetUpperTrainAdmin;
 import domain.cet.CetUpperTrainAdminExample;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysUserService;
-import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,44 +20,6 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-
-    // 根据培训类型和添加类型，获取管理的单位
-    public Set<Integer> adminUnitIds(byte upperType, byte addType){
-        
-        List<Unit> upperUnits = null;
-        if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
-            int currentUserId = ShiroHelper.getCurrentUserId();
-            Set<Integer> adminUnitIdSet = adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = adminLeaderUserIdSet(upperType, currentUserId);
-            if(adminLeaderUserIdSet.size()>0){
-                // 如果是校领导管理员，从所有的单位中选
-                upperUnits = iCetMapper.findUpperUnits(upperType);
-            }else if(adminUnitIdSet.size()>0){
-                upperUnits = new ArrayList<>();
-                for (Integer adminUintId : adminUnitIdSet) {
-                    Unit unit = CmTag.getUnit(adminUintId);
-                    if(unit!=null){
-                        upperUnits.add(unit);
-                    }
-                }
-            }else{
-                return null;
-            }
-
-        } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
-            upperUnits = iCetMapper.findUpperUnits(upperType);
-        }else {
-            return null;
-        }
-        Set<Integer> unitIdList = new HashSet<>();
-        if(upperUnits!=null){
-            for (Unit unit : upperUnits) {
-                unitIdList.add(unit.getId());
-            }
-        }
-        
-        return unitIdList;
-    }
     
     // 管理的单位
     public Set<Integer> adminUnitIdSet(byte upperType, int userId){
@@ -75,21 +34,6 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
         }
 
         return adminUnitIds;
-    }
-
-    // 管理的校领导
-    public Set<Integer> adminLeaderUserIdSet(byte upperType, int userId){
-
-        CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-        example.createCriteria().andUpperTypeEqualTo(upperType)
-                .andUserIdEqualTo(userId).andLeaderUserIdIsNotNull();
-        List<CetUpperTrainAdmin> cetUpperTrainAdmins = cetUpperTrainAdminMapper.selectByExample(example);
-        Set<Integer> adminLeaderUserIds = new HashSet<>();
-        for (CetUpperTrainAdmin cetUpperTrainAdmin : cetUpperTrainAdmins) {
-            adminLeaderUserIds.add(cetUpperTrainAdmin.getLeaderUserId());
-        }
-
-        return adminLeaderUserIds;
     }
 
     @Transactional

@@ -135,13 +135,13 @@
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadrePost_import?isMainPost=1">
-                                                        <i class="fa fa-file-excel-o"></i> 导入第一主职情况</a>
+                                                        <i class="fa fa-file-excel-o"></i> 干部任职情况（第一主职）</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadrePost_importWorkTime">
-                                                        <i class="fa fa-file-excel-o"></i> 导入第一主职任职时间</a>
+                                                        <i class="fa fa-file-excel-o"></i> 导入任职时间（第一主职）</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
@@ -153,13 +153,13 @@
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadrePost_import?isMainPost=0">
-                                                        <i class="fa fa-file-excel-o"></i> 导入干部兼职情况</a>
+                                                        <i class="fa fa-file-excel-o"></i> 导入干部任职情况（兼职）</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadreEva_import?isMainPost=0">
-                                                        <i class="fa fa-file-excel-o"></i> 导入考核信息</a>
+                                                        <i class="fa fa-file-excel-o"></i> 导入年度考核结果</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>

@@ -83,7 +83,7 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/dr/drOnlineNotice_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '模板名称',name: 'name', width: 300}
+                { label: '模板名称',name: 'name', width: 300, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -182,7 +182,6 @@ public class DispatchCadreController extends DispatchBaseController {
                                     Integer unitId,
                                    @RequestParam(required = false, value = "unitPostIds")Integer[] unitPostIds,
                                    Boolean asc,
-                                   String postTeam,
                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeStart,
                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeEnd,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -259,10 +258,7 @@ public class DispatchCadreController extends DispatchBaseController {
         if(unitPostIds!=null){
             criteria.andUnitPostIdIn(Arrays.asList(unitPostIds));
         }
-        
-        if(StringUtils.isNotBlank(postTeam)){
-            criteria.andPostTeamEqualTo(postTeam);
-        }
+
         if(workTimeStart!=null){
             criteria.andWorkTimeGreaterThanOrEqualTo(workTimeStart);
         }

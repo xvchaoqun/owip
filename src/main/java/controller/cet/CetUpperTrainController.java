@@ -187,15 +187,14 @@ public class CetUpperTrainController extends CetBaseController {
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if (adminUnitIdSet.size() == 0 && adminLeaderUserIdSet.size() == 0) {
+            if (adminUnitIdSet.size() == 0) {
                 throw new UnauthorizedException();
             }
 
             SecurityUtils.getSubject().checkRole(upperType == CetConstants.CET_UPPER_TRAIN_UPPER
                     ? RoleConstants.ROLE_CET_ADMIN_UPPER : RoleConstants.ROLE_CET_ADMIN_UNIT);
-            criteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
-            checkCriteria.andUnitAdmin(adminUnitIdSet, adminLeaderUserIdSet);
+            criteria.andUnitAdmin(adminUnitIdSet);
+            checkCriteria.andUnitAdmin(adminUnitIdSet);
         } else {
             criteria.andIdIsNull();
         }
@@ -235,7 +234,6 @@ public class CetUpperTrainController extends CetBaseController {
                                    @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                    MultipartFile _word, MultipartFile _pdf,
                                    Boolean check,// 审批
-                                   Integer upperTrainTypeId,
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
         byte upperType = record.getUpperType();
@@ -248,7 +246,6 @@ public class CetUpperTrainController extends CetBaseController {
             oldRecord = cetUpperTrainMapper.selectByPrimaryKey(id);
             record.setAddType(null);
         }
-
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
 
@@ -264,24 +261,20 @@ public class CetUpperTrainController extends CetBaseController {
             }
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
 
-            if (!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
+            if (ShiroHelper.isPermitted("cetUpperTrain:edit")) {
                 Integer currentUserId = ShiroHelper.getCurrentUserId();
                 Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
                 if (id != null) {
                     Integer oldUnitId = oldRecord.getUnitId();
-                    Integer oldLeaderUserId = oldRecord.getUserId();
-                    if ((oldUnitId == null || !adminUnitIdSet.contains(oldUnitId))
-                            && (oldLeaderUserId == null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
-                        throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
+                    if (oldUnitId == null || !adminUnitIdSet.contains(oldUnitId)) {
+                        throw new UnauthorizedException(); // 非单位管理员
                     }
                 } else {
                     Integer unitId = record.getUnitId();
                     List<Integer> leaderUserIds = userIds == null ? new ArrayList<>() : Arrays.asList(userIds);
-                    if ((unitId != null || leaderUserIds.size() > 0) && (unitId == null || !adminUnitIdSet.contains(unitId))
-                            && (leaderUserIds.size() == 0 || !adminLeaderUserIdSet.containsAll(leaderUserIds))) {
-                        throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
+                    if ((unitId != null || leaderUserIds.size() > 0) && (unitId == null || !adminUnitIdSet.contains(unitId))) {
+                        throw new UnauthorizedException(); // 非单位管理员
                     }
                 }
 
@@ -290,6 +283,7 @@ public class CetUpperTrainController extends CetBaseController {
 
                 record.setIsValid(null);
                 if (id == null) {
+                    // 单位和组织部提交都直接通过，个人提交需要单位审批
                     record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_PASS);
                 } else {
                     if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
@@ -317,18 +311,13 @@ public class CetUpperTrainController extends CetBaseController {
 
             boolean isUnitAdmin = true;
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             Integer unitId = record.getUnitId(); // 派出单位
-            Integer leaderUserId = record.getUserId(); // 干部
-            if ((unitId == null || !adminUnitIdSet.contains(unitId))
-                    && (leaderUserId == null || !adminLeaderUserIdSet.contains(leaderUserId))) {
+            if (unitId == null || !adminUnitIdSet.contains(unitId)) {
                 isUnitAdmin = false;
             }
             if (id != null) {
                 Integer oldUnitId = oldRecord.getUnitId();
-                Integer oldLeaderUserId = oldRecord.getUserId();
-                if ((oldUnitId == null || !adminUnitIdSet.contains(oldUnitId))
-                        && (oldLeaderUserId == null || !adminLeaderUserIdSet.contains(oldLeaderUserId))) {
+                if (oldUnitId == null || !adminUnitIdSet.contains(oldUnitId)) {
                     isUnitAdmin = false;
                 }
             }
@@ -386,6 +375,8 @@ public class CetUpperTrainController extends CetBaseController {
             CetUpperTrain cetUpperTrain = cetUpperTrainMapper.selectByPrimaryKey(id);
             upperType = cetUpperTrain.getUpperType();
             modelMap.put("cetUpperTrain", cetUpperTrain);
+
+            modelMap.put("sysUser", CmTag.getUserById(cetUpperTrain.getUserId()));
         }
         //modelMap.put("type", BooleanUtils.isTrue(type) ? 1 : 0);
         modelMap.put("upperType", upperType);
@@ -394,12 +385,7 @@ public class CetUpperTrainController extends CetBaseController {
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT) {
             int currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if (adminLeaderUserIdSet.size() > 0) {
-                // 如果是校领导管理员，从所有的单位中选
-                List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
-                modelMap.put("upperUnits", upperUnits);
-            } else if (adminUnitIdSet.size() > 0) {
+            if (adminUnitIdSet.size() > 0) {
                 List<Unit> upperUnits = new ArrayList<>();
                 for (Integer adminUintId : adminUnitIdSet) {
                     Unit unit = CmTag.getUnit(adminUintId);
@@ -461,10 +447,8 @@ public class CetUpperTrainController extends CetBaseController {
             Integer leaderUserId = oldRecord.getUserId();
 
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
-            if ((unitId == null || !adminUnitIdSet.contains(unitId))
-                    && (leaderUserId == null || !adminLeaderUserIdSet.contains(leaderUserId))) {
-                throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
+            if (unitId == null || !adminUnitIdSet.contains(unitId)) {
+                throw new UnauthorizedException(); // 非单位管理员
             }
 
             if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
@@ -528,15 +512,9 @@ public class CetUpperTrainController extends CetBaseController {
 
             Integer currentUserId = ShiroHelper.getCurrentUserId();
             Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-            Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
             CadreViewExample example = new CadreViewExample();
-            if (adminUnitIdSet.size() > 0 && adminLeaderUserIdSet.size() > 0) {
+            if (adminUnitIdSet.size() > 0) {
                 example.createCriteria().andUnitIdIn(new ArrayList<>(adminUnitIdSet));
-                example.or().andUserIdIn(new ArrayList<>(adminLeaderUserIdSet));
-            } else if (adminUnitIdSet.size() > 0) {
-                example.createCriteria().andUnitIdIn(new ArrayList<>(adminUnitIdSet));
-            } else if (adminLeaderUserIdSet.size() > 0) {
-                example.createCriteria().andUserIdIn(new ArrayList<>(adminLeaderUserIdSet));
             } else {
                 example.createCriteria().andIdIsNull();
             }

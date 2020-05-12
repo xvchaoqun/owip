@@ -34,7 +34,13 @@ public class CetUpperTrainService extends CetBaseMapper {
     @Transactional
     public void insertSelective(CetUpperTrain record, Integer[] userIds){
 
-        if(userIds==null || userIds.length==0) return;
+        if(userIds==null || userIds.length==0){
+
+            if(record.getUserId()==null) return;
+
+            userIds = new Integer[1];
+            userIds[0] = record.getUserId();
+        }
 
         int addUserId = ShiroHelper.getCurrentUserId();
         Date now = new Date();
@@ -89,11 +95,9 @@ public class CetUpperTrainService extends CetBaseMapper {
                 }
 
                 Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-                Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
-                if ((unitId==null || !adminUnitIdSet.contains(unitId))
-                        && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
-                    throw new UnauthorizedException(); // 非单位管理员，也不是校领导管理员
+                if (unitId==null || !adminUnitIdSet.contains(unitId)){
+                    throw new UnauthorizedException(); // 非单位管理员
                 }
             }
         }else if(addType==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF){
@@ -106,10 +110,8 @@ public class CetUpperTrainService extends CetBaseMapper {
                         throw new OpException("党委组织部已确认，不允许删除。");
                     }
                     Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
-                    Set<Integer> adminLeaderUserIdSet = cetUpperTrainAdminService.adminLeaderUserIdSet(upperType, currentUserId);
 
-                    if ((unitId==null || !adminUnitIdSet.contains(unitId))
-                            && (leaderUserId==null || !adminLeaderUserIdSet.contains(leaderUserId))){
+                    if (unitId==null || !adminUnitIdSet.contains(unitId)){
 
                         if(currentUserId == oldRecord.getUserId()){ // 是单位管理员，但是是删除本人的记录
 

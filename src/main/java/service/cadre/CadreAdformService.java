@@ -31,6 +31,7 @@ import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.global.CacheHelper;
+import service.global.CacheService;
 import service.party.MemberService;
 import service.sys.AvatarService;
 import service.sys.SysConfigService;
@@ -58,6 +59,8 @@ public class CadreAdformService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private CacheService cacheService;
     @Autowired
     private FreemarkerService freemarkerService;
     @Autowired
@@ -720,6 +723,7 @@ public class CadreAdformService extends BaseMapper {
         // 姓名去掉所有的空格
         String realname = StringUtil.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/XingMing"));
         String idcard = XmlUtils.getNodeText(doc, "//Person/ShenFenZheng");
+        String birth = XmlUtils.getNodeText(doc,"//Person/ChuShengNianYue");
 
         CadreView cv = null;
         {
@@ -734,7 +738,16 @@ public class CadreAdformService extends BaseMapper {
             if (size == 1) {
                 cv = cadreViews.get(0);
             } else if (size > 1) {
-                throw new OpException("存在{0}个姓名为{1}的干部，无法导入。", size, realname);
+                int count = 0;
+                for (CadreView cadreView : cadreViews) {
+                    String _birth = DateUtils.formatDate(cadreView.getBirth(), "yyyyMM");
+                    if (_birth.equals(birth)){
+                        cv = cadreView;
+                        count++;
+                    }
+                }
+                if (count > 1)
+                    throw new OpException("存在{0}个姓名为{1}的干部，无法导入。", count, realname);
             }
         }
 
@@ -810,6 +823,7 @@ public class CadreAdformService extends BaseMapper {
         if (importResume) {
             // 导入简历部分
             importResume(cadreId, resume, realname);
+            cadreEduService.checkHighEdu(cadreId, true);
         }
 
         sysUserInfoMapper.updateByPrimaryKeySelective(ui);
@@ -876,6 +890,13 @@ public class CadreAdformService extends BaseMapper {
                 cadreFamilyMapper.updateByPrimaryKeySelective(cf);
             }
         }
+
+        //导入奖惩情况
+        /*String reward = XmlUtils.getNodeText(doc, "//Person/JiangChengQingKuang");
+        if (StringUtils.isNotBlank(reward)){
+            //System.out.println(reward);
+            importReward(cadreId, reward);
+        }*/
 
         // 导入年度绩效考核结果
         String ces = XmlUtils.getNodeText(doc, "//Person/NianDuKaoHeJieGuo");
@@ -946,6 +967,61 @@ public class CadreAdformService extends BaseMapper {
         is.close();
     }
 
+    /*
+        解析中组部任免审批表的奖惩情况
+    * */
+    @Transactional
+    public void importReward(int cadreId, String reward) {
+
+        CadreRewardExample example = new CadreRewardExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        cadreRewardMapper.deleteByExample(example);
+
+        int row = 1;
+        String name = null;
+        Date date = null;
+        String[] lines = reward.split("\n|；");
+        for (String line : lines) {
+            Boolean flag = false;
+            if (StringUtils.isBlank(line)) continue;
+            line = line.replaceAll("；|。", "").trim();
+
+            Pattern pattern = Pattern.compile("^([1|2]\\d{3})[^\\d]+(\\.|年)?((0-9){1,2})?(月)?.*");
+            Matcher matcher = pattern.matcher(line);
+
+            if (matcher.find()){
+                line = matcher.group();
+                flag = true;
+            }else if (flag == false){
+                Pattern pattern1 = Pattern.compile(".*([1|2]\\d{3})[^\\d]+(\\.|年)?((0-9){1,2})?(月)?.*");
+                Matcher matcher1 = pattern1.matcher(line);
+                if (matcher1.find())
+                    line = matcher1.group();
+            }
+
+            Pattern p = Pattern.compile("(\\d{4})(\\.|年)?((\\d){1,2})?(月)?");
+            Matcher m = p.matcher(line);
+            if (m.find()) {
+                //System.out.println(m.end());
+                name = flag ? line.substring(m.end()).trim() : line.trim();
+                date = DateUtils.parseStringToDate(m.group());
+            }
+
+            name = (name == null || name == "") ? line : name;
+
+            CadreReward record = new CadreReward();
+            record.setCadreId(cadreId);
+            record.setRewardTime(date);
+            record.setRewardLevel(CmTag.getMetaTypeByCode("mc_reward_dtj").getId());
+            record.setRewardType(CadreConstants.CADRE_REWARD_TYPE_OTHER);
+            if (name.length() >= 200)
+                record.setRemark(name) ;
+            else
+                record.setName(name);
+            cadreRewardService.insertSelective(record);
+        }
+    }
+
     /**
      * 导入中组部任免审批表的简历部分
      *
@@ -966,6 +1042,7 @@ public class CadreAdformService extends BaseMapper {
                 CadreEdu cadreEdu = new CadreEdu();
                 cadreEdu.setCadreId(cadreId);
 
+                Byte degreeType = null;
                 String degree = null;
                 Integer eduId = null;
                 if (StringUtils.contains(resumeRow.desc, "中专")) {
@@ -978,16 +1055,20 @@ public class CadreAdformService extends BaseMapper {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_yjskcb").getId();
                 } else if (StringUtils.contains(resumeRow.desc, "博士")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_doctor").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_BS;
                     degree = "博士学位";
                 } else if (StringUtils.contains(resumeRow.desc, "同等")
                         && StringUtils.contains(resumeRow.desc, "硕士")) { // 硕士同等学历、同等学历硕士
                     eduId = CmTag.getMetaTypeByCode("mt_edu_sstd").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
                 } else if (StringUtils.containsAny(resumeRow.desc, "硕士", "研究生")) {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_master").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_SS;
                     degree = "硕士学位";
                 } else {
                     eduId = CmTag.getMetaTypeByCode("mt_edu_bk").getId();
+                    degreeType = SystemConstants.DEGREE_TYPE_XS;
                     degree = "学士学位";
                 }
 
@@ -1022,9 +1103,13 @@ public class CadreAdformService extends BaseMapper {
                 }
                 cadreEdu.setLearnStyle(learnStyle);
 
-                cadreEdu.setHasDegree(cadreEdu.getIsGraduated());
+                if (eduId == CmTag.getMetaTypeByCode("mt_edu_zz").getId() || eduId == CmTag.getMetaTypeByCode("mt_edu_zk").getId())
+                    cadreEdu.setHasDegree(false);
+                else
+                    cadreEdu.setHasDegree(cadreEdu.getIsGraduated());
                 if (cadreEdu.getHasDegree()) {
                     cadreEdu.setDegree(degree);
+                    cadreEdu.setDegreeType(degreeType);
                     if (schoolType != CadreConstants.CADRE_SCHOOL_TYPE_ABROAD) {
                         cadreEdu.setDegreeCountry("中国");
                     }

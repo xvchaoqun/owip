@@ -54,7 +54,8 @@ public class CadreFamilyService extends BaseMapper {
 
     public void addCheck(int cadreId, int title) {
 
-        MetaType titleType = CmTag.getMetaType(title);
+        // 任免审批表导入时，不存在的称谓插入后，此处不可使用缓存
+        MetaType titleType = metaTypeMapper.selectByPrimaryKey(title);
         boolean isUnique = BooleanUtils.isTrue(titleType.getBoolAttr());
 
         if (isUnique) {

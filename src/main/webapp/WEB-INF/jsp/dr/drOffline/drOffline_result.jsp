@@ -49,6 +49,12 @@
                                                 <textarea required class="form-control noEnter" name="scope">${drOffline.scope}</textarea>
                                             </div>
                                         </div>
+                                        <%--<div class="form-group">
+                                            <label class="col-xs-5 control-label">谈话内容</label>
+                                            <div class="col-xs-7">
+                                                <input class="form-control" type="file" name="_file"/>
+                                            </div>
+                                        </div>--%>
                                         <div class="form-group" style="padding: 5px 10px;">
                                         <table class="table table-striped table-bordered
                                                 table-condensed table-center table-unhover2">
@@ -134,6 +140,7 @@
                                             <c:import url="/drOffline_result_voterTypes?offlineId=${drOffline.id}"/>
                                         </div>
                                         </div>
+
                                     </form>
                                 </div>
                                 <div class="modal-footer center">
@@ -179,6 +186,12 @@
     </div>
 </div>
 <script>
+
+    $.fileInput($('input[type=file]'),{
+        no_file: '请上传pdf或word文件...',
+        allowExt: ['pdf', 'doc', 'docx'],
+        allowMime: ['application/pdf', 'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    });
 
     function needVoterTypeChange(){
         if($("#resultForm input[name=needVoterType]").bootstrapSwitch("state")) {

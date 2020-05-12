@@ -4,6 +4,7 @@
 <c:set var="CET_UPPER_TRAIN_UPPER" value="<%=CetConstants.CET_UPPER_TRAIN_UPPER%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <script>
+  var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
   var colModel = [
    <c:if test="${cls==3}">
     {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
@@ -23,8 +24,8 @@
     { label: '参训人类型', name: 'upperTrainTypeId', formatter: function (cellvalue, options, rowObject) {
               if(cellvalue==null)return '--'
               return traineeTypeMap[cellvalue].name
-    }, width:180},
-    {label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
+    }},
+    /*{label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},*/
     {
       label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {

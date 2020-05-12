@@ -17,7 +17,6 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="post_team" jdbcType="VARCHAR" property="postTeam" />
     <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
@@ -58,8 +57,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, dispatch_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
-    post, post_type, admin_level, unit_id, remark, record_id, sort_order, post_team, 
-    category, year, pub_time, work_time, dispatch_type_id, code, has_checked, record_user_id
+    post, post_type, admin_level, unit_id, remark, record_id, sort_order, category, year, 
+    pub_time, work_time, dispatch_type_id, code, has_checked, record_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchCadreViewExample" resultMap="BaseResultMap">
     select

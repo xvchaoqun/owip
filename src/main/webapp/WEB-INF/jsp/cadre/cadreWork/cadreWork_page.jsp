@@ -41,7 +41,16 @@
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加其间工作</a>
                 </shiro:hasPermission>
-
+                <shiro:hasPermission name="cadreWork:del">
+                    <button data-url="${ctx}/cadreWork_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid_cadreWork"
+                            data-querystr="cadreId=${param.cadreId}"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                </shiro:hasPermission>
                     <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏其间工作经历 </span>--%>
             </div>
         </shiro:lacksPermission>
