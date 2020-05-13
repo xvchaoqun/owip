@@ -11,7 +11,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <properties>
-        <generator.mybatis.modal>dispatch</generator.mybatis.modal>
+        <generator.mybatis.modal>cadre</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>

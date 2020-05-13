@@ -1100,11 +1100,9 @@ public class CadreController extends BaseController {
                     doubleUnitIds.add(unit.getId());
                 }
 
-                if (doubleUnitIds.size() == 0) {
-                    throw new OpException("第{0}行双肩挑单位编码至少需要填写一个", row);
+                if (doubleUnitIds.size() > 0) {
+                    record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
                 }
-
-                record.setDoubleUnitIds(StringUtils.join(doubleUnitIds, ","));
             }
 
             record.setRemark(StringUtils.trimToNull(xlsRow.get(remarkCol)));
