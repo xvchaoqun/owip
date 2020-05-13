@@ -74,7 +74,7 @@ public class CadreWorkService extends BaseMapper {
             resume.setIsWork(true);
             resume.setStartDate(cadreWork.getStartTime());
             resume.setEndDate(cadreWork.getEndTime());
-            resume.setDetail(cadreWork.getDetail());
+            resume.setDetail(String.format("%s%s", cadreWork.getDetail() , StringUtils.isNotBlank(cadreWork.getNote()) ? String.format("（%s）", cadreWork.getNote()) : ""));
 
             List<CadreWork> subCadreWorks = cadreWork.getSubCadreWorks();
             if (subCadreWorks != null) {

@@ -66,6 +66,10 @@
                     <td data-code="remark">备注</td>
                     <td class="bg-left">${modify.remark}</td>
                 </tr>
+                <tr>
+                    <td data-code="note">补充说明</td>
+                    <td class="bg-left" colspan="5">${modify.note}</td>
+                </tr>
             </table>
         </div>
     </div>

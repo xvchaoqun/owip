@@ -48,6 +48,8 @@ public class CadreWork implements Serializable {
 
     private Boolean isCadre;
 
+    private String note;
+
     private String remark;
 
     private Byte status;
@@ -140,6 +142,14 @@ public class CadreWork implements Serializable {
 
     public void setIsCadre(Boolean isCadre) {
         this.isCadre = isCadre;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 
     public String getRemark() {

@@ -41,7 +41,7 @@ public class CadreUtils {
 
             if(StringUtils.isBlank(lines[i]))continue;
 
-            if(i>0 && !PatternUtils.match(".*[0-9]{4}\\.[0-9]{2}[\\-—]{1,2}([0-9]{4}\\.[0-9]{2})?([\\u4e00-\\u9fa5]{2})?\\s+.*", lines[i])){
+            if(i>0 && !PatternUtils.match(".*[0-9]{4}\\.[0-9]{2}[\\-—～－]{1,2}([0-9]{4}\\.[0-9]{2})?([\\u4e00-\\u9fa5]{2})?\\s+.*", lines[i])){
                 int lastIdx = lineList.size()-1;
                 lineList.set(lastIdx, StringUtils.trimToEmpty(lineList.get(lastIdx))+StringUtils.trimToEmpty(lines[i]));
             }else{
@@ -62,7 +62,7 @@ public class CadreUtils {
                 newRow.row = row++;
 
                 // 提取其间经历
-                subLine = PatternUtils.withdraw(".*([（|\\(].*[0-9]{4}\\.[0-9]{2}[\\-—]{1,2}.*[）|\\)]).*", line);
+                subLine = PatternUtils.withdraw(".*([（|\\(].*[0-9]{4}\\.[0-9]{1,2}[\\-—～－]{0,2}.*[）|\\)]).*", line);
                 if (StringUtils.isNotBlank(subLine)) {
                     line = line.replace(subLine, "");
                 }
@@ -75,7 +75,7 @@ public class CadreUtils {
             if (StringUtils.isNotBlank(subLine)) {
                 subLine = subLine.trim();
 
-                subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—]{1,2})?.*)[）|\\)]", subLine);
+                subLine = PatternUtils.withdraw("[（|\\(](.*[0-9]{4}(\\.[0-9]{2})?([\\-—～－]{1,2})?.*)[）|\\)]", subLine);
                 String[] subLines = subLine.split("；");
                 for (String sub : subLines) {
 
@@ -84,8 +84,10 @@ public class CadreUtils {
                     ResumeRow r = new ResumeRow();
                     r.fRow = newRow.row;
                     r.isEduWork = newRow.isEdu;
-                    if (parseResumeRow(r, sub, realname) == 1)
+                    if(parseResumeRow(r, sub, realname) == 1){
+                        newRow.note = sub;
                         continue;
+                    }
                     resumeRows.add(r);
                 }
             }
@@ -102,7 +104,7 @@ public class CadreUtils {
             content = PatternUtils.withdraw("[（|\\(](.*)[）|\\)]", content);
         }
 
-        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{2}([\\-—]{1,2}[0-9]{4}\\.[0-9]{2})?)", content);
+        String _times = PatternUtils.withdraw("([0-9]{4}\\.[0-9]{2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{2})?)", content);
         if(StringUtils.isBlank(_times)){
             return 1;
             //throw new OpException(realname + "第{0}行{1}简历读取时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
@@ -119,7 +121,7 @@ public class CadreUtils {
             throw new OpException(realname + "第{0}行{1}简历读取起始时间为空", r.row==null?r.fRow:r.row, r.row==null?"其间":"");
         }
 
-        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}([\\-—]{1,2}[0-9]{4}\\.[0-9]{2})?\\s*(.*)",
+        String desc = PatternUtils.withdraw("[0-9]{4}\\.[0-9]{2}([\\-—～－]{1,2}[0-9]{4}\\.[0-9]{2})?\\s*(.*)",
                 content, 2);
         Pattern c = Pattern.compile("至今");
         Matcher mc=c.matcher(desc);

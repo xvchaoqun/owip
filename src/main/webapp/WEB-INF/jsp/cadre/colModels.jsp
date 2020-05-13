@@ -440,6 +440,7 @@
             })).join("，")
         }},
         {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '补充说明', name: 'note', width: 255},
         {label: '备注', name: 'remark', width: 150},
         {
             label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {

@@ -109,6 +109,7 @@
                 return cellvalue ? "是" : "否"
             }
             },
+            {label: '补充说明', name: 'note', width: 255},
             {label: '备注', name: 'remark', width: 150},
 
             {

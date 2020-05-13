@@ -1147,6 +1147,7 @@ public class CadreAdformService extends BaseMapper {
                 cadreWork.setStartTime(resumeRow.start);
                 cadreWork.setEndTime(resumeRow.end);
                 cadreWork.setDetail(resumeRow.desc);
+                cadreWork.setNote(resumeRow.note);
 
                 int workType = CmTag.getMetaTypeByCode("mt_cadre_work_type_jg").getId();
                 if (StringUtils.containsAny(resumeRow.desc, "学院", "系", "专业", "教师", "讲师", "助教", "教授")) {

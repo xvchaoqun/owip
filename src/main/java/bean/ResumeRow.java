@@ -15,6 +15,8 @@ public class ResumeRow {
     public Date end;
     // 文字描述部分
     public String desc;
+    //工作经历的补充说明
+    public String note;
     // 是否学习工作经历，否则工作经历
     public boolean isEdu;
     // 所属主要工作经历或学习经历的行号

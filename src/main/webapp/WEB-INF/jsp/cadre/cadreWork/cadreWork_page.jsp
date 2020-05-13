@@ -306,18 +306,19 @@
                         id: rowObject.id,
                         subWorkCount: rowObject.subWorkCount
                     });
-                }, width: 130
+                }, width: 130,frozen:true
                 },
-                {label: '开始日期', name: 'startTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-                {label: '结束日期', name: 'endTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-                {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
-                {label: '工作类型', name: 'workTypes', align:'left', width: 140, formatter: function (cellvalue, options, rowObject) {
+                {label: '开始日期', name: 'startTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'},frozen:true},
+                {label: '结束日期', name: 'endTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'},frozen:true},
+                {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left',frozen:true},
+                {label: '工作类型', name: 'workTypes', align:'left', width: 130, formatter: function (cellvalue, options, rowObject) {
                     if($.trim(cellvalue)=='') return '--'
                     return ($.map(cellvalue.split(","), function(workType){
                         return $.jgrid.formatter.MetaType(workType);
                     })).join("，")
                 }},
-                {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
+                {label: '是否担任领导职务', name: 'isCadre', width: 130, formatter: $.jgrid.formatter.TRUEFALSE},
+                {label: '补充说明', name: 'note', width: 200},
                 {label: '备注', name: 'remark', width: 150},
                 {
                     label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
