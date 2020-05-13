@@ -1,3 +1,11 @@
+
+2020.5.13
+西北工大-- 北师大
+
+ALTER TABLE `cadre_work`
+	ADD COLUMN `note` VARCHAR(100) NULL DEFAULT NULL COMMENT '补充说明' AFTER `is_cadre`;
+
+
 2020.5.12
 -- 更新dispatch_cadre_view
 

@@ -400,8 +400,15 @@ public class CetUpperTrainController extends CetBaseController {
 
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW
                 || addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF) {
-            List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
-            modelMap.put("upperUnits", upperUnits);
+
+            if(ShiroHelper.isPermitted("cet:menu:dispatch")) {
+
+                modelMap.put("upperUnits", unitService.findAll().values());
+            }else {
+
+                List<Unit> upperUnits = iCetMapper.findUpperUnits(upperType);
+                modelMap.put("upperUnits", upperUnits);
+            }
         } else {
             throw new UnauthorizedException();
         }

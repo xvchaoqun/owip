@@ -68,6 +68,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		</c:if>
+		<c:if test="${!isMultiSelect}">
 		<div class="form-group">
 			<label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
 			<div class="col-xs-6">
@@ -84,7 +85,7 @@ pageEncoding="UTF-8"%>
 				</script>
 			</div>
 		</div>
-
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"><span class="star">*</span>年度</label>
 				<div class="col-xs-6">
@@ -215,7 +216,7 @@ pageEncoding="UTF-8"%>
 								data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择单位">
 							<option></option>
 							<c:forEach var="unit" items="${upperUnits}">
-								<option value="${unit.id}">${unit.name}</option>
+								<option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
 							</c:forEach>
 						</select>
 						<script>
@@ -233,7 +234,7 @@ pageEncoding="UTF-8"%>
 						<select required data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
 							<option></option>
 							<c:forEach var="unit" items="${upperUnits}">
-								<option value="${unit.id}">${unit.name}</option>
+								<option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
 							</c:forEach>
 						</select>
 						<script>

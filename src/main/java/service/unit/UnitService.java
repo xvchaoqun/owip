@@ -241,7 +241,7 @@ public class UnitService extends BaseMapper {
 
         UnitExample example = new UnitExample();
         example.createCriteria().andIsDeletedEqualTo(false);
-        example.setOrderByClause("sort_order asc");
+        example.setOrderByClause("status asc, sort_order asc");
         List<Unit> unites = unitMapper.selectByExample(example);
         Map<Integer, Unit> map = new LinkedHashMap<>();
         for (Unit unit : unites) {
