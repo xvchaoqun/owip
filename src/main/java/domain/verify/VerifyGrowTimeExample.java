@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class VerifyJoinPartyTimeExample {
+public class VerifyGrowTimeExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public VerifyJoinPartyTimeExample() {
+    public VerifyGrowTimeExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -252,123 +252,123 @@ public class VerifyJoinPartyTimeExample {
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeIsNull() {
-            addCriterion("old_join_time is null");
+        public Criteria andOldGrowTimeIsNull() {
+            addCriterion("old_grow_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeIsNotNull() {
-            addCriterion("old_join_time is not null");
+        public Criteria andOldGrowTimeIsNotNull() {
+            addCriterion("old_grow_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("old_join_time =", value, "oldJoinTime");
+        public Criteria andOldGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("old_grow_time =", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("old_join_time <>", value, "oldJoinTime");
+        public Criteria andOldGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("old_grow_time <>", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("old_join_time >", value, "oldJoinTime");
+        public Criteria andOldGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("old_grow_time >", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("old_join_time >=", value, "oldJoinTime");
+        public Criteria andOldGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("old_grow_time >=", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeLessThan(Date value) {
-            addCriterionForJDBCDate("old_join_time <", value, "oldJoinTime");
+        public Criteria andOldGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("old_grow_time <", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("old_join_time <=", value, "oldJoinTime");
+        public Criteria andOldGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("old_grow_time <=", value, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("old_join_time in", values, "oldJoinTime");
+        public Criteria andOldGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("old_grow_time in", values, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("old_join_time not in", values, "oldJoinTime");
+        public Criteria andOldGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("old_grow_time not in", values, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("old_join_time between", value1, value2, "oldJoinTime");
+        public Criteria andOldGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("old_grow_time between", value1, value2, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andOldJoinTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("old_join_time not between", value1, value2, "oldJoinTime");
+        public Criteria andOldGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("old_grow_time not between", value1, value2, "oldGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeIsNull() {
-            addCriterion("verify_join_time is null");
+        public Criteria andVerifyGrowTimeIsNull() {
+            addCriterion("verify_grow_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeIsNotNull() {
-            addCriterion("verify_join_time is not null");
+        public Criteria andVerifyGrowTimeIsNotNull() {
+            addCriterion("verify_grow_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("verify_join_time =", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("verify_grow_time =", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("verify_join_time <>", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("verify_grow_time <>", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("verify_join_time >", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("verify_grow_time >", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("verify_join_time >=", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("verify_grow_time >=", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeLessThan(Date value) {
-            addCriterionForJDBCDate("verify_join_time <", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("verify_grow_time <", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("verify_join_time <=", value, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("verify_grow_time <=", value, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("verify_join_time in", values, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("verify_grow_time in", values, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("verify_join_time not in", values, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("verify_grow_time not in", values, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("verify_join_time between", value1, value2, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("verify_grow_time between", value1, value2, "verifyGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andVerifyJoinTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("verify_join_time not between", value1, value2, "verifyJoinTime");
+        public Criteria andVerifyGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("verify_grow_time not between", value1, value2, "verifyGrowTime");
             return (Criteria) this;
         }
 
@@ -432,63 +432,63 @@ public class VerifyJoinPartyTimeExample {
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeIsNull() {
-            addCriterion("material_join_time is null");
+        public Criteria andMaterialGrowTimeIsNull() {
+            addCriterion("material_grow_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeIsNotNull() {
-            addCriterion("material_join_time is not null");
+        public Criteria andMaterialGrowTimeIsNotNull() {
+            addCriterion("material_grow_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("material_join_time =", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("material_grow_time =", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("material_join_time <>", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("material_grow_time <>", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("material_join_time >", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("material_grow_time >", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("material_join_time >=", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("material_grow_time >=", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeLessThan(Date value) {
-            addCriterionForJDBCDate("material_join_time <", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("material_grow_time <", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("material_join_time <=", value, "materialJoinTime");
+        public Criteria andMaterialGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("material_grow_time <=", value, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("material_join_time in", values, "materialJoinTime");
+        public Criteria andMaterialGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("material_grow_time in", values, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("material_join_time not in", values, "materialJoinTime");
+        public Criteria andMaterialGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("material_grow_time not in", values, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("material_join_time between", value1, value2, "materialJoinTime");
+        public Criteria andMaterialGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("material_grow_time between", value1, value2, "materialGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialJoinTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("material_join_time not between", value1, value2, "materialJoinTime");
+        public Criteria andMaterialGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("material_grow_time not between", value1, value2, "materialGrowTime");
             return (Criteria) this;
         }
 
@@ -552,63 +552,63 @@ public class VerifyJoinPartyTimeExample {
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeIsNull() {
-            addCriterion("ad_join_time is null");
+        public Criteria andAdGrowTimeIsNull() {
+            addCriterion("ad_grow_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeIsNotNull() {
-            addCriterion("ad_join_time is not null");
+        public Criteria andAdGrowTimeIsNotNull() {
+            addCriterion("ad_grow_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("ad_join_time =", value, "adJoinTime");
+        public Criteria andAdGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("ad_grow_time =", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("ad_join_time <>", value, "adJoinTime");
+        public Criteria andAdGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("ad_grow_time <>", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("ad_join_time >", value, "adJoinTime");
+        public Criteria andAdGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("ad_grow_time >", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("ad_join_time >=", value, "adJoinTime");
+        public Criteria andAdGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ad_grow_time >=", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeLessThan(Date value) {
-            addCriterionForJDBCDate("ad_join_time <", value, "adJoinTime");
+        public Criteria andAdGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("ad_grow_time <", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("ad_join_time <=", value, "adJoinTime");
+        public Criteria andAdGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ad_grow_time <=", value, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("ad_join_time in", values, "adJoinTime");
+        public Criteria andAdGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("ad_grow_time in", values, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("ad_join_time not in", values, "adJoinTime");
+        public Criteria andAdGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("ad_grow_time not in", values, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("ad_join_time between", value1, value2, "adJoinTime");
+        public Criteria andAdGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ad_grow_time between", value1, value2, "adGrowTime");
             return (Criteria) this;
         }
 
-        public Criteria andAdJoinTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("ad_join_time not between", value1, value2, "adJoinTime");
+        public Criteria andAdGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ad_grow_time not between", value1, value2, "adGrowTime");
             return (Criteria) this;
         }
 

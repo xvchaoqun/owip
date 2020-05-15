@@ -3,11 +3,11 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${verifyJoinPartyTime!=null?'编辑':'添加'}入党时间认定</h3>
+    <h3>${verifyGrowTime!=null?'编辑':'添加'}入党时间认定</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/verify/verifyJoinPartyTime_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-		<input type="hidden" name="id" value="${verifyJoinPartyTime.id}">
+    <form class="form-horizontal" action="${ctx}/verify/verifyGrowTime_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+		<input type="hidden" name="id" value="${verifyGrowTime.id}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span> 所属干部</label>
 			<div class="col-xs-6">
@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty verifyJoinPartyTime?'确定':'添加'}</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty verifyGrowTime?'确定':'添加'}</button>
 </div>
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

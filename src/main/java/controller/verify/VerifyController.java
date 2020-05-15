@@ -21,7 +21,7 @@ public class VerifyController extends VerifyBaseController {
         if (cls == 1) {
             return "forward:/verifyAge";
         }else if (cls == 3){
-            return "forward:/verify/verifyJoinPartyTime";
+            return "forward:/verify/verifyGrowTime";
         }
 
         return "forward:/verifyWorkTime";

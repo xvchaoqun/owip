@@ -2,7 +2,7 @@ package service.verify;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.verify.VerifyAgeMapper;
-import persistence.verify.VerifyJoinPartyTimeMapper;
+import persistence.verify.VerifyGrowTimeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 import service.CoreBaseMapper;
 import sys.HttpResponseMethod;
@@ -14,6 +14,6 @@ public class VerifyBaseMapper extends CoreBaseMapper implements HttpResponseMeth
     @Autowired
     protected VerifyWorkTimeMapper verifyWorkTimeMapper;
     @Autowired
-    protected VerifyJoinPartyTimeMapper verifyJoinPartyTimeMapper;
+    protected VerifyGrowTimeMapper verifyGrowTimeMapper;
 
 }

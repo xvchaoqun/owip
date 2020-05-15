@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.verify.VerifyJoinPartyTimeMapper">
-  <resultMap id="BaseResultMap" type="domain.verify.VerifyJoinPartyTime">
+<mapper namespace="persistence.verify.VerifyGrowTimeMapper">
+  <resultMap id="BaseResultMap" type="domain.verify.VerifyGrowTime">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="old_join_time" jdbcType="DATE" property="oldJoinTime" />
-    <result column="verify_join_time" jdbcType="DATE" property="verifyJoinTime" />
+    <result column="old_grow_time" jdbcType="DATE" property="oldGrowTime" />
+    <result column="verify_grow_time" jdbcType="DATE" property="verifyGrowTime" />
     <result column="material_time" jdbcType="DATE" property="materialTime" />
-    <result column="material_join_time" jdbcType="DATE" property="materialJoinTime" />
+    <result column="material_grow_time" jdbcType="DATE" property="materialGrowTime" />
     <result column="ad_time" jdbcType="DATE" property="adTime" />
-    <result column="ad_join_time" jdbcType="DATE" property="adJoinTime" />
+    <result column="ad_grow_time" jdbcType="DATE" property="adGrowTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="submit_user_id" jdbcType="INTEGER" property="submitUserId" />
@@ -78,17 +78,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, old_join_time, verify_join_time, material_time, material_join_time, 
-    ad_time, ad_join_time, remark, status, submit_user_id, submit_ip, submit_time, update_user_id, 
+    id, cadre_id, old_grow_time, verify_grow_time, material_time, material_grow_time, 
+    ad_time, ad_grow_time, remark, status, submit_user_id, submit_ip, submit_time, update_user_id, 
     update_ip, update_time
   </sql>
-  <select id="selectByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.verify.VerifyGrowTimeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from verify_join_party_time
+    from verify_grow_time
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -99,35 +99,35 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from verify_join_party_time
+    from verify_grow_time
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from verify_join_party_time
+    delete from verify_grow_time
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample">
-    delete from verify_join_party_time
+  <delete id="deleteByExample" parameterType="domain.verify.VerifyGrowTimeExample">
+    delete from verify_grow_time
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.verify.VerifyJoinPartyTime">
-    insert into verify_join_party_time (id, cadre_id, old_join_time, 
-      verify_join_time, material_time, material_join_time, 
-      ad_time, ad_join_time, remark, 
+  <insert id="insert" parameterType="domain.verify.VerifyGrowTime">
+    insert into verify_grow_time (id, cadre_id, old_grow_time, 
+      verify_grow_time, material_time, material_grow_time, 
+      ad_time, ad_grow_time, remark, 
       status, submit_user_id, submit_ip, 
       submit_time, update_user_id, update_ip, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{oldJoinTime,jdbcType=DATE}, 
-      #{verifyJoinTime,jdbcType=DATE}, #{materialTime,jdbcType=DATE}, #{materialJoinTime,jdbcType=DATE}, 
-      #{adTime,jdbcType=DATE}, #{adJoinTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{oldGrowTime,jdbcType=DATE}, 
+      #{verifyGrowTime,jdbcType=DATE}, #{materialTime,jdbcType=DATE}, #{materialGrowTime,jdbcType=DATE}, 
+      #{adTime,jdbcType=DATE}, #{adGrowTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{submitUserId,jdbcType=INTEGER}, #{submitIp,jdbcType=VARCHAR}, 
       #{submitTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateIp,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.verify.VerifyJoinPartyTime">
-    insert into verify_join_party_time
+  <insert id="insertSelective" parameterType="domain.verify.VerifyGrowTime">
+    insert into verify_grow_time
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -135,23 +135,23 @@
       <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="oldJoinTime != null">
-        old_join_time,
+      <if test="oldGrowTime != null">
+        old_grow_time,
       </if>
-      <if test="verifyJoinTime != null">
-        verify_join_time,
+      <if test="verifyGrowTime != null">
+        verify_grow_time,
       </if>
       <if test="materialTime != null">
         material_time,
       </if>
-      <if test="materialJoinTime != null">
-        material_join_time,
+      <if test="materialGrowTime != null">
+        material_grow_time,
       </if>
       <if test="adTime != null">
         ad_time,
       </if>
-      <if test="adJoinTime != null">
-        ad_join_time,
+      <if test="adGrowTime != null">
+        ad_grow_time,
       </if>
       <if test="remark != null">
         remark,
@@ -185,23 +185,23 @@
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="oldJoinTime != null">
-        #{oldJoinTime,jdbcType=DATE},
+      <if test="oldGrowTime != null">
+        #{oldGrowTime,jdbcType=DATE},
       </if>
-      <if test="verifyJoinTime != null">
-        #{verifyJoinTime,jdbcType=DATE},
+      <if test="verifyGrowTime != null">
+        #{verifyGrowTime,jdbcType=DATE},
       </if>
       <if test="materialTime != null">
         #{materialTime,jdbcType=DATE},
       </if>
-      <if test="materialJoinTime != null">
-        #{materialJoinTime,jdbcType=DATE},
+      <if test="materialGrowTime != null">
+        #{materialGrowTime,jdbcType=DATE},
       </if>
       <if test="adTime != null">
         #{adTime,jdbcType=DATE},
       </if>
-      <if test="adJoinTime != null">
-        #{adJoinTime,jdbcType=DATE},
+      <if test="adGrowTime != null">
+        #{adGrowTime,jdbcType=DATE},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -229,14 +229,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultType="java.lang.Long">
-    select count(*) from verify_join_party_time
+  <select id="countByExample" parameterType="domain.verify.VerifyGrowTimeExample" resultType="java.lang.Long">
+    select count(*) from verify_grow_time
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update verify_join_party_time
+    update verify_grow_time
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -244,23 +244,23 @@
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.oldJoinTime != null">
-        old_join_time = #{record.oldJoinTime,jdbcType=DATE},
+      <if test="record.oldGrowTime != null">
+        old_grow_time = #{record.oldGrowTime,jdbcType=DATE},
       </if>
-      <if test="record.verifyJoinTime != null">
-        verify_join_time = #{record.verifyJoinTime,jdbcType=DATE},
+      <if test="record.verifyGrowTime != null">
+        verify_grow_time = #{record.verifyGrowTime,jdbcType=DATE},
       </if>
       <if test="record.materialTime != null">
         material_time = #{record.materialTime,jdbcType=DATE},
       </if>
-      <if test="record.materialJoinTime != null">
-        material_join_time = #{record.materialJoinTime,jdbcType=DATE},
+      <if test="record.materialGrowTime != null">
+        material_grow_time = #{record.materialGrowTime,jdbcType=DATE},
       </if>
       <if test="record.adTime != null">
         ad_time = #{record.adTime,jdbcType=DATE},
       </if>
-      <if test="record.adJoinTime != null">
-        ad_join_time = #{record.adJoinTime,jdbcType=DATE},
+      <if test="record.adGrowTime != null">
+        ad_grow_time = #{record.adGrowTime,jdbcType=DATE},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -292,15 +292,15 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update verify_join_party_time
+    update verify_grow_time
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      old_join_time = #{record.oldJoinTime,jdbcType=DATE},
-      verify_join_time = #{record.verifyJoinTime,jdbcType=DATE},
+      old_grow_time = #{record.oldGrowTime,jdbcType=DATE},
+      verify_grow_time = #{record.verifyGrowTime,jdbcType=DATE},
       material_time = #{record.materialTime,jdbcType=DATE},
-      material_join_time = #{record.materialJoinTime,jdbcType=DATE},
+      material_grow_time = #{record.materialGrowTime,jdbcType=DATE},
       ad_time = #{record.adTime,jdbcType=DATE},
-      ad_join_time = #{record.adJoinTime,jdbcType=DATE},
+      ad_grow_time = #{record.adGrowTime,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       submit_user_id = #{record.submitUserId,jdbcType=INTEGER},
@@ -313,29 +313,29 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.verify.VerifyJoinPartyTime">
-    update verify_join_party_time
+  <update id="updateByPrimaryKeySelective" parameterType="domain.verify.VerifyGrowTime">
+    update verify_grow_time
     <set>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="oldJoinTime != null">
-        old_join_time = #{oldJoinTime,jdbcType=DATE},
+      <if test="oldGrowTime != null">
+        old_grow_time = #{oldGrowTime,jdbcType=DATE},
       </if>
-      <if test="verifyJoinTime != null">
-        verify_join_time = #{verifyJoinTime,jdbcType=DATE},
+      <if test="verifyGrowTime != null">
+        verify_grow_time = #{verifyGrowTime,jdbcType=DATE},
       </if>
       <if test="materialTime != null">
         material_time = #{materialTime,jdbcType=DATE},
       </if>
-      <if test="materialJoinTime != null">
-        material_join_time = #{materialJoinTime,jdbcType=DATE},
+      <if test="materialGrowTime != null">
+        material_grow_time = #{materialGrowTime,jdbcType=DATE},
       </if>
       <if test="adTime != null">
         ad_time = #{adTime,jdbcType=DATE},
       </if>
-      <if test="adJoinTime != null">
-        ad_join_time = #{adJoinTime,jdbcType=DATE},
+      <if test="adGrowTime != null">
+        ad_grow_time = #{adGrowTime,jdbcType=DATE},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -364,15 +364,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.verify.VerifyJoinPartyTime">
-    update verify_join_party_time
+  <update id="updateByPrimaryKey" parameterType="domain.verify.VerifyGrowTime">
+    update verify_grow_time
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      old_join_time = #{oldJoinTime,jdbcType=DATE},
-      verify_join_time = #{verifyJoinTime,jdbcType=DATE},
+      old_grow_time = #{oldGrowTime,jdbcType=DATE},
+      verify_grow_time = #{verifyGrowTime,jdbcType=DATE},
       material_time = #{materialTime,jdbcType=DATE},
-      material_join_time = #{materialJoinTime,jdbcType=DATE},
+      material_grow_time = #{materialGrowTime,jdbcType=DATE},
       ad_time = #{adTime,jdbcType=DATE},
-      ad_join_time = #{adJoinTime,jdbcType=DATE},
+      ad_grow_time = #{adGrowTime,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       submit_user_id = #{submitUserId,jdbcType=INTEGER},
@@ -383,13 +383,13 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.verify.VerifyGrowTimeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from verify_join_party_time
+    from verify_grow_time
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

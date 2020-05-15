@@ -10,13 +10,13 @@ pageEncoding="UTF-8" %>
                     <div class="tab-content">
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
-                                <shiro:hasPermission name="verifyJoinPartyTime:edit">
+                                <shiro:hasPermission name="verifyGrowTime:edit">
                                     <button class="popupBtn btn btn-info btn-sm"
-                                            data-url="${ctx}/verify/verifyJoinPartyTime_au">
+                                            data-url="${ctx}/verify/verifyGrowTime_au">
                                         <i class="fa fa-plus"></i> 添加认定</button>
                                 </shiro:hasPermission>
-                                <shiro:hasPermission name="verifyJoinPartyTime:del">
-                                    <button data-url="${ctx}/verify/verifyJoinPartyTime_batchDel"
+                                <shiro:hasPermission name="verifyGrowTime:del">
+                                    <button data-url="${ctx}/verify/verifyGrowTime_batchDel"
                                             data-title="删除"
                                             data-msg="确定删除这{0}条数据？"
                                             data-grid-id="#jqGrid"
@@ -25,12 +25,12 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/verify/verifyJoinPartyTimeLog"
+                                        data-url="${ctx}/verify/verifyGrowTimeLog"
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 认定记录
                                 </button>
                                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-url="${ctx}/verify/verifyJoinPartyTime_data"
+                                   data-url="${ctx}/verify/verifyGrowTime_data"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                     <i class="fa fa-download"></i> 导出</button>
                             </div>
@@ -57,12 +57,12 @@ pageEncoding="UTF-8" %>
                                             </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                                   data-url="${ctx}/verify/verifyJoinPartyTime"
+                                                   data-url="${ctx}/verify/verifyGrowTime"
                                                    data-target="#page-content"
                                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                            data-url="${ctx}/verify/verifyJoinPartyTime"
+                                                            data-url="${ctx}/verify/verifyGrowTime"
                                                             data-target="#page-content">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
@@ -85,19 +85,19 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/verify/verifyJoinPartyTime_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/verify/verifyGrowTime_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '工作证号',name: 'cadre.code'},
                 { label: '姓名',name: 'cadre.realname'},
                 { label: '所在单位及职务',name: 'cadre.title', align: 'left', width: 350},
-                { label: '认定前入党时间',name: 'oldJoinTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-                { label: '认定后入党时间',name: 'verifyJoinTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '认定后入党时间',name: 'verifyGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                 { label: '认定',name: '_verify',formatter: function (cellvalue, options, rowObject) {
-                        if ($.trim(rowObject.oldJoinTime)=='')
-                            return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verify/verifyJoinPartyTime_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'
+                        if ($.trim(rowObject.oldGrowTime)=='')
+                            return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'
                                 .format(rowObject.id);
                         else
-                            return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}/verify/verifyJoinPartyTime_verify?id={0}"><i class="fa fa-search"></i> 查看</button>'
+                            return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id, cellvalue);
                     }},
                 { label: '备注',name: 'remark',width: 500}

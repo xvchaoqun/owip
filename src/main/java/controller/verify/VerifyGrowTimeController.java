@@ -1,9 +1,9 @@
 package controller.verify;
 
 import domain.cadre.CadreView;
-import domain.verify.VerifyJoinPartyTime;
-import domain.verify.VerifyJoinPartyTimeExample;
-import domain.verify.VerifyJoinPartyTimeExample.Criteria;
+import domain.verify.VerifyGrowTime;
+import domain.verify.VerifyGrowTimeExample;
+import domain.verify.VerifyGrowTimeExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -32,13 +32,13 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/verify")
-public class VerifyJoinPartyTimeController extends VerifyBaseController {
+public class VerifyGrowTimeController extends VerifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("verifyJoinPartyTime:list")
-    @RequestMapping("/verifyJoinPartyTime")
-    public String verifyJoinPartyTime(Integer cadreId,
+    @RequiresPermissions("verifyGrowTime:list")
+    @RequestMapping("/verifyGrowTime")
+    public String verifyGrowTime(Integer cadreId,
                                       ModelMap modelMap) {
 
         if (null != cadreId) {
@@ -46,13 +46,13 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
             modelMap.put("cadre", cadre);
         }
 
-        return "verify/verifyJoinPartyTime/verifyJoinPartyTime_page";
+        return "verify/verifyGrowTime/verifyGrowTime_page";
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:list")
-    @RequestMapping("/verifyJoinPartyTime_data")
+    @RequiresPermissions("verifyGrowTime:list")
+    @RequestMapping("/verifyGrowTime_data")
     @ResponseBody
-    public void verifyJoinPartyTime_data(HttpServletResponse response,
+    public void verifyGrowTime_data(HttpServletResponse response,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -66,7 +66,7 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        VerifyJoinPartyTimeExample example = new VerifyJoinPartyTimeExample();
+        VerifyGrowTimeExample example = new VerifyGrowTimeExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         example.setOrderByClause("submit_time desc");
 
@@ -77,16 +77,16 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            verifyJoinPartyTime_export(example, response);
+            verifyGrowTime_export(example, response);
             return;
         }
 
-        long count = verifyJoinPartyTimeMapper.countByExample(example);
+        long count = verifyGrowTimeMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<VerifyJoinPartyTime> records= verifyJoinPartyTimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<VerifyGrowTime> records= verifyGrowTimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -96,140 +96,140 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(verifyJoinPartyTime.class, verifyJoinPartyTimeMixin.class);
+        //baseMixins.put(verifyGrowTime.class, verifyGrowTimeMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:edit")
-    @RequestMapping(value = "/verifyJoinPartyTime_au", method = RequestMethod.POST)
+    @RequiresPermissions("verifyGrowTime:edit")
+    @RequestMapping(value = "/verifyGrowTime_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyJoinPartyTime_au(VerifyJoinPartyTime record, HttpServletRequest request) {
+    public Map do_verifyGrowTime_au(VerifyGrowTime record, HttpServletRequest request) {
 
 
         Integer cadreId = record.getCadreId();
-        if (null != cadreId && verifyJoinPartyTimeService.idDuplicate(cadreId)){
+        if (null != cadreId && verifyGrowTimeService.idDuplicate(cadreId)){
             return failed("添加重复");
         }
 
         Integer id = record.getId();
 
         if (id == null) {
-            verifyJoinPartyTimeService.insertSelective(record);
+            verifyGrowTimeService.insertSelective(record);
             logger.info(log( LogConstants.LOG_ADMIN, "添加入党时间认定：{0}", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:edit")
-    @RequestMapping("/verifyJoinPartyTime_au")
-    public String verifyJoinPartyTime_au() {
+    @RequiresPermissions("verifyGrowTime:edit")
+    @RequestMapping("/verifyGrowTime_au")
+    public String verifyGrowTime_au() {
 
-        return "verify/verifyJoinPartyTime/verifyJoinPartyTime_au";
+        return "verify/verifyGrowTime/verifyGrowTime_au";
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:edit")
-    @RequestMapping(value = "/verifyJoinPartyTime_verify", method = RequestMethod.POST)
+    @RequiresPermissions("verifyGrowTime:edit")
+    @RequestMapping(value = "/verifyGrowTime_verify", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyJoinPartyTime_verify(VerifyJoinPartyTime record,
+    public Map do_verifyGrowTime_verify(VerifyGrowTime record,
                                    String _materialTime,
-                                   String _materialJoinTime,
+                                   String _materialGrowTime,
                                    String _adTime,
-                                   String _adJoinTime,
-                                   String _oldJoinTime,
-                                   String _verifyJoinTime,
+                                   String _adGrowTime,
+                                   String _oldGrowTime,
+                                   String _verifyGrowTime,
                                    HttpServletRequest request) {
 
         record.setMaterialTime(DateUtils.parseDate(_materialTime, DateUtils.YYYYMMDD_DOT));
-        record.setMaterialJoinTime(DateUtils.parseDate(_materialJoinTime, DateUtils.YYYYMM));
+        record.setMaterialGrowTime(DateUtils.parseDate(_materialGrowTime, DateUtils.YYYYMM));
         record.setAdTime(DateUtils.parseDate(_adTime, DateUtils.YYYYMMDD_DOT));
-        record.setAdJoinTime(DateUtils.parseDate(_adJoinTime, DateUtils.YYYYMMDD_DOT));
-        record.setOldJoinTime(DateUtils.parseDate(_oldJoinTime, DateUtils.YYYYMMDD_DOT));
-        record.setVerifyJoinTime(DateUtils.parseDate(_verifyJoinTime, DateUtils.YYYYMM));
+        record.setAdGrowTime(DateUtils.parseDate(_adGrowTime, DateUtils.YYYYMM));
+        record.setOldGrowTime(DateUtils.parseDate(_oldGrowTime, DateUtils.YYYYMMDD_DOT));
+        record.setVerifyGrowTime(DateUtils.parseDate(_verifyGrowTime, DateUtils.YYYYMM));
 
-        verifyJoinPartyTimeService.update(record);
+        verifyGrowTimeService.update(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "入党时间认定：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:edit")
-    @RequestMapping("/verifyJoinPartyTime_verify")
-    public String verifyJoinPartyTime_verify(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("verifyGrowTime:edit")
+    @RequestMapping("/verifyGrowTime_verify")
+    public String verifyGrowTime_verify(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            VerifyJoinPartyTime verifyTime = verifyJoinPartyTimeMapper.selectByPrimaryKey(id);
+            VerifyGrowTime verifyTime = verifyGrowTimeMapper.selectByPrimaryKey(id);
             modelMap.put("verifyTime", verifyTime);
         }
-        return "verify/verifyJoinPartyTime/verifyJoinPartyTime_verify";
+        return "verify/verifyGrowTime/verifyGrowTime_verify";
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:del")
-    @RequestMapping(value = "/verifyJoinPartyTime_del", method = RequestMethod.POST)
+    @RequiresPermissions("verifyGrowTime:del")
+    @RequestMapping(value = "/verifyGrowTime_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyJoinPartyTime_del(HttpServletRequest request, Integer id) {
+    public Map do_verifyGrowTime_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            verifyJoinPartyTimeService.del(id);
+            verifyGrowTimeService.del(id);
             logger.info(log( LogConstants.LOG_ADMIN, "删除入党时间认定：{0}", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:del")
-    @RequestMapping(value = "/verifyJoinPartyTime_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("verifyGrowTime:del")
+    @RequestMapping(value = "/verifyGrowTime_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map verifyJoinPartyTime_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map verifyGrowTime_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            verifyJoinPartyTimeService.batchDel(ids);
+            verifyGrowTimeService.batchDel(ids);
             logger.info(log( LogConstants.LOG_ADMIN, "批量删除入党时间认定：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("verifyJoinPartyTime:list")
-    @RequestMapping("/verifyJoinPartyTimeLog")
-    public String verifyJoinPartyTime_log(int id, ModelMap modelMap) {
+    @RequiresPermissions("verifyGrowTime:list")
+    @RequestMapping("/verifyGrowTimeLog")
+    public String verifyGrowTime_log(int id, ModelMap modelMap) {
 
-        VerifyJoinPartyTime verifyJoinPartyTime = verifyJoinPartyTimeMapper.selectByPrimaryKey(id);
-        int cadreId = verifyJoinPartyTime.getCadreId();
+        VerifyGrowTime verifyGrowTime = verifyGrowTimeMapper.selectByPrimaryKey(id);
+        int cadreId = verifyGrowTime.getCadreId();
 
-        VerifyJoinPartyTimeExample example = new VerifyJoinPartyTimeExample();
-        VerifyJoinPartyTimeExample.Criteria criteria = example.createCriteria();
+        VerifyGrowTimeExample example = new VerifyGrowTimeExample();
+        VerifyGrowTimeExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("submit_time desc");
         criteria.andCadreIdEqualTo(cadreId);
 
-        List<VerifyJoinPartyTime> records = verifyJoinPartyTimeMapper.selectByExample(example);
+        List<VerifyGrowTime> records = verifyGrowTimeMapper.selectByExample(example);
         modelMap.put("records", records);
 
-        return "verify/verifyJoinPartyTime/verifyJoinPartyTimeLog";
+        return "verify/verifyGrowTime/verifyGrowTimeLog";
     }
 
-    public void verifyJoinPartyTime_export(VerifyJoinPartyTimeExample example, HttpServletResponse response) {
+    public void verifyGrowTime_export(VerifyGrowTimeExample example, HttpServletResponse response) {
 
-        List<VerifyJoinPartyTime> records = verifyJoinPartyTimeMapper.selectByExample(example);
+        List<VerifyGrowTime> records = verifyGrowTimeMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"工作证号|100","姓名|80","所在单位及职务|255","认定前入党时间|100","认定后入党时间|100",
                 "入党志愿书形成时间|110","入党志愿书记载的入党时间|110","任免审批表形成时间|110","任免审批表记载的入党时间|110","备注|200"};
 
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            VerifyJoinPartyTime record = records.get(i);
+            VerifyGrowTime record = records.get(i);
             String[] values = {
                     record.getCadre().getCode(),
                     record.getCadre().getRealname(),
                     record.getCadre().getTitle(),
-                    DateUtils.formatDate(record.getOldJoinTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getVerifyJoinTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getOldGrowTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getVerifyGrowTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getMaterialTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getMaterialJoinTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getMaterialGrowTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getAdTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getAdJoinTime(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getAdGrowTime(), DateUtils.YYYYMM),
                     record.getRemark()
             };
             valuesList.add(values);
@@ -238,9 +238,9 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequestMapping("/verifyJoinPartyTime_selects")
+    @RequestMapping("/verifyGrowTime_selects")
     @ResponseBody
-    public Map verifyJoinPartyTime_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map verifyGrowTime_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -250,7 +250,7 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        VerifyJoinPartyTimeExample example = new VerifyJoinPartyTimeExample();
+        VerifyGrowTimeExample example = new VerifyGrowTimeExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
@@ -258,17 +258,17 @@ public class VerifyJoinPartyTimeController extends VerifyBaseController {
             //criteria.and(SqlUtils.like(searchStr));
         }
 
-        long count = verifyJoinPartyTimeMapper.countByExample(example);
+        long count = verifyGrowTimeMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<VerifyJoinPartyTime> records = verifyJoinPartyTimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<VerifyGrowTime> records = verifyGrowTimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
         if(null != records && records.size()>0){
 
-            for(VerifyJoinPartyTime record:records){
+            for(VerifyGrowTime record:records){
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getCadreId());

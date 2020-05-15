@@ -3,7 +3,7 @@ package controller.verify;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.verify.VerifyAgeService;
 import service.verify.VerifyBaseMapper;
-import service.verify.VerifyJoinPartyTimeService;
+import service.verify.VerifyGrowTimeService;
 import service.verify.VerifyWorkTimeService;
 import sys.HttpResponseMethod;
 
@@ -14,5 +14,5 @@ public class VerifyBaseController extends VerifyBaseMapper implements HttpRespon
     @Autowired
     protected VerifyWorkTimeService verifyWorkTimeService;
     @Autowired
-    protected VerifyJoinPartyTimeService verifyJoinPartyTimeService;
+    protected VerifyGrowTimeService verifyGrowTimeService;
 }

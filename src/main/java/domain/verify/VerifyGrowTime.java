@@ -7,7 +7,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class VerifyJoinPartyTime implements Serializable {
+public class VerifyGrowTime implements Serializable {
 
     public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
@@ -25,17 +25,17 @@ public class VerifyJoinPartyTime implements Serializable {
 
     private Integer cadreId;
 
-    private Date oldJoinTime;
+    private Date oldGrowTime;
 
-    private Date verifyJoinTime;
+    private Date verifyGrowTime;
 
     private Date materialTime;
 
-    private Date materialJoinTime;
+    private Date materialGrowTime;
 
     private Date adTime;
 
-    private Date adJoinTime;
+    private Date adGrowTime;
 
     private String remark;
 
@@ -71,20 +71,20 @@ public class VerifyJoinPartyTime implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Date getOldJoinTime() {
-        return oldJoinTime;
+    public Date getOldGrowTime() {
+        return oldGrowTime;
     }
 
-    public void setOldJoinTime(Date oldJoinTime) {
-        this.oldJoinTime = oldJoinTime;
+    public void setOldGrowTime(Date oldGrowTime) {
+        this.oldGrowTime = oldGrowTime;
     }
 
-    public Date getVerifyJoinTime() {
-        return verifyJoinTime;
+    public Date getVerifyGrowTime() {
+        return verifyGrowTime;
     }
 
-    public void setVerifyJoinTime(Date verifyJoinTime) {
-        this.verifyJoinTime = verifyJoinTime;
+    public void setVerifyGrowTime(Date verifyGrowTime) {
+        this.verifyGrowTime = verifyGrowTime;
     }
 
     public Date getMaterialTime() {
@@ -95,12 +95,12 @@ public class VerifyJoinPartyTime implements Serializable {
         this.materialTime = materialTime;
     }
 
-    public Date getMaterialJoinTime() {
-        return materialJoinTime;
+    public Date getMaterialGrowTime() {
+        return materialGrowTime;
     }
 
-    public void setMaterialJoinTime(Date materialJoinTime) {
-        this.materialJoinTime = materialJoinTime;
+    public void setMaterialGrowTime(Date materialGrowTime) {
+        this.materialGrowTime = materialGrowTime;
     }
 
     public Date getAdTime() {
@@ -111,12 +111,12 @@ public class VerifyJoinPartyTime implements Serializable {
         this.adTime = adTime;
     }
 
-    public Date getAdJoinTime() {
-        return adJoinTime;
+    public Date getAdGrowTime() {
+        return adGrowTime;
     }
 
-    public void setAdJoinTime(Date adJoinTime) {
-        this.adJoinTime = adJoinTime;
+    public void setAdGrowTime(Date adGrowTime) {
+        this.adGrowTime = adGrowTime;
     }
 
     public String getRemark() {

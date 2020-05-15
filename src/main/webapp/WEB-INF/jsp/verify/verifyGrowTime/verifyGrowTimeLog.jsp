@@ -64,13 +64,13 @@
                 return _cMap.VERIFY_WORK_TIME_TYPE_MAP[cellvalue]
             }
             },
-            {label: '认定前入党时间', width: 180, name: 'oldJoinTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            {label: '认定后入党时间', width: 180, name: 'verifyJoinTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '认定前入党时间', width: 180, name: 'oldGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '认定后入党时间', width: 180, name: 'verifyGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '《入党志愿书》形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {
                 label: '《入党志愿书》记载的入党时间',
                 width: 150,
-                name: 'materialJoinTime',
+                name: 'materialGrowTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
@@ -78,7 +78,7 @@
             {
                 label: '任免审批表记载的入党时间',
                 width: 150,
-                name: 'adJoinTime',
+                name: 'adGrowTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
