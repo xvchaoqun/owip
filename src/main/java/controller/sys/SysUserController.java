@@ -729,6 +729,8 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/sysUser_filterExport", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_filterExport(
+            Boolean isUsebirth,
+            Integer birthCol,
             byte colType, // 0：身份证 1：姓名
             int col,
             byte roleType, // 1: 干部  0: 混合
@@ -754,6 +756,11 @@ public class SysUserController extends BaseController {
         if(firstRow==null){
             return failed("该文件前100行数据为空，无法导出");
         }
+
+        if (null != birthCol && birthCol == col) {
+            throw new OpException("“依据字段所在列数”和“出生日期所在列数”不能相同！");
+        }
+
         int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum(); // 列数
 
         for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
@@ -768,6 +775,17 @@ public class SysUserController extends BaseController {
 
             // 去掉所有空格
             key = key.replaceAll("\\s*", "");
+
+            XSSFCell birthCell = null;
+            String birthKey = null;
+            if (null != isUsebirth && isUsebirth){
+                birthCell = row.getCell(birthCol - 1);
+                birthKey = ExcelUtils.getCellValue(birthCell);
+                if(StringUtils.isNotBlank(birthKey)) {
+                    // 去掉所有空格
+                    birthKey = birthKey.replaceAll("\\s*", "");
+                }
+            }
 
             String code = null;
             List<String> codeList = new ArrayList<>();
@@ -787,7 +805,13 @@ public class SysUserController extends BaseController {
                     code = cvs.get(0).getCode();
                 } else if (cvs.size() > 1) {
                     for (CadreView cv : cvs) {
-                        codeList.add(cv.getCode());
+                        if (null != birthKey) {
+                            if (birthKey.equals(DateUtils.formatDate(cv.getBirth(), "yyyyMM"))) {
+                                codeList.add(cv.getCode());
+                            }
+                        }else {
+                            codeList.add(cv.getCode());
+                        }
                     }
                 }
             } else {
@@ -820,7 +844,14 @@ public class SysUserController extends BaseController {
                     int _typeNum = 0; // 第一个账号类别对应的账号数量
                     for (SysUserView uv : uvs) {
                         if(_type==uv.getType()) _typeNum++;
-                        codeList.add(uv.getCode());
+                        if (null != birthKey) {
+                            if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))){
+                                codeList.add(uv.getCode());
+                                continue;
+                            }
+                        }else {
+                            codeList.add(uv.getCode());
+                        }
                     }
 
                     if(colType==0 && _typeNum==1){

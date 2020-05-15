@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.verify.VerifyJoinPartyTimeMapper">
+  <resultMap id="BaseResultMap" type="domain.verify.VerifyJoinPartyTime">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="old_join_time" jdbcType="DATE" property="oldJoinTime" />
+    <result column="verify_join_time" jdbcType="DATE" property="verifyJoinTime" />
+    <result column="material_time" jdbcType="DATE" property="materialTime" />
+    <result column="material_join_time" jdbcType="DATE" property="materialJoinTime" />
+    <result column="ad_time" jdbcType="DATE" property="adTime" />
+    <result column="ad_join_time" jdbcType="DATE" property="adJoinTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="submit_user_id" jdbcType="INTEGER" property="submitUserId" />
+    <result column="submit_ip" jdbcType="VARCHAR" property="submitIp" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_ip" jdbcType="VARCHAR" property="updateIp" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cadre_id, old_join_time, verify_join_time, material_time, material_join_time, 
+    ad_time, ad_join_time, remark, status, submit_user_id, submit_ip, submit_time, update_user_id, 
+    update_ip, update_time
+  </sql>
+  <select id="selectByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from verify_join_party_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from verify_join_party_time
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from verify_join_party_time
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample">
+    delete from verify_join_party_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.verify.VerifyJoinPartyTime">
+    insert into verify_join_party_time (id, cadre_id, old_join_time, 
+      verify_join_time, material_time, material_join_time, 
+      ad_time, ad_join_time, remark, 
+      status, submit_user_id, submit_ip, 
+      submit_time, update_user_id, update_ip, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{oldJoinTime,jdbcType=DATE}, 
+      #{verifyJoinTime,jdbcType=DATE}, #{materialTime,jdbcType=DATE}, #{materialJoinTime,jdbcType=DATE}, 
+      #{adTime,jdbcType=DATE}, #{adJoinTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{submitUserId,jdbcType=INTEGER}, #{submitIp,jdbcType=VARCHAR}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateIp,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.verify.VerifyJoinPartyTime">
+    insert into verify_join_party_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="oldJoinTime != null">
+        old_join_time,
+      </if>
+      <if test="verifyJoinTime != null">
+        verify_join_time,
+      </if>
+      <if test="materialTime != null">
+        material_time,
+      </if>
+      <if test="materialJoinTime != null">
+        material_join_time,
+      </if>
+      <if test="adTime != null">
+        ad_time,
+      </if>
+      <if test="adJoinTime != null">
+        ad_join_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="submitUserId != null">
+        submit_user_id,
+      </if>
+      <if test="submitIp != null">
+        submit_ip,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateIp != null">
+        update_ip,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="oldJoinTime != null">
+        #{oldJoinTime,jdbcType=DATE},
+      </if>
+      <if test="verifyJoinTime != null">
+        #{verifyJoinTime,jdbcType=DATE},
+      </if>
+      <if test="materialTime != null">
+        #{materialTime,jdbcType=DATE},
+      </if>
+      <if test="materialJoinTime != null">
+        #{materialJoinTime,jdbcType=DATE},
+      </if>
+      <if test="adTime != null">
+        #{adTime,jdbcType=DATE},
+      </if>
+      <if test="adJoinTime != null">
+        #{adJoinTime,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="submitUserId != null">
+        #{submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="submitIp != null">
+        #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateIp != null">
+        #{updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultType="java.lang.Long">
+    select count(*) from verify_join_party_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update verify_join_party_time
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.oldJoinTime != null">
+        old_join_time = #{record.oldJoinTime,jdbcType=DATE},
+      </if>
+      <if test="record.verifyJoinTime != null">
+        verify_join_time = #{record.verifyJoinTime,jdbcType=DATE},
+      </if>
+      <if test="record.materialTime != null">
+        material_time = #{record.materialTime,jdbcType=DATE},
+      </if>
+      <if test="record.materialJoinTime != null">
+        material_join_time = #{record.materialJoinTime,jdbcType=DATE},
+      </if>
+      <if test="record.adTime != null">
+        ad_time = #{record.adTime,jdbcType=DATE},
+      </if>
+      <if test="record.adJoinTime != null">
+        ad_join_time = #{record.adJoinTime,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.submitUserId != null">
+        submit_user_id = #{record.submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.submitIp != null">
+        submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitTime != null">
+        submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateIp != null">
+        update_ip = #{record.updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update verify_join_party_time
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      old_join_time = #{record.oldJoinTime,jdbcType=DATE},
+      verify_join_time = #{record.verifyJoinTime,jdbcType=DATE},
+      material_time = #{record.materialTime,jdbcType=DATE},
+      material_join_time = #{record.materialJoinTime,jdbcType=DATE},
+      ad_time = #{record.adTime,jdbcType=DATE},
+      ad_join_time = #{record.adJoinTime,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      submit_user_id = #{record.submitUserId,jdbcType=INTEGER},
+      submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_ip = #{record.updateIp,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.verify.VerifyJoinPartyTime">
+    update verify_join_party_time
+    <set>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="oldJoinTime != null">
+        old_join_time = #{oldJoinTime,jdbcType=DATE},
+      </if>
+      <if test="verifyJoinTime != null">
+        verify_join_time = #{verifyJoinTime,jdbcType=DATE},
+      </if>
+      <if test="materialTime != null">
+        material_time = #{materialTime,jdbcType=DATE},
+      </if>
+      <if test="materialJoinTime != null">
+        material_join_time = #{materialJoinTime,jdbcType=DATE},
+      </if>
+      <if test="adTime != null">
+        ad_time = #{adTime,jdbcType=DATE},
+      </if>
+      <if test="adJoinTime != null">
+        ad_join_time = #{adJoinTime,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="submitUserId != null">
+        submit_user_id = #{submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="submitIp != null">
+        submit_ip = #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateIp != null">
+        update_ip = #{updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.verify.VerifyJoinPartyTime">
+    update verify_join_party_time
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      old_join_time = #{oldJoinTime,jdbcType=DATE},
+      verify_join_time = #{verifyJoinTime,jdbcType=DATE},
+      material_time = #{materialTime,jdbcType=DATE},
+      material_join_time = #{materialJoinTime,jdbcType=DATE},
+      ad_time = #{adTime,jdbcType=DATE},
+      ad_join_time = #{adJoinTime,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      submit_user_id = #{submitUserId,jdbcType=INTEGER},
+      submit_ip = #{submitIp,jdbcType=VARCHAR},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.verify.VerifyJoinPartyTimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from verify_join_party_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

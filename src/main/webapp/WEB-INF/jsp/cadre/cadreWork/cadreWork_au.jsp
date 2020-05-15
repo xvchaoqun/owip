@@ -33,6 +33,14 @@ pageEncoding="UTF-8"%>
                     </div>
 				</div>
 			</div>
+            <c:if test="${not empty fid}">
+                <script>
+                    var date = $(".input-group.date input[name=_startTime]")
+                    var endDate = date.parent().attr("data-date-end-date").replace(/(\'*)/g,"").split(".");
+                    //console.log(endDate)
+                    $.register.date(date.parent(), {defaultViewDate: {year: endDate[0]-1}})
+                </script>
+            </c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">${not empty topEndTime?'<span class="star">*</span>':''}结束日期</label>
 				<div class="col-xs-7">

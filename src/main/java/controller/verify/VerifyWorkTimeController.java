@@ -194,8 +194,8 @@ public class VerifyWorkTimeController extends VerifyBaseController {
 
         List<VerifyWorkTime> records = verifyWorkTimeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号", "姓名", "所在单位及职务", "认定类别", "认定前参加工作时间", "认定后参加工作时间", "材料名称",
-                "形成时间", "记载的参加工作时间", "形成时间", "备注",};
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位及职务|255", "认定类别|150", "认定前参加工作时间|110", "认定后参加工作时间|110", "材料名称|150",
+                "形成时间|110", "记载的参加工作时间|110", "形成时间|110", "备注|200",};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             VerifyWorkTime record = records.get(i);

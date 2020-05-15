@@ -55,6 +55,20 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label"> 是否依据出生日期</label>
+            <div class="col-xs-6">
+                <input name="isUsebirth" type="checkbox" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label"><span hidden class="star" id="isShow">*</span>出生日期所在列数</label>
+            <div class="col-xs-6">
+                <input disabled class="form-control num"
+                       data-rule-min="1"
+                       type="text" name="birthCol" style="width: 100px">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label">工号插入列数</label>
             <div class="col-xs-6">
                 <input class="form-control num"
@@ -122,6 +136,25 @@
     </button>
 </div>
 <script>
+
+    $(".modal-body :checkbox").bootstrapSwitch();
+    var isUseBirth = $(".modal-body input[name=isUsebirth]");
+    var birthCol = $("input[name=birthCol]");
+    isUseBirth.on('switchChange.bootstrapSwitch', function () {
+        isBirthNeeded();
+    })
+    function isBirthNeeded(){
+        if (isUseBirth.is(":checked")){
+            birthCol.removeAttr("disabled");
+            birthCol.attr("required", "required");
+            $("#isShow").show();
+        }else {
+            birthCol.attr("disabled", "disabled");
+            birthCol.removeAttr("required");
+            $("#isShow").hide();
+        }
+    }
+
     $.fileInput($('#modalForm input[type=file]'), {
         allowExt: ['xlsx']
     })

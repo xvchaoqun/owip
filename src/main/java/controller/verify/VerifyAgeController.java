@@ -201,8 +201,8 @@ public class VerifyAgeController extends VerifyBaseController {
 
         List<VerifyAge> records = verifyAgeMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号", "姓名", "所在单位及职务", "认定类别", "认定前日期", "认定后日期", "材料名称",
-                "形成时间", "记载的出生时间", "形成时间", "记载的出生时间", "备注"};
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位及职务|255", "认定类别|150", "认定前日期|100", "认定后日期|100", "材料名称|100",
+                "形成时间|110", "记载的出生时间|110", "形成时间|110", "记载的出生时间|110", "备注|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             VerifyAge record = records.get(i);

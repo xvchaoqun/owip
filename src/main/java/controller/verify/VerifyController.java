@@ -20,6 +20,8 @@ public class VerifyController extends VerifyBaseController {
         modelMap.put("cls", cls);
         if (cls == 1) {
             return "forward:/verifyAge";
+        }else if (cls == 3){
+            return "forward:/verify/verifyJoinPartyTime";
         }
 
         return "forward:/verifyWorkTime";

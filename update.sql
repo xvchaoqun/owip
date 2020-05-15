@@ -1,4 +1,8 @@
 
+2020.5.14
+UPDATE sys_resource SET NAME='档案认定',menu_css='fa fa-check-square-o',parent_ids='0/1/339/', parent_id=339,sort_order=190 WHERE id=411;
+DELETE from sys_resource WHERE id=410;
+
 2020.5.13
 西北工大-- 北师大
 
