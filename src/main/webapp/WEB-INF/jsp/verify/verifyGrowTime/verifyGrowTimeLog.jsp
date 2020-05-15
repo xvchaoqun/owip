@@ -58,12 +58,6 @@
                 frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
-            {
-                label: '认定类别', name: 'type', width: 220, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.VERIFY_WORK_TIME_TYPE_MAP[cellvalue]
-            }
-            },
             {label: '认定前入党时间', width: 180, name: 'oldGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '认定后入党时间', width: 180, name: 'verifyGrowTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '《入党志愿书》形成时间', name: 'materialTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
