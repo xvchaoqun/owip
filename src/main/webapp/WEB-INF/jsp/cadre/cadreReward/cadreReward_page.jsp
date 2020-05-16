@@ -13,7 +13,7 @@
             </li>
             <shiro:hasPermission name="cadrePunish:list">
             <li class="${type==4?"active":""}">
-                <a href="javascript:;" class="loadPage" data-load-el="#view-box .tab-content"
+                <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
                    data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&type=4"><i class="fa fa-list"></i>
                     受处分情况</a>
             </li>
@@ -208,7 +208,7 @@
 </c:if>
 <script>
     function _innerPage(type, fn) {
-        $("#view-box .tab-content").loadPage({
+        $("#tab-content").loadPage({
             url: "${ctx}/cadreReward_page?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}&type=" + type,
             callback: fn
         })

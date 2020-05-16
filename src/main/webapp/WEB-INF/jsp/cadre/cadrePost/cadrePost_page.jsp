@@ -182,7 +182,7 @@
 </script>
 <script>
     function _innerPage(type) {
-        $("#view-box .tab-content").loadPage("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
+        $("#tab-content").loadPage("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
     }
 
     <c:if test="${type==1}">
@@ -523,7 +523,7 @@
 
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/cadrePost_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#tab-content").loadPage("${ctx}/cadrePost_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();

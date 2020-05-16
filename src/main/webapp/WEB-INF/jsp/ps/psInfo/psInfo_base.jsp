@@ -91,7 +91,7 @@
         </div>
     </div>
     <div class="widget-body">
-        <div class="widget-main no-padding" id="unitfunctionDiv">
+        <div class="widget-main no-padding">
             <table id="myTable" class="table table-unhover table-bordered table-striped">
                 <tbody>
                     <tr>

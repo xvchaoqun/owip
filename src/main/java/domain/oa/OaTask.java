@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class OaTask implements Serializable {
-
     private Integer id;
 
     private Integer userId;
@@ -21,6 +20,8 @@ public class OaTask implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date deadline;
+
+    private Integer userFileCount;
 
     private String contact;
 
@@ -94,6 +95,14 @@ public class OaTask implements Serializable {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public Integer getUserFileCount() {
+        return userFileCount;
+    }
+
+    public void setUserFileCount(Integer userFileCount) {
+        this.userFileCount = userFileCount;
     }
 
     public String getContact() {

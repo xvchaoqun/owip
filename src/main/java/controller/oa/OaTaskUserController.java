@@ -93,7 +93,7 @@ public class OaTaskUserController extends OaBaseController {
         Boolean showAll = BooleanUtils.isTrue(oaTaskAdmin!=null && oaTaskAdmin.getShowAll());
 
         if (!showAll) {
-            criteria.isTaskUser(ShiroHelper.getCurrentUserId());
+            criteria.andTaskUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }
 
         if (taskId != null) {

@@ -3,15 +3,14 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 	<div class="modal-body">
-
-		<div class="widget-box transparent" id="view-box">
+		<div class="widget-box transparent">
 			<div class="widget-header">
 				<h4 class="widget-title lighter smaller">
 					&nbsp;
 				</h4>
 
 				<div class="widget-toolbar no-border">
-					<ul class="nav nav-tabs">
+					<ul class="nav nav-tabs" data-target="#member-content">
 						<li class="active">
 							<a href="javascript:;" data-url="${ctx}/user/member">基本信息</a>
 						</li>
@@ -32,7 +31,7 @@
 			</div>
 			<div class="widget-body">
 				<div class="widget-main padding-4">
-					<div class="tab-content padding-8">
+					<div class="tab-content padding-8" id="member-content">
 						<c:import url="/user/member"/>
 					</div>
 				</div><!-- /.widget-main -->
@@ -41,6 +40,6 @@
 	</div>
 <script>
 	function _reload(){
-		$("#view-box .nav-tabs li.active a").click();
+		$("ul[data-target='#member-content'] li.active a").click();
 	}
 </script>

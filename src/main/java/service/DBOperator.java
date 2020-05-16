@@ -47,8 +47,8 @@ public class DBOperator {
 		}finally{
 
 			try {
-				stat.close();
-				conn.close();
+				if(null!=stat) stat.close();
+				if(null!=conn) conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				logger.error("异常", e);
@@ -83,8 +83,8 @@ public class DBOperator {
 		}finally{
 			
 			try {
-				stat.close();
-				conn.close();
+				if(null!=stat) stat.close();
+				if(null!=conn) conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				logger.error("异常", e);
@@ -149,8 +149,8 @@ public class DBOperator {
 		} finally {
 			//close(conn, stat, rs);
 			try {
-				stat.close();
-				conn.close();
+				if(null!=stat) stat.close();
+				if(null!=conn) conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				logger.error("异常", e);
@@ -195,8 +195,8 @@ public class DBOperator {
 		} finally {
 			//close(conn, stat, rs);
 			try {
-				stat.close();
-				conn.close();
+				if(null!=stat) stat.close();
+				if(null!=conn) conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				logger.error("异常", e);

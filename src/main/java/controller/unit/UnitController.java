@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.unit.UnitExportService;
-import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -406,19 +405,16 @@ public class UnitController extends BaseController {
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"单位编号|100", "单位名称|350|left", "单位类型|150"}));
 
-        boolean isUnitPostAdmin = ShiroHelper.isPermitted("unitPost:*");
         boolean hasKjCadre = CmTag.getBoolProperty("hasKjCadre");
-        if (isUnitPostAdmin) {
-            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级岗位数|70",
-                    "副处级岗位数|70", CmTag.getStringProperty("label_adminLevelNone")+"岗位数|70"})));
-            if (hasKjCadre) {
-                titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级岗位数|70", "副科级岗位数|70"})));
-            }
-            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级干部职数|70",
-                    "副处级干部职数|70", CmTag.getStringProperty("label_adminLevelNone")+"干部职数|90"})));
-            if (hasKjCadre) {
-                titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级干部职数|70", "副科级干部职数|70"})));
-            }
+        titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级岗位数|70",
+                "副处级岗位数|70", CmTag.getStringProperty("label_adminLevelNone")+"岗位数|70"})));
+        if (hasKjCadre) {
+            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级岗位数|70", "副科级岗位数|70"})));
+        }
+        titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正处级干部职数|70",
+                "副处级干部职数|70", CmTag.getStringProperty("label_adminLevelNone")+"干部职数|90"})));
+        if (hasKjCadre) {
+            titles.addAll(new ArrayList<>(Arrays.asList(new String[]{"正科级干部职数|70", "副科级干部职数|70"})));
         }
 
         List<List<String>> valuesList = new ArrayList<>();
@@ -430,25 +426,23 @@ public class UnitController extends BaseController {
                     metaTypeService.getName(record.getTypeId())
             }));
 
-            if (isUnitPostAdmin) {
+            values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                    NumberUtils.trimToZero(record.getMainPostCount()) + "",
+                    NumberUtils.trimToZero(record.getVicePostCount()) + "",
+                    NumberUtils.trimToZero(record.getNonePostCount()) + ""})));
+            if (hasKjCadre) {
                 values.addAll(new ArrayList<>(Arrays.asList(new String[]{
-                        NumberUtils.trimToZero(record.getMainPostCount()) + "",
-                        NumberUtils.trimToZero(record.getVicePostCount()) + "",
-                        NumberUtils.trimToZero(record.getNonePostCount()) + ""})));
-                if (hasKjCadre) {
-                    values.addAll(new ArrayList<>(Arrays.asList(new String[]{
-                            NumberUtils.trimToZero(record.getMainKjPostCount()) + "",
-                            NumberUtils.trimToZero(record.getViceKjPostCount()) + ""})));
-                }
+                        NumberUtils.trimToZero(record.getMainKjPostCount()) + "",
+                        NumberUtils.trimToZero(record.getViceKjPostCount()) + ""})));
+            }
+            values.addAll(new ArrayList<>(Arrays.asList(new String[]{
+                    NumberUtils.trimToZero(record.getMainCount()) + "",
+                    NumberUtils.trimToZero(record.getViceCount()) + "",
+                    NumberUtils.trimToZero(record.getNoneCount()) + ""})));
+            if (hasKjCadre) {
                 values.addAll(new ArrayList<>(Arrays.asList(new String[]{
-                        NumberUtils.trimToZero(record.getMainCount()) + "",
-                        NumberUtils.trimToZero(record.getViceCount()) + "",
-                        NumberUtils.trimToZero(record.getNoneCount()) + ""})));
-                if (hasKjCadre) {
-                    values.addAll(new ArrayList<>(Arrays.asList(new String[]{
-                            NumberUtils.trimToZero(record.getMainKjCount()) + "",
-                            NumberUtils.trimToZero(record.getMainKjCount()) + ""})));
-                }
+                        NumberUtils.trimToZero(record.getMainKjCount()) + "",
+                        NumberUtils.trimToZero(record.getMainKjCount()) + ""})));
             }
 
             valuesList.add(values);

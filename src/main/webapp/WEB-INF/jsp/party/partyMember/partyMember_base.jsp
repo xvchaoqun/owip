@@ -857,9 +857,9 @@
 
         function _innerPage(type) {
             if (type == undefined) {
-                $("#view-box .tab-content").loadPage("${ctx}/partyMember_base?cadreId=${param.cadreId}&_auth=${param._auth}")
+                $("#partyMemberViewContent").loadPage("${ctx}/partyMember_base?cadreId=${param.cadreId}&_auth=${param._auth}")
             } else {
-                $("#view-box .tab-content").loadPage("${ctx}/partyMember_base?cadreId=${param.cadreId}&_auth=${param._auth}&type=" + type)
+                $("#partyMemberViewContent").loadPage("${ctx}/partyMember_base?cadreId=${param.cadreId}&_auth=${param._auth}&type=" + type)
             }
         }
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="widget-box transparent" id="view-box">
+<div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
@@ -12,7 +12,7 @@
             ${cm:displayParty(branch.partyId, branch.id)}
         </span>
         <div class="widget-toolbar no-border">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" data-target="#branch-content">
                 <li class="active">
                     <a href="javascript:;" data-url="${ctx}/branch_base?id=${param.id}">基本信息</a>
                 </li>
@@ -36,7 +36,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
-            <div class="tab-content padding-8">
+            <div class="tab-content padding-8" id="branch-content">
                 <c:import url="/branch_base"/>
             </div>
         </div><!-- /.widget-main -->

@@ -86,7 +86,14 @@
                         <textarea id="content" class="form-control">${oaTask.content}</textarea>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <label class="col-xs-2 control-label"><span class="star">*</span>报送文件数量</label>
+                    <div class="col-xs-6">
+                        <input required class="form-control digits" type="text"
+                               name="userFileCount" value="${empty oaTask.userFileCount?0:oaTask.userFileCount}">
+                        <span class="help-block">注：此处填写任务对象报送时必须上传的文件数量，如果不要求上传文件请填0</span>
+                    </div>
+                </div>
             </form>
             <div class="modal-footer center">
                 <button id="submitBtn" type="button" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存

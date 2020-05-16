@@ -84,10 +84,12 @@ public abstract class Source {
             }
         }
 
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            logger.error("异常", e);
+        if(null != conn) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                logger.error("异常", e);
+            }
         }
     }
 

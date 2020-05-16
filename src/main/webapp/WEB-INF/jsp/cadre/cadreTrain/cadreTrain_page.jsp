@@ -145,7 +145,7 @@
         </c:if>
 
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreTrain_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
+            $("#tab-content").loadPage({url:"${ctx}/cadreTrain_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreTrain").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

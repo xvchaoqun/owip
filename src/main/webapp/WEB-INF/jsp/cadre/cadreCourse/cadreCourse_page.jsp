@@ -191,7 +191,7 @@
     </c:if>
 
     function _innerPage(type, fn) {
-        $("#view-box .tab-content").loadPage({url:"${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
+        $("#tab-content").loadPage({url:"${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({

@@ -626,14 +626,11 @@ body {
     text-align: right;
 }*/
 
-#view-box .widget-box .table-striped > tbody > tr:nth-of-type(odd) {
+.widget-box .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: inherit;
 }
 
-/*#view-box .table tbody tr:hover th {
-    background-color:transparent;
-}*/
-#view-box .widget-main.no-padding .table {
+.widget-main.no-padding .table {
     border: 1px solid #E5E5E5
 }
 

@@ -864,9 +864,9 @@
 
         function _innerPage(type) {
             if (type == undefined) {
-                $("#view-box .tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")
+                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")
             } else {
-                $("#view-box .tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&type=" + type)
+                $("#tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&type=" + type)
             }
         }
 

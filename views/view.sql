@@ -424,7 +424,7 @@ DROP VIEW IF EXISTS `oa_task_user_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
 select otu.*, uv.code, uv.realname, ot.name as task_name, ot.content as task_content,
 ot.user_id as task_user_id, ot.user_ids as task_user_ids,
-ot.deadline as task_deadline, ot.contact as task_contact,
+ot.deadline as task_deadline, ot.user_file_count, ot.contact as task_contact,
 ot.is_delete as task_is_delete, ot.is_publish as task_is_publish, ot.status as task_status,
 ot.pub_date as task_pub_date, ot.type as task_type,
 ouv.code as assign_code, ouv.realname as assign_realname,

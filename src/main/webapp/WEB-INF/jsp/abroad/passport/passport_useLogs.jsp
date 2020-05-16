@@ -92,33 +92,28 @@
                 return  '-';
             }},
             { label: '出行时间', name: 'startDate'  , formatter:function(cellvalue, options, rowObject){
-                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
+                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}' && rowObject.applySelf)
                     return $.date(rowObject.applySelf.startDate, "yyyy-MM-dd");
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
                     return '--';
                 return cellvalue;
             }},
             { label: '回国时间', name: 'endDate'  , formatter:function(cellvalue, options, rowObject){
-                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
+                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}' && rowObject.applySelf)
                     return $.date(rowObject.applySelf.endDate, "yyyy-MM-dd");
                 if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
                     return '--';
                 return cellvalue;
             }},
             { label: '前往国家或地区', name: 'realToCountry',width: 150 , formatter:function(cellvalue, options, rowObject){
-                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
+                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}' && rowObject.applySelf)
                     return rowObject.applySelf.toCountry;
-                /*if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_TW}')
-                    return '台湾';
-                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_OTHER}')
-                    return '--';
-                return cellvalue;*/
                 return '--';
             }},
             { label:'因私出国境事由', name: 'reason', width: 150, formatter:function(cellvalue, options, rowObject){
-                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}')
+                if(rowObject.type=='${ABROAD_PASSPORT_DRAW_TYPE_SELF}' && rowObject.applySelf && rowObject.applySelf.reason)
                     return rowObject.applySelf.reason.replace(/\+\+\+/g, ',');;
-                return cellvalue;
+                return $.trim(cellvalue);
             } },
             { label:'借出日期', name: 'drawTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             { label:'归还日期', name: 'realReturnDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} }

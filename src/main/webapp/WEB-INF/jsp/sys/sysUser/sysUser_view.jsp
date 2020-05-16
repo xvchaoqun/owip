@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="widget-box transparent" id="view-box">
+<div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
@@ -9,7 +9,7 @@
                 返回</a>
         </h4>
         <div class="widget-toolbar no-border">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" data-target="#user-content">
                 <li class="${to=='sysUser_base'?'active':''}">
                     <a href="javascript:;" data-url="${ctx}/sysUser_base?userId=${param.userId}">基本信息</a>
                 </li>
@@ -26,7 +26,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
-            <div class="tab-content padding-8" style="overflow: hidden">
+            <div class="tab-content padding-8" id="user-content" style="overflow: hidden">
                 <c:import url="/${to}"/>
             </div>
         </div><!-- /.widget-main -->
@@ -35,7 +35,7 @@
 
 <script>
 	function _reload(){
-		$("#view-box .nav-tabs li.active a").click();
+		$("ul[data-target=\"#user-content\"] li.active a").click();
 	}
 </script>
 

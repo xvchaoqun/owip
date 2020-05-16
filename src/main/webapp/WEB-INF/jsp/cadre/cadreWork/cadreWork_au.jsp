@@ -95,7 +95,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-4 control-label">补充说明</label>
             <div class="col-xs-6">
                 <textarea class="form-control" name="note" maxlength="50">${cadreWork.note}</textarea>
-                <span class="help-block" style="font-size: 10px;">任免审批表中时间格式不规范的其间经历（例如：如2000年8月任***学院院长）</span>
+                <span class="help-block" style="font-size: 10px;">例如：2000年8月任***学院院长</span>
             </div>
         </div>
 			<div class="form-group">

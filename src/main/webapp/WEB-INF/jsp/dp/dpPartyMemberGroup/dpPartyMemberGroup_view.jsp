@@ -82,7 +82,7 @@
     $(window).triggerHandler('resize.jqGrid2');
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/dp/dpPartyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#dp-content").loadPage("${ctx}/dp/dpPartyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
 </script>

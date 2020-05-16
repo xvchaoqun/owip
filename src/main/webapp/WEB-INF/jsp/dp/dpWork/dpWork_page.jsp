@@ -89,7 +89,7 @@
 
     <script>
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/dp/dpWork?userId=${param.userId}&type=" + type, callback:fn})
+            $("#dp-content").loadPage({url:"${ctx}/dp/dpWork?userId=${param.userId}&type=" + type, callback:fn})
         }
         $("#jqGrid_dpWork").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

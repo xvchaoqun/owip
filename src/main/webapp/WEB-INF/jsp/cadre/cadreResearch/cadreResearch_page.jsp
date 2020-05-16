@@ -333,7 +333,7 @@
     </c:if>
 
     function _innerPage(type, fn) {
-        $("#view-box .tab-content").loadPage({url:"${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
+        $("#tab-content").loadPage({url:"${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
     }
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     $("#jqGrid_cadreResearch_in").jqGrid({

@@ -3,6 +3,8 @@
 <%@include file="taglibs.jsp"%>
 <jsp:include page="meta.jsp"/>
 <title>${_plantform_name}</title>
+<c:set var="favicon" value="${ctx}/favicon.ico"/>
+<link rel="shortcut icon" href="${favicon}?_=${cm:lastModified(favicon)}" type="image/x-icon" />
 <t:link href="/css/main.css"/>
 <t:link href="/css/a.min.css"/>
 <!--[if lte IE 9]>

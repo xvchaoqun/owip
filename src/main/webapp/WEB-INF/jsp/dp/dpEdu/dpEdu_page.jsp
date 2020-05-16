@@ -85,7 +85,7 @@
     </script>
     <script>
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/dp/dpEdu?userId=${param.userId}&type=" + type, callback:fn})
+            $("#dp-content").loadPage({url:"${ctx}/dp/dpEdu?userId=${param.userId}&type=" + type, callback:fn})
         }
 
         var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};

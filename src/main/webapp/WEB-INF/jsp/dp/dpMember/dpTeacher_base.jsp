@@ -149,29 +149,6 @@
 </shiro:hasPermission>
 <script>
     function _reload() {
-        $("#body-content-view #view-box .nav-tabs li.active a").click();
-    }
-
-    function _sync(userId, btn) {
-
-        var $btn = $(btn).button('loading')
-        var $container = $("#view-box");
-        $container.showLoading({
-            'afterShow':
-                function () {
-                    setTimeout(function () {
-                        $container.hideLoading();
-                        $btn.button('reset');
-                    }, 10000);
-                }
-        });
-        $.post("${ctx}/sync_user", {userId: userId}, function (ret) {
-
-            if (ret.success) {
-                $container.hideLoading();
-                _reload();
-                $btn.button('reset');
-            }
-        });
+        $("ul[data-target=\"#dp-content\"] li.active a").click();
     }
 </script>

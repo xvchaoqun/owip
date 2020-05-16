@@ -131,7 +131,7 @@
 </c:if>
 <script>
     function _innerPage2(type) {
-        $("#view-box .tab-content").loadPage("${ctx}/cadrePostInfo_page?cadreId=${param.cadreId}&type=" + type)
+        $("#tab-content").loadPage("${ctx}/cadrePostInfo_page?cadreId=${param.cadreId}&type=" + type)
     }
 
     <c:if test="${!canUpdate}">

@@ -47,6 +47,6 @@ pageEncoding="UTF-8" %>
     $.register.fancybox();
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/party/partyPost?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#partyMemberViewContent").loadPage("${ctx}/party/partyPost?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

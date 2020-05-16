@@ -75,9 +75,4 @@
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
-    function _reload() {
-        $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }
-
 </script>

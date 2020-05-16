@@ -49,7 +49,7 @@
                                 <i class="fa fa-file-zip-o"></i> 打包下载附件</button>
 
                      <span style="margin-left: 20px;">
-                            任务对象共${totalCount}个， 完成报送共${hasReportCount}个（通过审核共${passCount}个） ， 未报送${totalCount-hasReportCount}个
+                            任务对象共${totalCount}个，完成报送共${hasReportCount}个（通过审核共${passCount}个），未报送${totalCount-hasReportCount}个
                     </span>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

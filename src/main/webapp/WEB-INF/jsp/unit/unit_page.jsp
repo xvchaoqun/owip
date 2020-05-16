@@ -15,8 +15,8 @@
             ||not empty param.typeId || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
-                <div class="<shiro:hasPermission name="unitPost:*">multi-row-head-table </shiro:hasPermission>tab-content">
-                    <div class="tab-pane in active">
+                <div class="tab-content">
+                    <div class="multi-row-head-table tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls!=3}">
                             <shiro:hasPermission name="unit:edit">
@@ -190,7 +190,7 @@
             </shrio:hasPermission>
             { label: '单位类型', name: 'typeId', width: 140, formatter: $.jgrid.formatter.MetaType },
             <c:if test="${cls==1}">
-            <shiro:hasPermission name="unitPost:*">
+            <shiro:hasPermission name="unitPost:list">
             { label: '正处级<br/>岗位数', name: 'mainPostCount', width: 80},
             { label: '副处级<br/>岗位数', name: 'vicePostCount', width: 80},
             { label: '${_p_label_adminLevelNone}<br/>岗位数', name: 'nonePostCount', width: 90},
@@ -205,8 +205,10 @@
             { label: '正科级<br/>干部职数', name: 'mainKjCount', width: 80},
             { label: '副科级<br/>干部职数', name: 'viceKjCount', width: 80},
             </c:if>
+            <shiro:hasPermission name="unitPost:*">
             {label: '是否列入<br/>配备一览表', name: 'notStatPost',
                 formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '否', off: '是'}},
+            </shiro:hasPermission>
             </shiro:hasPermission>
             </c:if>
             /*{ label: '成立时间', name: 'workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

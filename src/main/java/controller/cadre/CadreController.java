@@ -240,8 +240,10 @@ public class CadreController extends BaseController {
                            String title,
                            String sortBy, // 自定义排序
                            Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
-                           @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
-                           @RequestParam(required = false, defaultValue = "0") Boolean isEngage,//是否聘任制干部，指无行政级别的干部
+                           //是否为保留待遇干部信息，指第一主职无关联岗位的干部
+                           @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
+                           //是否聘任制干部，指无行政级别的干部
+                           @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录

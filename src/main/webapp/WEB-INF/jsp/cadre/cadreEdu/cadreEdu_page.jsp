@@ -189,7 +189,7 @@
     </script>
     <script>
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
+            $("#tab-content").loadPage({url:"${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
 
         var colModal = colModels.cadreEdu.concat();

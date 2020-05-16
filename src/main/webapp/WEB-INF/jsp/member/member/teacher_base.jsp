@@ -151,7 +151,7 @@
 </div>
 <shiro:hasPermission name="sysSync:user">
     <div class="clearfix form-actions center">
-        <c:if test="${sysUser.source==USER_SOURCE_JZG}">
+        <c:if test="${uv.source==USER_SOURCE_JZG}">
             <button class="btn btn-info  btn-pink" onclick="_sync(${param.userId}, this)" type="button"
                     data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步中..." autocomplete="off">
                 <i class="ace-icon fa fa-random "></i>
@@ -163,7 +163,7 @@
 </shiro:hasPermission>
 <script>
     function _reload() {
-        $("#body-content-view #view-box .nav-tabs li.active a").click();
+        $("ul[data-target='#partyMemberViewContent'] li.active a").click();
     }
 
     var jsObj = ${cm:toJSONObject(member)};
@@ -175,24 +175,12 @@
     $('#positiveTime').html($.memberApplyTime(_limit, jsObj.positiveTime, jsObj.growTime, 7));
 
     function _sync(userId, btn) {
-
         var $btn = $(btn).button('loading')
-        var $container = $("#view-box");
-        $container.showLoading({
-            'afterShow':
-                function () {
-                    setTimeout(function () {
-                        $container.hideLoading();
-                        $btn.button('reset');
-                    }, 10000);
-                }
-        });
         $.post("${ctx}/sync_user", {userId: userId}, function (ret) {
-
             if (ret.success) {
-                $container.hideLoading();
                 _reload();
                 $btn.button('reset');
+                SysMsg.success('同步完成。', '成功');
             }
         });
     }

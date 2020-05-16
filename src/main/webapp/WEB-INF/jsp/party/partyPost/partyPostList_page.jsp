@@ -107,6 +107,6 @@
     $.register.fancybox();
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").loadPage("${ctx}/party/partyPostList_page?list=1?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#partyMemberViewContent").loadPage("${ctx}/party/partyPostList_page?list=1?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

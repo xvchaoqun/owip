@@ -50,6 +50,8 @@ public class OaTaskUserView implements Serializable {
 
     private Date taskDeadline;
 
+    private Integer userFileCount;
+
     private String taskContact;
 
     private Boolean taskIsDelete;
@@ -256,6 +258,14 @@ public class OaTaskUserView implements Serializable {
 
     public void setTaskDeadline(Date taskDeadline) {
         this.taskDeadline = taskDeadline;
+    }
+
+    public Integer getUserFileCount() {
+        return userFileCount;
+    }
+
+    public void setUserFileCount(Integer userFileCount) {
+        this.userFileCount = userFileCount;
     }
 
     public String getTaskContact() {

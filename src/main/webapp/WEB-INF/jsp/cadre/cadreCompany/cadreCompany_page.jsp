@@ -5,12 +5,12 @@ pageEncoding="UTF-8" %>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${cls==1?"active":""}">
         <a href="javascript:;" class="loadPage"
-           data-load-el="#view-box .tab-content"
+           data-load-el="#tab-content"
            data-url="${ctx}/cadreCompany?cls=1&cadreId=${param.cadreId}"><i class="fa fa-list"></i> 正在兼职</a>
     </li>
     <li class="${cls==2?"active":""}">
         <a href="javascript:;" class="loadPage"
-           data-load-el="#view-box .tab-content"
+           data-load-el="#tab-content"
            data-url="${ctx}/cadreCompany?cls=2&cadreId=${param.cadreId}"><i class="fa fa-history"></i> 历史兼职</a>
     </li>
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">

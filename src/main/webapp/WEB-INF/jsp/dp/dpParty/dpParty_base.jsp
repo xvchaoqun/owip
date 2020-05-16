@@ -182,9 +182,6 @@ pageEncoding="UTF-8"%>
 </div>
 <script>
 	function _delAdminCallback(target){
-
-		//SysMsg.success('删除成功。', '成功',function(){
-			$("#view-box .nav-tabs li.active a").click();
-		//});
+		$("ul[data-target=\"#dp-content\"] li.active a").click();
 	}
 </script>

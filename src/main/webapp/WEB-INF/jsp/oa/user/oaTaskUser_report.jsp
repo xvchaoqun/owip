@@ -15,7 +15,6 @@
             <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="taskId" value="${oaTaskUser.taskId}">
                 <table class="table table-bordered table-unhover">
-                    <c:if test="${param.type!='report'}">
                     <tr>
                         <td width="100">标题</td>
                         <td colspan="3">${oaTask.name}</td>
@@ -41,7 +40,6 @@
                         <td width="100">联系方式</td>
                         <td>${oaTask.contact}</td>
                     </tr>
-                    </c:if>
                     <c:if test="${param.type=='report' || oaTaskUser.status==OA_TASK_USER_STATUS_PASS}">
                     <tr>
                         <td style="vertical-align: middle">报送内容</td>
@@ -57,7 +55,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: middle">附件</td>
+                        <td style="vertical-align: middle">${oaTask.userFileCount>0?'<span class="star">*</span>':''}附件</td>
                         <td colspan="3">
                             <c:forEach var="file" items="${oaTaskUserFiles}">
                                 <div class="file">
@@ -77,6 +75,9 @@
                                 </div>
                                 <button type="button" onclick="addFile()"
                                         class="addFileBtn btn btn-default btn-xs"><i class="fa fa-plus"></i></button>
+                                <c:if test="${oaTask.userFileCount>0}">
+                                <div class="help-block red" style="clear:left">注：请上传至少${oaTask.userFileCount}个附件</div>
+                                </c:if>
                             </c:if>
                         </td>
                     </tr>
@@ -169,6 +170,17 @@
     $("#modalForm").validate({
 
         submitHandler: function (form) {
+
+            var userFileCount = 0;
+            $.each($("#modalForm input[type=file]"), function(){
+                if($.trim($(this).val())!='') userFileCount++;
+            })
+
+            if(userFileCount+$("div.file").size()<${oaTask.userFileCount}){
+                SysMsg.warning("此任务必须上传至少${oaTask.userFileCount}个附件");
+                return;
+            }
+
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {content: ke.html()},

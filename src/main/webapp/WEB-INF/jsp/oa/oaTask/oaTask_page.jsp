@@ -239,6 +239,7 @@
                         'data-url="${ctx}/oa/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
                                 .format(rowObject.id, rowObject.fileCount>0?"("+rowObject.fileCount+")":"")
             }},
+            {label: '报送文件数量', name: 'userFileCount'},
             {
                 label: '任务对象', name: '_users', width: 120, formatter: function (cellvalue, options, rowObject) {
 

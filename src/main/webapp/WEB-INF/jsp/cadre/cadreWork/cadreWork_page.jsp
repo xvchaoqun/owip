@@ -288,7 +288,7 @@
 <c:if test="${type==1}">
     <script>
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreWork_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
+            $("#tab-content").loadPage({url:"${ctx}/cadreWork_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreWork").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

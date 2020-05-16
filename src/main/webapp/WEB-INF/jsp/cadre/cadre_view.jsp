@@ -27,11 +27,11 @@
     <div id="body-content-view">
 </c:if>
 
-<div class="widget-box transparent cadreView" id="view-box">
+<div class="widget-box transparent cadreView">
     <div class="widget-header" style="border-bottom:none">
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" data-target="#tab-content">
                 <shiro:hasPermission name="cadreAdform:*">
                     <li class="${to=='cadreAdform_page'?'active':''}">
                         <a href="javascript:;"
@@ -167,7 +167,7 @@
     </div>
     <div class="widget-body" style="clear:left">
         <div class="widget-main no-padding">
-            <div class="tab-content">
+            <div class="tab-content" id="tab-content">
                 <c:import url="/${to}"/>
             </div>
         </div>

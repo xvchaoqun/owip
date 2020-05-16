@@ -12,12 +12,12 @@
     var _w = $("#breadcrumbs").position().left + $("#breadcrumbs ul.breadcrumb").outerWidth(true);
     $("#cadreTitleDiv").css("left", _w + "px")
 </script>
-<div class="widget-box transparent cadreView" id="view-box">
+<div class="widget-box transparent cadreView">
     <div class="widget-header" style="border-bottom:none">
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
 
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" data-target="#partyMemberViewContent">
                 <li>
                     <h4 class="widget-title lighter smaller" style="padding-right: 20px;margin-bottom: 0">
                         <a href="javascript:;"

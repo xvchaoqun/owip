@@ -587,6 +587,66 @@ public class OaTaskViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserFileCountIsNull() {
+            addCriterion("user_file_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountIsNotNull() {
+            addCriterion("user_file_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountEqualTo(Integer value) {
+            addCriterion("user_file_count =", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountNotEqualTo(Integer value) {
+            addCriterion("user_file_count <>", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountGreaterThan(Integer value) {
+            addCriterion("user_file_count >", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_file_count >=", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountLessThan(Integer value) {
+            addCriterion("user_file_count <", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountLessThanOrEqualTo(Integer value) {
+            addCriterion("user_file_count <=", value, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountIn(List<Integer> values) {
+            addCriterion("user_file_count in", values, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountNotIn(List<Integer> values) {
+            addCriterion("user_file_count not in", values, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountBetween(Integer value1, Integer value2) {
+            addCriterion("user_file_count between", value1, value2, "userFileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserFileCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_file_count not between", value1, value2, "userFileCount");
+            return (Criteria) this;
+        }
+
         public Criteria andContactIsNull() {
             addCriterion("contact is null");
             return (Criteria) this;

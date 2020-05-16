@@ -9,6 +9,7 @@ import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class UserPassportApplyController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping(value = "/passportApply_apply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_apply(int classId, Integer cadreId,  HttpServletRequest request) {
@@ -76,7 +78,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success;
     }
 
-    @RequiresPermissions("userApplySelf:*")
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -94,18 +96,21 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping("/passportApply_begin")
     public String passportApply_begin() {
 
         return "abroad/user/passportApply/passportApply_begin";
     }
 
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping("/passportApply_select")
     public String passportApply_select() {
 
         return "abroad/user/passportApply/passportApply_select";
     }
 
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm(Integer cadreId, ModelMap modelMap) {
 
@@ -121,7 +126,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return "abroad/user/passportApply/passportApply_confirm";
     }
 
-    @RequiresPermissions("userApplySelf:*")
+    @RequiresPermissions(value = {"userPassportApply:*", "passportApply:edit"}, logical = Logical.OR)
     @RequestMapping("/passportApply")
     public String passportApply(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,

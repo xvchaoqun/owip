@@ -10,6 +10,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,6 +310,7 @@ public class UserApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions(value = {"userApplySelf:*", "applySelf:edit"}, logical = Logical.OR)
     @RequestMapping("/applySelf_au")
     public String applySelf_au(Integer cadreId, Integer id, ModelMap modelMap) {
 

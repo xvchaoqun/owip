@@ -8,12 +8,12 @@
        ||not empty param.postClass || not empty param.code || not empty param.sort}"/>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="<c:if test="${cls==1}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
+        <a href="javascript:;" class="loadPage" data-load-el="#unit-content"
            data-url="${ctx}/unitPostList?cls=1&unitId=${param.unitId}"><i
                 class="fa fa-circle-o-notch"></i> 现有岗位</a>
     </li>
     <li class="<c:if test="${cls==2}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-load-el="#tab-content"
+        <a href="javascript:;" class="loadPage" data-load-el="#unit-content"
            data-url="${ctx}/unitPostList?cls=2&unitId=${param.unitId}"><i class="fa fa-history"></i> 撤销岗位</a>
     </li>
 </ul>

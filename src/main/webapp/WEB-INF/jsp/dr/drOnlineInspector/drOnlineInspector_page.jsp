@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
 <c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_MAP%>" var="INSPECTOR_PUB_STATUS_MAP"/>
 <c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_RELEASE%>" var="INSPECTOR_PUB_STATUS_RELEASE"/>
 <c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE%>" var="INSPECTOR_PUB_STATUS_NOT_RELEASE"/>
-<div class="widget-box transparent" id="view-box">
+<div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="openView btn btn-xs btn-success"

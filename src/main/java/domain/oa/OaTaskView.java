@@ -27,6 +27,8 @@ public class OaTaskView implements Serializable {
 
     private Date deadline;
 
+    private Integer userFileCount;
+
     private String contact;
 
     private String msg;
@@ -105,6 +107,14 @@ public class OaTaskView implements Serializable {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public Integer getUserFileCount() {
+        return userFileCount;
+    }
+
+    public void setUserFileCount(Integer userFileCount) {
+        this.userFileCount = userFileCount;
     }
 
     public String getContact() {

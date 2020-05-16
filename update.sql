@@ -1,7 +1,32 @@
 
-2020.5.14
+
+ALTER TABLE `oa_task`
+	ADD COLUMN `user_file_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '须任务对象上传文件数量' AFTER `deadline`;
+-- 更新 oa_task_view  oa_task_user_view
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (53, 0, '基本信息', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:base', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (54, 0, '行政班子', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitTeam', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (55, 0, '干部岗位', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitPost', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (56, 0, '干部任免信息', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:dispatchCadre', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (57, 0, '单位发展历程文件', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitTransfer', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (58, 0, '校领导班子', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:leaderView', NULL, NULL, NULL, 1, NULL);
+
+
+-- 已更新南航
+update sys_resource set permission='userPassport:*' where permission='userPassportApply:*';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (950, 0, '申办证件', '', 'function', '', NULL, 262, '0/1/262/', 1, 'userPassportApply:*', NULL, NULL, NULL, 1, NULL);
+-- 给原来有userPassportApply:*权限的人，增加权限userPassport:*
+
+-- 更新录入样表
+
 UPDATE sys_resource SET NAME='档案认定',menu_css='fa fa-check-square-o',parent_ids='0/1/339/', parent_id=339,sort_order=190 WHERE id=411;
 DELETE from sys_resource WHERE id=410;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2535, 0, '入党时间认定', '', 'function', '', NULL, 411, '0/1/339/411/', 1, 'verifyGrowTime:*', NULL, NULL, NULL, 1, NULL);
+
+update sys_role sr, (select id from sys_resource where permission='verify:menu')tmp,
+(select id from sys_resource where permission='verifyGrowTime:*')tmp2 set resource_ids=concat(resource_ids,',', tmp2.id)  where  find_in_set(tmp.id, resource_ids);
+
 
 2020.5.13
 西北工大-- 北师大
