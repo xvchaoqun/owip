@@ -1,5 +1,6 @@
 package controller.verify;
 
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.verify.VerifyGrowTime;
 import domain.verify.VerifyGrowTimeExample;
@@ -106,18 +107,11 @@ public class VerifyGrowTimeController extends VerifyBaseController {
     @ResponseBody
     public Map do_verifyGrowTime_au(VerifyGrowTime record, HttpServletRequest request) {
 
-
-        Integer cadreId = record.getCadreId();
-        if (null != cadreId && verifyGrowTimeService.idDuplicate(cadreId)){
-            return failed("添加重复");
+        if (verifyGrowTimeService.idDuplicate(record.getCadreId())){
+            throw new OpException("添加重复！");
         }
-
-        Integer id = record.getId();
-
-        if (id == null) {
-            verifyGrowTimeService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_ADMIN, "添加入党时间认定：{0}", record.getId()));
-        }
+        verifyGrowTimeService.insertSelective(record);
+        logger.info(log( LogConstants.LOG_ADMIN, "添加入党时间认定：{0}", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -236,51 +230,5 @@ public class VerifyGrowTimeController extends VerifyBaseController {
         }
         String fileName = String.format("入党时间认定(%s)", DateUtils.formatDate(new Date(), "yyyyMMdd"));
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequestMapping("/verifyGrowTime_selects")
-    @ResponseBody
-    public Map verifyGrowTime_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        VerifyGrowTimeExample example = new VerifyGrowTimeExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            //criteria.and(SqlUtils.like(searchStr));
-        }
-
-        long count = verifyGrowTimeMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<VerifyGrowTime> records = verifyGrowTimeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != records && records.size()>0){
-
-            for(VerifyGrowTime record:records){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getCadreId());
-                option.put("id", record.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
     }
 }

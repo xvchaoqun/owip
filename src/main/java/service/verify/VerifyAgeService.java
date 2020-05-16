@@ -4,7 +4,6 @@ import domain.verify.VerifyAge;
 import domain.verify.VerifyAgeExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.VerifyConstants;
@@ -31,7 +30,6 @@ public class VerifyAgeService extends BaseMapper {
 
 
         record.setStatus(VerifyConstants.VERIFY_STATUS_NORMAL);
-        Assert.isTrue(!idDuplicate(record.getCadreId()), "duplicate cadreId");
         record.setSubmitTime(new Date());
         record.setSubmitIp(ContextHelper.getRealIp());
         record.setSubmitUserId(ShiroHelper.getCurrentUserId());

@@ -8,7 +8,7 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <form class="form-horizontal" action="${ctx}/verifyAge_verify" autocomplete="off" disableautocomplete id="modalForm" method="post">
+                <form class="form-horizontal" action="${ctx}/verifyAge_verify" autocomplete="off" disableautocomplete id="modalFormVerify" method="post">
                     <input type="hidden" name="id" value="${verifyAge.id}">
                     <div class="form-group">
                         <label class="col-xs-4 control-label"><span class="star">*</span>认定类别</label>
@@ -20,7 +20,7 @@
                                 </c:forEach>
                             </select>
                             <script>
-                                $("#modalForm select[name=type]").val('${verifyAge.type}');
+                                $("#modalFormVerify select[name=type]").val('${verifyAge.type}');
                             </script>
                         </div>
                     </div>
@@ -144,19 +144,20 @@
     $.register.date($('.input-group.date'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
-    $("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
-    $("#modalForm").validate({
+    $("#body-content-view button[type=submit]").click(function(){$("#modalFormVerify").submit(); return false;});
+    $("#modalFormVerify").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        $.hideView()
+                        $.hideView();
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
+    $("#modalFormVerify :checkbox").bootstrapSwitch();
+    $('#modalFormVerify [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

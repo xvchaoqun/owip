@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" class="myTableDiv" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/verify/verify_menu.jsp"/>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                 { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 { label: '认定后入党时间',name: 'verifyGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                 { label: '认定',name: '_verify',formatter: function (cellvalue, options, rowObject) {
-                        if ($.trim(rowObject.oldGrowTime)=='')
+                        if ($.trim(rowObject.verifyGrowTime)=='')
                             return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'
                                 .format(rowObject.id);
                         else
@@ -107,6 +107,6 @@ pageEncoding="UTF-8" %>
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
+    $('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

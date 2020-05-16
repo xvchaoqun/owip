@@ -8,7 +8,7 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <form class="form-horizontal" action="${ctx}/verify/verifyGrowTime_verify" autocomplete="off" disableautocomplete id="modalForm" method="post">
+                <form class="form-horizontal" action="${ctx}/verify/verifyGrowTime_verify" autocomplete="off" disableautocomplete id="modalFormVerify" method="post">
                     <input type="hidden" name="id" value="${verifyTime.id}">
                         <fieldset>
                             <legend>《入党志愿书》</legend>
@@ -127,19 +127,20 @@
     $.register.date($('.date-picker'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
-    $("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
-    $("#modalForm").validate({
+    $("#body-content-view button[type=submit]").click(function(){$("#modalFormVerify").submit(); return false;});
+    $("#modalFormVerify").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        $.hideView()
+                        $("#jqGrid").trigger("reloadGrid");
+                        $.hideView();
                     }
                 }
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $("#modalFormVerify :checkbox").bootstrapSwitch();
+    $('#modalFormVerify [data-rel="select2"]').select2();
+    //$('[data-rel="tooltip"]').tooltip();
 </script>

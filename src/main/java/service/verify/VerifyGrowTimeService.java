@@ -19,8 +19,7 @@ public class VerifyGrowTimeService extends VerifyBaseMapper {
     public boolean idDuplicate(Integer cadreId){
 
         VerifyGrowTimeExample example = new VerifyGrowTimeExample();
-        VerifyGrowTimeExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
+        example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
 
         return verifyGrowTimeMapper.countByExample(example) > 0;
     }
