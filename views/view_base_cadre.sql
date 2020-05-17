@@ -27,8 +27,8 @@ SELECT c.*,
 	-- 判断是否是中共党员
 	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
 	-- 优先以党员库中的入党时间为准
-	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
-	, if(om.status=1 or om.status=4, om.positive_time, DATE_ADD(ow.grow_time, INTERVAL 1 YEAR )) as ow_positive_time
+     ,if(isnull(_vgt.verify_grow_time), if(om.status=1 or om.status=4, om.grow_time, ow.grow_time), _vgt.verify_grow_time) as ow_grow_time
+     ,DATE_ADD(if(isnull(_vgt.verify_grow_time), if(om.status=1 or om.status=4, om.grow_time, ow.grow_time), _vgt.verify_grow_time), INTERVAL 1 YEAR) as ow_positive_time
 	, ow.remark as ow_remark
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
@@ -97,7 +97,8 @@ left join unit u on(main_cadre_post.unit_id=u.id)
 left join base_meta_type unit_type on(u.type_id=unit_type.id)
 left join cadre_admin_level cal on cal.cadre_id=c.id and cal.admin_level=main_cadre_post.admin_level
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
-left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
+left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id
+left join (select cadre_id, verify_grow_time from verify_grow_time where status=0) _vgt on _vgt.cadre_id=c.id;
 
 
 -- ----------------------------

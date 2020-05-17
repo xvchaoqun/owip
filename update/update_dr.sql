@@ -141,3 +141,5 @@ CREATE TABLE IF NOT EXISTS `dr_online_result` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='线上民主推荐结果';
+
+-- 新建视图 dr_online_post_view

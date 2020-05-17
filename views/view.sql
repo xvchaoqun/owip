@@ -460,18 +460,6 @@ CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_view` AS
 
 -- 作废 20191010
 DROP VIEW IF EXISTS `crs_candidate_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `crs_candidate_view` AS
-select cc.id as candidate_id, cc.is_first, cpec.expert_count,
-cc.post_id as crs_post_id, cp.type as crs_post_type,cp.year as crs_post_year,cp.seq as crs_post_seq,
-cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status,
-ca.id as applicant_id, ca.recommend_ow, ca.recommend_cadre, ca.recommend_crowd, ca.recommend_pdf,
-ca.recommend_first_count, ca.recommend_second_count,
-ca.is_recommend, ca.ppt_name, ca.ppt, cv.* from crs_candidate cc
-left join cadre_view cv on cv.user_id=cc.user_id
-left join crs_applicant ca on ca.user_id=cc.user_id and ca.post_id=cc.post_id
-left join crs_post cp on cp.id = cc.post_id
-left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=cc.post_id ;
-
 
 DROP VIEW IF EXISTS `crs_applicant_stat_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_stat_view` AS

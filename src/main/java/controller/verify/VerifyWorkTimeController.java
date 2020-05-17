@@ -121,7 +121,6 @@ public class VerifyWorkTimeController extends VerifyBaseController {
     @ResponseBody
     public Map do_verifyWorkTime_au(VerifyWorkTime record, HttpServletRequest request) {
 
-
         if (verifyWorkTimeService.idDuplicate(record.getCadreId())) {
             return failed("添加重复");
         }
@@ -146,18 +145,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
     @RequestMapping(value = "/verifyWorkTime_verify", method = RequestMethod.POST)
     @ResponseBody
     public Map do_verifyWorkTime_verify(VerifyWorkTime record,
-                                   String _materialTime,
-                                   String _materialWorkTime,
-                                   String _adTime,
-                                   String _oldWorkTime,
-                                   String _verifyWorkTime,
                                    HttpServletRequest request) {
-
-        record.setMaterialTime(DateUtils.parseDate(_materialTime, DateUtils.YYYY_MM_DD));
-        record.setMaterialWorkTime(DateUtils.parseDate(_materialWorkTime, DateUtils.YYYYMM));
-        record.setAdTime(DateUtils.parseDate(_adTime, DateUtils.YYYY_MM_DD));
-        record.setOldWorkTime(DateUtils.parseDate(_oldWorkTime, DateUtils.YYYYMM));
-        record.setVerifyWorkTime(DateUtils.parseDate(_verifyWorkTime, DateUtils.YYYYMM));
 
         verifyWorkTimeService.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getId()));

@@ -16,7 +16,7 @@
                                 <label class="col-xs-4 control-label">形成时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialTime" type="text"
+                                        <input class="form-control date-picker" name="materialTime" type="text"
                                                data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.materialTime,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
@@ -26,7 +26,7 @@
                                 <label class="col-xs-4 control-label">记载的入党时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialGrowTime" type="text"
+                                        <input class="form-control date-picker" name="materialGrowTime" type="text"
                                                data-date-min-view-mode="1" placeholder="yyyy.mm"
                                                data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.materialGrowTime,'yyyy.MM')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -40,7 +40,7 @@
                             <label class="col-xs-4 control-label">形成时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" name="_adTime" type="text"
+                                    <input class="form-control date-picker" name="adTime" type="text"
                                            data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.adTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
@@ -50,7 +50,7 @@
                             <label class="col-xs-4 control-label">记载的入党时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" name="_adGrowTime" type="text"
+                                    <input class="form-control date-picker" name="adGrowTime" type="text"
                                            data-date-min-view-mode="1" placeholder="yyyy.mm"
                                            data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.adGrowTime,'yyyy.MM')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -63,9 +63,9 @@
 
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <input class="form-control date-picker" name="_oldGrowTime" type="text"
-                                       data-date-format="yyyy.mm.dd"
-                                       value="${cm:formatDate(verifyTime.oldGrowTime,'yyyy.MM.dd')}"/>
+                                <input class="form-control date-picker" name="oldGrowTime" type="text"
+                                       data-date-min-view-mode="1" data-date-format="yyyy.mm"
+                                       value="${cm:formatDate(verifyTime.oldGrowTime,'yyyy.MM')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
 
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <input required class="form-control date-picker" name="_verifyGrowTime" type="text"
+                                <input required class="form-control date-picker" name="verifyGrowTime" type="text"
                                        data-date-min-view-mode="1" placeholder="yyyy.mm"
                                        data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.verifyGrowTime,'yyyy.MM')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -101,7 +101,7 @@
                         &nbsp; &nbsp; &nbsp;
                         <button class="hideView btn btn-default" type="button">
                             <i class="ace-icon fa fa-undo bigger-110"></i>
-                            取消
+                            返回
                         </button>
                     </div>
                 </div>

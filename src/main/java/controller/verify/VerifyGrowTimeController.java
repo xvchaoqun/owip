@@ -127,20 +127,7 @@ public class VerifyGrowTimeController extends VerifyBaseController {
     @RequestMapping(value = "/verifyGrowTime_verify", method = RequestMethod.POST)
     @ResponseBody
     public Map do_verifyGrowTime_verify(VerifyGrowTime record,
-                                   String _materialTime,
-                                   String _materialGrowTime,
-                                   String _adTime,
-                                   String _adGrowTime,
-                                   String _oldGrowTime,
-                                   String _verifyGrowTime,
                                    HttpServletRequest request) {
-
-        record.setMaterialTime(DateUtils.parseDate(_materialTime, DateUtils.YYYYMMDD_DOT));
-        record.setMaterialGrowTime(DateUtils.parseDate(_materialGrowTime, DateUtils.YYYYMM));
-        record.setAdTime(DateUtils.parseDate(_adTime, DateUtils.YYYYMMDD_DOT));
-        record.setAdGrowTime(DateUtils.parseDate(_adGrowTime, DateUtils.YYYYMM));
-        record.setOldGrowTime(DateUtils.parseDate(_oldGrowTime, DateUtils.YYYYMMDD_DOT));
-        record.setVerifyGrowTime(DateUtils.parseDate(_verifyGrowTime, DateUtils.YYYYMM));
 
         verifyGrowTimeService.update(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "入党时间认定：%s", record.getId()));

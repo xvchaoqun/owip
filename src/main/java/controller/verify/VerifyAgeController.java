@@ -149,20 +149,7 @@ public class VerifyAgeController extends VerifyBaseController {
     @RequestMapping(value = "/verifyAge_verify", method = RequestMethod.POST)
     @ResponseBody
     public Map do_verifyAge_verify(VerifyAge record,
-                                   String _materialTime,
-                                   String _materialBirth,
-                                   String _adTime,
-                                   String _adBirth,
-                                   String _oldBirth,
-                                   String _verifyBirth,
                                    HttpServletRequest request) {
-
-        record.setMaterialTime(DateUtils.parseDate(_materialTime, DateUtils.YYYY_MM_DD));
-        record.setMaterialBirth(DateUtils.parseDate(_materialBirth, DateUtils.YYYY_MM_DD));
-        record.setAdTime(DateUtils.parseDate(_adTime, DateUtils.YYYY_MM_DD));
-        record.setAdBirth(DateUtils.parseDate(_adBirth, DateUtils.YYYY_MM_DD));
-        record.setOldBirth(DateUtils.parseDate(_oldBirth, DateUtils.YYYY_MM_DD));
-        record.setVerifyBirth(DateUtils.parseDate(_verifyBirth, DateUtils.YYYY_MM_DD));
 
         verifyAgeService.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "出生时间认定：%s", record.getId()));

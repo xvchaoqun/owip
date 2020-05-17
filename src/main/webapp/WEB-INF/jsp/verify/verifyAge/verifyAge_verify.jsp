@@ -35,9 +35,9 @@
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">形成时间</label>
                                 <div class="col-xs-6">
-                                    <div class="input-group date" data-date-format="yyyy-mm-dd">
-                                        <input class="form-control" name="_materialTime" type="text"
-                                                value="${cm:formatDate(verifyAge.materialTime,'yyyy-MM-dd')}"/>
+                                    <div class="input-group date" data-date-format="yyyy.mm.dd">
+                                        <input class="form-control" name="materialTime" type="text"
+                                                value="${cm:formatDate(verifyAge.materialTime,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -45,9 +45,9 @@
                             <div class="form-group">
                                 <label class="col-xs-4 control-label">记载的出生时间</label>
                                 <div class="col-xs-6">
-                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
-                                        <input class="form-control" name="_materialBirth" type="text"
-                                               value="${cm:formatDate(verifyAge.materialBirth,'yyyy-MM-dd')}"/>
+                                    <div class="input-group date" data-date-format="yyyy.mm.dd" >
+                                        <input class="form-control" name="materialBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.materialBirth,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -59,9 +59,9 @@
                             <label class="col-xs-4 control-label">形成时间</label>
 
                             <div class="col-xs-6">
-                                <div class="input-group date" data-date-format="yyyy-mm-dd" >
-                                    <input class="form-control" name="_adTime" type="text"
-                                           value="${cm:formatDate(verifyAge.adTime,'yyyy-MM-dd')}"/>
+                                <div class="input-group date" data-date-format="yyyy.mm.dd" >
+                                    <input class="form-control" name="adTime" type="text"
+                                           value="${cm:formatDate(verifyAge.adTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -70,9 +70,9 @@
                             <label class="col-xs-4 control-label">记载的出生时间</label>
 
                             <div class="col-xs-6">
-                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
-                                        <input class="form-control" name="_adBirth" type="text"
-                                               value="${cm:formatDate(verifyAge.adBirth,'yyyy-MM-dd')}"/>
+                                    <div class="input-group date" data-date-format="yyyy.mm.dd" >
+                                        <input class="form-control" name="adBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.adBirth,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -82,9 +82,9 @@
                         <label class="col-xs-4 control-label">身份证出生时间</label>
 
                         <div class="col-xs-6">
-                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
-                                        <input class="form-control" name="_oldBirth" type="text"
-                                               value="${cm:formatDate(verifyAge.oldBirth,'yyyy-MM-dd')}"/>
+                                    <div class="input-group date" data-date-format="yyyy.mm.dd" >
+                                        <input class="form-control" name="oldBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.oldBirth,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -92,9 +92,9 @@
                     <div class="form-group well" style="margin: 10px;">
                         <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定出生时间</label>
                         <div class="col-xs-6">
-                                    <div class="input-group date" data-date-format="yyyy-mm-dd" >
-                                        <input class="form-control" name="_verifyBirth" type="text"
-                                               value="${cm:formatDate(verifyAge.verifyBirth,'yyyy-MM-dd')}"/>
+                                    <div class="input-group date" data-date-format="yyyy.mm.dd" >
+                                        <input class="form-control" name="verifyBirth" type="text"
+                                               value="${cm:formatDate(verifyAge.verifyBirth,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                         &nbsp; &nbsp; &nbsp;
                         <button class="hideView btn btn-default" type="button">
                             <i class="ace-icon fa fa-undo bigger-110"></i>
-                            取消
+                            返回
                         </button>
                     </div>
                 </div>

@@ -2,7 +2,9 @@ package domain.verify;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,16 +27,22 @@ public class VerifyGrowTime implements Serializable {
 
     private Integer cadreId;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date oldGrowTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date verifyGrowTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date materialTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date materialGrowTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date adTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date adGrowTime;
 
     private String remark;

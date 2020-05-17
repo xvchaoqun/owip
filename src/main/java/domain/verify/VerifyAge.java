@@ -2,7 +2,9 @@ package domain.verify;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,18 +28,24 @@ public class VerifyAge implements Serializable {
 
     private Byte type;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date oldBirth;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date verifyBirth;
 
     private String materialName;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date materialTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date materialBirth;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date adTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date adBirth;
 
     private String remark;

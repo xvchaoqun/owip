@@ -1,9 +1,9 @@
 
+2020.5.17
 
 ALTER TABLE `oa_task`
 	ADD COLUMN `user_file_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '须任务对象上传文件数量' AFTER `deadline`;
 -- 更新 oa_task_view  oa_task_user_view
-
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (53, 0, '基本信息', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:base', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (54, 0, '行政班子', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitTeam', NULL, NULL, NULL, 1, NULL);
@@ -17,15 +17,23 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 update sys_resource set permission='userPassport:*' where permission='userPassportApply:*';
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (950, 0, '申办证件', '', 'function', '', NULL, 262, '0/1/262/', 1, 'userPassportApply:*', NULL, NULL, NULL, 1, NULL);
 -- 给原来有userPassportApply:*权限的人，增加权限userPassport:*
+update sys_role sr, (select id from sys_resource where permission='userPassportApply:*')tmp,
+(select id from sys_resource where permission='userPassport:*')tmp2 set resource_ids=concat(resource_ids,',', tmp2.id)  where  find_in_set(tmp.id, resource_ids);
 
 -- 更新录入样表
 
-UPDATE sys_resource SET NAME='档案认定',menu_css='fa fa-check-square-o',parent_ids='0/1/339/', parent_id=339,sort_order=190 WHERE id=411;
+UPDATE sys_resource SET NAME='档案认定',menu_css=null,parent_ids='0/1/339/', parent_id=339,sort_order=190 WHERE id=411;
 DELETE from sys_resource WHERE id=410;
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2535, 0, '入党时间认定', '', 'function', '', NULL, 411, '0/1/339/411/', 1, 'verifyGrowTime:*', NULL, NULL, NULL, 1, NULL);
 
 update sys_role sr, (select id from sys_resource where permission='verify:menu')tmp,
 (select id from sys_resource where permission='verifyGrowTime:*')tmp2 set resource_ids=concat(resource_ids,',', tmp2.id)  where  find_in_set(tmp.id, resource_ids);
+
+-- 0516已提交代码未更新
+
+-- 新增表 verify_grow_time
+
+-- 更新 cadre_view
 
 
 2020.5.13
@@ -148,7 +156,7 @@ VALUES ('sync', '同步字段是否只同步一次', '011011110110110', 1, 51, '
 
 ALTER TABLE `cg_team` ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级ID' AFTER `id`,
 	ADD CONSTRAINT `FK_cg_team_cg_team` FOREIGN KEY (`fid`) REFERENCES `cg_team` (`id`) ON DELETE CASCADE;
-
+-- 更新 cg_team_view
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('label_adminLevelNone', '无行政级别标签', '无行政级别', '1', '57', '无行政级别、聘任制');
@@ -164,7 +172,7 @@ VALUES ('cadrePost_vacant', '干部配备一览表显示空岗情况', 'false', 
 ALTER TABLE `sys_role`
 	ADD COLUMN `type` TINYINT(3) UNSIGNED NULL DEFAULT '1' COMMENT '类别，1加权限 2减权限' AFTER `name`;
 
--- 党员或民主党派变为群众，因删除其所属组织
+-- 党员或民主党派变为群众，应删除其所属组织
 ALTER TABLE `ow_member`
 	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL COMMENT '所属分党委' AFTER `user_id`;
 update  ow_member om, ow_member_quit omq set om.party_id=null , om.branch_id=null

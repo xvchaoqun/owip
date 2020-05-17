@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
                 { label: '工作证号',name: 'cadre.code'},
                 { label: '姓名',name: 'cadre.realname'},
                 { label: '所在单位及职务',name: 'cadre.title', align: 'left', width: 350},
-                { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                 { label: '认定后入党时间',name: 'verifyGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
                 { label: '认定',name: '_verify',formatter: function (cellvalue, options, rowObject) {
                         if ($.trim(rowObject.verifyGrowTime)=='')

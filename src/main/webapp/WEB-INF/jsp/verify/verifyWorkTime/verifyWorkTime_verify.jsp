@@ -11,7 +11,7 @@
                 <form class="form-horizontal" action="${ctx}/verifyWorkTime_verify" autocomplete="off" disableautocomplete id="modalFormVerify" method="post">
                     <input type="hidden" name="id" value="${verifyWorkTime.id}">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="star">*</span>认定类别</label>
+                        <label class="col-xs-5 control-label"><span class="star">*</span>认定类别</label>
                         <div class="col-xs-6">
                             <select required name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
                                 <option></option>
@@ -27,26 +27,26 @@
                         <fieldset>
                             <legend>档案中参加工作材料</legend>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">材料名称</label>
+                                <label class="col-xs-5 control-label">材料名称</label>
                                 <div class="col-xs-6">
                                     <input class="form-control" type="text" name="materialName" value="${verifyWorkTime.materialName}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">形成时间</label>
+                                <label class="col-xs-5 control-label">形成时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialTime" type="text"
-                                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyWorkTime.materialTime,'yyyy-MM-dd')}"/>
+                                        <input class="form-control date-picker" name="materialTime" type="text"
+                                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyWorkTime.materialTime,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">记载的参加工作时间</label>
+                                <label class="col-xs-5 control-label">记载的参加工作时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="_materialWorkTime" type="text"
+                                        <input class="form-control date-picker" name="materialWorkTime" type="text"
                                                data-date-min-view-mode="1" placeholder="yyyy.mm"
                                                data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.materialWorkTime,'yyyy.MM')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -57,20 +57,20 @@
                     <fieldset>
                         <legend>档案中最新干部任免审批表</legend>
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">形成时间</label>
+                            <label class="col-xs-5 control-label">形成时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" name="_adTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyWorkTime.adTime,'yyyy-MM-dd')}"/>
+                                    <input class="form-control date-picker" name="adTime" type="text"
+                                           data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyWorkTime.adTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">记载的参加工作时间</label>
+                            <label class="col-xs-5 control-label">记载的参加工作时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control date-picker" name="_oldWorkTime" type="text"
+                                    <input class="form-control date-picker" name="oldWorkTime" type="text"
                                            data-date-min-view-mode="1" placeholder="yyyy.mm"
                                            data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.oldWorkTime,'yyyy.MM')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -79,11 +79,11 @@
                         </div>
                     </fieldset>
                     <div class="form-group well" style="margin: 10px;">
-                        <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定参加工作时间</label>
+                        <label class="col-xs-5 control-label" style="font-weight: bolder; font-size: large"><span class="star">*</span>组织认定参加工作时间</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <input required class="form-control date-picker" name="_verifyWorkTime" type="text"
+                                <input required class="form-control date-picker" name="verifyWorkTime" type="text"
                                        data-date-min-view-mode="1" placeholder="yyyy.mm"
                                        data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.verifyWorkTime,'yyyy.MM')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-4 control-label">备注</label>
+                        <label class="col-xs-5 control-label">备注</label>
 
                         <div class="col-xs-6">
                             <textarea class="form-control limited" type="text"
@@ -109,7 +109,7 @@
                         &nbsp; &nbsp; &nbsp;
                         <button class="hideView btn btn-default" type="button">
                             <i class="ace-icon fa fa-undo bigger-110"></i>
-                            取消
+                            返回
                         </button>
                     </div>
                 </div>
