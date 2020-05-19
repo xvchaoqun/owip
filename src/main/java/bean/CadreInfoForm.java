@@ -48,6 +48,9 @@ public class CadreInfoForm {
     // 中共党员加入时间
     private Date owGrowTime;
 
+    //积极分子确定时间
+    private Date owPositiveTime;
+
     // 参加工作时间
     private Date workTime;
     // 健康状况
@@ -293,6 +296,14 @@ public class CadreInfoForm {
 
     public void setOwGrowTime(Date owGrowTime) {
         this.owGrowTime = owGrowTime;
+    }
+
+    public Date getOwPositiveTime() {
+        return owPositiveTime;
+    }
+
+    public void setOwPositiveTime(Date owPositiveTime) {
+        this.owPositiveTime = owPositiveTime;
     }
 
     public Date getWorkTime() {

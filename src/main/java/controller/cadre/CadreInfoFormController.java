@@ -57,4 +57,23 @@ public class CadreInfoFormController extends BaseController {
 
         cadreInfoFormService.export2(cadreIds, request, response);
     }
+
+    @RequiresPermissions("cadreInfoFormSimple:list")
+    @RequestMapping("/cadreInfoFormSimple_page")
+    public String cadreInfoFormSimple_page(int cadreId, ModelMap modelMap) {
+
+        modelMap.put("bean", cadreInfoFormService.getCadreInfoForm(cadreId));
+        return "cadre/cadreInfoForm/cadreInfoFormSimple_page";
+    }
+
+    // 干部信息简表下载
+    @RequiresPermissions("cadreInfoFormSimple:download")
+    @RequestMapping("/cadreInfoFormSimple_download")
+    public void cadreInfoFormSimple_download(Integer cadreId, HttpServletRequest request,
+                                        HttpServletResponse response) throws IOException, TemplateException {
+        if(cadreId == null) return;
+        Integer cadreIds[] = {cadreId};
+
+        cadreInfoFormService.export_simple(cadreIds, request, response);
+    }
 }

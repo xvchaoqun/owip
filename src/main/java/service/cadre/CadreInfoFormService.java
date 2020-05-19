@@ -191,6 +191,61 @@ public class CadreInfoFormService extends BaseMapper {
         }
     }
 
+    public void export_simple(Integer[] cadreIds, HttpServletRequest request,
+                        HttpServletResponse response) throws IOException, TemplateException {
+
+        if (cadreIds == null) return;
+
+        if (cadreIds.length == 1) {
+
+            int cadreId = cadreIds[0];
+            CadreView cadre = iCadreMapper.getCadre(cadreId);
+            //输出文件
+            String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                    + " 干部信息表(简表) " + cadre.getUser().getRealname()  + ".doc";
+            response.reset();
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
+            response.setContentType("application/msword;charset=UTF-8");
+
+            processSimple(cadreId, response.getWriter());
+        }else {
+
+            Map<String, File> fileMap = new LinkedHashMap<>();
+            String tmpdir = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR +
+                    DateUtils.getCurrentTimeMillis() + FILE_SEPARATOR + "infoForms";
+            FileUtils.mkdirs(tmpdir, false);
+
+            Set<String> filenameSet = new HashSet<>();
+            for (int cadreId : cadreIds) {
+                CadreView cadre = iCadreMapper.getCadre(cadreId);
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
+                        + " 干部信息表 " + cadre.getRealname() + ".doc";
+
+                // 保证文件名不重复
+                if(filenameSet.contains(filename)){
+                    filename = cadre.getCode() + filename;
+                }
+                filenameSet.add(filename);
+
+                String filepath = tmpdir + FILE_SEPARATOR + filename;
+                FileOutputStream output = new FileOutputStream(new File(filepath));
+                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+
+                processSimple(cadreId, osw);
+
+                fileMap.put(filename, new File(filepath));
+            }
+
+            String filename = String.format("%s干部信息表.xlsx",
+                    CmTag.getSysConfig().getSchoolName());
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            DownloadUtils.zip(fileMap, filename, request, response);
+            FileUtils.deleteDir(new File(tmpdir));
+        }
+    }
+
     // 支部书记
     public void exportPartyMember(Integer cadreId, int branchId, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, TemplateException {
@@ -740,6 +795,89 @@ public class CadreInfoFormService extends BaseMapper {
         return dataMap;
     }
 
+    public Map<String, Object> getDataMapSimple(int cadreId) throws IOException, TemplateException {
+
+        CadreInfoForm bean = getCadreInfoForm(cadreId);
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("code", bean.getCode());
+        dataMap.put("name", bean.getRealname());//姓名
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));//性别
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM));//出生年月
+        dataMap.put("age", bean.getAge());//年龄
+        dataMap.put("avatar", bean.getAvatar());//照片
+
+        dataMap.put("nation", bean.getNation());//民族
+        dataMap.put("np", bean.getNativePlace());//籍贯
+        dataMap.put("proPost", bean.getProPost());//专业技术职务
+
+        String partyName = CmTag.getCadreParty(bean.getIsOw(), bean.getOwGrowTime(),
+                bean.getOwPositiveTime(), "中共党员", bean.getDpTypeId(),
+                bean.getDpGrowTime(), false).get("partyName");
+        dataMap.put("partyName",partyName);//政治面貌
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));//参加工作时间
+        dataMap.put("specialty", bean.getSpecialty());//熟悉专业有何特长
+
+        dataMap.put("edu", bean.getEdu());//最高学历
+        dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));//最高学位
+        dataMap.put("sameSchool", bean.isSameSchool());//全日制教育-学历学位毕业学校是否一致
+        dataMap.put("schoolDepMajor1", bean.getSchoolDepMajor1());//全日制教育-学历毕业院校系及专业
+        dataMap.put("schoolDepMajor2", bean.getSchoolDepMajor2());//全日制教育-学位毕业院校系及专业
+
+        dataMap.put("inEdu", bean.getInEdu());//在职教育-最高学历
+        dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));//在职教育-最高学位
+        dataMap.put("sameInSchool", bean.isSameInSchool());//在职教育-学历学位毕业学校是否一致
+        dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());//在职教育-学历毕业院校系及专业
+        dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());//在职教育-学位毕业院校系及专业
+
+        dataMap.put("title",bean.getTitle());//现任职务
+
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, "/common/titleEditor.ftl");
+        dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));//学习经历和工作经历
+
+        {
+            String companies = "";
+            List<CadreCompany> cadreCompanies = bean.getCadreCompanies();
+            int size = cadreCompanies.size();
+            for (int i = 0; i < 3; i++) {
+                if (size <= i)
+                    companies += getCompanySeg(null, "/infoform/company.ftl");
+                else
+                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company.ftl");
+            }
+            dataMap.put("companies", companies);
+        }
+
+        {
+            String familys = "";
+            List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
+            int size = cadreFamilys.size();
+            for (int i = 0; i < 6; i++) {
+                if (size <= i)
+                    familys += getFamilySeg(null, "/infoform/familySimple.ftl");
+                else
+                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/familySimple.ftl");
+            }
+            dataMap.put("familys", familys);
+        }
+
+        {
+            String familyAbroads = "";
+            List<CadreFamilyAbroad> cadreFamilyAbroads = bean.getCadreFamilyAbroads();
+            int size = cadreFamilyAbroads.size();
+            for (int i = 0; i < 2; i++) {
+                if (size <= i)
+                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad.ftl");
+                else {
+                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad.ftl");
+                }
+            }
+            dataMap.put("familyAbroads", familyAbroads);
+        }
+
+        return dataMap;
+    }
+
     public Map<String, Object> getDataMapOfPartyMember(int cadreId, int branchId) throws IOException, TemplateException {
 
         PartyMemberInfoForm bean = getPartyMemberInfoForm(cadreId, branchId);
@@ -824,6 +962,15 @@ public class CadreInfoFormService extends BaseMapper {
         Map<String, Object> dataMap = getDataMap2(cadreId);
 
         freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
+    }
+
+    //输出干部信息表(简表)
+    public void processSimple(int cadreId, Writer out) throws IOException, TemplateException {
+
+        Map<String,Object> dataMap = getDataMapSimple(cadreId);
+
+        freemarkerService.process("/infoform/infoformSimple.ftl",dataMap,out);
+
     }
 
     // 输出支部书记信息采集表

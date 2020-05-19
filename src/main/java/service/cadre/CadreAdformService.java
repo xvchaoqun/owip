@@ -251,6 +251,7 @@ public class CadreAdformService extends BaseMapper {
 
         bean.setIsOw(cadre.getIsOw());
         bean.setOwGrowTime(cadre.getOwGrowTime());
+        bean.setOwPositiveTime(cadre.getOwPositiveTime());
 
         String _fulltimeEdu = ""; // 全日制最高学历
         String _fulltimeDegree = ""; // 全日制最高学位
