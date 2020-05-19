@@ -16,6 +16,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
+import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -109,6 +113,7 @@ public class OrganizerController extends BaseController {
         OrganizerExample example = new OrganizerExample();
         Criteria criteria = example.createCriteria()
                 .andTypeEqualTo(type);
+        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         if(cls==1 || cls==2) {
             example.setOrderByClause("sort_order desc");
         }else if(cls==3) {
@@ -179,11 +184,15 @@ public class OrganizerController extends BaseController {
     @RequiresPermissions("organizer:edit")
     @RequestMapping(value = "/organizer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_organizer_au(Organizer record,
+    public Map do_organizer_au(@CurrentUser SysUserView loginUser,
+                               Organizer record,
                                Boolean syncBaseInfo, // 更新时是否重新同步基本信息
                                HttpServletRequest request) {
-
         Integer id = record.getId();
+
+        Integer loginUserId = loginUser.getId();
+        if (!branchMemberService.hasAdminAuth(loginUserId, record.getPartyId(), record.getBranchId()))
+            throw new UnauthorizedException();
 
         Organizer organizer = organizerService.get(record.getType(), record.getUserId());
         if ((id==null && organizer!=null) || (id!=null &&organizer!=null&& id != organizer.getId())) {
@@ -196,11 +205,11 @@ public class OrganizerController extends BaseController {
         if (id == null) {
 
             organizerService.insertSelective(record);
-            logger.info(log(LogConstants.LOG_PARTY, "添加组织员信息：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "添加组织员信息：{0}", JSONUtils.toString(record, false)));
         } else {
 
             organizerService.updateByPrimaryKeySelective(record, BooleanUtils.isTrue(syncBaseInfo));
-            logger.info(log(LogConstants.LOG_PARTY, "更新组织员信息：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_PARTY, "更新组织员信息：{0}", JSONUtils.toString(record, false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -306,16 +315,23 @@ public class OrganizerController extends BaseController {
     @ResponseBody
     public Map do_organizer_leave(int id,
                                   Byte status,
+                                  @CurrentUser SysUserView loginUser,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date dismissDate,
                                   @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT) Date appointDate,
                                   HttpServletRequest request) {
 
+        Organizer organizer = organizerMapper.selectByPrimaryKey(id);
+        Integer loginUserId = loginUser.getId();
+        if (!branchMemberService.hasAdminAuth(loginUserId, organizer.getPartyId(), organizer.getBranchId()))
+            throw new UnauthorizedException();
+
         if(status==null || status==OwConstants.OW_ORGANIZER_STATUS_LEAVE) {
+
             organizerService.leave(id, dismissDate);
-            logger.info(log(LogConstants.LOG_PARTY, "组织员离任：{0}", id));
+            logger.info(log(LogConstants.LOG_PARTY, "组织员离任：{0}", JSONUtils.toString(organizer, false)));
         }else{
             organizerService.reAppoint(id, appointDate);
-            logger.info(log(LogConstants.LOG_PARTY, "离任组织员重新任用：{0}", id));
+            logger.info(log(LogConstants.LOG_PARTY, "离任组织员重新任用：{0}", JSONUtils.toString(organizer, false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -540,6 +556,9 @@ public class OrganizerController extends BaseController {
                 if (party == null) {
                     throw new OpException("第{0}行联系党委编码[{1}]不存在", row, partyCode);
                 }
+                if(!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),party.getId())){
+                    throw new OpException("您没有权限导入第{0}行联系党委数据", row);
+                }
                 record.setPartyId(party.getId());
                 if(type==OW_ORGANIZER_TYPE_BRANCH){
                     String branchCode = StringUtils.trim(xlsRow.get(6));
@@ -551,6 +570,9 @@ public class OrganizerController extends BaseController {
                         }
                         if (branch == null) {
                             throw new OpException("第{0}行联系党支部编码[{1}]不存在", row, partyCode);
+                        }
+                        if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),party.getId(),branch.getId())){
+                            throw new OpException("您没有权限导入第{0}行联系党支部数据", row);
                         }
                         record.setBranchId(branch.getId());
                     }

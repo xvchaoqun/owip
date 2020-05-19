@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 联系党委</label>
                 <div class="col-xs-6">
-                    <select required data-width="272" data-ajax-url="${ctx}/party_selects"
+                    <select required data-width="272" data-ajax-url="${ctx}/party_selects?auth=1"
                             name="partyId" data-placeholder="请选择">
                         <option value="${party.id}">${party.name}</option>
                     </select>
@@ -54,16 +54,16 @@
                     <label class="col-xs-3 control-label"><span class="star">*</span> 联系党支部</label>
                     <div class="col-xs-6">
                         <select required data-width="272"
-                                data-ajax-url="${ctx}/branch_selects?auth=1"
+                                data-ajax-url="${ctx}/branch_selects?del=0&auth=1"
                                 name="branchId" data-placeholder="请选择">
-                            <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                            <option value="${branch.id}">${branch.name}</option>
                         </select>
                     </div>
                 </div>
             </c:if>
             <script>
                 $.register.party_branch_select($("#modalForm"), "branchDiv",
-                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
             </script>
         </c:if>
         <div class="form-group">

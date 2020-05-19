@@ -8,7 +8,7 @@
              data-url-page="${ctx}/htmlFragment?isDeleted=${isDeleted}"
              data-url-export="${ctx}/htmlFragment_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.title || not empty param.code
+            <c:set var="_query" value="${not empty param.title || not empty param.code|| not empty param.content
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
 
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -88,6 +88,11 @@
                                             <label>代码</label>
                                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                        placeholder="请输入代码">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>内容</label>
+                                            <input class="form-control search-query" name="content" type="text" value="${param.content}"
+                                                   placeholder="请输入内容">
                                         </div>
                                     </shiro:hasRole>
                                 <div class="clearfix form-actions center">

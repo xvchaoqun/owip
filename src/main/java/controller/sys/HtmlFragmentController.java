@@ -56,6 +56,7 @@ public class HtmlFragmentController extends BaseController {
     public void htmlFragment_data(@CurrentUser SysUserView loginUser,
                                HttpServletResponse response,
                                String title, String code,
+                               String content,
                                @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
                                Integer pageSize, Integer pageNo) throws IOException {
 
@@ -82,6 +83,9 @@ public class HtmlFragmentController extends BaseController {
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
+        }
+        if (StringUtils.isNotBlank(content)) {
+            criteria.andContentLike(SqlUtils.like(content));
         }
         if (isDeleted != null) {
             criteria.andIsDeletedEqualTo(isDeleted);
