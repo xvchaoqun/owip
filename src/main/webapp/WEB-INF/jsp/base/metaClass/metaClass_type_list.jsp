@@ -10,7 +10,6 @@
         </c:forEach>
     </div>
 </div>
-<div class="footer-margin"/>
 <script>
 
     function _reload(btn) {

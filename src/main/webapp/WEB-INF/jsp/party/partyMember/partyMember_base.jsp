@@ -919,4 +919,3 @@
         </c:if>
     </script>
 </c:if>
- <div class="footer-margin lower"/>

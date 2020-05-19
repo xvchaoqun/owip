@@ -57,6 +57,8 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     @Autowired
     private CadreInspectService cadreInspectService;
     @Autowired
+    private CadrePartyService cadrePartyService;
+    @Autowired
     private CadreAdLogService cadreAdLogService;
     @Autowired
     protected MetaTypeService metaTypeService;
@@ -415,20 +417,20 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     public void cadreParty_batchDel(Integer[] ids) {
 
         for (Integer id : ids) {
+
             CadreParty cadreParty = cadrePartyMapper.selectByPrimaryKey(id);
             Integer userId = cadreParty.getUserId();
             CadreView cadreView = dbFindByUserId(userId);
             if (cadreView != null) {
                 Integer cadreId = cadreView.getId();
                 // 记录任免日志
-                cadreAdLogService.addLog(cadreId, "删除干部党派：" + JSONUtils.toString(cadreParty, false),
+                cadreAdLogService.addLog(cadreId, "删除干部民主党派：" + JSONUtils.toString(cadreParty, false),
                         CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
             }
-        }
+            cadrePartyMapper.deleteByPrimaryKey(id);
 
-        CadrePartyExample example = new CadrePartyExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadrePartyMapper.deleteByExample(example);
+            cadrePartyService.updateRole(userId);
+        }
     }
 
     @Transactional

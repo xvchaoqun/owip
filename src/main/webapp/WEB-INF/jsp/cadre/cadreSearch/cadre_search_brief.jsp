@@ -57,7 +57,6 @@
 <div class="modal-footer center">
     <button id="copyBtn" class="btn btn-success" data-clipboard-target="#resultDiv"><i class="fa fa-copy"></i> 复制到剪贴板</button>
 </div>
-<div class="footer-margin lower"/>
 <script type="text/template" id="itemListTpl">
     <table id="itemTable" class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead class="multi">

@@ -20,10 +20,7 @@
     <w:tc>
         <w:tcPr>
             <w:tcW w:w="1051" w:type="dxa"/>
-            <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-            </w:tcBorders>
+
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -48,10 +45,7 @@
     <w:tc>
         <w:tcPr>
             <w:tcW w:w="1186" w:type="dxa"/>
-            <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-            </w:tcBorders>
+
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -76,10 +70,7 @@
     <w:tc>
         <w:tcPr>
             <w:tcW w:w="1278" w:type="dxa"/>
-            <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-            </w:tcBorders>
+
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -104,10 +95,7 @@
     <w:tc>
         <w:tcPr>
             <w:tcW w:w="1016" w:type="dxa"/>
-            <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-            </w:tcBorders>
+
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -132,10 +120,7 @@
     <w:tc>
         <w:tcPr>
             <w:tcW w:w="4580" w:type="dxa"/>
-            <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-            </w:tcBorders>
+
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">

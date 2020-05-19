@@ -1,16 +1,16 @@
 
 
--- ÌáÈ¡30¸ö¸É²¿£¨ÏÖÓĞÊı¾İ¿â£©
+-- æå–30ä¸ªå¹²éƒ¨ï¼ˆç°æœ‰æ•°æ®åº“ï¼‰
 replace into sys_user select * from db_owip_1.sys_user where id in(select user_id from db_owip_1.cadre where status=1 ) order by rand() limit 30;
 
--- ÌáÈ¡5¸öĞ£Áìµ¼£¨ÏÖÓĞÊı¾İ¿â£©
+-- æå–5ä¸ªæ ¡é¢†å¯¼ï¼ˆç°æœ‰æ•°æ®åº“ï¼‰
 replace into sys_user select * from db_owip_1.sys_user where id in(select user_id from db_owip_1.cadre where status=6 ) order by rand() limit 5;
 replace into cadre_leader select * from db_owip_1.cadre_leader where cadre_id in(select id from cadre);
 replace into unit select * from db_owip_1.unit where id in(select unit_id from db_owip_1.cadre_leader_unit) and id not in(select id from unit);
 replace into cadre_leader_unit select * from db_owip_1.cadre_leader_unit where leader_id in(select id from cadre_leader);
 
 
--- ÒòË½Ö¤¼ş
+-- å› ç§è¯ä»¶
 replace into abroad_safe_box  select * from db_owip_1.abroad_safe_box where id in( select safe_box_id from db_owip_1.abroad_passport where cadre_id in(select id from cadre));
 replace into sys_user select * from  db_owip_1.sys_user where id in ( select user_id from db_owip_1.abroad_passport_apply where id in( select apply_id from db_owip_1.abroad_passport where cadre_id in(select id from cadre)));
 replace into abroad_passport_apply  select * from db_owip_1.abroad_passport_apply where id in( select apply_id from db_owip_1.abroad_passport where cadre_id in(select id from cadre));
@@ -30,7 +30,7 @@ replace into unit select * from db_owip_1.unit where id in(select unit_id from c
 
 
 
--- ²åÈëÊı¾İ£¨²âÊÔÊı¾İ¿â£©
+-- æ’å…¥æ•°æ®ï¼ˆæµ‹è¯•æ•°æ®åº“ï¼‰
 replace into cadre_edu select * from db_owip_1.cadre_edu where cadre_id in(select id from cadre);
 
 replace into cadre_work select * from db_owip_1.cadre_work where cadre_id in(select id from cadre);
@@ -63,7 +63,7 @@ replace into ow_branch_member select * from db_owip_1.ow_branch_member where gro
 replace into ow_member 
 select * from db_owip_1.ow_member where user_id in (select user_id from cadre);
 
--- ¸É²¿Ö°Êı
+-- å¹²éƒ¨èŒæ•°
 replace into cpc_allocation select * from db_owip_1.cpc_allocation where unit_id in(select id from unit);
 
 replace into unit select * from db_owip_1.unit where id in(select unit_id from db_owip_1.cadre_post) and id not in(select id from unit);
@@ -72,17 +72,17 @@ replace into unit select * from db_owip_1.unit where id in(select double_unit_id
 
 replace into cadre_post select * from db_owip_1.cadre_post where cadre_id in(select id from cadre);
 
--- ¹¤×÷ÎÄ¼ş
+-- å·¥ä½œæ–‡ä»¶
 replace into dispatch_work_file select * from db_owip_1.dispatch_work_file order by rand() limit 20;
 
 replace into crs_post select * from db_owip_1.crs_post order by rand() limit 2;
 
--- ÈÎÃâÎÄ¼ş
+-- ä»»å…æ–‡ä»¶
 replace into dispatch_type select * from db_owip_1.dispatch_type;
 replace into dispatch select * from db_owip_1.dispatch order by rand() limit 22;
 delete from dispatch_type where id not in(select dispatch_type_id from dispatch);
 
--- ÈÎÃâ¸É²¿
+-- ä»»å…å¹²éƒ¨
 replace into sys_user select * from db_owip_1.sys_user where id in(
 select user_id from db_owip_1.cadre where id in (select cadre_id from db_owip_1.dispatch_cadre where dispatch_id in (select id from dispatch))) and id not in(select id from sys_user);
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,7 +94,7 @@ replace into cadre
 select * from db_owip_1.cadre where user_id in(select id from sys_user);
 SET FOREIGN_KEY_CHECKS=1;
 
--- ¸É²¿¸ÚÎ»
+-- å¹²éƒ¨å²—ä½
 replace into unit_post select * from db_owip_1.unit_post where id in(select unit_post_id from cadre_post);
 
 

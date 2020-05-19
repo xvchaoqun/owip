@@ -47,7 +47,8 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
         if (cls == null) {
             // 默认列表
-            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ, RoleConstants.ROLE_CADRERESERVE) ? 0 : 1);
+            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ,
+                    RoleConstants.ROLE_CADRE_KJ, RoleConstants.ROLE_CADRE_DP) ? 0 : 1);
         }
         modelMap.put("cls", cls);
 

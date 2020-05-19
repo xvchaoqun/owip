@@ -1,5 +1,6 @@
 package controller.modify;
 
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -36,14 +39,12 @@ public class ModifyCadreAuthController extends ModifyBaseController {
 
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth")
-    public String modifyCadreAuth(Integer cadreId,
+    public String modifyCadreAuth(Integer userId,
                                   @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
                                   ModelMap modelMap) {
 
-        if(cadreId!=null) {
-            CadreView cadre = iCadreMapper.getCadre(cadreId);
-            modelMap.put("cadre", cadre);
-            modelMap.put("sysUser", cadre.getUser());
+        if(userId!=null) {
+            modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
         if (cadreStatus != null) {
@@ -56,7 +57,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth_data")
     public void modifyCadreAuth_data(HttpServletResponse response,
-                                    Integer cadreId,
+                                    Integer userId,
                                      @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
                                      Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -68,13 +69,13 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iModifyMapper.countModifyCadreAuthList(cadreId, cadreStatus);
+        int count = iModifyMapper.countModifyCadreAuthList(userId, cadreStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<ModifyCadreAuth> modifyCadreAuths = iModifyMapper.selectModifyCadreAuthList(cadreId, cadreStatus,
+        List<ModifyCadreAuth> modifyCadreAuths = iModifyMapper.selectModifyCadreAuthList(userId, cadreStatus,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -167,10 +168,22 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:edit")
     @RequestMapping(value = "/modifyCadreAuth_remove", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyCadreAuth_remove(@RequestParam(value = "status[]", required = false) Byte[] status) {
+    public Map do_modifyCadreAuth_remove() {
 
-        iModifyMapper.removeAllCadres(new HashSet<>(Arrays.asList(status)));
-        logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部信息修改权限：%s", StringUtils.join(status, ",")));
+        Set cadreStatusSet = new HashSet();
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_CJ);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_CJ_LEAVE);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_KJ);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_KJ_LEAVE);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_LEADER);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_LEADER_LEAVE);
+        iModifyMapper.removeAllCadres(cadreStatusSet);
+
+        MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
+        iModifyMapper.removeAllCadreParties(crowdId);
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部/民主党派成员信息修改权限"));
 
         return success(FormUtils.SUCCESS);
     }

@@ -10,28 +10,28 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/sysRole_copy" autocomplete="off" disableautocomplete id="modalForm"
           method="post">
-        <input type="hidden" name="id" value="${id}">
+        <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>代码</label>
 
             <div class="col-xs-6">
                 <input required class="form-control" ${(!cm:isSuperAccount(_user.username) && sysRole.code eq ROLE_ADMIN)?'disabled':''}
-                       type="text" name="code" value="">
+                       type="text" name="code" value="${sysRole.code}">
             </div>
         </div>
         <div class="form-group">
             <label required class="col-xs-3 control-label"><span class="star">*</span>名称</label>
 
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="name" value="">
+                <input class="form-control" type="text" name="name" value="${sysRole.name}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
             <div class="col-xs-6 label-text">
-                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_ADD}" ${type!=SYS_ROLE_TYPE_MINUS?'checked':''}/>
+                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_ADD}" ${param.type!=SYS_ROLE_TYPE_MINUS?'checked':''}/>
                       <span class="lbl" style="padding-right: 5px;"> 加权限</span>
-                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_MINUS}" ${type==SYS_ROLE_TYPE_MINUS?'checked':''}/>
+                <input required name="type" type="radio" class="ace" value="${SYS_ROLE_TYPE_MINUS}" ${param.type==SYS_ROLE_TYPE_MINUS?'checked':''}/>
                       <span class="lbl" style="padding-right: 5px;"> 减权限</span>
             </div>
         </div>

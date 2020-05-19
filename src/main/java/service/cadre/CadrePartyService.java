@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.member.MemberQuitService;
+import service.sys.SysUserService;
 import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.Date;
@@ -32,7 +34,25 @@ public class CadrePartyService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private MemberQuitService memberQuitService;
+
+    // 添加或删除角色（干部其他信息-民主党派成员）
+    public void updateRole(int userId){
+
+        MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
+        CadrePartyExample example = new CadrePartyExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andTypeEqualTo(CadreConstants.CADRE_PARTY_TYPE_DP)
+                .andClassIdNotEqualTo(crowdId);
+        if(cadrePartyMapper.countByExample(example) > 0){
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE_DP);
+        }else{
+            sysUserService.delRole(userId, RoleConstants.ROLE_CADRE_DP);
+        }
+    }
 
     // 判断类型是否重复（中共党员、第一民主党派）
     public boolean typeDuplicate(Integer id, int userId, byte type, Boolean isFirst) {
@@ -154,6 +174,8 @@ public class CadrePartyService extends BaseMapper {
             }
             cadrePartyMapper.updateByPrimaryKeySelective(record);
         }
+
+        updateRole(userId);
     }
 
      @Transactional
@@ -176,6 +198,8 @@ public class CadrePartyService extends BaseMapper {
                 record.setIsFirst(true); // 导入的都是第一民主党派
             }
             addOrUpdateCadreParty(record);
+
+            updateRole(userId);
         }
     }
 
@@ -192,6 +216,8 @@ public class CadrePartyService extends BaseMapper {
             criteria.andTypeEqualTo(type);
         }
         cadrePartyMapper.deleteByExample(example);
+
+        updateRole(userId);
     }
 
     @Transactional
@@ -230,5 +256,7 @@ public class CadrePartyService extends BaseMapper {
             record.setIsFirst(true);
             cadrePartyMapper.insert(record);
         }
+
+        updateRole(userId);
     }
 }

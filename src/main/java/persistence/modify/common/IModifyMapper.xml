@@ -4,8 +4,8 @@
 
     <sql id="selectModifyCadreAuthSearchSql">
       <where>
-        <if test="cadreId!=null">
-            and mca.cadre_id=#{cadreId}
+        <if test="userId!=null">
+            and c.user_id=#{userId}
         </if>
           <if test="statusList!=null and statusList.length>0">
               and  c.status in
@@ -28,7 +28,7 @@
         <include refid="selectModifyCadreAuthSearchSql" />
     </select>
 
-    <delete id="removeAllCadres" parameterType="java.lang.Integer" >
+    <delete id="removeAllCadres" parameterType="map" >
         delete mca.* from modify_cadre_auth mca, cadre c where mca.cadre_id=c.id
         <if test="cadreStatusSet.size>0">
             and  c.status in
@@ -37,5 +37,10 @@
                 #{status}
             </foreach>
         </if>
+    </delete>
+
+    <delete id="removeAllCadreParties" parameterType="map" >
+        delete mca.* from modify_cadre_auth mca, cadre_party cp, cadre c where mca.cadre_id=c.id
+        and cp.type=1 and cp.class_id != #{crowdId} and cp.user_id=c.user_id
     </delete>
 </mapper>

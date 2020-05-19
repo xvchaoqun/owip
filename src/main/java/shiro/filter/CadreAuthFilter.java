@@ -40,15 +40,12 @@ public class CadreAuthFilter extends AuthorizationFilter{
             return true;
         }
 
-        if(PatternUtils.match("/cadrePositionReport", WebUtils.getRequestUri((HttpServletRequest) request))
+        if(PatternUtils.match("/cadrePositionReport|/cadrePositionReport_data",
+                WebUtils.getRequestUri((HttpServletRequest) request))
                 && ShiroHelper.isPermitted("cadrePositionReport:list")){
             return true;
         }
 
-        if(PatternUtils.match("/cadrePositionReport_data", WebUtils.getRequestUri((HttpServletRequest) request))
-                && ShiroHelper.isPermitted("cadrePositionReport:list")){
-            return true;
-        }
         if(PatternUtils.match("/cadrePositionReport_au", WebUtils.getRequestUri((HttpServletRequest) request))
                 && ShiroHelper.isPermitted("cadrePositionReport:edit")){
             return true;

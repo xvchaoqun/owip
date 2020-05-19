@@ -129,7 +129,6 @@
             class="btn btn-success"><i class="fa fa-check"></i> 确认归还</button>
     <button class="hideView btn btn-default"><i class="fa fa-reply"></i> 返回</button>
 </div>
-<div class="footer-margin lower"/>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>

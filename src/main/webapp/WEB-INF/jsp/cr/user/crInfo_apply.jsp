@@ -200,7 +200,6 @@
         </div>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <style>
     .table.table-unhover > tbody > tr > td:nth-of-type(odd) {
         text-align: center;

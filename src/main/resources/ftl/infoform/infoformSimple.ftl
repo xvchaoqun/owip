@@ -1534,7 +1534,7 @@
         <w:tr wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1">
           <w:trPr>
             <w:cantSplit/>
-            <w:trHeight w:h-rule="exact" w:val="490"/>
+            <w:trHeight w:h-rule="exact" w:val="599"/>
           </w:trPr>
           <w:tc>
             <w:tcPr>
@@ -1602,7 +1602,7 @@
         <w:tr wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1">
           <w:trPr>
             <w:cantSplit/>
-            <w:trHeight w:h-rule="exact" w:val="2800"/>
+            <w:trHeight w:h-rule="exact" w:val="2900"/>
           </w:trPr>
           <w:tc>
             <w:tcPr>
@@ -1793,9 +1793,6 @@
             <w:tcPr>
               <w:tcW w:w="846" w:type="dxa"/>
               <w:vmerge w:val="restart"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F" wsp:rsidP="00B11FC1">
@@ -2071,10 +2068,7 @@
           <w:tc>
             <w:tcPr>
               <w:tcW w:w="1051" w:type="dxa"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
+
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -2100,10 +2094,7 @@
           <w:tc>
             <w:tcPr>
               <w:tcW w:w="1186" w:type="dxa"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
+
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -2129,10 +2120,7 @@
           <w:tc>
             <w:tcPr>
               <w:tcW w:w="1278" w:type="dxa"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
+
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -2158,10 +2146,7 @@
           <w:tc>
             <w:tcPr>
               <w:tcW w:w="1016" w:type="dxa"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
+
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">
@@ -2206,10 +2191,7 @@
           <w:tc>
             <w:tcPr>
               <w:tcW w:w="4580" w:type="dxa"/>
-              <w:tcBorders>
-                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="auto"/>
-              </w:tcBorders>
+
               <w:vAlign w:val="center"/>
             </w:tcPr>
             <w:p wsp:rsidR="00C8278F" wsp:rsidRPr="00B11FC1" wsp:rsidRDefault="00C8278F">

@@ -133,7 +133,6 @@
     </div>
     </c:if>
 </div>
-<div class="footer-margin"/>
 <style>
     .panel-body label{
         font-size: 14pt;

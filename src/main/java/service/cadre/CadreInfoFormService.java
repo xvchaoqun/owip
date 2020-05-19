@@ -202,7 +202,7 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息表(简表) " + cadre.getUser().getRealname()  + ".doc";
+                    + " 干部信息表(简版) " + cadre.getUser().getRealname()  + ".doc";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
@@ -852,7 +852,7 @@ public class CadreInfoFormService extends BaseMapper {
             String familys = "";
             List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
             int size = cadreFamilys.size();
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 if (size <= i)
                     familys += getFamilySeg(null, "/infoform/familySimple.ftl");
                 else
@@ -964,7 +964,7 @@ public class CadreInfoFormService extends BaseMapper {
         freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
     }
 
-    //输出干部信息表(简表)
+    //输出干部信息表(简版)
     public void processSimple(int cadreId, Writer out) throws IOException, TemplateException {
 
         Map<String,Object> dataMap = getDataMapSimple(cadreId);

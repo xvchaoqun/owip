@@ -216,26 +216,26 @@ public class SysRoleController extends BaseController {
 		if (code!=null && sysRoleService.idDuplicate(sysRole.getId(), code)) {
 			return failed("添加重复");
 		}
-		SysRole old_sysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
+		SysRole oldSysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
 		SysRole record=new SysRole();
 		record.setCode(sysRole.getCode());
 		record.setName(sysRole.getName());
 		record.setType(sysRole.getType());
-		record.setResourceIds(old_sysRole.getResourceIds());
-		record.setmResourceIds(old_sysRole.getmResourceIds());
+		record.setResourceIds(oldSysRole.getResourceIds());
+		record.setmResourceIds(oldSysRole.getmResourceIds());
 
 		sysRoleService.insertSelective(record);
-		logger.info(addLog(LogConstants.LOG_ADMIN, "复制角色：%s-%s", JSONUtils.toString(old_sysRole, MixinUtils.baseMixins(), false),JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+		logger.info(addLog(LogConstants.LOG_ADMIN, "复制角色：%s-%s", JSONUtils.toString(oldSysRole, MixinUtils.baseMixins(), false),JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 
 		return success(FormUtils.SUCCESS);
 	}
 
 	@RequiresPermissions("sysRole:edit")
 	@RequestMapping("/sysRole_copy")
-	public String sysRole_copy(Integer id,Byte type, ModelMap modelMap) throws IOException {
+	public String sysRole_copy(Integer id, ModelMap modelMap) throws IOException {
 
-		modelMap.put("id", id);
-		modelMap.put("type", type);
+		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
+		modelMap.put("sysRole", sysRole);
 
 		return "sys/sysRole/sysRole_copy";
 	}

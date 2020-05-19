@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-  <shiro:hasAnyRoles name="${ROLE_CADRE_CJ},${ROLE_CADRERESERVE}">
+  <shiro:hasAnyRoles name="${ROLE_CADRE_CJ},${ROLE_CADRE_DP},${ROLE_CADRE_KJ}">
     <li class="${cls==0?"active":""}">
       <a href="javascript:;" class="hashchange" data-querystr="cls=0&module=${module}"><i class="fa fa-th"></i> ${MODIFY_TABLE_APPLY_MODULE_MAP.get(cm:toByte(module%100))}</a>
     </li>

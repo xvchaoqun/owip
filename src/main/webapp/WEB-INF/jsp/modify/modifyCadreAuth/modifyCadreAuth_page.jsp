@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/modifyCadreAuth"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId || not empty param.cadreStatus || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.userId || not empty param.cadreStatus || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="modifyCadreAuth:edit">
                     <a class="openView btn btn-success btn-sm"
@@ -24,9 +24,9 @@ pageEncoding="UTF-8" %>
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                    <button data-url="${ctx}/modifyCadreAuth_remove?status[]=${CADRE_STATUS_CJ},${CADRE_STATUS_LEADER},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_LEADER_LEAVE}"
+                    <button data-url="${ctx}/modifyCadreAuth_remove"
                             data-title="一键清理"
-                            data-msg="确认清除现有的权限设置（针对“现任/离任干部库”中的干部）？"
+                            data-msg="确认清除现有的权限设置（针对“现任/离任干部库/民主党派库”中的人员）？"
                             data-callback="_refresh"
                             class="confirm btn btn-warning btn-sm">
                         <i class="fa fa-trash"></i> 一键清理
@@ -48,10 +48,10 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>干部</label>
-                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
-                                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
+                            <label>姓名</label>
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                                    name="userId" data-placeholder="请输入账号或姓名或工作证号">
+                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -117,5 +117,5 @@ pageEncoding="UTF-8" %>
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $.register.user_select($('#searchForm select[name=cadreId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
 </script>

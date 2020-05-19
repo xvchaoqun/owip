@@ -1,4 +1,13 @@
 
+2020.5.19
+
+INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`,
+                        `is_sys_hold`, `sort_order`, `remark`) VALUES ('cadreDp', '民主党派成员', 1, '108,353,354,746,748,749,750,755,756,758,759,751,752,760,763,765,761,766,767,768,769,770,762,771,772,753,754,747,774,775,776,524,280,305,306,307,308,309,310,311,317,357,231,232,234,235,236,237,238,239,240,242,338,416,207,208,209', '695', NULL, 0, 1, 61, '干部其他信息-民主党派库的人员');
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (3038, 0, '干部信息表(简表)', '', 'function', '', NULL, 90, '0/1/88/90/', 1, 'cadreInfoFormSimple:*', NULL, NULL, NULL, 1, NULL);
+
 2020.5.17
 
 ALTER TABLE `oa_task`

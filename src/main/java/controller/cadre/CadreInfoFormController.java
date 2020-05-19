@@ -66,7 +66,7 @@ public class CadreInfoFormController extends BaseController {
         return "cadre/cadreInfoForm/cadreInfoFormSimple_page";
     }
 
-    // 干部信息简表下载
+    // 干部信息简版下载
     @RequiresPermissions("cadreInfoFormSimple:download")
     @RequestMapping("/cadreInfoFormSimple_download")
     public void cadreInfoFormSimple_download(Integer cadreId, HttpServletRequest request,

@@ -47,8 +47,7 @@ public class CadreInfoForm {
     private Boolean isOw;
     // 中共党员加入时间
     private Date owGrowTime;
-
-    //积极分子确定时间
+    //转正时间
     private Date owPositiveTime;
 
     // 参加工作时间

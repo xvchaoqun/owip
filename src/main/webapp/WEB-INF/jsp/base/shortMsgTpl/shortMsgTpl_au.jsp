@@ -108,7 +108,6 @@
         </button>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <script>
     $("#modalForm input[name=type]").click(function () {
         //console.log("type="+$(this).val())

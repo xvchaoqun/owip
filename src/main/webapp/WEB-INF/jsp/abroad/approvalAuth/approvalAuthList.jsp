@@ -51,7 +51,6 @@
     <%--</div>--%>
   </div>
 </div>
-<div class="footer-margin lower"/>
 <style>
   tr.empty td, td.empty{
     background-color: red;

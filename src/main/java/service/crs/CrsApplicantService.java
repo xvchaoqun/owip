@@ -370,8 +370,11 @@ public class CrsApplicantService extends CrsBaseMapper {
 
         CadreView cv = cadreService.dbFindByUserId(userId);
 
-        // 如果是 干部、考察对象或优秀年轻干部，则直接返回干部ID
-        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRERESERVE)){
+        // 如果是 干部、民主党派、考察对象或优秀年轻干部，则直接返回干部ID
+        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE_CJ,
+                RoleConstants.ROLE_CADRE_DP,
+                RoleConstants.ROLE_CADREINSPECT,
+                RoleConstants.ROLE_CADRERESERVE)){
             return cv.getId();
         }
 

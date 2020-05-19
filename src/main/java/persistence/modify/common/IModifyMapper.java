@@ -17,12 +17,15 @@ import java.util.Set;
  */
 public interface IModifyMapper {
 
-    public List<ModifyCadreAuth> selectModifyCadreAuthList(@Param("cadreId") Integer cadreId,
+    public List<ModifyCadreAuth> selectModifyCadreAuthList(@Param("userId") Integer userId,
                                                            @Param("statusList") Byte[] statusList, RowBounds rowBounds);
-    int countModifyCadreAuthList(@Param("cadreId") Integer cadreId,
+    int countModifyCadreAuthList(@Param("userId") Integer userId,
                                  @Param("statusList") Byte[] statusList);
     // 删除指定类型的干部直接修改的权限
     public void removeAllCadres(@Param("cadreStatusSet") Set<Byte> cadreStatusSet);
+
+    // 删除指定民主党派成员直接修改的权限
+    public void removeAllCadreParties(@Param("crowdId") int crowdId);
 
     // 查找某人名下的申请记录
     @ResultMap("persistence.modify.ModifyBaseItemMapper.BaseResultMap")

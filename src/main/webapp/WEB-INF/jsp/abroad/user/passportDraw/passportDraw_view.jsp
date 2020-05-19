@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
-<div class="widget-box transparent footer-margin lower" style="width: 900px">
+<div class="widget-box transparent" style="width: 900px">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">
       <a href="javascript:;" class="hideView btn btn-xs btn-success">

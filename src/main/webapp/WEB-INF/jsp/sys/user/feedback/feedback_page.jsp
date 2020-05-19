@@ -52,7 +52,6 @@
     </div>
 </div>
 <div id="body-content-view"></div>
-<div class="footer-margin lower"/>
 <script>
     $.fileInput($('input[type=file]'), {
         no_file: '请上传图片文件...',

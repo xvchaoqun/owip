@@ -588,7 +588,6 @@
         </div>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <style>
     fieldset {
         border: 1px solid #c0c0c0 !important;

@@ -322,7 +322,7 @@
 }
 
 .td11 {
-    width: 2.9493055in;
+    width: 2.5493055in;
     padding-start: 0.075in;
     padding-end: 0.075in;
     border-bottom: thin solid black;
@@ -471,7 +471,7 @@
     table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 0;
-    min-width: 706px
+    width: 760px
 }
 
 td.center {
@@ -503,22 +503,13 @@ td.padding10 {
         <table class="t1">
             <tbody>
             <tr>
-                <td colspan="13">
+                <td colspan="14">
                     <p class="p1">
-                        <span class="s1">${_school}干部信息表(简表)</span>
+                        <span class="s1">${_school}干部信息表(简版)</span>
                     </p>
                 </td>
             </tr>
-            <tr>
-                <td colspan="8">
-                    <p class="p2">
-                        <span class="bolder">工作证号：</span><span class="s2">${bean.code}</span>
-                    </p>
-                </td>
-                <td colspan="5">
-                    <span class="bolder">填写日期：</span><span class="s2"></span>
-                </td>
-            </tr>
+
             <tr class="r1">
                 <td class="td1 center bolder">
                     <span>姓  名</span>
@@ -542,8 +533,8 @@ td.padding10 {
                         </div>
                     </c:if>
                 </td>
-                <td class="td6 center bolder" rowspan="3">
-                    <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
+                <td class="td6 center bolder" rowspan="3" colspan="2">
+                    <img src="data:image/jpeg;base64,${bean.avatar}" width="98" style="margin: 5px"/>
                 </td>
             </tr>
             <tr class="r1">
@@ -603,7 +594,7 @@ td.padding10 {
                         <span>及专业</span>
                     </div>
                 </td>
-                <td class="td10 padding10" colspan="3">
+                <td class="td10 padding10" colspan="4">
                     ${bean.schoolDepMajor1}${bean.sameSchool?'':'<br/>'}${bean.schoolDepMajor2}
                 </td>
             </tr>
@@ -622,7 +613,7 @@ td.padding10 {
                     <div><span>及专业</span>
                     </div>
                 </td>
-                <td class="td10 padding10" colspan="3">
+                <td class="td10 padding10" colspan="4">
                     ${bean.inSchoolDepMajor1}${bean.sameInSchool?'':'<br/>'}${bean.inSchoolDepMajor2}
                 </td>
             </tr>
@@ -641,7 +632,7 @@ td.padding10 {
                         历
                     </div>
                 </td>
-                <td class="td12 padding10 resume" colspan="12" style="vertical-align: top">
+                <td class="td12 padding10 resume" colspan="13" style="vertical-align: top">
                     <div style="white-space: nowrap;height:190px;text-overflow: ellipsis;overflow:hidden;display:block;">
                         <c:if test="${not empty bean.learnDesc}">
                             ${bean.learnDesc}
@@ -656,7 +647,7 @@ td.padding10 {
             </tbody>
         </table>
     </div>
-    <div style="padding-top: 91px">
+    <div style="padding-top: 64px">
         <table class="t1">
             <tbody>
             <tr class="r4">

@@ -276,7 +276,6 @@ pageEncoding="UTF-8"%>
 		<input type="button" id="resubmit" class="btn btn-warning" value="修改并重新提交"/>
 	</c:if>
 </div>
-<div class="footer-margin lower"/>
 <script>
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();

@@ -53,6 +53,7 @@
 <c:set var="ROLE_LEADER" value="<%=RoleConstants.ROLE_LEADER%>"/>
 <c:set var="ROLE_CADRE_CJ" value="<%=RoleConstants.ROLE_CADRE_CJ%>"/>
 <c:set var="ROLE_CADRE_KJ" value="<%=RoleConstants.ROLE_CADRE_KJ%>"/>
+<c:set var="ROLE_CADRE_DP" value="<%=RoleConstants.ROLE_CADRE_DP%>"/>
 <c:set var="ROLE_CADRERECRUIT" value="<%=RoleConstants.ROLE_CADRERECRUIT%>"/>
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>

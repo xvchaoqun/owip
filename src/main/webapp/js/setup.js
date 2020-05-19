@@ -195,10 +195,10 @@ $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
         }, 0);
     }
 });
-$(document).on('shown.ace.widget hidden.ace.widget', function (ev) {
+/*$(document).on('shown.ace.widget hidden.ace.widget', function (ev) {
     $(window).triggerHandler('resize.jqGrid');
     $(window).triggerHandler('resize.jqGrid2');
-});
+});*/
 
 $(document).on("click", ".widget-header", function () {
     $("a[data-action=collapse]", this).click()

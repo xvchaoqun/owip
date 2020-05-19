@@ -87,7 +87,6 @@
         </div>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <style>
 
     .selectFont{

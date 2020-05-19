@@ -529,7 +529,6 @@
         </div>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <style>
    ul#stages>li{
        min-width:170px;

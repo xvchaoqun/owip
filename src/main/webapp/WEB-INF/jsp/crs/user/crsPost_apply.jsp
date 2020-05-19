@@ -142,7 +142,7 @@
                     hash = "#/user/cadre?cadreId={0}&to={1}&type=1".format(ret.cadreId, $.trim(to));
                 else {
                     hash = "#/cadre_view?cadreId={0}&to={1}".format(ret.cadreId, $.trim(to));
-                    <shiro:hasAnyRoles name="${ROLE_CADRE_CJ},${ROLE_CADREINSPECT},${ROLE_CADRERESERVE}">
+                    <shiro:hasAnyRoles name="${ROLE_CADRE_CJ},${ROLE_CADRE_DP},${ROLE_CADRE_KJ}">
                     hash = "#/modifyBaseApply";
                     </shiro:hasAnyRoles>
                 }*/

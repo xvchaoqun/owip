@@ -4,4 +4,3 @@
 <div style="width: ${empty param.width?'900':param.width}px">
   ${htmlFragment.content}
 </div>
-<div class="footer-margin"/>

@@ -117,7 +117,6 @@
              <i class="ace-icon fa fa-check bigger-110"></i> ${op}</button>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <script>
     $('#sidebar-review .sidebar').ace_sidebar();
     $('#m-sidebar-review .sidebar').ace_sidebar();

@@ -283,7 +283,6 @@
     </div>
     <!-- /.widget-box -->
 </div>
-<div class="footer-margin lower"/>
 <style>
     .widget-box .tip {
         margin-left: 30px;

@@ -882,9 +882,6 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
 </table>
 </div>
 </div>
-<c:if test="${param.mobile!='1'}">
-  <div class="footer-margin lower"/>
-</c:if>
 <c:if test="${param.mobile=='1'}">
   <script>
     window.setTimeout(function() {

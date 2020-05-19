@@ -333,6 +333,9 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                     }else{
                         throw new OpException("修改前后值有误，请审批不通过后通知用户重新申请。");
                     }
+
+                    cadrePartyService.updateRole(userId);
+
                 } else if (StringUtils.equals(code, "grow_time")) {
 
                     // 判断是否仍然还有未审核的“政治面貌”修改申请，如果有，则不允许修改党派加入时间

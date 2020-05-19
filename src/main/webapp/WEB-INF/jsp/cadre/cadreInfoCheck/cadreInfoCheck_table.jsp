@@ -576,7 +576,6 @@
     </tbody>
 </table>
 </div>
-<div class="footer-margin lower"/>
 <style>
     .table thead th {
         text-align: center!important;

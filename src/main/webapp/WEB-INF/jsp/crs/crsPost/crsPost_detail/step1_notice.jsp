@@ -41,7 +41,6 @@
         </div>
     </div>
 </div>
-<div class="footer-margin lower"/>
 <script>
     $("#upload-file").change(function () {
         //console.log($(this).val())
