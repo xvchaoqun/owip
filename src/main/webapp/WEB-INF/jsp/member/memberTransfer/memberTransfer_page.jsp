@@ -83,6 +83,14 @@
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
+                                            data-title="删除"
+                                            data-msg="确定删除这{0}条记录吗？"
+                                            data-url="${ctx}/memberTransfer_batchDel">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </button>
+                                </shiro:hasAnyRoles>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">

@@ -1,4 +1,9 @@
 
+
+2020.5.20
+
+西交大、南航
+
 2020.5.19
 
 INSERT INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`,
@@ -13,6 +18,8 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 ALTER TABLE `oa_task`
 	ADD COLUMN `user_file_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '须任务对象上传文件数量' AFTER `deadline`;
 -- 更新 oa_task_view  oa_task_user_view
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1003, 0, '查看单位档案页', '', 'function', '', NULL, 87, '0/1/85/87/', 1, 'unit:view', 3, NULL, NULL, 1, NULL);
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (53, 0, '基本信息', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:base', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (54, 0, '行政班子', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitTeam', NULL, NULL, NULL, 1, NULL);

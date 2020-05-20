@@ -163,7 +163,10 @@ pageEncoding="UTF-8"%>
 <c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
 		<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
-		<button id="submitBtn" class="btn btn-primary">${param.reapply==1?"重新申请":"确定"}</button>
+
+		 <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> ${param.reapply==1?"重新申请":"确定"}</button>
+
 	</div>
 </c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
@@ -179,6 +182,8 @@ pageEncoding="UTF-8"%>
 	$("#body-content-view #submitBtn").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
+
+        	var $btn = $("#submitBtn").button('loading');
 
 			if(!$("#toBranchDiv").is(":hidden")){
 				if($('#modalForm select[name=toBranchId]').val()=='') {
@@ -204,6 +209,7 @@ pageEncoding="UTF-8"%>
 							$.hashchange();
 						//});
                     }
+                    $btn.button('reset');
                 }
             });
         }

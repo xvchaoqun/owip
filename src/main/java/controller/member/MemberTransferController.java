@@ -452,7 +452,7 @@ public class MemberTransferController extends MemberBaseController {
             logger.info(addLog(LogConstants.LOG_MEMBER, "删除校内组织关系转接：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("memberTransfer:del")
     @RequestMapping(value = "/memberTransfer_batchDel", method = RequestMethod.POST)
@@ -466,7 +466,8 @@ public class MemberTransferController extends MemberBaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }*/
+    }
+
     public void memberTransfer_export(MemberTransferExample example, HttpServletResponse response) {
 
         List<MemberTransfer> records = memberTransferMapper.selectByExample(example);
