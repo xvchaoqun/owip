@@ -51,7 +51,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
 
-    <input type="submit" class="btn btn-primary" value="确定"/>
+     <button id="submitBtn" type="button" class="btn btn-primary"
+			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>
 </div>
 
 <script>
@@ -76,8 +77,10 @@ pageEncoding="UTF-8"%>
         }
     });
 
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit(); return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -86,6 +89,7 @@ pageEncoding="UTF-8"%>
                             $("#jqGrid").trigger("reloadGrid");
                         //});
                     }
+                    $btn.button('reset');
                 }
             });
         }
