@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['wx_support']=='true'}" var="_p_wx_support"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -85,6 +86,7 @@
             { label: '类型', name: 'type', width: 80,  formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
             }},
+            <c:if test="${_p_wx_support}">
             { label: '标题（微信）', name: 'wxTitle', width: 150, align:'left', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.type=='<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>') return '--'
                 var str = "";
@@ -94,6 +96,7 @@
                 str += $.trim(cellvalue) + ($.isBlank(cellvalue)||$.isBlank(rowObject.wxUrl)?'':'，') + $.trim(rowObject.wxUrl);
                 return $.isBlank(str)?'--':str;
             }},
+            </c:if>
             {label: '模板名称', name: 'name', width: 350, align:'left',frozen:true},
             {
                 label: '排序', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,

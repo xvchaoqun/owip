@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['wx_support']=='true'}" var="_p_wx_support"/>
 <c:set value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>" var="CONTENT_TPL_CONTENT_TYPE_STRING"/>
 <c:set value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>" var="CONTENT_TPL_CONTENT_TYPE_HTML"/>
 <c:set value="<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>" var="CONTENT_TPL_TYPE_MSG"/>
@@ -29,6 +30,7 @@
                     <span class="help-block">*留空自动生成</span>
                 </div>
             </div>
+            <c:if test="${_p_wx_support}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
                 <div class="col-xs-8">
@@ -79,6 +81,7 @@
                     <span class="help-block">最终跳转地址为：${_p_siteHome}+微信跳转地址；如无需跳转请留空。</span>
                 </div>
             </div>
+                </c:if>
             <c:if test="${contentType==CONTENT_TPL_CONTENT_TYPE_STRING}">
                 <div class="form-group">
                     <label class="col-xs-3 control-label"><span class="star">*</span>模板内容</label>

@@ -27,9 +27,9 @@ public interface StatCadreMapper {
     List<StatCadreBean> cadre_stat_nation_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
 
     // 党派
-    StatCadreBean cadre_stat_dp(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
-    List<StatCadreBean> cadre_stat_dp_adminLevel(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
-    List<StatCadreBean> cadre_stat_dp_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
+    StatCadreBean cadre_stat_dp(@Param("unitTypeGroup") String unitTypeGroup, @Param("crowdId")int crowdId, @Param("cadreType")byte cadreType);
+    List<StatCadreBean> cadre_stat_dp_adminLevel(@Param("unitTypeGroup") String unitTypeGroup, @Param("crowdId")int crowdId, @Param("cadreType")byte cadreType);
+    List<StatCadreBean> cadre_stat_dp_gender(@Param("unitTypeGroup") String unitTypeGroup, @Param("crowdId")int crowdId, @Param("cadreType")byte cadreType);
 
     // 年龄
     StatCadreBean cadre_stat_age(@Param("unitTypeGroup") String unitTypeGroup, @Param("cadreType")byte cadreType);
@@ -76,17 +76,17 @@ public interface StatCadreMapper {
                             @Param("endNum")Integer endNum);
 
     //政治面貌
-    List<CadreView> PsList(@Param("unitTypeGroup") String unitTypeGroup,
+    List<CadreView> psList(@Param("unitTypeGroup") String unitTypeGroup,
                            @Param("cadreType")byte cadreType,
                            @Param("isOw") Boolean isOw,
-                           @Param("dpTypeId")Integer dpTypeId);
+                           @Param("dpTypeId")Integer dpTypeId, @Param("crowdId")int crowdId);
 
     //学位
     List<CadreView> degreeList(@Param("unitTypeGroup") String unitTypeGroup,
                                @Param("cadreType")byte cadreType,
                                @Param("degreeType")Integer degreeType);
 
-    //专职干部
+    //专职、双肩挑干部
     List<CadreView> isDoubleList(@Param("unitTypeGroup") String unitTypeGroup,
                                  @Param("cadreType")byte cadreType,
                                  @Param("isDouble")Boolean isDouble);

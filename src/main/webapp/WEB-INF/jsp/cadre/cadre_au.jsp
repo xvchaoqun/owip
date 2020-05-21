@@ -127,6 +127,7 @@
                 <div>（从历史单位中选择）</div>
             </div>
         </div>
+        <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
         <div class="form-group">
             <label class="col-xs-4 control-label">干部标签</label>
             <div class="col-xs-6">
@@ -140,6 +141,7 @@
                 </div>
             </div>
         </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">

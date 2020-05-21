@@ -395,8 +395,8 @@
                                             <input type="hidden" name="status" value="${status}">
                                             <div class="columns">
                                                 <div class="column">
-                                                    <div class="name">姓名</div>
-                                                    <div class="value">
+                                                    <label>姓名</label>
+                                                    <div class="input">
                                                         <select data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/cadre_selects?status=${status}"
                                                                 name="cadreId" data-placeholder="请输入账号或姓名或学工号">
@@ -405,8 +405,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">性别</div>
-                                                    <div class="value">
+                                                    <label>性别</label>
+                                                    <div class="input">
                                                         <select name="gender" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
@@ -420,8 +420,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">政治面貌</div>
-                                                    <div class="value">
+                                                    <label>政治面貌</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="dpTypes"
                                                                 style="width: 250px;">
                                                             <option value="-1">非中共党员</option>
@@ -435,8 +435,8 @@
                                                 </div>
                                                 <c:if test="${fn:length(staffTypes)>0}">
                                                 <div class="column">
-                                                    <div class="name">${_p_label_staffType}</div>
-                                                    <div class="value">
+                                                    <label>${_p_label_staffType}</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="staffTypes">
                                                             <c:forEach items="${staffTypes}" var="staffType">
                                                                 <option value="${staffType}">${staffType}</option>
@@ -446,8 +446,8 @@
                                                 </div>
                                                 </c:if>
                                                 <div class="column">
-                                                    <div class="name">民族</div>
-                                                    <div class="value">
+                                                    <label>民族</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="nation">
                                                             <option value="-1">少数民族</option>
                                                             <c:forEach var="nation" items="${cm:getMetaTypes('mc_nation').values()}">
@@ -457,16 +457,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">所在单位及职务</div>
-                                                    <div class="value">
+                                                    <label>所在单位及职务</label>
+                                                    <div class="input">
                                                         <input type="text" name="title"
                                                                value="${param.title}">
                                                     </div>
                                                 </div>
                                                  <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
                                                 <div class="column">
-                                                    <div class="name">干部标签</div>
-                                                    <div class="value">
+                                                    <label>干部标签</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="labels"
                                                                 data-placeholder="请选择">
                                                             <c:import url="/metaTypes?__code=mc_cadre_label"/>
@@ -476,8 +476,8 @@
                                                      </c:if>
                                                     <c:if test="${_p_useCadreState}">
                                                 <div class="column">
-                                                    <div class="name">${_pMap['cadreStateName']}</div>
-                                                    <div class="value">
+                                                    <label>${_pMap['cadreStateName']}</label>
+                                                    <div class="input">
                                                         <select data-rel="select2" data-width="100" name="state"
                                                                     data-placeholder="请选择">
                                                                 <option></option>
@@ -491,8 +491,8 @@
                                                         </c:if>
                                                 <c:if test="${fn:length(authorizedTypes)>0}">
                                                 <div class="column">
-                                                    <div class="name">编制类别</div>
-                                                    <div class="value">
+                                                    <label>编制类别</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="authorizedTypes">
                                                             <c:forEach items="${authorizedTypes}" var="authorizedType">
                                                                 <option value="${authorizedType}">${authorizedType}</option>
@@ -502,24 +502,24 @@
                                                 </div>
                                                     </c:if>
                                                 <div class="column">
-                                                    <div class="name">部门属性</div>
-                                                    <div class="value">
+                                                    <label>部门属性</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="unitTypes">
                                                             <c:import url="/metaTypes?__code=mc_unit_type"/>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">出生日期</div>
-                                                    <div class="value">
+                                                    <label>出生日期</label>
+                                                    <div class="input">
                                                             <input placeholder="请选择出生日期范围" data-rel="date-range-picker"
                                                                    class="form-control date-range-picker"
                                                                    type="text" name="_birth" value="${param._birth}"/>
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">党派加入时间</div>
-                                                    <div class="value">
+                                                    <label>党派加入时间</label>
+                                                    <div class="input">
                                                             <input placeholder="请选择党派加入时间范围"
                                                                    data-rel="date-range-picker"
                                                                    class="form-control date-range-picker"
@@ -528,8 +528,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">所在单位</div>
-                                                    <div class="value">
+                                                    <label>所在单位</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="unitIds">
                                                             <c:forEach var="unitType"
                                                                        items="${cm:getMetaTypes('mc_unit_type')}">
@@ -548,8 +548,8 @@
                                                 </div>
                                                 <c:if test="${status==CADRE_STATUS_CJ_LEAVE || status==CADRE_STATUS_KJ_LEAVE}">
                                                 <div class="column">
-                                                    <div class="name">历史单位</div>
-                                                    <div class="value">
+                                                    <label>历史单位</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="unitIds">
                                                             <c:forEach var="unitType"
                                                                        items="${cm:getMetaTypes('mc_unit_type')}">
@@ -568,8 +568,8 @@
                                                 </div>
                                                     </c:if>
                                                 <div class="column">
-                                                    <div class="name">年龄</div>
-                                                    <div class="value">
+                                                    <label>年龄</label>
+                                                    <div class="input">
                                                         <input class="num" type="text" name="startAge"
                                                                value="${param.startAge}"> 至 <input class="num"
                                                                                                    type="text"
@@ -578,8 +578,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">党龄</div>
-                                                    <div class="value">
+                                                    <label>党龄</label>
+                                                    <div class="input">
                                                         <input class="num" type="text" name="startDpAge"
                                                                value="${param.startDpAge}"> 至 <input class="num"
                                                                                                      type="text"
@@ -588,16 +588,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">行政级别</div>
-                                                    <div class="value">
+                                                    <label>行政级别</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="adminLevels">
                                                             <c:import url="/metaTypes?__code=mc_admin_level"/>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">最高学历</div>
-                                                    <div class="value">
+                                                    <label>最高学历</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="maxEdus">
                                                             <c:import url="/metaTypes?__code=mc_edu"/>
                                                             <option value="-1">无(仅查询无最高学历的干部)</option>
@@ -605,8 +605,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">最高学位</div>
-                                                    <div class="value">
+                                                    <label>最高学位</label>
+                                                    <div class="input">
                                                         <select data-rel="select2" data-placeholder="请选择"
                                                                 name="degreeType">
                                                             <option></option>
@@ -622,8 +622,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">专业技术职务</div>
-                                                    <div class="value">
+                                                    <label>专业技术职务</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="proPosts">
                                                             <c:forEach items="${proPosts}" var="proPost">
                                                                 <option value="${proPost}">${proPost}</option>
@@ -632,16 +632,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">职务属性</div>
-                                                    <div class="value">
+                                                    <label>职务属性</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="postTypes">
                                                             <c:import url="/metaTypes?__code=mc_post"/>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">现职务始任年限</div>
-                                                    <div class="value">
+                                                    <label>现职务始任年限</label>
+                                                    <div class="input">
                                                         <input class="num" type="text" name="startNowPostAge"
                                                                value="${param.startNowPostAge}"> 至 <input class="num"
                                                                                                           type="text"
@@ -650,8 +650,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">职称级别</div>
-                                                    <div class="value">
+                                                    <label>职称级别</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="proPostLevels">
                                                             <c:forEach items="${proPostLevels}" var="proPostLevel">
                                                                 <option value="${proPostLevel}">${proPostLevel}</option>
@@ -661,8 +661,8 @@
                                                 </div>
                                                 <shiro:hasRole name="${ROLE_ADMIN}">
                                                 <div class="column">
-                                                    <div class="name rows">第一主职是否已关联岗位</div>
-                                                    <div class="value">
+                                                    <label class="rows">第一主职是否已关联岗位</label>
+                                                    <div class="input">
                                                         <select name="firstUnitPost" data-width="100"
                                                                 data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
@@ -679,8 +679,8 @@
                                                 </div>
                                                     </shiro:hasRole>
                                                 <div class="column">
-                                                    <div class="name">是否正职</div>
-                                                    <div class="value">
+                                                    <label>是否正职</label>
+                                                    <div class="input">
                                                         <select name="isPrincipal" data-width="100"
                                                                 data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
@@ -693,8 +693,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">现职级始任年限</div>
-                                                    <div class="value">
+                                                    <label>现职级始任年限</label>
+                                                    <div class="input">
                                                         <input class="num" type="text" name="startNowLevelAge"
                                                                value="${param.startNowLevelAge}"> 至 <input class="num"
                                                                                                            type="text"
@@ -703,8 +703,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">是否双肩挑</div>
-                                                    <div class="value">
+                                                    <label>是否双肩挑</label>
+                                                    <div class="input">
                                                         <select name="isDouble" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
@@ -717,18 +717,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name rows">工作经历<br/>
+                                                    <label class="rows">工作经历<br/>
                                                         (<input ${param.andWorkTypes==1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="1">交集
-                                                        <input ${param.andWorkTypes!=1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="0">并集)</div>
-                                                    <div class="value">
+                                                        <input ${param.andWorkTypes!=1?'checked':''} style="vertical-align: -2px" type="checkbox" name="andWorkTypes" value="0">并集)</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="workTypes" data-placeholder="请选择">
                                                             <c:import url="/metaTypes?__code=mc_cadre_work_type"/>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">是否班子负责人</div>
-                                                    <div class="value">
+                                                    <label>是否班子负责人</label>
+                                                    <div class="input">
                                                         <select class="multiselect" multiple="" name="leaderTypes">
                                                             <c:forEach
                                                                     items="<%=SystemConstants.UNIT_POST_LEADER_TYPE_MAP%>"
@@ -739,8 +739,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">干部类别</div>
-                                                    <div class="value">
+                                                    <label>干部类别</label>
+                                                    <div class="input">
                                                         <select name="isDep" data-width="150" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
@@ -753,8 +753,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">是否有挂职经历</div>
-                                                    <div class="value">
+                                                    <label>是否有挂职经历</label>
+                                                    <div class="input">
                                                         <select name="hasCrp" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
@@ -767,8 +767,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="column">
-                                                    <div class="name">国外学习经历</div>
-                                                    <div class="value">
+                                                    <label>国外学习经历</label>
+                                                    <div class="input">
                                                         <select name="hasAbroadEdu" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
@@ -781,8 +781,8 @@
                                                     </div>
                                                 </div>
                                                 <%--<div class="column">
-                                                    <div class="name"></div>
-                                                    <div class="value">
+                                                    <label></label>
+                                                    <div class="input">
 
                                                     </div>
                                                 </div>--%>
@@ -819,41 +819,11 @@
         </div>
     </div>
 </div>
-<style>
-    #searchForm .columns .column{
-        float: left;
-        height: 40px;
-    }
-    #searchForm .columns .column > .name{
-        float: left;
-        width: 120px;
-        padding: 5px 10px 0 0;
-        text-align: right;
-    }
-    #searchForm .columns .column > .name.rows{
-        padding: 0px 10px 0 0;
-        margin-top: -5px;
-    }
-    #searchForm .columns .column > .value{
-        float: left;
-        width: 250px;
-        text-align: left;
-    }
-    #searchForm .columns .column > .value > input {
-        height: 34px;
-    }
-    #searchForm .columns .column > .value > input[type='text'] {
-        width: 200px;
-    }
-    #searchForm .columns .column > .value > input[type='text'].num {
-        width: 50px;
-    }
-</style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $.each(${cm:toJSONObject(param)}, function(name, val){
         if($.trim(val)!=''){
-            $("[name='"+name+"']", "#searchForm .columns .column .value").closest(".column").find(".name").addClass("bolder red");
+            $("[name='"+name+"']", ".search-form .columns .column .input").closest(".column").find("label").addClass("bolder red");
         }
     })
     $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {

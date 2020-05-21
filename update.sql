@@ -1,5 +1,11 @@
 
 
+
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
+ ('wx_support', '支持发送微信', 'false', 3, 60, '');
+
+
 2020.5.20
 
 西交大、南航
@@ -53,7 +59,7 @@ update sys_role sr, (select id from sys_resource where permission='verify:menu')
 
 
 2020.5.13
-西北工大-- 北师大
+西北工大
 
 ALTER TABLE `cadre_work`
 	ADD COLUMN `note` VARCHAR(100) NULL DEFAULT NULL COMMENT '补充说明' AFTER `is_cadre`;
@@ -63,7 +69,7 @@ ALTER TABLE `cadre_work`
 -- 更新dispatch_cadre_view
 
 2020.5.12
-西北工大-- 北师大
+西北工大
 
 update base_meta_type set code='mt_dr_type_meeting' where id=513 and name='会议推荐';
 ALTER TABLE `abroad_taiwan_record`
@@ -87,7 +93,7 @@ ALTER TABLE `cet_upper_train_admin`
 
 
 2020.5.9
-北航，西北工大-- 北师大
+北航，西北工大，南航
 
 ALTER TABLE `unit`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否已删除' AFTER `not_stat_post`;
@@ -107,12 +113,12 @@ insert INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 VALUES (52, 0, '历史任免文件', '', 'url', '', '/dispatch?hasMenu=0', 50, '0/1/50/', 1, 'dispatch:noMenu', NULL, NULL, NULL, 1, 100);
 
 2020.5.8
-哈工大-- 北师大
+哈工大
 
 UPDATE `base_meta_class` SET `name`='推荐类型' WHERE  `id`=82;
 
 2020.5.6
-北航、西北工大  -- 北师大
+北航、西北工大
 
 -- 现任科级干部
 update cadre set status=8 where type=2 and status=1;
@@ -129,7 +135,7 @@ VALUES (110, 0, '隐藏领导信息-基本信息的菜单', '只显示现任处�
 
 
 2020.4.29
-西北工大 -- 北师大
+西北工大
 
 ALTER TABLE `ow_organizer`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 校级组织员 2 院系级组织员   3支部组织员' AFTER `year`;
@@ -143,7 +149,7 @@ ALTER TABLE `ow_organizer`
 	ADD COLUMN `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系方式' AFTER `units`;
 
 2020.4.28
-北航  -- 北师大
+北航
 /*
 -- 修改竞争上岗，已更新南航
 ALTER TABLE `cr_info`
@@ -155,7 +161,7 @@ update cr_info set apply_post_num=2;
 */
 
 2020.4.27
-北航  -- 北师大
+北航
 
 ALTER TABLE `sys_user_info`
 	ADD COLUMN `res_ids_add` TEXT NULL DEFAULT NULL COMMENT '网页端加权限资源id' AFTER `sync`,
@@ -168,7 +174,7 @@ VALUES ('sync', '同步字段是否只同步一次', '011011110110110', 1, 51, '
 
 
 2020.4.24
-北航  -- 北师大
+北航
 
 ALTER TABLE `cg_team` ADD COLUMN `fid` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级ID' AFTER `id`,
 	ADD CONSTRAINT `FK_cg_team_cg_team` FOREIGN KEY (`fid`) REFERENCES `cg_team` (`id`) ON DELETE CASCADE;

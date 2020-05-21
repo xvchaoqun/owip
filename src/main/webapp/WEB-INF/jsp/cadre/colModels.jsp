@@ -205,12 +205,14 @@
         }
         },
         </shiro:lacksPermission>
+        <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
         {label: '干部标签', name: 'label', align:'left', width: 140, formatter: function (cellvalue, options, rowObject) {
                     if($.trim(cellvalue)=='') return '--'
                     return ($.map(cellvalue.split(","), function(label){
                         return $.jgrid.formatter.MetaType(label);
                     })).join("，")
         }},
+        </c:if>
         {label: '备注', name: 'remark', align:'left', width: 250, formatter: $.jgrid.formatter.htmlencodeWithNoSpace}
     ];
     colModels.cadre2 = [

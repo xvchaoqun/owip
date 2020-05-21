@@ -7,8 +7,10 @@ import domain.cadre.CadreViewExample;
 import domain.cla.*;
 import domain.leader.LeaderUnitView;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,6 @@ import persistence.cla.common.ClaApproverTypeBean;
 import service.SpringProps;
 import service.base.ContentTplService;
 import service.base.MetaTypeService;
-import ext.service.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;
@@ -550,6 +551,7 @@ public class ClaApplyService extends ClaBaseMapper {
             String flowNodes = apply.getFlowNodes();
             String[] _approverTypeIds = flowNodes.split(",");
             for (String _approverTypeId : _approverTypeIds) {
+                if(StringUtils.isBlank(_approverTypeId)) continue;
                 int approverTypeId = Integer.valueOf(_approverTypeId);
                 if(approverTypeId>0){
                     needApprovalTypeSet.add(approverTypeId);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['wx_support']=='true'}" var="_p_wx_support"/>
 <c:set value="<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>" var="CONTENT_TPL_TYPE_MSG"/>
 <c:set value="<%=ContentTplConstants.CONTENT_TPL_WX_TYPE_NEWS%>" var="CONTENT_TPL_WX_TYPE_NEWS"/>
 <div style="width: 900px">
@@ -33,6 +34,8 @@
                     <input required class="form-control" type="text" name="name" value="${shortMsgTpl.name}">
                 </div>
             </div>
+            <c:if test="${!_p_wx_support}"><input type="hidden" name="type" value="<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>"></c:if>
+            <c:if test="${_p_wx_support}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>类型</label>
                 <div class="col-xs-8">
@@ -83,6 +86,7 @@
                     <span class="help-block">最终跳转地址为：${_p_siteHome}+微信跳转地址；如无需跳转请留空。</span>
                 </div>
             </div>
+            </c:if>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>发送内容</label>
                 <div class="col-xs-8">

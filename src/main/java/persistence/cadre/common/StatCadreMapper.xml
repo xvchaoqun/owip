@@ -73,18 +73,18 @@
     </select>
     <!-- 党派 (num_1:民主党派 num_2:中共党员)-->
     <select id="cadre_stat_dp" resultMap="BaseResultMap" parameterType="map">
-        select sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
+        select sum(if(dp_type_id>0 and dp_type_id!=#{crowdId}, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
         <include refid="andSql" />
     </select>
     <!-- 党派-行政级别 -->
     <select id="cadre_stat_dp_adminLevel" resultMap="BaseResultMap" parameterType="map">
-       select admin_level_code, sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
+       select admin_level_code, sum(if(dp_type_id>0 and dp_type_id!=#{crowdId}, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
         <include refid="andSql" /> and admin_level_code is not null
         group by admin_level_code
     </select>
     <!-- 党派-性别 -->
     <select id="cadre_stat_dp_gender" resultMap="BaseResultMap" parameterType="map">
-        select gender, sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
+        select gender, sum(if(dp_type_id>0 and dp_type_id!=#{crowdId}, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where 1=1
         <include refid="andSql" />
          and gender is not null group by gender
     </select>
@@ -150,11 +150,8 @@
     <select id="cadre_stat_post" resultMap="BaseResultMap" parameterType="map">
         <![CDATA[
         select sum(if(pro_post_level like '%正高%', 1,0)) as num_1
-        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
-        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
-        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
-        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
-        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_2
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_3
          from cadre_view where 1=1
         ]]>
         <include refid="andSql" />
@@ -164,11 +161,8 @@
 
         select admin_level_code, sum(if(pro_post_level like '%正高%', 1,0)) as num_1
         <![CDATA[
-        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
-        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
-        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
-        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
-        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_2
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_3
         ]]>
          from cadre_view where  1=1
         <include refid="andSql" />
@@ -180,11 +174,8 @@
 
         select gender, sum(if(pro_post_level like '%正高%', 1,0)) as num_1
         <![CDATA[
-        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
-        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
-        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
-        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
-        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_2
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_3
         ]]>
          from cadre_view where  1=1
          <include refid="andSql" />
@@ -231,17 +222,17 @@
 
     <!-- 专职 -->
     <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">
-        select sum(if(is_double, 0,1)) as num from cadre_view where 1=1 <include refid="andSql" />
+        select sum(if(is_double, 0,1)) as num_1, sum(if(is_double, 1,0)) as num_2 from cadre_view where 1=1 <include refid="andSql" />
     </select>
     <!-- 专职-行政级别 -->
     <select id="cadre_stat_double_adminLevel" resultMap="BaseResultMap" parameterType="map">
-        select admin_level_code ,sum(if(is_double, 0,1)) as num from cadre_view where 1=1
+        select admin_level_code , sum(if(is_double, 0,1)) as num_1, sum(if(is_double, 1,0)) as num_2  from cadre_view where 1=1
         <include refid="andSql" />
          and admin_level_code is not null group by admin_level_code
     </select>
     <!-- 专职-性别 -->
     <select id="cadre_stat_double_gender" resultMap="BaseResultMap" parameterType="map">
-        select gender ,sum(if(is_double, 0,1)) as num from cadre_view where 1=1
+        select gender , sum(if(is_double, 0,1)) as num_1, sum(if(is_double, 1,0)) as num_2  from cadre_view where 1=1
         <include refid="andSql" />
          and gender is not null group by gender
     </select>
@@ -276,7 +267,7 @@
     </select>
 
     <!-- 政治面貌 -->
-    <select id="PsList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+    <select id="psList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
 
         select * from cadre_view where 1=1
         <include refid="andSql" />
@@ -284,7 +275,7 @@
             and is_ow=#{isOw}
         </if>
         <if test="dpTypeId!=null">
-            and dp_type_id>0
+            and dp_type_id>0 and dp_type_id!=#{crowdId}
         </if>
     </select>
 
@@ -314,7 +305,8 @@
 
         select * from cadre_view where 1=1
         <include refid="andSql" />
-        and (is_double =#{isDouble} or is_double is null)
+        <if test="isDouble"> and is_double = 1 </if>
+        <if test="!isDouble"> and (is_double = 0 or is_double is null) </if>
     </select>
 
     <!-- 学历分布 -->

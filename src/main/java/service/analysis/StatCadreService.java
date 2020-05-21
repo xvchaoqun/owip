@@ -40,8 +40,7 @@ public class StatCadreService extends BaseMapper {
         InputStream is = getClass().getResourceAsStream("/xlsx/cadre/cadre_template.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook(is);
 
-        renderSheetData(wb, null, cadreType, "所有"
-                + CadreConstants.CADRE_TYPE_MAP.get(cadreType)); // 汇总
+        renderSheetData(wb, null, cadreType, null); // 汇总
 
         MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
         Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
@@ -59,7 +58,7 @@ public class StatCadreService extends BaseMapper {
 
     private void renderSheetData(XSSFWorkbook wb, String unitTypeGroup, byte cadreType, String typeName) {
 
-        XSSFSheet sheet = wb.cloneSheet(0, typeName);
+        XSSFSheet sheet = wb.cloneSheet(0, StringUtils.isBlank(typeName)?"全部":typeName);
         XSSFPrintSetup ps = sheet.getPrintSetup();
         ps.setLandscape(true); // 打印方向，true：横向，false：纵向
         ps.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE); //纸张
@@ -78,7 +77,7 @@ public class StatCadreService extends BaseMapper {
         String str = cell.getStringCellValue()
                 .replace("school", CmTag.getSysConfig().getSchoolName()
                         + CadreConstants.CADRE_TYPE_MAP.get(cadreType))
-                .replace("type", typeName);
+                .replace("type", StringUtils.isBlank(typeName)?"":"（"+typeName+"）");
         cell.setCellValue(str);
 
         row = sheet.getRow(3);
@@ -136,19 +135,19 @@ public class StatCadreService extends BaseMapper {
         // 第一行：总数
         row1(result, cadreCount, count, unitTypeGroup, cadreType);
         // 第二、三、四行：正处、副处、聘任制（无级别）
-        row234(result, unitTypeGroup, cadreType);
+        row2_4(result, unitTypeGroup, cadreType);
         // 汉族、少数名族
-        row56(result, count, unitTypeGroup, cadreType);
+        row5_6(result, count, unitTypeGroup, cadreType);
         // 中共党员、民主党派
-        row78(result, count, unitTypeGroup, cadreType);
+        row7_8(result, count, unitTypeGroup, cadreType);
         // 30岁及以下、...、55岁以上
         row9_15(result, count, unitTypeGroup, cadreType);
         // 正高(总)、...、中级及以下
-        row16_21(result, count, unitTypeGroup, cadreType);
+        row16_18(result, count, unitTypeGroup, cadreType);
         // 博士、硕士、学士
-        row22_24(result, count, unitTypeGroup, cadreType);
-        // 专职干部
-        row25(result, count, unitTypeGroup, cadreType);
+        row19_21(result, count, unitTypeGroup, cadreType);
+        // 专职、双肩挑干部
+        row22_23(result, count, unitTypeGroup, cadreType);
 
         return result;
     }
@@ -198,7 +197,7 @@ public class StatCadreService extends BaseMapper {
         result.put("row1", row);
     }
 
-    public void row234(Map<String, List> result, String unitTypeGroup, byte cadreType) {
+    public void row2_4(Map<String, List> result, String unitTypeGroup, byte cadreType) {
 
         List row1 = result.get("row1");
 
@@ -278,7 +277,7 @@ public class StatCadreService extends BaseMapper {
         result.put("row4", row4);
     }
 
-    public void row56(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
+    public void row5_6(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
 
 
         List row5 = new ArrayList<>();
@@ -371,18 +370,21 @@ public class StatCadreService extends BaseMapper {
         result.put("row6", row6);
     }
 
-    private void row78(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
+    private void row7_8(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
 
         List row7 = new ArrayList<>();
         List row8 = new ArrayList<>();
 
-        StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(unitTypeGroup, cadreType);
+        MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
+
+        StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(unitTypeGroup, crowdId, cadreType);
         row8.add(totalBean == null ? "" : totalBean.getNum1());
         row8.add(totalBean == null ? "" : percent(totalBean.getNum1(), count));
         row7.add(totalBean == null ? "" : totalBean.getNum2());
         row7.add(totalBean == null ? "" : percent(totalBean.getNum2(), count));
 
-        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_dp_adminLevel(unitTypeGroup, cadreType);
+        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_dp_adminLevel(unitTypeGroup, crowdId, cadreType);
 
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
@@ -414,7 +416,7 @@ public class StatCadreService extends BaseMapper {
         row7.add(noneCount2);
         row7.add(percent(noneCount2, row7));
 
-        List<StatCadreBean> genderList = statCadreMapper.cadre_stat_dp_gender(unitTypeGroup, cadreType);
+        List<StatCadreBean> genderList = statCadreMapper.cadre_stat_dp_gender(unitTypeGroup, crowdId, cadreType);
         int male1 = 0, female1 = 0;
         int male2 = 0, female2 = 0;
         if (genderList != null) {
@@ -634,14 +636,11 @@ public class StatCadreService extends BaseMapper {
         result.put("row15", row15);
     }
 
-    private void row16_21(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
+    private void row16_18(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
 
         List row16 = new ArrayList<>();
         List row17 = new ArrayList<>();
         List row18 = new ArrayList<>();
-        List row19 = new ArrayList<>();
-        List row20 = new ArrayList<>();
-        List row21 = new ArrayList<>();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_post(unitTypeGroup, cadreType);
         row16.add(totalBean == null ? "" : totalBean.getNum1());
@@ -653,47 +652,25 @@ public class StatCadreService extends BaseMapper {
         row18.add(totalBean == null ? "" : totalBean.getNum3());
         row18.add(totalBean == null ? "" : percent(totalBean.getNum3(), count));
 
-        row19.add(totalBean == null ? "" : totalBean.getNum4());
-        row19.add(totalBean == null ? "" : percent(totalBean.getNum4(), count));
-
-        row20.add(totalBean == null ? "" : totalBean.getNum5());
-        row20.add(totalBean == null ? "" : percent(totalBean.getNum5(), count));
-
-        row21.add(totalBean == null ? "" : totalBean.getNum6());
-        row21.add(totalBean == null ? "" : percent(totalBean.getNum6(), count));
-
-
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_post_adminLevel(unitTypeGroup, cadreType);
 
         int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
         int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
         int mainCount3 = 0, viceCount3 = 0, noneCount3 = 0;
-        int mainCount4 = 0, viceCount4 = 0, noneCount4 = 0;
-        int mainCount5 = 0, viceCount5 = 0, noneCount5 = 0;
-        int mainCount6 = 0, viceCount6 = 0, noneCount6 = 0;
         if (adminLevelList != null) {
             for (StatCadreBean bean : adminLevelList) {
                 if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
                     mainCount1 += bean.getNum1();
                     mainCount2 += bean.getNum2();
                     mainCount3 += bean.getNum3();
-                    mainCount4 += bean.getNum4();
-                    mainCount5 += bean.getNum5();
-                    mainCount6 += bean.getNum6();
                 } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
                     viceCount1 += bean.getNum1();
                     viceCount2 += bean.getNum2();
                     viceCount3 += bean.getNum3();
-                    viceCount4 += bean.getNum4();
-                    viceCount5 += bean.getNum5();
-                    viceCount6 += bean.getNum6();
                 } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
                     noneCount1 += bean.getNum1();
                     noneCount2 += bean.getNum2();
                     noneCount3 += bean.getNum3();
-                    noneCount4 += bean.getNum4();
-                    noneCount5 += bean.getNum5();
-                    noneCount6 += bean.getNum6();
                 }
             }
         }
@@ -718,51 +695,20 @@ public class StatCadreService extends BaseMapper {
         row18.add(noneCount3);
         row18.add(percent(noneCount3, row18));
 
-        row19.add(mainCount4);
-        row19.add(percent(mainCount4, row19));
-        row19.add(viceCount4);
-        row19.add(percent(viceCount4, row19));
-        row19.add(noneCount4);
-        row19.add(percent(noneCount4, row19));
-
-        row20.add(mainCount5);
-        row20.add(percent(mainCount5, row20));
-        row20.add(viceCount5);
-        row20.add(percent(viceCount5, row20));
-        row20.add(noneCount5);
-        row20.add(percent(noneCount5, row20));
-
-        row21.add(mainCount6);
-        row21.add(percent(mainCount6, row21));
-        row21.add(viceCount6);
-        row21.add(percent(viceCount6, row21));
-        row21.add(noneCount6);
-        row21.add(percent(noneCount6, row21));
-
-
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_post_gender(unitTypeGroup, cadreType);
         int male1 = 0, female1 = 0;
         int male2 = 0, female2 = 0;
         int male3 = 0, female3 = 0;
-        int male4 = 0, female4 = 0;
-        int male5 = 0, female5 = 0;
-        int male6 = 0, female6 = 0;
         if (genderList != null) {
             for (StatCadreBean bean : genderList) {
                 if (bean.getGender() == SystemConstants.GENDER_MALE) {
                     male1 += bean.getNum1();
                     male2 += bean.getNum2();
                     male3 += bean.getNum3();
-                    male4 += bean.getNum4();
-                    male5 += bean.getNum5();
-                    male6 += bean.getNum6();
                 } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
                     female1 += bean.getNum1();
                     female2 += bean.getNum2();
                     female3 += bean.getNum3();
-                    female4 += bean.getNum4();
-                    female5 += bean.getNum5();
-                    female6 += bean.getNum6();
                 }
             }
         }
@@ -781,34 +727,16 @@ public class StatCadreService extends BaseMapper {
         row18.add(female3);
         row18.add(percent(female3, row18));
 
-        row19.add(male4);
-        row19.add(percent(male4, row19));
-        row19.add(female4);
-        row19.add(percent(female4, row19));
-
-        row20.add(male5);
-        row20.add(percent(male5, row20));
-        row20.add(female5);
-        row20.add(percent(female5, row20));
-
-        row21.add(male6);
-        row21.add(percent(male6, row21));
-        row21.add(female6);
-        row21.add(percent(female6, row21));
-
         result.put("row16", row16);
         result.put("row17", row17);
         result.put("row18", row18);
-        result.put("row19", row19);
-        result.put("row20", row20);
-        result.put("row21", row21);
     }
 
-    private void row22_24(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
+    private void row19_21(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
 
-        List row22 = new ArrayList<>();
-        List row23 = new ArrayList<>();
-        List row24 = new ArrayList<>();
+        List row19 = new ArrayList<>();
+        List row20 = new ArrayList<>();
+        List row21 = new ArrayList<>();
 
         int bs = 0, ss = 0, xs = 0;
         List<StatCadreBean> eduList = statCadreMapper.cadre_stat_degree(unitTypeGroup, cadreType);
@@ -824,14 +752,14 @@ public class StatCadreService extends BaseMapper {
                 }
             }
         }
-        row22.add(bs);
-        row22.add(percent(bs, count));
+        row19.add(bs);
+        row19.add(percent(bs, count));
 
-        row23.add(ss);
-        row23.add(percent(ss, count));
+        row20.add(ss);
+        row20.add(percent(ss, count));
 
-        row24.add(xs);
-        row24.add(percent(xs, count));
+        row21.add(xs);
+        row21.add(percent(xs, count));
 
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_degree_adminLevel(unitTypeGroup, cadreType);
 
@@ -869,26 +797,26 @@ public class StatCadreService extends BaseMapper {
                 }
             }
         }
-        row22.add(mainCount1);
-        row22.add(percent(mainCount1, row22));
-        row22.add(viceCount1);
-        row22.add(percent(viceCount1, row22));
-        row22.add(noneCount1);
-        row22.add(percent(noneCount1, row22));
+        row19.add(mainCount1);
+        row19.add(percent(mainCount1, row19));
+        row19.add(viceCount1);
+        row19.add(percent(viceCount1, row19));
+        row19.add(noneCount1);
+        row19.add(percent(noneCount1, row19));
 
-        row23.add(mainCount2);
-        row23.add(percent(mainCount2, row23));
-        row23.add(viceCount2);
-        row23.add(percent(viceCount2, row23));
-        row23.add(noneCount2);
-        row23.add(percent(noneCount2, row23));
+        row20.add(mainCount2);
+        row20.add(percent(mainCount2, row20));
+        row20.add(viceCount2);
+        row20.add(percent(viceCount2, row20));
+        row20.add(noneCount2);
+        row20.add(percent(noneCount2, row20));
 
-        row24.add(mainCount3);
-        row24.add(percent(mainCount3, row24));
-        row24.add(viceCount3);
-        row24.add(percent(viceCount3, row24));
-        row24.add(noneCount3);
-        row24.add(percent(noneCount3, row24));
+        row21.add(mainCount3);
+        row21.add(percent(mainCount3, row21));
+        row21.add(viceCount3);
+        row21.add(percent(viceCount3, row21));
+        row21.add(noneCount3);
+        row21.add(percent(noneCount3, row21));
 
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_degree_gender(unitTypeGroup, cadreType);
         int male1 = 0, female1 = 0;
@@ -919,6 +847,84 @@ public class StatCadreService extends BaseMapper {
                 }
             }
         }
+        row19.add(male1);
+        row19.add(percent(male1, row19));
+        row19.add(female1);
+        row19.add(percent(female1, row19));
+
+        row20.add(male2);
+        row20.add(percent(male2, row20));
+        row20.add(female2);
+        row20.add(percent(female2, row20));
+
+        row21.add(male3);
+        row21.add(percent(male3, row21));
+        row21.add(female3);
+        row21.add(percent(female3, row21));
+
+        result.put("row19", row19);
+        result.put("row20", row20);
+        result.put("row21", row21);
+    }
+
+    private void row22_23(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
+
+        StatCadreBean doubleBean = statCadreMapper.cadre_stat_double(unitTypeGroup, cadreType);
+        List row22 = new ArrayList<>();
+        List row23 = new ArrayList<>();
+        row22.add(doubleBean == null ? "" : doubleBean.getNum1());
+        row22.add(doubleBean == null ? "" : percent(doubleBean.getNum1(), count));
+        row23.add(doubleBean == null ? "" : doubleBean.getNum2());
+        row23.add(doubleBean == null ? "" : percent(doubleBean.getNum2(), count));
+
+        // 行政级别
+        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_double_adminLevel(unitTypeGroup, cadreType);
+
+        int mainCount1 = 0, viceCount1 = 0, noneCount1 = 0;
+        int mainCount2 = 0, viceCount2 = 0, noneCount2 = 0;
+        if (adminLevelList != null) {
+            for (StatCadreBean bean : adminLevelList) {
+                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
+                    mainCount1 = bean.getNum1();
+                    mainCount2 = bean.getNum2();
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
+                    viceCount1 = bean.getNum1();
+                    viceCount2 = bean.getNum2();
+                } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
+                    noneCount1 = bean.getNum1();
+                    noneCount2 = bean.getNum2();
+                }
+            }
+        }
+        row22.add(mainCount1);
+        row22.add(percent(mainCount1, row22));
+        row22.add(viceCount1);
+        row22.add(percent(viceCount1, row22));
+        row22.add(noneCount1);
+        row22.add(percent(noneCount1, row22));
+
+        row23.add(mainCount2);
+        row23.add(percent(mainCount2, row23));
+        row23.add(viceCount2);
+        row23.add(percent(viceCount2, row23));
+        row23.add(noneCount2);
+        row23.add(percent(noneCount2, row23));
+
+        // 男女
+        List<StatCadreBean> genderList = statCadreMapper.cadre_stat_double_gender(unitTypeGroup, cadreType);
+        int male1 = 0, female1 = 0;
+        int male2 = 0, female2 = 0;
+        if (genderList != null) {
+            for (StatCadreBean bean : genderList) {
+                if (bean.getGender() == SystemConstants.GENDER_MALE) {
+                    male1 = bean.getNum1();
+                    male2 = bean.getNum2();
+                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
+                    female1 = bean.getNum1();
+                    female2 = bean.getNum2();
+                }
+            }
+        }
         row22.add(male1);
         row22.add(percent(male1, row22));
         row22.add(female1);
@@ -929,63 +935,8 @@ public class StatCadreService extends BaseMapper {
         row23.add(female2);
         row23.add(percent(female2, row23));
 
-        row24.add(male3);
-        row24.add(percent(male3, row24));
-        row24.add(female3);
-        row24.add(percent(female3, row24));
-
         result.put("row22", row22);
         result.put("row23", row23);
-        result.put("row24", row24);
-    }
-
-    private void row25(Map<String, List> result, int count, String unitTypeGroup, byte cadreType) {
-
-        StatCadreBean doubleBean = statCadreMapper.cadre_stat_double(unitTypeGroup, cadreType);
-        List row = new ArrayList<>();
-        row.add(doubleBean == null ? "" : doubleBean.getNum());
-        row.add(doubleBean == null ? "" : percent(doubleBean.getNum(), count));
-
-        // 行政级别
-        List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_double_adminLevel(unitTypeGroup, cadreType);
-
-        int mainCount = 0, viceCount = 0, noneCount = 0;
-        if (adminLevelList != null) {
-            for (StatCadreBean bean : adminLevelList) {
-                if (StringUtils.equals(bean.getAdminLevelCode(), getMainAdminLevelCode(cadreType))) {
-                    mainCount = bean.getNum();
-                } else if (StringUtils.equals(bean.getAdminLevelCode(), getViceAdminLevelCode(cadreType))) {
-                    viceCount = bean.getNum();
-                } else if (StringUtils.equals(bean.getAdminLevelCode(), "mt_admin_level_none")) {
-                    noneCount = bean.getNum();
-                }
-            }
-        }
-        row.add(mainCount);
-        row.add(percent(mainCount, row));
-        row.add(viceCount);
-        row.add(percent(viceCount, row));
-        row.add(noneCount);
-        row.add(percent(noneCount, row));
-
-        // 男女
-        List<StatCadreBean> genderList = statCadreMapper.cadre_stat_double_gender(unitTypeGroup, cadreType);
-        int male = 0, female = 0;
-        if (genderList != null) {
-            for (StatCadreBean bean : genderList) {
-                if (bean.getGender() == SystemConstants.GENDER_MALE) {
-                    male = bean.getNum();
-                } else if (bean.getGender() == SystemConstants.GENDER_FEMALE) {
-                    female = bean.getNum();
-                }
-            }
-        }
-        row.add(male);
-        row.add(percent(male, row));
-        row.add(female);
-        row.add(percent(female, row));
-
-        result.put("row25", row);
     }
 
     public Map<Integer, List> eduRowMap(String unitTypeGroup, byte cadreType) {
@@ -1119,7 +1070,11 @@ public class StatCadreService extends BaseMapper {
             isOw=true;
         if (firstTypeNum == 2)
             dpTypeId = 1;
-        List<CadreView> cadreViewList = statCadreMapper.PsList(unitTypeGroup,cadreType,isOw,dpTypeId);
+
+        MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+        int crowdId = metaType.getId();
+
+        List<CadreView> cadreViewList = statCadreMapper.psList(unitTypeGroup,cadreType,isOw, dpTypeId, crowdId);
         return groupByCadre(cadreViewList,secondNum);
     }
 
@@ -1163,9 +1118,9 @@ public class StatCadreService extends BaseMapper {
     }
 
     //专职干部
-    public List<CadreView> isDoubleList(String unitTypeGroup,Byte cadreType,Integer secondNum){
+    public List<CadreView> isDoubleList(String unitTypeGroup, Byte cadreType, Integer secondNum, boolean isDouble){
 
-        List<CadreView> cadreViewList = statCadreMapper.isDoubleList(unitTypeGroup,cadreType,false);
+        List<CadreView> cadreViewList = statCadreMapper.isDoubleList(unitTypeGroup,cadreType,isDouble);
         return groupByCadre(cadreViewList,secondNum);
     }
 
@@ -1177,11 +1132,10 @@ public class StatCadreService extends BaseMapper {
     }
 
     //判断第二个参数的类型
-    public List<CadreView> groupByCadre(List<CadreView> cadreViewList,Integer secondNum){
+    public List<CadreView> groupByCadre(List<CadreView> cadreViewList, Integer secondNum){
         List<CadreView> cadreViews = new ArrayList<>();
         for (CadreView cadreView : cadreViewList){
 
-            String adminLevelCode = cadreView.getAdminLevelCode();
             if (secondNum == 1){//总体
                 cadreViews.add(cadreView);
             }else if (secondNum == 2){//行政级别 正处
@@ -1205,15 +1159,15 @@ public class StatCadreService extends BaseMapper {
                 continue;
             } else if (secondNum == 5){//性别 男
 
-                    if (cadreView.getGender() == SystemConstants.GENDER_MALE)
+                    if (cadreView.getGender()!=null && cadreView.getGender() == SystemConstants.GENDER_MALE)
                         cadreViews.add(cadreView);
                     continue;
                 }else if (secondNum == 6){//性别 女
 
-                if (cadreView.getGender() == SystemConstants.GENDER_FEMALE)
-                    cadreViews.add(cadreView);
-                continue;
-            }
+                    if (cadreView.getGender()!=null && cadreView.getGender() == SystemConstants.GENDER_FEMALE)
+                        cadreViews.add(cadreView);
+                    continue;
+                }
         }
         return cadreViews;
     }

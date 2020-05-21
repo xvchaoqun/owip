@@ -7,7 +7,7 @@
                 <li class="<c:if test="${empty param.unitTypeGroup}">active</c:if>">
                     <a href="javascript:;" class="loadPage" data-mask-el="#statTable"
                        data-url="${ctx}/stat_cadre?unitTypeGroup=&cadreType=${cadreType}">
-                        <i class="fa fa-signal"></i> 所有${CADRE_TYPE_MAP.get(cadreType)}</a>
+                        <i class="fa fa-signal"></i> 全部</a>
                 </li>
                 <c:forEach items="${unitTypeGroupMap}" var="entity" varStatus="vs">
                     <li class="<c:if test="${param.unitTypeGroup==entity.key}">active</c:if>">
@@ -41,7 +41,6 @@
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=14 height=41 class=xl97>${_school}${CADRE_TYPE_MAP.get(cadreType)}情况统计表
-                            <c:if test="${empty param.unitTypeGroup}">（所有${CADRE_TYPE_MAP.get(cadreType)}）</c:if>
                             <c:if test="${not empty param.unitTypeGroup}">（${unitTypeGroupMap.get(param.unitTypeGroup).name}）</c:if>
                         </td>
                     </tr>
@@ -207,55 +206,34 @@
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=6 height=138 class=xl94>职称分布
+                        <td rowspan=3 height=69 class=xl94>职称分布
                         </td>
-                        <td class=xl70>正高(总)</td>
+                        <td height=23 class=xl70>正高</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="16"/>
-                        </jsp:include>
-                    </tr>
-                    <tr>
-                        <td height=23 class=xl70 style="white-space: nowrap">正高(二级)
-                        </td>
-                        <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="17"/>
-                        </jsp:include>
-                    </tr>
-                    <tr>
-                        <td height=23 class=xl70 style="white-space: nowrap">正高(三级)
-                        </td>
-                        <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="18"/>
-                        </jsp:include>
-                    </tr>
-                    <tr>
-                        <td height=23 class=xl70 style="white-space: nowrap">正高(四级)
-                        </td>
-                        <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="19"/>
                         </jsp:include>
                     </tr>
                     <tr>
                         <td height=23 class=xl70>副高
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="20"/>
+                            <jsp:param name="row" value="17"/>
                         </jsp:include>
                     </tr>
                     <tr>
                         <td height=23 class=xl70 style="white-space: nowrap">中级及以下
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="21"/>
+                            <jsp:param name="row" value="18"/>
                         </jsp:include>
                     </tr>
                     <tr>
-                        <td rowspan=3 height=92 class=xl94>学位分布
+                        <td rowspan=3 height=69 class=xl94>学位分布
                         </td>
                         <td height=23 class=xl70>博士
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="22"/>
+                            <jsp:param name="row" value="19"/>
                             <jsp:param name="firstTypeCode" value="degree" />
                             <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_BS%>" />
                         </jsp:include>
@@ -264,7 +242,7 @@
                         <td height=23 class=xl70>硕士
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="23"/>
+                            <jsp:param name="row" value="20"/>
                             <jsp:param name="firstTypeCode" value="degree" />
                             <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_SS%>" />
                         </jsp:include>
@@ -273,7 +251,7 @@
                         <td height=23 class=xl70>学士
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="24"/>
+                            <jsp:param name="row" value="21"/>
                             <jsp:param name="firstTypeCode" value="degree" />
                             <jsp:param name="firstTypeNum" value="<%=SystemConstants.DEGREE_TYPE_XS%>" />
                         </jsp:include>
@@ -282,7 +260,15 @@
                         <td colspan=2 height=23 class=xl70>专职干部
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="25"/>
+                            <jsp:param name="row" value="22"/>
+                            <jsp:param name="firstTypeCode" value="isNotDouble"/>
+                        </jsp:include>
+                    </tr>
+                    <tr>
+                        <td colspan=2 height=23 class=xl70>双肩挑干部
+                        </td>
+                        <jsp:include page="row.jsp">
+                            <jsp:param name="row" value="23"/>
                             <jsp:param name="firstTypeCode" value="isDouble"/>
                         </jsp:include>
                     </tr>
@@ -295,7 +281,7 @@
                         <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="${25+vs.index+1}"/>
+                            <jsp:param name="row" value="${23+vs.index+1}"/>
                             <jsp:param name="firstTypeCode" value="education"/>
                             <jsp:param name="firstTypeNum" value="${entity.key}"/>
                         </jsp:include>

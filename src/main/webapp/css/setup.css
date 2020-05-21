@@ -314,6 +314,35 @@ body {
     padding-bottom: 10px;
 }
 
+.search-form .columns .column{
+        float: left;
+        height: 40px;
+}
+.search-form .columns .column > label{
+    float: left;
+    width: 120px;
+    padding: 5px 10px 0 0;
+    text-align: right;
+}
+.search-form .columns .column > label.rows{
+    padding: 0px 10px 0 0;
+    margin-top: -5px;
+}
+.search-form .columns .column > .input{
+    float: left;
+    width: 250px;
+    text-align: left;
+}
+.search-form .columns .column > .input > input {
+    height: 34px;
+}
+.search-form .columns .column > .input > input[type='text'] {
+    width: 200px;
+}
+.search-form .columns .column > .input > input[type='text'].num {
+    width: 50px;
+}
+
 /*============table================*/
 .table-container {
     overflow: auto;

@@ -414,8 +414,10 @@ public class StatCadreController extends BaseController {
          if (StringUtils.equals(firstTypeCode,"degree"))//学位分布
              cadreViews = statCadreService.degreeTypeList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
 
-         if (StringUtils.equals(firstTypeCode,"isDouble"))//专职干部
-             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum);
+         if (StringUtils.equals(firstTypeCode,"isNotDouble"))//专职干部
+             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum, false);
+         if (StringUtils.equals(firstTypeCode,"isDouble"))//双肩挑干部
+             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum, true);
 
          if (StringUtils.equals(firstTypeCode,"education"))//学历
              cadreViews = statCadreService.educationList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
