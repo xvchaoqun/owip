@@ -1,7 +1,57 @@
 
+
+.checkboxRadio{padding-left:20px}
+.checkboxRadio label{display:inline-block;vertical-align:middle;position:relative;padding-left:5px}
+.checkboxRadio label::before{content:"";display:inline-block;position:absolute;width:17px;height:17px;left:0;margin-left:-20px;border:1px solid #ccc;border-radius:3px;background-color:#fff;-webkit-transition:border .15s ease-in-out,color .15s ease-in-out;-o-transition:border .15s ease-in-out,color .15s ease-in-out;transition:border .15s ease-in-out,color .15s ease-in-out}
+.checkboxRadio label::after{display:inline-block;position:absolute;width:16px;height:16px;left:0;top:0;margin-left:-20px;padding-left:3px;padding-top:1px;font-size:11px;color:#555;line-height:1.4}
+.checkboxRadio input[type="checkbox"]{opacity:0;z-index:1;cursor:pointer}
+.checkboxRadio input[type="checkbox"]:focus+label::before{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
+.checkboxRadio input[type="checkbox"]:checked+label::after{font-family:"FontAwesome";content:"\f00c"}
+.checkboxRadio input[type="checkbox"]:indeterminate+label::after{display:block;content:"";width:10px;height:3px;background-color:#555;border-radius:2px;margin-left:-16.5px;margin-top:7px}
+.checkboxRadio input[type="checkbox"]:disabled{cursor:not-allowed}
+.checkboxRadio input[type="checkbox"]:disabled+label{opacity:.65}
+.checkboxRadio input[type="checkbox"]:disabled+label::before{background-color:#eee;cursor:not-allowed}
+.checkboxRadio label::before{border-radius:50%}
+.checkboxRadio.checkbox-inline{margin-top:0}
+.checkboxRadio input[type="checkbox"]:indeterminate+label::after{display:none}
+.checkboxRadio label::before{width:20px;height:20px;margin-top: 2px}
+.checkboxRadio label::after{width:20px;height:20px;padding-left:4px;font-size:18px;left:-3px;}
+.checkboxRadio label{padding-left:10px;font-size:16px}
+/*勾选*/
+/*.checkboxRadio{padding-left:30px;}
+.checkboxRadio input[type=radio] {display: none;}
+.checkboxRadio input[type=radio]+label {
+	margin-right: 10px;
+	text-align: center;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.checkboxRadio input[type=radio]+label::before {
+	content: '';
+	width: 1em;
+	height: 1em;
+	border: 1px solid #ccc;
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 2px;
+	margin-right: 2px;
+	border-radius: 2px;
+	background-color: #fff;
+}
+.checkboxRadio input[type=radio]+label::before {
+	border-radius: 2em;
+}
+
+.checkboxRadio input[type=radio]:checked+label::before {
+	background-color: green;
+	background-clip: content-box;
+	border-color: green;
+}*/
+
 .login_body
 {
-	background-image: linear-gradient(to bottom, #F0F8FF, white);
+	background-image: linear-gradient(to bottom, rgba(199,223,247,0.3), white);/*背景颜色渐变*/
     font: 12px "微软雅黑" , "宋体";
 	color: #0068bf;
     margin-bottom: -40px;
@@ -26,9 +76,9 @@
 	height: 36px;
 }
 
-.login_bg
+.dr_login_bg
 {
-	background-image: url("/img/dr_login_bg.png");
+	background-image: url("/img/dr_login_bg1.png");
 	background-repeat: repeat-x;
 }
 
@@ -38,15 +88,19 @@
 
 .login_top .login_logo{
 	width:1000px;
-	height:150px;
-	margin: 10px 0 -20px 30%;
+	height:120px;
+	margin:0 auto;
+	text-align: center;
+	padding-top: 20px;
+	display: flex;
+	justify-content: center;
 }
 
 .login_body .logo{
-	float:left;
 	padding-right:25px;
 	height:70px;
 	line-height:70px;
+	margin: 0;
 }
 
 .login_body .logo img{
@@ -58,16 +112,19 @@
 {
 	height:70px;
 	line-height:70px;
-	float:left;
+	font-weight: normal ;
 	margin-left:25px;
-	font-size:30px;
+	font-size:35px;
     color:white;
+	text-align: center;
 }
 
 
 .login_bg_mid
 {
-	background-image: url("/img/dr_login_bg2.png" );
+	/*background-image: url("/img/dr_login_bg.png" );*/
+    background-image: url("/img/dr_login_bg.png");
+	background-color:rgba(0,0,0,0);/*透明*/
 	margin-top: -20px;
 	margin-bottom: 0px;
 	background-repeat: no-repeat;

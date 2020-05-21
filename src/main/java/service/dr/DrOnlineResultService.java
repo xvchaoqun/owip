@@ -204,7 +204,7 @@ public class DrOnlineResultService extends DrBaseMapper {
     //结果中包含几个岗位
     public List<Integer> getPostId(Integer onlineId){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(null, null, onlineId);
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(null, null, onlineId, null, null, null);
         List<Integer> postIds = new ArrayList<>();
         for (DrFinalResult record : drFinalResults){
             if (!postIds.contains(record.getPostId()))
@@ -215,7 +215,7 @@ public class DrOnlineResultService extends DrBaseMapper {
 
     public DrFinalResult findCount(Integer onlineId, Integer postId, String candidate, List<Integer> typeIds){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId);
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId, null,null, null);
         for (DrFinalResult drFinalResult : drFinalResults){
             if (postId == drFinalResult.getPostId()){
                 if (null != candidate) {
@@ -234,7 +234,7 @@ public class DrOnlineResultService extends DrBaseMapper {
     //<postId, candidateStr>
     public Map<Integer ,List<String>> findCandidate(List<Integer> typeIds, Integer onlineId){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId);
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId, null,null, null);
         DrOnlinePostViewExample postExample = new DrOnlinePostViewExample();
         postExample.createCriteria().andOnlineIdEqualTo(onlineId);
         List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(postExample);

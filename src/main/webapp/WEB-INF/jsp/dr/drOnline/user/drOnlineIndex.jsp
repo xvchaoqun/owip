@@ -36,7 +36,7 @@
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
-                <t:img src="/img/px.png"/></div><%--换成学校图标--%>
+                <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
             <div class="txt" style="cursor: pointer;">线上民主推荐投票</div>
         </div>
@@ -51,10 +51,10 @@
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
         <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
-                <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i>测评</a>
+                <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i> 测评</a>
             </li>
             <li>
-                <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i>测评说明</a>
+                <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i> 测评说明</a>
             </li>
             <li>
 
@@ -70,10 +70,10 @@
                     <i class="fa fa-caret-down"> </i></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i>测评</a>
+                        <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i> 测评</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i>测评说明</a>
+                        <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i> 测评说明</a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
@@ -111,9 +111,9 @@
         <c:if test="${not empty inspector}">
             <div class="span12 header" style="padding-left: 20px;">
                 <h4 style="padding-left: 20px" align="center">
-                    <strong>当前账号：</strong><a href="#" class="tag">${inspector.username}</a>
-                    <strong>所属单位：</strong><a href="#" class="tag">${unitMap.get(inspector.unitId).name}</a>
-                    <strong>参评人身份类型：</strong><a href="#" class="tag">${inspector.inspectorType.type}</a>
+                    <strong>当前账号：</strong><a href="#" class="tag">${inspector.username}</a>&nbsp;
+                    <strong>所属单位：</strong><a href="#" class="tag">${unitMap.get(inspector.unitId).name==null?"无单位":unitMap.get(inspector.unitId).name}</a>&nbsp;
+                    <strong>参评人身份类型：</strong><a href="#" class="tag">${inspector.inspectorType.type}</a>&nbsp;
                 </h4>
             </div>
         </c:if>
@@ -135,12 +135,13 @@
                         </div>
                         <div class="span12" style="margin-top: 30px;font:bold 25px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
-                                <input type="checkbox" id="agree" name="agree" style="width: 30px; height: 30px; margin: 0;"> 我确认已阅读测评说明
+                                <input type="checkbox" id="agree" name="agree" style="width: 25px; height: 25px; margin: 0px;vertical-align: text-bottom;"> 我确认已阅读测评说明
                             </center>
                         </div>
                         <div class="span12" style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
-                                <button class="btn btn-large btn-success" onclick="_confirm()" type="button">进入测评页面</button></center>
+                                <button class="btn btn-large" id="enterBtn" onclick="_confirm()" type="button">进入测评页面</button>
+                            </center>
                         </div>
                     </c:if>
                 </form>
@@ -168,7 +169,7 @@
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
                                         </td>
                                         <td>
                                             <div>
@@ -201,7 +202,7 @@
                                     <tr>
                                         <td>
                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
                                         </td>
                                         <td>
                                             <div>
@@ -255,7 +256,7 @@
                                     <tr>
                                         <td>
                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
                                         </td>
                                         <td>
                                             <div>
@@ -269,7 +270,7 @@
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车键" />
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
                                         </td>
                                         <td>
                                             <div>
@@ -284,12 +285,13 @@
                         <tfoot>
                         <tr>
                             <td colspan="3">
-                                <button class="btn btn-sm btn-primary"
-                                        style="font-weight: bolder; font-size: medium; color: white" type="button" onclick="doTempSave()">保存</button>
+                                <button class="btn btn-sm btn-success"
+                                        style="font-weight: bolder; font-size: medium;background-color: #419641!important;border-color: #3e8f3e!important;" type="button"
+                                        onclick="doTempSave()"><i class="fa fa-save"></i> 保存</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-sm btn-primary"
-                                        style="font-weight: bolder; font-size: medium; color: white" type="button"
-                                        onclick="doTempSubmit()">提交</button>
+                                <button class="btn btn-sm btn-primary" id="tempSubmit"
+                                        style="font-weight: bolder; font-size: medium;background-color: #2aabd2!important;border-color: #28a4c9!important;" type="button"
+                                        onclick="doTempSubmit()"><i class="fa fa-check"></i> 提交</button>
                             </td>
                         </tr>
                         </tfoot>
@@ -356,15 +358,15 @@
                         </div>
 
                         <div class="clearfix" style="background-color: white;margin-top: 20px;">
-                            <div class="col-md-offset-3 col-md-9" style="padding-left:15%">
-                                <button class="btn btn-info" type="submit">
-                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                            <div class="col-md-offset-3 col-md-9" style="padding-left:15%;">
+                                <button class="btn btn-info" type="submit" style="background-color: #419641!important;border-color: #3e8f3e!important;">
+                                    <i class="fa fa-save"></i>
                                     保存
                                 </button>
 
                                 &nbsp; &nbsp;
-                                <button class="btn" type="reset">
-                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                <button class="btn" type="reset" style="color: grey!important;background-color: #F0F0F0!important;">
+                                    <i class="fa fa-undo"></i>
                                     重置
                                 </button>
                             </div>
@@ -376,40 +378,8 @@
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
+<script src="${ctx}/js/dr.js"></script>
 <script>
-
-    function drOnline_eva() {
-        $('.changePasswd').attr("disabled", "disabled");
-        $('.changePasswd').attr("hidden", "hidden");
-
-        $('.notice').attr("disabled", "disabled");
-        $('.notice').attr("hidden", "hidden");
-
-        $('.eva').removeAttr("disabled");
-        $('.eva').removeAttr("hidden");
-    }
-
-    function drOnline_notice() {
-        $('.changePasswd').attr("disabled", "disabled");
-        $('.changePasswd').attr("hidden", "hidden");
-
-        $('.notice').removeAttr("disabled");
-        $('.notice').removeAttr("hidden");
-
-        $('.eva').attr("disabled", "disabled");
-        $('.eva').attr("hidden", "hidden");
-    }
-
-    function drOnline_changePasswd() {
-        $('.changePasswd').removeAttr("disabled");
-        $('.changePasswd').removeAttr("hidden");
-
-        $('.notice').attr("disabled", "disabled");
-        $('.notice').attr("hidden", "hidden");
-
-        $('.eva').attr("disabled", "disabled");
-        $('.eva').attr("hidden", "hidden");
-    }
 
     function _confirm() {
         if ($('#agree').is(':checked') == false){
@@ -442,6 +412,11 @@
     //保存临时数据
     var isSubmit = 0;
     var postViews = ${cm:toJSONObject(postViews)};
+
+    $("#survey input[name=candidateCode]").parent().css({"height": "95%", "width": "95%"})
+    $("#survey input[name=candidateCode]").next().css({"font-size": "15px"})
+
+    //保存
     function doTempSave(){
         var onlineId = ${drOnline.id};
         var datas = new Array();
@@ -449,6 +424,7 @@
         var flag = 1;   //是否提交数据
         var totalCount = 0;//已投
         var _totalCount = 0;//应投
+        var postNames = new Array();
 
         $.each(postViews, function (i, item) {
             var count = 0;//统计各个推荐职务人数
@@ -472,20 +448,29 @@
                     //返回 -1 表示没有包含
                     //返回大于 0 表示包含
                     if ($.inArray(userIds[i], item.cans) >= 0){
-                        SysMsg.info('候选人姓名重复，请加以区别！', '提示',function () {
-                            return;
-                        })
+                        $.tip({
+                            $target: $("#survey input[name=candidateCode][postId=" + postId + "]").parent(),
+                            at: 'center right', my: 'center left', type: 'info',
+                            msg: '候选人姓名重复，请加以区别！'
+                        });
                         flag = 0;
+                        return false;
                     }
                 }
                 count += userIds.length;
             }
             //console.log(count)
             if (count > item.competitiveNum){
-                SysMsg.info(item.name + '中投同意票的总数，超过了最大推荐人数' + item.competitiveNum + ',请重选！', '提示',function () {
-                    return;
-                })
+                //console.log($("input[name=candidateCode][postId="+postId+"]"))
+                $.tip({
+                    $target: $("#survey input[name=candidateCode][postId=" + postId + "]").parent(),
+                    at: 'center right', my: 'center left', type: 'info',
+                    msg: item.name + '中投同意票的总数，超过了最大推荐人数' + item.competitiveNum + ',请重选！'
+                });
                 flag = 0;//放在提示信息中，falg赋不上值
+                return false;
+            }else if (count < item.competitiveNum) {
+                postNames.push(item.name);
             }
 
             var user = "";
@@ -505,18 +490,37 @@
         if (flag == 0)return;
         if(isSubmit == 1){
             if (_totalCount > totalCount) {
-                SysMsg.info('请完成推荐表后，再进行提交。', '提示',function () {
-                    return;
-                })
+                $.tip({
+                    $target: $("#tempSubmit"),
+                    at: 'center right', my: 'center left', type: 'info',
+                    msg: "您还没有完成此次民主推荐，请继续完成此次民主推荐（" + postNames.join("，") + "）。"
+                });
+                return;
             }else {
-                SysMsg.confirm('提交成功将直接退出系统，然后该账号不能登录。请谨慎提交！', '确认提交',function () {
-                    $.post("${ctx}/dr/drOnline/doTempSave?&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
-                        if (ret.success) {
-                            SysMsg.success('提交成功。', '提交', function(){
-                                location.href ="${ctx}/dr/drOnline/logout"
-                            });
-                        }
-                    })
+                bootbox.confirm('<div style="font-size: 16pt;font-weight: bolder;color:red;margin:10px;">\
+					<div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认测评结果无需再做修改。</div>\
+					<div style="text-indent:2em;padding:10px;">为保证您评价信息的安全，在点击确定提交后您的对应账号、密码即失效。<div></div>', function (result) {
+                    if (result) {
+                        $.post("${ctx}/dr/drOnline/doTempSave?&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+                            if (ret.success) {
+                                bootbox.alert({
+                                    closeButton: false,
+                                    buttons: {
+                                        ok: {
+                                            label: '确定',
+                                            className: 'btn-success'
+                                        }
+                                    },
+                                    message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成此次民主推荐，感谢您对工作的大力支持！<span>',
+                                    callback: function () {
+                                        location.href ="${ctx}/dr/drOnline/logout"
+                                    }
+                                });
+                            }
+                        })
+                    }else {
+                        $(this).modal("hide");
+                    }
                 })
             }
         }else{

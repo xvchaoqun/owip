@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>      
 <form id="genForm" method="post" action="${ctx}/dr/inspector_gen?onlineId=${onlineId}">
 <div class="component">
-            <table class="table table-bordered  table-striped">
+            <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-					<th style="width: 50px;">单位/身份</th>
+					<th>单位/身份</th>
 					<c:forEach items="${inspectorTypes}" var="inspectorType">
-					<th style="width: 10px;">${inspectorType.type}</th>
+					<th>${inspectorType.type}</th>
 					</c:forEach>
                 </tr>
               </thead>
@@ -17,10 +17,10 @@
               	<tr>
               		<th>${unit.name}</th>
               		<c:forEach items="${inspectorTypes}" var="inspectorType" >
-              		<c:set var="totalKey" value="total_${unit.id}_${inspectorType.id}"/>
-              		<td>
-						<input type="text"  name="total_${unit.id}_${inspectorType.id}" value="${requestScope[totalKey]}">
-					</td>
+						<c:set var="totalKey" value="total_${unit.id}_${inspectorType.id}"/>
+						<td>
+							<input type="text"  name="total_${unit.id}_${inspectorType.id}" value="${requestScope[totalKey]}">
+						</td>
 					</c:forEach>
               	</tr>
               	</c:forEach>
@@ -37,7 +37,8 @@
 		width: 30px;
 	}
 	.table{
-		width: auto;
+		margin-bottom:20px;
+		width: fit-content!important;
 	}
 	table.table > tbody> tr > td{
 		text-align: center;vertical-align: middle;
@@ -59,14 +60,14 @@ $(function(){
 	$("#genForm").validate({
 		rules: {
 			<c:forEach items="${units}" var="unit" varStatus="vs1">
-          		<c:forEach items="${inspectorTypes}" var="inspectorType" varStatus="vs2">
-          		<c:set var="totalKey" value="total_${unit.id}_${inspectorType.id}"/>
+				<c:forEach items="${inspectorTypes}" var="inspectorType" varStatus="vs2">
+				<c:set var="totalKey" value="total_${unit.id}_${inspectorType.id}"/>
 					<c:if test="${not empty requestScope[totalKey]}">
-          			total_${unit.id}_${inspectorType.id} : { digits:true, min:parseInt('${requestScope[totalKey]}'),max:500}
-          			<c:if test="${!(vs1.last && vs2.last)}">,</c:if>
+					total_${unit.id}_${inspectorType.id} : { digits:true, min:parseInt('${requestScope[totalKey]}'),max:500}
+					<c:if test="${!(vs1.last && vs2.last)}">,</c:if>
 					</c:if>
-          		</c:forEach>
-          	</c:forEach>
+				</c:forEach>
+			</c:forEach>
 		},
 		submitHandler: function (form) {
 			$(form).ajaxSubmit({

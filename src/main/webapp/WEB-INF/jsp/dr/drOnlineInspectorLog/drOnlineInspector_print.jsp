@@ -14,7 +14,7 @@
     <script type="text/javascript" src="${ctx}/assets/js/jquery.js"></script>
     <script type="text/javascript" src="${ctx}/js/qrcode.min.js"></script>
 </head>
-<body>
+<body onload="print()">
 <c:forEach items="${inspectors}" var="inspector" varStatus="vs">
     <div style="width:794px;height:1123px;border:0px solid #000000;">
         <table style="width: 100%;padding:0px 50px;">
@@ -80,6 +80,14 @@
                                     <c:if test="${empty inspector.passwdChangeType}">
                                         ${inspector.passwd}
                                     </c:if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <span style='font-size:14.0pt;font-family:黑体;'>手机端登录：</span>
+                            </td>
+                            <td align="left">
+                                扫描右侧二维码。
                             </td>
                         </tr>
                     </table>

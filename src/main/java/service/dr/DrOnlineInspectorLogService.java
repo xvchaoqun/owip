@@ -77,7 +77,12 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
         int logId = 0;
         Date now = new Date();
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
-        example.createCriteria().andTypeIdEqualTo(inspectorTypeId).andUnitIdEqualTo(unitId).andOnlineIdEqualTo(onlineId);
+        DrOnlineInspectorLogExample.Criteria criteria = example.createCriteria().andTypeIdEqualTo(inspectorTypeId).andOnlineIdEqualTo(onlineId);
+        if (unitId != null){
+            criteria.andUnitIdEqualTo(unitId);
+        }else {
+            criteria.andUnitIdIsNull();
+        }
         List<DrOnlineInspectorLog> inspectorLogs = drOnlineInspectorLogMapper.selectByExample(example);
         if (count > 0){
             if (inspectorLogs != null && !inspectorLogs.isEmpty()){

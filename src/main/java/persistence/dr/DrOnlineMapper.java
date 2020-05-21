@@ -2,9 +2,10 @@ package persistence.dr;
 
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface DrOnlineMapper {
     long countByExample(DrOnlineExample example);
@@ -17,10 +18,6 @@ public interface DrOnlineMapper {
 
     int insertSelective(DrOnline record);
 
-    List<DrOnline> selectByExampleWithBLOBsWithRowbounds(DrOnlineExample example, RowBounds rowBounds);
-
-    List<DrOnline> selectByExampleWithBLOBs(DrOnlineExample example);
-
     List<DrOnline> selectByExampleWithRowbounds(DrOnlineExample example, RowBounds rowBounds);
 
     List<DrOnline> selectByExample(DrOnlineExample example);
@@ -29,13 +26,9 @@ public interface DrOnlineMapper {
 
     int updateByExampleSelective(@Param("record") DrOnline record, @Param("example") DrOnlineExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") DrOnline record, @Param("example") DrOnlineExample example);
-
     int updateByExample(@Param("record") DrOnline record, @Param("example") DrOnlineExample example);
 
     int updateByPrimaryKeySelective(DrOnline record);
-
-    int updateByPrimaryKeyWithBLOBs(DrOnline record);
 
     int updateByPrimaryKey(DrOnline record);
 }

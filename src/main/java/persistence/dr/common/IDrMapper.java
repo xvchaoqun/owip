@@ -26,10 +26,15 @@ public interface IDrMapper {
 
     //统计所有的结果
     List<DrFinalResult>  resultOne(@Param("typeIds") List<Integer> typeIds,
-                                   @Param("postId") Integer postId,
-                                   @Param("onlineId")Integer onlineId);
+                                   @Param("postIds") List<Integer> postIds,
+                                   @Param("onlineId")Integer onlineId,
+                                   @Param("candidate")String candidate,
+                                   @Param("scoreRate")Integer scoreRate,
+                                   RowBounds rowBounds);
     int countResult(@Param("typeIds") List<Integer> typeIds,
-                    @Param("postId") Integer postId,
-                    @Param("onlineId")Integer onlineId);
+                    @Param("postIds") List<Integer> postIds,
+                    @Param("onlineId")Integer onlineId,
+                    @Param("candidate")String candidate,
+                    @Param("scoreRate")Integer scoreRate);
 
 }

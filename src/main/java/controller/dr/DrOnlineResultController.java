@@ -1,10 +1,14 @@
 package controller.dr;
 
-import controller.global.OpException;
 import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;
+import domain.dr.DrOnlinePostView;
+import domain.unit.UnitPost;
+import domain.unit.UnitPostView;
+import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.dr.common.DrFinalResult;
 import persistence.dr.common.DrTempResult;
 import sys.constants.DrConstants;
+import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -25,7 +30,10 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/dr/drOnline")
@@ -36,12 +44,19 @@ public class DrOnlineResultController extends DrBaseController {
     @RequiresPermissions("drOnlineResult:list")
     @RequestMapping("/drOnlineResult")
     public String drOnlineResult(Integer onlineId,
+                                 Integer unitPostId,
+                                 String candidate,
+                                 Integer scoreRate,
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+        modelMap.put("unitPost", unitPost);
         modelMap.put("onlineId", onlineId);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         modelMap.put("drOnline", drOnline);
         modelMap.put("typeIds", typeIds);
+        modelMap.put("candidate", candidate);
+        modelMap.put("scoreRate", scoreRate);
 
         return "dr/drOnlineResult/drOnlineResult_page";
     }
@@ -50,21 +65,26 @@ public class DrOnlineResultController extends DrBaseController {
     @RequestMapping("/drOnlineResult_data")
     @ResponseBody
     public void drOnlineResult_data(HttpServletResponse response,
-                                    Integer id,
                                     Integer onlineId,
                                     String _typeIds,
+                                    Integer unitPostId,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
-                                    Integer candidateId,
+                                    String candidate,
+                                    Integer scoreRate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
-        List<Integer> list = new ArrayList<>();
+        List<Integer> typeIdlist = new ArrayList<>();
         if (null != typeIds && typeIds.length > 0) {
             for (String str : typeIds) {
-                list.add(Integer.valueOf(str));
+                typeIdlist.add(Integer.valueOf(str));
             }
-            modelMap.put("typeIds", list);
+            modelMap.put("typeIds", typeIdlist);
+        }
+        List<Integer> postIds = new ArrayList<>();
+        if (null != unitPostId){
+            postIds = drOnlinePostService.getByUnitPostId(onlineId, unitPostId);
         }
 
         if (null == pageSize) {
@@ -85,18 +105,17 @@ public class DrOnlineResultController extends DrBaseController {
             }
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
             Byte status = drOnline.getStatus();
-            if (status == DrConstants.DR_ONLINE_FINISH ) {
-                drCommonService.exportOnlineResult(typesFilter, onlineId, response);
-            }else
-                throw new OpException("该批次线上民主推荐还未完成，不能导出结果！");
+
+            drCommonService.exportOnlineResult(typesFilter, onlineId, response);
+
             return;
         }
-        long count = iDrMapper.countResult(list, id, onlineId);
+        long count = iDrMapper.countResult(typeIdlist, postIds, onlineId, candidate, scoreRate);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(list, id, onlineId);
+        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIdlist, postIds, onlineId, candidate, scoreRate, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -214,5 +233,73 @@ public class DrOnlineResultController extends DrBaseController {
         }
 
         return drOnlineResultService.saveOrSubmit(isMoblie, isSubmit, inspectorId, record, request) ? success(FormUtils.SUCCESS) : failed(FormUtils.FAILED);
+    }
+
+    @RequestMapping("/unitPost_selects")
+    @ResponseBody
+    public Map unitPost_selects(Integer pageSize,
+                                Integer pageNo,
+                                Byte status,
+                                Integer onlineId,
+                                Integer unitId, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
+        List<Integer> postIds = new ArrayList<>();
+        for (DrOnlinePostView postView : postViews){
+            postIds.add(postView.getUnitPostId());
+        }
+
+        UnitPostViewExample example = new UnitPostViewExample();
+        UnitPostViewExample.Criteria criteria = example.createCriteria();
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
+        if (postIds.size() > 0){
+            criteria.andIdIn(postIds);
+        }
+
+        example.setOrderByClause("status asc, unit_status asc, unit_sort_order asc, sort_order asc");
+        if(unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.search(searchStr.trim());
+        }
+
+        long count = unitPostViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<UnitPostView> records = unitPostViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(UnitPostView record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getCode() + "-" + record.getName());
+                option.put("adminLevel", record.getAdminLevel());
+                option.put("id", record.getId() + "");
+                option.put("up", record);
+                option.put("del", record.getStatus()== SystemConstants.UNIT_POST_STATUS_ABOLISH);
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

@@ -11,23 +11,24 @@
 </head>
 <body class="login_body">
     <form id="login-form" method="post" action="${ctx}/dr/drOnline/login" autocomplete="off" disableautocomplete>
-    <table class="login_bg" border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
+    <table class="dr_login_bg" border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
         <tbody>
             <tr>
-                <td class="login_top">
+                <td class="login_top" height="125" align="center">
                     <div class="login_logo">
-                        <div class="logo"><t:img src="/img/px.png"/></div><%--换成学校图标--%>
-                        <div class="txt">线&nbsp;&nbsp;上&nbsp;&nbsp;民&nbsp;&nbsp;主&nbsp;&nbsp;推&nbsp;&nbsp;荐&nbsp;&nbsp;投&nbsp;&nbsp;票</div>
+                        <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
+                            <t:img src="/img/logo_white.png"/></div>
+                        <div class="txt">线&nbsp;上&nbsp;民&nbsp;主&nbsp;推&nbsp;荐&nbsp;投&nbsp;票</div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <table class="login_bg_mid" border="0" cellspacing="0" cellpadding="0" width="840"
-                           align="center" height="383">
+                    <table class="login_bg_mid" border="0" cellspacing="0" cellpadding="0" width="820"
+                           align="center" height="368">
                         <tbody>
                             <tr>
-                                <td width="100%" align= "right">
+                                <td width="100%" align= "left">
                                     <div class="login_bg_mid_div" align= "right">
                                         <table style="background-color: rgba(0, 0, 0, 0);float: right;margin-top: 0px"  border="0" cellspacing="0" cellpadding="0" width="100%" align="right">
                                             <tbody>
@@ -80,5 +81,8 @@
     </form>
     <script src="${ctx}/extend/js/jquery.form.js"></script>
     <t:script src="/js/login.js"/>
+<script>
+    $('.login_bg_mid').css("background-size","840px 383px")
+</script>
 </body>
 </html>

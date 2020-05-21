@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${drOnline!=null?'编辑':'添加'}线上民主推荐说明</h3>
+    <h3>线上民主推荐说明${isMobile==1?"(手机端)":"(PC端)"}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dr/drOnline_noticeEdit" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<input type="hidden" name="notice">
 					<textarea id="contentId">
-                        <c:if test="${drOnline!=null}">${drOnline.notice}</c:if>
+                        <c:if test="${drOnline!=null}">${isMobile==1?drOnline.mobileNotice:drOnline.notice}</c:if>
                     </textarea>
 				</div>
 			</div>
@@ -43,15 +43,23 @@ pageEncoding="UTF-8"%>
 		height: '400px',
 		width: '570px',
 		minWidth: 570,
+        items : [
+            'source', '|', 'indent','outdent', 'fontname', 'fontsize', '|','forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink', 'fullscreen']
 	});
 
 	var noticeMap = ${cm:toJSONObject(noticeMap)};
     var dr = ${cm:toJSONObject(drOnline)};
+    var isMobile = ${isMobile};
     $("select[name=noticeName]").on("change",function(){
         //console.log($(this).val().length)
         var noticeId = $(this).val();
         if (noticeId.length == 0) {
-            if (dr.notice != undefined) {
+            if (isMobile == 1){
+                if (dr.mobileNotice != undefined){
+                    ke.html(KindEditor.unescape(dr.mobileNotice))
+                }
+            }else if (dr.notice != undefined) {
                 ke.html(KindEditor.unescape(dr.notice))
             }
         }
@@ -68,9 +76,10 @@ pageEncoding="UTF-8"%>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
-			$("#modalForm input[name=notice]").val(ke.html());
+            $("#modalForm input[name=notice]").val(ke.html());
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
+                data: {isMobile: isMobile},
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');

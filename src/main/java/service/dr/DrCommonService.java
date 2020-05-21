@@ -103,7 +103,7 @@ public class DrCommonService extends DrBaseMapper{
 
         //进行row扩充
         int startRow = 4;
-        int rowInsert = iDrMapper.countResult(typeIds, null, onlineId) + (postIds.size() - 1) * 4;
+        int rowInsert = iDrMapper.countResult(typeIds, null, onlineId, null, null) + (postIds.size() - 1) * 4;
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert - 1);
         String[] tableHead = {"序号", "推荐人选", "票数", "得票比率"};
         //获得单元格样式

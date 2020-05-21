@@ -121,7 +121,7 @@ public class DrOnlineInspectorService extends DrBaseMapper {
             DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
             if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
                 continue;
-            }else if (inspector.getStatus() == DrConstants.DR_ONLINE_FINISH){
+            }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH){
                 DrOnlineResultExample example = new DrOnlineResultExample();
                 example.createCriteria().andInspectorIdEqualTo(id);
                 drOnlineResultMapper.deleteByExample(example);

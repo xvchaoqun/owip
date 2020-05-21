@@ -39,7 +39,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
     @RequiresPermissions("drOnlineParam:menu")
     @RequestMapping("/drOnlineParam")
     public String drOnlineParam(ModelMap modelMap,
-                                @RequestParam(required = false, defaultValue = "1") Byte cls) {
+                                @RequestParam(required = false, defaultValue = "2") Byte cls) {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
@@ -61,11 +61,12 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
     @RequestMapping("/drOnlineInspectorType_data")
     @ResponseBody
     public void drOnlineInspectorType_data(HttpServletResponse response,
-                                    String type,
-                                    Byte status,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                           Integer id,
+                                           String type,
+                                           Byte status,
+                                           @RequestParam(required = false, defaultValue = "0") int export,
+                                           @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                           Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -76,9 +77,12 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
         pageNo = Math.max(1, pageNo);
 
         DrOnlineInspectorTypeExample example = new DrOnlineInspectorTypeExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.DR_ONLINE_INSPECTOR_TYPE_delete);
         example.setOrderByClause("status asc,sort_order desc");
 
+        if (null != id){
+            criteria.andIdEqualTo(id);
+        }
         if (StringUtils.isNotBlank(type)){
             criteria.andTypeLike(SqlUtils.like(type));
         }

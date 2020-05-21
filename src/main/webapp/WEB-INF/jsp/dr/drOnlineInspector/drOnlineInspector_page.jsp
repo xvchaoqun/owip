@@ -21,7 +21,7 @@ pageEncoding="UTF-8" %>
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
 
-            <c:set var="_query" value="${not empty param.unitName || not empty param.typeId || not empty param.id || not empty param.pubStatus ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.unitId || not empty param.typeId || not empty param.id || not empty param.pubStatus ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspector:edit">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -54,8 +54,10 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="drOnlineInspector:edit">
                     <a class="btn btn-primary btn-sm" target="_blank"
-                       href="${ctx}/dr/drOnlineInspector_print?logId=${logId}&onlineId=${onlineId}" title="导出该页所有搜索结果">
-                        <i class="fa fa-download"></i> 导出
+                       href="${ctx}/dr/drOnlineInspector_print?logId=${logId}&onlineId=${onlineId}"
+                       data-grid-id="#jqGrid2"
+                       data-rel="tooltip" title="打印该页所有搜索结果">
+                        <i class="fa fa-download"></i> 打印
                     </a>
                 </shiro:hasPermission>
         </div>
@@ -80,23 +82,28 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入登陆账号">
                         </div>
                         <div class="form-group">
-                            <label>所属身份类型</label>
+                            <label>参评人身份类型</label>
                             <div class="input-group">
                                 <select  data-width="230" data-rel="select2-ajax"
                                          data-ajax-url="${ctx}/dr/drOnlineInspectorType_selects"
-                                         name="typeId" data-placeholder="请选择所属身份类型">
+                                         name="typeId" data-placeholder="请选择参评人身份类型">
                                     <option value="${inspectorType.id}">${inspectorType.type}</option>
                                 </select>
                             </div>
                             <script>
                                 $("#searchForm3 select[name=typeId]").val('${param.typeId}');
                             </script>
-                        </div>
+                        </div><%--
                         <div class="form-group">
                             <label>所属单位</label>
-                            <input class="form-control search-query" name="unitName" type="text" value="${param.unitName}"
-                                   placeholder="请输入所属单位">
-                        </div>
+                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                    data-placeholder="请选择所属单位">
+                                <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
+                            <script>
+                                $.register.del_select($("#searchForm select[name=unitId]").val('${unit.id}'), 250)
+                            </script>
+                        </div>--%>
                     <div class="form-group">
                         <label>分发状态</label>
                         <select name="pubStatus" data-width="100" data-rel="select2"
@@ -141,7 +148,7 @@ pageEncoding="UTF-8" %>
             </div>
         </div>
         <div class="space-4"></div>
-        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="40"></table>
+        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="55"></table>
         <div id="jqGridPager2"></div>
             </div>
         </div>
@@ -155,7 +162,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '登陆账号',name: 'username'},
                 { label: '登陆密码',name: 'passwd'},
-                { label: '推荐人身份类型',name: 'inspectorType.type', width: 150},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
                 { label: '所属单位',name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250},
                 { label: '测评状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
                         var isMobile = rowObject.isMobile;
@@ -164,9 +171,9 @@ pageEncoding="UTF-8" %>
                             str = "<i class='fa fa-mobile-phone'></i>";
                         }
                         if (cellvalue == ${INSPECTOR_STATUS_INIT}) {
-                            return '<font color="green">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_INIT)}</font>';
+                            return '${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_INIT)}';
                         }else if (cellvalue == ${INSPECTOR_STATUS_ABOLISH}) {
-                            return '<font color="red">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_ABOLISH)}</font>';
+                            return '<font color="orange">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_ABOLISH)}</font>';
                         }else if (cellvalue == ${INSPECTOR_STATUS_FINISH}) {
                             return str == null ? "" : str += '<font color="green">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_FINISH)}</font>';
                         }else if (cellvalue == ${INSPECTOR_STATUS_SAVE}) {
@@ -175,7 +182,7 @@ pageEncoding="UTF-8" %>
                     }},
                 { label: '分发状态',name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == ${INSPECTOR_PUB_STATUS_NOT_RELEASE})
-                            return '<font color="red">${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_NOT_RELEASE)}</font>';
+                            return '${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_NOT_RELEASE)}';
                         else
                             return '<font color="green">${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_RELEASE)}</font>';
                     }},

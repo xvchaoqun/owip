@@ -1,10 +1,10 @@
 package controller.dr;
 
+import controller.global.OpException;
 import domain.dr.*;
 import domain.dr.DrOnlineInspectorLogExample.Criteria;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import domain.unit.UnitExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -23,7 +23,10 @@ import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,11 +53,15 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     public String drOnlineInspectorLog(Integer typeId,
                                        Integer onlineId,
                                        ModelMap modelMap,
-                                       String unitName,
+                                       Integer unitId,
                                        HttpServletRequest request) {
         if (typeId != null) {
             DrOnlineInspectorType inspectorType = drOnlineInspectorTypeMapper.selectByPrimaryKey(typeId);
             modelMap.put("inspectorType", inspectorType);
+        }
+        if (null != unitId){
+            Unit unit = unitMapper.selectByPrimaryKey(unitId);
+            modelMap.put("unit", unit);
         }
 
         modelMap.put("onlineId", onlineId);
@@ -69,11 +76,10 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                                     Integer id,
                                     Integer onlineId,
                                     Integer typeId,
-                                    String unitName,
-                                
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    Integer unitId,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -93,19 +99,9 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
         }
-        if (StringUtils.isNotBlank(unitName)) {
-            UnitExample unitExample = new UnitExample();
-            unitExample.createCriteria().andNameLike(SqlUtils.like(unitName));
-            List<Unit> units = unitMapper.selectByExample(unitExample);
-            List<Integer> unitIds = unitService.getUnitIdsLikeUnitName(units);
-            if (units.size() > 0) {
-
-                criteria.andUnitIdIn(unitIds);
-            }else {
-                criteria.andUnitIdEqualTo(-1);
-            }
+        if (null != unitId){
+            criteria.andUnitIdEqualTo(unitId);
         }
-
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
@@ -209,7 +205,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @ResponseBody
     public Map selectedInspectorTypes_tree() throws IOException {
 
-        // 线上推荐的‘可用’参评人身份
+        // 线上推荐的‘可用’参评人身份类型
         Map<Integer, DrOnlineInspectorType> drOnlineInspectorTypeMap = drOnlineInspectorTypeService.findAll();
         TreeNode tree = drOnlineInspectorTypeService.getTree(drOnlineInspectorTypeMap.values(),
                 null);
@@ -225,18 +221,25 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                                      String inspectorTypeIds,
                                      ModelMap modelMap){
 
-        Map<Integer, Unit> unitMap = unitService.getRunAll();
-        Map<Integer, DrOnlineInspectorType> inspectorTypeMap = drOnlineInspectorTypeService.findAll();
         List<Unit> units = new ArrayList<>();
-        List<DrOnlineInspectorType> inspectorTypes = new ArrayList<>();
-
-        for (String unitIdStr : unitIds.split(",")){
-            units.add(unitMap.get(Integer.parseInt(unitIdStr)));
+        if (StringUtils.isNotBlank(unitIds)) {
+            Map<Integer, Unit> unitMap = unitService.getRunAll();
+            for (String unitIdStr : unitIds.split(",")) {
+                units.add(unitMap.get(Integer.parseInt(unitIdStr)));
+            }
+        }else {
+            Unit unit = new Unit();
+            unit.setId(0);
+            unit.setName("无单位");
+            units.add(unit);
         }
+        modelMap.put("units", units);
+
+        Map<Integer, DrOnlineInspectorType> inspectorTypeMap = drOnlineInspectorTypeService.findAll();
+        List<DrOnlineInspectorType> inspectorTypes = new ArrayList<>();
         for (String inspectorIdStr : inspectorTypeIds.split(",")){
             inspectorTypes.add(inspectorTypeMap.get(Integer.parseInt(inspectorIdStr)));
         }
-        modelMap.put("units", units);
         modelMap.put("inspectorTypes", inspectorTypes);
 
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
@@ -260,6 +263,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, DrOnlineInspectorType> inspectorTypeMap = drOnlineInspectorTypeService.findAll();
+        int count = 0;
 
         for (Map.Entry<Integer, Unit> _unit : unitMap.entrySet()) {
 
@@ -269,12 +273,29 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                 if (NumberUtils.isDigits(total)){
                     Integer totalCount = Integer.valueOf(total);
                     if (totalCount > 0){
+                        count++;
                         drOnlineInspectorLogService.generateInspector(Integer.valueOf(_drOnlineInspectorTypeEntry.getKey()), Integer.valueOf(_unit.getKey()), 1,
                                 false, totalCount, onlineId);
                     }
                 }
             }
         }
+        if (count == 0){
+            for (Map.Entry<Integer, DrOnlineInspectorType> _drOnlineInspectorTypeEntry : inspectorTypeMap.entrySet()) {
+
+                String total = request.getParameter("total_0_" + _drOnlineInspectorTypeEntry.getKey());
+                if (NumberUtils.isDigits(total)){
+                    Integer totalCount = Integer.valueOf(total);
+                    if (totalCount > 0){
+                        count++;
+                        drOnlineInspectorLogService.generateInspector(Integer.valueOf(_drOnlineInspectorTypeEntry.getKey()), 0, 1,
+                                false, totalCount, onlineId);
+                    }
+                }
+            }
+        }
+        if (count == 0)
+            throw new OpException("生成出错");
         logger.info(user.getUsername() + "create drOnlineInspectorLog.");
         return success(FormUtils.SUCCESS);
     }

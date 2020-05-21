@@ -242,23 +242,58 @@ public class DrOnlineController extends DrBaseController {
     @RequiresPermissions("drOnline:edit")
     @RequestMapping(value = "/drOnline_noticeEdit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOnline_noticeEdit(DrOnline record, String notice, HttpServletRequest request) {
+    public Map do_drOnline_noticeEdit(Integer id, String notice, Integer isMobile, HttpServletRequest request) {
 
-        Integer id = record.getId();
-        record.setNotice(HtmlUtils.htmlUnescape(notice));
-
-        if (id != null) {
-
-            drOnlineService.updateByPrimaryKeySelective(record);
-            logger.info(log( LogConstants.LOG_DR, "更新线上民主推荐说明模板：{0}", record.getCode()));
+        DrOnline record = new DrOnline();
+        record.setId(id);
+        if (isMobile == 1){
+            record.setMobileNotice(HtmlUtils.htmlUnescape(notice));
+        }else {
+            record.setNotice(HtmlUtils.htmlUnescape(notice));
         }
 
+        drOnlineService.updateByPrimaryKeySelective(record);
+        logger.info(log( LogConstants.LOG_DR, "更新线上民主推荐说明模板：{0}", record.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("drOnline:edit")
     @RequestMapping("/drOnline_noticeEdit")
-    public String drOnline_noticeEdit(Integer id, ModelMap modelMap){
+    public String drOnline_noticeEdit(Integer id, Integer isMobile, ModelMap modelMap){
+
+        Map<Integer,DrOnlineNotice> noticeMap = drOnlineNoticeService.findAll();
+        modelMap.put("noticeMap", noticeMap);
+
+        if (isMobile != null){
+            modelMap.put("isMobile", isMobile);
+        }
+        if (id != null) {
+            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
+            modelMap.put("drOnline", drOnline);
+        }
+
+        return "dr/drOnline/drOnline_noticeEdit";
+    }
+
+    @RequiresPermissions("drOnline:edit")
+    @RequestMapping(value = "/drOnline_inspectorNotice", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_drOnline_inspectorNotice(Integer id, String inspectorNotice, HttpServletRequest request) {
+
+        DrOnline record = new DrOnline();
+        record.setId(id);
+        if (null != inspectorNotice){
+            record.setInspectorNotice(HtmlUtils.htmlUnescape(inspectorNotice));
+        }
+
+        drOnlineService.updateByPrimaryKeySelective(record);
+        logger.info(log( LogConstants.LOG_DR, "更新线上民主推荐说明（纸质票）模板：{0}", record.getCode()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("drOnline:edit")
+    @RequestMapping("/drOnline_inspectorNotice")
+    public String drOnline_inspectorNotice(Integer id, ModelMap modelMap){
 
         Map<Integer,DrOnlineNotice> noticeMap = drOnlineNoticeService.findAll();
         modelMap.put("noticeMap", noticeMap);
@@ -268,7 +303,7 @@ public class DrOnlineController extends DrBaseController {
             modelMap.put("drOnline", drOnline);
         }
 
-        return "dr/drOnline/drOnline_noticeEdit";
+        return "dr/drOnline/inspector_notice";
     }
 
     @RequiresPermissions("drOnline:del")

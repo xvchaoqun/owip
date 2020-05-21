@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import sys.constants.DrConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -54,7 +55,10 @@ public class DrOnlineInspectorTypeService extends DrBaseMapper {
 
         DrOnlineInspectorTypeExample example = new DrOnlineInspectorTypeExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        drOnlineInspectorTypeMapper.deleteByExample(example);
+
+        DrOnlineInspectorType record = new DrOnlineInspectorType();
+        record.setStatus(DrConstants.DR_ONLINE_INSPECTOR_TYPE_delete);
+        drOnlineInspectorTypeMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -93,7 +97,7 @@ public class DrOnlineInspectorTypeService extends DrBaseMapper {
         if (null == selectIdSet) selectIdSet = new HashSet<Integer>();
 
         TreeNode root = new TreeNode();
-        root.title = "参评人身份";
+        root.title = "参评人身份类型";
         root.expand = true;
         root.isFolder = true;
         root.hideCheckbox = true;

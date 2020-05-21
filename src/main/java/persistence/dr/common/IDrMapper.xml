@@ -45,14 +45,20 @@
                 <if test="onlineId != null">
                     and dor.online_id = #{onlineId}
                 </if>
-                <if test="postId != null">
-                    and dor.post_id = #{postId}
+                <if test="postIds != null and postIds.size > 0">
+                    and dor.post_id in
+                    <foreach collection="postIds" open="(" close = ")" item = "postId" separator=",">
+                        #{postId}
+                    </foreach>
                 </if>
                 <if test="typeIds != null and typeIds.size > 0">
                     and dor.inspector_type_id in
                     <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
                         #{typeId}
                     </foreach>
+                </if>
+                <if test="candidate != null">
+                    and dor.candidate like concat('%',#{candidate},'%')
                 </if>
             </where>
               GROUP BY dor.post_id,dor.candidate) dor1
@@ -67,6 +73,9 @@
                     </if>
                 </where>
                 GROUP BY doil.online_id) doil1 ON doil1.online_id=dor1.online_id
+        <if test="scoreRate != null">
+            having round(dor1.options/doil1.finish_counts*100, 2) > #{scoreRate}
+        </if>
         ORDER BY postId,options desc;
     </select>
     <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
@@ -77,14 +86,20 @@
                 <if test="onlineId != null">
                     and dor.online_id = #{onlineId}
                 </if>
-                <if test="postId != null">
-                    and dor.post_id = #{postId}
+                <if test="postIds != null and postIds.size > 0">
+                    and dor.post_id in
+                    <foreach collection="postIds" open="(" close = ")" item = "postId" separator=",">
+                        #{postId}
+                    </foreach>
                 </if>
                 <if test="typeIds != null and typeIds.size > 0">
                     and dor.inspector_type_id in
                     <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
                         #{typeId}
                     </foreach>
+                </if>
+                <if test="candidate != null">
+                    and dor.candidate like concat('%',#{candidate},'%')
                 </if>
             </where>
             GROUP BY dor.post_id,dor.candidate) dor1

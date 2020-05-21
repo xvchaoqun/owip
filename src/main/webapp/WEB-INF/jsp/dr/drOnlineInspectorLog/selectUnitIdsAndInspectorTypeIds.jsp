@@ -4,15 +4,19 @@
 <c:set var="onlineId" value="${onlineId}"></c:set>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>列表生成第一步：选择单位和身份类型</h3>
+  <h3>列表生成第一步：选择单位和参评人身份类型</h3>
 </div>
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/dr/selectUnitIdsAndInspectorTypeIds" id="modalFrom" method="post">
     <div class="col-xs-6">
-    <div id="unitsTree"><div id="circle"></div></div>
+      <div id="unitsTree" style="height: 400px;">
+        <div class="block-loading"/>
+      </div>
     </div>
     <div class="col-xs-6">
-      <div id="inspectorTypesTree"></div>
+      <div id="inspectorTypesTree" style="height: 400px;">
+        <div class="block-loading"/>
+      </div>
     </div>
   </form>
 </div>
@@ -27,15 +31,6 @@
   </div>
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="确认"/></div>
-<style>
-  #circle {
-    margin-top: 30%;
-    margin-left: 40%;
-    width: 48px;
-    height: 48px;
-    background: url('../img/fancybox/fancybox_loading@2x.gif');
-  }
-</style>
 <script>
 
   $.getJSON("${ctx}/dr/selectUnits_tree",{},function(data){
@@ -109,12 +104,8 @@
         if(!node.data.isFolder)
           return node.data.key;
       });
-      if(unitIds.length==0){
-        toastr.warning("请选择单位");
-        return;
-      }
       if(inspectorTypeIds.length==0){
-        toastr.warning("请选择身份类型");
+        toastr.warning("请选择参评人身份类型");
         return;
       }
       open_list_gen(onlineId, unitIds, inspectorTypeIds);

@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                 <i class="fa fa-download"></i> 导出</button>--%>
         </div>
         <div class="space-4"></div>
-        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="50"></table>
+        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="90"></table>
         <div id="jqGridPager2"></div>
 <script>
 

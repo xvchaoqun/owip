@@ -31,6 +31,4 @@ public interface DrOnlineInspectorLogMapper {
     int updateByPrimaryKeySelective(DrOnlineInspectorLog record);
 
     int updateByPrimaryKey(DrOnlineInspectorLog record);
-
-    int incrFinishCount(Integer id);
 }

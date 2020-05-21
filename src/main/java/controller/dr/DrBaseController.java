@@ -8,6 +8,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.dr.*;
 import service.sys.SysLoginLogService;
+import service.sys.SysPropertyService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.HttpResponseMethod;
@@ -61,4 +62,8 @@ public class DrBaseController extends DrBaseMapper implements HttpResponseMethod
     protected DrVoterTypeService drVoterTypeService;
     @Autowired
     protected DrExportService drExportService;
+
+
+    @Autowired
+    protected SysPropertyService sysPropertyService;
 }

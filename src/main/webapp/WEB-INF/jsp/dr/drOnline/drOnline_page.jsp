@@ -31,15 +31,6 @@ pageEncoding="UTF-8" %>
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="drOnline:del">
-                        <button data-url="${ctx}/dr/drOnline_missDel?isDeleted=1"
-                                data-title="删除"
-                                data-msg="确定删除这{0}条数据移入已删除批次？"
-                                data-grid-id="#jqGrid"
-                                class="jqBatchBtn btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i> 删除
-                        </button>
-                    </shiro:hasPermission>
                     </c:if>
                     <shiro:hasPermission name="drOnline:edit">
                         <c:if test="${status==3}">
@@ -75,6 +66,17 @@ pageEncoding="UTF-8" %>
                             </button>
                         </c:if>
                     </shiro:hasPermission>
+                    <c:if test="${status!=3}">
+                        <shiro:hasPermission name="drOnline:del">
+                            <button data-url="${ctx}/dr/drOnline_missDel?isDeleted=1"
+                                    data-title="删除"
+                                    data-msg="确定删除这{0}条数据移入已删除批次？"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i> 删除
+                            </button>
+                        </shiro:hasPermission>
+                    </c:if>
                 </c:if>
                 <c:if test="${isDeleted==1}">
                     <shiro:hasPermission name="drOnline:del">
@@ -186,7 +188,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
+            <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="5"></table>
             <div id="jqGridPager"></div>
             </div>
         </div>
@@ -226,13 +228,20 @@ pageEncoding="UTF-8" %>
                 { label: '推荐类型',name: 'type', width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐开始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
                 { label: '推荐截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
-                { label: '干部民主<br/>推荐说明', name: '_notice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                    var str = '<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}"><i class="fa fa-edit"></i> 编辑</button>'
+                { label: '干部民主推荐说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
+                    var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=0"><i class="fa fa-edit"></i> pc端</button>'
+                        .format(rowObject.id)
+                        + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
+                            .format(rowObject.id);
+                    return  str;
+                }},
+                { label: '其他说明', name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
+                    var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_inspectorNotice?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
                         .format(rowObject.id);
                     return  str;
                 }},
                 {
-                    label: '推荐职务<br/>及资格条件', name: '_post', width:85, formatter: function (cellvalue, options, rowObject) {
+                    label: '推荐职务', name: '_post', width:85, formatter: function (cellvalue, options, rowObject) {
                             var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlinePost_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id);
                             return  str;
@@ -245,7 +254,7 @@ pageEncoding="UTF-8" %>
                     }, width: 80
                 },
                 {
-                    label: '账号管理', name: '_account', width:80, formatter: function (cellvalue, options, rowObject) {
+                    label: '参评人<br/>账号管理', name: '_account', width:80, formatter: function (cellvalue, options, rowObject) {
                         var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
                             .format(rowObject.id);
                         return  str;

@@ -107,7 +107,7 @@ pageEncoding="UTF-8" %>
                             </div>
                         </div>
         <div class="space-4"></div>
-        <table id="jqGrid" class="jqGrid table-striped"></table>
+        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="35"></table>
         <div id="jqGridPager"></div>
                     </div>
                 </div>
@@ -127,6 +127,19 @@ pageEncoding="UTF-8" %>
                 { label: '批次编号',name: 'drOnline.code', frozen: true, width: 210},
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 200, frozen: true},
+                { label: '干部民主推荐说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
+                        //console.log(rowObject.drOnline.id)
+                        var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=0"><i class="fa fa-edit"></i> 编辑</button>'
+                            .format(rowObject.drOnline.id)
+                            + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
+                                .format(rowObject.drOnline.id);
+                        return  str;
+                    }},
+                { label: '其他说明', name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
+                        var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_inspectorNotice?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
+                            .format(rowObject.drOnline.id);
+                        return  str;
+                    }},
                 {
                     label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
                         var str ='<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult?onlineId={0}&id={1}"><i class="fa fa-search"></i> 查看</button>'
@@ -134,17 +147,11 @@ pageEncoding="UTF-8" %>
                         return str;
                     }, width: 80
                 },
-                { label: '干部民主<br/>推荐说明', name: '_notice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                        //console.log(rowObject.drOnline.id)
-                        var str = '<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}"><i class="fa fa-edit"></i> 编辑</button>'
-                            .format(rowObject.drOnline.id);
-                        return  str;
-                    }},
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
                 { label: '候选人',name: 'users',formatter: function (cellvalue, options, rowObject) {
                         var count = rowObject.cans.length;
                         //console.log(count.length)
-                        var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-edit"></i>编辑({1})</button>'
+                        var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-search"></i>编辑({1})</button>'
                             .format(rowObject.id, count);
                         return str;
                     }, width: 90,frozen: true},

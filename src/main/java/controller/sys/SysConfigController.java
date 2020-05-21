@@ -51,6 +51,7 @@ public class SysConfigController extends BaseController {
                                MultipartFile _logoWhite,
                                MultipartFile _loginTop,
                                MultipartFile _loginBg,
+                               MultipartFile _drLoginBg,
                                MultipartFile _qrLogo
                                 ) throws IOException, InterruptedException {
 
@@ -59,10 +60,12 @@ public class SysConfigController extends BaseController {
         String logoWhite = uploadPic(_logoWhite, folder, 100, 50);
         String loginTop = uploadPic(_loginTop, folder, 500, 50);
         String loginBg = uploadPic(_loginBg, folder, 400, 200);
+        String drLoginBg = uploadPic(_drLoginBg, folder, 400, 200);
         record.setLogo(logo);
         record.setLogoWhite(logoWhite);
         record.setLoginTop(loginTop);
         record.setLoginBg(loginBg);
+        record.setDrLoginBg(drLoginBg);
 
         record.setFavicon(upload(_favicon, folder));
         record.setAppleIcon(upload(_appleIcon, folder));

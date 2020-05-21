@@ -42,6 +42,8 @@ public class SysConfig implements Serializable {
 
     private String loginTopBgColor;
 
+    private String drLoginBg;
+
     private String appleIcon;
 
     private String screenIcon;
@@ -208,6 +210,14 @@ public class SysConfig implements Serializable {
 
     public void setLoginTopBgColor(String loginTopBgColor) {
         this.loginTopBgColor = loginTopBgColor == null ? null : loginTopBgColor.trim();
+    }
+
+    public String getDrLoginBg() {
+        return drLoginBg;
+    }
+
+    public void setDrLoginBg(String drLoginBg) {
+        this.drLoginBg = drLoginBg == null ? null : drLoginBg.trim();
     }
 
     public String getAppleIcon() {

@@ -11,13 +11,13 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="chief_member_id" jdbcType="INTEGER" property="chiefMemberId" />
     <result column="members" jdbcType="VARCHAR" property="members" />
+    <result column="notice" jdbcType="VARCHAR" property="notice" />
+    <result column="mobile_notice" jdbcType="VARCHAR" property="mobileNotice" />
+    <result column="inspector_notice" jdbcType="VARCHAR" property="inspectorNotice" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="is_deleteed" jdbcType="BIT" property="isDeleteed" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.dr.DrOnline">
-    <result column="notice" jdbcType="LONGVARCHAR" property="notice" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,27 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, record_id, year, recommend_date, seq, status, type, chief_member_id, members, 
-    start_time, end_time, is_deleteed, remark
+    notice, mobile_notice, inspector_notice, start_time, end_time, is_deleteed, remark
   </sql>
-  <sql id="Blob_Column_List">
-    notice
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.dr.DrOnlineExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from dr_online
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -114,11 +95,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from dr_online
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -136,13 +115,15 @@
     insert into dr_online (id, record_id, year, 
       recommend_date, seq, status, 
       type, chief_member_id, members, 
+      notice, mobile_notice, inspector_notice, 
       start_time, end_time, is_deleteed, 
-      remark, notice)
+      remark)
     values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, 
       #{recommendDate,jdbcType=DATE}, #{seq,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
       #{type,jdbcType=INTEGER}, #{chiefMemberId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, 
+      #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, #{inspectorNotice,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isDeleteed,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{notice,jdbcType=LONGVARCHAR})
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnline">
     insert into dr_online
@@ -174,6 +155,15 @@
       <if test="members != null">
         members,
       </if>
+      <if test="notice != null">
+        notice,
+      </if>
+      <if test="mobileNotice != null">
+        mobile_notice,
+      </if>
+      <if test="inspectorNotice != null">
+        inspector_notice,
+      </if>
       <if test="startTime != null">
         start_time,
       </if>
@@ -185,9 +175,6 @@
       </if>
       <if test="remark != null">
         remark,
-      </if>
-      <if test="notice != null">
-        notice,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -218,6 +205,15 @@
       <if test="members != null">
         #{members,jdbcType=VARCHAR},
       </if>
+      <if test="notice != null">
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNotice != null">
+        #{mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorNotice != null">
+        #{inspectorNotice,jdbcType=VARCHAR},
+      </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
@@ -229,9 +225,6 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="notice != null">
-        #{notice,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -271,6 +264,15 @@
       <if test="record.members != null">
         members = #{record.members,jdbcType=VARCHAR},
       </if>
+      <if test="record.notice != null">
+        notice = #{record.notice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileNotice != null">
+        mobile_notice = #{record.mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspectorNotice != null">
+        inspector_notice = #{record.inspectorNotice,jdbcType=VARCHAR},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -283,30 +285,7 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.notice != null">
-        notice = #{record.notice,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update dr_online
-    set id = #{record.id,jdbcType=INTEGER},
-      record_id = #{record.recordId,jdbcType=INTEGER},
-      year = #{record.year,jdbcType=SMALLINT},
-      recommend_date = #{record.recommendDate,jdbcType=DATE},
-      seq = #{record.seq,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=INTEGER},
-      chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
-      members = #{record.members,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      is_deleteed = #{record.isDeleteed,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      notice = #{record.notice,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -322,6 +301,9 @@
       type = #{record.type,jdbcType=INTEGER},
       chief_member_id = #{record.chiefMemberId,jdbcType=INTEGER},
       members = #{record.members,jdbcType=VARCHAR},
+      notice = #{record.notice,jdbcType=VARCHAR},
+      mobile_notice = #{record.mobileNotice,jdbcType=VARCHAR},
+      inspector_notice = #{record.inspectorNotice,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       is_deleteed = #{record.isDeleteed,jdbcType=BIT},
@@ -357,6 +339,15 @@
       <if test="members != null">
         members = #{members,jdbcType=VARCHAR},
       </if>
+      <if test="notice != null">
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNotice != null">
+        mobile_notice = #{mobileNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectorNotice != null">
+        inspector_notice = #{inspectorNotice,jdbcType=VARCHAR},
+      </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
@@ -369,27 +360,7 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="notice != null">
-        notice = #{notice,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.dr.DrOnline">
-    update dr_online
-    set record_id = #{recordId,jdbcType=INTEGER},
-      year = #{year,jdbcType=SMALLINT},
-      recommend_date = #{recommendDate,jdbcType=DATE},
-      seq = #{seq,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      type = #{type,jdbcType=INTEGER},
-      chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
-      members = #{members,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      is_deleteed = #{isDeleteed,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR},
-      notice = #{notice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.dr.DrOnline">
@@ -402,28 +373,15 @@
       type = #{type,jdbcType=INTEGER},
       chief_member_id = #{chiefMemberId,jdbcType=INTEGER},
       members = #{members,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      mobile_notice = #{mobileNotice,jdbcType=VARCHAR},
+      inspector_notice = #{inspectorNotice,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       is_deleteed = #{isDeleteed,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.dr.DrOnlineExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from dr_online
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.dr.DrOnlineExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
