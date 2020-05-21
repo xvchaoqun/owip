@@ -5,6 +5,7 @@
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
  ('wx_support', '支持发送微信', 'false', 3, 60, '');
 
+-- 
 
 2020.5.20
 
