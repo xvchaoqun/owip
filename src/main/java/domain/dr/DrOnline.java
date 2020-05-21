@@ -55,6 +55,12 @@ public class DrOnline implements Serializable {
 
     private String members;
 
+    private String notice;
+
+    private String mobileNotice;
+
+    private String inspectorNotice;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
@@ -64,8 +70,6 @@ public class DrOnline implements Serializable {
     private Boolean isDeleteed;
 
     private String remark;
-
-    private String notice;
 
     private static final long serialVersionUID = 1L;
 
@@ -141,6 +145,30 @@ public class DrOnline implements Serializable {
         this.members = members == null ? null : members.trim();
     }
 
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice == null ? null : notice.trim();
+    }
+
+    public String getMobileNotice() {
+        return mobileNotice;
+    }
+
+    public void setMobileNotice(String mobileNotice) {
+        this.mobileNotice = mobileNotice == null ? null : mobileNotice.trim();
+    }
+
+    public String getInspectorNotice() {
+        return inspectorNotice;
+    }
+
+    public void setInspectorNotice(String inspectorNotice) {
+        this.inspectorNotice = inspectorNotice == null ? null : inspectorNotice.trim();
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -171,13 +199,5 @@ public class DrOnline implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public String getNotice() {
-        return notice;
-    }
-
-    public void setNotice(String notice) {
-        this.notice = notice == null ? null : notice.trim();
     }
 }

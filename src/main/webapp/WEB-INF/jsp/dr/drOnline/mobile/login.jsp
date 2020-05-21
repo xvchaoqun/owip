@@ -16,7 +16,7 @@
 									<t:img src="/img/aa.png"/>
 								</div>
 								<h1 class="white">
-									<div style="font-size:smaller">线上民主推荐投票<br>（手机版）</div>
+									<div style="font-size:smaller">线上民主推荐投票</div>
 								</h1>
 							</div>
 							<div class="space-10"></div>

@@ -1,4 +1,22 @@
 
+--2020.5.21
+ALTER TABLE `dr_online`
+	CHANGE COLUMN `notice` `notice` TEXT NULL COMMENT 'pc端手机端线上民主推荐说明' AFTER `members`,
+	ADD COLUMN `mobile_notice` TEXT NULL COMMENT '手机端线上民主推荐说明' AFTER `notice`,
+	ADD COLUMN `inspector_notice` TEXT NULL COMMENT '账号分发说明' AFTER `mobile_notice`;
+ALTER TABLE `dr_online_inspector_log`
+	ALTER `unit_id` DROP DEFAULT;
+ALTER TABLE `dr_online_inspector_log`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
+ALTER TABLE `dr_online_inspector`
+	ALTER `unit_id` DROP DEFAULT;
+ALTER TABLE `dr_online_inspector`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
+ALTER TABLE `sys_config`
+	ADD COLUMN `dr_login_bg` VARCHAR(200) NULL DEFAULT NULL COMMENT '线上民主推荐登录页bg图片，分辨率840*383，PNG格式' AFTER `login_top_bg_color`,
+	DROP COLUMN `dr_login_bg`;
+
+
 -- 2020.5.8
 UPDATE `base_meta_class` SET `name`='推荐类型' WHERE  `id`=82;
 

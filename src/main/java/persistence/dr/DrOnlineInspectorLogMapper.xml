@@ -188,11 +188,6 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-
-  <update id="incrFinishCount" parameterType="java.lang.Integer" >
-    update dr_online_inspector_log set finish_count=finish_count+1 where id = #{id,jdbcType=INTEGER}
-  </update>
-
   <update id="updateByExampleSelective" parameterType="map">
     update dr_online_inspector_log
     <set>

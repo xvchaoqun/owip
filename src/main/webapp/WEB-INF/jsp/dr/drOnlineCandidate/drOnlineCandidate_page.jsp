@@ -7,13 +7,13 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
 <shiro:hasPermission name="drOnlinePost:*">
-    <div align="center">
+    <div>
         <form class="form-inline" action="${ctx}/dr/drOnlineCandidate_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
             <shiro:hasPermission name="drOnlinePost:*">
                 <div class="form-group">
                     <input type="hidden" name="postId" value="${postId}">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/dr/dr_sysUser_selects"
-                            name="userId" data-placeholder="请选择单位">
+                            name="userId" data-placeholder="请选择候选人">
                         <option></option>
                     </select>
                 </div>
@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
         </form>
     </div>
     <div class="space-6"></div>
-    <span style="color: red">请编辑候选人姓名加以区别，若姓名相同，将导致最终统计结果有误！</span>
+    <span style="color: red">若候选人姓名相同，请编辑姓名，否则统计结果会有误。</span>
 </shiro:hasPermission>
     <div class="popTableDiv"
          data-url-page="${ctx}/dr/drOnlineCandidate_page?postId=${postId}"
@@ -93,6 +93,10 @@ pageEncoding="UTF-8"%>
         if(id>0) url += "&id="+id;
 
         $.loadModal(url);
+    }
+    function openView(postId, pageNo){
+        pageNo = pageNo||1;
+        $.loadModal( "${ctx}/dr/drOnlineCandidate_page?postId="+postId + "&pageNo="+pageNo);
     }
 
     $("#submitBtn", "#modalForm").click(function(){$("#modalForm").submit();return false;})

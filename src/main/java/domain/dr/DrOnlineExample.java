@@ -682,6 +682,216 @@ public class DrOnlineExample {
             return (Criteria) this;
         }
 
+        public Criteria andNoticeIsNull() {
+            addCriterion("notice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeIsNotNull() {
+            addCriterion("notice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeEqualTo(String value) {
+            addCriterion("notice =", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeNotEqualTo(String value) {
+            addCriterion("notice <>", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeGreaterThan(String value) {
+            addCriterion("notice >", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeGreaterThanOrEqualTo(String value) {
+            addCriterion("notice >=", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeLessThan(String value) {
+            addCriterion("notice <", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeLessThanOrEqualTo(String value) {
+            addCriterion("notice <=", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeLike(String value) {
+            addCriterion("notice like", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeNotLike(String value) {
+            addCriterion("notice not like", value, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeIn(List<String> values) {
+            addCriterion("notice in", values, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeNotIn(List<String> values) {
+            addCriterion("notice not in", values, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeBetween(String value1, String value2) {
+            addCriterion("notice between", value1, value2, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeNotBetween(String value1, String value2) {
+            addCriterion("notice not between", value1, value2, "notice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeIsNull() {
+            addCriterion("mobile_notice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeIsNotNull() {
+            addCriterion("mobile_notice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeEqualTo(String value) {
+            addCriterion("mobile_notice =", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeNotEqualTo(String value) {
+            addCriterion("mobile_notice <>", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeGreaterThan(String value) {
+            addCriterion("mobile_notice >", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeGreaterThanOrEqualTo(String value) {
+            addCriterion("mobile_notice >=", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeLessThan(String value) {
+            addCriterion("mobile_notice <", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeLessThanOrEqualTo(String value) {
+            addCriterion("mobile_notice <=", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeLike(String value) {
+            addCriterion("mobile_notice like", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeNotLike(String value) {
+            addCriterion("mobile_notice not like", value, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeIn(List<String> values) {
+            addCriterion("mobile_notice in", values, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeNotIn(List<String> values) {
+            addCriterion("mobile_notice not in", values, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeBetween(String value1, String value2) {
+            addCriterion("mobile_notice between", value1, value2, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileNoticeNotBetween(String value1, String value2) {
+            addCriterion("mobile_notice not between", value1, value2, "mobileNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeIsNull() {
+            addCriterion("inspector_notice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeIsNotNull() {
+            addCriterion("inspector_notice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeEqualTo(String value) {
+            addCriterion("inspector_notice =", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeNotEqualTo(String value) {
+            addCriterion("inspector_notice <>", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeGreaterThan(String value) {
+            addCriterion("inspector_notice >", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeGreaterThanOrEqualTo(String value) {
+            addCriterion("inspector_notice >=", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeLessThan(String value) {
+            addCriterion("inspector_notice <", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeLessThanOrEqualTo(String value) {
+            addCriterion("inspector_notice <=", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeLike(String value) {
+            addCriterion("inspector_notice like", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeNotLike(String value) {
+            addCriterion("inspector_notice not like", value, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeIn(List<String> values) {
+            addCriterion("inspector_notice in", values, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeNotIn(List<String> values) {
+            addCriterion("inspector_notice not in", values, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeBetween(String value1, String value2) {
+            addCriterion("inspector_notice between", value1, value2, "inspectorNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andInspectorNoticeNotBetween(String value1, String value2) {
+            addCriterion("inspector_notice not between", value1, value2, "inspectorNotice");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

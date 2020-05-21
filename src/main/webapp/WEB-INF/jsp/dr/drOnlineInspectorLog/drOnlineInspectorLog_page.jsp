@@ -20,6 +20,11 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-share"></i> 发布
                     </button>
                 </shiro:hasPermission>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${onlineId}"
+                        data-grid-id="#jqGrid2"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出参评人账号</button>
                 <shiro:hasPermission name="drOnlineInspectorLog:del">
                     <button data-url="${ctx}/dr/drOnlineInspectorLog_batchDel"
                             data-title="删除"
@@ -29,11 +34,6 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${onlineId}"
-                        data-grid-id="#jqGrid2"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出参评人账号</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -50,11 +50,11 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm2">
                             <input type="hidden" name="onlineId" value="${onlineId}"/>
                             <div class="form-group">
-                                <label>所属身份类型</label>
+                                <label>参评人身份类型</label>
                                 <div class="input-group">
                                     <select  data-width="230" data-rel="select2-ajax"
                                              data-ajax-url="${ctx}/dr/drOnlineInspectorType_selects"
-                                             name="typeId" data-placeholder="请选择所属身份类型">
+                                             name="typeId" data-placeholder="参评人身份类型">
                                         <option value="${inspectorType.id}">${inspectorType.type}</option>
                                     </select>
                                 </div>
@@ -62,8 +62,13 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>所属单位</label>
-                                <input class="form-control search-query" name="unitName" type="text" value="${param.unitName}"
-                                       placeholder="请输入所属单位">
+                                <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                        data-placeholder="请选择所属单位">
+                                    <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                </select>
+                                <script>
+                                    $.register.del_select($("#searchForm select[name=unitId]").val('${unit.id}'), 250)
+                                </script>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -83,7 +88,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="20"></table>
+            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="52"></table>
             <div id="jqGridPager2"></div>
 </div>
 <script>
@@ -111,7 +116,7 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnlineInspectorLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '所属身份类型',name: 'inspectorType.type', width: 150},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
                 { label: '所属单位',name: 'unitId', width: 250, formatter: $.jgrid.formatter.unit},
                 {
                     label: '已生成', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {

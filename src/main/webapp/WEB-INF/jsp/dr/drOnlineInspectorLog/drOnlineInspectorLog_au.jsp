@@ -8,9 +8,9 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dr/drOnlineInspectorLog_au?onlineId=${onlineId}" autocomplete="off" disableautocomplete id="modalForm" method="post">
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span> 身份类型</label>
+			<label class="col-xs-offset-1 col-xs-3 control-label"><span class="star">*</span> 参评人身份类型</label>
 			<div class="col-xs-7">
-				<select required name="typeId" data-placeholder="请输入身份类型" data-rel="select2">
+				<select required name="typeId" data-placeholder="请输入参评人身份类型" data-rel="select2">
 					<option></option>
 					<c:forEach items="${inspectorTypeMap}" var="inspectorType">
 						<option value="${inspectorType.key}">${inspectorType.value.type}</option>
@@ -19,9 +19,9 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label">所属单位</label>
+			<label class="col-xs-offset-1 col-xs-3 control-label">所属单位</label>
 			<div class="col-xs-7">
-				<select name="unitId" data-placeholder="请输入所在单位" data-rel="select2">
+				<select name="unitId" data-placeholder="请输入所属单位" data-rel="select2">
 					<option></option>
 					<c:forEach items="${unitMap}" var="unit">
 						<option value="${unit.key}">${unit.value.name}</option>
@@ -30,13 +30,13 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span> 数目</label>
+			<label class="col-xs-offset-1 col-xs-3 control-label"><span class="star">*</span> 数目</label>
 			<div class="col-xs-2">
 				<input required class="form-control digits" type="text" name="addCount">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-offset-1 col-xs-2 control-label">是否补发</label>
+			<label class="col-xs-offset-1 col-xs-3 control-label">是否补发</label>
 			<div class="col-xs-8">
 				<input type="checkbox" name="isAppended" data-on-label="是" data-off-label="否">
 				<span class="help-block">如果选择了"是"，管理员看到的账号状态为"补发"</span>

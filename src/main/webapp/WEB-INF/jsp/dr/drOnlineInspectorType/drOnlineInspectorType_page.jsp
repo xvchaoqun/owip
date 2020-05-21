@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=DrConstants.DR_ONLINE_INSPECTOR_TYPE_MAP%>" var="DR_ONLINE_INSPECTOR_TYPE_MAP"/>
 <c:set value="<%=DrConstants.DR_ONLINE_INSPECTOR_TYPE_FORMAL%>" var="DR_ONLINE_INSPECTOR_TYPE_FORMAL"/>
 <c:set value="<%=DrConstants.DR_ONLINE_INSPECTOR_TYPE_LOCK%>" var="DR_ONLINE_INSPECTOR_TYPE_LOCK"/>
 <c:set value="<%=DrConstants.DR_ONLINE_INSPECTOR_TYPE_CANCEL%>" var="DR_ONLINE_INSPECTOR_TYPE_CANCEL"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.type || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.type || not empty param.code || not empty param.id || not empty param.sort }"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content multi-row-head-table">
@@ -67,9 +68,17 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
-                                <label>类型名称</label>
-                                <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                                       placeholder="请输入类型名称">
+                                <label>参评人身份类型</label>
+                                <div class="input-group">
+                                    <select  data-width="230" data-rel="select2-ajax"
+                                             data-ajax-url="${ctx}/dr/drOnlineInspectorType_selects"
+                                             name="id" data-placeholder="请选择参评人身份类型">
+                                        <option value="${inspectorType.id}">${inspectorType.type}</option>
+                                    </select>
+                                </div>
+                                <script>
+                                    $("#searchForm3 select[name=typeId]").val('${param.id}');
+                                </script>
                             </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -106,11 +115,11 @@ pageEncoding="UTF-8" %>
                 { label: '类型名称',name: 'type',width: 150},
                 { label: '状态',name: 'status',formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == ${DR_ONLINE_INSPECTOR_TYPE_FORMAL}) {
-                            return '可用';
+                            return '${DR_ONLINE_INSPECTOR_TYPE_MAP.get(DR_ONLINE_INSPECTOR_TYPE_FORMAL)}';
                         } else if (cellvalue == ${DR_ONLINE_INSPECTOR_TYPE_LOCK}) {
-                            return '锁定';
+                            return '<font color="orange">${DR_ONLINE_INSPECTOR_TYPE_MAP.get(DR_ONLINE_INSPECTOR_TYPE_LOCK)}</front>';
                         } else if (cellvalue == ${DR_ONLINE_INSPECTOR_TYPE_CANCEL}) {
-                            return '作废';
+                            return '<font color="red">${DR_ONLINE_INSPECTOR_TYPE_MAP.get(DR_ONLINE_INSPECTOR_TYPE_CANCEL)}</front>';
                         }
                     }},
                 { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
@@ -120,7 +129,7 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));

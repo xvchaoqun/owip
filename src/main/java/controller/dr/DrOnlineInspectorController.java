@@ -5,8 +5,6 @@ import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlineInspectorExample;
 import domain.dr.DrOnlineInspectorExample.Criteria;
 import domain.dr.DrOnlineInspectorType;
-import domain.unit.Unit;
-import domain.unit.UnitExample;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,10 +60,9 @@ public class DrOnlineInspectorController extends DrBaseController {
                                     Byte pubStatus,
                                     Byte status,
                                     String username,
-                                 String unitName,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                     @RequestParam(required = false, defaultValue = "0") int export,
+                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                     Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -81,18 +78,6 @@ public class DrOnlineInspectorController extends DrBaseController {
 
         if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
-        }
-        if (StringUtils.isNotBlank(unitName)) {
-            UnitExample unitExample = new UnitExample();
-            unitExample.createCriteria().andNameLike(SqlUtils.like(unitName));
-            List<Unit> units = unitMapper.selectByExample(unitExample);
-            List<Integer> unitIds = unitService.getUnitIdsLikeUnitName(units);
-            if (units.size() > 0) {
-
-                criteria.andUnitIdIn(unitIds);
-            }else {
-                criteria.andUnitIdEqualTo(-1);
-            }
         }
         if (pubStatus != null) {
             criteria.andPubStatusEqualTo(pubStatus);
@@ -253,8 +238,10 @@ public class DrOnlineInspectorController extends DrBaseController {
                                           HttpServletResponse response,
                                           HttpServletRequest request) throws IOException, TemplateException {
 
+
         String url = DrConstants.DR_ONLINE_URL;
-        modelMap.put("url", url);
+        String content = sysPropertyService.findAll().get("siteHome");
+        modelMap.put("url",content + url);
 
         DrOnlineInspectorExample example = new DrOnlineInspectorExample();
         DrOnlineInspectorExample.Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH).andPubStatusEqualTo(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);

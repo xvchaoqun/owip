@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/dr/drOnline")
+@RequestMapping("/dr")
 @Controller
 public class DrOnlineLoginController extends DrBaseController {
 
@@ -68,7 +68,7 @@ public class DrOnlineLoginController extends DrBaseController {
         return "dr/drOnline/user/login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/drOnline/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> do_drOnlineLogin(String username, String passwd,
                                                 HttpServletRequest request,
@@ -124,7 +124,7 @@ public class DrOnlineLoginController extends DrBaseController {
         return resultMap;
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping("/drOnline/logout")
     public String logout(Byte isMobile, HttpServletRequest request) {
 
         DrOnlineInspector inspector =DrHelper.drInspector_logout(request);
@@ -132,12 +132,12 @@ public class DrOnlineLoginController extends DrBaseController {
         logger.debug("logout success. {}", (inspector != null) ? inspector.getUsername() : "");
 
         if (isMobile != null && isMobile == 1){
-            return "redirect:/dr/drOnline/iLogin";
+            return "redirect:/dr/iLogin";
         }
-        return "redirect:/dr/drOnline/login";
+        return "redirect:/dr/login";
     }
 
-    @RequestMapping("/drOnlineIndex")
+    @RequestMapping("/drOnline/drOnlineIndex")
     public String drOnlineIndex(Byte isMobile, ModelMap modelMap, HttpServletRequest request){
 
         DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
@@ -166,7 +166,7 @@ public class DrOnlineLoginController extends DrBaseController {
         return "dr/drOnline/user/drOnlineIndex";
     }
 
-    @RequestMapping("/user/changePasswd")
+    @RequestMapping("/drOnline/user/changePasswd")
     @ResponseBody
     public Map drOnline_changePasswd(String oldPasswd,
                                      String passwd,

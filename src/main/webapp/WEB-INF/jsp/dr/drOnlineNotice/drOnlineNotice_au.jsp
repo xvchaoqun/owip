@@ -37,6 +37,9 @@ pageEncoding="UTF-8"%>
 		height: '400px',
 		width: '570px',
 		minWidth: 570,
+		items : [
+			'source', '|', 'indent','outdent', 'fontname', 'fontsize', '|','forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+			'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink', 'fullscreen']
 	});
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

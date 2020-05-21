@@ -25,11 +25,11 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐日期</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input style="width: 272px;" required class="form-control date-picker"
+						<input style="width: 100px;" required class="form-control date-picker"
 							   name="_recommendDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${empty drOnline.recommendDate?(cm:formatDate(now,'yyyy-MM-dd')):(cm:formatDate(drOnline.recommendDate,'yyyy-MM-dd'))}"/>
+							   data-date-format="yyyy.mm.dd"
+							   value="${empty drOnline.recommendDate?(cm:formatDate(now,'yyyy.MM.dd')):(cm:formatDate(drOnline.recommendDate,'yyyy.MM.dd'))}"/>
 					</div>
 				</div>
 			</div>

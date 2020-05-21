@@ -94,6 +94,20 @@ public class DrOnlinePostService extends DrBaseMapper {
 
     }
 
+    public List<Integer> getByUnitPostId(Integer onlineId, Integer unitPostId){
+
+        DrOnlinePostExample example = new DrOnlinePostExample();
+        example.createCriteria().andOnlineIdEqualTo(onlineId).andUnitPostIdEqualTo(unitPostId);
+        List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
+        List<Integer> ids = new ArrayList<>();
+        if (drOnlinePosts.size() > 0){
+            for (DrOnlinePost record : drOnlinePosts) {
+                ids.add(record.getId());
+            }
+        }
+        return ids;
+    }
+
     public List<DrOnlinePostView> getAllByOnlineId(Integer onlineId){
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();

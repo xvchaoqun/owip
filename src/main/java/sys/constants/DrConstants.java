@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DrConstants {
 
-    public final static String DR_ONLINE_URL = "localhost:8080/dr/drOnline/login";
+    public final static String DR_ONLINE_URL = "/dr/login";
 
     //参评人
     public final static Byte ROLE_INSPECTOR = 4;
@@ -41,13 +41,14 @@ public class DrConstants {
     public final static byte DR_ONLINE_INSPECTOR_TYPE_FORMAL = 0;
     public final static byte DR_ONLINE_INSPECTOR_TYPE_LOCK = 1;
     public final static byte DR_ONLINE_INSPECTOR_TYPE_CANCEL= 2;
+    public final static byte DR_ONLINE_INSPECTOR_TYPE_delete= 3;
     public final static Map<Byte, String> DR_ONLINE_INSPECTOR_TYPE_MAP= new LinkedHashMap<>();
 
     static {
         DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_FORMAL, "可用");
         DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_LOCK, "锁定");
         DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_CANCEL, "作废");
-
+        DR_ONLINE_INSPECTOR_TYPE_MAP.put(DR_ONLINE_INSPECTOR_TYPE_delete, "已删除");
     }
 
     // 参评人账号状态
@@ -86,4 +87,15 @@ public class DrConstants {
         INSPECTOR_PASSWD_CHANGE_TYPE_MAP.put(INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN, "系统管理员修改");
     }
 
+    //得票比率
+    public final static byte DR_ONLINE_RATE_ENGHTY = 80;
+    public final static byte DR_ONLINE_RATE_SIXTY = 60;
+    public final static byte DR_ONLINE_RATE_FIFTY = 50;
+    public final static Map<Byte, String> DR_ONLINE_RATE_MAP = new LinkedHashMap<>();
+
+    static {
+        DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_ENGHTY, "大于80%");
+        DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_SIXTY, "大于60%");
+        DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_FIFTY, "大于50%");
+    }
 }
