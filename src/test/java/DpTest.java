@@ -89,7 +89,7 @@ public class DpTest {
         for (DrFinalResult drFinalResult : drFinalResults1) {
             System.out.println(drFinalResult);
         }*/
-       int a = iDrMapper.countResult(null, null, 5);
+       int a = iDrMapper.countResult(null, null, 5, null, null);
        System.out.println(a);
     }
 
