@@ -1,6 +1,5 @@
 package controller.dr;
 
-import persistence.dr.common.DrTempResult;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
@@ -12,9 +11,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.dr.common.DrTempResult;
 import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
+import sys.tags.CmTag;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +66,8 @@ public class DrOnlineLoginController extends DrBaseController {
         Map<Integer, DrOnlineInspector> inspectorMap = drOnlineInspectorService.findAll();
 
         modelMap.put("inspectorMap", inspectorMap);
+
+        FileUtils.copyFile(springProps.uploadPath + sysPropertyService.findAll().get("drLoginBg"), CmTag.getImgFolder() + "dr_login_bg.png");
 
         return "dr/drOnline/user/login";
     }

@@ -1,4 +1,7 @@
 
+--2020.5.22
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
+
 --2020.5.21
 ALTER TABLE `dr_online`
 	CHANGE COLUMN `notice` `notice` TEXT NULL COMMENT 'pc端手机端线上民主推荐说明' AFTER `members`,

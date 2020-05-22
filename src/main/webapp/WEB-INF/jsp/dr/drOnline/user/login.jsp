@@ -82,7 +82,7 @@
     <script src="${ctx}/extend/js/jquery.form.js"></script>
     <t:script src="/js/login.js"/>
 <script>
-    $('.login_bg_mid').css("background-size","840px 383px")
+    $('.login_bg_mid').css("background-size","820px 363px")
 </script>
 </body>
 </html>
