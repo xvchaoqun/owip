@@ -392,7 +392,7 @@ public class CadrePostController extends BaseController {
                     record.setAdminLevel(adminLevel.getId());
                 }
 
-                record.setPost(StringUtils.trimToNull(xlsRow.get(9)));
+                record.setPost(StringUtils.trimToNull(xlsRow.get(11)));
                 record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(12)), "是"));
 
                 record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
