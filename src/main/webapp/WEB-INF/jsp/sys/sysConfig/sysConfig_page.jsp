@@ -133,13 +133,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">线上民主推荐登录页背景图片（840*383，PNG格式）</label>
-
-                <div class="col-xs-6">
-                    <input type="file" name="_drLoginBg" id="_drLoginBg"/>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-3 control-label">iphone桌面图标, ICO格式</label>
 
                 <div class="col-xs-6">
@@ -286,19 +279,6 @@
         allowExt: ['jpg'],
         allowMime: ['image/jpg', 'image/jpeg'],
         value: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
-    });
-    $.fileInput($("#_drLoginBg"), {
-        style: 'well',
-        btn_choose: '更换线上民主推荐登录页背景',
-        btn_change: null,
-        no_icon: 'ace-icon fa fa-picture-o',
-        thumbnail: 'large',
-        droppable: true,
-        previewWidth: 400,
-        previewHeight: 200,
-        allowExt: ['png'],
-        allowMime: ['image/png'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.drLoginBg)}&_=<%=new Date().getTime()%>'
     });
     $.fileInput($("#_appleIcon"), {
         style: 'well',
