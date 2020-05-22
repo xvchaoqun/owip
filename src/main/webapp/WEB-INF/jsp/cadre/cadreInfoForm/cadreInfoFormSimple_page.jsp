@@ -641,7 +641,6 @@ td.padding10 {
                             ${bean.workDesc}
                         </c:if>
                     </div>
-                    <span>......</span>
                 </td>
             </tr>
             </tbody>

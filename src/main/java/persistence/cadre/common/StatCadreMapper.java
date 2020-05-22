@@ -81,6 +81,12 @@ public interface StatCadreMapper {
                            @Param("isOw") Boolean isOw,
                            @Param("dpTypeId")Integer dpTypeId, @Param("crowdId")int crowdId);
 
+    //职称分布
+    List<CadreView> postLevelList(@Param("unitTypeGroup") String unitTypeGroup,
+                                  @Param("cadreType")byte cadreType,
+                                  @Param("postLevel")String postLevel,
+                                  @Param("isRegexp")Boolean isRegexp);
+
     //学位
     List<CadreView> degreeList(@Param("unitTypeGroup") String unitTypeGroup,
                                @Param("cadreType")byte cadreType,

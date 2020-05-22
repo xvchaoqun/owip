@@ -291,6 +291,20 @@
         and birth is not null
     </select>
 
+    <!-- 职称分布 -->
+    <select id="postLevelList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+
+        select * from cadre_view where 1=1
+        <include refid="andSql" />
+        <if test="isRegexp">
+            and pro_post_level REGEXP #{postLevel}
+        </if>
+        <if test="!isRegexp">
+            and pro_post_level like #{postLevel}
+        </if>
+        and pro_post_level is not null
+    </select>
+
     <!-- 学位 -->
     <select id="degreeList" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
 

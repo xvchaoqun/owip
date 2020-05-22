@@ -1110,6 +1110,26 @@ public class StatCadreService extends BaseMapper {
         return groupByCadre(cadreViewList,secondNum);
     }
 
+    //职称
+    public List<CadreView> postLevelList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
+
+        String postLevel = null;
+        Boolean isRegexp = null;
+        switch (firstTypeNum){
+            case 1:
+                postLevel = "%正高%";isRegexp = false;
+                break;
+            case 2:
+                postLevel = "%副高%";isRegexp = false;
+                break;
+            case 3:
+                postLevel = "(中|初)级";isRegexp = true;
+        }
+
+        List<CadreView> cadreViewList = statCadreMapper.postLevelList(unitTypeGroup,cadreType,postLevel,isRegexp);
+        return groupByCadre(cadreViewList,secondNum);
+    }
+
     //学位
     public List<CadreView> degreeTypeList(String unitTypeGroup,Byte cadreType,Integer firstTypeNum,Integer secondNum){
 

@@ -211,6 +211,8 @@
                         <td height=23 class=xl70>正高</td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="16"/>
+                            <jsp:param name="firstTypeCode" value="postLevel" />
+                            <jsp:param name="firstTypeNum" value="1" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -218,6 +220,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="17"/>
+                            <jsp:param name="firstTypeCode" value="postLevel" />
+                            <jsp:param name="firstTypeNum" value="2" />
                         </jsp:include>
                     </tr>
                     <tr>
@@ -225,6 +229,8 @@
                         </td>
                         <jsp:include page="row.jsp">
                             <jsp:param name="row" value="18"/>
+                            <jsp:param name="firstTypeCode" value="postLevel" />
+                            <jsp:param name="firstTypeNum" value="3" />
                         </jsp:include>
                     </tr>
                     <tr>

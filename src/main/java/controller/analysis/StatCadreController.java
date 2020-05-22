@@ -388,7 +388,7 @@ public class StatCadreController extends BaseController {
                                      @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,//干部类别
                                      String firstTypeCode,//类别
                                      Integer firstTypeNum,//类别分类
-                                     Integer secondNum,
+                                     Integer secondNum,//第二类别分类
                                      ModelMap modelMap, HttpServletResponse response){
 
         List<CadreView> cadreViews = new ArrayList<>();
@@ -410,6 +410,9 @@ public class StatCadreController extends BaseController {
 
          if (StringUtils.equals(firstTypeCode,"age"))//年龄分布
              cadreViews = statCadreService.ageList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+
+         if (StringUtils.equals(firstTypeCode,"postLevel"))//职称分布
+             cadreViews = statCadreService.postLevelList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"degree"))//学位分布
              cadreViews = statCadreService.degreeTypeList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
