@@ -9,6 +9,20 @@ UPDATE sys_scheduler_job SET need_log='0' WHERE  id = 28;
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
 
+ALTER TABLE `dr_online`
+	CHANGE COLUMN `notice` `notice` TEXT NULL COMMENT 'pc端手机端线上民主推荐说明' AFTER `members`,
+	ADD COLUMN `mobile_notice` TEXT NULL COMMENT '手机端线上民主推荐说明' AFTER `notice`,
+	ADD COLUMN `inspector_notice` TEXT NULL COMMENT '账号分发说明' AFTER `mobile_notice`;
+ALTER TABLE `dr_online_inspector_log`
+	ALTER `unit_id` DROP DEFAULT;
+ALTER TABLE `dr_online_inspector_log`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
+ALTER TABLE `dr_online_inspector`
+	ALTER `unit_id` DROP DEFAULT;
+ALTER TABLE `dr_online_inspector`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
+
+
 -- 
 
 2020.5.20
