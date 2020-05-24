@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -120,6 +121,11 @@ public class SysPropertyController extends BaseController {
             record.setContent(BooleanUtils.toBoolean(record.getContent())?"true":"false");
         }else if(record.getType()==SystemConstants.SYS_PROPERTY_TYPE_PIC){
             record.setContent(upload(_file, "sysProperty"));
+
+            if(StringUtils.equals(record.getCode(), "drLoginBg")) {
+                FileUtils.copyFile(springProps.uploadPath + record.getContent(),
+                        CmTag.getImgFolder() + "dr_login_bg.png");
+            }
         }
 
         if (id == null) {

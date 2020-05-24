@@ -7,8 +7,8 @@
   <div class="ace-settings-box clearfix" id="ace-settings-box">
     <div style="height: 35px;margin: 15px 0px;">
       <select data-rel="select2-ajax"
-              data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ}" data-width="300"
-              name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+              data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_KJ},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_KJ_LEAVE}" data-width="300"
+              name="cadreId" data-placeholder="请输入账号或姓名或工作证号">
         <option></option>
       </select>
     </div>

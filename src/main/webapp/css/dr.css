@@ -122,8 +122,6 @@
 
 .login_bg_mid
 {
-	/*background-image: url("/img/dr_login_bg.png" );*/
-    background-image: url("/img/dr_login_bg.png");
 	background-color:rgba(0,0,0,0);/*透明*/
 	margin-top: -20px;
 	margin-bottom: 0px;

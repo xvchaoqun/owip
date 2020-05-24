@@ -5,6 +5,10 @@
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
  ('wx_support', '支持发送微信', 'false', 3, 60, '');
 
+UPDATE sys_scheduler_job SET need_log='0' WHERE  id = 28;
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
+
 -- 
 
 2020.5.20

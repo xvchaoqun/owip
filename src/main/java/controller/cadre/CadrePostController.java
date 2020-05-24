@@ -345,11 +345,11 @@ public class CadrePostController extends BaseController {
                 }
 
                 if (unitPost == null) {
-                    String post = StringUtils.trimToNull(xlsRow.get(4));
-                    if (StringUtils.isBlank(post)) {
+                    String postName = StringUtils.trimToNull(xlsRow.get(4));
+                    if (StringUtils.isBlank(postName)) {
                         throw new OpException("第{0}行岗位名称为空", row);
                     }
-                    record.setPost(post);
+                    record.setPostName(postName);
 
                     String isPrincipal = StringUtils.trimToNull(xlsRow.get(5));
                     if (StringUtils.isBlank(isPrincipal)) {
@@ -391,8 +391,8 @@ public class CadrePostController extends BaseController {
                 } else if (adminLevel != null) {
                     record.setAdminLevel(adminLevel.getId());
                 }
-
-                record.setPost(StringUtils.trimToNull(xlsRow.get(11)));
+                // 职务为空的情况下，默认为岗位名称
+                record.setPost(StringUtils.defaultString(StringUtils.trimToNull(xlsRow.get(11)), record.getPostName()));
                 record.setIsFirstMainPost(StringUtils.equals(StringUtils.trimToNull(xlsRow.get(12)), "是"));
 
                 record.setLpWorkTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13))));
@@ -458,11 +458,11 @@ public class CadrePostController extends BaseController {
                 }
 
                 if (unitPost == null) {
-                    String post = StringUtils.trimToNull(xlsRow.get(4));
-                    if (StringUtils.isBlank(post)) {
+                    String postName = StringUtils.trimToNull(xlsRow.get(4));
+                    if (StringUtils.isBlank(postName)) {
                         throw new OpException("第{0}行岗位名称为空", row);
                     }
-                    record.setPost(post);
+                    record.setPostName(postName);
 
                     String _postType = StringUtils.trimToNull(xlsRow.get(5));
                     MetaType postType = CmTag.getMetaTypeByName("mc_post", _postType);

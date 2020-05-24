@@ -1,8 +1,18 @@
 
+
+-- powershell
+
+tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only c8799d86  -- . ':(exclude)doc/*')
+
+tar -cf D:\tmp\owip\diff.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d c8799d86 HEAD^ --name-only  -- . ':(exclude)doc/*')
+
+tar -cf diff.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
+
+
 -- 打包commit文件
 # 打包更新文件（不含删除文件）
 cd /cygdrive/d/IdeaProjects/owip
-git diff-tree --diff-filter=d -r --no-commit-id --name-only ac3d00b18535c199f7d8b9d2c3b9d3d3a83c9784 | xargs tar -cf /cygdrive/d/tmp/update.zip
+git diff-tree --diff-filter=d -r --no-commit-id --name-only c8799d86  -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/tmp/update.zip
 
 # 查看删除的文件
 git diff-tree --diff-filter=acmr -r --no-commit-id --name-only cdfc827094b3fd6217ce9e72751e0e9e645777c3
@@ -12,7 +22,7 @@ git diff --name-only --diff-filter=ACMRT HEAD^ | xargs tar -cf patch.tar
 
 #提前“前（不含）后（含）”两个版本之间变更的文件
 cd /cygdrive/d/IdeaProjects/owip
-git diff --diff-filter=d a8faa9b93fff57d136c5bc4eabcad27baf88e68f 7a56a2d616154a1ca2dbff40b495fee4accd9f4a --name-only | xargs tar -cf /cygdrive/d/tmp/diff.zip
+git diff --diff-filter=d c8799d86 b0cedcb0 --name-only -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/tmp/diff.zip
 
 -- 忽略文件
 git update-index --assume-unchanged pom.xml

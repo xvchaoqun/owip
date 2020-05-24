@@ -207,7 +207,9 @@
             //console.log(up)
             if (up != undefined) {
                 $('#modalForm textarea[name=postName]').val(up.name)
-                $('#modalForm textarea[name=post]').val(up.name)
+                if($.trim($('#modalForm textarea[name=post]').val())=='') {
+                    $('#modalForm textarea[name=post]').val(up.name); // 职务为空的情况下，默认为岗位名称
+                }
                 $("#modalForm input[name=isPrincipal][value=" + (up.isPrincipal ? 1 : 0) + "]").prop("checked", true);
                 $("#modalForm select[name=postType]").val(up.postType).trigger("change");
                 $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");

@@ -15,8 +15,6 @@ import persistence.dr.common.DrTempResult;
 import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
-import sys.tags.CmTag;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,8 +64,6 @@ public class DrOnlineLoginController extends DrBaseController {
         Map<Integer, DrOnlineInspector> inspectorMap = drOnlineInspectorService.findAll();
 
         modelMap.put("inspectorMap", inspectorMap);
-
-        FileUtils.copyFile(springProps.uploadPath + sysPropertyService.findAll().get("drLoginBg"), CmTag.getImgFolder() + "dr_login_bg.png");
 
         return "dr/drOnline/user/login";
     }
