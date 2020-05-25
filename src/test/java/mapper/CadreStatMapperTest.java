@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import persistence.cadre.common.CadreSearchBean;
 import persistence.cadre.common.StatCadreBean;
 import persistence.cadre.common.StatCadreMapper;
 import sys.constants.CadreConstants;
@@ -24,7 +25,7 @@ public class CadreStatMapperTest {
     public void t(){
         String unitTypeGroup = "xy";
 
-        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(unitTypeGroup, CadreConstants.CADRE_TYPE_CJ);
+        List<StatCadreBean> cadreStatBeans = cadreStatMapper.cadre_stat_adminLevel(unitTypeGroup, CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
         for (StatCadreBean cadreStatBean : cadreStatBeans) {
             System.out.println(cadreStatBean);
         }

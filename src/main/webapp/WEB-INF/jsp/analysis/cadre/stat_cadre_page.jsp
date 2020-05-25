@@ -2,23 +2,114 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="tabbable">
+        <div class="tabbable" style="width: 1148px">
+            <c:set var="_query" value="${not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.adminLevels
+            ||not empty param.isKeepSalary
+            ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.labels}"/>
+            <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
+                <div class="widget-header ${_query?'search':''}">
+                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
+                    <div class="widget-toolbar">
+                        <a href="javascript:;" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form class="form-inline search-form" id="searchForm">
+                            <input type="hidden" name="cadreType" value="${cadreType}">
+                            <input type="hidden" name="unitTypeGroup" value="${unitTypeGroup}">
+                            <div class="columns">
+                                <div class="column">
+                                    <label>行政级别</label>
+                                    <div class="input">
+                                        <select class="multiselect" multiple="" name="adminLevels">
+                                            <c:import url="/metaTypes?__code=mc_admin_level"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
+                                    <div class="column">
+                                        <label>干部标签</label>
+                                        <div class="input">
+                                            <select class="multiselect" multiple="" name="labels"
+                                                    data-placeholder="请选择">
+                                                <c:import url="/metaTypes?__code=mc_cadre_label"/>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class="column">
+                                    <label>是否保留待遇</label>
+                                    <div class="input">
+                                        <select name="isKeepSalary" data-width="100"
+                                                data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isKeepSalary]").val('${param.isKeepSalary}');
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <label>是否正职</label>
+                                    <div class="input">
+                                        <select name="isPrincipal" data-width="100"
+                                                data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isPrincipal]").val('${param.isPrincipal}');
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <label>现职务始任年限</label>
+                                    <div class="input">
+                                        <input class="num" type="text" name="startNowPostAge"
+                                               value="${param.startNowPostAge}"> 至 <input class="num"
+                                                                                          type="text"
+                                                                                          name="endNowPostAge"
+                                                                                          value="${param.endNowPostAge}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="clearfix form-actions center">
+                                <button type="button" class="jqSearchBtn btn btn-default btn-sm"
+                                   data-mask-el="#statTable"
+                                   data-url="${ctx}/stat_cadre"><i class="fa fa-search"></i> 查找</button>
+                                <c:if test="${_query || not empty param.sort}">&nbsp;
+                                    <button type="button" data-url="${ctx}/stat_cadre"
+                                            class="reloadBtn btn btn-warning btn-sm">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${empty param.unitTypeGroup}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable"
-                       data-url="${ctx}/stat_cadre?unitTypeGroup=&cadreType=${cadreType}">
+                    <a href="javascript:;" class="unit-group" data-type="">
                         <i class="fa fa-signal"></i> 全部</a>
                 </li>
                 <c:forEach items="${unitTypeGroupMap}" var="entity" varStatus="vs">
                     <li class="<c:if test="${param.unitTypeGroup==entity.key}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-mask-el="#statTable"
-                           data-url="${ctx}/stat_cadre?unitTypeGroup=${entity.key}&cadreType=${cadreType}">
+                        <a href="javascript:;" class="unit-group" data-type="${entity.key}">
                             <i class="fa fa-signal"></i> ${entity.value.name}</a>
                     </li>
                 </c:forEach>
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                     <button class="downloadBtn pull-left btn btn-success btn-sm"
-                            data-url="${ctx}/stat_cadre?export=1&cadreType=${cadreType}"><i class="fa fa-download"></i>
+                            data-url="${ctx}/stat_cadre?export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
                         导出
                     </button>
                 </div>
@@ -36,6 +127,7 @@
                     </div>
                 </c:if>
             </ul>
+
             <div class="tab-content" style="padding: 5px 4px 0px">
                 <table id="statTable" border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;'>
@@ -947,8 +1039,22 @@
 
 </style>
 <script>
+    $.each(${cm:toJSONObject(param)}, function(name, val){
+        if($.trim(val)!=''){
+            $("[name='"+name+"']", ".search-form .columns .column .input").closest(".column").find("label").addClass("bolder red");
+        }
+    })
+    $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
+    $.register.multiselect($('#searchForm select[name=labels]'), ${cm:toJSONArray(selectLabels)});
+    $('[data-rel="select2"]').select2();
     $("input[name=cadreType]").click(function () {
         var cadreType = $(this).val();
-        $.loadPage({url: "${ctx}/stat_cadre?unitTypeGroup=${param.unitTypeGroup}&cadreType=" + cadreType})
+        //console.log("cadreType="+cadreType)
+        $("#searchForm input[name=cadreType]").val(cadreType);
+        $(".jqSearchBtn").click();
+    })
+    $(".unit-group").click(function () {
+        $("#searchForm input[name=unitTypeGroup]").val($(this).data('type'));
+        $(".jqSearchBtn").click();
     })
 </script>

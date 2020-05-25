@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import persistence.cadre.common.CadreSearchBean;
 import service.analysis.StatCadreService;
 import sys.constants.CadreConstants;
 
@@ -27,7 +28,7 @@ public class CadreStatServiceTest {
         String unitTypeGroup = "xy";
         //String unitTypeGroup = null;
 
-        Map<String, List> result = cadreStatService.stat(unitTypeGroup, CadreConstants.CADRE_TYPE_CJ);
+        Map<String, List> result = cadreStatService.stat(unitTypeGroup, CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
 
         for (Map.Entry<String, List> entry : result.entrySet()) {
             System.out.println(entry.getKey());

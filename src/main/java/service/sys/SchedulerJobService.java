@@ -160,7 +160,8 @@ public class SchedulerJobService extends BaseMapper {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         SchedulerJobExample example = new SchedulerJobExample();
-        example.createCriteria().andIsStartedEqualTo(true);
+        example.createCriteria().andIsDeletedEqualTo(false)
+                .andIsStartedEqualTo(true);
         List<SchedulerJob> schedulerJobs = schedulerJobMapper.selectByExample(example);
 
         int total = schedulerJobs.size();

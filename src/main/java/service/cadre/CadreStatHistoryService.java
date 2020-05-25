@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import persistence.cadre.common.CadreSearchBean;
 import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
@@ -55,11 +56,11 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ:
 
-                wb = statCadreService.toXlsx(CadreConstants.CADRE_TYPE_CJ);
+                wb = statCadreService.toXlsx(CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ:
                 if(hasKjCadre) {
-                    wb = statCadreService.toXlsx(CadreConstants.CADRE_TYPE_KJ);
+                    wb = statCadreService.toXlsx(CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
                 }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:

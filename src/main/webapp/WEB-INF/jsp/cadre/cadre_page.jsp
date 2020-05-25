@@ -788,8 +788,7 @@
                                                 </div>--%>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <div>
-                                            </div>
+
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>

@@ -583,6 +583,8 @@ $(document).on("click", " .reloadBtn", function () {
     var $target = $($this.data("target") || $div.data("target") || "#page-content");
     var url = $this.data("url") || $div.data("url-page");
 
+    $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 返回中')
+    $this.button("loading");
     $target.renderUrl({
         url: url,
         op:$this.data("op"),
@@ -798,7 +800,10 @@ $(document).on("click", " .jqSearchBtn", function () {
     //var $form = $($this.data("form") || "div.myTableDiv #searchForm");
     var $form = $($this.data("form") || "#searchForm");
 
+    $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 查询中')
+    $this.button("loading");
     $target.renderUrl({
+        maskEl: $this.data("mask-el"),
         url: url,
         params: $form.serialize()
     });

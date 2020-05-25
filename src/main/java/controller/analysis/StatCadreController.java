@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import persistence.cadre.common.CadreSearchBean;
 import persistence.cadre.common.ICadreEdu;
 import persistence.cadre.common.ICadreWork;
 import persistence.cadre.common.ICarde;
@@ -41,23 +42,63 @@ public class StatCadreController extends BaseController {
     @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre")
     public String stat_cadre(String unitTypeGroup,
+                             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                             @RequestParam(required = false, value = "labels") Integer[] labels,
                              @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,
-                             @RequestParam(required = false, defaultValue = "0") int export,
+                             Boolean isPrincipal, // 是否正职
+                             //是否为保留待遇干部信息，指第一主职无关联岗位的干部
+                             Boolean isKeepSalary,
+                             Integer startNowPostAge,
+                             Integer endNowPostAge,
+                             @RequestParam(required = false, defaultValue = "0") int export, // 1：导出， 2：弹出列表
+
+                             // 点击数字弹出明细列表参数
+                             String firstTypeCode,//类别
+                             Integer firstTypeNum,//类别分类
+                             Integer secondNum,//第二类别分类
+
                              ModelMap modelMap, HttpServletResponse response) throws IOException {
 
+        CadreSearchBean searchBean = CadreSearchBean.getInstance(cadreType);
+
+        if (labels != null) {
+
+            List<Integer> selectLabels = Arrays.asList(labels);
+            searchBean.setLabels(selectLabels);
+
+            modelMap.put("selectLabels", selectLabels);
+        }
+        if (adminLevels != null) {
+
+            List<Integer> selectAdminLevels = Arrays.asList(adminLevels);
+            searchBean.setAdminLevels(selectAdminLevels);
+
+            modelMap.put("selectAdminLevels", selectAdminLevels);
+        }
+
+        searchBean.setPrincipal(isPrincipal);
+        searchBean.setKeepSalary(isKeepSalary);
+        searchBean.setMinNowPostAge(startNowPostAge);
+        searchBean.setMaxNowPostAge(endNowPostAge);
+
         if (export == 1) {
-            XSSFWorkbook wb = statCadreService.toXlsx(cadreType);
+            XSSFWorkbook wb = statCadreService.toXlsx(searchBean);
 
             String fileName = sysConfigService.getSchoolName()+
                     CadreConstants.CADRE_TYPE_MAP.get(cadreType)
                     + "情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
+        }else if(export==2){
+
+            // 点击数字弹出明细列表
+            return stat_cadre_list(unitTypeGroup, firstTypeCode,
+                    firstTypeNum, secondNum, searchBean, modelMap);
         }
 
-        Map<String, List> rs = statCadreService.stat(unitTypeGroup, cadreType);
+        Map<String, List> rs = statCadreService.stat(unitTypeGroup, searchBean);
 
-        Map<Integer, List> eduRowMap = statCadreService.eduRowMap(unitTypeGroup, cadreType);
+        Map<Integer, List> eduRowMap = statCadreService.eduRowMap(unitTypeGroup, searchBean);
         modelMap.put("eduRowMap", eduRowMap);
         int s = rs.size();
         for (Map.Entry<Integer, List> entry : eduRowMap.entrySet()) {
@@ -69,8 +110,6 @@ public class StatCadreController extends BaseController {
         MetaClass mcUnitType = CmTag.getMetaClassByCode("mc_unit_type");
         Map<String, MetaClassOption> unitTypeGroupMap = mcUnitType.getOptions();
         modelMap.put("unitTypeGroupMap", unitTypeGroupMap);
-
-        modelMap.put("cadreType", cadreType);
 
         modelMap.put("unitTypeGroup",unitTypeGroup);
         modelMap.put("cadreType",cadreType);
@@ -382,48 +421,48 @@ public class StatCadreController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequiresPermissions("statCadre:list")
-    @RequestMapping("/stat_cadre_list")
-    public String do_stat_cadre_list(String unitTypeGroup,//单位类型
-                                     @RequestParam(required = false, defaultValue = CadreConstants.CADRE_TYPE_CJ+"") byte cadreType,//干部类别
+    // 点击数字弹出明细列表
+    private String stat_cadre_list(  String unitTypeGroup,//单位类型
                                      String firstTypeCode,//类别
                                      Integer firstTypeNum,//类别分类
                                      Integer secondNum,//第二类别分类
-                                     ModelMap modelMap, HttpServletResponse response){
+                                     CadreSearchBean searchBean,
+                                     ModelMap modelMap){
 
         List<CadreView> cadreViews = new ArrayList<>();
 
         unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
         firstTypeCode = StringUtils.trimToNull(firstTypeCode);
 
+
         if (StringUtils.equals(firstTypeCode,"all"))//全部类型
-            cadreViews = statCadreService.allCadreList(unitTypeGroup,cadreType,secondNum);
+            cadreViews = statCadreService.allCadreList(unitTypeGroup, searchBean,secondNum);
 
         if (StringUtils.equals(firstTypeCode,"adminLevel"))//行政级别
-            cadreViews = statCadreService.adminLevelList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+            cadreViews = statCadreService.adminLevelList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"nation"))//民族
-            cadreViews = statCadreService.nationList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+            cadreViews = statCadreService.nationList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"politicsStatus"))//政治面貌
-             cadreViews = statCadreService.psList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+             cadreViews = statCadreService.psList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"age"))//年龄分布
-             cadreViews = statCadreService.ageList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+             cadreViews = statCadreService.ageList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"postLevel"))//职称分布
-             cadreViews = statCadreService.postLevelList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+             cadreViews = statCadreService.postLevelList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"degree"))//学位分布
-             cadreViews = statCadreService.degreeTypeList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+             cadreViews = statCadreService.degreeTypeList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
          if (StringUtils.equals(firstTypeCode,"isNotDouble"))//专职干部
-             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum, false);
+             cadreViews = statCadreService.isDoubleList(unitTypeGroup, searchBean,secondNum, false);
          if (StringUtils.equals(firstTypeCode,"isDouble"))//双肩挑干部
-             cadreViews = statCadreService.isDoubleList(unitTypeGroup,cadreType,secondNum, true);
+             cadreViews = statCadreService.isDoubleList(unitTypeGroup, searchBean,secondNum, true);
 
          if (StringUtils.equals(firstTypeCode,"education"))//学历
-             cadreViews = statCadreService.educationList(unitTypeGroup,cadreType,firstTypeNum,secondNum);
+             cadreViews = statCadreService.educationList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
 
         modelMap.put("cadreViews",cadreViews);
         return "analysis/cadre/cadres";

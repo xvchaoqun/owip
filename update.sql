@@ -1,6 +1,8 @@
 
 
+2020.5.24
 
+西交大  -- 北师大
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
  ('wx_support', '支持发送微信', 'false', 3, 60, '');
@@ -23,7 +25,6 @@ ALTER TABLE `dr_online_inspector`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
 
 
--- 
 
 2020.5.20
 

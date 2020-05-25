@@ -2,9 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="row${param.row}" var="key"></c:set>
 <c:set value="${rs.get(key)}" var="row"></c:set>
-<c:set value="unitTypeGroup=${unitTypeGroup}&cadreType=${cadreType}" var="date"></c:set>
-<c:set value="${param.firstData}" var="firstData"></c:set>
-<c:set value="&firstTypeCode=${param.firstTypeCode}&firstTypeNum=${param.firstTypeNum}" var="paramDate"/>
+<c:set value="${cm:encodeQueryString(pageContext.request.queryString)}&firstTypeCode=${param.firstTypeCode}&firstTypeNum=${param.firstTypeNum}" var="params"/>
 <td ${(empty param.type && param.row==1)?'class=xl83 colspan=2':'class=xl73'}>
     <c:if test="${row.get(0)==0}">0</c:if>
     <c:if test="${row.get(0)>0}">
@@ -13,7 +11,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=1">${row.get(0)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=1">${row.get(0)}</a>
         </c:if>
     </c:if>
 </td>
@@ -28,7 +26,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=2">${row.get(2)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=2">${row.get(2)}</a>
         </c:if>
     </c:if>
 </td>
@@ -41,7 +39,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=3">${row.get(4)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=3">${row.get(4)}</a>
         </c:if>
     </c:if>
 </td>
@@ -54,7 +52,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=4">${row.get(6)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=4">${row.get(6)}</a>
         </c:if>
     </c:if>
 </td>
@@ -67,7 +65,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=5">${row.get(8)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=5">${row.get(8)}</a>
         </c:if>
     </c:if>
 </td>
@@ -80,7 +78,7 @@
         </c:if>
         <c:if test="${param.firstTypeCode != null}">
             <a href="javascript:;" class="popupBtn" data-width="750"
-               data-url="${ctx}/stat_cadre_list?${date}${paramDate}&secondNum=6">${row.get(10)}</a>
+               data-url="${ctx}/stat_cadre?${params}&export=2&secondNum=6">${row.get(10)}</a>
         </c:if>
     </c:if>
 </td>

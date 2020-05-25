@@ -47,11 +47,9 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:list")
     @RequestMapping("/schedulerJob")
     public String schedulerJob(@RequestParam(required = false, defaultValue = "1")Byte cls,
-                               @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
                                ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        modelMap.put("isDeleted",isDeleted);
         if(cls==2){
             return "sys/schedulerLog/schedulerLog_page";
         }
@@ -63,7 +61,7 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping("/schedulerJob_data")
     @ResponseBody
     public void schedulerJob_data(HttpServletRequest request,
-                                  @RequestParam(required = false, defaultValue = "0") Boolean isDeleted,
+                                  @RequestParam(required = false, defaultValue = "1")Byte cls,
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -77,9 +75,7 @@ public class SchedulerJobController extends BaseController {
         SchedulerJobExample example = new SchedulerJobExample();
         example.setOrderByClause(" sort_order desc");
 
-        if (isDeleted != null) {
-            example.createCriteria().andIsDeletedEqualTo(isDeleted);
-        }
+        example.createCriteria().andIsDeletedEqualTo(cls==3);
 
         long count = schedulerJobMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
@@ -256,7 +252,7 @@ public class SchedulerJobController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         SchedulerJobExample example = new SchedulerJobExample();
-        SchedulerJobExample.Criteria criteria = example.createCriteria();
+        SchedulerJobExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause(" sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){

@@ -338,12 +338,18 @@ $.fn.extend({
         this.each(function () {
             if (options.url) {
                 var thisContainer = $(this);
-                /*thisContainer.showLoading({'afterShow':
-                    function() {
-                        setTimeout( function(){
-                            thisContainer.hideLoading();
-                        }, 5000 );
-                    }});*/
+                var $maskEl;
+                if(options.maskEl!=undefined) {
+                    $maskEl = $(options.maskEl);
+                    $maskEl.showLoading({
+                        'afterShow':
+                            function () {
+                                setTimeout(function () {
+                                    $maskEl.hideLoading();
+                                }, 5000);
+                            }
+                    });
+                }
                 $.ajax({
                     url: options.url,
                     type: options.method,
@@ -368,7 +374,9 @@ $.fn.extend({
                         if (options.fn) {
                             options.fn(html);
                         }
-                        thisContainer.hideLoading();
+                        if($maskEl) {
+                            $maskEl.hideLoading();
+                        }
                     },
                     error: function () {
                         $.error("页面出错");

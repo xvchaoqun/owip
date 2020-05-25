@@ -81,9 +81,9 @@ public class CadreController extends BaseController {
                              @RequestParam(required = false, value = "proPosts") String[] proPosts,
                              @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
                              @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
-                             @RequestParam(required = false, value = "labels") Integer[] labels,
-                             @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
-                            @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+                             @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+                             @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
+                            @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
                              @RequestParam(required = false, defaultValue = "0")Boolean isEngage, //是否聘任制干部，指无行政级别的干部
                              @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
                              @RequestParam(required = false, value = "workTypes") Integer[] workTypes,

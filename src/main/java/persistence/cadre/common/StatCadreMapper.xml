@@ -21,12 +21,42 @@
             and unit_type_group =#{unitTypeGroup}
         </if>
         <!--处级干部-->
-        <if test="cadreType==1">
+        <if test="s.cadreType==1">
             and status=1
         </if>
         <!--科级干部-->
-        <if test="cadreType==2">
+        <if test="s.cadreType==2">
             and status=8
+        </if>
+        <if test="s.isPrincipal!=null">
+            and is_principal=#{s.isPrincipal}
+        </if>
+        <if test="s.isKeepSalary!=null">
+            <if test="s.isKeepSalary">
+                and main_cadre_post_id>0 and unit_post_id is null
+            </if>
+            <if test="!s.isKeepSalary">
+                and (main_cadre_post_id is null or unit_post_id > 0)
+            </if>
+        </if>
+        <if test="s.minNowPostAge!=null">
+            and cadre_post_year >= #{s.minNowPostAge}
+        </if>
+        <if test="s.maxNowPostAge!=null">
+            <![CDATA[and cadre_post_year <= #{s.maxNowPostAge}]]>
+        </if>
+        <if test="s.labels != null and s.labels.size>0">
+        and
+        <foreach collection="s.labels" item="label" index="index"
+                 open="(" close=")" separator=" or ">
+            find_in_set(#{label}, label)
+        </foreach>
+        </if>
+        <if test="s.adminLevels != null and s.adminLevels.size>0">
+            and admin_level IN
+            <foreach collection="s.adminLevels" item="adminLevel" separator="," open="(" close=")">
+                #{adminLevel}
+            </foreach>
         </if>
     </sql>
     <!-- 总人数 -->

@@ -18,6 +18,7 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.STSheetViewType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import persistence.cadre.common.CadreSearchBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
@@ -402,8 +403,8 @@ public class UnitPostAllocationService extends BaseMapper {
 
         boolean cadrePostVacant=CmTag.getBoolProperty("cadrePost_vacant");
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
-        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(CadreSearchBean.getInstance(cadreType)));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(CadreSearchBean.getInstance(cadreType)));
         // 处级干部才有无行政级别
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
@@ -651,8 +652,8 @@ public class UnitPostAllocationService extends BaseMapper {
     public Map<String, List<Integer>> cpcStat_data(byte cadreType) {
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(cadreType));
-        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(cadreType));
+        MetaType mainMetaType = metaTypeMap.get(getMainAdminLevelCode(CadreSearchBean.getInstance(cadreType)));
+        MetaType viceMetaType = metaTypeMap.get(getViceAdminLevelCode(CadreSearchBean.getInstance(cadreType)));
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
         // 汇总结果

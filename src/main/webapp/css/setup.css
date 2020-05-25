@@ -242,6 +242,15 @@ body {
     font-weight: bolder;
 }
 
+.widget-note{
+    position: absolute;
+    right: 60px;
+    top: 10px;
+}
+.search .widget-note, .search .widget-title{
+    color: red;
+}
+
 /*搜索框、面板点击收起、排序数字*/
 .widget-header, .panel-heading, a.change-order {
     /*background-image: none;
@@ -1581,12 +1590,6 @@ span.delete, span.delete a, li.delete label {
 .webui-popover-content{
     min-width: 150px;
     min-height: 120px;
-}
-
-.widget-note{
-    position: absolute;
-    right: 60px;
-    top: 10px;
 }
 
 .type-select {

@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
+import persistence.cadre.common.CadreSearchBean;
 import service.analysis.StatCadreService;
 import service.member.MemberStayExportService;
 import service.party.PartyExportService;
@@ -174,7 +175,7 @@ public class ExportServiceTest {
     @Test
     public void stat() throws IOException {
 
-        XSSFWorkbook wb = cadreStatService.toXlsx(CadreConstants.CADRE_TYPE_CJ);
+        XSSFWorkbook wb = cadreStatService.toXlsx(CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test2.xlsx"));
 
         wb.write(output);
