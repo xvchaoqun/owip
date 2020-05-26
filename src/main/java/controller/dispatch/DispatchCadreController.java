@@ -174,7 +174,7 @@ public class DispatchCadreController extends DispatchBaseController {
                                    String code,
                                     Integer dispatchId,
                                     Byte type,   //类型 任职免职  全部 -1
-                                    Byte postType,  //按岗位名称搜索 1 按岗位编号搜索 2
+                                    Byte postType,  //按岗位分组搜索 0 按岗位名称搜索 1 按岗位编号搜索 2
                                     String post,
                                    @RequestParam(required = false, value = "wayId")Integer[] wayId,
                                    @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
@@ -258,11 +258,17 @@ public class DispatchCadreController extends DispatchBaseController {
         }
 
         if(unitPostIds!=null){
+            UnitPost unitPost =unitPostMapper.selectByPrimaryKey(unitPostIds[0]);
             if(postType!=null && postType==2){     //按岗位名称搜索
-                UnitPost unitPost =unitPostMapper.selectByPrimaryKey(unitPostIds[0]);
                 criteria.andPostNameEqualTo(unitPost.getName());
-            }else {
+            }else if(postType!=null && postType==1){
                 criteria.andUnitPostIdIn(Arrays.asList(unitPostIds));
+            }else{
+                if(unitPost.getGroupId()!=null){
+                criteria.andGroupIdEqualTo(unitPost.getGroupId());
+                }else {
+                    criteria.andGroupIdIsNotNull().andGroupIdIsNull();
+                }
             }
         }
 

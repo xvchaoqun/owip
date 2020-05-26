@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.unit.UnitPostView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
@@ -23,6 +24,7 @@
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
     <result column="unit_status" jdbcType="TINYINT" property="unitStatus" />
     <result column="unit_sort_order" jdbcType="INTEGER" property="unitSortOrder" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="cadre_post_id" jdbcType="INTEGER" property="cadrePostId" />
     <result column="cp_admin_level" jdbcType="INTEGER" property="cpAdminLevel" />
@@ -66,11 +68,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
+    id, unit_id, group_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
     post_class, is_cpc, status, abolish_date, open_date, sort_order, remark, unit_name, 
-    unit_code, unit_type_id, unit_status, unit_sort_order, cadre_id, cadre_post_id, cp_admin_level, 
-    is_main_post, gender, cadre_admin_level, cadre_post_type, lp_work_time, s_work_time, 
-    cadre_is_principal, cadre_post_year, admin_level_year
+    unit_code, unit_type_id, unit_status, unit_sort_order, group_name, cadre_id, cadre_post_id, 
+    cp_admin_level, is_main_post, gender, cadre_admin_level, cadre_post_type, lp_work_time, 
+    s_work_time, cadre_is_principal, cadre_post_year, admin_level_year
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
     select
@@ -81,9 +83,6 @@
     from unit_post_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
-    </if>
-    <if test="groupByClause != null">
-      group by ${groupByClause}
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
@@ -104,9 +103,6 @@
     from unit_post_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
-    </if>
-    <if test="groupByClause != null">
-      group by ${groupByClause}
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}

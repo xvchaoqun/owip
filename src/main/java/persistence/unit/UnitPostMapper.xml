@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.unit.UnitPost">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
@@ -78,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
+    id, unit_id, group_id, code, name, job, is_principal, leader_type, admin_level, post_type, 
     post_class, is_cpc, status, abolish_date, open_date, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
@@ -115,18 +116,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into unit_post (unit_id, code, name, 
-      job, is_principal, leader_type, 
-      admin_level, post_type, post_class, 
-      is_cpc, status, abolish_date, 
-      open_date, sort_order, remark
-      )
-    values (#{unitId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{job,jdbcType=VARCHAR}, #{isPrincipal,jdbcType=BIT}, #{leaderType,jdbcType=TINYINT}, 
-      #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{postClass,jdbcType=INTEGER}, 
-      #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishDate,jdbcType=DATE}, 
-      #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+    insert into unit_post (unit_id, group_id, code, 
+      name, job, is_principal, 
+      leader_type, admin_level, post_type, 
+      post_class, is_cpc, status, 
+      abolish_date, open_date, sort_order, 
+      remark)
+    values (#{unitId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipal,jdbcType=BIT}, 
+      #{leaderType,jdbcType=TINYINT}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
+      #{postClass,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, 
+      #{abolishDate,jdbcType=DATE}, #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -136,6 +137,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="unitId != null">
         unit_id,
+      </if>
+      <if test="groupId != null">
+        group_id,
       </if>
       <if test="code != null">
         code,
@@ -183,6 +187,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -243,6 +250,9 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=INTEGER},
+      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -294,6 +304,7 @@
     update unit_post
     set id = #{record.id,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
+      group_id = #{record.groupId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
@@ -317,6 +328,9 @@
     <set>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
@@ -366,6 +380,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitPost">
     update unit_post
     set unit_id = #{unitId,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},

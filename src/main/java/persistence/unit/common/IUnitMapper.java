@@ -6,6 +6,7 @@ import domain.unit.UnitPostView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -13,6 +14,16 @@ import java.util.List;
  * Created by fafa on 2015/11/28.
  */
 public interface IUnitMapper {
+
+    // 查找未分组岗位
+
+   /* @ResultMap("persistence.unit.UnitPostViewMapper.BaseResultMap")
+    @Select("select * from unit_post_view where group_id =${groupId} or group_id is null order by status asc, sort_order asc")
+    List<UnitPostView> getUnitPostByGroup(@Param("groupId") int groupId, RowBounds rowBounds);*/
+
+    List<UnitPostView> getUnitPostByGroup(@Param("groupId") int groupId, @Param("name") String name, @Param("code") String code, RowBounds rowBounds);
+
+    int countUnitPostByGroup(@Param("groupId") int groupId, @Param("name") String name, @Param("code") String code);
 
     @ResultMap("persistence.unit.UnitPostMapper.BaseResultMap")
     @Select("select * from unit_post where id in(${ids}) order by status asc, sort_order desc")

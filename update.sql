@@ -1,3 +1,21 @@
+2020.5.26
+-- 更新 dispatch_cadre_view
+-- 更新 unit_post_view
+CREATE TABLE `unit_post_group` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分组编号',
+	`name` VARCHAR(50) NULL DEFAULT NULL COMMENT '分组名称',
+	`post_ids` TEXT NULL COMMENT '岗位ids',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`)
+)
+COMMENT='岗位分组'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=3
+;
+ALTER TABLE `unit_post`
+	ADD COLUMN `group_id` INT(10) UNSIGNED NULL COMMENT '岗位分组id' AFTER `unit_id`;
+
 
 
 2020.5.24

@@ -34,6 +34,8 @@ public class UnitPostView implements Serializable {
 
     private Integer unitId;
 
+    private Integer groupId;
+
     private String code;
 
     private String name;
@@ -71,6 +73,8 @@ public class UnitPostView implements Serializable {
     private Byte unitStatus;
 
     private Integer unitSortOrder;
+
+    private String groupName;
 
     private Integer cadreId;
 
@@ -112,6 +116,14 @@ public class UnitPostView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getCode() {
@@ -264,6 +276,14 @@ public class UnitPostView implements Serializable {
 
     public void setUnitSortOrder(Integer unitSortOrder) {
         this.unitSortOrder = unitSortOrder;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName == null ? null : groupName.trim();
     }
 
     public Integer getCadreId() {

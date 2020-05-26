@@ -54,6 +54,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected UnitPostMapper unitPostMapper;
     @Autowired(required = false)
+    protected UnitPostGroupMapper unitPostGroupMapper;
+    @Autowired(required = false)
     protected UnitPostViewMapper unitPostViewMapper;
     @Autowired(required = false)
     protected UnitPostCountViewMapper unitPostCountViewMapper;

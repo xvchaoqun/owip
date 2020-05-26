@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.unit.common.IUnitMapper">
+    <select id="getUnitPostByGroup" resultMap="persistence.unit.UnitPostViewMapper.BaseResultMap" parameterType="map">
+        select * from unit_post_view
+        <where>
+            (group_id =#{groupId}
+            or group_id is null)
+            <if test="name != null and name != ''">
+                and name like '%${name}%'
+            </if>
+            <if test="code != null and code != ''">
+                and code =#{code}
+            </if>
+        </where>
+        order by status asc, sort_order asc
+    </select>
+
+    <select id="countUnitPostByGroup" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from unit_post_view
+        <where>
+            (group_id =#{groupId}
+            or group_id is null)
+            <if test="name != null and name != ''">
+                and name like '%${name}%'
+            </if>
+            <if test="code != null and code != ''">
+                and code =#{code}
+            </if>
+        </where>
+    </select>
+</mapper>

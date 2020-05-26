@@ -264,6 +264,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andGroupIdIsNull() {
+            addCriterion("group_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdIsNotNull() {
+            addCriterion("group_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdEqualTo(Integer value) {
+            addCriterion("group_id =", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotEqualTo(Integer value) {
+            addCriterion("group_id <>", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdGreaterThan(Integer value) {
+            addCriterion("group_id >", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("group_id >=", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdLessThan(Integer value) {
+            addCriterion("group_id <", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("group_id <=", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdIn(List<Integer> values) {
+            addCriterion("group_id in", values, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotIn(List<Integer> values) {
+            addCriterion("group_id not in", values, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("group_id between", value1, value2, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("group_id not between", value1, value2, "groupId");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;
@@ -1466,6 +1526,76 @@ public class UnitPostViewExample {
 
         public Criteria andUnitSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_sort_order not between", value1, value2, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameIsNull() {
+            addCriterion("group_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameIsNotNull() {
+            addCriterion("group_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameEqualTo(String value) {
+            addCriterion("group_name =", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameNotEqualTo(String value) {
+            addCriterion("group_name <>", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameGreaterThan(String value) {
+            addCriterion("group_name >", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameGreaterThanOrEqualTo(String value) {
+            addCriterion("group_name >=", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameLessThan(String value) {
+            addCriterion("group_name <", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameLessThanOrEqualTo(String value) {
+            addCriterion("group_name <=", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameLike(String value) {
+            addCriterion("group_name like", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameNotLike(String value) {
+            addCriterion("group_name not like", value, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameIn(List<String> values) {
+            addCriterion("group_name in", values, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameNotIn(List<String> values) {
+            addCriterion("group_name not in", values, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameBetween(String value1, String value2) {
+            addCriterion("group_name between", value1, value2, "groupName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupNameNotBetween(String value1, String value2) {
+            addCriterion("group_name not between", value1, value2, "groupName");
             return (Criteria) this;
         }
 

@@ -68,6 +68,8 @@ public class DispatchCadreView implements Serializable {
 
     private String postName;
 
+    private Integer groupId;
+
     private String category;
 
     private Integer year;
@@ -211,7 +213,15 @@ public class DispatchCadreView implements Serializable {
     }
 
     public void setPostName(String postName) {
-        this.postName = postName;
+        this.postName = postName == null ? null : postName.trim();
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getCategory() {

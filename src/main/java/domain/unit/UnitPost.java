@@ -8,6 +8,8 @@ public class UnitPost implements Serializable {
 
     private Integer unitId;
 
+    private Integer groupId;
+
     private String code;
 
     private String name;
@@ -52,6 +54,14 @@ public class UnitPost implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getCode() {

@@ -57,7 +57,7 @@ public class UnitPostController extends BaseController {
     public String unitPost_cadres(int unitPostId,
                                   Integer cadreId,
                                   @RequestParam(required = false, defaultValue = DISPATCH_CADRE_TYPE_APPOINT+"") Byte type,
-                                  @RequestParam(required = false, defaultValue = "1")Byte postType,
+                                  @RequestParam(required = false, defaultValue = "0")Byte postType,
                                   ModelMap modelMap) {
 
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
@@ -214,6 +214,9 @@ public class UnitPostController extends BaseController {
 
         modelMap.put("cls", cls);
 
+        if(cls==3){
+            return "forward:/unitPostGroup";
+        }
         if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
@@ -501,6 +504,44 @@ public class UnitPostController extends BaseController {
         modelMap.put("status", status);
 
         return "unit/unitPost/unitPost_au";
+    }
+
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping(value = "/unitPost_group", method = RequestMethod.POST)
+    @ResponseBody
+    public Map unitPost_group(UnitPost record, HttpServletRequest request) {
+
+        Integer id = record.getId();
+        Integer groupId = record.getGroupId();
+        if(id!=null){
+            if(groupId==null){
+                commonMapper.excuteSql("update unit_post set group_id=null where id="+ record.getId());
+
+            }else{
+               unitPostMapper.updateByPrimaryKeySelective(record);
+            }
+        }
+
+        logger.info(addLog( LogConstants.LOG_ADMIN, "更新关联岗位分组：%s", record.getId()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping("/unitPost_group")
+    public String unit_post_group(Integer id,
+                              ModelMap modelMap) {
+
+        if (id != null) {
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+            modelMap.put("unitPost", unitPost);
+
+            if(unitPost.getGroupId()!=null){
+                UnitPostGroup  unitPostGroup=unitPostGroupMapper.selectByPrimaryKey(unitPost.getGroupId());
+                modelMap.put("unitPostGroup", unitPostGroup);
+            }
+        }
+
+        return "unit/unitPost/unitPost_group";
     }
 
     @RequiresPermissions("unitPost:edit")

@@ -5,21 +5,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <li class="<c:if test="${cls==1}">active</c:if>">
-                    <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/unitPost?cls=1"><i
-                            class="fa fa-circle-o-notch"></i> 现有岗位</a>
-                </li>
-                <li class="<c:if test="${cls==2}">active</c:if>">
-                    <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/unitPost?cls=2"><i class="fa fa-history"></i> 撤销岗位</a>
-                </li>
-                <%--<li class="<c:if test="${cls==3}">active</c:if>">
-                    <a href="javascript:;" class="loadPage"
-                       data-url="${ctx}/unitPost?cls=3"><i class="fa fa-trash"></i> 已删除</a>
-                </li>--%>
-            </ul>
+            <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name
             ||not empty param.isPrincipal||not empty param.leaderType||not empty param.isMainPost ||not empty param.isCpc  ||not empty param.cadreId
@@ -39,6 +25,11 @@
                         data-url="${ctx}/unitPost_au?jqGrid=jqGrid"
                         data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                          修改</button>
+                  <%--   <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-width="600"
+                            data-url="${ctx}/unitPost_group?jqGrid=jqGrid"
+                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        关联岗位分组</button>--%>
                  </shiro:hasPermission>
                 <c:if test="${cls==1}">
                 <div class="type-select">

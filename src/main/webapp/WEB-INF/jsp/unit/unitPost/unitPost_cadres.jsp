@@ -33,9 +33,10 @@
             </script>
         </div>
         <div class="form-group">
-            <label>岗位类别</label>
+            <label>搜索类别</label>
             <select data-rel="select2" data-placeholder="请选择" data-width="130"
                     name="postType">
+                <option value="0">按岗位分组</option>
                 <option value="1">按岗位编号</option>
                 <option value="2">按岗位名称</option>
             </select>

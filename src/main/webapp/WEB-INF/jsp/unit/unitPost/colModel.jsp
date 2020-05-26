@@ -4,7 +4,9 @@
 <c:set value="${_pMap['postTimeToDay']=='true'?'Y.m.d':'Y.m'}" var="_p_postTimeToDayFormat"/>
 <script>
   var colModel = [
-    { label: '岗位编号',name: 'code', frozen:true},
+    { label: '岗位编号',name: 'code', frozen:true, formatter:function(cellvalue, options, rowObject){
+        return rowObject.groupId != null?'<i class="fa fa-star red"></i>&nbsp;'+cellvalue:cellvalue;
+    }},
     { label: '岗位名称',name: 'name', align:'left', width: 300, frozen:true, formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--';
         return ('<span class="{0}">{1}</span>').format(
