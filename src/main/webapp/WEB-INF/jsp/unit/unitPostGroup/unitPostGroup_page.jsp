@@ -96,7 +96,7 @@ pageEncoding="UTF-8" %>
 
                     if(rowObject.postIds==undefined) return "--";
 
-                    return ('<button class="popupBtn btn btn-xs btn-info" data-width="950"' +
+                    return ('<button class="popupBtn btn btn-xs btn-info" data-width="1000"' +
                         ' data-url="${ctx}/unitPost_cadres?unitPostId={0}&groupId={1}">' +
                         '<i class="fa fa-search"></i> 查看</button>').format(rowObject.postIds.split(",")[0], rowObject.id)
                 }},

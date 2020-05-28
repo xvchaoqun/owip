@@ -131,7 +131,7 @@
       <shiro:hasPermission name="dispatchCadre:list">
     { label: '历史<br/>任职干部',name: '_history', width: 85, formatter: function (cellvalue, options, rowObject) {
 
-        return ('<button class="popupBtn btn btn-xs btn-info" data-width="950"' +
+        return ('<button class="popupBtn btn btn-xs btn-info" data-width="1000"' +
             ' data-url="${ctx}/unitPost_cadres?unitPostId={0}">' +
             '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
     }},

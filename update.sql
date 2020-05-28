@@ -1,6 +1,6 @@
 
 2020.5.28
--- 北师大
+北航  -- 北师大
 
 CREATE TABLE `unit_post_group` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分组编号',
@@ -36,6 +36,8 @@ REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_
                              `count_cache_roles`, `available`, `sort_order`) VALUES (835, 0, '干部岗位（管理）', '', 'function', '', NULL, 836, '0/1/836/', 1, 'unitPost:*', 2, NULL, NULL, 1, NULL);
 update sys_resource set sort_order=9 where permission='unitPost:allocation';
 update sys_resource set name='岗位配备统计（查看）' where permission='unitPostAllocation:module2';
+
+-- 更新utils
 
 2020.5.26
 北邮，西北工大，北化工

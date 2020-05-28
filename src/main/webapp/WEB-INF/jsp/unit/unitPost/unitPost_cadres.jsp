@@ -82,7 +82,7 @@
     $("#jqGrid_popup").jqGrid({
         multiselect:false,
         height:390,
-        width:900,
+        width:965,
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
