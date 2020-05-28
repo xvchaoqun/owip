@@ -63,7 +63,9 @@
                         <label class="col-xs-4 control-label"><span class="star">*</span>发文号</label>
 
                         <div class="col-xs-6">
-                            <input required class="form-control" type="text" name="code" value="${dispatch.code}">
+                            <input required class="form-control" type="text" name="code"
+                                   value="${dispatch.code}" maxlength="5" style="width:100px">
+                            <span class="help-block">注：如发文号为“校任〔2020〕08号”，此处请填写“08”</span>
                         </div>
                     </div>
                     <div class="form-group">

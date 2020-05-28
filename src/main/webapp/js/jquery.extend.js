@@ -34,7 +34,8 @@ function _tunePage(toPageNo, pageNo, uri, selector, op, searchStr, method) {
             url: uri,
             op: op,
             params: para,
-            method: method
+            method: method,
+            fn: window['_tunePage_callback'] || function(){}
         });
     } catch (e) {
         // window.location = window.location.pathname + window.location.search;
@@ -372,7 +373,7 @@ $.fn.extend({
                             $(thisContainer).empty().append(html);
                         }
                         if (options.fn) {
-                            options.fn(html);
+                            options.fn(html, options);
                         }
                         if($maskEl) {
                             $maskEl.hideLoading();

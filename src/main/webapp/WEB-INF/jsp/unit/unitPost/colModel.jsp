@@ -5,7 +5,14 @@
 <script>
   var colModel = [
     { label: '岗位编号',name: 'code', frozen:true, formatter:function(cellvalue, options, rowObject){
-        return rowObject.groupId != null?'<i class="fa fa-star red"></i>&nbsp;'+cellvalue:cellvalue;
+
+        <shiro:hasPermission name="unitPostGroup:list">
+        if(rowObject.groupId>0){
+            return '<a href="javascript:;" class="popupBtn" data-width="1000" data-url="${ctx}/unitPostGroup_addPost?id={0}">{1}<a>'
+                .format(rowObject.groupId, cellvalue)
+        }
+        </shiro:hasPermission>
+        return cellvalue;
     }},
     { label: '岗位名称',name: 'name', align:'left', width: 300, frozen:true, formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--';
@@ -124,7 +131,7 @@
       <shiro:hasPermission name="dispatchCadre:list">
     { label: '历史<br/>任职干部',name: '_history', width: 85, formatter: function (cellvalue, options, rowObject) {
 
-        return ('<button class="popupBtn btn btn-xs btn-warning" data-width="950"' +
+        return ('<button class="popupBtn btn btn-xs btn-info" data-width="950"' +
             ' data-url="${ctx}/unitPost_cadres?unitPostId={0}">' +
             '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
     }},

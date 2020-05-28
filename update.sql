@@ -1,6 +1,7 @@
-2020.5.26
--- 更新 dispatch_cadre_view
--- 更新 unit_post_view
+
+2020.5.28
+-- 北师大
+
 CREATE TABLE `unit_post_group` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分组编号',
 	`name` VARCHAR(50) NULL DEFAULT NULL COMMENT '分组名称',
@@ -16,11 +17,32 @@ AUTO_INCREMENT=3
 ALTER TABLE `unit_post`
 	ADD COLUMN `group_id` INT(10) UNSIGNED NULL COMMENT '岗位分组id' AFTER `unit_id`;
 
+ALTER TABLE `unit_post`
+	ADD CONSTRAINT `FK_unit_post_unit_post_group` FOREIGN KEY (`group_id`) REFERENCES `unit_post_group` (`id`) ON DELETE SET NULL;
 
+-- 更新 dispatch_cadre_view
+-- 更新 unit_post_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (1200, 0, '岗位分组（查看）', '', 'function', '', NULL, 836, '0/1/836/', 1, 'unitPostGroup:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1201, 0, '岗位分组（管理）', '', 'function', '', NULL, 836, '0/1/836/', 1, 'unitPostGroup:*', NULL, NULL, NULL, 1, NULL);
+
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                             `count_cache_roles`, `available`, `sort_order`) VALUES (835, 0, '干部岗位（管理）', '', 'function', '', NULL, 836, '0/1/836/', 1, 'unitPost:*', 2, NULL, NULL, 1, NULL);
+update sys_resource set sort_order=9 where permission='unitPost:allocation';
+update sys_resource set name='岗位配备统计（查看）' where permission='unitPostAllocation:module2';
+
+2020.5.26
+北邮，西北工大，北化工
 
 2020.5.24
 
-西交大  -- 北师大
+西交大
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
  ('wx_support', '支持发送微信', 'false', 3, 60, '');

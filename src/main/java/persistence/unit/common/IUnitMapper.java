@@ -15,16 +15,6 @@ import java.util.List;
  */
 public interface IUnitMapper {
 
-    // 查找未分组岗位
-
-   /* @ResultMap("persistence.unit.UnitPostViewMapper.BaseResultMap")
-    @Select("select * from unit_post_view where group_id =${groupId} or group_id is null order by status asc, sort_order asc")
-    List<UnitPostView> getUnitPostByGroup(@Param("groupId") int groupId, RowBounds rowBounds);*/
-
-    List<UnitPostView> getUnitPostByGroup(@Param("groupId") int groupId, @Param("name") String name, @Param("code") String code, RowBounds rowBounds);
-
-    int countUnitPostByGroup(@Param("groupId") int groupId, @Param("name") String name, @Param("code") String code);
-
     @ResultMap("persistence.unit.UnitPostMapper.BaseResultMap")
     @Select("select * from unit_post where id in(${ids}) order by status asc, sort_order desc")
     List<UnitPost> getUnitPosts(@Param("ids") String ids);

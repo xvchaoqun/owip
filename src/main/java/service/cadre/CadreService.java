@@ -120,7 +120,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
     }
 
-    // 提任（处级干部->校领导）
+    // 提任（科级干部->处级干部->校领导）
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),

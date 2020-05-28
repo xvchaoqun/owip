@@ -80,8 +80,7 @@ public class MemberRegController extends MemberBaseController {
         if (StringUtils.isBlank(realname) || StringUtils.length(realname) < 2) {
             return failed("请填写真实姓名");
         }
-        IdcardValidator idcardValidator = new IdcardValidator();
-        if (!idcardValidator.isValidatedAllIdcard(idcard)) {
+        if (!IdcardValidator.valid(idcard)) {
             return failed("身份证号码有误。");
         }
         if (!CmTag.validMobile(phone)) {
@@ -437,8 +436,7 @@ public class MemberRegController extends MemberBaseController {
             if (StringUtils.isBlank(idcard)) {
                 throw new OpException("第{0}行身份证号码为空", row);
             }
-            IdcardValidator idcardValidator = new IdcardValidator();
-            if (!idcardValidator.isValidatedAllIdcard(idcard)) {
+            if (!IdcardValidator.valid(idcard)) {
                 throw new OpException("第{0}行身份证号码有误。", row);
             }
             record.setIdcard(idcard);

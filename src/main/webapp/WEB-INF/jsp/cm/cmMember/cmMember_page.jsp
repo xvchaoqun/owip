@@ -161,7 +161,7 @@
         rownumbers: true,
         url: '${ctx}/cmMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '届数', name: 'pcsName', width: 160, frozen:true},
+            {label: '届数', name: 'pcsName', align: 'left', width: 220, frozen:true},
             {label: '职务', name: 'post', width: 120, formatter: $.jgrid.formatter.MetaType, frozen:true},
             {label: '任职日期', name: 'postDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
             <c:if test="${isQuit}">

@@ -22,6 +22,7 @@ import sys.utils.DateUtils;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by fafa on 2016/9/21.
@@ -31,6 +32,7 @@ public class FindPassController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    private Cache<String, AtomicInteger> passwordRetryCache;
     @Autowired
     protected CacheManager cacheManager;
 
@@ -119,8 +121,15 @@ public class FindPassController extends BaseController {
             // 覆盖原验证码，使其失效
             findPassCache.put(cacheKey, seq + "_" + RandomStringUtils.randomNumeric(4));
 
+            passwordRetryCache = cacheManager.getCache("PasswordRetryCache");
+            if(passwordRetryCache!=null){
+                // 清除之前登录的次数
+                passwordRetryCache.remove(username);
+            }
             logger.info(addNoLoginLog(uv.getId(), uv.getUsername(), LogConstants.LOG_USER, "账号{0}通过短信验证修改密码成功", username));
+
             return success();
+
         }else{
             return failed("短信验证码错误，请输入正确的短信验证码");
         }

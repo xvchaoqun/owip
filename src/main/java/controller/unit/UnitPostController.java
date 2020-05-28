@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -56,8 +57,9 @@ public class UnitPostController extends BaseController {
     @RequestMapping("/unitPost_cadres")
     public String unitPost_cadres(int unitPostId,
                                   Integer cadreId,
+                                  Integer groupId,
                                   @RequestParam(required = false, defaultValue = DISPATCH_CADRE_TYPE_APPOINT+"") Byte type,
-                                  @RequestParam(required = false, defaultValue = "0")Byte postType,
+                                  Byte displayType,
                                   ModelMap modelMap) {
 
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
@@ -66,8 +68,21 @@ public class UnitPostController extends BaseController {
             modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
 
+        if(groupId!=null){
+            UnitPostGroup unitPostGroup = unitPostGroupMapper.selectByPrimaryKey(groupId);
+            modelMap.put("unitPostGroup", unitPostGroup);
+        }
+
+        if(displayType==null){
+            if(ShiroHelper.isPermitted("unitPostGroup:list")){
+                displayType = 0; // 默认按岗位分组搜索
+            }else{
+                displayType = 2; // 默认按岗位名称搜索
+            }
+        }
+
         modelMap.put("type", type);
-        modelMap.put("postType", postType);
+        modelMap.put("displayType", displayType);
         return "unit/unitPost/unitPost_cadres";
     }
 

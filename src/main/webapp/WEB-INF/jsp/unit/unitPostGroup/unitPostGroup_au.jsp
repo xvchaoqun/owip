@@ -15,9 +15,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 备注</label>
+				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${unitPostGroup.remark}">
+					<textarea class="form-control limited" name="remark">${unitPostGroup.remark}</textarea>
 				</div>
 			</div>
     </form>

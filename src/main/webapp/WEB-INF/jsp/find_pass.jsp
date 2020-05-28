@@ -43,7 +43,7 @@
                     <li class="text-warning bigger-110 orange">
                         <i class="ace-icon fa fa-exclamation-triangle"></i>
                         如果您的账号是<b>校园门户账号</b>，请访问校园门户：
-                        <a href="${_sysConfig.schoolLoginUrl}" target="_blank">${_sysConfig.schoolLoginUrl}</a>，通过【忘记密码】功能修改密码；
+                        <a href="${_sysConfig.schoolLoginUrl}" target="_blank">${_sysConfig.schoolLoginUrl}</a>，通过【找回密码】功能修改密码；
                     </li>
                     <li class="green">
                         <i class="ace-icon fa fa-circle green"></i>
@@ -114,10 +114,6 @@
 </div>
 
 <script src="${ctx}/assets/js/jquery.js"></script>
-<script src="${ctx}/extend/js/jquery-ui.min.js"></script>
-<script src="${ctx}/assets/js/bootstrap.js"></script>
-<script src="${ctx}/extend/js/bootbox.min.js"></script>
-<t:script src="/js/jquery.extend.js"/>
 <script>
 function _msg(msg){
     $("#result").show().html(msg);
@@ -191,11 +187,10 @@ $(function(){
 
         $.post("${ctx}/find_pass/changepw",{username:username, code:code, password:password},function(ret){
             if(ret.success){
-                SysMsg.info("密码修改成功，请使用新密码登录。", "成功",function(){
-                    location.href="${ctx}/login";
-                })
+                alert("密码修改成功，请使用新密码登录。")
+                location.href="${ctx}/login";
             }else{
-                SysMsg.info(ret.msg)
+                alert(ret.msg)
             }
         });
 

@@ -34,12 +34,6 @@ public class UnitPostGroupService extends BaseMapper {
     }
 
     @Transactional
-    public void del(Integer id){
-
-        unitPostGroupMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><span style="font-size:25px;font-weight: bolder">${cadre.realname}</span>提任校领导
+    <h3><span style="font-size:25px;font-weight: bolder">${cadre.realname}</span>提任${cadre.status==CADRE_STATUS_CJ?'校领导':'处级干部'}
     </h3>
 </div>
 <div class="modal-body">
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <div style="font-size: 16pt;font-weight: bolder;color: darkred;text-align: left;padding: 12px 0;">
-        注：提任后该干部将转入校级领导信息库，请谨慎操作。</div>
+        注：提任后该干部将转入${cadre.status==CADRE_STATUS_CJ?'校领导':'处级干部'}信息库，请谨慎操作。</div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>

@@ -587,7 +587,7 @@ public class UnitController extends BaseController {
         UnitViewExample example = new UnitViewExample();
         example.createCriteria().andIsDeletedEqualTo(false)
                 .andStatusEqualTo(status);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<UnitView> records = unitViewMapper.selectByExample(example);
 
         int rownum = records.size();

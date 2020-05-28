@@ -126,6 +126,8 @@
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
+		<!--重定向解决https 变成了http 的问题-->
+		<property name="redirectHttp10Compatible" value="false" />
 	</bean>
 
 	<!-- 注册XmlViewResolver，用于iReport & JasperReports报表生成 -->

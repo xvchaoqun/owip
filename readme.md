@@ -2,7 +2,7 @@
 
 -- powershell
 
-tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only c8799d86  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 572e8b9e  -- . ':(exclude)doc/*')
 
 tar -cf D:\tmp\owip\diff.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d c8799d86 HEAD --name-only  -- . ':(exclude)doc/*')
 

@@ -3,12 +3,12 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <jsp:include page="../unitPost/menu.jsp"/>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="unitPost:edit">
+                <shiro:hasPermission name="unitPostGroup:edit">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/unitPostGroup_au">
                         <i class="fa fa-plus"></i> 添加</button>
@@ -24,10 +24,8 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-               <%-- <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/unitPostGroup_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>--%>
+
+                <span class="text-primary" style="padding-left: 10px">【注：岗位分组用于历史任职干部的查询，同一个分组内的岗位的历史任职干部将进行合并显示】</span>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -73,7 +71,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script type="text/template" id="unit_post_select">
     <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
-            data-url="unitPostGroup_addPost?id={{=id}}"
+            data-url="${ctx}/unitPostGroup_addPost?id={{=id}}"
             data-width="1000"><i class="fa fa-link"></i>
         查看({{=count}})
     </button>
@@ -94,7 +92,15 @@ pageEncoding="UTF-8" %>
                         return _.template($("#unit_post_select").html().NoMultiSpace())
                         ({id: rowObject.id,count: count});
                 }},
-                { label: '备注',name: 'remark',align:'left',width: 300}
+                { label: '历史<br/>任职干部',name: '_history', width: 85, formatter: function (cellvalue, options, rowObject) {
+
+                    if(rowObject.postIds==undefined) return "--";
+
+                    return ('<button class="popupBtn btn btn-xs btn-info" data-width="950"' +
+                        ' data-url="${ctx}/unitPost_cadres?unitPostId={0}&groupId={1}">' +
+                        '<i class="fa fa-search"></i> 查看</button>').format(rowObject.postIds.split(",")[0], rowObject.id)
+                }},
+                { label: '备注',name: 'remark',align:'left',width: 500}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

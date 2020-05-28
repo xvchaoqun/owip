@@ -125,14 +125,13 @@ public class ImportTest {
 
         for (XlsUser xlsUser : xlsUsers) {
             //System.out.print(xlsUser.getRealname() + " " + xlsUser.getGender() + " " + xlsUser.getIdcard());
-            IdcardValidator idcardValidator = new IdcardValidator();
-            if(!idcardValidator.isValidatedAllIdcard(xlsUser.getIdcard())){
+            if(!IdcardValidator.valid(xlsUser.getIdcard())){
                 System.out.println(xlsUser.getRealname() + " " + xlsUser.getIdcard() + " " + xlsUser.getUnit());
                 //continue;
             }
             String idcard = xlsUser.getIdcard();
             if(idcard.length()==15){
-                idcard = idcardValidator.convertIdcarBy15bit(idcard);
+                idcard = IdcardValidator.convertIdcarBy15bit(idcard);
                 System.out.print(" 15 ");
             }
             String birth = idcard.substring(6, 14);

@@ -900,14 +900,13 @@
            diskPersistent="true"
            diskExpiryThreadIntervalSeconds="600">
     </cache>
+    <!-- 密码重试次数过多，锁定10分钟 -->
     <cache name="PasswordRetryCache"
-           maxElementsInMemory="2000"
-           overflowToDisk="true"
-           eternal="true"
-           timeToLiveSeconds="0"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
            timeToIdleSeconds="0"
-           diskPersistent="true"
-           diskExpiryThreadIntervalSeconds="600">
+           timeToLiveSeconds="600"
+           overflowToDisk="false">
     </cache>
 
     <cache name="AuthorizationCache"

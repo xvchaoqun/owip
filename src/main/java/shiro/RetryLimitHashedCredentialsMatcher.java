@@ -23,6 +23,11 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
     private SysLoginLogService sysLoginLogService;
     private static final Logger logger = LoggerFactory.getLogger(RetryLimitHashedCredentialsMatcher.class);
 
+    private int maxRetryCount = 10;
+    public void setMaxRetryCount(int maxRetryCount) {
+        this.maxRetryCount = maxRetryCount;
+    }
+
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
         passwordRetryCache = cacheManager.getCache("PasswordRetryCache");
     }
@@ -36,7 +41,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             retryCount = new AtomicInteger(0);
             passwordRetryCache.put(username, retryCount);
         }
-        if(retryCount.incrementAndGet() > 10) {
+        if(retryCount.incrementAndGet() > maxRetryCount) {
             throw new ExcessiveAttemptsException();
         }
 
