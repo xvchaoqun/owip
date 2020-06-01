@@ -1801,6 +1801,11 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andRealnameOrCodeLike(String value) {
+            addCriterion("(realname like '%" + value + "%' or code like '%"+ value + "%')");
+            return (Criteria) this;
+        }
+
         public Criteria andRealnameNotEqualTo(String value) {
             addCriterion("realname <>", value, "realname");
             return (Criteria) this;

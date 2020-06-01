@@ -3,6 +3,8 @@ package controller.cadre.mobile;
 import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,9 @@ import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.tags.CmTag;
+import sys.tool.paging.CommonList;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -134,5 +138,50 @@ public class MobileCadreSearchController extends BaseController {
 		}
 
 		return "cadre/mobile/unit_cadre_info";
+	}
+
+	@RequiresPermissions("m:cadreHistory:view")
+	@RequestMapping("/cadreHistory")
+	public String cadreHistory() {
+
+		return "mobile/index";
+	}
+
+	@RequiresPermissions("m:cadreHistory:view")
+	@RequestMapping("/cadreHistory_page")
+	public String cadreHistory_page(HttpServletResponse response,String realnameOrCode,
+									Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+		if (null == pageSize) {
+			pageSize = 10;
+		}
+		if (null == pageNo) {
+			pageNo = 1;
+		}
+		pageNo = Math.max(1, pageNo);
+
+		CadreViewExample example = new CadreViewExample();
+		example.setOrderByClause("sort_order desc");
+		CadreViewExample.Criteria criteria = example.createCriteria();
+		criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ_LEAVE);
+
+		if (StringUtils.isNotBlank(realnameOrCode)){
+			criteria.andRealnameOrCodeLike(realnameOrCode);
+		}
+
+		long count = cadreViewMapper.countByExample(example);
+		if ((pageNo - 1) * pageSize >= count) {
+
+			pageNo = Math.max(1, pageNo - 1);
+		}
+
+		List<CadreView> cadreViews = cadreViewMapper.selectByExampleWithRowbounds(example,new RowBounds((pageNo - 1) * pageSize, pageSize));
+		CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+		modelMap.put("cadres",cadreViews);
+		modelMap.put("commonList",commonList);
+		modelMap.put("realnameOrCode",realnameOrCode);
+
+		return "cadre/mobile/cadre_history";
 	}
 }

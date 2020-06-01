@@ -71,7 +71,13 @@
 </script>
 <script>
     $("#searchclear").click(function(){
-        $("#searchinput").val('');
+
+        var fileName = $("input[name=fileName]").val();
+        if ($.trim(fileName)!=''){
+
+            $("#searchinput").val('');
+            $(" #search")[0].click();
+        }
     });
 
     var dispatchWorkFiles = ${cm:toJSONArray(dispatchWorkFiles)}
