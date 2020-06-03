@@ -11,7 +11,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <properties>
-        <generator.mybatis.modal>oa</generator.mybatis.modal>
+        <generator.mybatis.modal>cet</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -253,7 +253,7 @@
                                 <include>extend/js/jquery.dynatree.min.js</include>
                                 <include>extend/js/jquery.validate.min.js</include>
                                 <include>extend/js/jquery.fileDownload.js</include>
-                                <include>extend/js/additional-methods.min.js</include>
+                                <!--<include>extend/js/additional-methods.min.js</include>-->
                                 <!--<include>extend/js/jquery.validate.extend.js</include>-->
                                 <include>extend/js/jquery.showLoading.js</include>
                                 <include>extend/js/underscore.js</include>
@@ -268,14 +268,14 @@
                                 <include>extend/js/bootstrap-switch.min.js</include>
                                 <include>assets/js/bootstrap-multiselect.js</include>
                                 <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
-                                <include>extend/js/placeholders.jquery.js</include>
+                                <!--<include>extend/js/placeholders.jquery.js</include>-->
                                 <include>extend/js/jquery.base64.js</include>
                                 <include>extend/js/jquery.ba-throttle-debounce.js</include>
                                 <include>extend/js/jquery.stickyheader.js</include>
                                 <include>extend/js/lazyload.js</include>
                                 <include>extend/js/fancybox/source/jquery.fancybox.js</include>
                                 <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
-                                <include>extend/js/jquery.webui-popover.min.js</include>
+                                <include>extend/js/jquery.webui-popover.js</include>
                                 <!--在FF下与sidebar scroll冲突-->
                                 <!-- <include>extend/js/jquery.mousewheel.pack.js</include>-->
                                 <include>extend/ke4/kindeditor-all.js</include>
@@ -341,7 +341,7 @@
                                 <include>extend/css/navbar.css</include>
                                 <include>extend/js/fancybox/source/jquery.fancybox.css</include>
                                 <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css</include>
-                                <include>extend/css/jquery.webui-popover.min.css</include>
+                                <include>extend/css/jquery.webui-popover.css</include>
                             </includes>
                         </aggregation>
                         <aggregation>
@@ -442,7 +442,7 @@
                                 <include>extend/js/jquery.qtip.extend.js</include>
                                 <include>extend/js/jquery.form.js</include>
                                 <include>extend/js/jquery.validate.min.js</include>
-                                <include>extend/js/jquery.showLoading.min.js</include>
+                                <include>extend/js/jquery.showLoading.js</include>
                                 <include>extend/js/bootbox.min.js</include>
                                 <include>extend/js/underscore.js</include>
                                 <!--<include>extend/js/custom.js</include>-->

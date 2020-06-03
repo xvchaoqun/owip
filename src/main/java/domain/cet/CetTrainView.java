@@ -12,38 +12,38 @@ import java.util.Date;
 public class CetTrainView implements Serializable {
 
     public int getCourseNum(){
-    
+
         CetTrainCourseMapper trainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andTrainIdEqualTo(id);
-        
+
         return (int)trainCourseMapper.countByExample(example);
     }
-    
+
     public Integer getObjCount(){
-    
+
         if(projectId==null) return null;
-        
+
         CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andProjectIdEqualTo(projectId);
-        
+
         return (int)cetProjectObjMapper.countByExample(example);
     }
-    
+
     public int getTraineeCount(){
-    
+
         ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
         return iCetMapper.traineeCount(id);
     }
-    
+
     public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }
 
     public Byte getSwitchStatus() {
 
-        return BaseCetTrain.getSwitchStatus(id, enrollStatus, startTime, endTime);
+        return BaseCetTrain.getSwitchStatus(enrollStatus, startTime, endTime);
     }
 
     private Integer id;
@@ -69,8 +69,6 @@ public class CetTrainView implements Serializable {
     private Date endTime;
 
     private Byte enrollStatus;
-
-    private Byte pubStatus;
 
     private Integer evaCount;
 
@@ -190,14 +188,6 @@ public class CetTrainView implements Serializable {
 
     public void setEnrollStatus(Byte enrollStatus) {
         this.enrollStatus = enrollStatus;
-    }
-
-    public Byte getPubStatus() {
-        return pubStatus;
-    }
-
-    public void setPubStatus(Byte pubStatus) {
-        this.pubStatus = pubStatus;
     }
 
     public Integer getEvaCount() {

@@ -29,7 +29,6 @@ public class CetTrainService extends CetBaseMapper {
     public void insertSelective(CetTrain record){
 
         record.setEnrollStatus(CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT);
-        record.setPubStatus(CetConstants.CET_TRAIN_PUB_STATUS_UNPUBLISHED);
         record.setIsDeleted(false);
         record.setCreateTime(new Date());
         cetTrainMapper.insertSelective(record);

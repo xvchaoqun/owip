@@ -10,7 +10,7 @@
     </c:if>
     <div style="height: 35px;margin: 15px 0px;">
       <select data-rel="select2-ajax"
-              data-ajax-url="${ctx}/m/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>" data-width="300"
+              data-ajax-url="${ctx}/m/unit_selects?status=${UNIT_STATUS_RUN}" data-width="300"
               name="unitId" data-placeholder="请输入单位名称">
         <option value="${unit.id}">${unit.name}</option>
       </select>

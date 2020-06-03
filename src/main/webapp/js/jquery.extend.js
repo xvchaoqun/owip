@@ -298,6 +298,15 @@ SysMsg.confirm = function (msg, title, callback) {
 };
 
 $.fn.extend({
+    customSelect2: function(options){
+        $(this).select2($.extend({
+                templateResult: $.register.defaultTemplateResult,
+                templateSelection: $.register.defaultTemplateResult,
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            },options));
+    },
     // Form表单元素设置必填/可填
     requireField: function (required, disabled) {
 
@@ -1432,6 +1441,7 @@ if (typeof toastr != 'undefined') {
     };
 }
 bootbox.setDefaults({locale: 'zh_CN'});
+
 if ($.fn.select2) {
     $.fn.select2.defaults.set("language", "zh-CN");
     $.fn.select2.defaults.set("theme", "classic");
@@ -1707,6 +1717,7 @@ if ($.jgrid) {
         }
     });
 }
+
 // 初始化表单控件
 $.register = {};
 $.extend($.register, {
@@ -1757,7 +1768,7 @@ $.extend($.register, {
             $state += ($state != '' ? '-' : '') + state.type;
         // 反转义
         $state = $('<div/>').html($state).text();
-        return '<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state);
+        return $('<span class="{0}">{1}</span>'.format(state.del || $(state.element).attr('delete') == 'true' ? "delete" : "", $state));
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {

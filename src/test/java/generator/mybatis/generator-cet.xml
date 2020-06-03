@@ -51,14 +51,14 @@
         </table>-->
         <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
         </table>-->
-        <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
+        <table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-
-        <table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
-               mapperName="cet.CetUpperTrainAdminMapper">
         </table>
+
+        <!--<table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
+               mapperName="cet.CetUpperTrainAdminMapper">
+        </table>-->
 
        <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
         </table>
@@ -101,8 +101,6 @@
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="obj_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-            <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
         <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -156,12 +154,12 @@
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 
-       <!-- <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+        <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-        <!--<table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
+        </table>
+        <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">

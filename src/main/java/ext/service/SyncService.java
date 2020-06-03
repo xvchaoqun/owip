@@ -693,16 +693,21 @@ public class SyncService extends BaseMapper {
         // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息； 如果是系统注册账号，则不同步人事库信息
         if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
 
-            String proPost = SqlUtils.toParamValue(extJzg.getZc());
+            String proPost = extJzg.getZc();
             if(StringUtils.isBlank(proPost)){ // 保证下面的职称只同步一次，且不被空值覆盖
                 proPost = teacherInfo.getProPost();
             }
+            proPost = SqlUtils.toParamValue(proPost);
+
             String proPostTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZyjszwpdsj()),
                     DateUtils.YYYY_MM_DD));
-            String proPostLevel = SqlUtils.toParamValue(extJzg.getZjgwdj());
+
+            String proPostLevel = extJzg.getZjgwdj();
             if(StringUtils.isBlank(proPostLevel)){ // 保证下面的职称级别只同步一次，且不被空值覆盖
                 proPostLevel = teacherInfo.getProPostLevel();
             }
+            proPostLevel = SqlUtils.toParamValue(proPostLevel);
+
             String proPostLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(DateUtils.parseStringToDate(extJzg.getZjgwfjsj()),
                     DateUtils.YYYY_MM_DD));
             String manageLevel = SqlUtils.toParamValue(extJzg.getGlgwdj());

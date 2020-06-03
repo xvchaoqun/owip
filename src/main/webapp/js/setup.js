@@ -217,6 +217,10 @@ $(document).on("select2:select", "[data-rel=select2],[data-rel=select2-ajax]", f
     } catch (e) {
     }
 });
+$(document).on("click", ".input-group .fa-calendar", function () {
+    //console.log($(this).closest(".input-group").find(".date-picker"))
+    $(this).closest(".input-group").find(".date-picker").focus();
+});
 $(document).on("change", ".date-picker", function () {
     //alert(0)
     try {

@@ -256,66 +256,6 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpperTypeIsNull() {
-            addCriterion("upper_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeIsNotNull() {
-            addCriterion("upper_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeEqualTo(Byte value) {
-            addCriterion("upper_type =", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotEqualTo(Byte value) {
-            addCriterion("upper_type <>", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeGreaterThan(Byte value) {
-            addCriterion("upper_type >", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("upper_type >=", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeLessThan(Byte value) {
-            addCriterion("upper_type <", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("upper_type <=", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeIn(List<Byte> values) {
-            addCriterion("upper_type in", values, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotIn(List<Byte> values) {
-            addCriterion("upper_type not in", values, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeBetween(Byte value1, Byte value2) {
-            addCriterion("upper_type between", value1, value2, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("upper_type not between", value1, value2, "upperType");
-            return (Criteria) this;
-        }
-
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -326,52 +266,52 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Boolean value) {
+        public Criteria andTypeEqualTo(Byte value) {
             addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Boolean value) {
+        public Criteria andTypeNotEqualTo(Byte value) {
             addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Boolean value) {
+        public Criteria andTypeGreaterThan(Byte value) {
             addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
             addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Boolean value) {
+        public Criteria andTypeLessThan(Byte value) {
             addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Boolean value) {
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
             addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Boolean> values) {
+        public Criteria andTypeIn(List<Byte> values) {
             addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Boolean> values) {
+        public Criteria andTypeNotIn(List<Byte> values) {
             addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Boolean value1, Boolean value2) {
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
             addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
@@ -382,6 +322,66 @@ public class CetUpperTrainExample {
                 sql += String.format("unit_id in(%s)", StringUtils.join(adminUnitIdSet, ","));
             }
             addCriterion("(" + sql + ")");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIsNull() {
+            addCriterion("is_online is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIsNotNull() {
+            addCriterion("is_online is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineEqualTo(Boolean value) {
+            addCriterion("is_online =", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotEqualTo(Boolean value) {
+            addCriterion("is_online <>", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThan(Boolean value) {
+            addCriterion("is_online >", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online >=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThan(Boolean value) {
+            addCriterion("is_online <", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online <=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIn(List<Boolean> values) {
+            addCriterion("is_online in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotIn(List<Boolean> values) {
+            addCriterion("is_online not in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online not between", value1, value2, "isOnline");
             return (Criteria) this;
         }
 
@@ -505,63 +505,253 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdIsNull() {
-            addCriterion("upper_train_type_id is null");
+        public Criteria andIsDoubleIsNull() {
+            addCriterion("is_double is null");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdIsNotNull() {
-            addCriterion("upper_train_type_id is not null");
+        public Criteria andIsDoubleIsNotNull() {
+            addCriterion("is_double is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdEqualTo(Integer value) {
-            addCriterion("upper_train_type_id =", value, "upperTrainTypeId");
+        public Criteria andIsDoubleEqualTo(Boolean value) {
+            addCriterion("is_double =", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdNotEqualTo(Integer value) {
-            addCriterion("upper_train_type_id <>", value, "upperTrainTypeId");
+        public Criteria andIsDoubleNotEqualTo(Boolean value) {
+            addCriterion("is_double <>", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdGreaterThan(Integer value) {
-            addCriterion("upper_train_type_id >", value, "upperTrainTypeId");
+        public Criteria andIsDoubleGreaterThan(Boolean value) {
+            addCriterion("is_double >", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("upper_train_type_id >=", value, "upperTrainTypeId");
+        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double >=", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdLessThan(Integer value) {
-            addCriterion("upper_train_type_id <", value, "upperTrainTypeId");
+        public Criteria andIsDoubleLessThan(Boolean value) {
+            addCriterion("is_double <", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("upper_train_type_id <=", value, "upperTrainTypeId");
+        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double <=", value, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdIn(List<Integer> values) {
-            addCriterion("upper_train_type_id in", values, "upperTrainTypeId");
+        public Criteria andIsDoubleIn(List<Boolean> values) {
+            addCriterion("is_double in", values, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdNotIn(List<Integer> values) {
-            addCriterion("upper_train_type_id not in", values, "upperTrainTypeId");
+        public Criteria andIsDoubleNotIn(List<Boolean> values) {
+            addCriterion("is_double not in", values, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("upper_train_type_id between", value1, value2, "upperTrainTypeId");
+        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double between", value1, value2, "isDouble");
             return (Criteria) this;
         }
 
-        public Criteria andUpperTrainTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("upper_train_type_id not between", value1, value2, "upperTrainTypeId");
+        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double not between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryIsNull() {
+            addCriterion("is_branch_secretary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryIsNotNull() {
+            addCriterion("is_branch_secretary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryEqualTo(Boolean value) {
+            addCriterion("is_branch_secretary =", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryNotEqualTo(Boolean value) {
+            addCriterion("is_branch_secretary <>", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryGreaterThan(Boolean value) {
+            addCriterion("is_branch_secretary >", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_branch_secretary >=", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryLessThan(Boolean value) {
+            addCriterion("is_branch_secretary <", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_branch_secretary <=", value, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryIn(List<Boolean> values) {
+            addCriterion("is_branch_secretary in", values, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryNotIn(List<Boolean> values) {
+            addCriterion("is_branch_secretary not in", values, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_branch_secretary between", value1, value2, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBranchSecretaryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_branch_secretary not between", value1, value2, "isBranchSecretary");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdIsNull() {
+            addCriterion("trainee_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdIsNotNull() {
+            addCriterion("trainee_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdEqualTo(Integer value) {
+            addCriterion("trainee_type_id =", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotEqualTo(Integer value) {
+            addCriterion("trainee_type_id <>", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdGreaterThan(Integer value) {
+            addCriterion("trainee_type_id >", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("trainee_type_id >=", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdLessThan(Integer value) {
+            addCriterion("trainee_type_id <", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("trainee_type_id <=", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdIn(List<Integer> values) {
+            addCriterion("trainee_type_id in", values, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotIn(List<Integer> values) {
+            addCriterion("trainee_type_id not in", values, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_type_id between", value1, value2, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_type_id not between", value1, value2, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIsNull() {
+            addCriterion("other_trainee_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIsNotNull() {
+            addCriterion("other_trainee_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeEqualTo(String value) {
+            addCriterion("other_trainee_type =", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotEqualTo(String value) {
+            addCriterion("other_trainee_type <>", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThan(String value) {
+            addCriterion("other_trainee_type >", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type >=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThan(String value) {
+            addCriterion("other_trainee_type <", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type <=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLike(String value) {
+            addCriterion("other_trainee_type like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotLike(String value) {
+            addCriterion("other_trainee_type not like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIn(List<String> values) {
+            addCriterion("other_trainee_type in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotIn(List<String> values) {
+            addCriterion("other_trainee_type not in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeBetween(String value1, String value2) {
+            addCriterion("other_trainee_type between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotBetween(String value1, String value2) {
+            addCriterion("other_trainee_type not between", value1, value2, "otherTraineeType");
             return (Criteria) this;
         }
 
@@ -1202,6 +1392,146 @@ public class CetUpperTrainExample {
 
         public Criteria andAddressNotBetween(String value1, String value2) {
             addCriterion("address not between", value1, value2, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIsNull() {
+            addCriterion("country is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIsNotNull() {
+            addCriterion("country is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryEqualTo(String value) {
+            addCriterion("country =", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotEqualTo(String value) {
+            addCriterion("country <>", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThan(String value) {
+            addCriterion("country >", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThanOrEqualTo(String value) {
+            addCriterion("country >=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThan(String value) {
+            addCriterion("country <", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThanOrEqualTo(String value) {
+            addCriterion("country <=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLike(String value) {
+            addCriterion("country like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotLike(String value) {
+            addCriterion("country not like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIn(List<String> values) {
+            addCriterion("country in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotIn(List<String> values) {
+            addCriterion("country not in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryBetween(String value1, String value2) {
+            addCriterion("country between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotBetween(String value1, String value2) {
+            addCriterion("country not between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyIsNull() {
+            addCriterion("agency is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyIsNotNull() {
+            addCriterion("agency is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyEqualTo(String value) {
+            addCriterion("agency =", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyNotEqualTo(String value) {
+            addCriterion("agency <>", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyGreaterThan(String value) {
+            addCriterion("agency >", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyGreaterThanOrEqualTo(String value) {
+            addCriterion("agency >=", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyLessThan(String value) {
+            addCriterion("agency <", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyLessThanOrEqualTo(String value) {
+            addCriterion("agency <=", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyLike(String value) {
+            addCriterion("agency like", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyNotLike(String value) {
+            addCriterion("agency not like", value, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyIn(List<String> values) {
+            addCriterion("agency in", values, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyNotIn(List<String> values) {
+            addCriterion("agency not in", values, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyBetween(String value1, String value2) {
+            addCriterion("agency between", value1, value2, "agency");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgencyNotBetween(String value1, String value2) {
+            addCriterion("agency not between", value1, value2, "agency");
             return (Criteria) this;
         }
 

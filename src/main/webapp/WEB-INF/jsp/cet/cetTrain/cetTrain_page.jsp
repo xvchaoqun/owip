@@ -36,24 +36,7 @@
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
-                    <%--<button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetTrain_pub"
-                            data-title="发布"
-                            data-msg="确定发布该培训班？"
-                            data-callback="_reload3"
-                            data-grid-id="#jqGrid2"
-                            data-querystr="pubStatus=1"><i class="fa fa-check"></i>
-                        发布
-                    </button>
-                    <button id="unPubBtn" class="jqItemBtn btn btn-warning btn-sm"
-                            data-url="${ctx}/cet/cetTrain_pub"
-                            data-title="取消发布"
-                            data-msg="确定取消发布该培训班？"
-                            data-callback="_reload3"
-                            data-grid-id="#jqGrid2"
-                            data-querystr="pubStatus=2"><i class="fa fa-times"></i>
-                        取消发布
-                    </button>--%>
+
                     <button id="finishBtn" class="jqItemBtn btn btn-warning btn-sm"
                             data-url="${ctx}/cet/cetTrain_finish"
                             data-title="结课"
@@ -146,13 +129,7 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-            /*{
-                label: '发布状态', name: '_pubStatus', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.pubStatus == undefined) return '--';
-                return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
-                        .format(rowObject.pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED} ? 'text-danger bolder' : 'text-success');
 
-            }, frozen: true},*/
             {
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFinished ? '已结课' : '未结课';
@@ -219,16 +196,12 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#pubBtn,#unPubBtn,#finishBtn").prop("disabled", true);
+            $("#finishBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
-
-            var pubStatus = rowData.pubStatus;
             var isFinished = (rowData.isFinished == "true");
 
-            $("#pubBtn").prop("disabled", pubStatus ==${CET_TRAIN_PUB_STATUS_PUBLISHED});
-            $("#unPubBtn").prop("disabled", pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED});
-            $("#finishBtn").prop("disabled", isFinished || pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED});
+            $("#finishBtn").prop("disabled", isFinished);
         }
     }
 </script>

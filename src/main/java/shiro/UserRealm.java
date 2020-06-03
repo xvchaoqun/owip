@@ -1,7 +1,6 @@
 package shiro;
 
 import domain.sys.SysUserView;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -76,29 +75,34 @@ public class UserRealm extends AuthorizingRealm {
         }
         String inputPasswd = String.valueOf(authToken.getPassword());
 
-        if (uv.isCasUser()) {
+        if (uv.isCasUser()) { // 如果是校园账号，且提供了代理接口的情况下，检测是否可以通过代理接口认证
 
             byte casType = CmTag.getByteProperty("cas_type", (byte)1);
-            if (casType==2 || casType==3) { // 如果提供了代理接口
 
-                boolean tryLogin;
-                try {
-                    tryLogin = loginService.tryLogin(uv.getCode(), inputPasswd);
-                } catch (Exception ex) {
-                    logger.error("异常", ex);
-                    throw new SSOException();
-                }
-                if (!tryLogin) {
+            if(!springProps.devMode){
+
+                if (casType==2 || casType==3) { // 如果提供了代理接口
+
+                    boolean tryLogin;
+                    try {
+                        tryLogin = loginService.tryLogin(uv.getCode(), inputPasswd);
+                    } catch (Exception ex) {
+                        logger.error("异常", ex);
+                        throw new SSOException();
+                    }
+                    if (!tryLogin) {
+                        throw new IncorrectCredentialsException();
+                    }
+                } else if (casType==1) { // 仅提供了CAS接口
+
+                    throw new NeedCASLoginException();
+                }else{  // 其他情况不允许登录
+
                     throw new IncorrectCredentialsException();
                 }
-            } else if (casType==1) { // 仅提供了CAS接口
-
-                throw new NeedCASLoginException();
-            }else{
-
-                inputPasswd = springProps.devMode?inputPasswd: RandomStringUtils.random(10);
             }
 
+            // 通过代理接口认证后，允许登录系统（校验密码等同输入的密码）
             password = new SimpleHash(
                     credentialsMatcher.getHashAlgorithmName(),
                     inputPasswd,

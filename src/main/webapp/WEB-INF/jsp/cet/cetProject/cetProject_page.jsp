@@ -27,24 +27,6 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 彻底删除
                     </button>
                 </shiro:hasPermission>
-                <%--<button id="startBtn" class="jqItemBtn btn btn-success btn-sm"
-                        data-url="${ctx}/cet/cetProject_status?status=${CET_PROJECT_STATUS_START}"
-                        data-title="启动"
-                        data-msg="确定启动？"
-                        data-callback="_reload"
-                        data-grid-id="#jqGrid"
-                        ><i class="fa fa-dot-circle-o"></i>
-                    启动
-                </button>
-                <button id="finishBtn" class="jqItemBtn btn btn-primary btn-sm"
-                        data-url="${ctx}/cet/cetProject_status?status=${CET_PROJECT_STATUS_FINISH}"
-                        data-title="结束"
-                        data-msg="确定结束？"
-                        data-callback="_reload"
-                        data-grid-id="#jqGrid"
-                        ><i class="fa fa-dot-circle-o"></i>
-                    结束
-                </button>--%>
 
                 <button data-url="${ctx}/cet/refreshAllObjsFinishPeriod"
                         data-title="刷新培训学时"
@@ -111,12 +93,6 @@ pageEncoding="UTF-8" %>
 
     </div>
 </div>
-<script  type="text/template" id="publish_tpl">
-    <button {{=(status!=${CET_PROJECT_STATUS_START})?'disabled':''}} class="confirm btn btn-{{=isPublish?'danger':'success'}} btn-xs"
-            data-msg="{{=isPublish?'确定取消发布？':'确定发布？'}}" data-callback="_reload"
-            data-url="${ctx}/cet/cetProject_publish?id={{=id}}&publish={{=isPublish?0:1}}">
-        <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
-</script>
 <script>
     function _reload(){
         $("#jqGrid").trigger("reloadGrid");
@@ -131,10 +107,7 @@ pageEncoding="UTF-8" %>
                 'data-url="${ctx}/cet/cetProject_detail?projectId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
-            /*{label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == undefined) return '--';
-                return _cMap.CET_PROJECT_STATUS_MAP[rowObject.status];
-            }, frozen: true},*/
+
             { label: '年度',name: 'year', frozen: true},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
@@ -179,44 +152,13 @@ pageEncoding="UTF-8" %>
               return cellvalue?'是':'否'
             }},
             { label: '参训人数',name: 'objCount'},
-            /*{label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '--';
-                return _cMap.CET_PROJECT_PUB_STATUS_MAP[cellvalue];
-            }},
-            {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id,
-                    status:rowObject.status,
-                    isPublish:(rowObject.pubStatus==${CET_PROJECT_PUB_STATUS_PUBLISHED})})
-            }},*/
+
             { name: 'status', hidden:true},
             { label: '备注',name: 'remark', width: 300}
-        ],
-        onSelectRow: function (id, status) {
-            saveJqgridSelected("#" + this.id, id, status);
-            _onSelectRow(this)
-        },
-        onSelectAll: function (aRowids, status) {
-            saveJqgridSelected("#" + this.id);
-            _onSelectRow(this)
-        }
+        ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    function _onSelectRow(grid) {
-        var ids = $(grid).getGridParam("selarrrow");
-
-        if (ids.length > 1) {
-            $("#startBtn,#finishBtn").prop("disabled", true);
-        } else if (ids.length == 1) {
-            var rowData = $(grid).getRowData(ids[0]);
-
-            var status = rowData.status;
-
-            $("#startBtn").prop("disabled", status ==${CET_PROJECT_STATUS_START});
-            $("#finishBtn").prop("disabled", status !=${CET_PROJECT_STATUS_START});
-        }
-    }
-
 </script>

@@ -71,7 +71,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetTraineeType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '参训人员类型',name: 'name', width:200},
+            { label: '参训人员类型',name: 'name', width:150, align:'left'},
             { label: '类型代码',name: 'code', width:150, align:'left'},
             { label: '信息模板',name: 'templateId', width:400, align:'left',formatter:function(cellvalue, options, rowObject){
                 return _cMap.CET_TRAINEE_TYPE_TEMPLATE_MAP[cellvalue];

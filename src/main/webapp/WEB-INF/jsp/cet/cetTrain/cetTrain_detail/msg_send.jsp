@@ -42,8 +42,7 @@
             </ul>
         </div>
         <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-        <c:set var="canSend" value="${cetProject.status==CET_PROJECT_STATUS_START
-    && cetProject.pubStatus == CET_PROJECT_PUB_STATUS_PUBLISHED && cm:compareDate(cetProject.openTime, now)}"/>
+        <c:set var="canSend" value="${cm:compareDate(cetProject.openTime, now)}"/>
         <button id="submitBtn" ${canSend?'':'disabled'}
                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请不要关闭此窗口"
                 class="btn btn-primary">确定发送

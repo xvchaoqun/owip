@@ -39,11 +39,9 @@ public class UserCetUpperTrainController extends CetBaseController {
     @RequiresPermissions("userCetUpperTrain:list")
     @RequestMapping("/cetUpperTrain")
     public String cetUpperTrain(@RequestParam(required = false, defaultValue = "1")Byte cls,
-                                byte upperType,
                                 ModelMap modelMap) {
         
         modelMap.put("cls", cls);
-        modelMap.put("upperType", upperType);
 
         return "cet/user/cetUpperTrain_page";
     }
@@ -52,9 +50,9 @@ public class UserCetUpperTrainController extends CetBaseController {
     @RequestMapping("/cetUpperTrain_data")
     @ResponseBody
     public void cetUpperTrain_data(HttpServletResponse response,
-                                   byte upperType,
+                                   Byte type,
                                    @RequestParam(required = false, defaultValue = "1")Byte cls,
-                              Integer pageSize, Integer pageNo) throws IOException {
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         int userId = ShiroHelper.getCurrentUserId();
 
@@ -68,8 +66,7 @@ public class UserCetUpperTrainController extends CetBaseController {
 
         CetUpperTrainExample example = new CetUpperTrainExample();
         CetUpperTrainExample.Criteria criteria =
-                example.createCriteria().andUpperTypeEqualTo(upperType)
-                        .andUserIdEqualTo(userId)
+                example.createCriteria().andUserIdEqualTo(userId)
                 .andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 
@@ -79,6 +76,13 @@ public class UserCetUpperTrainController extends CetBaseController {
             criteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
         }else{
             criteria.andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
+        }
+        if(type==null){
+            criteria.andTypeNotEqualTo(CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD);
+        }else if(type==CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD){
+            criteria.andTypeEqualTo(CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD);
+        }else if(type==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){
+            criteria.andTypeEqualTo(CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL);
         }
 
         long count = cetUpperTrainMapper.countByExample(example);

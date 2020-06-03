@@ -18,8 +18,6 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="require_period" jdbcType="DECIMAL" property="requirePeriod" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="obj_count" jdbcType="INTEGER" property="objCount" />
   </resultMap>
@@ -54,8 +52,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, year, start_date, end_date, open_time, open_address, name, is_valid, project_type_id, 
-    file_name, pdf_file_path, word_file_path, period, require_period, remark, status, 
-    pub_status, create_time, obj_count
+    file_name, pdf_file_path, word_file_path, period, require_period, remark, create_time, 
+    obj_count
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectViewExample" resultMap="BaseResultMap">
     select

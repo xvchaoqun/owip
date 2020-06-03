@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sys.SysUserService;
-import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
@@ -20,13 +19,12 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-    
+
     // 管理的单位
-    public Set<Integer> adminUnitIdSet(byte upperType, int userId){
+    public Set<Integer> adminUnitIdSet(int userId) {
 
         CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-        example.createCriteria().andUpperTypeEqualTo(upperType)
-                .andUserIdEqualTo(userId).andUnitIdIsNotNull();
+        example.createCriteria().andUserIdEqualTo(userId).andUnitIdIsNotNull();
         List<CetUpperTrainAdmin> cetUpperTrainAdmins = cetUpperTrainAdminMapper.selectByExample(example);
         Set<Integer> adminUnitIds = new HashSet<>();
         for (CetUpperTrainAdmin cetUpperTrainAdmin : cetUpperTrainAdmins) {
@@ -37,53 +35,37 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
     }
 
     @Transactional
-    public void insertSelective(CetUpperTrainAdmin record){
+    public void insertSelective(CetUpperTrainAdmin record) {
 
-        byte upperType = record.getUpperType();
         cetUpperTrainAdminMapper.insertSelective(record);
 
+        // 添加单位管理员角色
         int userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);
-        if(upperType== CetConstants.CET_UPPER_TRAIN_UPPER) {
-            if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UPPER)) {
-                sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
-            }
-        }else if(upperType== CetConstants.CET_UPPER_TRAIN_UNIT) {
-            if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UNIT)) {
-                sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
-            }
+        if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UPPER)) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
         }
     }
 
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         CetUpperTrainAdmin cetUpperTrainAdmin = cetUpperTrainAdminMapper.selectByPrimaryKey(id);
         int userId = cetUpperTrainAdmin.getUserId();
         cetUpperTrainAdminMapper.deleteByPrimaryKey(id);
-    
-        {
-            CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-            example.createCriteria().andUserIdEqualTo(userId).andUpperTypeEqualTo(CetConstants.CET_UPPER_TRAIN_UPPER);
-            if (cetUpperTrainAdminMapper.countByExample(example) == 0) {
-            
-                sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
-            }
-        }
-        {
-            CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-            example.createCriteria().andUserIdEqualTo(userId).andUpperTypeEqualTo(CetConstants.CET_UPPER_TRAIN_UNIT);
-            if (cetUpperTrainAdminMapper.countByExample(example) == 0) {
-        
-                sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
-            }
+
+        // 删除单位管理员角色
+        CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        if (cetUpperTrainAdminMapper.countByExample(example) == 0) {
+            sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
         }
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
             del(id);
@@ -91,39 +73,22 @@ public class CetUpperTrainAdminService extends CetBaseMapper {
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(CetUpperTrainAdmin record){
+    public void updateByPrimaryKeySelective(CetUpperTrainAdmin record) {
 
         CetUpperTrainAdmin oldRecord = cetUpperTrainAdminMapper.selectByPrimaryKey(record.getId());
-
-        record.setUpperType(null);
         cetUpperTrainAdminMapper.updateByPrimaryKeySelective(record);
 
-        byte upperType = oldRecord.getUpperType();
+        // 更换单位管理员时，更新角色
         int userId = oldRecord.getUserId();
-        //if(record.getUserId()!=null && userId!=record.getUserId()){
-
-            CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-            example.createCriteria().andUserIdEqualTo(userId);
-            if(cetUpperTrainAdminMapper.countByExample(example)==0){
-                
-                if(upperType== CetConstants.CET_UPPER_TRAIN_UPPER) {
-                    sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
-                }else if(upperType== CetConstants.CET_UPPER_TRAIN_UNIT) {
-                    sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
-                }
-            }
-
-            int newUserId = record.getUserId();
-            SysUserView uv = sysUserService.findById(newUserId);
-            if(upperType== CetConstants.CET_UPPER_TRAIN_UPPER) {
-                if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UPPER)) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
-                }
-            }else if(upperType== CetConstants.CET_UPPER_TRAIN_UNIT) {
-                if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UNIT)) {
-                    sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UNIT);
-                }
-            }
-        //}
+        CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        if (cetUpperTrainAdminMapper.countByExample(example) == 0) {
+            sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
+        }
+        int newUserId = record.getUserId();
+        SysUserView uv = sysUserService.findById(newUserId);
+        if (!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CET_ADMIN_UPPER)) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_UPPER);
+        }
     }
 }

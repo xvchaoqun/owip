@@ -66,7 +66,7 @@ public interface ICetMapper {
 
     // 上级调训完成学时数（统计 计入年度学习任务 的总学时，默认已结业）
     @Select("select sum(period) from cet_upper_train where user_id=#{userId} and year=${year} " +
-            "and upper_type=1 and is_deleted=0 and is_valid=1")
+            "and is_deleted=0 and is_valid=1")
     public BigDecimal getUpperFinishPeriod(@Param("userId") Integer userId,
                                            @Param("year") Integer year);
 
@@ -75,7 +75,7 @@ public interface ICetMapper {
     @Select("select cut.start_date, cut.end_date, cut.train_name as name, 4 as type, " +
             "if(cut.organizer=0, cut.other_organizer, bmt.name) as organizer, cut.period, 1 as is_graduate " +
             "from cet_upper_train cut left join base_meta_type bmt on cut.organizer= bmt.id " +
-            "where cut.user_id=#{userId} and cut.year=${year} and cut.upper_type=1 and cut.is_deleted=0 and cut.is_valid=#{isValid}")
+            "where cut.user_id=#{userId} and cut.year=${year} and cut.is_deleted=0 and cut.is_valid=#{isValid}")
     public List<TrainRecord> getUpperRecords(@Param("userId") Integer userId,
                                              @Param("year") Integer year,
                                              @Param("isValid") Boolean isValid  // 是否计入年度学习任务
@@ -107,8 +107,8 @@ public interface ICetMapper {
     // 上级培训单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
     @Select("select distinct u.* from cet_upper_train_admin cuta, " +
-            "unit u where cuta.upper_type=#{upperType} and cuta.unit_id is not null and cuta.unit_id=u.id")
-    public List<Unit> findUpperUnits(@Param("upperType") byte upperType);
+            "unit u where cuta.unit_id=u.id")
+    public List<Unit> findUpperUnits();
 
     // 培训计划的参训人类型
     @ResultMap("persistence.cet.CetTraineeTypeMapper.BaseResultMap")

@@ -4,6 +4,7 @@ import bean.ShortMsgBean;
 import domain.base.ContentTpl;
 import domain.cet.*;
 import domain.sys.SysUserView;
+import ext.service.ShortMsgService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.base.ContentTplService;
-import ext.service.ShortMsgService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
-import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -294,9 +293,7 @@ public class CetShortMsgService extends CetBaseMapper {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 1);
             CetProjectExample example = new CetProjectExample();
-            CetProjectExample.Criteria criteria = example.createCriteria()
-                    .andPubStatusEqualTo(CetConstants.CET_PROJECT_PUB_STATUS_PUBLISHED)
-                    .andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_START);
+            CetProjectExample.Criteria criteria = example.createCriteria();
             if(projectId!=null){
                 // 通知指定班
                 criteria.andIdEqualTo(projectId);

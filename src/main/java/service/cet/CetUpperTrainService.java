@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -74,10 +73,8 @@ public class CetUpperTrainService extends CetBaseMapper {
 
         CetUpperTrain oldRecord = cetUpperTrainMapper.selectByPrimaryKey(id);
 
-        byte upperType = oldRecord.getUpperType();
         byte addType = oldRecord.getAddType();
         Integer unitId = oldRecord.getUnitId();
-        Integer leaderUserId = oldRecord.getUserId();
 
         int currentUserId = ShiroHelper.getCurrentUserId();
         if(addType==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW){ // 组织部添加的只有组织部可以删除
@@ -87,14 +84,13 @@ public class CetUpperTrainService extends CetBaseMapper {
 
             if(!ShiroHelper.isPermitted("cetUpperTrain:del")) {
                 
-                SecurityUtils.getSubject().checkRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                    ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT);
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_ADMIN_UPPER);
                 
                 if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                     throw new UnauthorizedException();
                 }
 
-                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
 
                 if (unitId==null || !adminUnitIdSet.contains(unitId)){
                     throw new UnauthorizedException(); // 非单位管理员
@@ -103,13 +99,12 @@ public class CetUpperTrainService extends CetBaseMapper {
         }else if(addType==CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF){
 
             if(!ShiroHelper.isPermitted("cetUpperTrain:del")) {
-                if(ShiroHelper.hasRole(upperType==CetConstants.CET_UPPER_TRAIN_UPPER
-                        ?RoleConstants.ROLE_CET_ADMIN_UPPER:RoleConstants.ROLE_CET_ADMIN_UNIT)) {
+                if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UPPER)) {
 
                     if (oldRecord.getIsValid() != null) { // 组织部确认后，不允许单位修改
                         throw new OpException("党委组织部已确认，不允许删除。");
                     }
-                    Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(upperType, currentUserId);
+                    Set<Integer> adminUnitIdSet = cetUpperTrainAdminService.adminUnitIdSet(currentUserId);
 
                     if (unitId==null || !adminUnitIdSet.contains(unitId)){
 
@@ -169,7 +164,7 @@ public class CetUpperTrainService extends CetBaseMapper {
 
         int currentUserId = ShiroHelper.getCurrentUserId();
         CetUpperTrainExample example = new CetUpperTrainExample();
-        example.createCriteria().andUserIdEqualTo(currentUserId)
+        example.createCriteria().andUserIdEqualTo(currentUserId).andIdIn(Arrays.asList(ids))
                 .andStatusEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
         cetUpperTrainMapper.deleteByExample(example);
     }
@@ -180,7 +175,7 @@ public class CetUpperTrainService extends CetBaseMapper {
         CetUpperTrain oldRecord = cetUpperTrainMapper.selectByPrimaryKey(record.getId());
 
         cetUpperTrainMapper.updateByPrimaryKeySelective(record);
-        if(BooleanUtils.isFalse(record.getType())){// 组织部门派出
+        if(record.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_OW){// 组织部门派出
             commonMapper.excuteSql("update cet_upper_train set unit_id=null where id="+ record.getId());
         }
 

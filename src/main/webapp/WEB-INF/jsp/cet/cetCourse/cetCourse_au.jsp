@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${type==CET_COURSE_TYPE_ONLINE?'':'*'}主讲人</label>
+				<label class="col-xs-3 control-label">${type==CET_COURSE_TYPE_ONLINE?'':'<span class="star">*</span>'}主讲人</label>
 				<div class="col-xs-6">
 					<select ${type==CET_COURSE_TYPE_ONLINE?'':'required'} data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetExpert_selects"
 							name="expertId" data-placeholder="请输入姓名">

@@ -29,12 +29,6 @@
 <c:set value="<%=CetConstants.CET_COURSE_TYPE_SPECIAL%>" var="CET_COURSE_TYPE_SPECIAL"/>
 <c:set value="<%=CetConstants.CET_COURSE_TYPE_MAP%>" var="CET_COURSE_TYPE_MAP"/>
 
-<c:set value="<%=CetConstants.CET_PROJECT_STATUS_INIT%>" var="CET_PROJECT_STATUS_INIT"/>
-<c:set value="<%=CetConstants.CET_PROJECT_STATUS_START%>" var="CET_PROJECT_STATUS_START"/>
-<c:set value="<%=CetConstants.CET_PROJECT_STATUS_FINISH%>" var="CET_PROJECT_STATUS_FINISH"/>
-
-<c:set value="<%=CetConstants.CET_PROJECT_PUB_STATUS_PUBLISHED%>" var="CET_PROJECT_PUB_STATUS_PUBLISHED"/>
-
 <c:set value="<%=CetConstants.CET_TRAINEE_TYPE_TEMPLATE_MAP%>" var="CET_TRAINEE_TYPE_TEMPLATE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT%>" var="CET_TRAIN_ENROLL_STATUS_DEFAULT"/>
@@ -44,9 +38,6 @@
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN%>" var="CET_TRAIN_ENROLL_STATUS_NOT_BEGIN"/>
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_MAP%>" var="CET_TRAIN_ENROLL_STATUS_MAP"/>
 
-<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_UNPUBLISHED%>" var="CET_TRAIN_PUB_STATUS_UNPUBLISHED"/>
-<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_PUBLISHED%>" var="CET_TRAIN_PUB_STATUS_PUBLISHED"/>
-<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_CANCEL%>" var="CET_TRAIN_PUB_STATUS_CANCEL"/>
 <c:set value="<%=CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL%>" var="CET_TRAINEE_SIGN_TYPE_MANUAL"/>
 
 <c:set value="<%=CetConstants.CET_TRAIN_COURSE_APPLY_STATUS_MAP%>" var="CET_TRAIN_COURSE_APPLY_STATUS_MAP"/>

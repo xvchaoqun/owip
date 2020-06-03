@@ -1,6 +1,127 @@
 
+
+ALTER TABLE `cet_train`
+	DROP COLUMN `pub_status`;
+
+-- 更新 cet_train_view
+
+ALTER TABLE `cet_project`
+	DROP COLUMN `status`,
+	DROP COLUMN `pub_status`;
+
+-- 更新 cet_project_view
+
+delete from cet_upper_train where upper_type=2;
+
+ALTER TABLE `cet_upper_train`
+	DROP COLUMN `upper_type`;
+
+ALTER TABLE `cet_upper_train_admin`
+	DROP COLUMN `upper_type`;
+
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '派出类型，1 组织部派出 2 其他部门派出 8 出国研修 10 其他培训（党校）' AFTER `year`;
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '培训形式，0：线下 1：线上' AFTER `type`,
+	ADD COLUMN `is_double` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否双肩挑' AFTER `user_id`,
+	ADD COLUMN `is_branch_secretary` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否支部书记' AFTER `is_double`;
+
+-- select type, count(*) from cet_upper_train group by type;
+update cet_upper_train  set type =2 where type=1;
+update cet_upper_train  set type =1 where type=0;
+
+
+update sys_resource set url='/user/cet/cetUpperTrain' where permission='userCetUpperTrain:*';
+
+update sys_resource set url='/cet/cetUpperTrain?type=2&addType=2' where permission='cetUpperTrain:listUpper1';
+
+update sys_resource set url='/cet/cetUpperTrain?type=1&addType=3' where permission='cetUpperTrain:*';
+
+update sys_resource set url='/cet/cetUpperTrain?type=2&addType=3' where permission='cetUpperTrain:listUpper';
+
+update sys_resource set url='/cet/cetUpperTrainAdmin' where permission='cetUpperTrainAdmin,mc_cet_upper_train_organizer,mc_cet_upper_train_type:*';
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (3039, 1, '离任干部信息', '', 'url', 'fa fa-history', '/m/cadreHistory', 692, '0/692/', 1, 'm:cadreHistory:*', NULL, NULL, NULL, 1, 1849);
+
+-- 更新 utils
+
+update cet_trainee_type set name='处级干部' where code='t_cadre';
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `post_id` `post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务属性（弃用）' AFTER `title`;
+
+ALTER TABLE `cet_upper_train`
+	ALTER `is_double` DROP DEFAULT,
+	ALTER `is_branch_secretary` DROP DEFAULT;
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `is_double` `is_double` TINYINT(1) UNSIGNED NULL COMMENT '是否双肩挑' AFTER `user_id`,
+	CHANGE COLUMN `is_branch_secretary` `is_branch_secretary` TINYINT(1) UNSIGNED NULL COMMENT '是否支部书记' AFTER `is_double`;
+ALTER TABLE `cet_trainee_type`
+	ADD UNIQUE INDEX `name` (`name`),
+	ADD UNIQUE INDEX `code` (`code`);
+update sys_resource set name='培训班类型(党校培训-线下培训)'  where permission='mc_cet_train_type:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+`count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (960, 0, '培训班主办方(上级调训)', '', 'url', '', '/metaClass_type_list?cls=mc_cet_upper_train_organizer', 656, '0/1/384/656/', 1, 'mc_cet_upper_train_organizer:*', 1, NULL, NULL, 1, 138);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+`count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (961, 0, '培训班类型(上级调训)', '', 'url', '', '/metaClass_type_list?cls=mc_cet_upper_train_type', 656, '0/1/384/656/', 1, 'mc_cet_upper_train_type:*', 1, NULL, NULL, 1, 136);
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                             `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                             `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (707, 0, '单位管理员（上级调训）', '', 'url', '', '/cet/cetUpperTrainAdmin', 656, '0/1/384/656/', 1, 'cetUpperTrainAdmin:*', 1, NULL, NULL, 1, 140);
+-- 更新培训管理员权限 （其中参训人员类型不应提供权限）
+
+update sys_resource set sort_order=800 where permission='cetTraineeType:*';
+
+update sys_resource set name='专题分类（党校培训）' where permission='cetProjectType:list';
+
+update sys_resource set name='授课方式（党校培训-课程中心）' where permission='mc_cet_teach_method:*';
+
+update sys_resource set name='专家信息（党校培训-课程中心-主讲人）' where permission='cetExpert:list';
+
+update sys_resource set permission='cetUpperTrain:unitAdmin' where permission='cetUpperTrain:listUpper1';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (962, 0, '出国研修管理', '', 'url', '', '/cet/cetUpperTrain?type=8&addType=3', 703, '0/1/384/703/', 1, 'cetUpperTrain:abroad', NULL, NULL, NULL, 1, 100);
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `country` VARCHAR(300) NULL DEFAULT NULL COMMENT '前往国家，针对出国研修' AFTER `address`,
+	ADD COLUMN `agency` VARCHAR(300) NULL DEFAULT NULL COMMENT '培训机构，针对出国研修' AFTER `country`;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (963, 0, '出国研修信息', '', 'url', '', '/user/cet/cetUpperTrain?type=8', 714, '0/1/714/', 1, 'userCetUpperTrain:abroad', NULL, NULL, NULL, 1, 590);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`,
+                            `sort_order`) VALUES (964, 0, '其他培训', '', 'url', '', '/cet/cetUpperTrain?type=10&addType=3', 684, '0/1/384/684/', 1, 'cetUpperTrain:school', NULL, NULL, NULL, 1, 90);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`,
+                            `sort_order`) VALUES (965, 0, '其他培训', '', 'url', '', '/user/cet/cetUpperTrain?type=10', 715, '0/1/714/715/', 1, 'userCetUpperTrain:school', NULL, NULL, NULL, 1, 400);
+update sys_resource set sort_order=500 where permission='userCetProject:list1';
+update sys_resource set sort_order=450 where permission='userCetProject:list2';
+
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `organizer` `organizer` INT(10) UNSIGNED NULL COMMENT '培训班主办方，有一个“其他”选项（值为0），其他培训（党校）时默认为空' AFTER `post_id`;
+
+-- 更新SyncService proPost、proPostLevel
+
+
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `upper_train_type_id` `trainee_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员类型，从元数据中获取，0代表其他' AFTER `is_branch_secretary`,
+	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选其他参训人员类型时，需要填写' AFTER `trainee_type_id`;
+
+
 2020.5.28
 北航  -- 北师大
+
+update base_meta_class set bool_attr='在综合查询中是否显示' where code='mc_unit_type';
 
 CREATE TABLE `unit_post_group` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分组编号',

@@ -54,7 +54,7 @@
             {{_.each(files, function(f, idx){ }}
             <tr>
                 <td style="text-align: left;">
-                    {{if(f.pdfFilePath.length>0){}}
+                    {{if(f.pdfFilePath && f.pdfFilePath.length>0){}}
                     <a href="javascript:void(0)" class="popPdfView" data-direction="bottom"
                             data-pages="{{=f.pages}}" data-path="{{=f.pdfFilePath}}">
                         <span style="color:{{=f.status?'':'red'}}">{{=f.fileName}}</span></a>

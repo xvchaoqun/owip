@@ -10,7 +10,6 @@
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
-				<input type="hidden" name="upperType" value="${param.upperType}"/>
 				<input type="file" name="xlsx" required extension="xlsx"/>
 			</div>
 		</div>

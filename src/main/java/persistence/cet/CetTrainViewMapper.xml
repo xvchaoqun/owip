@@ -14,7 +14,6 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
-    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
     <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
     <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
@@ -60,8 +59,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
-    start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
-    eva_close_time, remark, is_deleted, is_finished, create_time, year, project_id
+    start_time, end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, 
+    remark, is_deleted, is_finished, create_time, year, project_id
   </sql>
   <sql id="Blob_Column_List">
     eva_note

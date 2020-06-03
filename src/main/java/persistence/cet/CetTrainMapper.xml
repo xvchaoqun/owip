@@ -14,7 +14,6 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
-    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
     <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
     <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
@@ -87,8 +86,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
-    start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
-    eva_close_time, remark, is_deleted, is_finished, create_time
+    start_time, end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, 
+    remark, is_deleted, is_finished, create_time
   </sql>
   <sql id="Blob_Column_List">
     eva_note
@@ -148,19 +147,17 @@
     insert into cet_train (plan_id, type, is_on_campus, 
       name, has_summary, summary, 
       start_date, end_date, start_time, 
-      end_time, enroll_status, pub_status, 
-      eva_count, eva_anonymous, eva_closed, 
-      eva_close_time, remark, is_deleted, 
-      is_finished, create_time, eva_note
-      )
+      end_time, enroll_status, eva_count, 
+      eva_anonymous, eva_closed, eva_close_time, 
+      remark, is_deleted, is_finished, 
+      create_time, eva_note)
     values (#{planId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, 
       #{name,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, 
-      #{evaCount,jdbcType=INTEGER}, #{evaAnonymous,jdbcType=BIT}, #{evaClosed,jdbcType=BIT}, 
-      #{evaCloseTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{evaNote,jdbcType=LONGVARCHAR}
-      )
+      #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{evaCount,jdbcType=INTEGER}, 
+      #{evaAnonymous,jdbcType=BIT}, #{evaClosed,jdbcType=BIT}, #{evaCloseTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{evaNote,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -200,9 +197,6 @@
       </if>
       <if test="enrollStatus != null">
         enroll_status,
-      </if>
-      <if test="pubStatus != null">
-        pub_status,
       </if>
       <if test="evaCount != null">
         eva_count,
@@ -265,9 +259,6 @@
       </if>
       <if test="enrollStatus != null">
         #{enrollStatus,jdbcType=TINYINT},
-      </if>
-      <if test="pubStatus != null">
-        #{pubStatus,jdbcType=TINYINT},
       </if>
       <if test="evaCount != null">
         #{evaCount,jdbcType=INTEGER},
@@ -343,9 +334,6 @@
       <if test="record.enrollStatus != null">
         enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       </if>
-      <if test="record.pubStatus != null">
-        pub_status = #{record.pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="record.evaCount != null">
         eva_count = #{record.evaCount,jdbcType=INTEGER},
       </if>
@@ -392,7 +380,6 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
-      pub_status = #{record.pubStatus,jdbcType=TINYINT},
       eva_count = #{record.evaCount,jdbcType=INTEGER},
       eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
       eva_closed = #{record.evaClosed,jdbcType=BIT},
@@ -420,7 +407,6 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
-      pub_status = #{record.pubStatus,jdbcType=TINYINT},
       eva_count = #{record.evaCount,jdbcType=INTEGER},
       eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
       eva_closed = #{record.evaClosed,jdbcType=BIT},
@@ -469,9 +455,6 @@
       <if test="enrollStatus != null">
         enroll_status = #{enrollStatus,jdbcType=TINYINT},
       </if>
-      <if test="pubStatus != null">
-        pub_status = #{pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="evaCount != null">
         eva_count = #{evaCount,jdbcType=INTEGER},
       </if>
@@ -515,7 +498,6 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
-      pub_status = #{pubStatus,jdbcType=TINYINT},
       eva_count = #{evaCount,jdbcType=INTEGER},
       eva_anonymous = #{evaAnonymous,jdbcType=BIT},
       eva_closed = #{evaClosed,jdbcType=BIT},
@@ -540,7 +522,6 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
-      pub_status = #{pubStatus,jdbcType=TINYINT},
       eva_count = #{evaCount,jdbcType=INTEGER},
       eva_anonymous = #{evaAnonymous,jdbcType=BIT},
       eva_closed = #{evaClosed,jdbcType=BIT},

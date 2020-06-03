@@ -15,7 +15,7 @@ public class CetTrain implements Serializable {
 
     public Byte getSwitchStatus() {
 
-        return BaseCetTrain.getSwitchStatus(id, enrollStatus, startTime, endTime);
+        return BaseCetTrain.getSwitchStatus(enrollStatus, startTime, endTime);
     }
 
     private Integer id;
@@ -43,8 +43,6 @@ public class CetTrain implements Serializable {
     private Date endTime;
 
     private Byte enrollStatus;
-
-    private Byte pubStatus;
 
     private Integer evaCount;
 
@@ -160,14 +158,6 @@ public class CetTrain implements Serializable {
 
     public void setEnrollStatus(Byte enrollStatus) {
         this.enrollStatus = enrollStatus;
-    }
-
-    public Byte getPubStatus() {
-        return pubStatus;
-    }
-
-    public void setPubStatus(Byte pubStatus) {
-        this.pubStatus = pubStatus;
     }
 
     public Integer getEvaCount() {

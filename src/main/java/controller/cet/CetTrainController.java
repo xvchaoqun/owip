@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -245,24 +244,6 @@ public class CetTrainController extends CetBaseController {
         return "cet/cetTrain/cetTrain_inspectors";
     }
 
-    @RequiresPermissions("cetTrain:pub")
-    @RequestMapping(value = "/cetTrain_pub", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrain_pub(HttpServletRequest request, Integer id, Byte pubStatus) {
-
-        if (id != null) {
-
-            CetTrain record = new CetTrain();
-            record.setId(id);
-            record.setPubStatus(pubStatus);
-            cetTrainMapper.updateByPrimaryKeySelective(record);
-
-            logger.info(addLog(LogConstants.LOG_CET,
-                    CetConstants.CET_TRAIN_PUB_STATUS_MAP.get(pubStatus) + "培训班：%s", id));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
     @RequiresPermissions("cetTrain:pub")
     @RequestMapping(value = "/cetTrain_finish", method = RequestMethod.POST)
     @ResponseBody

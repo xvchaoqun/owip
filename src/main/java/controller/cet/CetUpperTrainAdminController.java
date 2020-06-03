@@ -39,7 +39,6 @@ public class CetUpperTrainAdminController extends CetBaseController {
     @RequiresPermissions("cetUpperTrainAdmin:list")
     @RequestMapping("/cetUpperTrainAdmin")
     public String cetUpperTrainAdmin(Integer unitId,
-                                     byte upperType,
                                      Integer userId,
                                      ModelMap modelMap) {
 
@@ -50,8 +49,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
         
-        modelMap.put("upperType", upperType);
-        
+
         return "cet/cetUpperTrainAdmin/cetUpperTrainAdmin_page";
     }
 
@@ -59,7 +57,6 @@ public class CetUpperTrainAdminController extends CetBaseController {
     @RequestMapping("/cetUpperTrainAdmin_data")
     @ResponseBody
     public void cetUpperTrainAdmin_data(HttpServletResponse response,
-                                    byte upperType,
                                     Integer unitId,
                                     Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -75,7 +72,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetUpperTrainAdminExample example = new CetUpperTrainAdminExample();
-        Criteria criteria = example.createCriteria().andUpperTypeEqualTo(upperType);
+        Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
         if (unitId!=null) {
@@ -134,15 +131,13 @@ public class CetUpperTrainAdminController extends CetBaseController {
 
     @RequiresPermissions("cetUpperTrainAdmin:edit")
     @RequestMapping("/cetUpperTrainAdmin_au")
-    public String cetUpperTrainAdmin_au(Integer id, byte upperType, ModelMap modelMap) {
+    public String cetUpperTrainAdmin_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
             CetUpperTrainAdmin cetUpperTrainAdmin = cetUpperTrainAdminMapper.selectByPrimaryKey(id);
-            upperType = cetUpperTrainAdmin.getUpperType();
             modelMap.put("cetUpperTrainAdmin", cetUpperTrainAdmin);
         }
-        modelMap.put("upperType", upperType);
-        
+
         return "cet/cetUpperTrainAdmin/cetUpperTrainAdmin_au";
     }
 

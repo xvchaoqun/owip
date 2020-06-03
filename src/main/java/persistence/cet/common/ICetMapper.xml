@@ -54,7 +54,7 @@
     <sql id="searchTrains">
         where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
         and cpo.is_quit=0
-        and cpo.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
+        and cpo.user_id=#{userId} and ct.is_deleted=0
         <if test="isFinished!=null">
             and ct.is_finished = #{isFinished}
         </if>

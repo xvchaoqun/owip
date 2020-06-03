@@ -60,12 +60,14 @@ public class CetConstants {
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_A = 1;
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_B = 2;
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_C = 3;
+    public final static byte CET_TRAINEE_TYPE_TEMPLATE_D = 4;
     public final static Map<Byte, String> CET_TRAINEE_TYPE_TEMPLATE_MAP = new LinkedHashMap();
 
     static {
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_A, "干部、优秀年轻干部");
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_B, "分党委班子成员、党支部班子成员、组织员");
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_C, "入党积极分子、发展对象");
+        CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_D, "党员");
     }
 
     // 课程中心 类型，0 线下课程 1 线上课程 2 自主学习 3 实践教学 4 网上专题培训班
@@ -83,45 +85,6 @@ public class CetConstants {
         CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_SELF, "自主学习");
         CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_PRACTICE, "实践教学");
         CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_SPECIAL, "网上专题培训班");
-    }
-
-    // 培训计划 状态，0 未启动、 1 正在进行、 2 已结束
-    public final static byte CET_PROJECT_STATUS_INIT = 0;
-    public final static byte CET_PROJECT_STATUS_START = 1;
-    public final static byte CET_PROJECT_STATUS_FINISH = 2;
-    public static Map<Byte, String> CET_PROJECT_STATUS_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-
-        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_INIT, "未启动");
-        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_START, "正在进行");
-        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_FINISH, "已结束");
-    }
-
-    // 培训计划 发布状态，0 未发布 1 已发布  2 取消发布
-    public final static byte CET_PROJECT_PUB_STATUS_UNPUBLISHED = 0;
-    public final static byte CET_PROJECT_PUB_STATUS_PUBLISHED = 1;
-    public final static byte CET_PROJECT_PUB_STATUS_CANCEL = 2;
-    public static Map<Byte, String> CET_PROJECT_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-
-        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_UNPUBLISHED, "未发布");
-        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_PUBLISHED, "已发布");
-        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_CANCEL, "取消发布");
-    }
-
-    // 培训班 发布状态，0 未发布 1 已发布  2 取消发布
-    public final static byte CET_TRAIN_PUB_STATUS_UNPUBLISHED = 0;
-    public final static byte CET_TRAIN_PUB_STATUS_PUBLISHED = 1;
-    public final static byte CET_TRAIN_PUB_STATUS_CANCEL = 2;
-    public static Map<Byte, String> CET_TRAIN_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-
-        CET_TRAIN_PUB_STATUS_MAP.put(CET_TRAIN_PUB_STATUS_UNPUBLISHED, "未发布");
-        CET_TRAIN_PUB_STATUS_MAP.put(CET_TRAIN_PUB_STATUS_PUBLISHED, "已发布");
-        CET_TRAIN_PUB_STATUS_MAP.put(CET_TRAIN_PUB_STATUS_CANCEL, "取消发布");
     }
 
     // 培训班 选课状态，0 根据选课时间而定 1 正在选课、2 选课结束、3 暂停选课 4 未启动选课
@@ -204,19 +167,15 @@ public class CetConstants {
     }
 
 
-    // 组织单位类型，1 上级调训  2 二级单位组织培训
-    public final static byte CET_UPPER_TRAIN_UPPER = 1;
-    public final static byte CET_UPPER_TRAIN_UNIT = 2;
-    public static Map<Byte, String> CET_UPPER_TRAIN_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-        CET_UPPER_TRAIN_MAP.put(CET_UPPER_TRAIN_UPPER, "上级调训");
-        CET_UPPER_TRAIN_MAP.put(CET_UPPER_TRAIN_UNIT, "二级单位组织培训");
-    }
+    // 上级调训类型，1 组织部派出  2 其他部门派出  8 出国研修
+    public final static byte CET_UPPER_TRAIN_TYPE_OW = 1;
+    public final static byte CET_UPPER_TRAIN_TYPE_UNIT = 2;
+    public final static byte CET_UPPER_TRAIN_TYPE_ABROAD = 8;
+    public final static byte CET_UPPER_TRAIN_TYPE_SCHOOL = 10; // 党校其他培训
 
     // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过
-    public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0;
-    public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1;
+    public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0; // 待单位审批
+    public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1; // 单位审批通过，isValid->待组织部确认
     public final static byte CET_UPPER_TRAIN_STATUS_UNPASS = 2;
     public static Map<Byte, String> CET_UPPER_TRAIN_STATUS_MAP = new LinkedHashMap<Byte, String>();
 

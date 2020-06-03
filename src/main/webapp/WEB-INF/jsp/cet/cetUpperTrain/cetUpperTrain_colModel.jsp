@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CET_UPPER_TRAIN_UPPER" value="<%=CetConstants.CET_UPPER_TRAIN_UPPER%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
 <script>
   var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
   var colModel = [
@@ -21,30 +23,41 @@
               }else{
                   return rowObject.title;
               }}},
-    { label: '参训人类型', name: 'upperTrainTypeId', formatter: function (cellvalue, options, rowObject) {
-              if(cellvalue==null)return '--'
+    { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
+              if(cellvalue==null)return '--';
+              if(cellvalue==0) return rowObject.otherTraineeType;
               return traineeTypeMap[cellvalue].name
     }},
+    { label: '是否<br/>双肩挑', name: 'isDouble', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
+    { label: '是否<br/>支部书记', name: 'isBranchSecretary', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
     /*{label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},*/
-    {
+    <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+      {
       label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
         return $.trim(rowObject.otherOrganizer)
       }
       return $.jgrid.formatter.MetaType(cellvalue)
-    }
-    },
+    }},
+    </c:if>
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
     {label: '培训班名称', name: 'trainName', align: 'left',width: 350},
-    {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-    {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+    { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'线上培训', off:'线下培训'}},
+    {label: '培训<br/>开始时间', name: 'startDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+    {label: '培训<br/>结束时间', name: 'endDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     {
-      label: '培训天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
+      label: '培训<br/>天数', name: '_day', width: 60, formatter: function (cellvalue, options, rowObject) {
       return $.dayDiff(rowObject.startDate, rowObject.endDate);
     }
     },
-    {label: '培训学时', name: 'period', width: 80},
+    {label: '培训<br/>学时', name: 'period', width: 60},
+      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
     {label: '培训地点', name: 'address', align: 'left', width: 180},
+      </c:if>
+      <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
+    {label: '前往国家', name: 'country', width: 80},
+    {label: '培训机构', name: 'agency', align: 'left', width: 180},
+      </c:if>
     {label: '培训总结', name: '_note', width: 200, formatter: function (cellvalue, options, rowObject) {
 
       var ret = "";
@@ -65,16 +78,16 @@
       }
       return ret;
     }},
-    {label: '${upperType==CET_UPPER_TRAIN_UPPER?'派出':'组织'}单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
-      if (!rowObject.type) {
+      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD&&param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+    {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
+      if (rowObject.type==${CET_UPPER_TRAIN_TYPE_OW}) {
         return '党委组织部'
       }
 
       return $.jgrid.formatter.unit(cellvalue)
     }},
-    {label: '操作人', name: 'addUser.realname'},
-    {label: '添加时间', name: 'addTime', width: 150},
-    <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+      </c:if>
+      <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
     {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue==undefined) {
         return '--'
@@ -82,6 +95,8 @@
       return cellvalue?'是':'否'
     }},
     </c:if>
-    {label: '备注', name: 'remark', width: 150}
+    {label: '操作人', name: 'addUser.realname'},
+      {label: '备注', name: 'remark', width: 150},
+    {label: '添加时间', name: 'addTime', width: 150}
   ]
 </script>

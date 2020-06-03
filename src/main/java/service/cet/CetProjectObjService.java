@@ -84,7 +84,7 @@ public class CetProjectObjService extends CetBaseMapper {
     @Transactional
     public void clearWrite(Integer[] ids) {
         for (Integer id : ids) {
-            commonMapper.excuteSql("update cet_project_obj set word_write=null, pdf_write=null where id=" + id);
+            commonMapper.excuteSql("update cet_project_obj set word_write=null, write_file_path=null where id=" + id);
         }
     }
 

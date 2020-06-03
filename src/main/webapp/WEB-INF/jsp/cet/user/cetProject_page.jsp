@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
             {label: '已完成学时数', name: 'obj.finishPeriod', width: 110},
             { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.obj.shouldFinishPeriod)==0) return '--'
-                var progress = Math.formatFloat(Math.trimToZero(rowObject.obj.finishPeriod)*100/rowObject.obj.shouldFinishPeriod, 1) + "%";
+                var progress = Math.formatFloat(Math.trimToZero(rowObject.obj.finishPeriod>rowObject.obj.shouldFinishPeriod?rowObject.obj.shouldFinishPeriod:rowObject.obj.finishPeriod)*100/rowObject.obj.shouldFinishPeriod, 1) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},

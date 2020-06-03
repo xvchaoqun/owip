@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CET_UPPER_TRAIN_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_UNIT%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>添加参训人员</h3>
@@ -74,9 +73,7 @@
         if ($.isBlank(selectTreeURL)) {
             return;
         }
-        $.getJSON(selectTreeURL, {
-            upperType:${CET_UPPER_TRAIN_UNIT}
-        }, function (data) {
+        $.getJSON(selectTreeURL, function (data) {
             var treeData = data.tree;
             treeData.title = "选择参训人员"
             $("#tree3").dynatree({

@@ -4,11 +4,14 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetUpperTrain">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="upper_type" jdbcType="TINYINT" property="upperType" />
-    <result column="type" jdbcType="BIT" property="type" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="upper_train_type_id" jdbcType="INTEGER" property="upperTrainTypeId" />
+    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="is_branch_secretary" jdbcType="BIT" property="isBranchSecretary" />
+    <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="organizer" jdbcType="INTEGER" property="organizer" />
@@ -19,6 +22,8 @@
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="agency" jdbcType="VARCHAR" property="agency" />
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
     <result column="add_type" jdbcType="TINYINT" property="addType" />
@@ -89,10 +94,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, upper_type, type, unit_id, user_id, upper_train_type_id, title, post_id, 
-    organizer, other_organizer, train_type, train_name, start_date, end_date, period, 
-    address, word_note, pdf_note, add_type, add_user_id, add_time, is_valid, is_deleted, 
-    remark, status, back_reason
+    id, year, type, is_online, unit_id, user_id, is_double, is_branch_secretary, trainee_type_id, 
+    other_trainee_type, title, post_id, organizer, other_organizer, train_type, train_name, 
+    start_date, end_date, period, address, country, agency, word_note, pdf_note, add_type, 
+    add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -128,24 +133,28 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_upper_train (year, upper_type, type, 
-      unit_id, user_id, upper_train_type_id, 
+    insert into cet_upper_train (year, type, is_online, 
+      unit_id, user_id, is_double, 
+      is_branch_secretary, trainee_type_id, other_trainee_type, 
       title, post_id, organizer, 
       other_organizer, train_type, train_name, 
       start_date, end_date, period, 
-      address, word_note, pdf_note, 
-      add_type, add_user_id, add_time, 
-      is_valid, is_deleted, remark, 
-      status, back_reason)
-    values (#{year,jdbcType=INTEGER}, #{upperType,jdbcType=TINYINT}, #{type,jdbcType=BIT}, 
-      #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{upperTrainTypeId,jdbcType=INTEGER}, 
+      address, country, agency, 
+      word_note, pdf_note, add_type, 
+      add_user_id, add_time, is_valid, 
+      is_deleted, remark, status, 
+      back_reason)
+    values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{isOnline,jdbcType=BIT}, 
+      #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, 
+      #{isBranchSecretary,jdbcType=BIT}, #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
       #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
-      #{address,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, 
-      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
+      #{address,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
+      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -156,11 +165,11 @@
       <if test="year != null">
         year,
       </if>
-      <if test="upperType != null">
-        upper_type,
-      </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="isOnline != null">
+        is_online,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -168,8 +177,17 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="upperTrainTypeId != null">
-        upper_train_type_id,
+      <if test="isDouble != null">
+        is_double,
+      </if>
+      <if test="isBranchSecretary != null">
+        is_branch_secretary,
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id,
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type,
       </if>
       <if test="title != null">
         title,
@@ -200,6 +218,12 @@
       </if>
       <if test="address != null">
         address,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="agency != null">
+        agency,
       </if>
       <if test="wordNote != null">
         word_note,
@@ -236,11 +260,11 @@
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
-      <if test="upperType != null">
-        #{upperType,jdbcType=TINYINT},
-      </if>
       <if test="type != null">
-        #{type,jdbcType=BIT},
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isOnline != null">
+        #{isOnline,jdbcType=BIT},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -248,8 +272,17 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="upperTrainTypeId != null">
-        #{upperTrainTypeId,jdbcType=INTEGER},
+      <if test="isDouble != null">
+        #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="isBranchSecretary != null">
+        #{isBranchSecretary,jdbcType=BIT},
+      </if>
+      <if test="traineeTypeId != null">
+        #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        #{otherTraineeType,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -280,6 +313,12 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="agency != null">
+        #{agency,jdbcType=VARCHAR},
       </if>
       <if test="wordNote != null">
         #{wordNote,jdbcType=VARCHAR},
@@ -328,11 +367,11 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
-      <if test="record.upperType != null">
-        upper_type = #{record.upperType,jdbcType=TINYINT},
-      </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=BIT},
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.isOnline != null">
+        is_online = #{record.isOnline,jdbcType=BIT},
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -340,8 +379,17 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.upperTrainTypeId != null">
-        upper_train_type_id = #{record.upperTrainTypeId,jdbcType=INTEGER},
+      <if test="record.isDouble != null">
+        is_double = #{record.isDouble,jdbcType=BIT},
+      </if>
+      <if test="record.isBranchSecretary != null">
+        is_branch_secretary = #{record.isBranchSecretary,jdbcType=BIT},
+      </if>
+      <if test="record.traineeTypeId != null">
+        trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherTraineeType != null">
+        other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -372,6 +420,12 @@
       </if>
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agency != null">
+        agency = #{record.agency,jdbcType=VARCHAR},
       </if>
       <if test="record.wordNote != null">
         word_note = #{record.wordNote,jdbcType=VARCHAR},
@@ -412,11 +466,14 @@
     update cet_upper_train
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
-      upper_type = #{record.upperType,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=BIT},
+      type = #{record.type,jdbcType=TINYINT},
+      is_online = #{record.isOnline,jdbcType=BIT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      upper_train_type_id = #{record.upperTrainTypeId,jdbcType=INTEGER},
+      is_double = #{record.isDouble,jdbcType=BIT},
+      is_branch_secretary = #{record.isBranchSecretary,jdbcType=BIT},
+      trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
       organizer = #{record.organizer,jdbcType=INTEGER},
@@ -427,6 +484,8 @@
       end_date = #{record.endDate,jdbcType=DATE},
       period = #{record.period,jdbcType=DECIMAL},
       address = #{record.address,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      agency = #{record.agency,jdbcType=VARCHAR},
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
       add_type = #{record.addType,jdbcType=TINYINT},
@@ -447,11 +506,11 @@
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
-      <if test="upperType != null">
-        upper_type = #{upperType,jdbcType=TINYINT},
-      </if>
       <if test="type != null">
-        type = #{type,jdbcType=BIT},
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isOnline != null">
+        is_online = #{isOnline,jdbcType=BIT},
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
@@ -459,8 +518,17 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="upperTrainTypeId != null">
-        upper_train_type_id = #{upperTrainTypeId,jdbcType=INTEGER},
+      <if test="isDouble != null">
+        is_double = #{isDouble,jdbcType=BIT},
+      </if>
+      <if test="isBranchSecretary != null">
+        is_branch_secretary = #{isBranchSecretary,jdbcType=BIT},
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -491,6 +559,12 @@
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="agency != null">
+        agency = #{agency,jdbcType=VARCHAR},
       </if>
       <if test="wordNote != null">
         word_note = #{wordNote,jdbcType=VARCHAR},
@@ -528,11 +602,14 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetUpperTrain">
     update cet_upper_train
     set year = #{year,jdbcType=INTEGER},
-      upper_type = #{upperType,jdbcType=TINYINT},
-      type = #{type,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT},
+      is_online = #{isOnline,jdbcType=BIT},
       unit_id = #{unitId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      upper_train_type_id = #{upperTrainTypeId,jdbcType=INTEGER},
+      is_double = #{isDouble,jdbcType=BIT},
+      is_branch_secretary = #{isBranchSecretary,jdbcType=BIT},
+      trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},
       organizer = #{organizer,jdbcType=INTEGER},
@@ -543,6 +620,8 @@
       end_date = #{endDate,jdbcType=DATE},
       period = #{period,jdbcType=DECIMAL},
       address = #{address,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      agency = #{agency,jdbcType=VARCHAR},
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},
       add_type = #{addType,jdbcType=TINYINT},

@@ -1618,3 +1618,17 @@ span.delete, span.delete a, li.delete label {
     color: darkred;
     font-weight: bolder;
 }
+
+.input-group-addon{
+    padding: 0;
+}
+.input-group-addon .fa-calendar{
+    padding: 8px 12px;
+}
+
+.input-group.date .input-group-addon{
+    padding: 6px 12px;
+}
+.input-group.date .input-group-addon .fa-calendar{
+    padding: 0;
+}

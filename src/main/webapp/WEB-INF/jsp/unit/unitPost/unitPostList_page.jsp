@@ -148,7 +148,7 @@
                 </div>
                 <div class="form-group">
                     <label>职务类别</label>
-                    <select data-rel="select2" name="postClass" data-placeholder="请选择">
+                    <select data-rel="select2" name="postClass" data-width="100" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_post_class"/>
                     </select>
@@ -159,13 +159,13 @@
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-url="${ctx}/unitPostList?cls=${cls}"
-                       data-target="#tab-content"
+                       data-target="#unit-content"
                        data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/unitPostList"
                                 data-querystr="cls=${cls}&unitId=${param.unitId}"
-                                data-target="#tab-content">
+                                data-target="#unit-content">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>

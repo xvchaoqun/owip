@@ -3,7 +3,6 @@
 <mapper namespace="persistence.cet.CetUpperTrainAdminMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetUpperTrainAdmin">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="upper_type" jdbcType="TINYINT" property="upperType" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
   </resultMap>
@@ -66,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, upper_type, unit_id, user_id
+    id, unit_id, user_id
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainAdminExample" resultMap="BaseResultMap">
     select
@@ -99,19 +98,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUpperTrainAdmin">
-    insert into cet_upper_train_admin (id, upper_type, unit_id, 
-      user_id)
-    values (#{id,jdbcType=INTEGER}, #{upperType,jdbcType=TINYINT}, #{unitId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER})
+    insert into cet_upper_train_admin (id, unit_id, user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrainAdmin">
     insert into cet_upper_train_admin
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="upperType != null">
-        upper_type,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -123,9 +119,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="upperType != null">
-        #{upperType,jdbcType=TINYINT},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -147,9 +140,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.upperType != null">
-        upper_type = #{record.upperType,jdbcType=TINYINT},
-      </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
@@ -164,7 +154,6 @@
   <update id="updateByExample" parameterType="map">
     update cet_upper_train_admin
     set id = #{record.id,jdbcType=INTEGER},
-      upper_type = #{record.upperType,jdbcType=TINYINT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -174,9 +163,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetUpperTrainAdmin">
     update cet_upper_train_admin
     <set>
-      <if test="upperType != null">
-        upper_type = #{upperType,jdbcType=TINYINT},
-      </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
@@ -188,8 +174,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetUpperTrainAdmin">
     update cet_upper_train_admin
-    set upper_type = #{upperType,jdbcType=TINYINT},
-      unit_id = #{unitId,jdbcType=INTEGER},
+    set unit_id = #{unitId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

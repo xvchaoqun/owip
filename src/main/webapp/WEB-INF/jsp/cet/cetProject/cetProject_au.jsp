@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-8">
-                                    <div class="input-group">
+                                    <div class="input-group" style="width: 90px">
                                         <input required class="form-control date-picker" placeholder="请选择年份"
                                                name="year"
                                                type="text"
@@ -69,15 +69,17 @@
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>培训时间</label>
                                 <div class="col-xs-8">
+                                    <div class="input-group">
                                     <input required class="form-control date-picker" name="startDate"
-                                           type="text" style="width: 140px;float: left"
+                                           type="text" style="width: 90px;float: left"
                                            data-date-format="yyyy-mm-dd"
                                            value="${cm:formatDate(cetProject.startDate,'yyyy-MM-dd')}"/>
                                     <div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
                                     <input required class="form-control date-picker" name="endDate"
-                                           type="text" style="width: 140px;float: left"
+                                           type="text" style="width: 90px;float: left"
                                            data-date-format="yyyy-mm-dd"
                                            value="${cm:formatDate(cetProject.endDate,'yyyy-MM-dd')}"/>
+                                        </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -105,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">参训人员类型</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>
                                 <div class="col-xs-9 label-text" id="traineeTypeDiv">
                                     <c:forEach items="${traineeTypeMap}" var="entity">
                                         <label>
@@ -123,7 +125,7 @@
                             </div>--%>
 
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">培训方案(WORD文件)</label>
+                                <label class="col-xs-3 control-label" style="margin-top: -15px">培训方案(WORD文件)</label>
                                 <div class="col-xs-8">
                                     <input class="form-control" type="file" name="_wordFilePath"/>
                                 </div>
@@ -131,7 +133,8 @@
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>总学时</label>
                                 <div class="col-xs-8">
-                                    <input required class="form-control period" type="text" name="period" value="${cetProject.period}">
+                                    <input required class="form-control period"  style="width: 80px"
+                                           type="text" name="period" value="${cetProject.period}">
                                 </div>
                             </div>
                             <%--<div class="form-group">
@@ -141,7 +144,7 @@
                                 </div>
                             </div>--%>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label">是否计入年度学习任务</label>
+                                <label class="col-xs-3 control-label" style="margin-top: -15px">是否计入<br/>年度学习任务</label>
                                 <div class="col-xs-6">
                                     <input type="checkbox" class="big" name="isValid" ${(empty cetProject || cetProject.isValid)?"checked":""}/>
                                 </div>
@@ -199,7 +202,7 @@
         if($('#modalForm input[name="traineeTypeIds[]"]:checked').length==0){
             $.tip({
                 $target: $("#traineeTypeDiv"),
-                at: 'top center', my: 'bottom center',
+                /*at: 'right center', my: 'left center',*/
                 msg: "请选择参训人员类型。"
             });
         }

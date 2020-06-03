@@ -26,15 +26,21 @@ public class CetUpperTrain implements Serializable {
 
     private Integer year;
 
-    private Byte upperType;
+    private Byte type;
 
-    private Boolean type;
+    private Boolean isOnline;
 
     private Integer unitId;
 
     private Integer userId;
 
-    private Integer upperTrainTypeId;
+    private Boolean isDouble;
+
+    private Boolean isBranchSecretary;
+
+    private Integer traineeTypeId;
+
+    private String otherTraineeType;
 
     private String title;
 
@@ -57,6 +63,10 @@ public class CetUpperTrain implements Serializable {
     private BigDecimal period;
 
     private String address;
+
+    private String country;
+
+    private String agency;
 
     private String wordNote;
 
@@ -96,20 +106,20 @@ public class CetUpperTrain implements Serializable {
         this.year = year;
     }
 
-    public Byte getUpperType() {
-        return upperType;
-    }
-
-    public void setUpperType(Byte upperType) {
-        this.upperType = upperType;
-    }
-
-    public Boolean getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
     public Integer getUnitId() {
@@ -128,12 +138,36 @@ public class CetUpperTrain implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getUpperTrainTypeId() {
-        return upperTrainTypeId;
+    public Boolean getIsDouble() {
+        return isDouble;
     }
 
-    public void setUpperTrainTypeId(Integer upperTrainTypeId) {
-        this.upperTrainTypeId = upperTrainTypeId;
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public Boolean getIsBranchSecretary() {
+        return isBranchSecretary;
+    }
+
+    public void setIsBranchSecretary(Boolean isBranchSecretary) {
+        this.isBranchSecretary = isBranchSecretary;
+    }
+
+    public Integer getTraineeTypeId() {
+        return traineeTypeId;
+    }
+
+    public void setTraineeTypeId(Integer traineeTypeId) {
+        this.traineeTypeId = traineeTypeId;
+    }
+
+    public String getOtherTraineeType() {
+        return otherTraineeType;
+    }
+
+    public void setOtherTraineeType(String otherTraineeType) {
+        this.otherTraineeType = otherTraineeType == null ? null : otherTraineeType.trim();
     }
 
     public String getTitle() {
@@ -214,6 +248,22 @@ public class CetUpperTrain implements Serializable {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getAgency() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency = agency == null ? null : agency.trim();
     }
 
     public String getWordNote() {

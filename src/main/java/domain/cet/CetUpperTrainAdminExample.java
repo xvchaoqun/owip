@@ -164,66 +164,6 @@ public class CetUpperTrainAdminExample {
             return (Criteria) this;
         }
 
-        public Criteria andUpperTypeIsNull() {
-            addCriterion("upper_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeIsNotNull() {
-            addCriterion("upper_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeEqualTo(Byte value) {
-            addCriterion("upper_type =", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotEqualTo(Byte value) {
-            addCriterion("upper_type <>", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeGreaterThan(Byte value) {
-            addCriterion("upper_type >", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("upper_type >=", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeLessThan(Byte value) {
-            addCriterion("upper_type <", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("upper_type <=", value, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeIn(List<Byte> values) {
-            addCriterion("upper_type in", values, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotIn(List<Byte> values) {
-            addCriterion("upper_type not in", values, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeBetween(Byte value1, Byte value2) {
-            addCriterion("upper_type between", value1, value2, "upperType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("upper_type not between", value1, value2, "upperType");
-            return (Criteria) this;
-        }
-
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;

@@ -1,7 +1,6 @@
 package domain.cet;
 
 import domain.base.MetaType;
-import persistence.cet.common.ICetMapper;
 import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
@@ -23,13 +22,7 @@ public class BaseCetTrain {
                 year, num);
     }
 
-    public static Byte getSwitchStatus(int trainId, Byte enrollStatus, Date startTime, Date endTime) {
-
-        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
-        CetProject cetProject = iCetMapper.getCetProject(trainId);
-        if(cetProject!=null && cetProject.getStatus()!=CetConstants.CET_PROJECT_STATUS_START){
-            return CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN;
-        }
+    public static Byte getSwitchStatus(Byte enrollStatus, Date startTime, Date endTime) {
 
         // 手动开关判断
         if (enrollStatus != CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT) {

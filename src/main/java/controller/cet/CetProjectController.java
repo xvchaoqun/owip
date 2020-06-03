@@ -1,13 +1,15 @@
 package controller.cet;
 
 import controller.global.OpException;
-import domain.cet.*;
+import domain.cet.CetProject;
+import domain.cet.CetProjectType;
+import domain.cet.CetProjectView;
+import domain.cet.CetProjectViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -218,53 +219,6 @@ public class CetProjectController extends CetBaseController {
             logger.info(addLog(LogConstants.LOG_CET, "批量删除专题培训：%s", StringUtils.join(ids, ",")));
         }
 
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetProject:status")
-    @RequestMapping(value = "/cetProject_status", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetProject_status(Integer id, byte status) {
-
-        Assert.isTrue(CetConstants.CET_PROJECT_STATUS_MAP.containsKey(status));
-        if (id != null) {
-
-            CetProject record = new CetProject();
-            record.setStatus(status);
-
-            CetProjectExample example = new CetProjectExample();
-            CetProjectExample.Criteria criteria = example.createCriteria().andIdEqualTo(id);
-
-            if(status==CetConstants.CET_PROJECT_STATUS_START){
-                criteria.andStatusNotEqualTo(CetConstants.CET_PROJECT_STATUS_START);
-            }else if(status==CetConstants.CET_PROJECT_STATUS_FINISH){
-                criteria.andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_START);
-            }
-            cetProjectMapper.updateByExampleSelective(record, example);
-
-            logger.info(addLog(LogConstants.LOG_CET,
-                    "修改培训计划状态：%s %s", id, status));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetProject:publish")
-    @RequestMapping(value = "/cetProject_publish", method = RequestMethod.POST)
-    @ResponseBody
-    public Map cetProject_publish(HttpServletRequest request, Integer id, Boolean publish, ModelMap modelMap) {
-
-        if (id != null) {
-
-            publish = BooleanUtils.isTrue(publish);
-            CetProject record = new CetProject();
-            record.setId(id);
-            record.setPubStatus(publish ? CetConstants.CET_PROJECT_PUB_STATUS_PUBLISHED
-                    : CetConstants.CET_PROJECT_PUB_STATUS_CANCEL);
-
-            cetProjectService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "培训计划：%s", id));
-        }
         return success(FormUtils.SUCCESS);
     }
     

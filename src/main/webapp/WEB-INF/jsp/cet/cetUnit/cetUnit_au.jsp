@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">所属内设机构</label>
             <div class="col-xs-6">
-                <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=<%=SystemConstants.UNIT_STATUS_RUN%>"
+                <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=${UNIT_STATUS_RUN}"
                         data-placeholder="请选择">
                     <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                 </select>

@@ -18,8 +18,6 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="require_period" jdbcType="DECIMAL" property="requirePeriod" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -82,8 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, year, start_date, end_date, open_time, open_address, name, is_valid, project_type_id, 
-    file_name, pdf_file_path, word_file_path, period, require_period, remark, status, 
-    pub_status, create_time
+    file_name, pdf_file_path, word_file_path, period, require_period, remark, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -124,15 +121,13 @@
       name, is_valid, project_type_id, 
       file_name, pdf_file_path, word_file_path, 
       period, require_period, remark, 
-      status, pub_status, create_time
-      )
+      create_time)
     values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, #{projectTypeId,jdbcType=INTEGER}, 
       #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
       #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -185,12 +180,6 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="pubStatus != null">
-        pub_status,
-      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -240,12 +229,6 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="pubStatus != null">
-        #{pubStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -309,12 +292,6 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.pubStatus != null">
-        pub_status = #{record.pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -341,8 +318,6 @@
       period = #{record.period,jdbcType=DECIMAL},
       require_period = #{record.requirePeriod,jdbcType=DECIMAL},
       remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=TINYINT},
-      pub_status = #{record.pubStatus,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -396,12 +371,6 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="pubStatus != null">
-        pub_status = #{pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -425,8 +394,6 @@
       period = #{period,jdbcType=DECIMAL},
       require_period = #{requirePeriod,jdbcType=DECIMAL},
       remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      pub_status = #{pubStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

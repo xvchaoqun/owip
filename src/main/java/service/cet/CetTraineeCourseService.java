@@ -90,10 +90,6 @@ public class CetTraineeCourseService extends CetBaseMapper {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
 
-        if (cetTrain.getPubStatus() != CetConstants.CET_TRAIN_PUB_STATUS_PUBLISHED) {
-            throw new OpException("培训班还未发布，不允许选课。");
-        }
-
         Byte switchStatus = cetTrain.getSwitchStatus();
         if(switchStatus != CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN){
 
