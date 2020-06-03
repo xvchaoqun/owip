@@ -841,22 +841,33 @@ public class SysUserController extends BaseController {
 
                     SysUserView firstUv = uvs.get(0);
                     byte _type = firstUv.getType();
-                    int _typeNum = 0; // 第一个账号类别对应的账号数量
-                    for (SysUserView uv : uvs) {
-                        if(_type==uv.getType()) _typeNum++;
-                        if (null != birthKey) {
-                            if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))){
-                                codeList.add(uv.getCode());
-                                continue;
-                            }
-                        }else {
+                    if (_type == SystemConstants.USER_TYPE_YJS) {
+                        for (SysUserView uv : uvs) {
+                            String _stuType = studentInfoMapper.selectByPrimaryKey(uv.getId()).getType();
+                            if (StringUtils.isNotBlank(_stuType) && _stuType.contains("硕士"))
+                                code = uv.getCode();
+                            else if (StringUtils.isNotBlank(_stuType) && _stuType.contains("博士"))
+                                code = uv.getCode();
                             codeList.add(uv.getCode());
                         }
-                    }
+                    }else {
+                        int _typeNum = 0; // 第一个账号类别对应的账号数量
+                        for (SysUserView uv : uvs) {
+                            if (_type == uv.getType()) _typeNum++;
+                            if (null != birthKey) {
+                                if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
+                                    codeList.add(uv.getCode());
+                                    continue;
+                                }
+                            } else {
+                                codeList.add(uv.getCode());
+                            }
+                        }
 
-                    if(colType==0 && _typeNum==1){
-                        // 按身份证查找时，如果排第一的账号类型对应的账号数量只有一个，则认为是他当前使用的账号
-                        code = firstUv.getCode();
+                        if (colType == 0 && _typeNum == 1) {
+                            // 按身份证查找时，如果排第一的账号类型对应的账号数量只有一个，则认为是他当前使用的账号
+                            code = firstUv.getCode();
+                        }
                     }
                 }
             }

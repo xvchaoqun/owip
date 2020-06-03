@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -610,5 +612,90 @@ public class BranchController extends BaseController {
         BranchView branchView = branchService.getBranchView(branchId);
         branchService.checkIntegrity(branchView);
         return success(FormUtils.SUCCESS);
+    }
+
+    // 抽取党支部编码，根据党支部名称导出带编码的列表
+    @RequiresPermissions("branch:edit")
+    @RequestMapping("/branchPbCodeExport")
+    public String branchPbCodeExport(ModelMap modelMap) {
+
+        return "party/branch/branch_pb_export";
+    }
+
+    @RequiresPermissions("branch:edit")
+    @RequestMapping(value = "/branchPbCodeExport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branchPbCodeExport(
+            int branchNameCol, //党支部名称列
+            Integer bCodeAddCol, // 党支部编码列
+            @RequestParam(required = false, defaultValue = "1") int sheetNo,
+            HttpServletRequest request, HttpServletResponse response)
+            throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(sheetNo-1);
+
+        int firstNotEmptyRowNum = 0;
+        XSSFRow firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        while (firstRow==null){
+            if(firstNotEmptyRowNum>=100) break;
+            firstRow = sheet.getRow(firstNotEmptyRowNum++);
+        }
+        if(firstRow==null){
+            return failed("该文件前100行数据为空，无法导出");
+        }
+
+        int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum(); // 列数
+
+        for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
+
+            XSSFRow row = sheet.getRow(i);
+            // 行数据如果为空，不处理
+            if (row == null) continue;
+
+            XSSFCell cell = row.getCell(branchNameCol - 1);
+            String branchName = ExcelUtils.getCellValue(cell);
+            if(StringUtils.isBlank(branchName))
+                throw new OpException("第{0}行党支部名称为空", row);
+
+            // 去掉所有空格
+            branchName = branchName.replaceAll("\\s*", "");
+            branchName = branchName.replace("委员会", "");
+            branchName = branchName.replace("党", "");
+
+            BranchExample example = new BranchExample();
+            example.createCriteria().andNameLike(SqlUtils.trimLike(branchName));
+            List<Branch> branchs = branchMapper.selectByExample(example);
+            if (branchs.size() > 0) {
+                int count = 0;
+                for (Branch branch : branchs) {
+                    Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
+                    cell = row.createCell(cellNum + count++);
+                    cell.setCellValue(branch.getCode());
+                    if (null != party) {
+                        cell = row.createCell(cellNum + count++);
+                        cell.setCellValue(party.getCode());
+                    }
+                }
+            }else {
+                continue;
+            }
+        }
+
+        String savePath = FILE_SEPARATOR + "_filterExport"
+                + FILE_SEPARATOR + DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + ".xlsx";
+        FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
+        ExportHelper.save(workbook, springProps.uploadPath + savePath);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("file", savePath);
+        resultMap.put("filename", xlsx.getOriginalFilename());
+
+        return resultMap;
     }
 }
