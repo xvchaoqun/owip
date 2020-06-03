@@ -1,4 +1,5 @@
 
+2020.6.3
 
 ALTER TABLE `cet_train`
 	DROP COLUMN `pub_status`;
@@ -121,6 +122,7 @@ ALTER TABLE `cet_unit_train`
 	ADD COLUMN `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态 0 审批通过 1 待二级党委审批 2 待组织部审批' AFTER `add_time`;
 
 -- 更新 utils
+-- 更新录入样表
 
 update sys_property set code='upa_displayPosts',name='配备一览表显示空岗列表', remark='干部配备一览表是否显示空岗名称列表'  where code='cadrePost_vacant';
 
@@ -133,7 +135,7 @@ update sys_resource  set permission='mc_dwf_work_type_dj:*', url='/metaClass_typ
 -- 修复文件综合管理bug
 
 2020.5.28
-北航  -- 北师大
+北航
 
 update base_meta_class set bool_attr='在综合查询中是否显示' where code='mc_unit_type';
 

@@ -1,7 +1,8 @@
 package controller.cet.mobile.eva;
 
 import controller.cet.CetBaseController;
-import domain.cet.*;
+import domain.cet.CetTrain;
+import domain.cet.CetTrainInspector;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ public class MobileCetEvaLoginController extends CetBaseController {
     @RequestMapping("/login")
     public String login(String u, String p, // 匿名测评
                         Integer trainId, // 实名测评
-                        Integer id,//用于签到
                         HttpServletRequest request, ModelMap modelMap) {
 
         try {
@@ -44,19 +44,6 @@ public class MobileCetEvaLoginController extends CetBaseController {
                 CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
                 modelMap.put("train", train);
                 return "cet/mobile/eva/login";
-            }
-            try {
-                CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(id);
-                if (cetTrainCourse != null){
-                    CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(cetTrainCourse.getTrainId());
-                    modelMap.put("cetTrain", cetTrain);
-                    modelMap.put("cetTrainCourse", cetTrainCourse);
-                    return "cet/mobile/eva/signLogin";
-                }
-
-            }catch (Exception e){
-                modelMap.put("error", e.getMessage());
-                return "";
             }
 
         } catch (Exception ex) {
@@ -76,53 +63,28 @@ public class MobileCetEvaLoginController extends CetBaseController {
     @ResponseBody
     public Map<String, Object> do_login(String username, String password,
                                         Integer trainId, String mobile, // 实名测评
-                                        String code,//用于签到
-                                        String wxName,//用于签到
-                                        String trainCourse,//用于签到
                                         HttpServletRequest request) throws IOException {
 
-        if (StringUtils.isBlank(wxName) && StringUtils.isNotBlank(wxName)) {
-            if (StringUtils.isNotBlank(username)) {
-                CetTrainInspector trainInspector = cetTrainInspectorService.tryLogin(username, password);
-                if (trainInspector == null) {
-                    logger.info(sysLoginLogService.trainInspectorLoginlog(null, username, false, "登录失败，账号或密码错误"));
-                    return failed("账号或密码错误");
-                }
+        if (StringUtils.isNotBlank(username)) {
+            CetTrainInspector trainInspector = cetTrainInspectorService.tryLogin(username, password);
+            if (trainInspector == null) {
+                logger.info(sysLoginLogService.trainInspectorLoginlog(null, username, false, "登录失败，账号或密码错误"));
+                return failed("账号或密码错误");
+            }
 
-                CetHelper.setTrainInspector(request, trainInspector);
-                logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username, true, "登录成功"));
-            } else if (trainId != null) {
-                CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
-                CetTrainInspector trainInspector = cetTrainInspectorService.get(trainId, mobile);
-                if (trainInspector == null) {
-                    logger.info(sysLoginLogService.trainInspectorLoginlog(null, mobile, false,
-                            String.format("【%s】登录失败，评课账号【%s】不存在", train.getName(), mobile)));
-                    return failed("评课账号不存在");
-                }
-                logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), mobile, true,
-                        String.format("【%s】，评课账号【%s】登录成功", train.getName(), mobile)));
-                CetHelper.setTrainInspector(request, trainInspector);
+            CetHelper.setTrainInspector(request, trainInspector);
+            logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username, true, "登录成功"));
+        }else if (trainId != null) {
+            CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
+            CetTrainInspector trainInspector = cetTrainInspectorService.get(trainId, mobile);
+            if (trainInspector == null) {
+                logger.info(sysLoginLogService.trainInspectorLoginlog(null, mobile, false,
+                        String.format("【%s】登录失败，评课账号【%s】不存在", train.getName(), mobile)));
+                return failed("评课账号不存在");
             }
-        }else if (StringUtils.isBlank(wxName) && StringUtils.isNotBlank(code)){
-            CetCodeWxSign cetCodeWxSign = cetCodeWxSignService.getByCode(code);
-            if (cetCodeWxSign == null){
-                logger.info("登录失败");
-                return failed("首次登陆请输入微信号");
-            }
-        }else if (StringUtils.isNotBlank(wxName) && StringUtils.isNotBlank(code)){
-            CetTraineeCourseView cetTraineeCourseView = cetCodeWxSignService.getcetTraineeCourseView(code, trainCourse);
-            if (cetTraineeCourseView == null){
-                logger.info("登录失败");
-                return failed("签到账号不存在或未报名该课程");
-            }
-            CetCodeWxSign cetCodeWxSign = cetCodeWxSignService.getByCode(code);
-            if (cetCodeWxSign == null){
-                cetCodeWxSignService.insert(code, wxName);
-                logger.info("[%s]与学工号[code]绑定成功", wxName, code);
-            }else if (!cetCodeWxSign.getWxName().equals(StringUtils.trimToNull(wxName))){
-                logger.info("登录失败");
-                return failed("微信号输入错误");
-            }
+            logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), mobile, true,
+                    String.format("【%s】，评课账号【%s】登录成功", train.getName(), mobile)));
+            CetHelper.setTrainInspector(request, trainInspector);
         }
 
         return success("登入成功");
