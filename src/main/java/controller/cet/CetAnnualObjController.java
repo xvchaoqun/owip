@@ -92,8 +92,6 @@ public class CetAnnualObjController extends CetBaseController {
         if(userId!= ShiroHelper.getCurrentUserId()){
             // 非本人查看，需要检查权限
             SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
-        }else{
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
         }
 
         Integer annualId = cetAnnualObj.getAnnualId();

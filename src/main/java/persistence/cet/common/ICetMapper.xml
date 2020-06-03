@@ -74,7 +74,7 @@
     <!--学员的培训列表 -->
     <sql id="searchUserCetProject">
         <where>
-            cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType}
+            cpo.is_quit=0 and cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType}
             <if test="year!=null">
                 and cp.year = #{year}
             </if>

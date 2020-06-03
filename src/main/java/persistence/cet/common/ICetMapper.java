@@ -91,7 +91,7 @@ public interface ICetMapper {
     @ResultMap("persistence.cet.common.ICetMapper.TrainRecordMap")
     @Select("select cup.start_date, cup.end_date, cup.project_name as name, 3 as type, u.name as organizer, cut.period, 1 as is_graduate " +
             "from cet_unit_train cut, cet_unit_project cup left join unit u on u.id=cup.unit_id " +
-            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1")
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=#{year} and cup.is_valid=#{isValid}")
     public List<TrainRecord> getUnitRecords(@Param("userId") Integer userId,
                                             @Param("year") Integer year,
                                             @Param("isValid") Boolean isValid  // 是否计入年度学习任务
@@ -100,7 +100,7 @@ public interface ICetMapper {
     // 二级党委培训完成学时数（网络）
     @Select("select sum(cut.period) from cet_unit_train cut, cet_unit_project cup " +
             "LEFT JOIN base_meta_type tt ON tt.id=cup.project_type " +
-            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=${year} and cup.is_valid=1 AND tt.bool_attr=1")
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=#{year} and cup.is_valid=1 AND tt.bool_attr=1")
     public BigDecimal getUnitFinishPeriodOnline(@Param("userId") Integer userId,
                                           @Param("year") Integer year);
 

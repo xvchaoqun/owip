@@ -112,7 +112,7 @@
                                         <div class="form-group">
                                             <label>所属专项工作</label>
                                             <select class="multiselect" multiple="" name="workTypes">
-                                                <c:import url="/metaTypes?__code=mc_dwf_work_type"/>
+                                                <c:import url="/metaTypes?__code=mc_dwf_work_type_${cm:getMetaType(param.type).extraAttr}"/>
                                             </select>
                                         </div>
                                         <div class="form-group">

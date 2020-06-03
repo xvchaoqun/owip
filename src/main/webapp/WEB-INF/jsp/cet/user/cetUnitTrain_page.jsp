@@ -24,7 +24,7 @@
         colModel: [
             {label: '年度', name: 'project.year', width: 60},
             {label: '培训班主办方', name: 'project.unitId', width: 250, align: 'left', formatter: $.jgrid.formatter.unit},
-            {label: '培训班名称', name: 'project.projectName', align: 'left', width: 350},
+            {label: '培训项目名称', name: 'project.projectName', align: 'left', width: 350},
             {
                 label: '培训<br/>开始时间',
                 name: 'project.startDate',

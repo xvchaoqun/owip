@@ -47,7 +47,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
                             `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
                             `count_cache_roles`, `available`, `sort_order`) VALUES (3039, 1, '离任干部信息', '', 'url', 'fa fa-history', '/m/cadreHistory', 692, '0/692/', 1, 'm:cadreHistory:*', NULL, NULL, NULL, 1, 1849);
 
--- 更新 utils
+
 
 update cet_trainee_type set name='处级干部' where code='t_cadre';
 ALTER TABLE `cet_upper_train`
@@ -120,6 +120,17 @@ ALTER TABLE `cet_upper_train`
 ALTER TABLE `cet_unit_train`
 	ADD COLUMN `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态 0 审批通过 1 待二级党委审批 2 待组织部审批' AFTER `add_time`;
 
+-- 更新 utils
+
+update sys_property set code='upa_displayPosts',name='配备一览表显示空岗列表', remark='干部配备一览表是否显示空岗名称列表'  where code='cadrePost_vacant';
+
+-- 修复文件综合管理bug 已更新北化工
+update base_meta_class set code='mc_dwf_work_type_gb' where code='mc_dwf_work_type';
+update base_meta_class set code='mc_dwf_work_type_dj' where code='mc_dwf_work_type_ow';
+update sys_resource  set permission='mc_dwf_work_type_gb:*', url='/metaClass_type_list?cls=mc_dwf_work_type_gb' where permission='mc_dwf_work_type:*';
+update sys_resource  set permission='mc_dwf_work_type_dj:*', url='/metaClass_type_list?cls=mc_dwf_work_type_dj' where permission='mc_dwf_work_type_ow:*';
+
+-- 修复文件综合管理bug
 
 2020.5.28
 北航  -- 北师大
