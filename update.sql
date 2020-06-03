@@ -117,6 +117,9 @@ ALTER TABLE `cet_upper_train`
 	CHANGE COLUMN `upper_train_type_id` `trainee_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员类型，从元数据中获取，0代表其他' AFTER `is_branch_secretary`,
 	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选其他参训人员类型时，需要填写' AFTER `trainee_type_id`;
 
+ALTER TABLE `cet_unit_train`
+	ADD COLUMN `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态 0 审批通过 1 待二级党委审批 2 待组织部审批' AFTER `add_time`;
+
 
 2020.5.28
 北航  -- 北师大

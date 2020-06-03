@@ -28,7 +28,7 @@ pageEncoding="UTF-8" %>
                 <li class="<c:if test="${cls==3}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/cet/cetUnitProject?cls=3"><i
-                            class="fa fa-history"></i> 待审核(${cm:trimToZero(statusCountMap.get(_REPORT))})
+                            class="fa fa-history"></i> 待组织部审核(${cm:trimToZero(statusCountMap.get(_REPORT))})
                     <span id="checkCount"></span>
                     </a>
                 </li>

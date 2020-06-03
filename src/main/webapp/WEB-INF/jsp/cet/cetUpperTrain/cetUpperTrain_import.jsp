@@ -15,7 +15,7 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cetUpperTrain">上级调训录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cetUpperTrain">参训人员录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">
