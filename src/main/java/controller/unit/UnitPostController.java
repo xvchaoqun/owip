@@ -61,8 +61,8 @@ public class UnitPostController extends BaseController {
                                   @RequestParam(required = false, defaultValue = DISPATCH_CADRE_TYPE_APPOINT+"") Byte type,
                                   Byte displayType,
                                   ModelMap modelMap) {
-
-        modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+        UnitPost unitPost=unitPostMapper.selectByPrimaryKey(unitPostId);
+        modelMap.put("unitPost", unitPost);
 
         if(cadreId!=null){
             modelMap.put("cadre", CmTag.getCadreById(cadreId));
@@ -74,10 +74,10 @@ public class UnitPostController extends BaseController {
         }
 
         if(displayType==null){
-            if(ShiroHelper.isPermitted("unitPostGroup:list")){
+            if(ShiroHelper.isPermitted("unitPostGroup:list") && unitPost.getGroupId()!=null){
                 displayType = 0; // 默认按岗位分组搜索
             }else{
-                displayType = 2; // 默认按岗位名称搜索
+                displayType = 1; // 默认按岗位名称搜索
             }
         }
 

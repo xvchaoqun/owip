@@ -44,8 +44,9 @@
                 <shiro:hasPermission name="unitPostGroup:list">
                 <option value="0">按岗位分组</option>
                 </shiro:hasPermission>
-                <option value="1">按岗位编号</option>
-                <option value="2">按岗位名称</option>
+                <option value="1">按岗位名称</option>
+                <option value="2">当前岗位</option>
+
             </select>
             <script>
                 $("#searchForm_popup select[name=displayType]").val('${displayType}');
