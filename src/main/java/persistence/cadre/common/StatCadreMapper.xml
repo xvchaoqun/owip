@@ -272,6 +272,7 @@
 
         select * from cadre_view where 1=1
         <include refid="andSql" />
+        order by sort_order desc
     </select>
 
     <!-- 行政级别 -->
@@ -281,6 +282,7 @@
         <include refid="andSql" />
         and admin_level_code is not null
         and admin_level_code =#{adminLevelCode}
+        order by sort_order desc
     </select>
 
     <!-- 民族 -->
@@ -294,6 +296,7 @@
         <if test="!isHan">
             and nation not like '汉%' and nation is not null and nation!=''
         </if>
+        order by sort_order desc
     </select>
 
     <!-- 政治面貌 -->
@@ -307,6 +310,7 @@
         <if test="dpTypeId!=null">
             and dp_type_id>0 and dp_type_id!=#{crowdId}
         </if>
+        order by sort_order desc
     </select>
 
     <!-- 年龄 -->
@@ -319,6 +323,7 @@
           and #{endNum}>=TIMESTAMPDIFF(YEAR, birth,now())
         </if>
         and birth is not null
+        order by sort_order desc
     </select>
 
     <!-- 职称分布 -->
@@ -333,6 +338,7 @@
             and pro_post_level like #{postLevel}
         </if>
         and pro_post_level is not null
+        order by sort_order desc
     </select>
 
     <!-- 学位 -->
@@ -342,6 +348,7 @@
         <include refid="andSql" />
         and degree_type =#{degreeType}
         and degree_type is not null
+        order by sort_order desc
     </select>
 
     <!-- 专职干部 -->
@@ -351,6 +358,7 @@
         <include refid="andSql" />
         <if test="isDouble"> and is_double = 1 </if>
         <if test="!isDouble"> and (is_double = 0 or is_double is null) </if>
+        order by sort_order desc
     </select>
 
     <!-- 学历分布 -->
@@ -360,5 +368,6 @@
         <include refid="andSql" />
         and edu_id =#{eduId}
         and edu_id is not null
+        order by sort_order desc
     </select>
 </mapper>

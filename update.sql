@@ -1,7 +1,9 @@
-2020.6.4
--- 更新 base_meta_view
+
+-- 更新 base_meta_type_view
 
 2020.6.3
+
+drop view if exists crs_candidate_view;
 
 ALTER TABLE `cet_train`
 	DROP COLUMN `pub_status`;

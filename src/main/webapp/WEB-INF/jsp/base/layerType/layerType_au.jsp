@@ -76,7 +76,9 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
-                        $("#jqGrid${empty fid?'':'2'}").trigger("reloadGrid");
+                        $.reloadMetaData(function(){
+                             $("#jqGrid${empty fid?'':'2'}").trigger("reloadGrid");
+                        });
                     }
                 }
             });

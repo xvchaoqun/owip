@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.util.HtmlUtils;
 import sys.tags.CmTag;
 import sys.utils.HtmlEscapeUtils;
+import sys.utils.StringUtil;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -49,7 +50,7 @@ public class FreemarkerService {
         StringWriter writer = new StringWriter();
         process(path, dataMap, writer);
 
-        return writer.toString();
+        return StringUtils.trimToNull(StringUtil.trim(writer.toString()));
     }
 
     // 模板标签，（主要用于干部初始数据片段内容（学习经历、工作经历等），模板路径：ftl/cadre/*.ftl）

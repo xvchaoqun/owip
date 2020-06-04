@@ -120,7 +120,9 @@
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload(function(){
-                             _reloadGrid();
+                            $.reloadMetaData(function(){
+                                _reloadGrid();
+                            });
                         });
                     }
                 }

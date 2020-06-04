@@ -34,8 +34,16 @@ public class CadreInfoController extends BaseController {
             content = "";
         }
 
-        cadreInfoService.insertOrUpdate(cadreId, content, type);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部信息采集：%s, %s, %s", cadreId, content,
+        String html = "";
+        String[] rows = content.split("\n");
+        for (String row : rows) {
+
+            if(StringUtils.isBlank(row)) continue;
+            html += "<p>" + Jsoup.parse(row).text() + "</p>";
+        }
+
+        cadreInfoService.insertOrUpdate(cadreId, html, type);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部信息采集：%s, %s, %s, %s", cadreId, content, html,
                 CadreConstants.CADRE_INFO_TYPE_MAP.get(type)));
         return success(FormUtils.SUCCESS);
     }
