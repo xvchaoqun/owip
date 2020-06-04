@@ -67,8 +67,8 @@ public class MetaTypeController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MetaViewExample example = new MetaViewExample();
-        MetaViewExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
+        MetaTypeViewExample example = new MetaTypeViewExample();
+        MetaTypeViewExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause("class_sort_order desc,sort_order asc");
         if (StringUtils.isNotBlank(className)) {
             criteria.andClassNameLike(SqlUtils.like(className));
@@ -83,12 +83,12 @@ public class MetaTypeController extends BaseController {
             criteria.andCodeLike(SqlUtils.like(code));
         }
 
-        long count = metaViewMapper.countByExample(example);
+        long count = metaTypeViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MetaView> MetaTypes = metaViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MetaTypeView> MetaTypes = metaTypeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

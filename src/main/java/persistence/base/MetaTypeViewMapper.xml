@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.base.MetaTypeViewMapper">
+  <resultMap id="BaseResultMap" type="domain.base.MetaTypeView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="bool_attr" jdbcType="BIT" property="boolAttr" />
+    <result column="extra_attr" jdbcType="VARCHAR" property="extraAttr" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="available" jdbcType="BIT" property="available" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="first_level" jdbcType="VARCHAR" property="firstLevel" />
+    <result column="second_level" jdbcType="VARCHAR" property="secondLevel" />
+    <result column="class_code" jdbcType="VARCHAR" property="classCode" />
+    <result column="class_sort_order" jdbcType="INTEGER" property="classSortOrder" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, class_id, name, code, bool_attr, extra_attr, remark, sort_order, available, class_name, 
+    first_level, second_level, class_code, class_sort_order
+  </sql>
+  <select id="selectByExample" parameterType="domain.base.MetaTypeViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_meta_type_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="domain.base.MetaTypeViewExample">
+    delete from base_meta_type_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.base.MetaTypeView">
+    insert into base_meta_type_view (id, class_id, name, 
+      code, bool_attr, extra_attr, 
+      remark, sort_order, available, 
+      class_name, first_level, second_level, 
+      class_code, class_sort_order)
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{boolAttr,jdbcType=BIT}, #{extraAttr,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{available,jdbcType=BIT}, 
+      #{className,jdbcType=VARCHAR}, #{firstLevel,jdbcType=VARCHAR}, #{secondLevel,jdbcType=VARCHAR}, 
+      #{classCode,jdbcType=VARCHAR}, #{classSortOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.base.MetaTypeView">
+    insert into base_meta_type_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="boolAttr != null">
+        bool_attr,
+      </if>
+      <if test="extraAttr != null">
+        extra_attr,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="firstLevel != null">
+        first_level,
+      </if>
+      <if test="secondLevel != null">
+        second_level,
+      </if>
+      <if test="classCode != null">
+        class_code,
+      </if>
+      <if test="classSortOrder != null">
+        class_sort_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="boolAttr != null">
+        #{boolAttr,jdbcType=BIT},
+      </if>
+      <if test="extraAttr != null">
+        #{extraAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=BIT},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLevel != null">
+        #{firstLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="secondLevel != null">
+        #{secondLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="classCode != null">
+        #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classSortOrder != null">
+        #{classSortOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.base.MetaTypeViewExample" resultType="java.lang.Long">
+    select count(*) from base_meta_type_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update base_meta_type_view
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boolAttr != null">
+        bool_attr = #{record.boolAttr,jdbcType=BIT},
+      </if>
+      <if test="record.extraAttr != null">
+        extra_attr = #{record.extraAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.available != null">
+        available = #{record.available,jdbcType=BIT},
+      </if>
+      <if test="record.className != null">
+        class_name = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstLevel != null">
+        first_level = #{record.firstLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondLevel != null">
+        second_level = #{record.secondLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classCode != null">
+        class_code = #{record.classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classSortOrder != null">
+        class_sort_order = #{record.classSortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update base_meta_type_view
+    set id = #{record.id,jdbcType=INTEGER},
+      class_id = #{record.classId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      bool_attr = #{record.boolAttr,jdbcType=BIT},
+      extra_attr = #{record.extraAttr,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      available = #{record.available,jdbcType=BIT},
+      class_name = #{record.className,jdbcType=VARCHAR},
+      first_level = #{record.firstLevel,jdbcType=VARCHAR},
+      second_level = #{record.secondLevel,jdbcType=VARCHAR},
+      class_code = #{record.classCode,jdbcType=VARCHAR},
+      class_sort_order = #{record.classSortOrder,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.base.MetaTypeViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from base_meta_type_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
