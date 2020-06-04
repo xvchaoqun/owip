@@ -51,6 +51,11 @@ public class MetaTypeController extends BaseController {
 
         return "base/metaType/metaTypes";
     }
+    @RequestMapping("/metaType")
+    public String metaType(@RequestParam(required = false, defaultValue = "2") int cls,ModelMap modelMap) {
+        modelMap.put("cls",cls);
+        return "base/metaType/metaType_page";
+    }
 
     @RequiresPermissions("metaClassType:list")
     @RequestMapping("/metaType_data")

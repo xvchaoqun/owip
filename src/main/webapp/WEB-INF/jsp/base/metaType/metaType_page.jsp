@@ -4,9 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/metaType_au"
              data-url-page="${ctx}/metaType"
-             data-url-export="${ctx}/metaType_data"
              data-url-co="${ctx}/metaType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <jsp:include page="../metaClass/menu.jsp"/>

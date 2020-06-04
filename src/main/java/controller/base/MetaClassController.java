@@ -48,9 +48,6 @@ public class MetaClassController extends BaseController {
     @RequestMapping("/metaClass")
     public String metaClass(@RequestParam(required = false, defaultValue = "1") int cls,ModelMap modelMap) {
         modelMap.put("cls",cls);
-       if(cls==2) {
-           return "base/metaType/metaType_page";
-       }
         return "base/metaClass/metaClass_page";
     }
 
