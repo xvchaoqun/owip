@@ -9,6 +9,8 @@
              data-url-export="${ctx}/metaClass_data"
              data-url-co="${ctx}/metaClass_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <jsp:include page="menu.jsp"/>
+            <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.name || not empty param.code
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
 

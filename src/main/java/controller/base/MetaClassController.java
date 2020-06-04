@@ -46,8 +46,11 @@ public class MetaClassController extends BaseController {
 
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass")
-    public String metaClass() {
-
+    public String metaClass(@RequestParam(required = false, defaultValue = "1") int cls,ModelMap modelMap) {
+        modelMap.put("cls",cls);
+       if(cls==2) {
+           return "base/metaType/metaType_page";
+       }
         return "base/metaClass/metaClass_page";
     }
 

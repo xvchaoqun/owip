@@ -263,6 +263,8 @@ public class CoreBaseMapper {
     @Autowired(required = false)
     protected MetaTypeMapper metaTypeMapper;
     @Autowired(required = false)
+    protected MetaViewMapper metaViewMapper;
+    @Autowired(required = false)
     protected LayerTypeMapper layerTypeMapper;
     @Autowired(required = false)
     protected AnnualTypeMapper annualTypeMapper;

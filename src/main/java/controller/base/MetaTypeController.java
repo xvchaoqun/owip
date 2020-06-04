@@ -1,10 +1,10 @@
 package controller.base;
 
 import controller.BaseController;
-import domain.base.MetaClass;
-import domain.base.MetaType;
-import domain.base.MetaTypeExample;
+import domain.base.*;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -21,17 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.MSUtils;
+import sys.tool.paging.CommonList;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class MetaTypeController extends BaseController {
@@ -56,13 +52,12 @@ public class MetaTypeController extends BaseController {
         return "base/metaType/metaTypes";
     }
 
-    /*@RequiresPermissions("metaType:list")
-    @RequestMapping("/metaType")
-    public String metaType(HttpServletRequest request,
-                           HttpServletResponse response,
-                           String name, String code, Integer classId,
-                           @RequestParam(required = false, defaultValue = "0") int export,
-                           Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    @RequiresPermissions("metaClassType:list")
+    @RequestMapping("/metaType_data")
+    public void metaType_data(HttpServletRequest request,
+                           HttpServletResponse response, String className, String classCode,
+                           String name, String code,
+                           Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -72,57 +67,42 @@ public class MetaTypeController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MetaTypeExample example = new MetaTypeExample();
-        Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
-        example.setOrderByClause("sort_order asc");
+        MetaViewExample example = new MetaViewExample();
+        MetaViewExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
+        example.setOrderByClause("class_sort_order desc,sort_order asc");
+        if (StringUtils.isNotBlank(className)) {
+            criteria.andClassNameLike(SqlUtils.like(className));
+        }
+        if (StringUtils.isNotBlank(classCode)) {
+            criteria.andClassCodeLike(SqlUtils.like(classCode));
+        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike(SqlUtils.like(code));
         }
-        if (classId != null) {
-            modelMap.put("metaClass", metaClassService.findAll().get(classId));
-            criteria.andClassIdEqualTo(classId);
-        }
-        if (export == 1) {
-            metaType_export(example, response);
-            return null;
-        }
 
-        int count = metaTypeMapper.countByExample(example);
+        long count = metaViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MetaType> MetaTypes = metaTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("metaTypes", MetaTypes);
+        List<MetaView> MetaTypes = metaViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
-        String searchStr = "&pageSize=" + pageSize;
-        if (StringUtils.isNotBlank(name)) {
-            searchStr += "&name=" + name;
-        }
-        if (StringUtils.isNotBlank(code)) {
-            searchStr += "&code=" + code;
-        }
-        if (classId != null) {
-            searchStr += "&classId=" + classId;
-        }
-       *//* if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }*//*
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", MetaTypes);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
 
-        modelMap.put("metaClassMap", metaClassService.findAll());
-
-        return "base/metaType/metaType_page";
-    }*/
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(MetaClass.class, DispatchTypeMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
 
     @RequiresPermissions("metaType:edit")
     @RequestMapping(value = "/metaType_au", method = RequestMethod.POST)
@@ -213,7 +193,7 @@ public class MetaTypeController extends BaseController {
     @ResponseBody
     public Map do_metaType_changeOrder(Integer id, Integer classId, Integer addNum, HttpServletRequest request) {
 
-        Assert.isTrue(classId > 0, "wrong classId");
+      /*  Assert.isTrue(classId > 0, "wrong classId");*/
         metaTypeService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "元数据属性值调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);

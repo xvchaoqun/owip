@@ -9,31 +9,33 @@
     <form class="form-horizontal" action="${ctx}/layerType_au" autocomplete="off" disableautocomplete id="modalForm"
           method="post">
         <input type="hidden" name="fid" value="${topLayerType.id}">
+        <input type="hidden" name="id" value="${layerType.id}">
          <div class="form-group">
             <label class="col-xs-3 control-label">编号</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="code">
+                <input class="form-control" type="text" name="code" value="${layerType.code}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>${fLayerType.secondLevel}</label>
             <div class="col-xs-6">
-                <input required maxlength="50" class="form-control" type="text" name="name">
+                <input required maxlength="50" class="form-control" type="text" name="name" value="${layerType.name}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
-                <textarea maxlength="200" class="form-control limited" name="remark"></textarea>
+                <textarea maxlength="200" class="form-control limited" name="remark">${layerType.remark}</textarea>
             </div>
         </div>
         <div class="modal-footer">
-            <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/>
+            <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="${empty layerType?'添加':'编辑'}"/>
         </div>
     </form>
     <div class="space-10"></div>
     <div class="popTableDiv"
          data-url-page="${ctx}/layerType_detail?fid=${topLayerType.id}&popup=1"
+         data-url-au="${ctx}/layerType_detail?fid=${topLayerType.id}&popup=1"
          data-url-del="${ctx}/layerType_del"
          data-url-co="${ctx}/layerType_changeOrder">
         <c:if test="${commonList.recNum>0}">
@@ -70,6 +72,13 @@
                         </c:if>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
+                                <shiro:hasPermission name="layerType:edit">
+                                    <button class="editBtn btn btn-primary btn-xs"
+                                            data-callback="_reloadGrid"
+                                            data-id="${layerType.id}">
+                                        <i class="fa fa-edit"></i> 编辑
+                                    </button>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="layerType:del">
                                     <button class="delBtn btn btn-danger btn-xs"
                                             data-callback="_reloadGrid"

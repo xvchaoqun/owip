@@ -44,17 +44,24 @@ public class LayerTypeController extends BaseController {
     @RequiresPermissions("layerType:list")
     @RequestMapping("/layerType_detail")
     public String layerType_detail(int fid,
+                                   Integer id,
                                    Boolean popup,
                                    Integer pageSize, Integer pageNo,
                                    ModelMap modelMap) {
 
         LayerType topLayerType = layerTypeMapper.selectByPrimaryKey(fid);
         modelMap.put("topLayerType", topLayerType);
+
         if(topLayerType.getFid()!=null){
             modelMap.put("fLayerType", layerTypeMapper.selectByPrimaryKey(topLayerType.getFid()));
         }
 
         if(BooleanUtils.isTrue(popup)){
+
+            if(id!=null){
+                LayerType layerType = layerTypeMapper.selectByPrimaryKey(id);
+                modelMap.put("layerType", layerType);
+            }
 
             if (null == pageSize) {
                 pageSize = springProps.pageSize;

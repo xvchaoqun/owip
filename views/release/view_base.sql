@@ -1,4 +1,8 @@
-
+DROP VIEW IF EXISTS `base_meta_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `base_meta_view`
+AS SELECT cmt.*, cmc.name as class_name, cmc.first_level, cmc.second_level, cmc.code AS class_code, cmc.sort_order AS class_sort_order
+FROM base_meta_type cmt
+LEFT JOIN base_meta_class cmc ON cmt.class_id=cmc.id;
 -- ----------------------------
 --  View definition for `sys_user_view`
 -- ----------------------------

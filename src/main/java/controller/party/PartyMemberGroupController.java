@@ -6,6 +6,7 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
 import domain.party.*;
 import domain.party.PartyMemberGroupExample.Criteria;
+import domain.sys.SysConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,6 +95,7 @@ public class PartyMemberGroupController extends BaseController {
                                       Boolean isPresent,
                                       @RequestDateRange DateRange _appointTime,
                                        @RequestDateRange DateRange _tranTime,
+                                       Byte isTranTime,
                                       @RequestParam(required = false, defaultValue = "0") int export,
                                       @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
@@ -149,7 +152,9 @@ public class PartyMemberGroupController extends BaseController {
         if (_tranTime.getEnd()!=null) {
             criteria.andTranTimeLessThanOrEqualTo(_tranTime.getEnd());
         }
-
+        if (isTranTime!=null) {
+            criteria.andTranTimeLessThanOrEqualTo(new Date());
+        }
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
