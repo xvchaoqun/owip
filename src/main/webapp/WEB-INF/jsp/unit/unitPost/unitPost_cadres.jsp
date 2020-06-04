@@ -41,9 +41,9 @@
             <label>显示范围</label>
             <select data-rel="select2" data-placeholder="请选择" data-width="130"
                     name="displayType">
-                <shiro:hasPermission name="unitPostGroup:list">
+                <c:if test="${unitPost.groupId>0}">
                 <option value="0">按岗位分组</option>
-                </shiro:hasPermission>
+                </c:if>
                 <option value="1">按岗位名称</option>
                 <option value="2">当前岗位</option>
 

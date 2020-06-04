@@ -126,23 +126,28 @@ public class UnitPostAllocationService extends BaseMapper {
         return ts;
     }
 
-    private XSSFRichTextString getPost(XSSFWorkbook wb, List<UnitPostView> cadrePosts) {
+    private XSSFRichTextString getPosts(XSSFWorkbook wb, List<UnitPostView> cadrePosts) {
 
-        String post = "";
+        String posts = "";
 
-        for (int i = 0; i < cadrePosts.size(); i++) {
+        int totalCount = cadrePosts.size();
+        for (int i = 0; i < totalCount; i++) {
             int count = i + 1;
             String postName = cadrePosts.get(i).getName();
             if (cadrePosts.size() == 1) {
-                post += postName;
+                posts += postName;
             } else {
-                post += count + "." + postName + " \r\n";
+                posts += count + "." + postName;
+
+                if(i < totalCount-1){
+                    posts += "\r\n";
+                }
             }
         }
 
         XSSFFont postFont = wb.createFont();
         postFont.setColor(IndexedColors.RED.getIndex());
-        XSSFRichTextString ts = new XSSFRichTextString(post);
+        XSSFRichTextString ts = new XSSFRichTextString(posts);
         ts.applyFont(postFont);
 
         return ts;
@@ -228,7 +233,7 @@ public class UnitPostAllocationService extends BaseMapper {
             if (_upa_displayPosts) {
                 // 正*级 空缺岗位
                 cell = row.getCell(column++);
-                cell.setCellValue(getPost(wb, bean.getMainLackPost()));
+                cell.setCellValue(getPosts(wb, bean.getMainLackPost()));
 
                 // 正*级 保留待遇
                 cell = row.getCell(column++);
@@ -253,7 +258,7 @@ public class UnitPostAllocationService extends BaseMapper {
             if (_upa_displayPosts) {
                 // 正*级 空缺岗位
                 cell = row.getCell(column++);
-                cell.setCellValue(getPost(wb, bean.getViceLackPost()));
+                cell.setCellValue(getPosts(wb, bean.getViceLackPost()));
 
                 // 正*级 保留待遇
                 cell = row.getCell(column++);
@@ -901,7 +906,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
             // 正*级 空缺岗位
             cell = row.getCell(column++);
-            cell.setCellValue(getPost(wb, bean.getMainLackPost()));
+            cell.setCellValue(getPosts(wb, bean.getMainLackPost()));
 
             // 正*级 保留待遇
             cell = row.getCell(column++);
@@ -925,7 +930,7 @@ public class UnitPostAllocationService extends BaseMapper {
 
             // 正*级 空缺岗位
             cell = row.getCell(column++);
-            cell.setCellValue(getPost(wb, bean.getViceLackPost()));
+            cell.setCellValue(getPosts(wb, bean.getViceLackPost()));
 
             // 正*级 保留待遇
             cell = row.getCell(column++);

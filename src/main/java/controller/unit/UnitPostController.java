@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
-import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -74,7 +73,7 @@ public class UnitPostController extends BaseController {
         }
 
         if(displayType==null){
-            if(ShiroHelper.isPermitted("unitPostGroup:list") && unitPost.getGroupId()!=null){
+            if(unitPost.getGroupId()!=null){
                 displayType = 0; // 默认按岗位分组搜索
             }else{
                 displayType = 1; // 默认按岗位名称搜索
