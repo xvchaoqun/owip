@@ -62,7 +62,7 @@
 
         <td class="bg-right">所在年级</td>
         <td class="bg-left">
-            ${studentInfo.enrolYear}
+            ${studentInfo.grade}
         </td>
         <td class="bg-right">
             学生类别

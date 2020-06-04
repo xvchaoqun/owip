@@ -954,22 +954,24 @@ public class SysUserController extends BaseController {
             record.setMobile(StringUtils.trimToNull(xlsRow.get(3)));
             record.setEmail(StringUtils.trimToNull(xlsRow.get(4)));
 
-            record.setNativePlace(StringUtils.trimToNull(xlsRow.get(5)));
-            record.setHomeplace(StringUtils.trimToNull(xlsRow.get(6)));
-            record.setHousehold(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setNation(StringUtils.trimToNull(xlsRow.get(5)));
+            record.setNativePlace(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setHomeplace(StringUtils.trimToNull(xlsRow.get(7)));
+            record.setHousehold(StringUtils.trimToNull(xlsRow.get(8)));
+            record.setMailingAddress(StringUtils.trimToNull(xlsRow.get(9)));
 
-            String _health = StringUtils.trimToNull(xlsRow.get(9));
+            String _health = StringUtils.trimToNull(xlsRow.get(11));
             if(_health!=null) {
                 MetaType healthType = CmTag.getMetaTypeByName("mc_health", _health);
                 if (healthType == null) throw new OpException("第{0}行健康状态[{1}]不存在", row, _health);
                 record.setHealth(healthType.getId());
             }
-            record.setSpecialty(StringUtils.trimToNull(xlsRow.get(10)));
+            record.setSpecialty(StringUtils.trimToNull(xlsRow.get(12)));
 
             records.add(record);
 
             if(uv.getType()== SystemConstants.USER_TYPE_JZG) {
-                Date workTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(8)));
+                Date workTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(10)));
                 if(workTime!=null) {
                     TeacherInfo ti = new TeacherInfo();
                     ti.setUserId(uv.getId());
