@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import persistence.base.*;
 import persistence.base.common.IBaseMapper;
 import persistence.cadre.*;
-import persistence.cadre.common.CadreSearchBean;
 import persistence.cadre.common.ICadreMapper;
 import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
@@ -416,10 +415,10 @@ public class CoreBaseMapper {
         }
     }
 
-    public String getMainAdminLevelCode(CadreSearchBean searchBean){
-        return (searchBean.cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_main":"mt_admin_level_main_kj";
+    public String getMainAdminLevelCode(byte cadreType){
+        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_main":"mt_admin_level_main_kj";
     }
-    public String getViceAdminLevelCode(CadreSearchBean searchBean){
-        return (searchBean.cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_vice":"mt_admin_level_vice_kj";
+    public String getViceAdminLevelCode(byte cadreType){
+        return (cadreType== CadreConstants.CADRE_TYPE_CJ)?"mt_admin_level_vice":"mt_admin_level_vice_kj";
     }
 }

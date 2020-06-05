@@ -223,6 +223,7 @@ public class CadreController extends BaseController {
                            @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
                            @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
                            @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                           String major, // 所学专业
                            @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
                            @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
                            @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
@@ -407,6 +408,9 @@ public class CadreController extends BaseController {
             }else {
                 criteria.andEduIdIn(Arrays.asList(maxEdus));
             }
+        }
+        if(StringUtils.isNotBlank(major)){
+            criteria.andMajorLike(SqlUtils.like(major));
         }
         if (postTypes != null) {
             criteria.andPostTypeIn(Arrays.asList(postTypes));

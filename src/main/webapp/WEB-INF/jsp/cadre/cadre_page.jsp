@@ -17,7 +17,7 @@
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels
-                ||not empty param.maxEdus ||not empty param.staffTypes ||not empty param.degreeType
+                ||not empty param.maxEdus||not empty param.major ||not empty param.staffTypes ||not empty param.degreeType
                 ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
                 ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
                 ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
@@ -619,6 +619,13 @@
                                                         <script>
                                                             $("#searchForm select[name=degreeType]").val('${param.degreeType}');
                                                         </script>
+                                                    </div>
+                                                </div>
+                                                <div class="column">
+                                                    <label>所学专业</label>
+                                                    <div class="input">
+                                                        <input type="text" name="major"
+                                                               value="${param.major}">
                                                     </div>
                                                 </div>
                                                 <div class="column">

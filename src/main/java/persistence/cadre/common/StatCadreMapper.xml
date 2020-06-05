@@ -15,10 +15,11 @@
         <result column="num_5" property="num5" jdbcType="INTEGER" />
         <result column="num_6" property="num6" jdbcType="INTEGER" />
         <result column="num_7" property="num7" jdbcType="INTEGER" />
+        <result column="val" property="val" jdbcType="DECIMAL" />
     </resultMap>
     <sql id="andSql">
-        <if test="unitTypeGroup!=null">
-            and unit_type_group =#{unitTypeGroup}
+        <if test="s.unitTypeGroup!=null">
+            and unit_type_group =#{s.unitTypeGroup}
         </if>
         <!--处级干部-->
         <if test="s.cadreType==1">
@@ -59,6 +60,12 @@
             </foreach>
         </if>
     </sql>
+    <!-- 按日/月计算年龄 -->
+    <sql id="ageEl">
+        <if test="s.birthToDay">TIMESTAMPDIFF(YEAR, birth, CURDATE())</if>
+        <if test="!s.birthToDay">(year(CURDATE())-year(birth) + if(month(birth)>month(CURDATE()), -1, 0))</if>
+    </sql>
+
     <!-- 总人数 -->
     <select id="countCadre" resultType="java.lang.Integer" parameterType="map">
         select count(*) as num from cadre_view where 1=1
@@ -131,7 +138,7 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
         from (
-        select TIMESTAMPDIFF(YEAR, birth,now()) as age, count(*) as num from cadre_view  where 1=1
+        select <include refid="ageEl"/> as age, count(*) as num from cadre_view  where 1=1
          <include refid="andSql" />
          and birth is not null group by age
         ) tmp
@@ -150,7 +157,7 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
-        select TIMESTAMPDIFF(YEAR, birth,now()) as age, admin_level_code, count(*) as num from cadre_view  where 1=1
+        select <include refid="ageEl"/> as age, admin_level_code, count(*) as num from cadre_view  where 1=1
         <include refid="andSql" />
          and birth is not null and admin_level_code is not null group by age,admin_level_code
         ) tmp group by admin_level_code
@@ -170,12 +177,32 @@
         ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
-        select TIMESTAMPDIFF(YEAR, birth,now()) as age, gender, count(*) as num from cadre_view  where 1=1
+        select <include refid="ageEl"/> as age, gender, count(*) as num from cadre_view  where 1=1
         <include refid="andSql" />
          and birth is not null and gender is not null group by age,gender
         ) tmp group by gender
 
     </select>
+
+    <!-- 平均年龄 -->
+    <select id="cadre_avg_age" resultMap="BaseResultMap" parameterType="map">
+        select AVG(<include refid="ageEl"/>) as val from cadre_view  where 1=1
+         <include refid="andSql" />
+         and birth is not null
+    </select>
+    <!-- 平均年龄-行政级别 -->
+    <select id="cadre_avg_age_adminLevel" resultMap="BaseResultMap" parameterType="map">
+         select admin_level_code, AVG(<include refid="ageEl"/>) as val from cadre_view  where 1=1
+        <include refid="andSql" />
+         and birth is not null and admin_level_code is not null group by admin_level_code
+    </select>
+    <!-- 平均年龄-性别 -->
+    <select id="cadre_avg_age_gender" resultMap="BaseResultMap" parameterType="map">
+        select gender, AVG(<include refid="ageEl"/>) as val from cadre_view  where 1=1
+        <include refid="andSql" />
+        and birth is not null and gender is not null group by gender
+    </select>
+
     <!-- 职称 -->
     <select id="cadre_stat_post" resultMap="BaseResultMap" parameterType="map">
         <![CDATA[
@@ -318,9 +345,11 @@
 
         select * from cadre_view where 1=1
         <include refid="andSql" />
-        and TIMESTAMPDIFF(YEAR, birth,now())>=#{startNum}
-        <if test="endNum!=null">
-          and #{endNum}>=TIMESTAMPDIFF(YEAR, birth,now())
+        <if test="startAge!=null">
+        and <include refid="ageEl"/> >= #{startAge}
+        </if>
+        <if test="endAge!=null">
+          and #{endAge} >= <include refid="ageEl"/>
         </if>
         and birth is not null
         order by sort_order desc

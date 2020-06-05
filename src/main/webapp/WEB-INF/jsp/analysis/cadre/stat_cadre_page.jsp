@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="tabbable" style="width: 1148px">
+        <div id="contentDiv" style="width: 1148px">
             <c:set var="_query" value="${not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.adminLevels
             ||not empty param.isKeepSalary
             ||not empty param.isPrincipal ||not empty param.isDouble || not empty param.labels}"/>
@@ -83,7 +83,7 @@
                             <div class="clearfix"></div>
                             <div class="clearfix form-actions center">
                                 <button type="button" class="jqSearchBtn btn btn-default btn-sm"
-                                   data-mask-el="#statTable"
+                                   data-mask-el="#contentDiv"
                                    data-url="${ctx}/stat_cadre"><i class="fa fa-search"></i> 查找</button>
                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                     <button type="button" data-url="${ctx}/stat_cadre"
@@ -129,7 +129,7 @@
             </ul>
 
             <div class="tab-content" style="padding: 5px 4px 0px">
-                <table id="statTable" border=0 cellpadding=0 cellspacing=0
+                <table border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=14 height=41 class=xl97>${_school}${CADRE_TYPE_MAP.get(cadreType)}情况统计表
@@ -295,6 +295,13 @@
                             <jsp:param name="row" value="15"/>
                             <jsp:param name="firstTypeCode" value="age" />
                             <jsp:param name="firstTypeNum" value="7" />
+                        </jsp:include>
+                    </tr>
+                    <tr>
+                        <td colspan=2 height=23 class=xl70>平均年龄
+                        </td>
+                        <jsp:include page="row2.jsp">
+                            <jsp:param name="row" value="_avgAge"/>
                         </jsp:include>
                     </tr>
                     <tr>

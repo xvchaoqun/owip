@@ -25,10 +25,10 @@
             </button>
         </shiro:lacksRole>
         <div class="navbar-header pull-left hidden-xs hidden-sm">
-            <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
+            <div class="logo hashchange" style="cursor: pointer;" data-url="#">
                 <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
-            <div class="txt" style="cursor: pointer;" onclick="location.href='#'">${_plantform_name}</div>
+            <div class="txt hashchange" style="cursor: pointer;" data-url="#">${_plantform_name}</div>
         </div>
         <div class="navbar-header pull-left hidden-md hidden-lg ">
             <a href="${ctx}/" class="navbar-brand">

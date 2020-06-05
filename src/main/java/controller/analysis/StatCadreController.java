@@ -59,7 +59,7 @@ public class StatCadreController extends BaseController {
 
                              ModelMap modelMap, HttpServletResponse response) throws IOException {
 
-        CadreSearchBean searchBean = CadreSearchBean.getInstance(cadreType);
+        CadreSearchBean searchBean = CadreSearchBean.getInstance(unitTypeGroup, cadreType);
 
         if (labels != null) {
 
@@ -82,6 +82,8 @@ public class StatCadreController extends BaseController {
         searchBean.setMaxNowPostAge(endNowPostAge);
 
         if (export == 1) {
+
+            searchBean.setUnitTypeGroup(null);
             XSSFWorkbook wb = statCadreService.toXlsx(searchBean);
 
             String fileName = sysConfigService.getSchoolName()+
@@ -92,13 +94,14 @@ public class StatCadreController extends BaseController {
         }else if(export==2){
 
             // 点击数字弹出明细列表
-            return stat_cadre_list(unitTypeGroup, firstTypeCode,
+            return stat_cadre_list(firstTypeCode,
                     firstTypeNum, secondNum, searchBean, modelMap);
         }
 
-        Map<String, List> rs = statCadreService.stat(unitTypeGroup, searchBean);
 
-        Map<Integer, List> eduRowMap = statCadreService.eduRowMap(unitTypeGroup, searchBean);
+        Map<String, List> rs = statCadreService.stat(searchBean);
+
+        Map<Integer, List> eduRowMap = statCadreService.eduRowMap(searchBean);
         modelMap.put("eduRowMap", eduRowMap);
         int s = rs.size();
         for (Map.Entry<Integer, List> entry : eduRowMap.entrySet()) {
@@ -422,8 +425,7 @@ public class StatCadreController extends BaseController {
     }
 
     // 点击数字弹出明细列表
-    private String stat_cadre_list(  String unitTypeGroup,//单位类型
-                                     String firstTypeCode,//类别
+    private String stat_cadre_list(  String firstTypeCode,//类别
                                      Integer firstTypeNum,//类别分类
                                      Integer secondNum,//第二类别分类
                                      CadreSearchBean searchBean,
@@ -431,38 +433,36 @@ public class StatCadreController extends BaseController {
 
         List<CadreView> cadreViews = new ArrayList<>();
 
-        unitTypeGroup = StringUtils.trimToNull(unitTypeGroup);
         firstTypeCode = StringUtils.trimToNull(firstTypeCode);
 
-
         if (StringUtils.equals(firstTypeCode,"all"))//全部类型
-            cadreViews = statCadreService.allCadreList(unitTypeGroup, searchBean,secondNum);
+            cadreViews = statCadreService.allCadreList(searchBean, secondNum);
 
         if (StringUtils.equals(firstTypeCode,"adminLevel"))//行政级别
-            cadreViews = statCadreService.adminLevelList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+            cadreViews = statCadreService.adminLevelList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"nation"))//民族
-            cadreViews = statCadreService.nationList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+            cadreViews = statCadreService.nationList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"politicsStatus"))//政治面貌
-             cadreViews = statCadreService.psList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+             cadreViews = statCadreService.psList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"age"))//年龄分布
-             cadreViews = statCadreService.ageList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+             cadreViews = statCadreService.ageList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"postLevel"))//职称分布
-             cadreViews = statCadreService.postLevelList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+             cadreViews = statCadreService.postLevelList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"degree"))//学位分布
-             cadreViews = statCadreService.degreeTypeList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+             cadreViews = statCadreService.degreeTypeList(searchBean, firstTypeNum, secondNum);
 
          if (StringUtils.equals(firstTypeCode,"isNotDouble"))//专职干部
-             cadreViews = statCadreService.isDoubleList(unitTypeGroup, searchBean,secondNum, false);
+             cadreViews = statCadreService.isDoubleList(searchBean, secondNum, false);
          if (StringUtils.equals(firstTypeCode,"isDouble"))//双肩挑干部
-             cadreViews = statCadreService.isDoubleList(unitTypeGroup, searchBean,secondNum, true);
+             cadreViews = statCadreService.isDoubleList(searchBean, secondNum, true);
 
          if (StringUtils.equals(firstTypeCode,"education"))//学历
-             cadreViews = statCadreService.educationList(unitTypeGroup, searchBean,firstTypeNum,secondNum);
+             cadreViews = statCadreService.educationList(searchBean, firstTypeNum, secondNum);
 
         modelMap.put("cadreViews",cadreViews);
         return "analysis/cadre/cadres";

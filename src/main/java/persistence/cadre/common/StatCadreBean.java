@@ -1,5 +1,7 @@
 package persistence.cadre.common;
 
+import java.math.BigDecimal;
+
 /**
  * Created by fafa on 2017/1/18.
  */
@@ -18,6 +20,7 @@ public class StatCadreBean {
     public int num5;
     public int num6;
     public int num7;
+    public BigDecimal val;
 
     public String getAdminLevelCode() {
         return adminLevelCode;
@@ -123,6 +126,15 @@ public class StatCadreBean {
         this.num7 = num7;
     }
 
+    public BigDecimal getVal() {
+        return val;
+    }
+
+    public StatCadreBean setVal(BigDecimal val) {
+        this.val = val;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "CadreStatBean{" +
@@ -138,6 +150,7 @@ public class StatCadreBean {
                 ", num5=" + num5 +
                 ", num6=" + num6 +
                 ", num7=" + num7 +
+                ", val=" + val +
                 '}';
     }
 }

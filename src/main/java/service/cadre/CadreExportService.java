@@ -122,6 +122,7 @@ public class CadreExportService extends BaseMapper {
 
         boolean useCadreState = CmTag.getBoolProperty("useCadreState");
         boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
 
         int[] exportCloumns_1 = new int[]{1, 2, 4, 5, 6, 7, 8, 10,11,12,13,15, 16, 17, 18, 19, 22, 34, 37,
                 38,39,40,41,47, 49};
@@ -358,8 +359,8 @@ public class CadreExportService extends BaseMapper {
 
                     record.getUser().getHomeplace(),
                     record.getIdcard(),
-                    DateUtils.formatDate(record.getBirth(), CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
-                    record.getBirth() == null ? "" : DateUtils.yearOffNow(CmTag.getBoolProperty("birthToDay")?record.getBirth():DateUtils.getFirstDayOfMonth(record.getBirth())) + "",
+                    DateUtils.formatDate(record.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM),
+                    record.getBirth() == null ? "" : DateUtils.yearOffNow(birthToDay?record.getBirth():DateUtils.getFirstDayOfMonth(record.getBirth())) + "",
                     StringUtils.trimToEmpty(partyName),
 
                     StringUtils.trimToEmpty(partyAddTime),
@@ -472,6 +473,7 @@ public class CadreExportService extends BaseMapper {
                 .replace("school", schoolName);
         cell.setCellValue(str);
 
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         List<CadreView> records = cadreViewMapper.selectByExample(example);
 
         int startRow = 2;
@@ -508,7 +510,7 @@ public class CadreExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
             // 出生时间
-            String birth = DateUtils.formatDate(uv.getBirth(), CmTag.getBoolProperty("birthToDay")?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
+            String birth = DateUtils.formatDate(uv.getBirth(), birthToDay?DateUtils.YYYYMMDD_DOT:DateUtils.YYYYMM);
             /*DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);*/
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));

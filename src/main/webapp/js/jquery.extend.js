@@ -351,14 +351,14 @@ $.fn.extend({
                 var $maskEl;
                 if(options.maskEl!=undefined) {
                     $maskEl = $(options.maskEl);
-                    $maskEl.showLoading({
+                    $maskEl.showLoading(/*{
                         'afterShow':
                             function () {
                                 setTimeout(function () {
                                     $maskEl.hideLoading();
                                 }, 5000);
                             }
-                    });
+                    }*/);
                 }
                 $.ajax({
                     url: options.url,

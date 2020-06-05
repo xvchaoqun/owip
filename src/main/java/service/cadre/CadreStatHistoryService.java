@@ -56,11 +56,11 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ:
 
-                wb = statCadreService.toXlsx(CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
+                wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_TYPE_CJ));
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_KJ:
                 if(hasKjCadre) {
-                    wb = statCadreService.toXlsx(CadreSearchBean.getInstance(CadreConstants.CADRE_TYPE_CJ));
+                    wb = statCadreService.toXlsx(CadreSearchBean.getInstance(null, CadreConstants.CADRE_TYPE_CJ));
                 }
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:

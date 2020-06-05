@@ -21,7 +21,7 @@
                 <td>${vs.count}</td>
                 <td>${cadreView.code}</td>
                 <td style="text-align: left">
-                    <a href="/#/cadre_view?cadreId=${cadreView.id}&hideBach=1" target="_blank"
+                    <a href="/#/cadre_view?cadreId=${cadreView.id}&hideBack=1" target="_blank"
                     data-tooltip="tooltip" data-container="body" data-html="true">
                             ${cadreView.realname}</a>
                 </td>
