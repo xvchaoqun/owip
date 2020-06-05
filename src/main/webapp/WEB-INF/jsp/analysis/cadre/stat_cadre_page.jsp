@@ -386,7 +386,7 @@
                         <td height=23 class=xl70>${cm:getMetaType(entity.key).name}
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="${23+vs.index+1}"/>
+                            <jsp:param name="row" value="${23+vs.index+2}"/>
                             <jsp:param name="firstTypeCode" value="education"/>
                             <jsp:param name="firstTypeNum" value="${entity.key}"/>
                         </jsp:include>
