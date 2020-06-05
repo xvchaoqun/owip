@@ -77,7 +77,7 @@
           <div class="profile-info-name td"> 所在年级</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${member.enrolYear}
+              ${member.grade}
             </span>
           </div>
         </div>

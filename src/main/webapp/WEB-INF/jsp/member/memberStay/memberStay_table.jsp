@@ -80,7 +80,7 @@
     所在年级
   </td>
   <td class="bg-left" style="min-width: 80px">
-    ${student.enrolYear}
+    ${student.grade}
   </td>
   <td class="bg-right">
     学号

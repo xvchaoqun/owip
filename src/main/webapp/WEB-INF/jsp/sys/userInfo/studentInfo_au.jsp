@@ -132,7 +132,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">所在年级</label>
                 <div class="col-xs-6">
-                    <input class="form-control" type="text" name="enrolYear" value="${student.enrolYear}">
+                    <input class="form-control" type="text" name="grade" value="${student.grade}">
                 </div>
             </div>
             <div class="form-group">
