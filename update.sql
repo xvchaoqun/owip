@@ -1,17 +1,15 @@
 
 2020.6.8
+哈工大
 
 update sys_resource set name='学习培训中心(选课)' where permission='m:cetTrainList:*';
 
 2020.6.5
 西工大，北航
 
--- 更新录入样表
-
-2020.6.4
-北航
-
 -- 更新 base_meta_type_view
+
+-- 更新录入样表
 
 2020.6.3
 
@@ -268,7 +266,31 @@ update sys_role sr, (select id from sys_resource where permission='verify:menu')
 
 -- 0516已提交代码未更新
 
--- 新增表 verify_grow_time
+
+CREATE TABLE `verify_grow_time` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+	`old_grow_time` DATE NULL DEFAULT NULL COMMENT '系统中党员的入党时间（认定前日期)',
+	`verify_grow_time` DATE NULL DEFAULT NULL COMMENT '组织认定入党时间(认定后日期)',
+	`material_time` DATE NULL DEFAULT NULL COMMENT '形成时间',
+	`material_grow_time` DATE NULL DEFAULT NULL COMMENT '记载的入党时间（入党志愿书）',
+	`ad_time` DATE NULL DEFAULT NULL COMMENT '形成时间，档案中最新干部任免审批表',
+	`ad_grow_time` DATE NULL DEFAULT NULL COMMENT '记载的入党时间（任免审批表）',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：历史记录 2：已删除，每个干部的正式记录只有一条',
+	`submit_user_id` INT(10) UNSIGNED NOT NULL COMMENT '提交人',
+	`submit_ip` VARCHAR(50) NOT NULL COMMENT '提交IP',
+	`submit_time` DATETIME NOT NULL COMMENT '提交时间',
+	`update_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '修改人',
+	`update_ip` VARCHAR(50) NULL DEFAULT NULL COMMENT '修改IP',
+	`update_time` DATETIME NULL DEFAULT NULL COMMENT '修改时间',
+	PRIMARY KEY (`id`)
+)
+COMMENT='入党时间认定，干部档案审核'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
 
 -- 更新 cadre_view
 
@@ -276,12 +298,11 @@ update sys_role sr, (select id from sys_resource where permission='verify:menu')
 2020.5.13
 西北工大
 
+-- 更新dispatch_cadre_view
+
 ALTER TABLE `cadre_work`
 	ADD COLUMN `note` VARCHAR(100) NULL DEFAULT NULL COMMENT '补充说明' AFTER `is_cadre`;
 
-
-2020.5.12
--- 更新dispatch_cadre_view
 
 2020.5.12
 西北工大
