@@ -4,12 +4,12 @@
 update sys_resource set name='学习培训中心(选课)' where permission='m:cetTrainList:*';
 
 2020.6.5
-西工大，北航  -- 北师大
+西工大，北航
 
 -- 更新录入样表
 
 2020.6.4
-北航  -- 北师大
+北航
 
 -- 更新 base_meta_type_view
 
