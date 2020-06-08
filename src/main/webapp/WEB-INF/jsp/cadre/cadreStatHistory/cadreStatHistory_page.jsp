@@ -131,6 +131,7 @@
                 label: '类型',
                 name: 'type',
                 width: 250,
+                align:'left',
                 frozen: true,
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
@@ -138,14 +139,15 @@
                 }
             },
             {label: '统计日期', name: 'statDate', frozen: true, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '统计耗时(ms)', name: 'duration', frozen: true},
-            {label: '统计时间', name: 'createTime', width: 150},
+            /*{label: '统计耗时(ms)', name: 'duration', frozen: true},*/
+            {label: '统计时间', name: 'createTime', width: 180},
             {label: '下载', name: '_downloadCount', formatter: function (cellvalue, options, rowObject) {
 
                 var filename = "${_school}" + _cMap.CADRE_STAT_HISTORY_TYPE_MAP[rowObject.type] +
                         "（"+rowObject.statDate.substr(0, 10)+"）"
                         + ".xlsx";
-                return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
+                return ('<button class="downloadBtn btn btn-xs btn-primary" data-url="${ctx}/attach_download?path={0}&filename={1}"'
+                        +' data-type="download"><i class="fa fa-download"></i> 下载</button>')
                         .format(encodeURI(rowObject.savePath), encodeURI(filename));
             }}
         ]

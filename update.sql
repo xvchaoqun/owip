@@ -1,4 +1,25 @@
 
+ALTER TABLE `cet_party`
+	ADD COLUMN `party_name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `party_id`,
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NOT NULL COMMENT '分党委排序，当前顺序' AFTER `party_name`,
+	DROP COLUMN `user_id`;
+
+CREATE TABLE `cet_party_admin` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 书记 2副书记 3 组织委员 4 普通管理员',
+	`remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `party_id_user_id` (`party_id`, `user_id`)
+)
+COMMENT='党费收缴分党委管理员，系统提供同步书记、组织委员为管理员的功能'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=94401
+;
+
 2020.6.8
 哈工大
 

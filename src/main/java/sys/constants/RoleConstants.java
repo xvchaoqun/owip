@@ -47,9 +47,8 @@ public class RoleConstants {
 
     public static final String ROLE_CET_TRAINEE = "cet_trainee"; // 参训人员-干部教育培训
     public static final String ROLE_CET_ADMIN_UPPER = "cet_admin_upper"; // 单位管理员（上级调训）-干部教育培训
-    //public static final String ROLE_CET_ADMIN_UNIT = "cet_admin_unit"; // 二级单位管理员-干部教育培训
-    public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 院系级党委管理员-干部教育培训
-    public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训
+    public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 二级党委管理员-干部教育培训
+    public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训 （弃用）
 
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
