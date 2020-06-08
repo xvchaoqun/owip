@@ -13,12 +13,11 @@ CREATE TABLE `cet_party_admin` (
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `party_id_user_id` (`party_id`, `user_id`)
 )
-COMMENT='党费收缴分党委管理员，系统提供同步书记、组织委员为管理员的功能'
+COMMENT='二级党委管理员-干部培训，系统提供同步书记、组织委员为管理员的功能'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
-ROW_FORMAT=DYNAMIC
-AUTO_INCREMENT=94401
 ;
+
 
 2020.6.8
 哈工大
