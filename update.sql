@@ -4,11 +4,16 @@ ALTER TABLE `cet_party`
 	ADD COLUMN `sort_order` INT(10) UNSIGNED NOT NULL COMMENT '分党委排序，当前顺序' AFTER `party_name`,
 	DROP COLUMN `user_id`;
 
+ALTER TABLE `cet_party`
+	ALTER `party_id` DROP DEFAULT;
+ALTER TABLE `cet_party`
+	CHANGE COLUMN `party_id` `party_id` INT(10) UNSIGNED NULL COMMENT '所属基层党组织' AFTER `id`;
+
 CREATE TABLE `cet_party_admin` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
 	`party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委',
 	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户',
-	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 书记 2副书记 3 组织委员 4 普通管理员',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 书记 2副书记 3 委员 4 普通管理员',
 	`remark` VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `party_id_user_id` (`party_id`, `user_id`)
