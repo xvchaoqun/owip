@@ -247,17 +247,18 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:pub")
     @RequestMapping(value = "/cetTrain_finish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_finish(HttpServletRequest request, Integer id) {
+    public Map do_cetTrain_finish(HttpServletRequest request,
+                                  @RequestParam(required = false, defaultValue = "1") Boolean isFinished, Integer id) {
 
         if (id != null) {
 
             CetTrain record = new CetTrain();
             record.setId(id);
-            record.setIsFinished(true);
+            record.setIsFinished(BooleanUtils.isTrue(isFinished));
             cetTrainMapper.updateByPrimaryKeySelective(record);
 
             logger.info(addLog(LogConstants.LOG_CET,
-                    "培训班结课：%s", id));
+                    "培训班结课：%s %s", id, isFinished));
         }
 
         return success(FormUtils.SUCCESS);

@@ -1,4 +1,8 @@
 
+2020.6.8
+
+update sys_resource set name='学习培训中心(选课)' where permission='m:cetTrainList:*';
+
 2020.6.5
 西工大，北航  -- 北师大
 

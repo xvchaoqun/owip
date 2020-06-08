@@ -145,7 +145,8 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                 }
             } else {
                 if (servletPath.startsWith("/m/")) { // 非移动端
-                    WebUtils.issueRedirect(request, response, servletPath.substring(2));
+                    //WebUtils.issueRedirect(request, response, servletPath.substring(2));
+                    WebUtils.issueRedirect(request, response, "/");
                     return false;
                 }
             }

@@ -13,6 +13,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-8 infobox-container">
+                        <c:if test="${fn:length(trains)==0}">
+                            <div class="none" style="font-size: 16px">当前没有可选课程</div>
+                        </c:if>
                         <c:forEach items="${trains}" var="entity">
                             <div class="infobox ${entity.courseCount>0?'infobox-success':'infobox-blue2'}">
                                 <div class="infobox-data" style="width: 100%">

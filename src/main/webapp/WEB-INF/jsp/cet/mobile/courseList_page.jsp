@@ -44,7 +44,7 @@
                                     <c:choose>
                                         <c:when test="${tc.applyLimit>0 && tc.selectedCount>tc.applyLimit}">报名已满</c:when>
                                         <c:when test="${!cm:compareDate(tc.startTime, now)}">已开课</c:when>
-                                        <c:when test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">已关闭选课</c:when>
+                                        <c:when test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">未开启选课</c:when>
                                         <c:when test="${tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY
                                         || tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}">已关闭选课</c:when>
                                         <c:otherwise>

@@ -111,7 +111,7 @@ public class UserCetTrainController extends CetBaseController {
     @RequiresPermissions("userCetTrain:list")
     @RequestMapping("/cetTrain_select")
     public String cetTrain(@RequestParam(defaultValue = "1") Integer module,
-                           @RequestParam(defaultValue = "0") Byte isFinished,
+                           @RequestParam(defaultValue = "0") Boolean isFinished,
                            ModelMap modelMap) {
 
         modelMap.put("module", module);
@@ -123,7 +123,7 @@ public class UserCetTrainController extends CetBaseController {
     @RequiresPermissions("userCetTrain:list")
     @RequestMapping("/cetTrain_select_data")
     public void cetTrain_select_data(@RequestParam(defaultValue = "1") Integer module,
-                                     Byte isFinished,
+                                     Boolean isFinished,
                                      HttpServletResponse response,
                                      Integer pageSize, Integer pageNo) throws IOException {
 

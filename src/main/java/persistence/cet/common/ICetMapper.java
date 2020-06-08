@@ -139,12 +139,12 @@ public interface ICetMapper {
     // 学员的培训班列表
     public List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId,
                                                   @Param("hasSelected") Boolean hasSelected,
-                                                  @Param("isFinished") Byte isFinished,
+                                                  @Param("isFinished") Boolean isFinished,
                                                   RowBounds rowBounds);
 
     public int countUserCetTrainList(@Param("userId") Integer userId,
                                      @Param("hasSelected") Boolean hasSelected,
-                                     @Param("isFinished") Byte isFinished);
+                                     @Param("isFinished") Boolean isFinished);
 
     // 学员已选课程
     @ResultMap("persistence.cet.common.ICetMapper.ICetTrainCourseBaseResultMap")

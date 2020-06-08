@@ -9,12 +9,12 @@
             <div class="tabbable">
                 <c:if test="${module==2}">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li class="<c:if test="${isFinished==0}">active</c:if>">
+                    <li class="<c:if test="${!isFinished}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/user/cet/cetTrain_select?module=${module}&isFinished=0"><i
                                 class="fa fa-circle-o-notch fa-spin"></i> 正在进行</a>
                     </li>
-                    <li class="<c:if test="${isFinished==1}">active</c:if>">
+                    <li class="<c:if test="${isFinished}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/user/cet/cetTrain_select?module=${module}&isFinished=1"><i
                                 class="fa fa-check"></i> 已结课</a>
@@ -25,7 +25,7 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${module==2}">
-                            <c:if test="${isFinished==0}">
+                            <c:if test="${!isFinished}">
                             <button data-url="${ctx}/user/cet/cetTrain_quit"
                                     data-title="退出"
                                     data-msg="确定退出培训班？"
@@ -65,7 +65,7 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         multiselect: ${module==2},
-        url: '${ctx}/user/cet/cetTrain_select_data?callback=?&isFinished=${isFinished}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/user/cet/cetTrain_select_data?callback=?&isFinished=${isFinished?1:0}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
 
             <c:if test="${module==1}">

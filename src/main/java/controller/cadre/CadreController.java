@@ -24,7 +24,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,10 @@ import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.CadreConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -838,24 +840,6 @@ public class CadreController extends BaseController {
         cadreService.re_assign(ids);
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "干部重新任用：%s", StringUtils.join(ids, ",")));
-        return success(FormUtils.SUCCESS);
-    }
-
-    // for test 给所有的干部加上干部身份
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
-    @RequestMapping(value = "/cadre_addAllCadreRole")
-    @ResponseBody
-    public Map do_cadre_addAllCadreRole() {
-
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
-        for (CadreView cadre : cadreMap.values()) {
-
-            if(CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus())) {
-                // 添加干部身份
-                sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE_CJ);
-            }
-        }
-
         return success(FormUtils.SUCCESS);
     }
 

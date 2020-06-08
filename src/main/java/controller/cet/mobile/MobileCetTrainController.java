@@ -34,7 +34,7 @@ public class MobileCetTrainController extends CetBaseController {
                                  Integer pageNo, HttpServletRequest request, ModelMap modelMap) throws IOException {
 
         int userId = ShiroHelper.getCurrentUserId();
-        List<ICetTrain> trains = iCetMapper.selectUserCetTrainList(userId, null, null, new RowBounds());
+        List<ICetTrain> trains = iCetMapper.selectUserCetTrainList(userId, null, false, new RowBounds());
         modelMap.put("trains", trains);
 
         return "cet/mobile/trainList_page";

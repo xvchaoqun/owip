@@ -15,10 +15,10 @@
                 <div class="row">
                     <div class="col-sm-8 infobox-container">
                         <c:if test="${fn:length(records)==0}">
-                            <div class="none">目前没有缴费记录</div>
+                            <div class="none" style="font-size: 16px">目前没有缴费记录</div>
                         </c:if>
                         <c:forEach items="${records}" var="record">
-                            <div class="infobox ${entity.courseCount>0?'infobox-success':'infobox-blue2'}">
+                            <div class="infobox infobox-blue2">
                                 <div class="infobox-data" style="width: 100%">
                                     <table class="course-list" style="width: 100%">
                                         <tr>
