@@ -138,6 +138,12 @@ public interface ICadreMapper {
     // 查询干部家庭成员
     List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
+    // 查询干部培训情况
+    List<CadreTrain> getCadreTrains(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+
+    //查询干部社会或学术兼职
+    List<CadreParttime> getCadreParttimes(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+
     // 查询干部学习经历
     List<CadreEdu> getCadreEdus(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 

@@ -311,8 +311,14 @@ public class CadreCompanyService extends BaseMapper {
             cadreType = "现任校领导";
         } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
             cadreType = "离任校领导";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
-            cadreType = "干部";
+        } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
+            cadreType = "现任处级干部";
+        } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ_LEAVE) {
+            cadreType = "离任处级干部";
+        } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ) {
+            cadreType = "现任科级干部";
+        } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ_LEAVE) {
+            cadreType = "离任科级干部";
         }
         List<CadreCompanyView> records = cadreCompanyViewMapper.selectByExample(example);
 

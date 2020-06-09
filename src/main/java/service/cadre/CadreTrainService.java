@@ -1,11 +1,10 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.CadreTrain;
-import domain.cadre.CadreTrainExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -209,5 +208,38 @@ public class CadreTrainService extends BaseMapper {
         modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
         cadreTrainMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
+    }
+
+    // 导入时使用，用来判断是否覆盖
+    public CadreTrain getCadreTrain(int cadreId, String unit, Date startTime) {
+
+        CadreTrainExample example = new CadreTrainExample();
+        CadreTrainExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andUnitEqualTo(unit);
+        if (startTime != null) {
+            criteria.andStartTimeEqualTo(startTime);
+        }
+
+        List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cadreTrains.size() == 1 ? cadreTrains.get(0) : null;
+    }
+
+    @Transactional
+    public int bacthImport(List<CadreTrain> records) {
+
+        int addCount = 0;
+        for (CadreTrain record : records) {
+            CadreTrain cadreTrain = getCadreTrain(record.getCadreId(),
+                    record.getUnit(), record.getStartTime());
+            if (cadreTrain == null) {
+                insertSelective(record);
+                addCount++;
+            } else {
+                record.setId(cadreTrain.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+        return addCount;
     }
 }

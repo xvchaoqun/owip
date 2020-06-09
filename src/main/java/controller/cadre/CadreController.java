@@ -487,7 +487,7 @@ public class CadreController extends BaseController {
             // 一览表
             cadre_export(format, status, cols, example, response);
             return;
-        } else if (export == 2 || export == 3 || export == 5) {
+        } else if (export == 2 || export == 3 || export == 5 || export == 6) {
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -504,6 +504,9 @@ public class CadreController extends BaseController {
             } else if(export == 5){
 
                 perfectCadreInfoExport(cadreIds, response);
+            }else if (export == 6){
+                // 干部信息表(简版)
+                cadreInfoFormService.export_simple(cadreIds,request,response);
             }
             return;
         } else if (export == 4) {

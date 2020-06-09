@@ -1,9 +1,7 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.CadreParttime;
-import domain.cadre.CadreParttimeExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.ibatis.session.RowBounds;
@@ -258,5 +256,38 @@ public class CadreParttimeService extends BaseMapper {
         modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
         cadreParttimeMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
+    }
+
+    // 导入时使用，用来判断是否覆盖
+    public CadreParttime getCadreParttime(int cadreId, String unit, Date startTime) {
+
+        CadreParttimeExample example = new CadreParttimeExample();
+        CadreParttimeExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+        .andUnitEqualTo(unit);
+        if (startTime != null) {
+            criteria.andStartTimeEqualTo(startTime);
+        }
+
+        List<CadreParttime> cadreParttimes = cadreParttimeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cadreParttimes.size() == 1 ? cadreParttimes.get(0) : null;
+    }
+
+    @Transactional
+    public int bacthImport(List<CadreParttime> records) {
+
+        int addCount = 0;
+        for (CadreParttime record : records) {
+            CadreParttime cadreParttime = getCadreParttime(record.getCadreId(),
+            record.getUnit(), record.getStartTime());
+            if (cadreParttime == null) {
+                insertSelective(record);
+                addCount++;
+            } else {
+                record.setId(cadreParttime.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+        return addCount;
     }
 }

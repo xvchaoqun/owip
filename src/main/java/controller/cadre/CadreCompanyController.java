@@ -234,6 +234,7 @@ public class CadreCompanyController extends BaseController {
                                   String approvalUnit,
                                   @RequestParam(defaultValue = "1") Byte cls,
                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -298,6 +299,9 @@ public class CadreCompanyController extends BaseController {
         }
 
         if (export == 1) {
+            if (ids!=null && ids.length>0)
+                criteria.andCadreIdIn(Arrays.asList(ids));
+
             cadreCompanyService.export(cadreStatus, example, response);
             return;
         }

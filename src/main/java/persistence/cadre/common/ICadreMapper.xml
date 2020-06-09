@@ -243,6 +243,34 @@
         order by c.sort_order desc
     </select>
 
+    <select id="getCadreTrains" resultMap="persistence.cadre.CadreTrainMapper.BaseResultMap" parameterType="map">
+        select ct.* from cadre_train ct, cadre c where ct.cadre_id=c.id and ct.status=0
+        <if test="cadreIds != null and cadreIds.length>0">
+            and c.id IN
+            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                #{cadreId}
+            </foreach>
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order desc
+    </select>
+
+    <select id="getCadreParttimes" resultMap="persistence.cadre.CadreParttimeMapper.BaseResultMap" parameterType="map">
+        select cp.* from cadre_parttime cp, cadre c where cp.cadre_id=c.id and cp.status=0
+        <if test="cadreIds != null and cadreIds.length>0">
+            and c.id IN
+            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                #{cadreId}
+            </foreach>
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order desc
+    </select>
+
     <select id="getCadreEdus" resultMap="persistence.cadre.CadreEduMapper.BaseResultMap" parameterType="map">
         select cf.* from cadre_edu cf, cadre c where cf.cadre_id=c.id and cf.status=0
         <if test="cadreIds != null and cadreIds.length>0">

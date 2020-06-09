@@ -159,6 +159,23 @@
                                                 <li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
+                                                       data-url="${ctx}/cadreParttime_import?isMainPost=0">
+                                                        <i class="fa fa-file-excel-o"></i> 导入社会或学术兼职情况</a>
+                                                </li><li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:;" class="popupBtn"
+                                                       data-url="${ctx}/cadreTrain_import?isMainPost=0">
+                                                        <i class="fa fa-file-excel-o"></i> 导入培训情况</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:;" class="popupBtn"
+                                                       data-url="${ctx}/cadreCompany_import?isMainPost=0">
+                                                        <i class="fa fa-file-excel-o"></i> 导入企业、社团兼职情况</a>
+                                                </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadreEva_import?isMainPost=0">
                                                         <i class="fa fa-file-excel-o"></i> 导入年度考核结果</a>
                                                 </li>
@@ -287,6 +304,25 @@
                                                     </li>
                                                 </shiro:hasPermission>
                                             </c:if>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false" data-url="${ctx}/cadreParttime_data">
+                                                    <i class="fa fa-file-excel-o"></i> 导出社会或学术兼职（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false" data-url="${ctx}/cadreTrain_data">
+                                                    <i class="fa fa-file-excel-o"></i> 导出培训情况（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false" data-url="${ctx}/cadreCompany_data"
+                                                   data-querystr="cadreStatus=${status}">
+                                                    <i class="fa fa-file-excel-o"></i> 导出企业、社团兼职（批量）</a>
+                                            </li>
                                             <shiro:hasPermission name="cadre:list">
                                             <li role="separator" class="divider"></li>
                                             <li>
@@ -316,10 +352,19 @@
                                             <li>
                                                 <a href="javascript:;" class="jqExportBtn"
                                                    data-need-id="false"
+                                                   data-export="6"
+                                                   data-url="${ctx}/cadre_data">
+                                                <i class="fa fa-file-excel-o"></i> 导出简版干部信息表（批量）</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false"
                                                    data-export="5"
                                                    data-url="${ctx}/cadre_data">
                                                     <i class="fa fa-info-circle"></i> 干部信息完整性校验结果（批量）</a>
                                             </li>
+
                                             </shiro:hasPermission>
                                         </ul>
                                     </div>

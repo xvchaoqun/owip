@@ -221,7 +221,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息表 " + cadre.getRealname() + ".doc";
+                        + " 干部信息表(简版) " + cadre.getRealname() + ".doc";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -238,7 +238,7 @@ public class CadreInfoFormService extends BaseMapper {
                 fileMap.put(filename, new File(filepath));
             }
 
-            String filename = String.format("%s干部信息表.xlsx",
+            String filename = String.format("%s干部信息表(简版).xlsx",
                     CmTag.getSysConfig().getSchoolName());
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);
