@@ -1,4 +1,7 @@
 
+-- 20200609 ly
+UPDATE `db_owip`.`sys_resource` SET `url`='/cet/cetUnitTrain_info?cls=2' WHERE  `id`=2536;
+
 -- 20200604 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2536, 0, '参训人员信息', '', 'url', '', '/cet/cetUnitTrain_info', 869, '0/1/384/869/', 1, 'cetUnitTrain:list', NULL, NULL, NULL, 1, 250);
 ALTER TABLE `cet_unit_train`

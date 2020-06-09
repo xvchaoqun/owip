@@ -1,33 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PASS%>" var="CET_UNITTRAIN_RERECORD_PASS"/>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_UNIT%>" var="CET_UNITTRAIN_RERECORD_UNIT"/>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PARTY%>" var="CET_UNITTRAIN_RERECORD_PARTY"/>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_SAVE%>" var="CET_UNITTRAIN_RERECORD_SAVE"/>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_MAP%>" var="CET_UNITTRAIN_RERECORD_MAP"/>
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
+<c:set var="ROLE_CET_ADMIN_PARTY" value="<%=RoleConstants.ROLE_CET_ADMIN_PARTY%>"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="CET_UNIT_PROJECT_STATUS_PASS"/>
 <div class="widget-box transparent">
-    <div class="widget-header">
-        <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="hideView btn btn-xs btn-success">
-                <i class="ace-icon fa fa-backward"></i>
-                返回</a>
-
-        </h4>
-        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            ${cetUnitProject.projectName}
-        </span>
-        <div class="widget-toolbar no-border">
-            <ul class="nav nav-tabs" id="detail-ul">
-                <li class="active">
-                    <a href="javascript:;"> 培训记录</a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-    <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="tab-content padding-4" id="detail-content">
                 <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
                 <div class="jqgrid-vertical-offset buttons">
+                    <c:if test="${empty reRecord}">
                     <c:if test="${cm:hasRole(ROLE_CET_ADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
                     <shiro:hasPermission name="cetUnitProject:edit">
                         <shiro:hasRole name="${ROLE_CET_ADMIN}">
@@ -60,6 +47,14 @@
                         </button>
                     </shiro:hasPermission>
                     </c:if>
+                    </c:if>
+                    <c:if test="${not empty reRecord && reRecord==1 && (cm:hasRole(ROLE_ODADMIN) || cm:hasRole(ROLE_CET_ADMIN) ||cm:hasRole(ROLE_CET_ADMIN_PARTY))}">
+                        <button data-url="${ctx}/cet/cetUnitTrain_check"
+                                data-grid-id="#jqGrid2"
+                                class="jqOpenViewBatchBtn btn btn-success btn-sm">
+                            <i class="fa fa-check-circle-o"></i> 审批
+                        </button>
+                    </c:if>
                     <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/cet/cetUnitTrain_data"
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -78,22 +73,23 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <form class="form-inline search-form" id="searchForm">
+                            <form class="form-inline search-form" id="trianSearchForm">
                                 <div class="form-group">
-                                    <label>参训人</label>
-                                    <input class="form-control search-query" name="userId" type="text"
-                                           value="${param.userId}"
-                                           placeholder="请输入参训人">
+                                    <label>参训人员姓名</label>
+                                    <select data-ajax-url="${ctx}/sysUser_selects" data-rel="select2-ajax"
+                                            name="userId" data-placeholder="请输入账号或姓名或工号">
+                                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                    </select>
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/cet/cetUnitTrain"
-                                       data-target="#page-content"
-                                       data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
+                                       data-url="${ctx}/cet/cetUnitTrain_page?projectId=${param.projectId}&reRecord=${reRecord}"
+                                       data-target="#train-content"
+                                       data-form="#trianSearchForm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/cet/cetUnitTrain"
-                                                data-target="#page-content">
+                                                data-url="${ctx}/cet/cetUnitTrain_page?projectId=${param.projectId}&reRecord=${reRecord}"
+                                                data-target="#train-content">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -107,7 +103,6 @@
                 <div id="jqGridPager2"></div>
             </div>
         </div>
-    </div>
 </div>
 <script>
     var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
@@ -122,6 +117,16 @@
                 if(cellvalue==undefined)return '--'
                 return traineeTypeMap[cellvalue].name
             }, width:180},
+            <c:if test="${reRecord==1}">
+            {label: '补录进度', name: 'status', width: 120, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue==${CET_UNITTRAIN_RERECORD_PARTY})
+                        return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_PARTY)}';
+                    else if (cellvalue==${CET_UNITTRAIN_RERECORD_UNIT})
+                        return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_UNIT)}';
+                    else if (cellvalue==${CET_UNITTRAIN_RERECORD_SAVE})
+                        return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_SAVE)}';
+                }},
+            </c:if>
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
             {label: '职务属性', name: 'postType', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
             {label: '完成培训学时', name: 'period'},
@@ -147,12 +152,15 @@
             }},
             {label: '操作人', name: 'addUser.realname'},
             {label: '添加时间', name: 'addTime', width: 150},
-            { label: '备注',name: 'remark', align: 'left', width: 150},
+            <c:if test="${reRecord==1}">
+                {label: '补录审批备注', name: 'reason', width: 150},
+            </c:if>
+            { label: '备注',name: 'remark', align: 'left', width: 150}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));

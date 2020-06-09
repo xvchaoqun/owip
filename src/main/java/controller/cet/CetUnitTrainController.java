@@ -52,6 +52,23 @@ public class CetUnitTrainController extends CetBaseController {
 
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
 
+        return "cet/cetUnitTrain/cetUnitTrain_view";
+    }
+
+    @RequiresPermissions("cetUnitProject:list")
+    @RequestMapping("/cetUnitTrain_page")
+    public String cetUnitTrain_page(Integer projectId,
+                                    Integer reRecord,
+                                    Integer userId,
+                                    ModelMap modelMap) {
+
+        if (null != reRecord)
+            modelMap.put("reRecord", reRecord);
+        modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
+        if (null != userId) {
+            modelMap.put("sysUser", CmTag.getUserById(userId));
+        }
+
         return "cet/cetUnitTrain/cetUnitTrain_page";
     }
 
@@ -107,6 +124,7 @@ public class CetUnitTrainController extends CetBaseController {
                                   @RequestDateRange DateRange _startDate,
                                   @RequestDateRange DateRange _endDate,
 
+                                  Integer reRecord,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -142,7 +160,7 @@ public class CetUnitTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
         
         CetUnitTrainExample example = new CetUnitTrainExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
+        Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
         if (null != cls){
@@ -150,6 +168,15 @@ public class CetUnitTrainController extends CetBaseController {
                 criteria.andProjectIdIn(projectIds);
             else
                 criteria.andProjectIdIsNull();
+        }
+        if (null != reRecord){
+            List<Byte> statusList = new ArrayList<>();
+            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_UNIT);
+            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
+            criteria.andStatusIn(statusList);
+        }else {
+            criteria.andStatusEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
         }
         if (null != projectId){
             criteria.andProjectIdEqualTo(projectId);
@@ -318,6 +345,33 @@ public class CetUnitTrainController extends CetBaseController {
             logger.info(addLog(LogConstants.LOG_CET, "批量删除二级单位培训班培训记录：%s", StringUtils.join(ids, ",")));
         }
         
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping("/cetUnitTrain_check")
+    public String cetUnitTrain_pass(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids && ids.length == 1)
+            modelMap.put("cetUnitTrain", cetUnitTrainMapper.selectByPrimaryKey(ids[0]));
+
+        return "/cet/cetUnitTrain/cetUnitTrain_check";
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions("cetUnitProject:edit")
+    @RequestMapping(value = "/cetUnitTrain_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUnitTrain_check(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+                                     Boolean pass, String reason, ModelMap modelMap) {
+
+        if (null != ids && ids.length > 0) {
+
+            cetUnitTrainService.batchCheck(ids, pass, reason);
+            logger.info(addLog(LogConstants.LOG_CET, "批量审批通过二级单位培训班补录申请：%s", StringUtils.join(ids, ",")));
+        }
+
         return success(FormUtils.SUCCESS);
     }
     

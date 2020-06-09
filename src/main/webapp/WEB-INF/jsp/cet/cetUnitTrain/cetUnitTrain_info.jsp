@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
                                 <label>参训人员姓名</label>
-                                <select data-ajax-url="${ctx}/cadre_selects?key=1" data-rel="select2-ajax"
+                                <select data-ajax-url="${ctx}/sysUser_selects" data-rel="select2-ajax"
                                         name="userId" data-placeholder="请输入账号或姓名或工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>

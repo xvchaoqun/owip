@@ -10,6 +10,7 @@ import domain.cet.CetUnitTrainExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import service.LoginUserService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
@@ -235,7 +237,7 @@ public class CetUnitTrainService extends CetBaseMapper {
     public void updateTotalCount(int projectId){
 
         CetUnitTrainExample example = new CetUnitTrainExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
+        example.createCriteria().andProjectIdEqualTo(projectId).andStatusEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
         int totalCount = (int) cetUnitTrainMapper.countByExample(example);
 
         CetUnitProject record = new CetUnitProject();
@@ -243,5 +245,65 @@ public class CetUnitTrainService extends CetBaseMapper {
         record.setTotalCount(totalCount);
 
         cetUnitProjectMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //参训人员删除补录信息
+    @Transactional
+    public void userBatchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+        for (Integer id : ids) {
+            cetUnitTrainMapper.deleteByPrimaryKey(id);
+        }
+    }
+
+    //补录
+    @Transactional
+    public void reRecord(CetUnitTrain record) {
+
+        int userId = record.getUserId();
+        CadreView cv = CmTag.getCadreByUserId(userId);
+        if (cv != null) {
+            if(StringUtils.isBlank(record.getTitle())) {
+                record.setTitle(cv.getTitle());
+            }
+            if(record.getPostType()==null) {
+                record.setPostType(cv.getPostType());
+            }
+        } else {
+            UserBean userBean = userBeanService.get(userId);
+            if (userBean != null && StringUtils.isBlank(record.getTitle())) {
+                record.setTitle(userBean.getUnit());
+            }
+        }
+
+        cetUnitTrainMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public void batchCheck(Integer[] ids, Boolean pass, String reason) {
+
+        if (null != ids && ids.length > 0) {
+            Integer projectId = null;
+            for (Integer id : ids) {
+                CetUnitTrain record = cetUnitTrainMapper.selectByPrimaryKey(id);
+                projectId=record.getProjectId();
+                if (pass) {
+
+                    if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
+                        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
+                    }else if (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN,RoleConstants.ROLE_CET_ADMIN_PARTY)){
+                        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+                    }else {
+                        throw new UnauthorizedException();
+                    }
+                }else {
+                    record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
+                }
+                record.setReason(reason);
+                cetUnitTrainMapper.updateByPrimaryKey(record);
+            }
+            updateTotalCount(projectId);
+        }
     }
 }
