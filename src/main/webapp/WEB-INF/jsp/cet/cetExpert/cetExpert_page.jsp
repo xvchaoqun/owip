@@ -141,7 +141,12 @@ pageEncoding="UTF-8" %>
             { label: '所在单位',name: 'unit', width:300, align:'left'},
             { label: '职务和职称',name: 'post', width:150, align:'left'},
             { label: '联系方式',name: 'contact', width:150},
-            { label: '主讲课程',name: 'courseNum'},
+            { label: '主讲课程',name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="popupBtn btn btn-info btn-xs" ' +
+                    'data-url="${ctx}/cet/cetExpert_info?id={1}">'
+                    + '<i class="fa fa-search"></i> 查看({0})</button>')
+                    .format(cellvalue, rowObject.id);},
+            },
             { label: '选课人次',name: 'traineeCount'},
             { label: '学员评价',name: '_eva'},
             { label: '备注',name: 'remark', width:300}

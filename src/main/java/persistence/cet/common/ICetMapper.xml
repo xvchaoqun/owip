@@ -212,4 +212,24 @@
         </if>
         GROUP BY STATUS
     </select>
+
+    <select id="unitTrainGroupByStatus" parameterType="map" resultType="map">
+        SELECT cup.status, COUNT(cut.id) num FROM cet_unit_project cup,cet_unit_train cut
+        <where>
+            cup.id=cut.project_id
+            <if test="addPermits">
+                <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
+                    and party_id in
+                    <foreach collection="adminPartyIdList" item="st"
+                             index="index" open="(" close=")" separator=",">
+                        #{st}
+                    </foreach>
+                </if>
+                <if test="adminPartyIdList==null or adminPartyIdList.size==0">
+                    and party_id is null
+                </if>
+            </if>
+        </where>
+        GROUP BY cup.status
+    </select>
 </mapper>

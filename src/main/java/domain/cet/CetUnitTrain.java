@@ -42,6 +42,10 @@ public class CetUnitTrain implements Serializable {
 
     private Date addTime;
 
+    private Byte status;
+
+    private String reason;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -132,6 +136,22 @@ public class CetUnitTrain implements Serializable {
 
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
     public String getRemark() {

@@ -221,8 +221,8 @@ public class CetUpperTrainService extends CetBaseMapper {
         Date now = new Date();
         for (CetUpperTrain record : records) {
 
-            CetUpperTrain cetUpperTrain = get(record);
-            if(cetUpperTrain==null) {
+            CetUpperTrain _cetUpperTrain = get(record);
+            if(_cetUpperTrain==null) {
                 record.setAddType(CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW);
                 record.setAddUserId(addUserId);
                 record.setAddTime(now);
@@ -232,7 +232,7 @@ public class CetUpperTrainService extends CetBaseMapper {
                 addCount++;
             }else{
 
-                record.setId(cetUpperTrain.getId());
+                record.setId(_cetUpperTrain.getId());
                 cetUpperTrainMapper.updateByPrimaryKeySelective(record);
             }
         }

@@ -11,6 +11,7 @@ import domain.cet.CetUpperTrainExample.Criteria;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.MixinUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -42,6 +43,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -223,7 +225,8 @@ public class CetUpperTrainController extends CetBaseController {
                                    @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                    MultipartFile _word, MultipartFile _pdf,
                                    Boolean check,// 审批
-                                   HttpServletRequest request) throws IOException, InterruptedException {
+                                   Byte auType,//添加方式
+                                   HttpServletRequest request) throws IOException, InterruptedException, InvalidFormatException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         CetUpperTrain oldRecord = null;
         Integer id = record.getId();
@@ -233,8 +236,10 @@ public class CetUpperTrainController extends CetBaseController {
             record.setAddType(null);
         }
 
-        record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
-        record.setIsBranchSecretary(BooleanUtils.isTrue(record.getIsBranchSecretary()));
+        if (CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH != auType) {
+            record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
+            record.setIsBranchSecretary(BooleanUtils.isTrue(record.getIsBranchSecretary()));
+        }
         record.setIsOnline(BooleanUtils.isTrue(record.getIsOnline()));
 
         if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW) {
@@ -342,8 +347,46 @@ public class CetUpperTrainController extends CetBaseController {
         }
 
         if (id == null) {
-            cetUpperTrainService.insertSelective(record, userIds);
-            logger.info(log(LogConstants.LOG_CET, "添加上级调训或单位培训：{0}", id));
+            if (auType == CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH){
+
+                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+                MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+                OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+                XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+                XSSFSheet sheet = workbook.getSheetAt(0);
+                List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+                List<CetUpperTrain> records = new ArrayList<>();
+                int row = 1;
+                for (Map<Integer, String> xlsRow : xlsRows) {
+
+                    CetUpperTrain cetUpperTrain = new CetUpperTrain();
+                    PropertyUtils.copyProperties(cetUpperTrain, record);
+                    row++;
+                    String userCode = StringUtils.trim(xlsRow.get(0));
+                    if (StringUtils.isBlank(userCode)) {
+                        throw new OpException("第{0}行工作证号为空", row);
+                    }
+                    SysUserView uv = sysUserService.findByCode(userCode);
+                    if (uv == null) {
+                        throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+                    }
+                    cetUpperTrain.setUserId(uv.getId());
+                    cetUpperTrain.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+                    cetUpperTrain.setIsDouble(StringUtils.equals(xlsRow.get(3), "是"));
+                    cetUpperTrain.setIsBranchSecretary(StringUtils.equals(xlsRow.get(4), "是"));
+
+
+                    records.add(cetUpperTrain);
+                }
+
+                cetUpperTrainService.batchImport(records);
+                logger.info(log(LogConstants.LOG_CET, "批量添加上级调训或单位培训"));
+            }else {
+                cetUpperTrainService.insertSelective(record, userIds);
+                logger.info(log(LogConstants.LOG_CET, "添加上级调训或单位培训：{0}", id));
+            }
         } else {
             cetUpperTrainService.updateByPrimaryKeySelective(record, BooleanUtils.isTrue(check));
             logger.info(addLog(LogConstants.LOG_CET, "更新上级调训或单位培训：%s", id));
@@ -564,6 +607,9 @@ public class CetUpperTrainController extends CetBaseController {
             CetTraineeType cetTraineeType = cetTraineeTypeService.getByName(StringUtils.trim(xlsRow.get(5)));
             if(cetTraineeType!=null) {
                 record.setTraineeTypeId(cetTraineeType.getId());
+            }else{
+                record.setTraineeTypeId(0);
+                record.setOtherTraineeType(StringUtils.trim(xlsRow.get(5)));
             }
 
             String _year = StringUtils.trimToNull(xlsRow.get(6));

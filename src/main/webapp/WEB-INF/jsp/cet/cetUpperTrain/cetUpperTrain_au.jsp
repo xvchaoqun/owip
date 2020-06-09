@@ -13,6 +13,9 @@
 <c:set var="CET_UPPER_TRAIN_STATUS_PASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_PASS%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_UNPASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS%>"/>
 
+<c:set var="CET_UPPERTRAIN_AU_TYPE_SINGLE" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_SINGLE%>"/>
+<c:set var="CET_UPPERTRAIN_AU_TYPE_BATCH" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH%>"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
@@ -34,6 +37,39 @@
                     <input type="hidden" name="userId" value="${_user.id}">
                 </c:if>
                  <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+                     <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW&&cetUpperTrain==null}">
+                         <div class="form-group">
+                             <label class="col-xs-4 control-label"><span class="star">*</span> 添加方式</label>
+                             <div class="col-xs-8">
+                                 <div class="input-group">
+                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                         <input required type="radio" name="auType" id="auType0"
+                                                value="${CET_UPPERTRAIN_AU_TYPE_SINGLE}">
+                                         <label for="auType0">
+                                            个别添加
+                                         </label>
+                                     </div>
+                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                         <input required type="radio" name="auType" id="auType1"
+                                                value="${CET_UPPERTRAIN_AU_TYPE_BATCH}">
+                                         <label for="auType1">
+                                             批量导入
+                                         </label>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="form-group" id="owAuType_file">
+                             <label class="col-xs-4 control-label"><span class="star">*</span> 批量上传</label>
+                             <div class="col-xs-7 label-text">
+                                 <input class="form-control" type="file" name="xlsx" required extension="xlsx"/>
+                                 <span class="help-inline">导入的文件请严格按照
+                                <a href="${ctx}/attach?code=sample_cetUpperTrain_addType3">
+                                    参训人员录入样表.xlsx</a>（点击下载）的数据格式</span>
+                             </div>
+                         </div>
+                     </c:if>
+                     <div id="owAuType_div">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人</label>
                     <div class="col-xs-7 label-text">
@@ -70,6 +106,7 @@
                         </div>
                     </div>
                 </div>
+                     </div>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
                     <div class="col-xs-7">
@@ -83,6 +120,14 @@
                         <script type="text/javascript">
                             $("#modalForm select[name=traineeTypeId]").val(${cetUpperTrain.traineeTypeId});
                         </script>
+                    </div>
+                </div>
+
+                <div class="form-group hidden" id="otherTraineeType">
+                    <label class="col-xs-4 control-label"> 其他参训人员类型</label>
+                    <div class="col-xs-7">
+                        <input class="form-control" name="otherTraineeType" type="text"
+                               value="${cetUpperTrain.address}"/>
                     </div>
                 </div>
 
@@ -387,6 +432,49 @@
     }
 </style>
 <script>
+
+    $("select[name=traineeTypeId]").on("change", function () {
+        if ($(this).val() == 0){
+            $("#otherTraineeType").removeClass("hidden");
+        }else {
+            $("#otherTraineeType").addClass("hidden");
+        }
+    })
+
+    $.fileInput($('#modalForm input[type=file]'))
+
+    <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW&&cetUpperTrain==null}">
+        owAuType_hide();
+        $("input[name=auType]").on("click", function () {
+            owAuType_show($(this).val());
+            //console.log($("#auType").val());
+        })
+
+    </c:if>
+
+    function owAuType_hide() {
+        $("#owAuType_div").addClass("hidden");
+        $("#owAuType_div select[name=userId]").removeAttr("required");
+        $("#owAuType_file").addClass("hidden");
+        $("#owAuType_file input[name=xlsx]").removeAttr("required");
+    }
+    function owAuType_show(auType) {
+        console.log(auType)
+        if (auType == ${CET_UPPERTRAIN_AU_TYPE_SINGLE}) {
+            $("#owAuType_div").removeClass("hidden");
+            $("#owAuType_div select[name=userId]").attr("required", "required");
+            $("#owAuType_file").addClass("hidden");
+            $("#owAuType_file input[name=xlsx]").removeAttr("required");
+        }else if (auType == ${CET_UPPERTRAIN_AU_TYPE_BATCH}) {
+            $("#owAuType_div").addClass("hidden");
+            $("#owAuType_div select[name=userId]").removeAttr("required");
+            $("#owAuType_file").removeClass("hidden");
+            $("#owAuType_file input[name=xlsx]").attr("required", "required");
+        }else {
+            owAuType_hide();
+        }
+    }
+
     <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
     $.fileInput($("#modalForm input[name=_word]"), {
         no_file: '请上传word文件...',
@@ -447,6 +535,12 @@
         return false;
     });
     $("#modalForm").validate({
+        messages: {
+            "xlsx": {
+                required: "请选择文件",
+                extension: "请上传 xlsx格式的文件"
+            }
+        },
         submitHandler: function (form) {
 
             var $btn = $("#submitBtn").button('loading');

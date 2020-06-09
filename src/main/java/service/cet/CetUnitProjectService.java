@@ -3,6 +3,7 @@ package service.cet;
 import controller.global.OpException;
 import domain.cet.CetUnitProject;
 import domain.cet.CetUnitProjectExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,11 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
+import sys.utils.SqlUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -136,5 +141,38 @@ public class CetUnitProjectService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN,
                     "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+    }
+
+    public List<Integer> getByStatus(Byte cls, List<Integer> adminPartyIdList, String projectName,
+                                     @RequestDateRange DateRange _startDate,
+                                     @RequestDateRange DateRange _endDate) {
+
+        CetUnitProjectExample example = new CetUnitProjectExample();
+        CetUnitProjectExample.Criteria criteria = example.createCriteria().andStatusEqualTo(cls);
+        if (null != adminPartyIdList && adminPartyIdList.size() >0){
+            criteria.andPartyIdIn(adminPartyIdList);
+        }
+        if (StringUtils.isNotBlank(projectName)){
+            criteria.andProjectNameLike(SqlUtils.trimLike(projectName));
+        }
+        if (null != _startDate.getStart()) {
+            criteria.andStartDateGreaterThanOrEqualTo(_startDate.getStart());
+        }
+        if (null != _startDate.getEnd()){
+            criteria.andStartDateLessThanOrEqualTo(_startDate.getEnd());
+        }
+        if (null != _endDate.getStart()){
+            criteria.andEndDateGreaterThanOrEqualTo(_endDate.getStart());
+        }
+        if (null != _endDate.getEnd()){
+            criteria.andEndDateLessThanOrEqualTo(_endDate.getEnd());
+        }
+        List<CetUnitProject> cetUnitProjects = cetUnitProjectMapper.selectByExample(example);
+        List<Integer> ids = new ArrayList<>();
+        for (CetUnitProject record : cetUnitProjects) {
+            ids.add(record.getId());
+        }
+
+        return ids;
     }
 }

@@ -1,11 +1,8 @@
 package controller.cet;
 
 import controller.global.OpException;
-import domain.cet.CetExpert;
-import domain.cet.CetExpertExample;
+import domain.cet.*;
 import domain.cet.CetExpertExample.Criteria;
-import domain.cet.CetExpertView;
-import domain.cet.CetExpertViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -271,6 +268,19 @@ public class CetExpertController extends CetBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetExpert:list")
+    @RequestMapping("/cetExpert_info")
+    public String cetExpert_info(Integer id, ModelMap modelMap){
+
+        CetCourseExample example = new CetCourseExample();
+        example.createCriteria().andExpertIdEqualTo(id);
+        example.setOrderByClause("found_date asc");
+        List<CetCourse> cetCourses = cetCourseMapper.selectByExample(example);
+        modelMap.put("cetCourses", cetCourses);
+
+        return "cet/cetExpert/cetExpert_info";
     }
 
     @RequiresPermissions("cetExpert:changeOrder")

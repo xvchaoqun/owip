@@ -375,4 +375,8 @@ public interface ICetMapper {
     // 二级党委培训数量统计
     List<Map> unitProjectGroupByStatus(@Param("addPermits") Boolean addPermits,
                                  @Param("adminPartyIdList") List<Integer> adminPartyIdList);
+
+    // 二级党委参训人员数量统计
+    List<Map> unitTrainGroupByStatus(@Param("addPermits") Boolean addPermits,
+                                       @Param("adminPartyIdList") List<Integer> adminPartyIdList);
 }

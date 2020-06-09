@@ -25,8 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -40,34 +44,93 @@ import java.util.*;
 public class CetUnitTrainController extends CetBaseController {
     
     private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain")
     public String cetUnitTrain(Integer projectId,
                                ModelMap modelMap) {
-        
+
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
-        
+
         return "cet/cetUnitTrain/cetUnitTrain_page";
+    }
+
+    @RequiresPermissions("cetUnitProject:list")
+    @RequestMapping("/cetUnitTrain_info")
+    public String cetUnitTrain_info(@RequestParam(required = false, defaultValue = "2") Byte cls,
+                                    Integer userId,
+                                    Integer addUserId,
+                                    String projectName,
+                                    Integer traineeTypeId,
+                                    ModelMap modelMap) {
+
+        modelMap.put("projectName", projectName);
+        modelMap.put("traineeTypeId", traineeTypeId);
+        modelMap.put("cls", cls);
+
+        boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+        List<Integer> adminPartyIdList = new ArrayList<>();
+        List<Integer> projectIds = new ArrayList<>();
+        if(addPermits) {
+            adminPartyIdList = loginUserService.adminPartyIdList();
+        }
+        List<Map> results = iCetMapper.unitTrainGroupByStatus(addPermits, adminPartyIdList);
+        Map<Byte, Integer> statusCountMap = new HashMap<>();
+        for (Map result : results) {
+            Byte status = ((Integer) result.get("status")).byteValue();
+            Integer num = ((Long) result.get("num")).intValue();
+            statusCountMap.put(status, num);
+        }
+        modelMap.put("statusCountMap", statusCountMap);
+
+        if (null != userId) {
+            modelMap.put("sysUser", CmTag.getUserById(userId));
+        }
+        if (null != addUserId){
+            modelMap.put("addSysUser", CmTag.getUserById(userId));
+        }
+
+        return "cet/cetUnitTrain/cetUnitTrain_info";
     }
     
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain_data")
     @ResponseBody
     public void cetUnitTrain_data(HttpServletResponse response,
-                                  int projectId,
+                                  Integer projectId,
                                   Integer userId,
+
+                                  Byte cls,
+                                  Integer traineeTypeId,
+                                  String projectName,
+                                  Integer addUserId,
+                                  @RequestDateRange DateRange _startDate,
+                                  @RequestDateRange DateRange _endDate,
+
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
-        
-        
-        CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            if(adminPartyIdList.size()==0 || !adminPartyIdList.contains(cetUnitProject.getPartyId())){
-                throw new UnauthorizedException();
+
+
+        List<Integer> projectIds = new ArrayList<>();
+        if (null != projectId) {
+            CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                if (adminPartyIdList.size() == 0 || !adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                    throw new UnauthorizedException();
+                }
             }
+        }else {
+            if (cls == null) {
+                cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
+            }
+            boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+            List<Integer> adminPartyIdList = new ArrayList<>();
+            if(addPermits) {
+                adminPartyIdList = loginUserService.adminPartyIdList();
+            }
+            projectIds = cetUnitProjectService.getByStatus(cls, adminPartyIdList, projectName, _endDate, _startDate);
         }
 
         if (null == pageSize) {
@@ -79,11 +142,23 @@ public class CetUnitTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
         
         CetUnitTrainExample example = new CetUnitTrainExample();
-        Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
+        Criteria criteria = example.createCriteria().andStatusEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
         example.setOrderByClause("id desc");
-        
+
+        if (null != cls){
+            if (null != projectIds && projectIds.size() > 0)
+                criteria.andProjectIdIn(projectIds);
+            else
+                criteria.andProjectIdIsNull();
+        }
+        if (null != projectId){
+            criteria.andProjectIdEqualTo(projectId);
+        }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (null != addUserId){
+            criteria.andAddUserIdEqualTo(addUserId);
         }
         
         if (export == 1) {
@@ -91,6 +166,9 @@ public class CetUnitTrainController extends CetBaseController {
                 criteria.andIdIn(Arrays.asList(ids));
             cetUnitTrain_export(example, response);
             return;
+        }
+        if (null != traineeTypeId){
+            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
         }
         
         long count = cetUnitTrainMapper.countByExample(example);

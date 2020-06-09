@@ -5,6 +5,30 @@ import java.util.Map;
 
 public class CetConstants {
 
+    //补录状态
+    public final static byte CET_UNITTRAIN_RERECORD_PASS = 0;
+    public final static byte CET_UNITTRAIN_RERECORD_UNIT = 1;
+    public final static byte CET_UNITTRAIN_RERECORD_PARTY = 2;
+    public final static byte CET_UNITTRAIN_RERECORD_SAVE = 3;
+    public final static Map<Byte, String> CET_UNITTRAIN_RERECORD_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_PASS, "审核通过");
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_UNIT, "待二级党委审批");
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_PARTY, "待组织部审批");
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_SAVE, "暂存");
+    }
+
+    //上级调训-组织部派出-添加方式
+    public final static byte CET_UPPERTRAIN_AU_TYPE_SINGLE = 0;
+    public final static byte CET_UPPERTRAIN_AU_TYPE_BATCH = 1;
+    public final static Map<Byte, String> CET_UPPERTRAIN_AU_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CET_UPPERTRAIN_AU_TYPE_MAP.put(CET_UPPERTRAIN_AU_TYPE_SINGLE, "个别添加");
+        CET_UPPERTRAIN_AU_TYPE_MAP.put(CET_UPPERTRAIN_AU_TYPE_BATCH, "批量导入");
+    }
+
     // 负责单位类型（分组讨论），1 党委组织部 2 内设机构  3 院系级党委 4 二级党校
     public final static byte CET_DISCUSS_UNIT_TYPE_OW = 1;
     public final static byte CET_DISCUSS_UNIT_TYPE_UNIT = 2;
