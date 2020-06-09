@@ -222,12 +222,14 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUpperTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUpperTrain_au(CetUpperTrain record,
-                                   @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                    MultipartFile _word, MultipartFile _pdf,
                                    Boolean check,// 审批
                                    Byte auType,//添加方式
                                    HttpServletRequest request) throws IOException, InterruptedException, InvalidFormatException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
+        if(auType==null){
+            auType = CetConstants.CET_UPPERTRAIN_AU_TYPE_SINGLE;
+        }
         CetUpperTrain oldRecord = null;
         Integer id = record.getId();
         byte addType = record.getAddType();
@@ -267,8 +269,7 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                 } else {
                     Integer unitId = record.getUnitId();
-                    List<Integer> leaderUserIds = userIds == null ? new ArrayList<>() : Arrays.asList(userIds);
-                    if ((unitId != null || leaderUserIds.size() > 0) && (unitId == null || !adminUnitIdSet.contains(unitId))) {
+                    if (unitId == null || !adminUnitIdSet.contains(unitId)) {
                         throw new UnauthorizedException(); // 非单位管理员
                     }
                 }
@@ -325,10 +326,9 @@ public class CetUpperTrainController extends CetBaseController {
                     throw new OpException("党委组织部已确认，不允许修改。");
                 }
             } else {
-                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
-
+                // 本人操作
                 if (id == null) {
-                    userIds = new Integer[]{currentUserId};
+                    record.setUserId(currentUserId);
                     record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
                 } else {
                     if (currentUserId != oldRecord.getUserId()) {
@@ -380,11 +380,12 @@ public class CetUpperTrainController extends CetBaseController {
 
                     records.add(cetUpperTrain);
                 }
+                Collections.reverse(records); // 逆序排列，保证导入的顺序正确
 
                 cetUpperTrainService.batchImport(records);
                 logger.info(log(LogConstants.LOG_CET, "批量添加上级调训或单位培训"));
             }else {
-                cetUpperTrainService.insertSelective(record, userIds);
+                cetUpperTrainService.insertSelective(record);
                 logger.info(log(LogConstants.LOG_CET, "添加上级调训或单位培训：{0}", id));
             }
         } else {

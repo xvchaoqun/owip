@@ -26,7 +26,6 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -320,8 +319,6 @@ public class CetProjectObjService extends CetBaseMapper {
 
             cetProjectObjMapper.insertSelective(record);
 
-            sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
-
             // 同步至每个培训班的学员列表
             for (CetTrain cetTrain : cetTrains) {
                 cetTraineeService.createIfNotExist(userId, cetTrain.getId());
@@ -340,8 +337,6 @@ public class CetProjectObjService extends CetBaseMapper {
             CetProjectObjExample example = new CetProjectObjExample();
             example.createCriteria().andProjectIdEqualTo(projectId).andUserIdEqualTo(userId);
             cetProjectObjMapper.deleteByExample(example);
-
-            delRoleIfNotTrainee(userId);
         }
     }
 
@@ -355,16 +350,6 @@ public class CetProjectObjService extends CetBaseMapper {
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andIdIn(Arrays.asList(ids)).andIsQuitEqualTo(!isQuit);
         cetProjectObjMapper.updateByExampleSelective(record, example);
-    }
-
-    // 检查是否删除参训人员角色
-    public void delRoleIfNotTrainee(int userId) {
-
-        CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andUserIdEqualTo(userId);
-        if (cetProjectObjMapper.countByExample(example) == 0) {
-            sysUserService.delRole(userId, RoleConstants.ROLE_CET_TRAINEE);
-        }
     }
 
     // 设置为必选学员/退课
@@ -743,8 +728,6 @@ public class CetProjectObjService extends CetBaseMapper {
                 appendTraineeInfo(cetTraineeType.getCode(), userId, record);
 
                 cetProjectObjMapper.insertSelective(record);
-
-                sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
 
                 // 同步至每个培训班的学员列表
                 for (CetTrain cetTrain : cetTrains) {

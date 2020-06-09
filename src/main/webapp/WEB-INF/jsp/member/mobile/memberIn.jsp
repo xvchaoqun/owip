@@ -121,8 +121,7 @@
     <div class="form-group">
         <label class="col-xs-5 control-label"><span class="star">*</span>转出单位邮编</label>
         <div class="col-xs-6">
-            <input required class="form-control left-input isZipCode"
-                   maxlength="6"
+            <input required class="form-control left-input isZipCode" maxlength="6"
                    type="text" name="fromPostCode" value="${memberIn.fromPostCode}">
         </div>
     </div>

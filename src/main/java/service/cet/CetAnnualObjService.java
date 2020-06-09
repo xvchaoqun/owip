@@ -126,8 +126,6 @@ public class CetAnnualObjService extends CetBaseMapper {
             }
             cetAnnualObjMapper.insertSelective(record);
             
-            sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
-            
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_ANNUAL,

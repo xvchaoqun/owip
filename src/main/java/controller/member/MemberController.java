@@ -93,11 +93,13 @@ public class MemberController extends MemberBaseController {
             } else {
                 Integer partyId = member.getPartyId();
                 Integer branchId = member.getBranchId();
-                Party party = partyService.findAll().get(partyId);
-                msg = party.getName();
-                if (branchId != null) {
-                    Branch branch = branchService.findAll().get(branchId);
-                    if (branch != null) msg += "-" + branch.getName();
+                if(partyId!=null) { // 已转出或成为群众会清除所在党组织
+                    Party party = partyService.findAll().get(partyId);
+                    msg = party.getName();
+                    if (branchId != null) {
+                        Branch branch = branchService.findAll().get(branchId);
+                        if (branch != null) msg += "-" + branch.getName();
+                    }
                 }
 
                 // 查询状态
@@ -106,22 +108,22 @@ public class MemberController extends MemberBaseController {
                 } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
                     status = "已转出";
                 } else if (member.getStatus() == MemberConstants.MEMBER_STATUS_QUIT) {
-                    status = "已出党";
+                    status = "已减员";
                 }
 
                 if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER) {
 
                     MemberView memberView = iMemberMapper.getMemberView(userId);
                     if (BooleanUtils.isTrue(memberView.getIsRetire()))
-                        status = "已退休";
+                        status += "，" + memberView.getStaffStatus();
                 }
 
                 MemberStay memberStay = memberStayService.get(userId, MemberConstants.MEMBER_STAY_TYPE_ABROAD);
                 if (memberStay != null) {
                     if (memberStay.getStatus() == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
-                        status = "出国暂留申请已完成审批";
+                        status += "，出国暂留申请已完成审批";
                     } else if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_APPLY)
-                        status = "已申请出国暂留，但还未审核通过";
+                        status += "，已申请出国暂留，但还未审核通过";
                 }
             }
         }

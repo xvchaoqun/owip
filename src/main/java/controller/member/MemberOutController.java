@@ -475,9 +475,11 @@ public class MemberOutController extends MemberBaseController {
                                String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
+        if(record.getId()==null) {
+            Member member = memberService.get(userId);
+            record.setPartyId(member.getPartyId());
+            record.setBranchId(member.getBranchId());
+        }
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();

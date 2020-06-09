@@ -148,7 +148,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><span class="star">*</span>转出单位邮编</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="fromPostCode"
+                        <input required class="form-control isZipCode" maxlength="6" type="text" name="fromPostCode"
 							   value="${empty memberOut.fromPostCode?_pMap['school_postcode']:memberOut.fromPostCode}">
 				</div>
 			</div>

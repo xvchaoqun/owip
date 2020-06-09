@@ -21,7 +21,7 @@
     <h3>
         <c:if test="${param.check==1}">审批</c:if>
         <c:if test="${param.check!=1}">
-            <c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>上级调训信息
+            <c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>
         </c:if>
     </h3>
 </div>
@@ -53,24 +53,24 @@
                                          <input required type="radio" name="auType" id="auType1"
                                                 value="${CET_UPPERTRAIN_AU_TYPE_BATCH}">
                                          <label for="auType1">
-                                             批量导入
+                                             导入名单
                                          </label>
                                      </div>
                                  </div>
                              </div>
                          </div>
                          <div class="form-group" id="owAuType_file">
-                             <label class="col-xs-4 control-label"><span class="star">*</span> 批量上传</label>
+                             <label class="col-xs-4 control-label"><span class="star">*</span> 参训人员名单</label>
                              <div class="col-xs-7 label-text">
                                  <input class="form-control" type="file" name="xlsx" required extension="xlsx"/>
                                  <span class="help-inline">导入的文件请严格按照
-                                <a href="${ctx}/attach?code=sample_cetUpperTrain_addType3">
-                                    参训人员录入样表.xlsx</a>（点击下载）的数据格式</span>
+                                <a href="javascript:;" class="downloadBtn" data-type="download"
+                                   data-url="${ctx}/attach?code=sample_cetUpperTrain_addType3">
+                                    参训人员名单.xlsx</a>（点击下载）的数据格式</span>
                              </div>
                          </div>
                      </c:if>
-                     <div id="owAuType_div">
-                <div class="form-group">
+                <div class="form-group owAuType">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人</label>
                     <div class="col-xs-7 label-text">
                         <select required data-rel="select2-ajax"
@@ -82,13 +82,13 @@
                     </div>
                 </div>
                  </c:if>
-                <div class="form-group">
+                <div class="form-group owAuType">
                     <label class="col-xs-4 control-label">时任单位及职务</label>
                     <div class="col-xs-7">
                         <textarea class="form-control" name="title">${cetUpperTrain.title}</textarea>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group owAuType">
                     <label class="col-xs-4 control-label">时任职务属性</label>
                     <div class="col-xs-7">
                         <div class="input-group">
@@ -106,7 +106,6 @@
                         </div>
                     </div>
                 </div>
-                     </div>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
                     <div class="col-xs-7">
@@ -124,7 +123,7 @@
                 </div>
 
                 <div class="form-group hidden" id="otherTraineeType">
-                    <label class="col-xs-4 control-label"> 其他参训人员类型</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>其他参训人员类型</label>
                     <div class="col-xs-7">
                         <input class="form-control" name="otherTraineeType" type="text"
                                value="${cetUpperTrain.address}"/>
@@ -436,8 +435,10 @@
     $("select[name=traineeTypeId]").on("change", function () {
         if ($(this).val() == 0){
             $("#otherTraineeType").removeClass("hidden");
+            $("input[name=otherTraineeType]", "#otherTraineeType").attr("required", "required");
         }else {
             $("#otherTraineeType").addClass("hidden");
+            $("input[name=otherTraineeType]", "#otherTraineeType").removeAttr("required");
         }
     })
 
@@ -445,29 +446,29 @@
 
     <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW&&cetUpperTrain==null}">
         owAuType_hide();
-        $("input[name=auType]").on("click", function () {
+        $("input[name=auType]", "#modalForm").on("click", function () {
             owAuType_show($(this).val());
             //console.log($("#auType").val());
         })
-
+        $("input[name=auType][value='${CET_UPPERTRAIN_AU_TYPE_SINGLE}']", "#modalForm").click();
     </c:if>
 
     function owAuType_hide() {
-        $("#owAuType_div").addClass("hidden");
-        $("#owAuType_div select[name=userId]").removeAttr("required");
+        $(".owAuType").addClass("hidden");
+        $(".owAuType select[name=userId]").removeAttr("required");
         $("#owAuType_file").addClass("hidden");
         $("#owAuType_file input[name=xlsx]").removeAttr("required");
     }
     function owAuType_show(auType) {
-        console.log(auType)
+        //console.log(auType)
         if (auType == ${CET_UPPERTRAIN_AU_TYPE_SINGLE}) {
-            $("#owAuType_div").removeClass("hidden");
-            $("#owAuType_div select[name=userId]").attr("required", "required");
+            $(".owAuType").removeClass("hidden");
+            $(".owAuType select[name=userId]").attr("required", "required");
             $("#owAuType_file").addClass("hidden");
             $("#owAuType_file input[name=xlsx]").removeAttr("required");
         }else if (auType == ${CET_UPPERTRAIN_AU_TYPE_BATCH}) {
-            $("#owAuType_div").addClass("hidden");
-            $("#owAuType_div select[name=userId]").removeAttr("required");
+            $(".owAuType").addClass("hidden");
+            $(".owAuType select[name=userId]").removeAttr("required");
             $("#owAuType_file").removeClass("hidden");
             $("#owAuType_file input[name=xlsx]").attr("required", "required");
         }else {
@@ -529,7 +530,6 @@
     });
     organizerChange();
 
-    var userIds = [];
     $("#submitBtn").click(function () {
         $("#modalForm").submit();
         return false;
@@ -545,7 +545,6 @@
 
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
-                data: {userIds: userIds},
                 success: function (ret) {
                     if (ret.success) {
                         <c:choose>

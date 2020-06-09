@@ -25,7 +25,6 @@ import persistence.cet.common.TrainRecord;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -57,8 +56,7 @@ public class CetAnnualObjController extends CetBaseController {
             SecurityUtils.getSubject().checkPermission("cetAnnualObj:list");
             cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(objId);
         }else{
-            // 干部本人查看
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CET_TRAINEE);
+            // 本人查看
             Integer userId = ShiroHelper.getCurrentUserId();
             List<Integer> annualYears = iCetMapper.getAnnualYears(userId);
             modelMap.put("years", annualYears);

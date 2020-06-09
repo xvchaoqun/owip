@@ -44,9 +44,11 @@
       <small>
         所在单位：<span >{{=ret.unit}}</span>
       </small>
+      {{if(ret.msg!=''){}}
       <small>
         查询结果：<span>{{=ret.msg}}</span>
       </small>
+      {{}}}
       {{if(ret.status){}}
       <small>
         状态：<span>{{=ret.status}}</span>

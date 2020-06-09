@@ -45,7 +45,6 @@ public class RoleConstants {
     public static final String ROLE_PMD_PARTY = "role_pmd_party"; // 党费收缴-分党委管理员
     public static final String ROLE_PMD_BRANCH = "role_pmd_branch"; // 党费收缴-支部管理员
 
-    public static final String ROLE_CET_TRAINEE = "cet_trainee"; // 参训人员-干部教育培训
     public static final String ROLE_CET_ADMIN_UPPER = "cet_admin_upper"; // 单位管理员（上级调训）-干部教育培训
     public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 二级党委管理员-干部教育培训
     public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训 （弃用）
@@ -79,7 +78,6 @@ public class RoleConstants {
         ROLE_MAP.put(ROLE_PMD_BRANCH, "支部管理员(党费收缴)");
 
         ROLE_MAP.put(ROLE_CET_ADMIN, "干部教育培训管理员");
-        ROLE_MAP.put(ROLE_CET_TRAINEE, "参训人员(干部教育培训)");
 
         ROLE_MAP.put(ROLE_DP_ADMIN, "统战部管理员");
         ROLE_MAP.put(ROLE_DP_PARTY, "民主党派管理员");

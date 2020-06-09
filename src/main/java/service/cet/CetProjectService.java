@@ -40,22 +40,9 @@ public class CetProjectService extends CetBaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        {
-            CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andProjectIdIn(Arrays.asList(ids));
-            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
-
-            for (CetProjectObj record : cetProjectObjs) {
-
-                cetProjectObjService.delRoleIfNotTrainee(record.getUserId());
-            }
-        }
-
-        {
-            CetProjectExample example = new CetProjectExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            cetProjectMapper.deleteByExample(example);
-        }
+        CetProjectExample example = new CetProjectExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cetProjectMapper.deleteByExample(example);
     }
 
     @Transactional
