@@ -7,6 +7,8 @@ pageEncoding="UTF-8"%>
 
     <form class="form-horizontal" action="${ctx}/memberOut_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOut.id}">
+        <input type="hidden" name="partyId" value="${memberOut.partyId}">
+        <input type="hidden" name="branchId" value="${memberOut.branchId}">
         <input type="hidden" name="reapply" value="${empty memberOut?1:param.reapply}">
 		<div class="row">
 			<div class="col-xs-4">
@@ -222,7 +224,7 @@ pageEncoding="UTF-8"%>
 						</c:if>
 						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
-							$.hashchange();
+							$.hideView();
 						//});
                     }
                 }
