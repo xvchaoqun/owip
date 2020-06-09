@@ -187,7 +187,7 @@ public class DrOnlineController extends DrBaseController {
                               HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setRecommendDate(DateUtils.parseDate(_recommendDate, DateUtils.YYYY_MM_DD));
+        record.setRecommendDate(DateUtils.parseDate(_recommendDate, DateUtils.YYYYMMDD_DOT));
         record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
         record.setIsDeleteed(false);
 
