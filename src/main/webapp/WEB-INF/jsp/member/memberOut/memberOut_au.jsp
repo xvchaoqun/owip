@@ -205,7 +205,8 @@ pageEncoding="UTF-8"%>
     </form>
 
 <div class="modal-footer center">
-	<button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> ${param.reapply==1?"重新申请":"确定"}</button>
+	<button id="submitBtn" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i> ${param.reapply==1?"重新申请":"确定"}</button>
 	<a href="javascript:;" class="btn btn-default hideView"><i class="fa fa-reply"></i> 返回</a>
 </div>
 </div>
@@ -216,6 +217,8 @@ pageEncoding="UTF-8"%>
 	$("#body-content-view #submitBtn").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+        	var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -227,6 +230,7 @@ pageEncoding="UTF-8"%>
 							$.hideView();
 						//});
                     }
+                     $btn.button('reset');
                 }
             });
         }

@@ -33,13 +33,17 @@
 <c:if test="${cls==1}">
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
+        <%--<button class="popupBtn btn btn-info btn-sm"
+                data-url="${ctx}/cet/cetProjectObj_batchSelect?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
+            <i class="fa fa-plus"></i> 添加
+        </button>--%>
         <button class="popupBtn btn btn-info btn-sm"
                 data-url="${ctx}/cet/cetProjectObj_add?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="fa fa-plus"></i> 添加
         </button>
         <c:if test="${cls==1}">
         <button class="popupBtn btn btn-info btn-sm tooltip-info"
-                data-url="${ctx}/cet/cetProject_detail_import?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
+                data-url="${ctx}/cet/cetProjectObj_import?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
                 data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
             批量导入
         </button>
@@ -142,7 +146,7 @@
         <i class="fa fa-times-circle"></i> 全部设置为可选
     </button>
     <button class="popupBtn btn btn-info btn-sm tooltip-success"
-            data-url="${ctx}/cet/cetProjectObj_import?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}"
+            data-url="${ctx}/cet/cetProjectObj_course_import?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}"
             data-rel="tooltip" data-placement="top"
             title="从Excel中导入选课情况"><i class="fa fa-upload"></i> 导入选课情况</button>
 
@@ -666,7 +670,8 @@
 
             }, frozen: true},
 
-            <c:if test="${cetTraineeType.code=='t_cadre'||cetTraineeType.code=='t_reserve'}">
+            <c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
+            ||cetTraineeType.code=='t_cadre_kj'||cetTraineeType.code=='t_reserve'}">
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
@@ -735,7 +740,7 @@
             }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             </c:if>
-            <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'}">
+            <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'||cetTraineeType.code=='t_grow'}">
              {
                 label: '联系党组织',
                 name: 'partyId',
@@ -748,6 +753,9 @@
             {label: '成为积极分子时间', name: 'activeTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             <c:if test="${cetTraineeType.code=='t_candidate'}">
             {label: '成为发展对象时间', name: 'candidateTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            </c:if>
+            <c:if test="${cetTraineeType.code=='t_grow'}">
+            {label: '入党时间', name: 'owGrowTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             </c:if>
 

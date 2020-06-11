@@ -295,10 +295,13 @@ public class CetUnitTrainService extends CetBaseMapper {
                 CetUnitTrain record = cetUnitTrainMapper.selectByPrimaryKey(id);
                 projectId=record.getProjectId();
                 if (pass) {
-                    if (ShiroHelper.isPermitted(CetConstants.PERMISSION_CETADMIN))
+                    if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+                        // 组织部审批
                         record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
-                    else if (ShiroHelper.isPermitted(CetConstants.PERMISSION_PARTYADMIN))
+                    } else {
+                        // 二级党委审批
                         record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_CET);
+                    }
                 }else {
                     record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
                 }

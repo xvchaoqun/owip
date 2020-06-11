@@ -5,9 +5,6 @@ import java.util.Map;
 
 public class CetConstants {
 
-    public static final String PERMISSION_CETADMIN = "cetUnitProject:cetAdmin";//组织部
-    public static final String PERMISSION_PARTYADMIN = "cetUnitProject:partyAdmin";//二级党委
-
     //二级党委培训管理员类型
     public final static byte CET_PARTY_ADMIN_SECRETARY= 0;
     public final static byte CET_PARTY_ADMIN_VICE_SECRETARY= 1;

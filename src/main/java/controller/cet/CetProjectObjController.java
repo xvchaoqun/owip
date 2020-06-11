@@ -171,7 +171,7 @@ public class CetProjectObjController extends CetBaseController {
         CetProjectObjExample example = new CetProjectObjExample();
         CetProjectObjExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
                 .andTraineeTypeIdEqualTo(traineeTypeId);
-        example.setOrderByClause("id asc");
+        example.setOrderByClause("id desc");
 
         if (traineeTypeId != null){
             criteria.andTraineeTypeIdEqualTo(traineeTypeId);
@@ -391,16 +391,16 @@ public class CetProjectObjController extends CetBaseController {
 
     // 导入选课情况
     @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_import")
-    public String cetProjectObj_import() {
+    @RequestMapping("/cetProjectObj_course_import")
+    public String cetProjectObj_course_import() {
 
-        return "cet/cetProjectObj/cetProjectObj_import";
+        return "cet/cetProjectObj/cetProjectObj_course_import";
     }
 
     @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping(value="/cetProjectObj_import", method=RequestMethod.POST)
+    @RequestMapping(value="/cetProjectObj_course_import", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_import(int projectId, int trainCourseId,
+    public Map do_cetProjectObj_course_import(int projectId, int trainCourseId,
                                             HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -455,16 +455,39 @@ public class CetProjectObjController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping(value = "/cetProjectObj_add", method = RequestMethod.POST)
+    /*@RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_batchSelect", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_add(int projectId, int traineeTypeId,
+    public Map do_cetProjectObj_batchSelect(int projectId, int traineeTypeId,
                                     @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                                     HttpServletRequest request) {
 
         cetProjectObjService.addOrUpdate(projectId, traineeTypeId, userIds);
-        logger.info(addLog(LogConstants.LOG_CET, "编辑培训对象： %s, %s, %s", projectId, traineeTypeId,
+        logger.info(addLog(LogConstants.LOG_CET, "批量选择培训对象： %s, %s, %s", projectId, traineeTypeId,
                 StringUtils.join(userIds, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_batchSelect")
+    public String cetProjectObj_batchSelect(int projectId, int traineeTypeId, ModelMap modelMap) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+        modelMap.put("cetTraineeType", cetTraineeType);
+
+        return "cet/cetProjectObj/cetProjectObj_batchSelect";
+    }*/
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_add", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_add(int projectId, int traineeTypeId, int userId) {
+
+        cetProjectObjService.addOrUpdate(projectId, traineeTypeId, new Integer[]{userId});
+        logger.info(addLog(LogConstants.LOG_CET, "添加培训对象： %s, %s, %s", projectId, traineeTypeId, userId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -475,10 +498,11 @@ public class CetProjectObjController extends CetBaseController {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
-        modelMap.put("cetTraineeType", cetTraineeType);
 
-        return "cet/cetProjectObj/cetProjectObj_select";
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+        modelMap.put("cetTraineeTypes", cetTraineeTypes);
+
+        return "cet/cetProjectObj/cetProjectObj_add";
     }
 
     @RequiresPermissions("cetProjectObj:edit")

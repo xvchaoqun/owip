@@ -141,7 +141,9 @@ public class CetProjectObjService extends CetBaseMapper {
 
         switch (typeCode) {
             // 干部、优秀年轻干部
+            case "t_leader":
             case "t_cadre":
+            case "t_cadre_kj":
             case "t_reserve":
                 // 同步干部信息
                 CadreView cv = cadreService.dbFindByUserId(userId);
@@ -191,7 +193,7 @@ public class CetProjectObjService extends CetBaseMapper {
                     record.setAssignDate(branchMemberView.getAssignDate());
                 }
                 break;
-            case "t_organizer":
+            case "t_organizer": // 	组织员
                 OrganizerExample example3 = new OrganizerExample();
                 example3.createCriteria()
                         .andStatusEqualTo(OwConstants.OW_ORGANIZER_STATUS_NOW)
@@ -218,33 +220,22 @@ public class CetProjectObjService extends CetBaseMapper {
                     record.setAssignDate(organizer.getAppointDate());
                 }
                 break;
-            case "t_candidate":
-                MemberApplyExample example4 = new MemberApplyExample();
-                example4.createCriteria()
-                        .andIsRemoveEqualTo(false)
-                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE)
-                        .andUserIdEqualTo(userId);
-                List<MemberApply> candidates = memberApplyMapper.selectByExampleWithRowbounds(example4, new RowBounds(0, 1));
-                if (candidates.size() > 0) {
-                    MemberApply memberApply = candidates.get(0);
-                    record.setPartyId(memberApply.getPartyId());
-                    record.setBranchId(memberApply.getBranchId());
-                    record.setActiveTime(memberApply.getActiveTime());
-                    record.setCandidateTime(memberApply.getCandidateTime());
-                }
-                break;
-            case "t_activist":
+            case "t_activist": // 	入党积极分子
+            case "t_candidate": // 发展对象
+            case "t_grow": // 预备党员
                 MemberApplyExample example5 = new MemberApplyExample();
                 example5.createCriteria()
                         .andIsRemoveEqualTo(false)
                         .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE)
                         .andUserIdEqualTo(userId);
-                List<MemberApply> activists = memberApplyMapper.selectByExampleWithRowbounds(example5, new RowBounds(0, 1));
-                if (activists.size() > 0) {
-                    MemberApply memberApply = activists.get(0);
+                List<MemberApply> records = memberApplyMapper.selectByExampleWithRowbounds(example5, new RowBounds(0, 1));
+                if (records.size() > 0) {
+                    MemberApply memberApply = records.get(0);
                     record.setPartyId(memberApply.getPartyId());
                     record.setBranchId(memberApply.getBranchId());
                     record.setActiveTime(memberApply.getActiveTime());
+                    record.setCandidateTime(memberApply.getCandidateTime());
+                    record.setOwGrowTime(memberApply.getGrowTime());
                 }
                 break;
         }
@@ -300,9 +291,6 @@ public class CetProjectObjService extends CetBaseMapper {
 
         // 已选人员
         Set<Integer> selectedProjectObjUserIdSet = getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
-        // 提交更新人员
-        Set<Integer> specialeeUserIdSet = new HashSet<>();
-        specialeeUserIdSet.addAll(Arrays.asList(userIds));
 
         List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
 
@@ -329,14 +317,6 @@ public class CetProjectObjService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
                     "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "新建");
-        }
-
-        // 需要删除的人员
-        selectedProjectObjUserIdSet.removeAll(specialeeUserIdSet);
-        for (Integer userId : selectedProjectObjUserIdSet) {
-            CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andProjectIdEqualTo(projectId).andUserIdEqualTo(userId);
-            cetProjectObjMapper.deleteByExample(example);
         }
     }
 
@@ -688,14 +668,14 @@ public class CetProjectObjService extends CetBaseMapper {
 
     //批量导入CetProjectObj培训对象
     @Transactional
-    public int importCetProjectObj(List<CetProjectObj> records){
+    public int importCetProjectObj(List<CetProjectObj> records) {
         int addCount = 0;
-        for (CetProjectObj _record : records){
+        for (CetProjectObj _record : records) {
             Integer userId = _record.getUserId();
             Integer traineeTypeId = _record.getTraineeTypeId();
             Integer projectId = _record.getProjectId();
             CetProjectObj _cetProjectObj = get(userId, projectId, traineeTypeId);
-            if (_cetProjectObj == null){
+            if (_cetProjectObj == null) {
                 addCount++;
                 Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
                 CetTraineeType cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
@@ -737,7 +717,7 @@ public class CetProjectObjService extends CetBaseMapper {
                 sysApprovalLogService.add(record.getId(), record.getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
-                           "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                        "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                         "新建");
             }
         }

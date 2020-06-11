@@ -175,6 +175,7 @@
         //console.log(up)
         if(up!=undefined){
             $('#modalForm textarea[name=postName]').val(up.name)
+			$('#modalForm textarea[name=post]').val(up.name); // 职务默认为岗位名称
             $("#modalForm select[name=postType]").val(up.postType).trigger("change");
             $("#modalForm select[name=adminLevel]").val(up.adminLevel).trigger("change");
             $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");

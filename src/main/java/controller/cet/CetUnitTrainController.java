@@ -61,8 +61,8 @@ public class CetUnitTrainController extends CetBaseController {
                                     Integer userId,
                                     ModelMap modelMap) {
 
-        if (null != reRecord)
-            modelMap.put("reRecord", reRecord);
+        modelMap.put("reRecord", reRecord);
+
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
         if (null != userId) {
             modelMap.put("sysUser", CmTag.getUserById(userId));
@@ -272,7 +272,7 @@ public class CetUnitTrainController extends CetBaseController {
         return "cet/cetUnitTrain/cetUnitTrain_au";
     }
     
-    @RequiresPermissions("cetUnitProject:edit")
+    /*@RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_batchAdd")
     public String cetUnitTrain_batchAdd(int projectId, ModelMap modelMap) {
 
@@ -293,7 +293,7 @@ public class CetUnitTrainController extends CetBaseController {
        cetUnitTrainService.batchAdd(projectId, traineeTypeId, userIds);
         
         return success(FormUtils.SUCCESS);
-    }
+    }*/
     
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_import")
@@ -346,7 +346,7 @@ public class CetUnitTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetUnitProject:edit")
+    @RequiresPermissions("cetUnitProject:check")
     @RequestMapping("/cetUnitTrain_check")
     public String cetUnitTrain_pass(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
@@ -356,7 +356,7 @@ public class CetUnitTrainController extends CetBaseController {
         return "/cet/cetUnitTrain/cetUnitTrain_check";
     }
 
-    @RequiresPermissions("cetUnitProject:edit")
+    @RequiresPermissions("cetUnitProject:check")
     @RequestMapping(value = "/cetUnitTrain_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_check(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
@@ -365,7 +365,7 @@ public class CetUnitTrainController extends CetBaseController {
         if (null != ids && ids.length > 0) {
 
             cetUnitTrainService.batchCheck(ids, pass, reason);
-            logger.info(addLog(LogConstants.LOG_CET, "批量审批通过二级单位培训班补录申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量审批通过二级党委培训班补录申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

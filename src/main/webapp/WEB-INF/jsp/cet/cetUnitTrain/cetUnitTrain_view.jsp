@@ -20,7 +20,7 @@
                     <a href="javascript:;" data-url="${ctx}/cet/cetUnitTrain_page?projectId=${cetUnitProject.id}"> 培训记录</a>
                 </li>
                 <li class="">
-                    <a href="javascript:;" data-url="${ctx}/cet/cetUnitTrain_page?reRecord=1&projectId=${cetUnitProject.id}"> 补录申请</a>
+                    <a href="javascript:;" data-url="${ctx}/cet/cetUnitTrain_page?reRecord=1&projectId=${cetUnitProject.id}"> 本人补录申请</a>
                 </li>
             </ul>
         </div>

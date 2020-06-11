@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data"
-          action="${ctx}/cet/cetProjectObj_import" method="post">
+          action="${ctx}/cet/cetProjectObj_course_import" method="post">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
 

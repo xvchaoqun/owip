@@ -65,17 +65,18 @@ public class MemberService extends MemberBaseMapper {
      * @param userId
      */
     @Transactional
-    public void reback(int userId) {
+    public void reback(int userId, int partyId, Integer branchId) {
 
-        Member record = new Member();
-        record.setUserId(userId);
-        record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
-        //record.setBranchId(member.getBranchId());
-        int ret = updateByPrimaryKeySelective(record);
-        if (ret > 0) {
-            // 更新系统角色  访客->党员
-            sysUserService.changeRoleGuestToMember(userId);
+        if(partyService.isDirectBranch(partyId)){
+            branchId = null; // 可能已被修改为了直属党支部
         }
+
+        commonMapper.excuteSql("update ow_member set party_id="+partyId
+                + ", branch_id="+ branchId + ", status=" + MemberConstants.MEMBER_STATUS_NORMAL
+                + " where user_id="+userId);
+
+        // 更新系统角色  访客->党员
+        sysUserService.changeRoleGuestToMember(userId);
     }
 
     // 后台数据库中导入党员数据后，需要同步信息、更新状态

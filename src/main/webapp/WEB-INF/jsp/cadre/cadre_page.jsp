@@ -354,7 +354,7 @@
                                                    data-need-id="false"
                                                    data-export="6"
                                                    data-url="${ctx}/cadre_data">
-                                                <i class="fa fa-file-excel-o"></i> 导出简版干部信息表（批量）</a>
+                                                <i class="fa fa-file-excel-o"></i> 导出干部信息表（简版）（批量）</a>
                                             </li>
                                             <li role="separator" class="divider"></li>
                                             <li>

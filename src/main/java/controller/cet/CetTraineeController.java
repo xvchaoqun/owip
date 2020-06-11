@@ -135,54 +135,6 @@ public class CetTraineeController extends CetBaseController {
         return;
     }
 
-    /*@RequiresPermissions("cetTrainee:edit")
-    @RequestMapping(value = "/cetTrainee_add", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrainee_add(int trainId, int traineeTypeId,
-                                 @RequestParam(value = "userIds[]", required = false) Integer[] userIds ,
-                                 HttpServletRequest request) {
-
-        cetTraineeService.addOrUpdate(trainId, traineeTypeId, userIds);
-        logger.info(addLog(LogConstants.LOG_CET, "编辑可选课人员： %s, %s, %s", trainId, traineeTypeId,
-                StringUtils.join(userIds, ",")));
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetTrainee:edit")
-    @RequestMapping("/cetTrainee_add")
-    public String cetTrainee_add(int trainId, int traineeTypeId, ModelMap modelMap) {
-
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
-        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
-        String code = cetTraineeType.getCode();
-        switch (code) {
-            // 干部
-            case "t_cadre":
-                return "cet/cetTrainee/cetTrainee_selectCadres";
-        }
-
-        return null;
-    }
-
-    @RequiresPermissions("cetTrainee:edit")
-    @RequestMapping("/cetTrainee_selectCadres_tree")
-    @ResponseBody
-    public Map cetTrainee_selectCadres_tree(int trainId) throws IOException {
-
-        Set<Integer> selectIdSet = cetTraineeService.getSelectedTraineeUserIdSet(trainId);
-
-        Set<Byte> cadreStatusList = new HashSet<>();
-        cadreStatusList.add(CadreConstants.CADRE_STATUS_CJ);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
-                cadreStatusList, selectIdSet, null, false, true, false);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }*/
-
     @RequiresPermissions("cetTrainee:del")
     @RequestMapping(value = "/cetTrainee_del", method = RequestMethod.POST)
     @ResponseBody

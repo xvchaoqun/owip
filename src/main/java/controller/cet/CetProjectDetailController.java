@@ -171,21 +171,20 @@ public class CetProjectDetailController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //培训对象及学习情况的批量导入
+    // 批量导入培训对象
     @RequiresPermissions("cetProject:edit")
-    @RequestMapping("/cetProject_detail_import")
+    @RequestMapping("/cetProjectObj_import")
     public String cetProjectObj_import(Integer projectId, ModelMap modelMap){
 
         modelMap.put("projectId", projectId);
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
-        return "cet/cetProject/cetProject_detail/cetProject_detail_import";
+        return "cet/cetProject/cetProject_detail/cetProjectObj_import";
     }
 
-    //培训对象及学习情况的批量导入
     @RequiresPermissions("cetProject:edit")
-    @RequestMapping(value = "/cetProject_detail_import", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetProjectObj_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_import(Integer projectId, Integer traineeTypeId, HttpServletRequest request) throws InvalidFormatException, IOException {
 
@@ -225,6 +224,7 @@ public class CetProjectDetailController extends CetBaseController {
 
             records.add(record);
         }
+        Collections.reverse(records);
         int successCount = cetProjectObjService.importCetProjectObj(records);
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

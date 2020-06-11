@@ -282,7 +282,7 @@ public class MemberOutService extends MemberBaseMapper {
         record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ABOLISH);
         updateByPrimaryKeySelective(record);
 
-        memberService.reback(userId);
+        memberService.reback(userId, memberOut.getPartyId(), memberOut.getBranchId());
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), userId,

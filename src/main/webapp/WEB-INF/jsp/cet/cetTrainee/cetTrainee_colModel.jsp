@@ -38,7 +38,8 @@
       {label: '工作证号', name: 'obj.user.code', width: 110, frozen: true},
       {label: '姓名', name: 'obj.user.realname', width: 120, frozen: true},
 
-      <c:if test="${cetTraineeType.code=='t_cadre'||cetTraineeType.code=='t_reserve'}">
+      <c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
+            ||cetTraineeType.code=='t_cadre_kj'||cetTraineeType.code=='t_reserve'}">
         {label: '所在单位及职务', name: 'obj.title', align: 'left', width: 350},
         {label: '行政级别', name: 'obj.adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'obj.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
@@ -111,7 +112,7 @@
         }},
         {label: '任职时间', name: 'obj.assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         </c:if>
-        <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'}">
+        <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'||cetTraineeType.code=='t_grow'}">
          {
             label: '联系党组织',
             name: 'obj.partyId',
@@ -125,9 +126,12 @@
         <c:if test="${cetTraineeType.code=='t_candidate'}">
         {label: '成为发展对象时间', name: 'candidateTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         </c:if>
+        <c:if test="${cetTraineeType.code=='t_grow'}">
+        {label: '入党时间', name: 'owGrowTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
         </c:if>
-      {label: '联系方式', name: 'cadre.mobile', width: 120},
-      {label: '电子邮箱', name: 'cadre.email', width: 250, algin:"left"},
+        </c:if>
+      /*{label: '联系方式', name: 'cadre.mobile', width: 120},
+      {label: '电子邮箱', name: 'cadre.email', width: 250, algin:"left"},*/
 
         { label: '本年度参加培训情况',name: 'courseCount', width: 150, formatter: function (cellvalue, options, rowObject) {
 

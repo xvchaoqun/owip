@@ -8,7 +8,7 @@
     <h4>选择培训对象（${cetTraineeType.name}）</h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/cet/cetProjectObj_add" autocomplete="off" disableautocomplete id="modalForm" method="post">
+  <form class="form-horizontal"  action="${ctx}/cet/cetProjectObj_batchSelect" autocomplete="off" disableautocomplete id="modalForm" method="post">
   <div id="tree3" style="min-height: 400px">
       <div class="block-loading"/>
   </div>

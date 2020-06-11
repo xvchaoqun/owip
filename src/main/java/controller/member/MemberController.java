@@ -556,7 +556,14 @@ public class MemberController extends MemberBaseController {
 
             SecurityUtils.getSubject().checkPermission("member:edit");
 
-            record.setPoliticalStatus(null); // 不能修改党籍状态
+            if(member.getStatus()!=MemberConstants.MEMBER_STATUS_NORMAL) {
+
+                record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
+                record.setCreateTime(new Date());
+                record.setSource(MemberConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
+            }else {
+                record.setPoliticalStatus(null); // 正常状态时，不能修改党籍状态
+            }
             memberService.updateByPrimaryKeySelective(record, reason);
 
             logger.info(addLog(LogConstants.LOG_MEMBER,

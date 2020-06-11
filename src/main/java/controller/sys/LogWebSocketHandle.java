@@ -29,7 +29,7 @@ public class LogWebSocketHandle {
             }
 
             // 执行tail -f命令
-            String cmd = "tail -f /data/logs/info.$(date \\+%Y-%m-%d).log";
+            String cmd = "tail -f ~/tomcat_logs/info.$(date \\+%Y-%m-%d).log";
             process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
             //String cmd = "ping -t localhost";

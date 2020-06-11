@@ -17,15 +17,9 @@
                     <c:if test="${empty reRecord}">
                     <c:if test="${cm:hasRole(ROLE_CET_ADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
                     <shiro:hasPermission name="cetUnitProject:edit">
-                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
-                        <button class="popupBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/cet/cetUnitTrain_batchAdd?projectId=${param.projectId}">
-                            <i class="fa fa-plus-square"></i> 批量添加
-                        </button>
-                        </shiro:hasRole>
                         <button class="popupBtn btn btn-success btn-sm"
                                 data-url="${ctx}/cet/cetUnitTrain_au?projectId=${param.projectId}">
-                            <i class="fa fa-plus"></i> ${cm:hasRole(ROLE_CET_ADMIN)?'个别添加':'添加'}
+                            <i class="fa fa-plus"></i> 添加
                         </button>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/cet/cetUnitTrain_au"
@@ -36,7 +30,7 @@
                             <button class="popupBtn btn btn-info btn-sm tooltip-success"
                             data-url="${ctx}/cet/cetUnitTrain_import?projectId=${param.projectId}"
                             data-rel="tooltip" data-placement="top"
-                            title="从Excel中导入培训记录"><i class="fa fa-upload"></i> 导入</button>
+                            title="从Excel中导入培训记录"><i class="fa fa-upload"></i> 批量导入</button>
                         </shiro:hasRole>
                         <button data-url="${ctx}/cet/cetUnitTrain_batchDel"
                                 data-title="删除"
@@ -48,7 +42,7 @@
                     </shiro:hasPermission>
                     </c:if>
                     </c:if>
-                    <c:if test="${not empty reRecord && reRecord==1 && (cm:isPermitted('cetUnitProject:cetAdmin') || cm:isPermitted('cetUnitProject:partyAdmin'))}">
+                    <c:if test="${reRecord==1 && cm:isPermitted('cetUnitProject:check')}">
                             <button data-url="${ctx}/cet/cetUnitTrain_check"
                                     data-grid-id="#jqGrid2"
                                     class="jqOpenViewBatchBtn btn btn-success btn-sm">
