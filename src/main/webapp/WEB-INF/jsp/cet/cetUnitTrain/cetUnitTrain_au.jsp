@@ -59,6 +59,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                         <input required class="form-control period" type="text"
 							   name="period" value="${empty cetUnitTrain?cetUnitProject.period:cetUnitTrain.period}">
+					<span class="help-block">注：此处默认为培训项目的学时，请修改为实际完成学时</span>
 				</div>
 			</div>
 
