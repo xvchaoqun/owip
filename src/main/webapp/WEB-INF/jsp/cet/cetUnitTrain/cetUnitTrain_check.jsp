@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">补录审批备注</label>
 				<div class="col-xs-6">
                         <textarea class="form-control limited" rows="3"
-							   name="reason"></textarea>
+							   name="reason">${cetUnitTrain.reason}</textarea>
 				</div>
 			</div>
     </form>

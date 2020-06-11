@@ -2,8 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PASS%>" var="CET_UNITTRAIN_RERECORD_PASS"/>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_UNIT%>" var="CET_UNITTRAIN_RERECORD_UNIT"/>
 <c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PARTY%>" var="CET_UNITTRAIN_RERECORD_PARTY"/>
+<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_CET%>" var="CET_UNITTRAIN_RERECORD_CET"/>
 <c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_SAVE%>" var="CET_UNITTRAIN_RERECORD_SAVE"/>
 <c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_MAP%>" var="CET_UNITTRAIN_RERECORD_MAP"/>
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
@@ -48,12 +48,12 @@
                     </shiro:hasPermission>
                     </c:if>
                     </c:if>
-                    <c:if test="${not empty reRecord && reRecord==1 && (cm:hasRole(ROLE_ODADMIN) || cm:hasRole(ROLE_CET_ADMIN) ||cm:hasRole(ROLE_CET_ADMIN_PARTY))}">
-                        <button data-url="${ctx}/cet/cetUnitTrain_check"
-                                data-grid-id="#jqGrid2"
-                                class="jqOpenViewBatchBtn btn btn-success btn-sm">
-                            <i class="fa fa-check-circle-o"></i> 审批
-                        </button>
+                    <c:if test="${not empty reRecord && reRecord==1 && (cm:isPermitted('cetUnitProject:cetAdmin') || cm:isPermitted('cetUnitProject:partyAdmin'))}">
+                            <button data-url="${ctx}/cet/cetUnitTrain_check"
+                                    data-grid-id="#jqGrid2"
+                                    class="jqOpenViewBatchBtn btn btn-success btn-sm">
+                                <i class="fa fa-check-circle-o"></i> 审批
+                            </button>
                     </c:if>
                     <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                             data-url="${ctx}/cet/cetUnitTrain_data"
@@ -75,7 +75,7 @@
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="trianSearchForm">
                                 <div class="form-group">
-                                    <label>参训人员姓名</label>
+                                    <label>参训人姓名</label>
                                     <select data-ajax-url="${ctx}/sysUser_selects" data-rel="select2-ajax"
                                             name="userId" data-placeholder="请输入账号或姓名或工号">
                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -119,10 +119,10 @@
             }, width:180},
             <c:if test="${reRecord==1}">
             {label: '补录进度', name: 'status', width: 120, formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue==${CET_UNITTRAIN_RERECORD_PARTY})
+                    if (cellvalue==${CET_UNITTRAIN_RERECORD_CET})
+                        return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_CET)}';
+                    else if (cellvalue==${CET_UNITTRAIN_RERECORD_PARTY})
                         return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_PARTY)}';
-                    else if (cellvalue==${CET_UNITTRAIN_RERECORD_UNIT})
-                        return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_UNIT)}';
                     else if (cellvalue==${CET_UNITTRAIN_RERECORD_SAVE})
                         return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_SAVE)}';
                 }},

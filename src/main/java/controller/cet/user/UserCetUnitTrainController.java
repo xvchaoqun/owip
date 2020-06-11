@@ -1,7 +1,6 @@
 package controller.cet.user;
 
 import controller.cet.CetBaseController;
-import controller.global.OpException;
 import domain.cet.CetUnitProject;
 import domain.cet.CetUnitProjectExample;
 import domain.cet.CetUnitTrain;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
@@ -72,8 +72,8 @@ public class UserCetUnitTrainController extends CetBaseController {
             criteria.andStatusEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
         }else if (cls == 6){
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_UNIT);
             statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_CET);
             statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
             criteria.andStatusIn(statusList);
         }
@@ -101,52 +101,13 @@ public class UserCetUnitTrainController extends CetBaseController {
 
     @RequiresPermissions("userCetUnitTrain:edit")
     @RequestMapping("/cetUnitTrain_list")
-    public String cetUnitTrain_list(String type, Integer userId, ModelMap modelMap){
+    public String cetUnitTrain_list(Integer userId,
+                                    String projectName,
+                                    HttpServletResponse response,
+                                    Integer pageSize, Integer pageNo, ModelMap modelMap){
 
         userId = ShiroHelper.getCurrentUserId();
         modelMap.put("userId", userId);
-
-        CetUnitTrainExample example = new CetUnitTrainExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
-        List<CetUnitTrain> cetUnitTrains = cetUnitTrainMapper.selectByExample(example);
-        modelMap.put("cetUnitTrains", cetUnitTrains);
-
-        return "/cet/user/cetUnitTrain_list";
-    }
-
-    @RequiresPermissions("userCetUnitTrain:edit")
-    @RequestMapping(value = "/cetUnitTrain_list", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_userCetUnitTrain_list(Integer userId,
-                                    Integer projectId){
-
-        CetUnitTrain record = new CetUnitTrain();
-        if (userId != null && projectId != null) {
-            if (cetUnitTrainService.idDuplicate(null, userId, projectId)) {
-                return failed("添加重复。");
-            }
-            record.setUserId(userId);
-            record.setProjectId(projectId);
-            record.setAddTime(new Date());
-            record.setAddUserId(userId);
-            record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_UNIT);
-            CetUnitProject project = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-            record.setPeriod(project.getPeriod());
-            cetUnitTrainService.reRecord(record);
-        }else {
-            throw new OpException("补录失败");
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("userCetUnitTrain:edit")
-    @RequestMapping("/cetUnitTrain_au")
-    public String cetUnitTrain_au(String type,
-                                  Integer userId,
-                                  String projectName,
-                                  HttpServletResponse response,
-                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = 8;
@@ -176,12 +137,7 @@ public class UserCetUnitTrainController extends CetBaseController {
         CetUnitProjectExample.Criteria proCritrria = projectExample.createCriteria().andStatusNotIn(statuss);
 
         if (projectIds.size() > 0) {
-            if (!StringUtils.equalsIgnoreCase(type, "edit")) {
-
-                proCritrria.andIdIn(projectIds);
-            } else {
-                proCritrria.andIdNotIn(projectIds);
-            }
+            proCritrria.andIdNotIn(projectIds);
         }
 
         if (StringUtils.isNotBlank(projectName)){
@@ -200,6 +156,59 @@ public class UserCetUnitTrainController extends CetBaseController {
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         modelMap.put("commonList", commonList);
+
+        return "/cet/user/cetUnitTrain_list";
+    }
+
+    @RequiresPermissions("userCetUnitTrain:edit")
+    @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_userCetUnitTrain_list(CetUnitTrain record, MultipartFile _word, MultipartFile _pdf,
+                                        HttpServletRequest request) throws IOException, InterruptedException{
+
+        Integer id = record.getId();
+
+        if (cetUnitTrainService.idDuplicate(id, record.getProjectId(), record.getUserId())) {
+
+            return failed("添加重复。");
+        }
+
+        record.setWordNote(upload(_word, "cetUnitTrain_note"));
+        record.setPdfNote(uploadPdf(_pdf, "cetUnitTrain_note"));
+        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+
+        int projectId = record.getProjectId();
+
+        if (id == null) {
+            record.setAddTime(new Date());
+            record.setAddUserId(ShiroHelper.getCurrentUserId());
+            cetUnitTrainService.reRecord(record);
+            logger.info(addLog(LogConstants.LOG_CET, "添加二级单位培训班培训记录：%s", record.getId()));
+        } else {
+
+            cetUnitTrainService.reRecordUpdateSelective(record);
+            logger.info(addLog(LogConstants.LOG_CET, "更新二级单位培训班培训记录：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("userCetUnitTrain:edit")
+    @RequestMapping("/cetUnitTrain_au")
+    public String cetUnitTrain_au(Integer id,
+                                  Integer userId,
+                                  Integer projectId,
+                                  ModelMap modelMap) {
+
+        if (null != id) {
+            CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
+            modelMap.put("cetUnitTrain", cetUnitTrain);
+            modelMap.put("cetUnitProject", cetUnitTrain.getProject());
+        }
+        modelMap.put("userId", userId == null ?ShiroHelper.getCurrentUserId() : userId);
+        if (null != projectId) {
+            modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
+        }
 
         return "cet/user/cetUnitTrain_au";
     }

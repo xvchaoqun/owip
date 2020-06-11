@@ -1,98 +1,133 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=SystemConstants.UNIT_POST_STATUS_NORMAL%>" var="UNIT_POST_STATUS_NORMAL"/>
-<c:set var="toSelectProject" value="${param.type=='edit'&& cm:isPermitted('userCetUnitTrain:edit')}"/>
+pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>培训补录信息<c:if test="${toSelectProject}">(一次仅能选择一个培训项目)</c:if></h3>
+    <h3>补录二级党委培训记录</h3>
 </div>
 <div class="modal-body">
-    <c:if test="${toSelectProject}">
-        <form class="form-inline search-form" id="searchForm_popup" style="float: left">
-            <input type="hidden" name="userId" value="${param.userId}">
-            <div class="form-group">
-                <label>培训项目名称</label>
-                <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
-                       placeholder="请输入培训项目名称">
-            </div>
-            <c:set var="_query" value="${not empty param.projectName}"/>
-            <div class="form-group">
-                <button type="button" data-url="${ctx}/user/cet/cetUnitTrain_au?type=${param.type}"
-                        data-target="#cetUnitTraintDiv" data-form="#searchForm_popup"
-                        class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
-                </button>
-                <c:if test="${_query}">
-                    <button type="button"
-                            data-url="${ctx}/user/cet/cetUnitTrain_au?type=${param.type}"
-                            data-querystr="id=${param.userId}"
-                            data-target="#cetUnitTraintDiv"
-                            class="reloadBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>
-            </div>
-        </form>
-    </c:if>
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-        <tr>
-            <c:if test="${toSelectProject}">
-                <th class="center"></th>
-            </c:if>
-            <th nowrap>培训班主办方</th>
-            <th nowrap>培训项目名称</th>
-            <th nowrap>培训开始时间</th>
-            <th nowrap>培训结束时间</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${cetUnitProjects}" var="cetUnitProject" varStatus="st">
-            <tr>
-                <c:if test="${toSelectProject}">
-                    <td class="center" style="width: 10px">
-                        <label class="pos-rel">
-                            <input type="radio" name="cetUnitProjectId"
-                                   value="${cetUnitProject.id}"
-                                   class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                            <span class="lbl"></span>
-                        </label>
-                    </td>
-                </c:if>
-                <td nowrap width="200px">${cm:displayParty(cetUnitProject.partyId, null)}</td>
-                <td nowrap width="350px">${cetUnitProject.projectName}</td>
-                <td nowrap width="60px">${cm:formatDate(cetUnitProject.startDate, 'yyyy.MM.dd')}</td>
-                <td nowrap width="60px">${cm:formatDate(cetUnitProject.endDate, 'yyyy.MM.dd')}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <c:if test="${!empty commonList && commonList.pageNum>1 && toSelectProject}">
-        <wo:page commonList="${commonList}" uri="${ctx}/user/cet/cetUnitTrain_au?projectName=${param.projectName}&userId=${param.userId}&type=${param.type}"
-                 target="#cetUnitTraintDiv"
-                 pageNum="5"
-                 model="3"/>
-    </c:if>
-    <c:if test="${!empty commonList && commonList.pageNum>1 && !toSelectProject}">
-        <wo:page commonList="${commonList}" uri="${ctx}/user/cet/cetUnitTrain_list?userId=${param.userId}"
-                 target="#cetUnitTraintDiv"
-                 pageNum="5"
-                 model="3"/>
-    </c:if>
+    <form class="form-horizontal" action="${ctx}/user/cet/cetUnitTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <input type="hidden" name="id" value="${cetUnitTrain.id}">
+		<input type="hidden" name="userId" value="${userId}"/>
+        <input type="hidden" name="projectId" value="${cetUnitProject.id}">
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 培训项目名称</label>
+				<div class="col-xs-6 label-text">
+					${cetUnitProject.projectName}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
+				<div class="col-xs-6">
+					<select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择" data-width="272">
+                        <option></option>
+                        <c:forEach items="${traineeTypeMap}" var="entity">
+							<c:if test="${entity.value.code!='t_reserve' && entity.value.code!='t_candidate'}">
+							<option value="${entity.value.id}">${entity.value.name}</option>
+							</c:if>
+						</c:forEach>
+                    </select>
+                    <script type="text/javascript">
+                        $("#modalForm select[name=traineeTypeId]").val(${cetUnitTrain.traineeTypeId});
+                    </script>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-3 control-label">时任单位及职务</label>
+				<div class="col-xs-6">
+					<textarea class="form-control noEnter" rows="3"
+							   name="title">${cetUnitTrain.title}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">职务属性</label>
+				<div class="col-xs-6">
+					<select  data-rel="select2" name="postType" data-placeholder="请选择职务属性" data-width="272">
+                        <option></option>
+                        <jsp:include page="/metaTypes?__code=mc_post"/>
+                    </select>
+                    <script type="text/javascript">
+                        $("#modalForm select[name=postType]").val(${cetUnitTrain.postType});
+                    </script>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>完成培训学时</label>
+				<div class="col-xs-6">
+                        <input required class="form-control period" type="text"
+							   name="period" value="${empty cetUnitTrain?cetUnitProject.period:cetUnitTrain.period}">
+				</div>
+			</div>
+
+			<div class="form-group">
+					<label class="col-xs-3 control-label">培训总结</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="file" name="_word"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-offset-3 col-xs-6">
+						<input class="form-control" type="file" name="_pdf"/>
+					</div>
+				</div>
+
+			<div class="form-group">
+				<label class="col-xs-3 control-label">备注</label>
+				<div class="col-xs-6">
+                        <textarea class="form-control limited" rows="2"
+							   name="remark">${cetUnitTrain.remark}</textarea>
+				</div>
+			</div>
+    </form>
 </div>
-<shiro:hasPermission name="userCetUnitTrain:edit">
 <div class="modal-footer">
-    <c:if test="${toSelectProject}">
-        <button class="popupBtn btn btn-default"
-                data-url="${ctx}/user/cet/cetUnitTrain_list?userId=${param.userId}"
-                data-width="1000"><i class="fa fa-reply"></i> 返回</button>
-        <button onclick="reRecordTrain()" class="btn btn-success"><i class="fa fa-plus"></i> 添加</button>
-    </c:if>
-    <c:if test="${!toSelectProject}">
-        <button class="popupBtn btn btn-primary"
-                data-url="${ctx}/user/cet/cetUnitTrain_list?userId=${param.userId}&type=edit"
-                data-width="1000"><i class="fa fa-edit"></i> 编辑
-        </button>
-    </c:if>
+	<button class="popupBtn btn btn-default"
+			data-url="${ctx}/user/cet/cetUnitTrain_list?userId=${param.userId}"
+			data-width="1000"><i class="fa fa-reply"></i> 重新选择项目</button>
+    <button id="submitBtn"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+            class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetUnitTrain!=null}">确定</c:if><c:if test="${cetUnitTrain==null}">添加</c:if></button>
 </div>
-</shiro:hasPermission>
+<script>
+	$.fileInput($("#modalForm input[name=_word]"),{
+		no_file: '请上传word文件...',
+		allowExt: ['doc', 'docx'],
+		allowMime: ['application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+	});
+	$.fileInput($("#modalForm input[name=_pdf]"),{
+		no_file: '请上传pdf文件...',
+		allowExt: ['pdf'],
+		allowMime: ['application/pdf']
+	});
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
+        submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
+                    }
+                    $btn.button('reset');
+                }
+            });
+        }
+    });
+    var $select = $.register.user_select($('#modalForm select[name=userId]'));
+    $select.on("change",function(){
+        //console.log($(this).select2("data")[0])
+        var title = $(this).select2("data")[0]['title']||'';
+        var postType = $(this).select2("data")[0]['postType']||'';
+        $('#modalForm textarea[name=title]').val(title);
+
+        $("#modalForm select[name=postType]").val(postType).trigger("change");
+    });
+    //$("#modalForm :checkbox").bootstrapSwitch();
+    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#modalForm [data-rel="select2"]').select2();
+    //$('[data-rel="tooltip"]').tooltip();
+    $('textarea.limited').inputlimiter();
+    //$.register.date($('.date-picker'));
+</script>

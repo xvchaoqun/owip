@@ -10,7 +10,6 @@ import domain.cet.CetUnitTrainExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -281,6 +280,13 @@ public class CetUnitTrainService extends CetBaseMapper {
     }
 
     @Transactional
+    public int reRecordUpdateSelective(CetUnitTrain record) {
+
+        record.setProjectId(null);
+        return cetUnitTrainMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
     public void batchCheck(Integer[] ids, Boolean pass, String reason) {
 
         if (null != ids && ids.length > 0) {
@@ -289,14 +295,10 @@ public class CetUnitTrainService extends CetBaseMapper {
                 CetUnitTrain record = cetUnitTrainMapper.selectByPrimaryKey(id);
                 projectId=record.getProjectId();
                 if (pass) {
-
-                    if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
+                    if (ShiroHelper.isPermitted(CetConstants.PERMISSION_CETADMIN))
                         record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
-                    }else if (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN,RoleConstants.ROLE_CET_ADMIN_PARTY)){
-                        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
-                    }else {
-                        throw new UnauthorizedException();
-                    }
+                    else if (ShiroHelper.isPermitted(CetConstants.PERMISSION_PARTYADMIN))
+                        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_CET);
                 }else {
                     record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
                 }

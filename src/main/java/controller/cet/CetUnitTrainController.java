@@ -13,7 +13,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -171,8 +170,8 @@ public class CetUnitTrainController extends CetBaseController {
         }
         if (null != reRecord){
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_UNIT);
             statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+            statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_CET);
             statusList.add(CetConstants.CET_UNITTRAIN_RERECORD_SAVE);
             criteria.andStatusIn(statusList);
         }else {
@@ -303,7 +302,6 @@ public class CetUnitTrainController extends CetBaseController {
         return "cet/cetUnitTrain/cetUnitTrain_import";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value="/cetUnitTrain_import", method=RequestMethod.POST)
     @ResponseBody
@@ -348,7 +346,6 @@ public class CetUnitTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_check")
     public String cetUnitTrain_pass(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -359,7 +356,6 @@ public class CetUnitTrainController extends CetBaseController {
         return "/cet/cetUnitTrain/cetUnitTrain_check";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_check", method = RequestMethod.POST)
     @ResponseBody

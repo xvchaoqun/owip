@@ -61,14 +61,14 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                             <div class="form-group">
-                                <label>参训人员姓名</label>
+                                <label>参训人姓名</label>
                                 <select data-ajax-url="${ctx}/sysUser_selects" data-rel="select2-ajax"
                                         name="userId" data-placeholder="请输入账号或姓名或工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>参训人员类型</label>
+                                <label>参训人类型</label>
                                 <select data-rel="select2" name="traineeTypeId" data-placeholder="请选择"data-width="272">
                                     <option></option>
                                     <c:forEach items="${traineeTypeMap}" var="entity">

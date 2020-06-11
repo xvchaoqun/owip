@@ -5,17 +5,34 @@ import java.util.Map;
 
 public class CetConstants {
 
+    public static final String PERMISSION_CETADMIN = "cetUnitProject:cetAdmin";//组织部
+    public static final String PERMISSION_PARTYADMIN = "cetUnitProject:partyAdmin";//二级党委
+
+    //二级党委培训管理员类型
+    public final static byte CET_PARTY_ADMIN_SECRETARY= 0;
+    public final static byte CET_PARTY_ADMIN_VICE_SECRETARY= 1;
+    public final static byte CET_PARTY_ADMIN_COMMITTEE_MEMBER= 2;
+    public final static byte CET_PARTY_ADMIN_NORMAL = 3;
+    public final static Map<Byte, String> CET_PARTY_ADMIN_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_SECRETARY, "书记");
+        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_VICE_SECRETARY, "副书记");
+        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_COMMITTEE_MEMBER, "委员");
+        CET_PARTY_ADMIN_MAP.put(CET_PARTY_ADMIN_NORMAL, "普通管理员");
+    }
+
     //补录状态
     public final static byte CET_UNITTRAIN_RERECORD_PASS = 0;
-    public final static byte CET_UNITTRAIN_RERECORD_UNIT = 1;
-    public final static byte CET_UNITTRAIN_RERECORD_PARTY = 2;
+    public final static byte CET_UNITTRAIN_RERECORD_PARTY = 1;
+    public final static byte CET_UNITTRAIN_RERECORD_CET = 2;
     public final static byte CET_UNITTRAIN_RERECORD_SAVE = 3;
     public final static Map<Byte, String> CET_UNITTRAIN_RERECORD_MAP = new LinkedHashMap<Byte, String>();
 
     static {
         CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_PASS, "审核通过");
-        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_UNIT, "待二级党委审批");
-        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_PARTY, "待组织部审批");
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_PARTY, "待二级党委审批");
+        CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_CET, "待组织部审批");
         CET_UNITTRAIN_RERECORD_MAP.put(CET_UNITTRAIN_RERECORD_SAVE, "暂存");
     }
 
