@@ -19,10 +19,10 @@
                         <div class="tab-pane in active">
                             <c:if test="${cls==6}">
                                 <div class="jqgrid-vertical-offset buttons">
-                                    <button class="popupBtn btn btn-info btn-sm"
+                                    <button class="popupBtn btn btn-success btn-sm"
                                             data-width="1000"
                                             data-url="${ctx}/user/cet/cetUnitTrain_list">
-                                        <i class="fa fa-plus"></i> 补录信息</button>
+                                        <i class="fa fa-plus"></i> 补录申请</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                             data-url="${ctx}/user/cet/cetUnitTrain_au"
                                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>

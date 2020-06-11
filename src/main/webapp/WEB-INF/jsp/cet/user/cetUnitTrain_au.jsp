@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>补录二级党委培训记录</h3>
+    <h3>第二步：请填写培训信息</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/user/cet/cetUnitTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">

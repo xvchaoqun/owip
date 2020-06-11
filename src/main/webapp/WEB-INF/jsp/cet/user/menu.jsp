@@ -5,6 +5,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUnitTrain?cls=5"><i class="fa fa-list"></i> 培训信息</a>
     </li>
     <li  class="<c:if test="${cls==6}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUnitTrain?cls=6"><i class="fa fa-list"></i> 补录信息</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetUnitTrain?cls=6"><i class="fa fa-history"></i> 补录申请</a>
     </li>
 </ul>

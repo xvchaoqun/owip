@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div id="cetUnitTraintDiv">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-        <h3>培训补录信息(一次仅能选择一个培训项目)</h3>
+        <h3>第一步：请选择培训项目</h3>
     </div>
     <div class="modal-body">
         <form class="form-inline search-form" id="searchForm_popup" style="float: left">
@@ -35,8 +35,8 @@ pageEncoding="UTF-8" %>
             <thead>
             <tr>
                 <th class="center"></th>
-                <th nowrap>培训班主办方</th>
                 <th nowrap>培训项目名称</th>
+                <th nowrap>培训班主办方</th>
                 <th nowrap>培训开始时间</th>
                 <th nowrap>培训结束时间</th>
             </tr>
@@ -52,8 +52,8 @@ pageEncoding="UTF-8" %>
                             <span class="lbl"></span>
                         </label>
                     </td>
-                    <td nowrap width="200px">${cm:displayParty(cetUnitProject.partyId, null)}</td>
                     <td nowrap width="350px">${cetUnitProject.projectName}</td>
+                    <td nowrap width="200px">${cm:displayParty(cetUnitProject.partyId, null)}</td>
                     <td nowrap width="60px">${cm:formatDate(cetUnitProject.startDate, 'yyyy.MM.dd')}</td>
                     <td nowrap width="60px">${cm:formatDate(cetUnitProject.endDate, 'yyyy.MM.dd')}</td>
                 </tr>
@@ -80,8 +80,8 @@ pageEncoding="UTF-8" %>
             SysMsg.info('请选择培训项目', '提示');
             return;
         }
-        console.log(projectId)
-        $("#cetUnitTraintDiv").modal("hide");
+        //console.log(projectId)
+        //$("#cetUnitTraintDiv").modal("hide");
         $.loadModal("${ctx}/user/cet/cetUnitTrain_au?userId=${userId}&projectId=" + projectId);
     }
 </script>
