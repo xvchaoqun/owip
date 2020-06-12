@@ -396,4 +396,11 @@ public class PartyMemberService extends BaseMapper {
             commonMapper.excuteSql("update ow_party_member set dismiss_date=null where id=" + id);
         }
     }
+
+    public List<PartyMemberView> getByPartyId(Integer partyId) {
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andGroupPartyIdEqualTo(partyId).andIsAdminEqualTo(true);
+        return partyMemberViewMapper.selectByExample(example);
+    }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetPartyMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetParty">
+<mapper namespace="persistence.cet.CetPartyAdminMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetPartyAdmin">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="cet_party_id" jdbcType="INTEGER" property="cetPartyId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, party_name, sort_order, is_deleted
+    id, cet_party_id, user_id, type, remark
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetPartyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetPartyAdminExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_party
+    from cet_party_admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cet_party
+    from cet_party_admin
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cet_party
+    delete from cet_party_admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cet.CetPartyExample">
-    delete from cet_party
+  <delete id="deleteByExample" parameterType="domain.cet.CetPartyAdminExample">
+    delete from cet_party_admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cet.CetParty">
-    insert into cet_party (id, party_id, party_name, 
-      sort_order, is_deleted)
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT})
+  <insert id="insert" parameterType="domain.cet.CetPartyAdmin">
+    insert into cet_party_admin (id, cet_party_id, user_id, 
+      type, remark)
+    values (#{id,jdbcType=INTEGER}, #{cetPartyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cet.CetParty">
-    insert into cet_party
+  <insert id="insertSelective" parameterType="domain.cet.CetPartyAdmin">
+    insert into cet_party_admin
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="partyId != null">
-        party_id,
+      <if test="cetPartyId != null">
+        cet_party_id,
       </if>
-      <if test="partyName != null">
-        party_name,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="sortOrder != null">
-        sort_order,
+      <if test="type != null">
+        type,
       </if>
-      <if test="isDeleted != null">
-        is_deleted,
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null">
-        #{partyId,jdbcType=INTEGER},
+      <if test="cetPartyId != null">
+        #{cetPartyId,jdbcType=INTEGER},
       </if>
-      <if test="partyName != null">
-        #{partyName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=BIT},
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cet.CetPartyExample" resultType="java.lang.Long">
-    select count(*) from cet_party
+  <select id="countByExample" parameterType="domain.cet.CetPartyAdminExample" resultType="java.lang.Long">
+    select count(*) from cet_party_admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cet_party
+    update cet_party_admin
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.partyId != null">
-        party_id = #{record.partyId,jdbcType=INTEGER},
+      <if test="record.cetPartyId != null">
+        cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
       </if>
-      <if test="record.partyName != null">
-        party_name = #{record.partyName,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,49 +172,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cet_party
+    update cet_party_admin
     set id = #{record.id,jdbcType=INTEGER},
-      party_id = #{record.partyId,jdbcType=INTEGER},
-      party_name = #{record.partyName,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
+      cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetParty">
-    update cet_party
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetPartyAdmin">
+    update cet_party_admin
     <set>
-      <if test="partyId != null">
-        party_id = #{partyId,jdbcType=INTEGER},
+      <if test="cetPartyId != null">
+        cet_party_id = #{cetPartyId,jdbcType=INTEGER},
       </if>
-      <if test="partyName != null">
-        party_name = #{partyName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=BIT},
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetParty">
-    update cet_party
-    set party_id = #{partyId,jdbcType=INTEGER},
-      party_name = #{partyName,jdbcType=VARCHAR},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=BIT}
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetPartyAdmin">
+    update cet_party_admin
+    set cet_party_id = #{cetPartyId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetPartyExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetPartyAdminExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_party
+    from cet_party_admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

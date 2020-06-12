@@ -102,10 +102,12 @@ public class UserCetUnitTrainController extends CetBaseController {
     @RequiresPermissions("userCetUnitTrain:edit")
     @RequestMapping("/cetUnitTrain_list")
     public String cetUnitTrain_list(Integer userId,
+                                    Integer reRecord,
                                     String projectName,
                                     HttpServletResponse response,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap){
 
+        modelMap.put("reRecord", reRecord);
         userId = ShiroHelper.getCurrentUserId();
         modelMap.put("userId", userId);
 
@@ -196,10 +198,12 @@ public class UserCetUnitTrainController extends CetBaseController {
     @RequiresPermissions("userCetUnitTrain:edit")
     @RequestMapping("/cetUnitTrain_au")
     public String cetUnitTrain_au(Integer id,
+                                  Integer reRecord,
                                   Integer userId,
                                   Integer projectId,
                                   ModelMap modelMap) {
 
+        modelMap.put("reRecord", reRecord);
         if (null != id) {
             CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
             modelMap.put("cetUnitTrain", cetUnitTrain);
@@ -210,7 +214,7 @@ public class UserCetUnitTrainController extends CetBaseController {
             modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
         }
 
-        return "cet/user/cetUnitTrain_au";
+        return "cet/cetUnitTrain/cetUnitTrain_au";
     }
 
     @RequiresPermissions("userCetUnitTrain:edit")

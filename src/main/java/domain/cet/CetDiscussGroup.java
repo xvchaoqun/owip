@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetDiscussMapper;
 import service.cet.CetPartySchoolService;
 import service.cet.CetPartyService;
-import service.cet.CetUnitService;
 import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
@@ -43,36 +42,6 @@ public class CetDiscussGroup implements Serializable {
 
     public SysUserView getAdminUser(){
         return CmTag.getUserById(adminUserId);
-    }
-
-    public CetPartyView getCetParty(){
-
-        if(unitId==null) return null;
-
-        CetDiscussMapper cetDiscussMapper = CmTag.getBean(CetDiscussMapper.class);
-        CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
-        if(cetDiscuss.getUnitType()== CetConstants.CET_DISCUSS_UNIT_TYPE_PARTY){
-
-            CetPartyService cetPartyService = CmTag.getBean(CetPartyService.class);
-            return cetPartyService.getView(unitId);
-        }
-
-        return null;
-    }
-
-    public CetUnitView getCetUnit(){
-
-        if(unitId==null) return null;
-
-        CetDiscussMapper cetDiscussMapper = CmTag.getBean(CetDiscussMapper.class);
-        CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
-        if(cetDiscuss.getUnitType()== CetConstants.CET_DISCUSS_UNIT_TYPE_UNIT){
-
-            CetUnitService cetUnitService = CmTag.getBean(CetUnitService.class);
-            return cetUnitService.getView(unitId);
-        }
-
-        return null;
     }
 
     public CetPartySchoolView getCetPartySchool(){

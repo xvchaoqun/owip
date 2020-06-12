@@ -21,6 +21,8 @@ import sys.HttpResponseMethod;
 public class CetBaseController extends CetBaseMapper implements HttpResponseMethod {
 
     @Autowired
+    protected CetPartyAdminService cetPartyAdminService;
+    @Autowired
     protected CetCodeWxSignService cetCodeWxSignService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;

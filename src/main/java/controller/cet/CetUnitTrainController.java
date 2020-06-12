@@ -74,22 +74,32 @@ public class CetUnitTrainController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain_info")
     public String cetUnitTrain_info(@RequestParam(required = false, defaultValue = "2") Byte cls,
+                                    Integer reRecord,
                                     Integer userId,
                                     Integer addUserId,
                                     String projectName,
                                     Integer traineeTypeId,
                                     ModelMap modelMap) {
 
+        modelMap.put("reRecord", reRecord);
         modelMap.put("projectName", projectName);
         modelMap.put("traineeTypeId", traineeTypeId);
-        modelMap.put("cls", cls);
+        if (null == reRecord)
+            modelMap.put("cls", cls);
 
         boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
         List<Integer> adminPartyIdList = new ArrayList<>();
-        List<Integer> projectIds = new ArrayList<>();
         if(addPermits) {
             adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            if (adminPartyIdList.size() == 0) {
+                throw new UnauthorizedException();
+            }
         }
+
+        Integer reRecondCount = iCetMapper.unitTrainReRecord(addPermits, adminPartyIdList);
+        modelMap.put("reRecondCount", reRecondCount);
+
         List<Map> results = iCetMapper.unitTrainGroupByStatus(addPermits, adminPartyIdList);
         Map<Byte, Integer> statusCountMap = new HashMap<>();
         for (Map result : results) {
@@ -134,11 +144,12 @@ public class CetUnitTrainController extends CetBaseController {
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
             if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
                 List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
                 if (adminPartyIdList.size() == 0 || !adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                     throw new UnauthorizedException();
                 }
             }
-        }else {
+        }else {//参训人员信息汇总
             if (cls == null) {
                 cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
             }
@@ -146,8 +157,12 @@ public class CetUnitTrainController extends CetBaseController {
             List<Integer> adminPartyIdList = new ArrayList<>();
             if(addPermits) {
                 adminPartyIdList = loginUserService.adminPartyIdList();
+                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+                if (adminPartyIdList.size() == 0) {
+                    throw new UnauthorizedException();
+                }
             }
-            projectIds = cetUnitProjectService.getByStatus(cls, adminPartyIdList, projectName, _endDate, _startDate);
+            projectIds = cetUnitProjectService.getByStatus(cls, reRecord, adminPartyIdList, projectName, _endDate, _startDate);
         }
 
         if (null == pageSize) {
@@ -239,6 +254,7 @@ public class CetUnitTrainController extends CetBaseController {
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                 return failed("没有权限。");
             }

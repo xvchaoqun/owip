@@ -30,6 +30,8 @@ public class CetUnitProjectService extends CetBaseMapper {
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected LoginUserService loginUserService;
+    @Autowired
+    protected CetPartyAdminService cetPartyAdminService;
     
     @Transactional
     public void insertSelective(CetUnitProject record) {
@@ -49,6 +51,7 @@ public class CetUnitProjectService extends CetBaseMapper {
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                 throw new OpException("没有权限。");
             }
@@ -91,6 +94,7 @@ public class CetUnitProjectService extends CetBaseMapper {
             if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
                 CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
                 List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
                 if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                     throw new OpException("没有权限。");
                 }
@@ -127,6 +131,7 @@ public class CetUnitProjectService extends CetBaseMapper {
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                 throw new OpException("没有权限。");
             }
@@ -143,12 +148,16 @@ public class CetUnitProjectService extends CetBaseMapper {
                     "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
-    public List<Integer> getByStatus(Byte cls, List<Integer> adminPartyIdList, String projectName,
+    public List<Integer> getByStatus(Byte cls, Integer reRecord, List<Integer> adminPartyIdList, String projectName,
                                      @RequestDateRange DateRange _startDate,
                                      @RequestDateRange DateRange _endDate) {
 
         CetUnitProjectExample example = new CetUnitProjectExample();
-        CetUnitProjectExample.Criteria criteria = example.createCriteria().andStatusEqualTo(cls);
+        CetUnitProjectExample.Criteria criteria = example.createCriteria();
+        if (null == reRecord){
+            criteria.andStatusEqualTo(cls);
+
+        }
         if (null != adminPartyIdList && adminPartyIdList.size() >0){
             criteria.andPartyIdIn(adminPartyIdList);
         }

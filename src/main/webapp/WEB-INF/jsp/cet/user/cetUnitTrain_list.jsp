@@ -82,6 +82,6 @@ pageEncoding="UTF-8" %>
         }
         //console.log(projectId)
         //$("#cetUnitTraintDiv").modal("hide");
-        $.loadModal("${ctx}/user/cet/cetUnitTrain_au?userId=${userId}&projectId=" + projectId);
+        $.loadModal("${ctx}/user/cet/cetUnitTrain_au?reRecord=1&userId=${userId}&projectId=" + projectId);
     }
 </script>

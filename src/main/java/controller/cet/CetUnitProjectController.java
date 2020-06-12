@@ -51,6 +51,10 @@ public class CetUnitProjectController extends CetBaseController {
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
             adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            if (adminPartyIdList.size() == 0) {
+                throw new UnauthorizedException();
+            }
         }
         List<Map> mapList = iCetMapper.unitProjectGroupByStatus(addPermits, adminPartyIdList);
         Map<Byte, Integer> statusCountMap = new HashMap<>();
@@ -104,6 +108,7 @@ public class CetUnitProjectController extends CetBaseController {
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
@@ -162,6 +167,7 @@ public class CetUnitProjectController extends CetBaseController {
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }

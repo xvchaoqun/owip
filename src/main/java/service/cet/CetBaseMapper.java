@@ -11,6 +11,10 @@ public class CetBaseMapper extends CoreBaseMapper {
      * 干部教育培训
      */
     @Autowired(required = false)
+    protected CetPartyAdminMapper cetPartyAdminMapper;
+    @Autowired(required = false)
+    protected CetPartyViewMapper cetPartyViewMapper;
+    @Autowired(required = false)
     protected ICetMapper iCetMapper;
     @Autowired(required = false)
     protected CetAnnualMapper cetAnnualMapper;
@@ -28,8 +32,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     protected CetPartySchoolMapper cetPartySchoolMapper;
     @Autowired(required = false)
     protected CetUnitViewMapper cetUnitViewMapper;
-    @Autowired(required = false)
-    protected CetPartyViewMapper cetPartyViewMapper;
     @Autowired(required = false)
     protected CetPartySchoolViewMapper cetPartySchoolViewMapper;
     @Autowired(required = false)

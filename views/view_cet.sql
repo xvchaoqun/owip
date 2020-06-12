@@ -1,4 +1,12 @@
 
+-- 20200611 二级党委培训管理员
+
+DROP VIEW IF EXISTS `cet_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
+select cp.*,COUNT(cpa.user_id) AS admin_count
+from cet_party cp
+left JOIN cet_party_admin cpa on cp.id=cpa.cet_party_id
+GROUP BY cp.id;
 
 -- 20191204 ly 培训情况
 

@@ -3,14 +3,14 @@ package domain.cet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CetPartyViewExample {
+public class CetPartyAdminExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CetPartyViewExample() {
+    public CetPartyAdminExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -164,313 +164,253 @@ public class CetPartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIsNull() {
-            addCriterion("party_id is null");
+        public Criteria andCetPartyIdIsNull() {
+            addCriterion("cet_party_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIsNotNull() {
-            addCriterion("party_id is not null");
+        public Criteria andCetPartyIdIsNotNull() {
+            addCriterion("cet_party_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdEqualTo(Integer value) {
-            addCriterion("party_id =", value, "partyId");
+        public Criteria andCetPartyIdEqualTo(Integer value) {
+            addCriterion("cet_party_id =", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotEqualTo(Integer value) {
-            addCriterion("party_id <>", value, "partyId");
+        public Criteria andCetPartyIdNotEqualTo(Integer value) {
+            addCriterion("cet_party_id <>", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdGreaterThan(Integer value) {
-            addCriterion("party_id >", value, "partyId");
+        public Criteria andCetPartyIdGreaterThan(Integer value) {
+            addCriterion("cet_party_id >", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("party_id >=", value, "partyId");
+        public Criteria andCetPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cet_party_id >=", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdLessThan(Integer value) {
-            addCriterion("party_id <", value, "partyId");
+        public Criteria andCetPartyIdLessThan(Integer value) {
+            addCriterion("cet_party_id <", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("party_id <=", value, "partyId");
+        public Criteria andCetPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cet_party_id <=", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIn(List<Integer> values) {
-            addCriterion("party_id in", values, "partyId");
+        public Criteria andCetPartyIdIn(List<Integer> values) {
+            addCriterion("cet_party_id in", values, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotIn(List<Integer> values) {
-            addCriterion("party_id not in", values, "partyId");
+        public Criteria andCetPartyIdNotIn(List<Integer> values) {
+            addCriterion("cet_party_id not in", values, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdBetween(Integer value1, Integer value2) {
-            addCriterion("party_id between", value1, value2, "partyId");
+        public Criteria andCetPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("cet_party_id between", value1, value2, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("party_id not between", value1, value2, "partyId");
+        public Criteria andCetPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cet_party_id not between", value1, value2, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIsNull() {
-            addCriterion("party_name is null");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIsNotNull() {
-            addCriterion("party_name is not null");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameEqualTo(String value) {
-            addCriterion("party_name =", value, "partyName");
+        public Criteria andUserIdEqualTo(Integer value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotEqualTo(String value) {
-            addCriterion("party_name <>", value, "partyName");
+        public Criteria andUserIdNotEqualTo(Integer value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameGreaterThan(String value) {
-            addCriterion("party_name >", value, "partyName");
+        public Criteria andUserIdGreaterThan(Integer value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameGreaterThanOrEqualTo(String value) {
-            addCriterion("party_name >=", value, "partyName");
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLessThan(String value) {
-            addCriterion("party_name <", value, "partyName");
+        public Criteria andUserIdLessThan(Integer value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLessThanOrEqualTo(String value) {
-            addCriterion("party_name <=", value, "partyName");
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLike(String value) {
-            addCriterion("party_name like", value, "partyName");
+        public Criteria andUserIdIn(List<Integer> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotLike(String value) {
-            addCriterion("party_name not like", value, "partyName");
+        public Criteria andUserIdNotIn(List<Integer> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIn(List<String> values) {
-            addCriterion("party_name in", values, "partyName");
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotIn(List<String> values) {
-            addCriterion("party_name not in", values, "partyName");
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameBetween(String value1, String value2) {
-            addCriterion("party_name between", value1, value2, "partyName");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotBetween(String value1, String value2) {
-            addCriterion("party_name not between", value1, value2, "partyName");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderIsNull() {
-            addCriterion("sort_order is null");
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderIsNotNull() {
-            addCriterion("sort_order is not null");
+        public Criteria andTypeNotEqualTo(Byte value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderEqualTo(Integer value) {
-            addCriterion("sort_order =", value, "sortOrder");
+        public Criteria andTypeGreaterThan(Byte value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderNotEqualTo(Integer value) {
-            addCriterion("sort_order <>", value, "sortOrder");
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderGreaterThan(Integer value) {
-            addCriterion("sort_order >", value, "sortOrder");
+        public Criteria andTypeLessThan(Byte value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sort_order >=", value, "sortOrder");
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderLessThan(Integer value) {
-            addCriterion("sort_order <", value, "sortOrder");
+        public Criteria andTypeIn(List<Byte> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
-            addCriterion("sort_order <=", value, "sortOrder");
+        public Criteria andTypeNotIn(List<Byte> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderIn(List<Integer> values) {
-            addCriterion("sort_order in", values, "sortOrder");
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderNotIn(List<Integer> values) {
-            addCriterion("sort_order not in", values, "sortOrder");
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order between", value1, value2, "sortOrder");
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order not between", value1, value2, "sortOrder");
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIsNull() {
-            addCriterion("is_deleted is null");
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIsNotNull() {
-            addCriterion("is_deleted is not null");
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Boolean value) {
-            addCriterion("is_deleted =", value, "isDeleted");
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Boolean value) {
-            addCriterion("is_deleted <>", value, "isDeleted");
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Boolean value) {
-            addCriterion("is_deleted >", value, "isDeleted");
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_deleted >=", value, "isDeleted");
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Boolean value) {
-            addCriterion("is_deleted <", value, "isDeleted");
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_deleted <=", value, "isDeleted");
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Boolean> values) {
-            addCriterion("is_deleted in", values, "isDeleted");
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Boolean> values) {
-            addCriterion("is_deleted not in", values, "isDeleted");
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_deleted between", value1, value2, "isDeleted");
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_deleted not between", value1, value2, "isDeleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountIsNull() {
-            addCriterion("admin_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountIsNotNull() {
-            addCriterion("admin_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountEqualTo(Long value) {
-            addCriterion("admin_count =", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotEqualTo(Long value) {
-            addCriterion("admin_count <>", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountGreaterThan(Long value) {
-            addCriterion("admin_count >", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountGreaterThanOrEqualTo(Long value) {
-            addCriterion("admin_count >=", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountLessThan(Long value) {
-            addCriterion("admin_count <", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountLessThanOrEqualTo(Long value) {
-            addCriterion("admin_count <=", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountIn(List<Long> values) {
-            addCriterion("admin_count in", values, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotIn(List<Long> values) {
-            addCriterion("admin_count not in", values, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountBetween(Long value1, Long value2) {
-            addCriterion("admin_count between", value1, value2, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotBetween(Long value1, Long value2) {
-            addCriterion("admin_count not between", value1, value2, "adminCount");
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
     }

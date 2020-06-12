@@ -34,6 +34,8 @@ public class CetUnitTrainService extends CetBaseMapper {
     private UserBeanService userBeanService;
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
+    @Autowired
+    private CetPartyAdminService cetPartyAdminService;
 
     public boolean idDuplicate(Integer id, int projectId, int userId) {
 
@@ -78,6 +80,7 @@ public class CetUnitTrainService extends CetBaseMapper {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
 
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             for (Integer id : ids) {
 
                 CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
@@ -107,6 +110,7 @@ public class CetUnitTrainService extends CetBaseMapper {
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(cetUnitTrain.getProjectId());
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                 throw new OpException("没有权限。");
             }
@@ -131,6 +135,7 @@ public class CetUnitTrainService extends CetBaseMapper {
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
             if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
                 throw new OpException("没有权限。");
             }

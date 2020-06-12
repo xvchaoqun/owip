@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="space-4"></div>
-                <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+                <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="5"></table>
                 <div id="jqGridPager2"></div>
             </div>
         </div>

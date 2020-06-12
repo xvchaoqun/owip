@@ -3,21 +3,36 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cetUnitTrain!=null?'编辑':'添加'}二级党委培训记录</h3>
+    <h3><c:if test="${empty reRecord}">${cetUnitTrain!=null?'编辑':'添加'}二级党委培训记录</c:if>
+		<c:if test="${reRecord==1}">第二步：请填写培训信息</c:if></h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetUnitTrain_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
+	<form class="form-horizontal" <c:if test="${reRecord==1}">action="${ctx}/user/cet/cetUnitTrain_au"</c:if> <c:if test="${empty reRecord}">action="${ctx}/cet/cetUnitTrain_au"</c:if> autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUnitTrain.id}">
+		<c:if test="${reRecord==1}">
+			<input type="hidden" name="userId" value="${userId}"/>
+		</c:if>
         <input type="hidden" name="projectId" value="${cetUnitProject.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>参训人</label>
-				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-							name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-						<option value="${cetUnitTrain.user.id}">${cetUnitTrain.user.realname}-${cetUnitTrain.user.code}</option>
-					</select>
+			<c:if test="${reRecord==1}">
+				<div class="form-group">
+					<label class="col-xs-3 control-label"><span class="star">*</span> 培训项目名称</label>
+					<div class="col-xs-6 label-text">
+						${cetUnitProject.projectName}
+					</div>
 				</div>
-			</div>
+
+			</c:if>
+			<c:if test="${empty reRecord}">
+				<div class="form-group">
+					<label class="col-xs-3 control-label"><span class="star">*</span>参训人</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+								name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
+							<option value="${cetUnitTrain.user.id}">${cetUnitTrain.user.realname}-${cetUnitTrain.user.code}</option>
+						</select>
+					</div>
+				</div>
+			</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
 				<div class="col-xs-6">
@@ -85,10 +100,20 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+	<c:if test="${reRecord==1}">
+		<button class="popupBtn btn btn-default"
+				data-url="${ctx}/user/cet/cetUnitTrain_list?userId=${param.userId}"
+				data-width="1000"><i class="fa fa-reply"></i> 重新选择项目</button>
+		<button id="submitBtn"
+				data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+				class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetUnitProject!=null}">确定</c:if><c:if test="${cetUnitProject==null}">添加</c:if></button>
+	</c:if>
+	<c:if test="${empty reRecord}">
+	<a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetUnitTrain!=null}">确定</c:if><c:if test="${cetUnitTrain==null}">添加</c:if></button>
+	</c:if>
 </div>
 <script>
 	$.fileInput($("#modalForm input[name=_word]"),{

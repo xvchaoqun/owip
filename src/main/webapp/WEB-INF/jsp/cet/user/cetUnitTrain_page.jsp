@@ -21,7 +21,7 @@
                                 <div class="jqgrid-vertical-offset buttons">
                                     <button class="popupBtn btn btn-success btn-sm"
                                             data-width="1000"
-                                            data-url="${ctx}/user/cet/cetUnitTrain_list">
+                                            data-url="${ctx}/user/cet/cetUnitTrain_list?reRecord=1">
                                         <i class="fa fa-plus"></i> 补录申请</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                             data-url="${ctx}/user/cet/cetUnitTrain_au"
