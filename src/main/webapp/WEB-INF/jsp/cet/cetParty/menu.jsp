@@ -5,6 +5,6 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetParty?cls=0"><i class="fa fa-circle-o-notch"></i> 正在运转</a>
     </li>
     <li class="<c:if test="${cls==1}">active</c:if>">
-        <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetParty?cls=1"><i class="fa fa-history"></i> 已撤销</a>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetParty?cls=1"><i class="fa fa-history"></i> 已删除</a>
     </li>
 </ul>

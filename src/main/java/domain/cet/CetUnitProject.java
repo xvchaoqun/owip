@@ -2,6 +2,7 @@ package domain.cet;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import persistence.cet.CetPartyMapper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -14,11 +15,18 @@ public class CetUnitProject implements Serializable {
     public SysUserView getAddUser(){
         return CmTag.getUserById(addUserId);
     }
+
+    public CetParty getCetParty(){
+
+        if(cetPartyId==null) return null;
+        return CmTag.getBean(CetPartyMapper.class).selectByPrimaryKey(cetPartyId);
+    }
+
     private Integer id;
 
     private Integer year;
 
-    private Integer partyId;
+    private Integer cetPartyId;
 
     private Integer unitId;
 
@@ -72,12 +80,12 @@ public class CetUnitProject implements Serializable {
         this.year = year;
     }
 
-    public Integer getPartyId() {
-        return partyId;
+    public Integer getCetPartyId() {
+        return cetPartyId;
     }
 
-    public void setPartyId(Integer partyId) {
-        this.partyId = partyId;
+    public void setCetPartyId(Integer cetPartyId) {
+        this.cetPartyId = cetPartyId;
     }
 
     public Integer getUnitId() {

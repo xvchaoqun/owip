@@ -4,7 +4,7 @@
 <c:set var="CET_PARTY_ADMIN_MAP" value="<%=CetConstants.CET_PARTY_ADMIN_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cetParty!=null?cetParty.partyName:''}-设定管理员</h3>
+    <h3>${cetParty!=null?cetParty.name:''}-设定管理员</h3>
 </div>
 <div class="modal-body">
         <div class="widget-box">

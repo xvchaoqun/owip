@@ -90,8 +90,7 @@ public class CetUnitTrainController extends CetBaseController {
         boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
-            adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
@@ -143,9 +142,8 @@ public class CetUnitTrainController extends CetBaseController {
         if (null != projectId) {
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
             if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-                if (adminPartyIdList.size() == 0 || !adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (adminPartyIdList.size() == 0 || !adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                     throw new UnauthorizedException();
                 }
             }
@@ -156,8 +154,7 @@ public class CetUnitTrainController extends CetBaseController {
             boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
             List<Integer> adminPartyIdList = new ArrayList<>();
             if(addPermits) {
-                adminPartyIdList = loginUserService.adminPartyIdList();
-                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+                adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (adminPartyIdList.size() == 0) {
                     throw new UnauthorizedException();
                 }
@@ -253,9 +250,8 @@ public class CetUnitTrainController extends CetBaseController {
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 return failed("没有权限。");
             }
         }

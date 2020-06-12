@@ -224,73 +224,73 @@ public class CetPartyExample {
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIsNull() {
-            addCriterion("party_name is null");
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIsNotNull() {
-            addCriterion("party_name is not null");
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameEqualTo(String value) {
-            addCriterion("party_name =", value, "partyName");
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotEqualTo(String value) {
-            addCriterion("party_name <>", value, "partyName");
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameGreaterThan(String value) {
-            addCriterion("party_name >", value, "partyName");
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameGreaterThanOrEqualTo(String value) {
-            addCriterion("party_name >=", value, "partyName");
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLessThan(String value) {
-            addCriterion("party_name <", value, "partyName");
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLessThanOrEqualTo(String value) {
-            addCriterion("party_name <=", value, "partyName");
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameLike(String value) {
-            addCriterion("party_name like", value, "partyName");
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotLike(String value) {
-            addCriterion("party_name not like", value, "partyName");
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameIn(List<String> values) {
-            addCriterion("party_name in", values, "partyName");
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotIn(List<String> values) {
-            addCriterion("party_name not in", values, "partyName");
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameBetween(String value1, String value2) {
-            addCriterion("party_name between", value1, value2, "partyName");
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andPartyNameNotBetween(String value1, String value2) {
-            addCriterion("party_name not between", value1, value2, "partyName");
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
             return (Criteria) this;
         }
 

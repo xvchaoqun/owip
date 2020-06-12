@@ -20,19 +20,32 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/cet/cetParty_au"
                                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改</button>
+                                    <c:if test="${cls==0}">
                                     <button class="confirm btn btn-warning btn-sm" data-title="同步管理员"
                                             data-msg="<div class='confirmMsg'>确定重新同步管理员？（此操作将删除原有的分党委管理员，重新同步最新的分党委管理员为二级党委培训管理员）</div>"
                                             data-callback="_reload"
                                             data-url="${ctx}/cet/cetPartyAdmin_sync"><i class="fa fa-refresh"></i> 同步管理员</button>
+                                    </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cetParty:del">
-                                    <button data-url="${ctx}/cet/cetParty_cancel?delete=1"
+                                    <c:if test="${cls==0}">
+                                    <button data-url="${ctx}/cet/cetParty_batchDel?isDeleted=1"
                                             data-title="删除"
                                             data-msg="确定删除这{0}条数据？"
                                             data-grid-id="#jqGrid"
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
+                                    </c:if>
+                                    <c:if test="${cls==1}">
+                                    <button data-url="${ctx}/cet/cetParty_batchDel?isDeleted=0"
+                                            data-title="返回正在运转"
+                                            data-msg="确定将这{0}个二级党委返回正在运转？"
+                                            data-grid-id="#jqGrid"
+                                            class="jqBatchBtn btn btn-success btn-sm">
+                                        <i class="fa fa-reply"></i> 返回正在运转
+                                    </button>
+                                    </c:if>
                                 </shiro:hasPermission>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -92,23 +105,17 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '二级党委名称', name: 'partyName', width:450, align:'left'},
+            {label: '二级党委名称', name: 'name', width:450, align:'left'},
+            { label: '关联基层党组织',  name: 'partyId', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
+                return $.party(rowObject.partyId);
+            },frozen:true },
+            {
+                label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/cet/cetParty_changeOrder"}
+            },
             { label: '管理员',name: 'adminCount', width:150, formatter: function (cellvalue, options, rowObject) {
-
-                var str = null;
-                if (rowObject.isDeleted){
-                    str = '<button data-url="${ctx}/cet/cetParty_cancel"' +
-                        'data-title="恢复" data-msg="确定恢复这条数据？"' +
-                        'data-grid-id="#jqGrid" class="jqBatchBtn btn btn-warning btn-xs">' +
-                        '<i class="fa fa-reply"></i> 恢复</button>';
-                }else {
-                    str = '<button data-url="${ctx}/cet/cetParty_cancel"' +
-                        'data-title="撤销" data-msg="确定撤销这条数据？（此操作将撤销该分党委下的所有管理员）"' +
-                        'data-grid-id="#jqGrid" class="jqBatchBtn btn btn-danger btn-xs">' +
-                        '<i class="fa fa-recycle"></i> 撤销</button>';
-                }
                 return ('<button class="popupBtn btn btn-success btn-xs"' +
-                    'data-url="${ctx}/cet/cetPartyAdmin?cetPartyId={0}"><i class="fa fa-cogs"></i> 设置({1})</button>  ' + str)
+                    'data-url="${ctx}/cet/cetPartyAdmin?cetPartyId={0}"><i class="fa fa-cogs"></i> 设置({1})</button>')
                     .format(rowObject.id, cellvalue);
                 }}
         ]

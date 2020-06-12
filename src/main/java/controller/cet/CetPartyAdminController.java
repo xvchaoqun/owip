@@ -21,7 +21,7 @@ public class CetPartyAdminController extends CetBaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetPartyAdmin:edit")
+    @RequiresPermissions("cetParty:edit")
     @RequestMapping("/cetPartyAdmin")
     public String cetPartyAdmin(Integer cetPartyId, ModelMap modelMap){
 
@@ -32,7 +32,7 @@ public class CetPartyAdminController extends CetBaseController{
         return "/cet/cetPartyAdmin/cetPartyAdmin_page";
     }
 
-    @RequiresPermissions("cetPartyAdmin:edit")
+    @RequiresPermissions("cetParty:edit")
     @RequestMapping("/cetPartyAdmin_au")
     @ResponseBody
     public Map do_cetPartyAdmin_au(Integer userId, Integer cetPartyId, ModelMap modelMap){
@@ -47,7 +47,7 @@ public class CetPartyAdminController extends CetBaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetPartyAdmin:edit")
+    @RequiresPermissions("cetParty:edit")
     @RequestMapping("/cetPartyAdmin_del")
     @ResponseBody
     public Map cetPartyAdmin_del(Integer id){
@@ -61,7 +61,7 @@ public class CetPartyAdminController extends CetBaseController{
     }
 
     //同步分党委管理员
-    @RequiresPermissions("cetPartyAdmin:edit")
+    @RequiresPermissions("cetParty:edit")
     @RequestMapping(value = "/cetPartyAdmin_sync", method = RequestMethod.POST)
     @ResponseBody
     public Map cetParty_sync() {

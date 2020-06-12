@@ -116,7 +116,7 @@
             {label: '负责单位', name: 'unitId',width: 250, formatter: function (cellvalue, options, rowObject) {
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_OW}) return '--'
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_PARTY})
-                    return rowObject.cetParty==undefined?'':rowObject.cetParty.partyName;
+                    return rowObject.cetParty==undefined?'':rowObject.cetParty.name;
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_UNIT})
                     return rowObject.cetUnit==undefined?'':rowObject.cetUnit.unitName;
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL})

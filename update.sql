@@ -14,6 +14,24 @@ ALTER TABLE `cet_party`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `sort_order`;
 
 
+ALTER TABLE `cet_party_admin`
+	CHANGE COLUMN `party_id` `cet_party_id` INT(10) UNSIGNED NOT NULL COMMENT '所属分党委' AFTER `id`;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2538, 0, '二级党委培训管理员', '', 'url', '', '/cet/cetParty', 656, '0/1/384/656/', 0, 'cetParty:*', NULL, NULL, NULL, 1, 55);
+-- INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2539, 0, '管理员', '', 'function', '', NULL, 3040, '0/1/384/656/3040/', 1, 'cetPartyAdmin:*', NULL, NULL, NULL, 1, NULL);
+
+ALTER TABLE `cet_unit_project`
+	CHANGE COLUMN `party_id` `cet_party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方，从二级党委中选择' AFTER `year`;
+ALTER TABLE `cet_party`
+	CHANGE COLUMN `party_name` `name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `party_id`;
+-- 更新视图 cet_party_view
+
+-- 删除原分党委管理员的 二级党委培训的权限
+
+-- 初始化二级党委列表（同步基层党组织数据）
+insert into cet_party(party_id, name, sort_order, is_deleted) select id as party_id, name, sort_order, is_deleted from  ow_party;
+-- 把原二级党委id替换为新的id
+update cet_unit_project up , cet_party p set up.cet_party_id=p.id where up.cet_party_id=p.party_id;
+
 2020.6.9
 
 ALTER TABLE `cet_party`

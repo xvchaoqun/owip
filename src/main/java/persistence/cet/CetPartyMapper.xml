@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetParty">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, party_name, sort_order, is_deleted
+    id, party_id, name, sort_order, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetPartyExample" resultMap="BaseResultMap">
     select
@@ -100,9 +100,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetParty">
-    insert into cet_party (id, party_id, party_name, 
+    insert into cet_party (id, party_id, name, 
       sort_order, is_deleted)
-    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetParty">
@@ -114,8 +114,8 @@
       <if test="partyId != null">
         party_id,
       </if>
-      <if test="partyName != null">
-        party_name,
+      <if test="name != null">
+        name,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -131,8 +131,8 @@
       <if test="partyId != null">
         #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="partyName != null">
-        #{partyName,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -157,8 +157,8 @@
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
-      <if test="record.partyName != null">
-        party_name = #{record.partyName,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -175,7 +175,7 @@
     update cet_party
     set id = #{record.id,jdbcType=INTEGER},
       party_id = #{record.partyId,jdbcType=INTEGER},
-      party_name = #{record.partyName,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
@@ -188,8 +188,8 @@
       <if test="partyId != null">
         party_id = #{partyId,jdbcType=INTEGER},
       </if>
-      <if test="partyName != null">
-        party_name = #{partyName,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -203,7 +203,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetParty">
     update cet_party
     set party_id = #{partyId,jdbcType=INTEGER},
-      party_name = #{partyName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

@@ -7,7 +7,7 @@ public class CetPartyView implements Serializable {
 
     private Integer partyId;
 
-    private String partyName;
+    private String name;
 
     private Integer sortOrder;
 
@@ -33,12 +33,12 @@ public class CetPartyView implements Serializable {
         this.partyId = partyId;
     }
 
-    public String getPartyName() {
-        return partyName;
+    public String getName() {
+        return name;
     }
 
-    public void setPartyName(String partyName) {
-        this.partyName = partyName == null ? null : partyName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getSortOrder() {

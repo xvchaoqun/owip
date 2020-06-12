@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetParty.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">二级党委</label>
+            <label class="col-xs-3 control-label">关联基层党组织</label>
             <div class="col-xs-6">
                 <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                         data-placeholder="请选择党委">
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">二级党委名称</label>
             <div class="col-xs-6">
-                <input class="form-control" style="width: 350px" type="text" name="partyName" value="${cetParty.partyName}">
+                <input class="form-control" style="width: 350px" type="text" name="name" value="${cetParty.name}">
             </div>
         </div>
     </form>
@@ -36,7 +36,7 @@
 <script>
 
     $("#modalForm select[name=partyId]").on("change", function () {
-        $("#modalForm input[name=partyName]").val($("#modalForm select[name=partyId] option:selected").text());
+        $("#modalForm input[name=name]").val($("#modalForm select[name=partyId] option:selected").text());
     })
     
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

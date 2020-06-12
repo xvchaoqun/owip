@@ -50,8 +50,7 @@ public class CetUnitProjectController extends CetBaseController {
         boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
-            adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
@@ -107,12 +106,11 @@ public class CetUnitProjectController extends CetBaseController {
         }
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
-            criteria.andPartyIdIn(adminPartyIdList);
+            criteria.andCetPartyIdIn(adminPartyIdList);
         }
 
         if (cls == 1) {
@@ -166,16 +164,15 @@ public class CetUnitProjectController extends CetBaseController {
         }
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
             }
-            if (record.getPartyId() != null && !adminPartyIdList.contains(record.getPartyId())) {
+            if (record.getCetPartyId() != null && !adminPartyIdList.contains(record.getCetPartyId())) {
                 throw new UnauthorizedException();
             }
-            if (oldRecord != null && oldRecord.getPartyId() != null
-                    && !adminPartyIdList.contains(oldRecord.getPartyId())) {
+            if (oldRecord != null && oldRecord.getCetPartyId() != null
+                    && !adminPartyIdList.contains(oldRecord.getCetPartyId())) {
                 throw new UnauthorizedException();
             }
 
@@ -211,7 +208,7 @@ public class CetUnitProjectController extends CetBaseController {
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
             modelMap.put("cetUnitProject", cetUnitProject);
 
-            modelMap.put("party", partyService.findAll().get(cetUnitProject.getPartyId()));
+            modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetUnitProject.getCetPartyId()));
             modelMap.put("unit", unitService.findAll().get(cetUnitProject.getUnitId()));
         }
 

@@ -200,14 +200,14 @@
         SELECT status, COUNT(*) num FROM cet_unit_project
         <if test="addPermits">
             <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
-                where party_id in
+                where cet_party_id in
                 <foreach collection="adminPartyIdList" item="st"
                          index="index" open="(" close=")" separator=",">
                     #{st}
                 </foreach>
             </if>
           <if test="adminPartyIdList==null or adminPartyIdList.size==0">
-                where party_id is null
+                where cet_party_id is null
             </if>
         </if>
         GROUP BY STATUS
@@ -219,14 +219,14 @@
             cup.id=cut.project_id and cut.status=0
             <if test="addPermits">
                 <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
-                    and cup.party_id in
+                    and cup.cet_party_id in
                     <foreach collection="adminPartyIdList" item="st"
                              index="index" open="(" close=")" separator=",">
                         #{st}
                     </foreach>
                 </if>
                 <if test="adminPartyIdList==null or adminPartyIdList.size==0">
-                    and cup.party_id is null
+                    and cup.cet_party_id is null
                 </if>
             </if>
         </where>
@@ -238,14 +238,14 @@
             cup.id=cut.project_id and cut.status!=0
             <if test="addPermits">
                 <if test="adminPartyIdList!=null and adminPartyIdList.size>0">
-                    and cup.party_id in
+                    and cup.cet_party_id in
                     <foreach collection="adminPartyIdList" item="st"
                              index="index" open="(" close=")" separator=",">
                         #{st}
                     </foreach>
                 </if>
                 <if test="adminPartyIdList==null or adminPartyIdList.size==0">
-                    and cup.party_id is null
+                    and cup.cet_party_id is null
                 </if>
             </if>
         </where>

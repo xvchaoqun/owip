@@ -253,63 +253,63 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIsNull() {
-            addCriterion("party_id is null");
+        public Criteria andCetPartyIdIsNull() {
+            addCriterion("cet_party_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIsNotNull() {
-            addCriterion("party_id is not null");
+        public Criteria andCetPartyIdIsNotNull() {
+            addCriterion("cet_party_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdEqualTo(Integer value) {
-            addCriterion("party_id =", value, "partyId");
+        public Criteria andCetPartyIdEqualTo(Integer value) {
+            addCriterion("cet_party_id =", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotEqualTo(Integer value) {
-            addCriterion("party_id <>", value, "partyId");
+        public Criteria andCetPartyIdNotEqualTo(Integer value) {
+            addCriterion("cet_party_id <>", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdGreaterThan(Integer value) {
-            addCriterion("party_id >", value, "partyId");
+        public Criteria andCetPartyIdGreaterThan(Integer value) {
+            addCriterion("cet_party_id >", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("party_id >=", value, "partyId");
+        public Criteria andCetPartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cet_party_id >=", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdLessThan(Integer value) {
-            addCriterion("party_id <", value, "partyId");
+        public Criteria andCetPartyIdLessThan(Integer value) {
+            addCriterion("cet_party_id <", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("party_id <=", value, "partyId");
+        public Criteria andCetPartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cet_party_id <=", value, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdIn(List<Integer> values) {
-            addCriterion("party_id in", values, "partyId");
+        public Criteria andCetPartyIdIn(List<Integer> values) {
+            addCriterion("cet_party_id in", values, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotIn(List<Integer> values) {
-            addCriterion("party_id not in", values, "partyId");
+        public Criteria andCetPartyIdNotIn(List<Integer> values) {
+            addCriterion("cet_party_id not in", values, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdBetween(Integer value1, Integer value2) {
-            addCriterion("party_id between", value1, value2, "partyId");
+        public Criteria andCetPartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("cet_party_id between", value1, value2, "cetPartyId");
             return (Criteria) this;
         }
 
-        public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("party_id not between", value1, value2, "partyId");
+        public Criteria andCetPartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cet_party_id not between", value1, value2, "cetPartyId");
             return (Criteria) this;
         }
 

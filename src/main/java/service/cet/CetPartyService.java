@@ -4,15 +4,12 @@ import domain.cet.CetParty;
 import domain.cet.CetPartyAdmin;
 import domain.cet.CetPartyExample;
 import domain.party.*;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.party.OrgAdminService;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -25,83 +22,50 @@ public class CetPartyService extends CetBaseMapper {
     private CetPartyAdminService cetPartyAdminService;
     @Autowired
     private PartyMemberService partyMemberService;
-    @Autowired
-    private OrgAdminService orgAdminService;
 
-    public boolean idDuplicate(Integer id, int partyId){
+    public boolean idDuplicate(Integer id, int partyId) {
 
         CetPartyExample example = new CetPartyExample();
         CetPartyExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return cetPartyMapper.countByExample(example) > 0;
     }
 
-    public CetParty getView(int id) {
-
-        CetPartyExample example = new CetPartyExample();
-        example.createCriteria().andIdEqualTo(id);
-        List<CetParty> cetPartys = cetPartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return cetPartys.size() == 1 ? cetPartys.get(0) : null;
-    }
-
     @Transactional
-    public void insertSelective(CetParty record){
+    public void insertSelective(CetParty record) {
 
-        Integer partyId = record.getPartyId();
-        if (null != partyId) {
-            Party party = partyMapper.selectByPrimaryKey(record.getPartyId());
-            record.setIsDeleted(party.getIsDeleted());
-        }
-        record.setSortOrder(getNextSortOrder("cet_party", null));
+        record.setIsDeleted(false);
+        record.setSortOrder(getNextSortOrder("cet_party", "is_deleted=0"));
         cetPartyMapper.insertSelective(record);
     }
 
-
     @Transactional
-    public void cancel(Integer[] ids, Integer delete){
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
-        if(ids == null || ids.length == 0) return;
+        if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
+
+            // 先删除或恢复二级党委
+            CetParty record = new CetParty();
+            record.setId(id);
+            record.setIsDeleted(isDeleted);
+            record.setSortOrder(getNextSortOrder("cet_party", "is_deleted="+ isDeleted));
+            cetPartyMapper.updateByPrimaryKeySelective(record);
+
+            // 后更新二级党委管理员权限
             List<CetPartyAdmin> cetPartyAdmins = cetPartyAdminService.findByPartyId(id);
             for (CetPartyAdmin cetPartyAdmin : cetPartyAdmins) {
-                // 删除/添加管理员权限
-                if (null != delete){
-                    sysUserService.delRole(cetPartyAdmin.getUserId(), RoleConstants.ROLE_CET_ADMIN_PARTY);
-                    cetPartyAdminMapper.deleteByPrimaryKey(cetPartyAdmin.getId());
-                }else {
-                    if (CmTag.hasRole(sysUserService.findById(cetPartyAdmin.getUserId()).getUsername(), RoleConstants.ROLE_CET_ADMIN_PARTY))
-                        sysUserService.delRole(cetPartyAdmin.getUserId(), RoleConstants.ROLE_CET_ADMIN_PARTY);
-                    else
-                        sysUserService.addRole(cetPartyAdmin.getUserId(), RoleConstants.ROLE_CET_ADMIN_PARTY);
-                }
+
+                cetPartyAdminService.updateRoleCetAdminParty(cetPartyAdmin.getUserId());
             }
         }
-        if (null != delete){
-            CetPartyExample example = new CetPartyExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            cetPartyMapper.deleteByExample(example);
-        }else {
-            CetParty record = new CetParty();
-            record.setIsDeleted(!cetPartyMapper.selectByPrimaryKey(ids[0]).getIsDeleted());
-
-            CetPartyExample example = new CetPartyExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            cetPartyMapper.updateByExampleSelective(record, example);
-        }
-
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CetParty record){
+    public int updateByPrimaryKeySelective(CetParty record) {
 
-        Integer partyId = record.getPartyId();
-        if (null != partyId) {
-            Party party = partyMapper.selectByPrimaryKey(record.getPartyId());
-            record.setIsDeleted(party.getIsDeleted());
-        }
-        record.setSortOrder(null);
         return cetPartyMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -160,5 +124,12 @@ public class CetPartyService extends CetBaseMapper {
             map.put(cetParty.getId(), cetParty);
         }
         return map;
+    }
+
+    @Transactional
+    public void changeOrder(int id, int addNum) {
+
+        CetParty cetParty = cetPartyMapper.selectByPrimaryKey(id);
+        changeOrder("cet_party", "is_deleted=" + cetParty.getIsDeleted(), ORDER_BY_DESC, id, addNum);
     }
 }

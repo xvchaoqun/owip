@@ -50,12 +50,13 @@ public class CetUnitProjectService extends CetBaseMapper {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 throw new OpException("没有权限。");
             }
         }
+
         if(cetUnitProject.getStatus() != CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT){
             throw new OpException("只允许删除未报送的记录");
         }
@@ -93,9 +94,8 @@ public class CetUnitProjectService extends CetBaseMapper {
 
             if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
                 CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
-                List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-                adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-                if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                     throw new OpException("没有权限。");
                 }
             }
@@ -130,9 +130,8 @@ public class CetUnitProjectService extends CetBaseMapper {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 throw new OpException("没有权限。");
             }
         }
@@ -159,7 +158,7 @@ public class CetUnitProjectService extends CetBaseMapper {
 
         }
         if (null != adminPartyIdList && adminPartyIdList.size() >0){
-            criteria.andPartyIdIn(adminPartyIdList);
+            criteria.andCetPartyIdIn(adminPartyIdList);
         }
         if (StringUtils.isNotBlank(projectName)){
             criteria.andProjectNameLike(SqlUtils.trimLike(projectName));

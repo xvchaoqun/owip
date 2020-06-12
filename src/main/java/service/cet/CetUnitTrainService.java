@@ -79,15 +79,14 @@ public class CetUnitTrainService extends CetBaseMapper {
         Set<Integer> projectIdSet = new HashSet<>();
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
 
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             for (Integer id : ids) {
 
                 CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
                 int projectId = cetUnitTrain.getProjectId();
                 projectIdSet.add(projectId);
                 CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-                if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+                if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                     throw new OpException("没有权限。");
                 }
 
@@ -109,9 +108,8 @@ public class CetUnitTrainService extends CetBaseMapper {
         CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(record.getId());
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(cetUnitTrain.getProjectId());
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 throw new OpException("没有权限。");
             }
         }
@@ -134,9 +132,8 @@ public class CetUnitTrainService extends CetBaseMapper {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-            adminPartyIdList.addAll(cetPartyAdminService.getPartyIds());
-            if (!adminPartyIdList.contains(cetUnitProject.getPartyId())) {
+            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());;
+            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 throw new OpException("没有权限。");
             }
         }

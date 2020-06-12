@@ -382,4 +382,12 @@ public interface ICetMapper {
     // 二级党委参训人员补录数量统计
     Integer unitTrainReRecord(@Param("addPermits") Boolean addPermits,
                                      @Param("adminPartyIdList") List<Integer> adminPartyIdList);
+
+    // 获取用户管理的二级党委列表
+    @ResultMap("persistence.cet.CetPartyMapper.BaseResultMap")
+    @Select("select p.* from cet_party p, cet_party_admin a where a.user_id=#{userId} and a.cet_party_id=p.id and p.is_deleted=0")
+    List<CetParty> getAdminParties(int userId);
+    // 获取用户管理的二级党委ID列表
+    @Select("select p.id from cet_party p, cet_party_admin a where a.user_id=#{userId} and a.cet_party_id=p.id and p.is_deleted=0")
+    List<Integer> getAdminPartyIds(int userId);
 }

@@ -51,10 +51,10 @@
         </table>-->
         <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
         </table>-->
-        <table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
+        <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
                mapperName="cet.CetUpperTrainAdminMapper">
@@ -62,10 +62,18 @@
 
        <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
         </table>
-        <table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
-        </table>
+
         <table tableName="cet_party_school" domainObjectName="cet.CetPartySchool" mapperName="cet.CetPartySchoolMapper">
         </table>-->
+
+        <table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
+        </table>
+        <table tableName="cet_party_view" domainObjectName="cet.CetPartyView"
+               mapperName="cet.CetPartyViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
 
         <!--<table tableName="cet_unit_view" domainObjectName="cet.CetUnitView"
                mapperName="cet.CetUnitViewMapper"
@@ -73,12 +81,7 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>-->
-        <!--<table tableName="cet_party_view" domainObjectName="cet.CetPartyView"
-               mapperName="cet.CetPartyViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>
+        <!--
         <table tableName="cet_party_school_view" domainObjectName="cet.CetPartySchoolView"
                mapperName="cet.CetPartySchoolViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"

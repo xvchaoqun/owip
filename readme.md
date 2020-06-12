@@ -3,7 +3,7 @@
 -- powershell
 
 # 打包某版本变更文件
-tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 5854648e  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 5f959371  -- . ':(exclude)doc/*')
 # 打包某版本（不含此版本更新的内容）到最新版本的所有变更文件
 tar -cf D:\tmp\owip\diff.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d dfa0c195 HEAD --name-only  -- . ':(exclude)doc/*')
 

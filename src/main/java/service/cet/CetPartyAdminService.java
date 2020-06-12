@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
-import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,56 +42,54 @@ public class CetPartyAdminService extends CetBaseMapper{
     }
 
     @Transactional
-    public void insert(Integer cetPartyId, Integer userId) {
+    public void insert(int cetPartyId, int userId) {
 
         CetPartyAdmin record = new CetPartyAdmin();
         record.setCetPartyId(cetPartyId);
         record.setUserId(userId);
-
-        Byte type = CetConstants.CET_PARTY_ADMIN_NORMAL;
-
+        byte type = CetConstants.CET_PARTY_ADMIN_NORMAL;
         CetParty cetparty = cetPartyMapper.selectByPrimaryKey(cetPartyId);
         if (null != cetparty.getPartyId()) {
             MetaType sMetaType = CmTag.getMetaTypeByCode("mt_party_secretary");
             MetaType vsMetaType = CmTag.getMetaTypeByCode("mt_party_vice_secretary");
             MetaType mMetaType = CmTag.getMetaTypeByCode("mt_party_member");
             PartyMemberView pmv = partyMemberService.getPartyMemberView(cetparty.getPartyId(), userId);
-            if (null != pmv)
-                type = pmv.getPostId() == sMetaType.getId() ? CetConstants.CET_PARTY_ADMIN_SECRETARY : pmv.getPostId() == vsMetaType.getId() ? CetConstants.CET_PARTY_ADMIN_VICE_SECRETARY : pmv.getPostId() == mMetaType.getId() ? CetConstants.CET_PARTY_ADMIN_COMMITTEE_MEMBER : type;
+            if (null != pmv){
+                if(pmv.getPostId() == sMetaType.getId()){
+                    type = CetConstants.CET_PARTY_ADMIN_SECRETARY;
+                }else if(pmv.getPostId() == vsMetaType.getId()){
+                    type = CetConstants.CET_PARTY_ADMIN_VICE_SECRETARY;
+                }else if(pmv.getPostId() == mMetaType.getId()){
+                    type = CetConstants.CET_PARTY_ADMIN_COMMITTEE_MEMBER;
+                }
+            }
         }
         record.setType(type);
-
         cetPartyAdminMapper.insert(record);
-        sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_CET_ADMIN_PARTY);
+
+        // 变更权限
+        updateRoleCetAdminParty(userId);
     }
 
     @Transactional
     public void del(Integer id) {
 
         CetPartyAdmin cetPartyAdmin = cetPartyAdminMapper.selectByPrimaryKey(id);
-        Integer userId = cetPartyAdmin.getUserId();
-
-        List<CetPartyAdmin> cetPartyAdmins = getByUserId(userId);
-        if (cetPartyAdmins.size() == 1)
-            sysUserService.delRole(cetPartyAdmin.getUserId(), RoleConstants.ROLE_CET_ADMIN_PARTY);
+        int userId = cetPartyAdmin.getUserId();
         cetPartyAdminMapper.deleteByPrimaryKey(id);
+
+        // 变更权限
+        updateRoleCetAdminParty(userId);
     }
 
-    public List<CetPartyAdmin> getByUserId(Integer userId){
+    // 更新或删除二级党委管理员权限
+    public void updateRoleCetAdminParty(int userId){
 
-        CetPartyAdminExample example = new CetPartyAdminExample();
-        example.createCriteria().andUserIdEqualTo(userId);
-
-        return cetPartyAdminMapper.selectByExample(example);
-    }
-
-    //得到二级党委管理员管理的分党委id
-    public List<Integer> getPartyIds(){
-        List<Integer> partyIds = new ArrayList<>();
-        List<CetPartyAdmin> cetPartyAdmins = getByUserId(ShiroHelper.getCurrentUserId());
-        for (CetPartyAdmin cetPartyAdmin : cetPartyAdmins) {
-            partyIds.add(cetPartyAdmin.getCetParty().getPartyId());
+        List<CetParty> adminParties = iCetMapper.getAdminParties(userId);
+        if(adminParties.size()>0){
+            sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_PARTY);
+        }else{
+            sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_PARTY);
         }
-        return partyIds;
     }
 }

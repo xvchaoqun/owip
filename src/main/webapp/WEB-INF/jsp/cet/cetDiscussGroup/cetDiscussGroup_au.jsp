@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择院系级党委">
 						<option value="${cetParty.id}"
 								realname="${realname}"
-								delete="${cetParty.partyIsDeleted}">${cetParty.partyName}</option>
+								delete="${cetParty.partyIsDeleted}">${cetParty.name}</option>
 					</select>
 				</c:if>
 				<c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL}">

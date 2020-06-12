@@ -2,9 +2,11 @@ package controller.cet;
 
 import controller.global.OpException;
 import domain.cet.CetParty;
+import domain.cet.CetPartyExample;
 import domain.cet.CetPartyView;
 import domain.cet.CetPartyViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -26,6 +30,7 @@ import sys.utils.SqlUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +44,12 @@ public class CetPartyController extends CetBaseController {
     @RequiresPermissions("cetParty:list")
     @RequestMapping("/cetParty")
     public String cetParty(@RequestParam(required = false, defaultValue = "0") Byte cls,
-                           String partyName,
+                           String name,
                            String partyId,
                            ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        modelMap.put("partyName", partyName);
+        modelMap.put("name", name);
         modelMap.put("partyId", partyId);
 
         return "cet/cetParty/cetParty_page";
@@ -54,7 +59,7 @@ public class CetPartyController extends CetBaseController {
     @RequestMapping("/cetParty_data")
     public void cetParty_data(HttpServletResponse response,
                               Integer partyId,
-                              String partyName,
+                              String name,
                               @RequestParam(required = false, defaultValue = "0") Byte cls,
                               @RequestParam(required = false, defaultValue = "0") int export,
                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -70,7 +75,7 @@ public class CetPartyController extends CetBaseController {
 
         CetPartyViewExample example = new CetPartyViewExample();
         CetPartyViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("sort_order desc");
 
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -78,8 +83,8 @@ public class CetPartyController extends CetBaseController {
         if (null != cls){
             criteria.andIsDeletedEqualTo(cls == 1 ? true : false);
         }
-        if (StringUtils.isNotBlank(partyName)){
-            criteria.andPartyNameLike(SqlUtils.like(StringUtils.trimToNull(partyName)));
+        if (StringUtils.isNotBlank(name)){
+            criteria.andNameLike(SqlUtils.like(StringUtils.trimToNull(name)));
         }
 
         /*if (export == 1) {
@@ -116,9 +121,11 @@ public class CetPartyController extends CetBaseController {
 
         Integer id = record.getId();
 
+        if (cetPartyService.idDuplicate(id, record.getPartyId())) {
+            throw new OpException("添加重复");
+        }
         if (id == null) {
-            if (cetPartyService.idDuplicate(null, record.getPartyId()))
-                throw new OpException("添加重复");
+
             cetPartyService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", record.getId()));
         } else {
@@ -149,18 +156,88 @@ public class CetPartyController extends CetBaseController {
         return "cet/cetParty/cetParty_au";
     }
 
-    @RequiresPermissions("cetParty:del")
-    @RequestMapping(value = "/cetParty_cancel", method = RequestMethod.POST)
+    @RequiresPermissions("cetParty:edit")
+    @RequestMapping(value = "/cetParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetParty_cancel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, Integer delete, ModelMap modelMap) {
+    public Map do_cetParty_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids,
+                                    Boolean isDeleted,
+                                    ModelMap modelMap) {
 
-
-        if (null != ids && ids.length>0){
-            cetPartyService.cancel(ids, delete);
-            logger.info(addLog(LogConstants.LOG_CET, "删除/撤销/恢复二级党委培训管理员：%s", StringUtils.join(ids, ",")));
+        if (null != ids && ids.length > 0) {
+            isDeleted = BooleanUtils.isTrue(isDeleted);
+            cetPartyService.batchDel(ids, isDeleted);
+            logger.info(addLog(LogConstants.LOG_CET, "批量"+(isDeleted?"删除":"恢复")+"二级党委管理员：%s",
+                    StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cetParty:changeOrder")
+    @RequestMapping(value = "/cetParty_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetParty_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        cetPartyService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_CET, "二级党委调序：%s,%s", id, addNum));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/cetParty_selects")
+    @ResponseBody
+    public Map cetParty_selects(Integer pageSize, Boolean auth, Boolean del, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetPartyExample example = new CetPartyExample();
+        CetPartyExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("is_deleted asc, sort_order desc");
+
+        if(del!=null){
+            criteria.andIsDeletedEqualTo(del);
+        }
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andNameLike("%"+searchStr.trim()+"%");
+        }
+
+        //===========权限
+        if(BooleanUtils.isTrue(auth)) {
+            if (!ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+                List<Integer> cetPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                if (cetPartyIdList.size() > 0)
+                    criteria.andIdIn(cetPartyIdList);
+                else
+                    criteria.andIdIsNull();
+            }
+        }
+
+        long count = cetPartyMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CetParty> records = cetPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<Map<String, Object>> options = new ArrayList<>();
+        for(CetParty record:records){
+
+            Map<String, Object> option = new HashMap<>();
+            option.put("text", record.getName());
+            option.put("id", record.getId());
+            option.put("del", record.getIsDeleted());
+
+            options.add(option);
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
 }

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetUnitProject">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="cet_party_id" jdbcType="INTEGER" property="cetPartyId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -81,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, party_id, unit_id, start_date, end_date, project_name, project_type, report_name, 
-    reporter, period, total_count, address, is_valid, add_user_id, add_time, remark, 
-    status, back_reason
+    id, year, cet_party_id, unit_id, start_date, end_date, project_name, project_type, 
+    report_name, reporter, period, total_count, address, is_valid, add_user_id, add_time, 
+    remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
     select
@@ -119,14 +119,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_unit_project (year, party_id, unit_id, 
+    insert into cet_unit_project (year, cet_party_id, unit_id, 
       start_date, end_date, project_name, 
       project_type, report_name, reporter, 
       period, total_count, address, 
       is_valid, add_user_id, add_time, 
       remark, status, back_reason
       )
-    values (#{year,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+    values (#{year,jdbcType=INTEGER}, #{cetPartyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR}, 
       #{projectType,jdbcType=INTEGER}, #{reportName,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR}, 
       #{period,jdbcType=DECIMAL}, #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
@@ -143,8 +143,8 @@
       <if test="year != null">
         year,
       </if>
-      <if test="partyId != null">
-        party_id,
+      <if test="cetPartyId != null">
+        cet_party_id,
       </if>
       <if test="unitId != null">
         unit_id,
@@ -199,8 +199,8 @@
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null">
-        #{partyId,jdbcType=INTEGER},
+      <if test="cetPartyId != null">
+        #{cetPartyId,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
@@ -267,8 +267,8 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
-      <if test="record.partyId != null">
-        party_id = #{record.partyId,jdbcType=INTEGER},
+      <if test="record.cetPartyId != null">
+        cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
       </if>
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -327,7 +327,7 @@
     update cet_unit_project
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
-      party_id = #{record.partyId,jdbcType=INTEGER},
+      cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
@@ -354,8 +354,8 @@
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
-      <if test="partyId != null">
-        party_id = #{partyId,jdbcType=INTEGER},
+      <if test="cetPartyId != null">
+        cet_party_id = #{cetPartyId,jdbcType=INTEGER},
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
@@ -411,7 +411,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetUnitProject">
     update cet_unit_project
     set year = #{year,jdbcType=INTEGER},
-      party_id = #{partyId,jdbcType=INTEGER},
+      cet_party_id = #{cetPartyId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},

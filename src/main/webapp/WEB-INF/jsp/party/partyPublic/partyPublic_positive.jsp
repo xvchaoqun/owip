@@ -62,7 +62,7 @@
                                    value="${cm:getUserById(partyPublic.publicUsers[0].userId).realname}"/>
                             <TD><SPAN id=context
                                       class=context>&nbsp;&nbsp;&nbsp;经党组织培养考察，${realname}<c:if
-                                    test="${num>1}">等${num}名</c:if>同志预备期已满。根据校党委组织部《关于实行发展党员公示制度的意见》精神，党员和群众对以下同志按期转为中共正式党员如有意见或建议，可采用口头或书面形式于${cm:formatDate(deadline, 'yyyy年MM月dd日')}前向院党委或校党委组织部反映。
+                                    test="${num>1}">等${num}名</c:if>同志预备期已满。根据校党委组织部《关于实行发展党员公示制度的意见》精神，党员和群众对以下同志转为中共正式党员如有意见或建议，可采用口头或书面形式于${cm:formatDate(deadline, 'yyyy年MM月dd日')}前向院党委或校党委组织部反映。
                         <BR>具体公示名单如下：
                         <BR>
                         <c:forEach items="${partyPublic.publicUsers}" var="pu" varStatus="vs">
