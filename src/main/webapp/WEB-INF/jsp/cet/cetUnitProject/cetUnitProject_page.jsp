@@ -188,7 +188,7 @@ pageEncoding="UTF-8" %>
                 }, frozen: true},
                 { label: '年度',name: 'year', width: 60, frozen: true},
                 {label: '培训项目名称', name: 'projectName', align: 'left',width: 350, frozen: true},
-                { label: '培训班主办方',name: 'cetParty.name', align:'left', width: 250},
+                { label: '培训班主办方',name: 'cetParty.name', align:'left', width: 310},
                 { label: '主办单位',name: 'unitId', width: 150, align:'left', formatter: $.jgrid.formatter.unit},
                 {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

@@ -29,6 +29,7 @@ public class CetPartyAdminService extends CetBaseMapper{
 
         CetPartyAdminExample example = new CetPartyAdminExample();
         example.createCriteria().andCetPartyIdEqualTo(cetPartyId);
+        example.setOrderByClause(" type asc");
         return cetPartyAdminMapper.selectByExample(example);
     }
 
@@ -59,7 +60,7 @@ public class CetPartyAdminService extends CetBaseMapper{
                     type = CetConstants.CET_PARTY_ADMIN_SECRETARY;
                 }else if(pmv.getPostId() == vsMetaType.getId()){
                     type = CetConstants.CET_PARTY_ADMIN_VICE_SECRETARY;
-                }else if(pmv.getPostId() == mMetaType.getId()){
+                }else if(pmv.getPostId() == mMetaType.getId().intValue()){
                     type = CetConstants.CET_PARTY_ADMIN_COMMITTEE_MEMBER;
                 }
             }

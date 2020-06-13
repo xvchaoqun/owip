@@ -23,6 +23,7 @@ import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.SqlUtils;
@@ -30,10 +31,7 @@ import sys.utils.SqlUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cet")
@@ -117,17 +115,25 @@ public class CetPartyController extends CetBaseController {
     @RequiresPermissions("cetParty:edit")
     @RequestMapping(value = "/cetParty_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetParty_au(CetParty record, HttpServletRequest request) {
+    public Map do_cetParty_au(CetParty record,
+                              @RequestParam(value="partyIds[]",required=false) Integer[] partyIds,
+                              HttpServletRequest request) {
+
 
         Integer id = record.getId();
-
-        if (cetPartyService.idDuplicate(id, record.getPartyId())) {
-            throw new OpException("添加重复");
+        if (null == partyIds) {
+            if (cetPartyService.idDuplicate(id, record.getPartyId())) {
+                throw new OpException("添加重复");
+            }
         }
         if (id == null) {
-
-            cetPartyService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", record.getId()));
+            if (null != partyIds){
+                cetPartyService.batchInsert(partyIds);
+                logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", StringUtils.join(partyIds, ",")));
+            }else {
+                cetPartyService.insertSelective(record);
+                logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", record.getId()));
+            }
         } else {
 
             cetPartyService.updateByPrimaryKeySelective(record);
@@ -149,11 +155,34 @@ public class CetPartyController extends CetBaseController {
 
             partyId = cetParty.getPartyId();
         }
+
         if(partyId!=null) {
             modelMap.put("party", CmTag.getParty(partyId));
         }
 
         return "cet/cetParty/cetParty_au";
+    }
+
+    //生成关联基层党组织树
+    @RequiresPermissions("cetParty:edit")
+    @RequestMapping("/selectparties_tree")
+    @ResponseBody
+    public Map selectParties_tree() throws IOException{
+
+        //得到所有基层党组织
+        CetPartyExample example = new CetPartyExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        List<CetParty> cetParties = cetPartyMapper.selectByExample(example);
+        Set<Integer> partyIds = new HashSet<Integer>();
+        for (CetParty cetParty : cetParties) {
+            partyIds.add(cetParty.getPartyId());
+        }
+
+        TreeNode tree = cetPartyService.getTree(partyIds);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 
     @RequiresPermissions("cetParty:edit")
