@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                                     <c:if test="${cls==0}">
                                     <button class="jqRunBtn btn btn-warning btn-sm"
                                             data-title="同步二级党委管理员"
-                                            data-msg="<div class='confirmMsg'>确定同步二级党委管理员？（已选{0}个二级党委）</div>"
+                                            data-msg="<div class='confirmMsg'>确定同步二级党委管理员？（可选择部分二级党委进行同步）</div>"
                                             data-callback="_reload"
                                             data-need-ids="false"
                                             data-url="${ctx}/cet/cetPartyAdmin_sync"><i class="fa fa-refresh"></i> 同步二级党委管理员</button>
