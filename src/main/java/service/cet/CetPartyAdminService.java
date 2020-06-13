@@ -69,18 +69,21 @@ public class CetPartyAdminService extends CetBaseMapper{
         cetPartyAdminMapper.insert(record);
 
         // 变更权限
-        updateRoleCetAdminParty(userId);
+        if (!cetparty.getIsDeleted())
+            updateRoleCetAdminParty(userId);
     }
 
     @Transactional
     public void del(Integer id) {
 
         CetPartyAdmin cetPartyAdmin = cetPartyAdminMapper.selectByPrimaryKey(id);
+        CetParty cetParty = cetPartyMapper.selectByPrimaryKey(cetPartyAdmin.getCetPartyId());
         int userId = cetPartyAdmin.getUserId();
         cetPartyAdminMapper.deleteByPrimaryKey(id);
 
         // 变更权限
-        updateRoleCetAdminParty(userId);
+        if (!cetParty.getIsDeleted())
+            updateRoleCetAdminParty(userId);
     }
 
     // 更新或删除二级党委管理员权限
