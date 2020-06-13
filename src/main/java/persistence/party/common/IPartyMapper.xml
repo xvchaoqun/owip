@@ -4,50 +4,207 @@
 
     <sql id="organizerSearchSql">
         <where>
-        <!--排除 历任 状态-->
-        oo.status!=3
-        <if test="type != null">
-            and oo.type=#{type}
-        </if>
-        <if test="status != null">
-            and oo.status=#{status}
-        </if>
-        <if test="query != null">
-          and (uv.username like '${query}%'
-              or uv.realname like '${query}%'
-              or uv.code like '${query}%')
-        </if>
+            <!--排除 历任 状态-->
+            oo.status!=3
+            <if test="type != null">
+                and oo.type=#{type}
+            </if>
+            <if test="status != null">
+                and oo.status=#{status}
+            </if>
+            <if test="query != null">
+                and (uv.username like '${query}%'
+                or uv.realname like '${query}%'
+                or uv.code like '${query}%')
+            </if>
         </where>
     </sql>
     <select id="selectOrganizerList" resultMap="persistence.party.OrganizerMapper.BaseResultMap" parameterType="map">
         select oo.* from ow_organizer oo left join sys_user_view uv on oo.user_id=uv.id
-         <include refid="organizerSearchSql"/>
+        <include refid="organizerSearchSql"/>
         order by oo.type asc, oo.status asc, oo.sort_order asc
     </select>
     <select id="countOrganizerList" parameterType="map" resultType="java.lang.Integer">
-       select count(oo.id) from ow_organizer oo left join sys_user_view uv on oo.user_id=uv.id
-         <include refid="organizerSearchSql"/>
+        select count(oo.id) from ow_organizer oo left join sys_user_view uv on oo.user_id=uv.id
+        <include refid="organizerSearchSql"/>
     </select>
 
-    <sql id="orgAdminSearchSql">
+    <sql id="_selects_permits">
+        <if test="oa.addPermits">
+            <if test="oa.adminPartyIdList.size>0 and oa.adminBranchIdList.size>0">
+                and (
+                p.id in
+                <foreach collection="oa.adminPartyIdList" item="partyId"
+                         index="index" open="(" close=")" separator=",">
+                    #{partyId}
+                </foreach>
+                or
+                b.id in
+                <foreach collection="oa.adminBranchIdList" item="branchId"
+                         index="index" open="(" close=")" separator=",">
+                    #{branchId}
+                </foreach>
+                )
+            </if>
+            <if test="oa.adminPartyIdList.size>0 and oa.adminBranchIdList.size==0">
+                and p.id in
+                <foreach collection="oa.adminPartyIdList" item="partyId"
+                         index="index" open="(" close=")" separator=",">
+                    #{partyId}
+                </foreach>
+            </if>
+            <if test="oa.adminPartyIdList.size==0 and oa.adminBranchIdList.size>0">
+                and b.id in
+                <foreach collection="oa.adminBranchIdList" item="branchId"
+                         index="index" open="(" close=")" separator=",">
+                    #{branchId}
+                </foreach>
+            </if>
+            <if test="oa.adminPartyIdList.size==0 and oa.adminBranchIdList.size==0">
+                and uv.id is null
+            </if>
+        </if>
+    </sql>
+
+    <resultMap id="OwAdminMap" type="persistence.party.common.OwAdmin">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="party_id" property="partyId" jdbcType="INTEGER"/>
+        <result column="branch_id" property="branchId" jdbcType="INTEGER"/>
+        <result column="post_id" property="postId" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="PartyAdminSearchSql">
         <where>
-        <if test="type != null">
-            and oo.type=#{type}
-        </if>
-        <if test="query != null">
-          and (uv.username like '${query}%'
-              or uv.realname like '${query}%'
-              or uv.code like '${query}%')
-        </if>
+            <include refid="_selects_permits"/>
+            and p.is_deleted=0
+            <if test="oa.partyId!=null">
+                and p.id = #{oa.partyId}
+            </if>
+            <if test="oa.userId!=null">
+                and uv.id = #{oa.userId}
+            </if>
+            <if test="oa.postId!=null">
+                and post_id = #{oa.postId}
+            </if>
+            <if test="oa.query != null">
+                and (uv.username like '${oa.query}%'
+                or uv.realname like '${oa.query}%'
+                or uv.code like '${oa.query}%')
+            </if>
         </where>
     </sql>
-    <select id="selectOrgAdminList" resultMap="persistence.party.OrgAdminViewMapper.BaseResultMap" parameterType="map">
-        select oo.* from ow_org_admin_view oo left join sys_user_view uv on oo.user_id=uv.id
-         <include refid="orgAdminSearchSql"/>
-        order by oo.type asc, oo.party_sort_order desc, oo.branch_party_sort_order desc, oo.branch_sort_order desc
+    <!-- 所有分党委管理员（当前有效管理员） -->
+    <select id="selectPartyAdminList" resultMap="OwAdminMap" parameterType="map">
+        select tmp.*, uv.username, uv.realname, uv.code from (
+        <if test="oa.normal==null || oa.normal==false">
+            select null as id, m.user_id, mg.party_id, m.post_id, 0 as normal,
+            m.sort_order from ow_party_member m, ow_party_member_group mg
+            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+        </if>
+        <if test="oa.normal==null">
+            union all
+        </if>
+        <if test="oa.normal==null || oa.normal==true">
+            select id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from ow_org_admin where type=1
+        </if>
+        <if test="oa.normal==null">
+            group by user_id
+        </if>
+        ) tmp
+        left join sys_user_view uv on tmp.user_id=uv.id
+        left join ow_party p on p.id=tmp.party_id
+        <include refid="PartyAdminSearchSql"/>
+        order by p.sort_order desc, sort_order desc
     </select>
-    <select id="countOrgAdminList" parameterType="map" resultType="java.lang.Integer">
-       select count(oo.id) from ow_org_admin_view oo left join sys_user_view uv on oo.user_id=uv.id
-         <include refid="orgAdminSearchSql"/>
+    <select id="countPartyAdminList" parameterType="map" resultType="java.lang.Integer">
+        select count(tmp.user_id) from (
+        <if test="oa.normal==null || oa.normal==false">
+            select null as id, m.user_id, mg.party_id, m.post_id, 0 as normal, m.sort_order from
+            ow_party_member m, ow_party_member_group mg
+            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+        </if>
+        <if test="oa.normal==null">
+            union all
+        </if>
+        <if test="oa.normal==null || oa.normal==true">
+            select id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from ow_org_admin where type=1
+        </if>
+        <if test="oa.normal==null">
+            group by user_id
+        </if>) tmp
+        left join sys_user_view uv on tmp.user_id=uv.id
+        left join ow_party p on p.id=tmp.party_id
+        <include refid="PartyAdminSearchSql"/>
+    </select>
+
+    <sql id="BranchAdminSearchSql">
+        <where>
+            <include refid="_selects_permits"/>
+            and b.is_deleted=0 and p.is_deleted=0
+            <if test="oa.partyId!=null">
+                and p.id = #{oa.partyId}
+            </if>
+            <if test="oa.branchId!=null">
+                and b.id = #{oa.branchId}
+            </if>
+            <if test="oa.userId!=null">
+                and uv.id = #{oa.userId}
+            </if>
+            <if test="oa.postId!=null">
+                and post_id = #{oa.postId}
+            </if>
+            <if test="oa.query != null">
+                and (uv.username like '${oa.query}%'
+                or uv.realname like '${oa.query}%'
+                or uv.code like '${oa.query}%')
+            </if>
+        </where>
+    </sql>
+    <!-- 所有支部管理员（当前有效管理员） -->
+    <select id="selectBranchAdminList" resultMap="OwAdminMap" parameterType="map">
+        select tmp.*, p.id as party_id, uv.username, uv.realname, uv.code from (
+        <if test="oa.normal==null || oa.normal==false">
+            select null as id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
+            ow_branch_member_group mg
+            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+        </if>
+        <if test="oa.normal==null">
+            union all
+        </if>
+        <if test="oa.normal==null || oa.normal==true">
+            select id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+        </if>
+        <if test="oa.normal==null">
+            group by user_id
+        </if>) tmp
+        left join sys_user_view uv on tmp.user_id=uv.id
+        left join ow_branch b on b.id=tmp.branch_id
+        left join ow_party p on p.id=b.party_id
+        <include refid="BranchAdminSearchSql"/>
+        order by p.sort_order desc, b.sort_order desc, sort_order desc
+    </select>
+    <select id="countBranchAdminList" parameterType="map" resultType="java.lang.Integer">
+        select count(tmp.user_id) from (
+        <if test="oa.normal==null || oa.normal==false">
+            select null as id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
+            ow_branch_member_group mg
+            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+        </if>
+        <if test="oa.normal==null">
+            union all
+        </if>
+        <if test="oa.normal==null || oa.normal==true">
+            select id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+        </if>
+        <if test="oa.normal==null">
+            group by user_id
+        </if>) tmp
+        left join sys_user_view uv on tmp.user_id=uv.id
+        left join ow_branch b on b.id=tmp.branch_id
+        left join ow_party p on p.id=b.party_id
+        <include refid="BranchAdminSearchSql"/>
     </select>
 </mapper>

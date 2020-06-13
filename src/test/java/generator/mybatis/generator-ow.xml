@@ -229,10 +229,6 @@
         <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="ow_org_admin_view" domainObjectName="party.OrgAdminView"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false"></table>-->
 
         <!--<table tableName="ow_member_reg" domainObjectName="member.MemberReg" mapperName="member.MemberRegMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

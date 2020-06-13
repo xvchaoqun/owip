@@ -32,6 +32,10 @@ insert into cet_party(party_id, name, sort_order, is_deleted) select id as party
 -- 把原二级党委id替换为新的id
 update cet_unit_project up , cet_party p set up.cet_party_id=p.id where up.cet_party_id=p.party_id;
 
+
+DROP VIEW IF EXISTS `ow_org_admin_view`;
+
+
 2020.6.9
 
 ALTER TABLE `cet_party`

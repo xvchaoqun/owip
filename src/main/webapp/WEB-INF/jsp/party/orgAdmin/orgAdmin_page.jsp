@@ -20,15 +20,6 @@
                     </c:if>
                     <div class="tab-content">
                         <div class="tab-pane in active">
-
-                            <div class="jqgrid-vertical-offset buttons">
-                                 <c:if test="${type==OW_ORG_ADMIN_PARTY}">
-                                    <div class="note">【注：此列表不包含领导班子成员】</div>
-                                </c:if>
-                                <c:if test="${type==OW_ORG_ADMIN_BRANCH}">
-                                    <div class="note">【注：此列表不包含支部委员】</div>
-                                </c:if>
-                            </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
@@ -108,8 +99,9 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/orgAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '学工号', name: 'user.code', width: 120, frozen: true},
-            {label: '姓名', name: 'user.realname', width: 90, frozen: true},
+            {label: '学工号', name: 'code', width: 120, frozen: true},
+            {label: '姓名', name: 'realname', width: 90, frozen: true},
+            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             <c:if test="${type==OW_ORG_ADMIN_PARTY}">
             {
                 label: '所在${_p_partyName}',
@@ -128,10 +120,11 @@
                 width: 650,
                 align: 'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.branchPartyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
             </c:if>
+
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');

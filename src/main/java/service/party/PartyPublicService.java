@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import persistence.member.MemberApplyMapper;
 import service.BaseMapper;
 import service.member.MemberApplyService;
@@ -43,7 +42,7 @@ public class PartyPublicService extends BaseMapper {
         return partyPublics.size() == 0 ? null : partyPublics.get(0);
     }
 
-    public boolean idDuplicate(Integer id, int partyId, byte type, Date pubDate) {
+    /*public boolean idDuplicate(Integer id, int partyId, byte type, Date pubDate) {
 
         PartyPublicExample example = new PartyPublicExample();
         PartyPublicExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId)
@@ -51,7 +50,7 @@ public class PartyPublicService extends BaseMapper {
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return partyPublicMapper.countByExample(example) > 0;
-    }
+    }*/
 
     @Cacheable(value = "PartyPublic", key = "#id")
     public PartyPublic get(int id) {
@@ -85,8 +84,8 @@ public class PartyPublicService extends BaseMapper {
     @CacheEvict(value = "PartyPublic", key = "#record.id")
     public void insertSelective(PartyPublic record, Integer[] userIds) {
 
-        Assert.isTrue(!idDuplicate(null, record.getPartyId(),
-                record.getType(), record.getPubDate()), "duplicate");
+        /*Assert.isTrue(!idDuplicate(null, record.getPartyId(),
+                record.getType(), record.getPubDate()), "duplicate");*/
 
         record.setNum(userIds.length);
         record.setPubUsers("," + StringUtils.join(userIds, ",") + ",");
@@ -130,8 +129,8 @@ public class PartyPublicService extends BaseMapper {
     public void update(PartyPublic record, Integer[] userIds) {
 
         int publicId = record.getId();
-        Assert.isTrue(!idDuplicate(publicId, record.getPartyId(),
-                record.getType(), record.getPubDate()), "duplicate");
+        /*Assert.isTrue(!idDuplicate(publicId, record.getPartyId(),
+                record.getType(), record.getPubDate()), "duplicate");*/
 
         record.setNum(userIds.length);
         record.setPubUsers("," + StringUtils.join(userIds, ",") + ",");

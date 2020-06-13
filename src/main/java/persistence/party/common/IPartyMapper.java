@@ -28,12 +28,14 @@ public interface IPartyMapper {
                            @Param("type") Byte type,
                            @Param("status") Byte status);
 
+    // 所有分党委管理员（当前有效管理员）
+    List<OwAdmin> selectPartyAdminList(@Param("oa")OwAdmin owAdmin, RowBounds rowBounds);
+    int countPartyAdminList(@Param("oa")OwAdmin owAdmin);
 
-    List<OrgAdminView> selectOrgAdminList(@Param("query")String query,
-                                          @Param("type") Byte type,
-                                          RowBounds rowBounds);
-    int countOrgAdminList(@Param("query")String query,
-                           @Param("type") Byte type);
+    // 所有支部管理员（当前有效管理员）
+    List<OwAdmin> selectBranchAdminList(@Param("oa")OwAdmin owAdmin, RowBounds rowBounds);
+    int countBranchAdminList(@Param("oa")OwAdmin owAdmin);
+
 
     // 查询用户管理的分党委ID（现任分党委管理员）
     @Select("select distinct party_id from (select pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +

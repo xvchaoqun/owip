@@ -268,7 +268,7 @@ public class PartyPublicController extends BaseController {
         }
         record.setPubDate(pubDate);
 
-        if(pubDate!=null){
+        /*if(pubDate!=null){
             PartyPublic partyPublic = partyPublicService.get(record.getPartyId(),
                 record.getType(), pubDate);
             if(partyPublic != null) {
@@ -278,7 +278,7 @@ public class PartyPublicController extends BaseController {
                             partyPublic.getPartyName(), DateUtils.formatDate(pubDate, "yyyy年MM月dd日"));
                 }
             }
-        }
+        }*/
 
         if (id == null) {
 

@@ -43,13 +43,13 @@ LEFT JOIN ow_branch_member_group gtmp2 on gtmp2.is_deleted=0 and gtmp2.is_presen
 left join (select count(*) as num,branch_id from ow_branch_group group by branch_id) bgmp on bgmp.branch_id = b.id ;
 
 
-DROP VIEW IF EXISTS `ow_org_admin_view`;
+/*DROP VIEW IF EXISTS `ow_org_admin_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_org_admin_view` AS
 select oa.*, p.sort_order as party_sort_order, b.party_id as branch_party_id,
 bp.sort_order as branch_party_sort_order, b.sort_order as branch_sort_order from ow_org_admin oa
 left join ow_party p on p.id=oa.party_id
 left join ow_branch b on b.id=oa.branch_id
-left join ow_party bp on bp.id=b.party_id;
+left join ow_party bp on bp.id=b.party_id;*/
 
 
 DROP VIEW IF EXISTS `ow_member_view`;

@@ -65,16 +65,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${orgAdmins}" var="orgAdmin" varStatus="st">
-                    <c:set value="${cm:getUserById(orgAdmin.userId)}" var="sysUser"/>
+                <c:forEach items="${owAdmins}" var="record" varStatus="st">
                     <tr>
-                        <td nowrap>${sysUser.code}</td>
+                        <td nowrap>${record.code}</td>
                         <td nowrap>
-                            ${sysUser.realname}
+                            ${record.realname}
                         </td>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <button class="delBtn btn btn-danger btn-xs" data-id="${orgAdmin.id}">
+                                <button class="delBtn btn btn-danger btn-xs" data-id="${record.id}">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </div>

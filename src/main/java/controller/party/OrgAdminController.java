@@ -1,7 +1,9 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.party.*;
+import domain.party.Branch;
+import domain.party.OrgAdmin;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.party.common.OwAdmin;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
@@ -35,11 +38,12 @@ public class OrgAdminController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 弹出框编辑普通管理员
     //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/org_admin")
-    public String org_admin(Integer partyId, Integer branchId,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String org_admin(Integer partyId, Integer branchId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
-        if (partyId != null || branchId!=null) {
+        if (partyId != null || branchId != null) {
             if (null == pageSize) {
                 pageSize = 5;
             }
@@ -48,34 +52,50 @@ public class OrgAdminController extends BaseController {
             }
             pageNo = Math.max(1, pageNo);
 
-            OrgAdminViewExample example = new OrgAdminViewExample();
-            OrgAdminViewExample.Criteria criteria = example.createCriteria();
-            if(partyId!=null){
+            if (partyId != null) {
                 modelMap.put("party", partyService.findAll().get(partyId));
-                criteria.andPartyIdEqualTo(partyId);
             }
-            if(branchId!=null){
+            if (branchId != null) {
                 modelMap.put("branch", branchService.findAll().get(branchId));
-                criteria.andBranchIdEqualTo(branchId);
             }
-            criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-            int count = (int) orgAdminViewMapper.countByExample(example);
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+            List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+            OwAdmin search = new OwAdmin();
+            search.setPartyId(partyId);
+            search.setBranchId(branchId);
+            search.setNormal(true); // 普通管理员
+            if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+                search.setAddPermits(true);
+                search.setAdminPartyIdList(adminPartyIdList);
+                search.setAdminBranchIdList(adminBranchIdList);
+            }
+
+            List<OwAdmin> records = null;
+            long count = 0;
+            if (partyId != null) {
+
+                records = iPartyMapper.selectPartyAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                count = iPartyMapper.countPartyAdminList(search);
+            } else {
+                records = iPartyMapper.selectBranchAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                count = iPartyMapper.countBranchAdminList(search);
+            }
+
             if ((pageNo - 1) * pageSize >= count) {
-
                 pageNo = Math.max(1, pageNo - 1);
             }
-            List<OrgAdminView> orgAdmins = orgAdminViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-            modelMap.put("orgAdmins", orgAdmins);
+            modelMap.put("owAdmins", records);
 
             CommonList commonList = new CommonList(count, pageNo, pageSize);
 
             String searchStr = "&pageSize=" + pageSize;
 
-            if (partyId!=null) {
+            if (partyId != null) {
                 searchStr += "&partyId=" + partyId;
             }
-            if (branchId!=null) {
+            if (branchId != null) {
                 searchStr += "&branchId=" + branchId;
             }
             commonList.setSearchStr(searchStr);
@@ -88,21 +108,21 @@ public class OrgAdminController extends BaseController {
     //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin")
     public String orgAdmin(ModelMap modelMap,
-                        byte type,
-                        Integer userId,
-                        Integer partyId,
-                                 Integer branchId,
-                        @RequestParam(required = false, defaultValue = "1")Byte cls) throws IOException {
+                           byte type,
+                           Integer userId,
+                           Integer partyId,
+                           Integer branchId,
+                           @RequestParam(required = false, defaultValue = "1") Byte cls) throws IOException {
 
         modelMap.put("type", type);
         modelMap.put("cls", cls);
-        if(userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-        if(partyId!=null) {
+        if (partyId != null) {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
-        if(branchId!=null) {
+        if (branchId != null) {
             modelMap.put("branch", branchService.findAll().get(branchId));
         }
 
@@ -112,14 +132,14 @@ public class OrgAdminController extends BaseController {
     //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin_data")
     public void orgAdmin_data(HttpServletResponse response,
-                                 byte type,
-                                 Integer userId,
-                                 Integer partyId,
-                                 Integer branchId,
-                                 @RequestParam(required = false, defaultValue = "1")Byte cls,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                              byte type,
+                              Integer userId,
+                              Integer partyId,
+                              Integer branchId,
+                              @RequestParam(required = false, defaultValue = "1") Byte cls,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -129,36 +149,34 @@ public class OrgAdminController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        OrgAdminViewExample example = new OrgAdminViewExample();
-        OrgAdminViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
-
-        if(type== OwConstants.OW_ORG_ADMIN_PARTY){
-            if(partyId!=null){
-                criteria.andPartyIdEqualTo(partyId);
-            }
-            example.setOrderByClause("party_sort_order desc, create_time desc");
-        }else{
-            if(partyId!=null){
-                criteria.andBranchPartyIdEqualTo(partyId);
-            }
-            if(branchId!=null){
-                criteria.andBranchIdEqualTo(branchId);
-            }
-            example.setOrderByClause("branch_party_sort_order desc, branch_sort_order desc, create_time desc");
-        }
-        if(userId!=null){
-            criteria.andUserIdEqualTo(userId);
+        OwAdmin search = new OwAdmin();
+        search.setPartyId(partyId);
+        search.setBranchId(branchId);
+        search.setUserId(userId);
+        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
+            search.setAddPermits(true);
+            search.setAdminPartyIdList(adminPartyIdList);
+            search.setAdminBranchIdList(adminBranchIdList);
         }
 
-        long count = orgAdminViewMapper.countByExample(example);
+        List records = null;
+        long count = 0;
+        if (type == OwConstants.OW_ORG_ADMIN_PARTY) {
+            records = iPartyMapper.selectPartyAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            count = iPartyMapper.countPartyAdminList(search);
+        } else {
+            records = iPartyMapper.selectBranchAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            count = iPartyMapper.countBranchAdminList(search);
+        }
+
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<OrgAdminView> records = orgAdminViewMapper.selectByExampleWithRowbounds(example,
-                new RowBounds((pageNo - 1) * pageSize, pageSize));
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -184,7 +202,7 @@ public class OrgAdminController extends BaseController {
 
         Integer partyId = record.getPartyId();
         Integer branchId = record.getBranchId();
-        if ( partyId!= null) {
+        if (partyId != null) {
 
             PartyHelper.checkAuth(partyId);
             Party party = partyService.findAll().get(partyId);
@@ -220,7 +238,7 @@ public class OrgAdminController extends BaseController {
 
         if (id != null) {
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
-            if(orgAdmin!=null) {
+            if (orgAdmin != null) {
                 if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
                     if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
@@ -236,7 +254,7 @@ public class OrgAdminController extends BaseController {
                 }
                 Branch branch = null;
                 Integer branchId = orgAdmin.getBranchId();
-                if ( branchId != null) {
+                if (branchId != null) {
 
                     branch = branchService.findAll().get(branchId);
                     PartyHelper.checkAuth(branch.getPartyId(), branchId);
@@ -255,7 +273,7 @@ public class OrgAdminController extends BaseController {
     @ResponseBody
     public Map orgAdmin_selects(Integer pageSize, Integer pageNo, Byte type, String searchStr) throws IOException {
 
-        if(!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
+        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
             return null;
 
         if (null == pageSize) {
@@ -266,26 +284,37 @@ public class OrgAdminController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        long count = iPartyMapper.countOrgAdminList(searchStr, type);
-        if((pageNo-1)*pageSize >= count){
+        OwAdmin search = new OwAdmin();
+        search.setQuery(searchStr);
+        search.setAddPermits(false);
 
-            pageNo = Math.max(1, pageNo-1);
+        List<OwAdmin> records = null;
+        long count = 0;
+        if (type == OwConstants.OW_ORG_ADMIN_PARTY) {
+
+            records = iPartyMapper.selectPartyAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            count = iPartyMapper.countPartyAdminList(search);
+        } else {
+            records = iPartyMapper.selectBranchAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            count = iPartyMapper.countBranchAdminList(search);
         }
-        List<OrgAdminView> records = iPartyMapper.selectOrgAdminList(searchStr, type,
-                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
 
         List options = new ArrayList<>();
-        if(null != records && records.size()>0){
+        if (null != records && records.size() > 0) {
 
-            for(OrgAdminView record:records){
-                SysUserView uv = record.getUser();
+            for (OwAdmin record : records) {
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", record.getUserId() + "");
-                option.put("text", uv.getRealname());
-                option.put("username", uv.getUsername());
-                option.put("code", uv.getCode());
-                option.put("unit", extService.getUnit(uv.getId()));
+                option.put("text", record.getRealname());
+                option.put("username", record.getUsername());
+                option.put("code", record.getCode());
+                option.put("unit", extService.getUnit(record.getUserId()));
 
                 options.add(option);
             }
