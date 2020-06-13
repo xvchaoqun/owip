@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
@@ -37,11 +38,7 @@ public class CetPartyAdminController extends CetBaseController{
     @ResponseBody
     public Map do_cetPartyAdmin_au(Integer userId, Integer cetPartyId, ModelMap modelMap){
 
-        if (cetPartyAdminService.idDuplicate(null, cetPartyId, userId)) {
-            return failed("添加重复");
-        }
-
-        cetPartyAdminService.insert(cetPartyId, userId);
+        cetPartyAdminService.insertOrUpdate(cetPartyId, userId);
         logger.info(addLog(LogConstants.LOG_CET, "添加二级党委培训管理员：%s", userId));
 
         return success(FormUtils.SUCCESS);
@@ -64,10 +61,10 @@ public class CetPartyAdminController extends CetBaseController{
     @RequiresPermissions("cetParty:edit")
     @RequestMapping(value = "/cetPartyAdmin_sync", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetParty_sync() {
+    public Map cetParty_sync(@RequestParam(required = false, value = "ids[]" ) Integer[] ids) {
 
-        cetPartyService.batchSync();
-        logger.info(addLog(LogConstants.LOG_CET, "同步分党委管理员为二级党委培训管理员"));
+        cetPartyService.batchSync(ids);
+        logger.info(addLog(LogConstants.LOG_CET, "同步分党委管理员为二级党委培训管理员，%s", ids));
 
         return success(FormUtils.SUCCESS);
     }

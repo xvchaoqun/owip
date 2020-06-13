@@ -175,7 +175,9 @@ public class CetPartyController extends CetBaseController {
         List<CetParty> cetParties = cetPartyMapper.selectByExample(example);
         Set<Integer> partyIds = new HashSet<Integer>();
         for (CetParty cetParty : cetParties) {
-            partyIds.add(cetParty.getPartyId());
+            if(cetParty.getPartyId()!=null) {
+                partyIds.add(cetParty.getPartyId());
+            }
         }
 
         TreeNode tree = cetPartyService.getTree(partyIds);

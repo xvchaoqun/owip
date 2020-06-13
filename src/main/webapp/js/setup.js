@@ -922,10 +922,14 @@ $(document).on("click", ".jqRunBtn", function (e) {
     var msg = $this.data("msg");
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
+
+    var needIds = $(this).data("need-ids");
+    if (needIds == undefined) needIds = true;
+
     var ids = grid.getGridParam("selarrrow");
     var callback = $.trim($this.data("callback"));
 
-    if (ids.length == 0) {
+    if (needIds && ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
         return;
     }

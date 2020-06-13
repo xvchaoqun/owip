@@ -4,10 +4,11 @@ import domain.base.MetaType;
 import domain.cet.CetParty;
 import domain.cet.CetPartyAdmin;
 import domain.cet.CetPartyAdminExample;
-import domain.party.PartyMemberView;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.party.common.OwAdmin;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.CetConstants;
@@ -17,7 +18,7 @@ import sys.tags.CmTag;
 import java.util.List;
 
 @Service
-public class CetPartyAdminService extends CetBaseMapper{
+public class CetPartyAdminService extends CetBaseMapper {
 
     @Autowired
     private PartyMemberService partyMemberService;
@@ -33,40 +34,61 @@ public class CetPartyAdminService extends CetBaseMapper{
         return cetPartyAdminMapper.selectByExample(example);
     }
 
-    public boolean idDuplicate(Integer id, Integer partyId, Integer userId) {
+    public CetPartyAdmin get(Integer partyId, Integer userId) {
 
         CetPartyAdminExample example = new CetPartyAdminExample();
-        CetPartyAdminExample.Criteria criteria = example.createCriteria().andCetPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
-        if (null != id) criteria.andIdEqualTo(id);
+        CetPartyAdminExample.Criteria criteria =
+                example.createCriteria().andCetPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
 
-        return cetPartyAdminMapper.countByExample(example) > 0;
+        List<CetPartyAdmin> cetPartyAdmins = cetPartyAdminMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return cetPartyAdmins.size() > 0 ? cetPartyAdmins.get(0) : null;
     }
 
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     @Transactional
-    public void insert(int cetPartyId, int userId) {
+    public void insertOrUpdate(int cetPartyId, int userId) {
 
         CetPartyAdmin record = new CetPartyAdmin();
         record.setCetPartyId(cetPartyId);
         record.setUserId(userId);
         byte type = CetConstants.CET_PARTY_ADMIN_NORMAL;
         CetParty cetparty = cetPartyMapper.selectByPrimaryKey(cetPartyId);
-        if (null != cetparty.getPartyId()) {
-            MetaType sMetaType = CmTag.getMetaTypeByCode("mt_party_secretary");
-            MetaType vsMetaType = CmTag.getMetaTypeByCode("mt_party_vice_secretary");
-            MetaType mMetaType = CmTag.getMetaTypeByCode("mt_party_member");
-            PartyMemberView pmv = partyMemberService.getPartyMemberView(cetparty.getPartyId(), userId);
-            if (null != pmv){
-                if(pmv.getPostId() == sMetaType.getId()){
-                    type = CetConstants.CET_PARTY_ADMIN_SECRETARY;
-                }else if(pmv.getPostId() == vsMetaType.getId()){
-                    type = CetConstants.CET_PARTY_ADMIN_VICE_SECRETARY;
-                }else if(pmv.getPostId() == mMetaType.getId().intValue()){
-                    type = CetConstants.CET_PARTY_ADMIN_COMMITTEE_MEMBER;
+        Integer partyId = cetparty.getPartyId();
+        if (null != partyId) { // 如果关联了基层党组织，则同步此人的职务
+
+            OwAdmin search = new OwAdmin();
+            search.setPartyId(partyId);
+            search.setUserId(userId);
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(search, new RowBounds(0, 1));
+
+            if (owAdmins.size() > 0) {
+                OwAdmin owAdmin = owAdmins.get(0);
+                Integer postId = owAdmin.getPostId();
+
+                if (postId != null) {
+                    MetaType sMetaType = CmTag.getMetaTypeByCode("mt_party_secretary");
+                    MetaType vsMetaType = CmTag.getMetaTypeByCode("mt_party_vice_secretary");
+                    MetaType mMetaType = CmTag.getMetaTypeByCode("mt_party_member");
+
+                    if (postId.intValue() == sMetaType.getId()) {
+                        type = CetConstants.CET_PARTY_ADMIN_SECRETARY;
+                    } else if (postId.intValue() == vsMetaType.getId()) {
+                        type = CetConstants.CET_PARTY_ADMIN_VICE_SECRETARY;
+                    } else if (postId.intValue() == mMetaType.getId()) {
+                        type = CetConstants.CET_PARTY_ADMIN_COMMITTEE_MEMBER;
+                    }
                 }
             }
         }
         record.setType(type);
-        cetPartyAdminMapper.insert(record);
+
+        CetPartyAdmin cetPartyAdmin = get(cetPartyId, userId);
+        if (cetPartyAdmin == null) {
+            cetPartyAdminMapper.insert(record);
+        } else {
+            record.setId(cetPartyAdmin.getId());
+            cetPartyAdminMapper.updateByPrimaryKeySelective(record);
+        }
 
         // 变更权限
         if (!cetparty.getIsDeleted())
@@ -87,12 +109,12 @@ public class CetPartyAdminService extends CetBaseMapper{
     }
 
     // 更新或删除二级党委管理员权限
-    public void updateRoleCetAdminParty(int userId){
+    public void updateRoleCetAdminParty(int userId) {
 
         List<CetParty> adminParties = iCetMapper.getAdminParties(userId);
-        if(adminParties.size()>0){
+        if (adminParties.size() > 0) {
             sysUserService.addRole(userId, RoleConstants.ROLE_CET_ADMIN_PARTY);
-        }else{
+        } else {
             sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_PARTY);
         }
     }

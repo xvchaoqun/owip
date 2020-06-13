@@ -2,6 +2,7 @@ package service.cet;
 
 import domain.cet.CetParty;
 import domain.cet.CetPartyAdmin;
+import domain.cet.CetPartyAdminExample;
 import domain.cet.CetPartyExample;
 import domain.party.Party;
 import domain.party.PartyExample;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.party.common.OwAdmin;
-import service.party.PartyMemberService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -21,10 +22,10 @@ public class CetPartyService extends CetBaseMapper {
 
     @Autowired
     private CetPartyAdminService cetPartyAdminService;
-    @Autowired
-    private PartyMemberService partyMemberService;
 
-    public boolean idDuplicate(Integer id, int partyId) {
+    public boolean idDuplicate(Integer id, Integer partyId) {
+
+        if(partyId==null) return false;
 
         CetPartyExample example = new CetPartyExample();
         CetPartyExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId);
@@ -70,56 +71,46 @@ public class CetPartyService extends CetBaseMapper {
         return cetPartyMapper.updateByPrimaryKeySelective(record);
     }
 
-    //同步管理员
+    //同步基层党组织管理员
     @Transactional
-    public void batchSync() {
-
-        List<Party> parties = partyMapper.selectByExample(new PartyExample());
-        List<Integer> partyIds = new ArrayList<>();
-        for (Party party : parties) {
-            if (!party.getIsDeleted())
-                partyIds.add(party.getId());
-        }
-        Map<Integer, CetParty> cetPartyMap = findAll();
-        List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList( new OwAdmin(), new RowBounds());
-        for (Map.Entry<Integer, CetParty> entry : cetPartyMap.entrySet()) {
-            CetParty cetParty = entry.getValue();
-            Integer partyId = cetParty.getPartyId();
-            Integer cetPartyId = cetParty.getId();
-            if (null != partyId && partyIds.contains(partyId)) {
-
-                Set<Integer> userIds = new HashSet<>();
-                for (OwAdmin admin : owAdmins) {
-                    if (admin.getPartyId().equals(partyId))
-                        userIds.add(admin.getUserId());
-                }
-                //先删除管理员,仅删除委员中包含的,不删除自己设置的
-                List<CetPartyAdmin> cetPartyAdmins = cetPartyAdminService.findByPartyId(cetPartyId);
-                for (CetPartyAdmin cetPartyAdmin : cetPartyAdmins) {
-                    Integer userId = cetPartyAdmin.getUserId();
-                    if (userIds.contains(cetPartyAdmin.getUserId())) {
-                        cetPartyAdminMapper.deleteByPrimaryKey(cetPartyAdmin.getId());
-                        cetPartyAdminService.updateRoleCetAdminParty(userId);
-                    }
-                }
-                //同步管理员
-                for (Integer userId : userIds) {
-                    cetPartyAdminService.insert(cetPartyId, userId);
-                }
-            }
-        }
-    }
-
-    private Map<Integer, CetParty> findAll() {
+    public void batchSync(Integer[] cetPartyIds) {
 
         CetPartyExample example = new CetPartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false);
-        List<CetParty> cetParties = cetPartyMapper.selectByExample(example);
-        Map<Integer, CetParty> map = new HashMap<>();
-        for (CetParty cetParty : cetParties) {
-            map.put(cetParty.getId(), cetParty);
+        CetPartyExample.Criteria criteria =
+                example.createCriteria().andPartyIdIsNotNull() // 仅同步关联了基层党组织的党委管理员
+                        .andIsDeletedEqualTo(false); // 仅同步现任党委
+
+        if(cetPartyIds!=null && cetPartyIds.length>0){
+            criteria.andIdIn(Arrays.asList(cetPartyIds)); // 限定某些党委同步
         }
-        return map;
+
+        List<CetParty> cetParties = cetPartyMapper.selectByExample(example);
+
+        for (CetParty cetParty : cetParties) {
+
+            int id = cetParty.getId();
+
+            // 先删除“非普通管理员”
+            CetPartyAdminExample example1 = new CetPartyAdminExample();
+            example1.createCriteria().andCetPartyIdEqualTo(id)
+                    .andTypeNotEqualTo(CetConstants.CET_PARTY_ADMIN_NORMAL);
+            List<CetPartyAdmin> cetPartyAdmins = cetPartyAdminMapper.selectByExample(example1);
+            for (CetPartyAdmin cetPartyAdmin : cetPartyAdmins) {
+                cetPartyAdminMapper.deleteByPrimaryKey(cetPartyAdmin.getId());
+                cetPartyAdminService.updateRoleCetAdminParty(cetPartyAdmin.getUserId());
+            }
+
+            // 再同步基层党组织管理员（含普通管理员）
+            int partyId = cetParty.getPartyId();
+            OwAdmin search = new OwAdmin();
+            search.setPartyId(partyId);
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(search, new RowBounds());
+            for (OwAdmin owAdmin : owAdmins) {
+
+                int userId = owAdmin.getUserId();
+                cetPartyAdminService.insertOrUpdate(cetParty.getId(), userId);
+            }
+        }
     }
 
     @Transactional

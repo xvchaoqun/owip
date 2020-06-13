@@ -16,15 +16,20 @@ pageEncoding="UTF-8" %>
                                     <button class="popupBtn btn btn-info btn-sm"
                                             data-url="${ctx}/cet/cetParty_au">
                                         <i class="fa fa-plus"></i> 添加</button>
+                                    <button class="popupBtn btn btn-info btn-sm"
+                                            data-url="${ctx}/cet/cetParty_au?batch=1">
+                                        <i class="fa fa-plus"></i> 从基层党组织中选择</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                        data-url="${ctx}/cet/cetParty_au"
                                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改</button>
                                     <c:if test="${cls==0}">
-                                    <button class="confirm btn btn-warning btn-sm" data-title="同步管理员"
-                                            data-msg="<div class='confirmMsg'>确定重新同步管理员？（此操作将删除原有的分党委管理员，重新同步最新的分党委管理员为二级党委培训管理员）</div>"
+                                    <button class="jqRunBtn btn btn-warning btn-sm"
+                                            data-title="同步二级党委管理员"
+                                            data-msg="<div class='confirmMsg'>确定同步二级党委管理员？（已选{0}个二级党委）</div>"
                                             data-callback="_reload"
-                                            data-url="${ctx}/cet/cetPartyAdmin_sync"><i class="fa fa-refresh"></i> 同步管理员</button>
+                                            data-need-ids="false"
+                                            data-url="${ctx}/cet/cetPartyAdmin_sync"><i class="fa fa-refresh"></i> 同步二级党委管理员</button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cetParty:del">

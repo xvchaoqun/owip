@@ -20,9 +20,6 @@ public class CetUnitTrain implements Serializable {
     public CetUnitProject getProject(){
         return CmTag.getBean(CetUnitProjectMapper.class).selectByPrimaryKey(projectId);
     }
-    public CetParty getCetParty(){
-        return CmTag.getBean(CetPartyMapper.class).selectByPrimaryKey(getProject().getCetPartyId());
-    }
 
     private Integer id;
 

@@ -3,24 +3,24 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cetParty!=null}">编辑</c:if><c:if test="${cetParty==null}">添加</c:if>院系级党委</h3>
+    <h3>${param.batch==1?'从基层党组织中选择':(empty cetParty?'添加':'修改')}二级党委</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetParty_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <c:if test="${empty cetParty}">
+        <c:if test="${param.batch==1}">
             <div class="col-xs-11">
                 <div id="partiesTree" style="height: 400px;">
                     <div class="block-loading"/>
                 </div>
             </div>
         </c:if>
-        <c:if test="${not empty cetParty}">
+        <c:if test="${param.batch!=1}">
             <input type="hidden" name="id" value="${cetParty.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">二级党委</label>
+                <label class="col-xs-3 control-label">请选择基层党组织</label>
                 <div class="col-xs-6">
                     <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
-                            data-placeholder="请选择党委">
+                            data-placeholder="请选择">
                         <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                     </select>
                     <script>
@@ -38,7 +38,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <c:if test="${empty cetParty}">
+    <c:if test="${param.batch==1}">
         <div class="pull-left">
             <input type="button" id="partyObjsSelectAll" class="btn btn-success btn-xs" value="二级党委全选"/>
             <input type="button" title="已添加过的二级党委除外" id="partObjsDeselectAll" class="btn btn-danger btn-xs" value="二级党委全不选"/>
@@ -47,12 +47,12 @@
     </c:if>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetParty!=null}">确定</c:if><c:if test="${cetParty==null}">添加</c:if></button>
-    <c:if test="${empty cetParty}">
+    <c:if test="${param.batch==1}">
         </div>
     </c:if>
 </div>
 <script>
-    <c:if test="${empty cetParty}">
+    <c:if test="${param.batch==1}">
         $.getJSON("${ctx}/cet/selectparties_tree",{},function(data){
             var treeData = data.tree;
 
@@ -83,7 +83,7 @@
             return false;
         });
     </c:if>
-    <c:if test="${not empty cetParty}">
+    <c:if test="${param.batch!=1}">
         $("#modalForm select[name=partyId]").on("change", function () {
             $("#modalForm input[name=name]").val($("#modalForm select[name=partyId] option:selected").text());
         })
@@ -92,7 +92,7 @@
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
-            <c:if test="${empty cetParty}">
+            <c:if test="${param.batch==1}">
                 var partyIds = $.map($("#partiesTree").dynatree("getSelectedNodes"), function(node){
                     if(!node.data.isFolder && !node.data.unselectable)
                         return node.data.key;
@@ -103,7 +103,7 @@
             //console.log(partyIds.length);
             </c:if>
             $(form).ajaxSubmit({
-                <c:if test="${empty cetParty}">
+                <c:if test="${param.batch==1}">
                     data: {partyIds: partyIds},
                 </c:if>
                 success:function(ret){

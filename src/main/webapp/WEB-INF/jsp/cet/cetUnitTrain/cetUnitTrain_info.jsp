@@ -183,9 +183,7 @@ pageEncoding="UTF-8" %>
                 }},
             </c:if>
             {label: '培训项目名称', name: 'project.projectName', align: 'left',width: 350},
-            { label: '培训班主办方',name: 'cetParty.partyId',align:'left', width: 270, formatter:function(cellvalue, options, rowObject){
-                    return $.party(cellvalue);
-                }, frozen: true},
+            { label: '培训班主办方',name: 'project.cetParty.name', align:'left', width: 270, frozen: true},
             {label: '培训<br/>开始时间', name: 'project.startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '培训<br/>结束时间', name: 'project.endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
