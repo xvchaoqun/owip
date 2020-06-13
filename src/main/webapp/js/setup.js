@@ -920,6 +920,7 @@ $(document).on("click", ".jqRunBtn", function (e) {
 
     var title = $this.data("title");
     var msg = $this.data("msg");
+    var allMsg = $this.data("all-msg")||msg; // 没选择ids时的提示
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
 
@@ -937,7 +938,7 @@ $(document).on("click", ".jqRunBtn", function (e) {
     $this.data("loading-text", $this.data("loading-text") || '<i class="fa fa-spinner fa-spin"></i> 操作中')
 
     var callback = $.trim($this.data("callback"));
-    SysMsg.confirm(msg.format(ids.length), title, function () {
+    SysMsg.confirm(ids.length==0?allMsg:msg.format(ids.length), title, function () {
 
         var $btn = $this.button('loading');
         $.post(url, {ids: ids}, function (ret) {
