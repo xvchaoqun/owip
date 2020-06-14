@@ -156,6 +156,12 @@ delete from  sys_log;
 
 delete from  sys_feedback;
 
+delete from sys_sync;
+delete from sys_scheduler_log;
+
+delete from  pmd_month where pay_month!='2018-04-01' and status=2;
+
+delete from base_short_msg_tpl where id!=70;
 
 -- 更新短信内容
 update base_content_tpl set content = replace(content, '18612987573', '13800000000');
@@ -166,6 +172,8 @@ update base_content_tpl set content = replace(content, '64434910、64434910', '8
 update base_content_tpl set content = replace(content, '88888888、88888888', '88888888');
 update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
 update base_content_tpl set content = replace(content, '主楼A306', '主楼XXX');
+update base_content_tpl set content = replace(content, 'zzgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
+update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
 
 update base_short_msg_tpl set content = replace(content, '18612987573', '13800000000');
 update base_short_msg_tpl set content = replace(content, '58808302，58806879', '88888888');

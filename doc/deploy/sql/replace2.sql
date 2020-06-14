@@ -2,6 +2,22 @@
 --  set @keyowrd='师大';
 
 set @keyowrd='师范';
+
+update cet_record set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+
+update cet_record set organizer = replace(organizer, @keyowrd, repeat('*', char_length(@keyowrd))) where organizer like concat('%',@keyowrd,'%');
+
+update cet_party set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+
+update cet_expert set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
+
+update cet_course set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
+
+update cet_upper_train set title = replace(title, @keyowrd, repeat('*', char_length(@keyowrd))) where title like concat('%',@keyowrd,'%');
+
+update cet_upper_train set train_name = replace(train_name, @keyowrd, repeat('*', char_length(@keyowrd))) where train_name like concat('%',@keyowrd,'%');
+
+
 update cadre_company set approval_unit = replace(approval_unit, @keyowrd, repeat('*', char_length(@keyowrd))) where approval_unit like concat('%',@keyowrd,'%');
 update cadre_company set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
 update cadre_company set post = replace(post, @keyowrd, repeat('*', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
