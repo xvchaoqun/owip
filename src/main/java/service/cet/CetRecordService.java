@@ -1,0 +1,285 @@
+package service.cet;
+
+import domain.cet.*;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sys.constants.CetConstants;
+import sys.tags.CmTag;
+import sys.utils.NumberUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+@Service
+public class CetRecordService extends CetBaseMapper {
+
+    @Autowired
+    private CetProjectObjService cetProjectObjService;
+
+    // 同步所有的上级调训
+    public void syncAllUpperTrain(){
+
+        List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExample(new CetUpperTrainExample());
+        for (CetUpperTrain cetUpperTrain : cetUpperTrains) {
+            syncUpperTrain(cetUpperTrain.getId());
+        }
+    }
+
+    // 同步所有的二级党委培训
+    public void syncAllUnitTrian(){
+
+        List<CetUnitTrain> cetUnitTrains = cetUnitTrainMapper.selectByExample(new CetUnitTrainExample());
+        for (CetUnitTrain cetUnitTrain : cetUnitTrains) {
+            syncUnitTrain(cetUnitTrain.getId());
+        }
+    }
+
+    // 同步所有的二级党校培训
+    public void syncAllProjectObj(){
+
+        {
+            // 第一步：删除已退出参训人员的培训记录
+            List<Integer> quitObjIds = new ArrayList<>();
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andIsQuitEqualTo(true);
+            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+            for (CetProjectObj cetProjectObj : cetProjectObjs) {
+                quitObjIds.add(cetProjectObj.getId());
+            }
+            if(quitObjIds.size()>0) {
+                CetRecordExample example1 = new CetRecordExample();
+                example1.createCriteria()
+                        .andTypeIn(Arrays.asList(CetConstants.CET_TYPE_PARTY, CetConstants.CET_TYPE_DAILY))
+                        .andTypeIdIn(quitObjIds);
+                cetRecordMapper.deleteByExample(example1);
+            }
+        }
+
+        {
+            // 第二步：同步未退出参训人员的培训记录
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andIsQuitEqualTo(false);
+            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+            for (CetProjectObj cetProjectObj : cetProjectObjs) {
+                sysProjectObj(cetProjectObj.getId());
+            }
+        }
+    }
+
+    // 将一条上级调训记录归档至培训记录
+    public void syncUpperTrain(int upperTrainId){
+
+        CetUpperTrain t = cetUpperTrainMapper.selectByPrimaryKey(upperTrainId);
+        byte type = CetConstants.CET_TYPE_UPPER;
+
+        if(t.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){
+            type = CetConstants.CET_TYPE_OTHER; // 党校其他培训
+        }
+
+        if(t.getStatus()!=CetConstants.CET_UPPER_TRAIN_STATUS_PASS
+                || t.getIsValid()==null){
+
+            // 未通过审核不计入
+            delByType(type, upperTrainId);
+            return;
+        }
+
+        CetRecord r = get(type, upperTrainId);
+        if(r==null){
+            r = new CetRecord();
+        }
+
+        r.setYear(t.getYear());
+        r.setUserId(t.getUserId());
+        r.setTraineeTypeId(t.getTraineeTypeId());
+        r.setOtherTraineeType(t.getOtherTraineeType());
+        r.setTitle(t.getTitle());
+        r.setStartDate(t.getStartDate());
+        r.setEndDate(t.getEndDate());
+        r.setName(t.getTrainName());
+        r.setType(type);
+        r.setTypeId(upperTrainId);
+        r.setOrganizer(StringUtils.defaultIfBlank(CmTag.getMetaTypeName(t.getOrganizer()), t.getOtherOrganizer()));
+        r.setPeriod(t.getPeriod());
+        if(BooleanUtils.isTrue(t.getIsOnline())) {
+            r.setOnlinePeriod(t.getPeriod());
+        }
+        //r.setShouldFinishPeriod();
+        r.setIsGraduate(true);
+        r.setIsValid(t.getIsValid());
+        r.setArchiveTime(new Date());
+
+        if(r.getId()==null){
+            cetRecordMapper.insertSelective(r);
+        }else{
+            cetRecordMapper.updateByPrimaryKeySelective(r);
+        }
+    }
+
+    // 将一条二级党委培训记录同步至培训记录
+    public void syncUnitTrain(int unitTrainId){
+
+        CetUnitTrain t = cetUnitTrainMapper.selectByPrimaryKey(unitTrainId);
+        CetUnitProject p = t.getProject();
+        byte type = CetConstants.CET_TYPE_PARTY;
+
+        if(t.getStatus()!=CetConstants.CET_UNITTRAIN_RERECORD_PASS
+                || p.getStatus() != CetConstants.CET_UNIT_PROJECT_STATUS_PASS){
+
+            // 未通过审核不计入
+            delByType(type, unitTrainId);
+            return;
+        }
+
+        CetParty cetParty = p.getCetParty();
+        String organizer = (cetParty==null)?"":cetParty.getName();
+        CetRecord r = get(type, unitTrainId);
+        if(r==null){
+            r = new CetRecord();
+        }
+
+        r.setYear(p.getYear());
+        r.setUserId(t.getUserId());
+        r.setTraineeTypeId(t.getTraineeTypeId());
+        //r.setOtherTraineeType(t.getOtherTraineeType());
+        r.setTitle(t.getTitle());
+        r.setStartDate(p.getStartDate());
+        r.setEndDate(p.getEndDate());
+        r.setName(p.getProjectName());
+        r.setType(type);
+        r.setTypeId(unitTrainId);
+        r.setOrganizer(organizer);
+        r.setPeriod(t.getPeriod());
+        if(BooleanUtils.isTrue(p.getIsOnline())) {
+            r.setOnlinePeriod(t.getPeriod());
+        }
+        //r.setShouldFinishPeriod();
+        r.setIsGraduate(true);
+        r.setIsValid(p.getIsValid());
+        r.setArchiveTime(new Date());
+
+        if(r.getId()==null){
+            cetRecordMapper.insertSelective(r);
+        }else{
+            cetRecordMapper.updateByPrimaryKeySelective(r);
+        }
+    }
+
+    // 同步党校培训记录至培训记录
+    public void sysProjectObj(int projectObjId){
+
+        CetProjectObj o = cetProjectObjMapper.selectByPrimaryKey(projectObjId);
+        int userId = o.getUserId();
+        CetProject p = cetProjectMapper.selectByPrimaryKey(o.getProjectId());
+
+        byte type = CetConstants.CET_TYPE_SPECIAL;
+        if(p.getType()==CetConstants.CET_PROJECT_TYPE_RC){
+            type = CetConstants.CET_TYPE_DAILY;
+        }
+
+        // 已退出培训不计入
+        if(BooleanUtils.isTrue(o.getIsQuit())){
+
+            delByType(type, projectObjId);
+            return;
+        }
+
+        int projectId = o.getProjectId();
+        Map<Integer, BigDecimal> finishPeriodMap = cetProjectObjService.getRealObjFinishPeriodMap(projectId, projectObjId);
+        BigDecimal finishPeriod = finishPeriodMap.get(0);
+
+        // 还没有完成学时不计入
+        if(finishPeriod.compareTo(BigDecimal.ZERO)<=0){
+
+            delByType(type, projectObjId);
+            return;
+        }
+
+        CetRecord r = get(type, projectObjId);
+        if(r==null){
+            r = new CetRecord();
+        }
+
+        r.setYear(p.getYear());
+        r.setUserId(o.getUserId());
+        r.setTraineeTypeId(o.getTraineeTypeId());
+        //r.setOtherTraineeType(t.getOtherTraineeType());
+        r.setTitle(o.getTitle());
+        r.setStartDate(p.getStartDate());
+        r.setEndDate(p.getEndDate());
+        r.setName(p.getName());
+        r.setType(type);
+        r.setTypeId(projectObjId);
+        r.setOrganizer("党委组织部");
+        r.setPeriod(finishPeriod);
+
+        // 党校网络培训
+        BigDecimal planFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                .getPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, null, projectId));
+        BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                .getSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, null, projectId));
+        BigDecimal onlinePeriod = planFinishPeriod.add(specialFinishPeriod);
+
+        r.setOnlinePeriod(onlinePeriod);
+
+        r.setShouldFinishPeriod(o.getShouldFinishPeriod());
+        r.setIsGraduate(o.getIsGraduate());
+
+        r.setIsValid(p.getIsValid());
+        r.setArchiveTime(new Date());
+
+        if(r.getId()==null){
+            cetRecordMapper.insertSelective(r);
+        }else{
+            cetRecordMapper.updateByPrimaryKeySelective(r);
+        }
+    }
+
+    //
+    public CetRecord get(byte type, int typeId){
+
+        CetRecordExample example = new CetRecordExample();
+        example.createCriteria().andTypeEqualTo(type).andTypeIdEqualTo(typeId);
+        List<CetRecord> cetRecords = cetRecordMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cetRecords.size()>0?cetRecords.get(0):null;
+    }
+
+    public int delByType(byte type, int typeId){
+
+        CetRecordExample example = new CetRecordExample();
+        example.createCriteria().andTypeEqualTo(type).andTypeIdEqualTo(typeId);
+
+        return cetRecordMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public void insertSelective(CetRecord record){
+        cetRecordMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public void del(Integer id){
+
+        cetRecordMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        CetRecordExample example = new CetRecordExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cetRecordMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public void updateByPrimaryKeySelective(CetRecord record){
+        cetRecordMapper.updateByPrimaryKeySelective(record);
+    }
+}

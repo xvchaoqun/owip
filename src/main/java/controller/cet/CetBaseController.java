@@ -54,6 +54,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     protected PartyService partyService;
     
     @Autowired
+    protected CetRecordService cetRecordService;
+    @Autowired
     protected CetAnnualService cetAnnualService;
     @Autowired
     protected CetAnnualObjService cetAnnualObjService;

@@ -197,7 +197,8 @@ pageEncoding="UTF-8" %>
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
                 },
-                {label: '培训班类型', name: 'projectType', width: 150, formatter: $.jgrid.formatter.MetaType},
+                {label: '培训班类型', name: 'projectType', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
                 {label: '报告名称', name: 'reportName', width: 150},
                 {label: '主讲人', name: 'reporter', width: 80},
                 {label: '培训学时', name: 'period', width: 80},

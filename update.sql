@@ -35,6 +35,18 @@ update cet_unit_project up , cet_party p set up.cet_party_id=p.id where up.cet_p
 
 DROP VIEW IF EXISTS `ow_org_admin_view`;
 
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '培训形式，0：线下 1：线上' AFTER `project_type`;
+update cet_unit_project up, base_meta_type t set up.is_online=1 where up.project_type=t.id and t.bool_attr=1;
+-- 删除 培训班类型（mc_cet_upper_train_type2） 的布尔属性（是否网络培训）
+update base_meta_class set bool_attr=null where code='mc_cet_upper_train_type2';
+
+-- 新增表 cet_record
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (724, 0, '培训记录汇总', '', 'url', '', '/cet/cetRecord', 384, '0/1/384/', 1, 'cetRecord:*', NULL, NULL, NULL, 1, 195);
+
+update cet_upper_train set trainee_type_id=1;
 
 2020.6.9
 

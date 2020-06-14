@@ -7,6 +7,15 @@
   "resFolder": "cet",
   "tables": [
     {
+      "table": "cet_record",
+      "key": "id",
+      "searchColumns": "year,user_id,trainee_type_id",
+      "showColumns": "year,user_id,trainee_type_id,title,start_date,end_date,name,type,organizer,period,online_period,is_graduate,is_valid,remark,archive_time",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_CET",
+      "ignore": false
+    },
+    {
       "table": "cet_annual",
       "key": "id",
       "searchColumns": "year,trainee_type_id",
@@ -31,7 +40,7 @@
       "showColumns": "admin_level,period,max_special_period,max_daily_period,max_party_period,max_unit_period,max_upper_period,remark,relate_count,op_time,op_user_id,ip",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_unit_project",

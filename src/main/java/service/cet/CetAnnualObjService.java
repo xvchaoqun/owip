@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.cet.common.TrainRecord;
 import service.sys.SysApprovalLogService;
-import service.sys.SysUserService;
 import sys.constants.CetConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.NumberUtils;
@@ -24,9 +22,7 @@ import java.util.*;
 
 @Service
 public class CetAnnualObjService extends CetBaseMapper {
-    
-    @Autowired
-    private SysUserService sysUserService;
+
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
     
@@ -75,14 +71,17 @@ public class CetAnnualObjService extends CetBaseMapper {
         
         
         List<TrainRecord> trainRecords = new ArrayList<>();
-        
+
+        // 专题培训
         List<TrainRecord> specialRecords = iCetMapper.getProjectRecords(userId, year, (byte) 1, isValid);
         if (specialRecords != null) trainRecords.addAll(specialRecords);
+        // 日常培训
         List<TrainRecord> dailyRecords = iCetMapper.getProjectRecords(userId, year, (byte) 2, isValid);
         if (dailyRecords != null) trainRecords.addAll(dailyRecords);
         // 二级党委培训
         List<TrainRecord> unitRecords = iCetMapper.getUnitRecords(userId, year, isValid);
         if (unitRecords != null) trainRecords.addAll(unitRecords);
+        // 上级调训
         List<TrainRecord> upperRecords = iCetMapper.getUpperRecords(userId, year, isValid);
         if (upperRecords != null) trainRecords.addAll(upperRecords);
         
@@ -177,13 +176,14 @@ public class CetAnnualObjService extends CetBaseMapper {
     // 网络培训完成学时数
     public BigDecimal getDbFinishPeriodOnline(int userId, int year){
 
+        // 党校网络培训
         BigDecimal yearPlanFinishPeriod = NumberUtils.trimToZero(iCetMapper
-                .getYearPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, year));
+                .getPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, year, null));
         BigDecimal yearSpecialFinishPeriod = NumberUtils.trimToZero(iCetMapper
-                .getYearSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, year));
-
+                .getSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, year, null));
         BigDecimal planFinishPeriodOnline = yearPlanFinishPeriod.add(yearSpecialFinishPeriod);
 
+        // 二级党委网络培训
         BigDecimal unitFinishPeriodOnline = NumberUtils.trimToZero(iCetMapper.getUnitFinishPeriodOnline(userId, year));
 
         return planFinishPeriodOnline.add(unitFinishPeriodOnline);

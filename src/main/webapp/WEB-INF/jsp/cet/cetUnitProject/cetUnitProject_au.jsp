@@ -44,6 +44,27 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训形式</label>
+                    <div class="col-xs-8">
+                        <div class="input-group">
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isOnline" id="isOnline0"
+                                       ${(empty cetUnitProject || !cetUnitProject.isOnline)?"checked":""} value="0">
+                                <label for="isOnline0">
+                                    线下培训
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isOnline" id="isOnline1"
+                                       ${cetUnitProject.isOnline?"checked":""} value="1">
+                                <label for="isOnline1">
+                                    线上培训
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-xs-4 control-label">报告名称</label>
                     <div class="col-xs-7">
                         <input class="form-control" name="reportName" value="${cetUnitProject.reportName}"/>

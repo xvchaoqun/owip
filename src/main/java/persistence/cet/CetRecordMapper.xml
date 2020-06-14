@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cet.CetRecordMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="organizer" jdbcType="VARCHAR" property="organizer" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="online_period" jdbcType="DECIMAL" property="onlinePeriod" />
+    <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
+    <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="archive_time" jdbcType="TIMESTAMP" property="archiveTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, user_id, trainee_type_id, other_trainee_type, title, start_date, end_date, 
+    name, type, type_id, organizer, period, online_period, should_finish_period, is_graduate, 
+    is_valid, remark, archive_time
+  </sql>
+  <select id="selectByExample" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cet_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cet_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cet.CetRecordExample">
+    delete from cet_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cet.CetRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_record (year, user_id, trainee_type_id, 
+      other_trainee_type, title, start_date, 
+      end_date, name, type, type_id, 
+      organizer, period, online_period, 
+      should_finish_period, is_graduate, is_valid, 
+      remark, archive_time)
+    values (#{year,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
+      #{otherTraineeType,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{typeId,jdbcType=INTEGER}, 
+      #{organizer,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{onlinePeriod,jdbcType=DECIMAL}, 
+      #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, #{isValid,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{archiveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cet.CetRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="year != null">
+        year,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id,
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="organizer != null">
+        organizer,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="onlinePeriod != null">
+        online_period,
+      </if>
+      <if test="shouldFinishPeriod != null">
+        should_finish_period,
+      </if>
+      <if test="isGraduate != null">
+        is_graduate,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="archiveTime != null">
+        archive_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizer != null">
+        #{organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="onlinePeriod != null">
+        #{onlinePeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldFinishPeriod != null">
+        #{shouldFinishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="isGraduate != null">
+        #{isGraduate,jdbcType=BIT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="archiveTime != null">
+        #{archiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cet.CetRecordExample" resultType="java.lang.Long">
+    select count(*) from cet_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cet_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.traineeTypeId != null">
+        trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherTraineeType != null">
+        other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organizer != null">
+        organizer = #{record.organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onlinePeriod != null">
+        online_period = #{record.onlinePeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shouldFinishPeriod != null">
+        should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isGraduate != null">
+        is_graduate = #{record.isGraduate,jdbcType=BIT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.archiveTime != null">
+        archive_time = #{record.archiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cet_record
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      organizer = #{record.organizer,jdbcType=VARCHAR},
+      period = #{record.period,jdbcType=DECIMAL},
+      online_period = #{record.onlinePeriod,jdbcType=DECIMAL},
+      should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
+      is_graduate = #{record.isGraduate,jdbcType=BIT},
+      is_valid = #{record.isValid,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      archive_time = #{record.archiveTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetRecord">
+    update cet_record
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeId != null">
+        trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="organizer != null">
+        organizer = #{organizer,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="onlinePeriod != null">
+        online_period = #{onlinePeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldFinishPeriod != null">
+        should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
+      </if>
+      <if test="isGraduate != null">
+        is_graduate = #{isGraduate,jdbcType=BIT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="archiveTime != null">
+        archive_time = #{archiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetRecord">
+    update cet_record
+    set year = #{year,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      type_id = #{typeId,jdbcType=INTEGER},
+      organizer = #{organizer,jdbcType=VARCHAR},
+      period = #{period,jdbcType=DECIMAL},
+      online_period = #{onlinePeriod,jdbcType=DECIMAL},
+      should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
+      is_graduate = #{isGraduate,jdbcType=BIT},
+      is_valid = #{isValid,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      archive_time = #{archiveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -40,6 +40,8 @@ public class CetUnitProject implements Serializable {
 
     private Integer projectType;
 
+    private Boolean isOnline;
+
     private String reportName;
 
     private String reporter;
@@ -126,6 +128,14 @@ public class CetUnitProject implements Serializable {
 
     public void setProjectType(Integer projectType) {
         this.projectType = projectType;
+    }
+
+    public Boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
     public String getReportName() {

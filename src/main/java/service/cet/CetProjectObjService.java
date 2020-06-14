@@ -484,13 +484,13 @@ public class CetProjectObjService extends CetBaseMapper {
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
-                return iCetMapper.getPlanFinishPeriod(planId, objId);
+                return iCetMapper.getProjectPlanFinishPeriod(planId, objId);
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
                 return iCetMapper.getSelfFinishPeriod(planId, objId);
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL: // 上级网上专题班
-                return iCetMapper.getSpecialFinishPeriod(planId, objId);
+                return iCetMapper.getSpecialPlanFinishPeriod(planId, objId);
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
                 return iCetMapper.getGroupFinishPeriod(planId, objId);

@@ -46,6 +46,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
+        <table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <!--<table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -66,14 +69,14 @@
         <table tableName="cet_party_school" domainObjectName="cet.CetPartySchool" mapperName="cet.CetPartySchoolMapper">
         </table>-->
 
-        <table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
+        <!--<table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
         </table>
         <table tableName="cet_party_view" domainObjectName="cet.CetPartyView"
                mapperName="cet.CetPartyViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_unit_view" domainObjectName="cet.CetUnitView"
                mapperName="cet.CetUnitViewMapper"
@@ -112,6 +115,7 @@
         </table>-->
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
         </table>-->
        <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
         </table>-->

@@ -99,8 +99,7 @@ public interface ICetMapper {
 
     // 二级党委培训完成学时数（网络）
     @Select("select sum(cut.period) from cet_unit_train cut, cet_unit_project cup " +
-            "LEFT JOIN base_meta_type tt ON tt.id=cup.project_type " +
-            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=#{year} and cup.is_valid=1 AND tt.bool_attr=1")
+            "where cut.user_id=#{userId} and cut.project_id=cup.id and cup.year=#{year} and cup.is_valid=1 AND cup.is_online=1")
     public BigDecimal getUnitFinishPeriodOnline(@Param("userId") Integer userId,
                                           @Param("year") Integer year);
 
@@ -266,17 +265,14 @@ public interface ICetMapper {
     @Select("select sum(ctv.finish_period) from cet_trainee_view ctv " +
             "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
             "where cp.is_valid=1 and ctv.plan_id=#{planId} and ctv.obj_id=#{objId}")
-    public BigDecimal getPlanFinishPeriod(@Param("planId") int planId,
+    public BigDecimal getProjectPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
-    // 获取培训对象在每年培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
-    @Select("select sum(finish_period) from cet_trainee_view ctv " +
-            "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
-            "LEFT JOIN cet_project_plan cpp ON ctv.plan_id=cpp.id " +
-            "WHERE cp.year=#{year} and cp.is_valid=1 and cpp.type=${type} and ctv.user_id=#{userId}")
-    public BigDecimal getYearPlanFinishPeriod(@Param("type") byte planType,
+    // 获取培训对象在每年或某个培训项目中的培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
+    public BigDecimal getPlanFinishPeriod(@Param("type") byte planType,
                                           @Param("userId") int userId,
-                                          @Param("year") int year);
+                                          @Param("year") Integer year,
+                                          @Param("projectId") Integer projectId);
 
     @Select("select obj_id as objId, sum(finish_period) as period from cet_trainee_view where plan_id=#{planId} group by obj_id")
     public List<FinishPeriodBean> getPlanFinishPeriods(@Param("planId") int planId);
@@ -313,21 +309,14 @@ public interface ICetMapper {
             "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
             "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
             "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
-    public BigDecimal getSpecialFinishPeriod(@Param("planId") int planId,
+    public BigDecimal getSpecialPlanFinishPeriod(@Param("planId") int planId,
                                              @Param("objId") int objId);
 
-    // 获取培训对象在每年培训方案中的已完成学时（针对上级网上专题）
-    @Select("select sum(cci.period) from cet_plan_course_obj_result cpcor " +
-            "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
-            "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
-            "left join cet_project_obj cpo on cpo.id = cpco.obj_id " +
-            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
-            "LEFT JOIN cet_project_plan cpp ON cpc.plan_id=cpp.id " +
-            "LEFT JOIN cet_project cp ON cpp.project_id=cp.id " +
-            "where cp.year=#{year} and cp.is_valid=1 and cpp.type=#{type} and cpo.user_id=#{userId} and cpco.is_finished=1")
-    public BigDecimal getYearSpecialFinishPeriod(@Param("type") byte planType,
+    // 获取培训对象在每年或某培训项目中的培训方案中的已完成学时（针对上级网上专题）
+    public BigDecimal getSpecialFinishPeriod(@Param("type") byte planType,
                                              @Param("userId") int userId,
-                                             @Param("year") int year);
+                                             @Param("year") Integer year,
+                                             @Param("projectId") Integer projectId);
 
     @Select("select cpco.obj_id as objId, sum(cci.period) as period from cet_plan_course_obj_result cpcor " +
             "left join cet_course_item cci on cci.id=cpcor.course_item_id " +

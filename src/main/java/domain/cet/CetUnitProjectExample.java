@@ -623,6 +623,66 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsOnlineIsNull() {
+            addCriterion("is_online is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIsNotNull() {
+            addCriterion("is_online is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineEqualTo(Boolean value) {
+            addCriterion("is_online =", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotEqualTo(Boolean value) {
+            addCriterion("is_online <>", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThan(Boolean value) {
+            addCriterion("is_online >", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online >=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThan(Boolean value) {
+            addCriterion("is_online <", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online <=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIn(List<Boolean> values) {
+            addCriterion("is_online in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotIn(List<Boolean> values) {
+            addCriterion("is_online not in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online not between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
         public Criteria andReportNameIsNull() {
             addCriterion("report_name is null");
             return (Criteria) this;

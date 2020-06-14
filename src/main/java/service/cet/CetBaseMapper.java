@@ -11,6 +11,8 @@ public class CetBaseMapper extends CoreBaseMapper {
      * 干部教育培训
      */
     @Autowired(required = false)
+    protected CetRecordMapper cetRecordMapper;
+    @Autowired(required = false)
     protected CetPartyAdminMapper cetPartyAdminMapper;
     @Autowired(required = false)
     protected CetPartyViewMapper cetPartyViewMapper;

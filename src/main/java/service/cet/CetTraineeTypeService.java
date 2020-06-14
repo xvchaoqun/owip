@@ -79,10 +79,10 @@ public class CetTraineeTypeService extends CetBaseMapper {
         CetTraineeTypeExample example = new CetTraineeTypeExample();
         example.createCriteria();
         example.setOrderByClause("sort_order asc");
-        List<CetTraineeType> cetCourseTypees = cetTraineeTypeMapper.selectByExample(example);
+        List<CetTraineeType> records = cetTraineeTypeMapper.selectByExample(example);
         Map<Integer, CetTraineeType> map = new LinkedHashMap<>();
-        for (CetTraineeType cetCourseType : cetCourseTypees) {
-            map.put(cetCourseType.getId(), cetCourseType);
+        for (CetTraineeType record : records) {
+            map.put(record.getId(), record);
         }
 
         return map;
