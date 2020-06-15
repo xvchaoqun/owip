@@ -81,7 +81,7 @@ ALTER TABLE `cet_upper_train`
 	CHANGE COLUMN `agency` `agency` VARCHAR(300) NULL DEFAULT NULL COMMENT '组织培训机构，针对出国研修' AFTER `country`;
 
 INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES (53, 'memberApply_needContinueDevelop', '申请继续培养', 'true', 3, 52, '申请继续培养');
+VALUES (53, 'memberApply_needContinueDevelop', '申请继续培养', 'false', 3, 52, '在党员发展申请中，支持申请继续培养');
 
 
 2020.6.9
