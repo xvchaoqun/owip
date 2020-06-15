@@ -774,4 +774,42 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
         }
     }
+
+    @Transactional
+    public void continue_check(Boolean isPass,Integer[] ids,Integer loginUserId){
+
+        for (Integer userId : ids){
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if (isPass) {
+                memberApply.setStage(memberApply.getApplyStage());
+                memberApplyService.updateByPrimaryKeySelective(memberApply);
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getApplyStage()),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "通过继续培养申请");
+            }else {
+                memberApply.setStage(OwConstants.OW_APPLY_STAGE_DENY);
+                memberApplyService.updateByPrimaryKeySelective(memberApply);
+
+                EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+                if(_enterApply==null)
+                    throw new OpException("申请不存在。");
+
+                EnterApply enterApply = new EnterApply();
+                enterApply.setId(_enterApply.getId());
+                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setBackTime(new Date());
+                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getApplyStage()),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "继续培养申请未通过");
+            }
+        }
+
+    }
 }

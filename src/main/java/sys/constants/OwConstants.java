@@ -134,6 +134,15 @@ public class OwConstants {
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_GROW, "预备党员");
         OW_APPLY_ALLSTAGE_MAP.put(OW_APPLY_STAGE_POSITIVE, "正式党员");
     }
+
+    public final static Map<Byte, String> OW_APPLY_CONTINUE_MAP = new LinkedHashMap<>();
+    static {
+        OW_APPLY_CONTINUE_MAP.put(OW_APPLY_STAGE_ACTIVE,"入党积极分子");
+        OW_APPLY_CONTINUE_MAP.put(OW_APPLY_STAGE_CANDIDATE,"发展对象");
+        OW_APPLY_CONTINUE_MAP.put(OW_APPLY_STAGE_PLAN,"列入发展计划");
+        OW_APPLY_CONTINUE_MAP.put(OW_APPLY_STAGE_DRAW,"领取志愿书");
+    }
+
     // 申请入党审核状态
     public final static byte OW_APPLY_STATUS_UNCHECKED = 0; // 未审核
     public final static byte OW_APPLY_STATUS_CHECKED = 1; // 已审核

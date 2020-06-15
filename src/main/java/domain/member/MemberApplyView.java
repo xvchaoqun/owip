@@ -48,6 +48,8 @@ public class MemberApplyView implements Serializable {
 
     private String remark;
 
+    private Byte applyStage;
+
     private Byte stage;
 
     private String reason;
@@ -164,6 +166,14 @@ public class MemberApplyView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getApplyStage() {
+        return applyStage;
+    }
+
+    public void setApplyStage(Byte applyStage) {
+        this.applyStage = applyStage;
     }
 
     public Byte getStage() {
