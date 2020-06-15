@@ -145,6 +145,7 @@ update sys_role set remark = replace(remark, @keyowrd, repeat('*', char_length(@
 set @keyowrd='董校长';
 update sys_role set remark = replace(remark, @keyowrd, repeat('*', char_length(@keyowrd))) where remark like concat('%',@keyowrd,'%');
 
+delete from modify_cadre_auth;
 
 delete from base_short_msg;
 
@@ -223,3 +224,5 @@ update cet_project_obj set email=concat(left(email, 3), repeat('*', char_length(
 update cet_project_obj set title=concat(left(title, 3), repeat('*', char_length(title)-7), right(title, 4)) where char_length(title)>7;
 
 
+-- TODO
+-- 校领导信息、校领导分工、支部委员会名称

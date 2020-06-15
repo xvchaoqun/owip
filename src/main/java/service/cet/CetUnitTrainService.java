@@ -13,7 +13,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.LoginUserService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
@@ -29,13 +28,9 @@ public class CetUnitTrainService extends CetBaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private LoginUserService loginUserService;
-    @Autowired
     private UserBeanService userBeanService;
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
-    @Autowired
-    private CetPartyAdminService cetPartyAdminService;
 
     public boolean idDuplicate(Integer id, int projectId, int userId) {
 

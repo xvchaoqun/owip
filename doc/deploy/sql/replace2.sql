@@ -33,6 +33,7 @@ update unit_post set name = replace(name, @keyowrd, repeat('*', char_length(@key
 
 -- select name from unit where name like concat('%',@keyowrd,'%');
 update cadre_post set post = replace(post, @keyowrd, repeat('*', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
+update cadre_party set post = replace(post, @keyowrd, repeat('*', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
 update cadre_post set post_name = replace(post_name, @keyowrd, repeat('*', char_length(@keyowrd))) where post_name like concat('%',@keyowrd,'%');
 
 
