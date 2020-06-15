@@ -1,6 +1,5 @@
 package controller.member.user;
 
-import controller.global.OpException;
 import controller.member.MemberBaseController;
 import domain.member.*;
 import domain.party.Branch;
@@ -110,12 +109,12 @@ public class EnterApplyController extends MemberBaseController {
     @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberApply(@CurrentUser SysUserView loginUser, Integer partyId,
+    public Map do_memberApply(@CurrentUser SysUserView loginUser, Integer partyId,MemberApply memberApply,
                               Integer branchId, String _applyTime, String remark, HttpServletRequest request) {
 
         enterApplyService.checkMemberApplyAuth(loginUser.getId());
 
-        MemberApply memberApply = new MemberApply();
+        //MemberApply memberApply = new MemberApply();
         memberApply.setUserId(loginUser.getId());
 
         if (loginUser.getType() == SystemConstants.USER_TYPE_JZG) {
@@ -145,6 +144,11 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());
         memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
+
+        //默认为申请阶段
+        if (memberApply.getApplyStage() == null){
+            memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
+        }
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(loginUser.getId(),
@@ -153,9 +157,9 @@ public class EnterApplyController extends MemberBaseController {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                 OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                "提交入党申请");
+                memberApply.getApplyStage()==OwConstants.OW_APPLY_STAGE_INIT?"提交入党申请":"提交继续培养申请");
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "提交入党申请"));
+        logger.info(addLog(LogConstants.LOG_MEMBER, memberApply.getApplyStage()==OwConstants.OW_APPLY_STAGE_INIT?"提交入党申请":"提交继续培养申请"));
         return success(FormUtils.SUCCESS);
     }
 

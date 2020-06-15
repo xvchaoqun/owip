@@ -588,6 +588,66 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyStageIsNull() {
+            addCriterion("apply_stage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageIsNotNull() {
+            addCriterion("apply_stage is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageEqualTo(Byte value) {
+            addCriterion("apply_stage =", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageNotEqualTo(Byte value) {
+            addCriterion("apply_stage <>", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageGreaterThan(Byte value) {
+            addCriterion("apply_stage >", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageGreaterThanOrEqualTo(Byte value) {
+            addCriterion("apply_stage >=", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageLessThan(Byte value) {
+            addCriterion("apply_stage <", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageLessThanOrEqualTo(Byte value) {
+            addCriterion("apply_stage <=", value, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageIn(List<Byte> values) {
+            addCriterion("apply_stage in", values, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageNotIn(List<Byte> values) {
+            addCriterion("apply_stage not in", values, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageBetween(Byte value1, Byte value2) {
+            addCriterion("apply_stage between", value1, value2, "applyStage");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStageNotBetween(Byte value1, Byte value2) {
+            addCriterion("apply_stage not between", value1, value2, "applyStage");
+            return (Criteria) this;
+        }
+
         public Criteria andStageIsNull() {
             addCriterion("stage is null");
             return (Criteria) this;

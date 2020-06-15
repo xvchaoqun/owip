@@ -112,7 +112,6 @@
                 mapperName="member.ApplySnMapper">
          </table>-->
 
-<!--
          <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
@@ -125,7 +124,7 @@
                enableDeleteByExample="false">
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
-       </table>-->
+       </table>
 
 
        <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
@@ -141,10 +140,10 @@
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
 
-        <table tableName="ow_organizer" domainObjectName="party.Organizer"
+        <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
                 mapperName="party.OrganizerMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="ow_organizer_group" domainObjectName="party.OrganizerGroup"
                 mapperName="party.OrganizerGroupMapper">
          </table>-->

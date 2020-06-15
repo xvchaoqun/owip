@@ -1,3 +1,7 @@
+2020.06.15
+-- 添加系统参数 桑文帅
+INSERT INTO `sys_property` (`id`, `code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES (53, 'memberApply_needContinueDevelop', '申请继续培养', 'true', 3, 52, '申请继续培养');
+
 2020.06.01
 -- 添加权限资源 桑文帅
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (3039, 1, '离任干部信息', '', 'url', 'fa fa-history', '/m/cadreHistory', 692, '0/692/', 1, 'm:cadreHistory:*', NULL, NULL, NULL, 1, 1849);

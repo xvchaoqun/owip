@@ -11,8 +11,8 @@
      <c:if test="${empty member}">
       <div class="well">
         <blockquote>
-        <h4 class="green bolder bigger-150">申请入党</h4>
-        学生或教职工申请入党入口。
+        <h4 class="green bolder bigger-150">党员发展申请</h4>
+        学生或教职工党员发展申请入口。
         <button data-url="${ctx}/user/memberApply" class="openView btn btn-success" type="button">
           <i class="ace-icon fa fa-forward bigger-110"></i>
           进入

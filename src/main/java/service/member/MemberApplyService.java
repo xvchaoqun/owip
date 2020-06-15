@@ -324,6 +324,9 @@ public class MemberApplyService extends MemberBaseMapper {
         }
         if (stage != null) {
             criteria.andStageEqualTo(stage);
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
+                criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+            }
             if (status != null) {
                 switch (stage) {
                     case OwConstants.OW_APPLY_STAGE_ACTIVE:
@@ -376,6 +379,9 @@ public class MemberApplyService extends MemberBaseMapper {
         }
         if (stage != null) {
             criteria.andStageEqualTo(stage);
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
+                criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+            }
             if (status != null) {
                 switch (stage) {
                     case OwConstants.OW_APPLY_STAGE_ACTIVE:
@@ -430,6 +436,9 @@ public class MemberApplyService extends MemberBaseMapper {
 
         if (type != null) {
             criteria.andTypeEqualTo(type);
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
+                criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+            }
         }
         if (stage != null) {
             criteria.andStageEqualTo(stage);

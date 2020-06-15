@@ -333,11 +333,13 @@ public class MemberApplyController extends MemberBaseController {
                               Integer branchId,
                               @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU + "") Byte type,
                               @RequestParam(defaultValue = "0") Byte stage,
+                              @RequestParam(required = false, defaultValue = "1") Boolean isApply,
                               ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("type", type);
         modelMap.put("stage", stage);
+        modelMap.put("isApply",isApply);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
@@ -415,6 +417,7 @@ public class MemberApplyController extends MemberBaseController {
                                  Integer branchId,
                                  @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU + "") Byte type,
                                  @RequestParam(defaultValue = "0") Byte stage,
+                                 @RequestParam(required = false, defaultValue = "1") Boolean isApply,
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
                                  String applySn, // 志愿书编码
@@ -473,6 +476,15 @@ public class MemberApplyController extends MemberBaseController {
                 criteria.andIsRemoveEqualTo(true);
             } else {
                 criteria.andIsRemoveEqualTo(false);
+            }
+
+            //申请入党
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT || stage == OwConstants.OW_APPLY_STAGE_DENY){
+                if (isApply) {
+                    criteria.andApplyStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+                }else {
+                    criteria.andApplyStageNotEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
+                }
             }
         }
         if (userId != null) {
@@ -584,8 +596,11 @@ public class MemberApplyController extends MemberBaseController {
 
         if (StringUtils.equals(op, "add") && _memberApply != null) {
 
+            //当前节点为未通过或者申请状态可直接添加
+            if (_memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY ||
+                    _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_INIT)
             return failed("{0}已经添加，当前在{1}阶段。",
-                    _memberApply.getUser().getRealname(), OwConstants.OW_APPLY_STAGE_MAP.get(_memberApply.getStage()));
+                    _memberApply.getUser().getRealname(), OwConstants.OW_APPLY_ALLSTAGE_MAP.get(_memberApply.getStage()));
         }
 
         if (_memberApply == null) {
@@ -1200,6 +1215,18 @@ public class MemberApplyController extends MemberBaseController {
         }
 
         return "member/memberApply/memberApplyLog_page";
+    }
+
+    //审核继续培养申请
+    @RequestMapping(value = "/memberApply_continue_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map memberApply_continue_check(@RequestParam(value = "ids[]") Integer[] ids,
+                                          Boolean isPass, @CurrentUser SysUserView loginUser) {
+
+        if (ids != null && ids.length>0) {
+            memberApplyOpService.continue_check(isPass,ids,loginUser.getUserId());
+        }
+        return success(FormUtils.SUCCESS);
     }
 
     public void memberApply_export(MemberApplyViewExample example, HttpServletResponse response) {
