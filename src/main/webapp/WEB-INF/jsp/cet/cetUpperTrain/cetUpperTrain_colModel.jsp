@@ -31,7 +31,8 @@
     { label: '是否<br/>双肩挑', name: 'isDouble', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
     { label: '是否<br/>支部书记', name: 'isBranchSecretary', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
     /*{label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},*/
-    <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+    <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
+      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
       {
       label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
@@ -41,7 +42,8 @@
     }},
     </c:if>
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
-    {label: '培训班名称', name: 'trainName', align: 'left',width: 350},
+      </c:if>
+    {label: '${param.type==CET_UPPER_TRAIN_TYPE_ABROAD?"研修方向":"培训班名称"}', name: 'trainName', align: 'left',width: 350},
     { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'线上培训', off:'线下培训'}},
     {label: '培训<br/>开始时间', name: 'startDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     {label: '培训<br/>结束时间', name: 'endDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
@@ -51,12 +53,12 @@
     }
     },
     {label: '培训<br/>学时', name: 'period', width: 60},
-      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
-    {label: '培训地点', name: 'address', align: 'left', width: 180},
-      </c:if>
       <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
     {label: '前往国家', name: 'country', width: 80},
-    {label: '培训机构', name: 'agency', align: 'left', width: 180},
+      </c:if>
+    {label: '培训地点', name: 'address', align: 'left', width: 180},
+    <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
+    {label: '组织培训机构', name: 'agency', align: 'left', width: 180},
       </c:if>
     {label: '培训总结', name: '_note', width: 200, formatter: function (cellvalue, options, rowObject) {
 

@@ -144,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
                 <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
@@ -177,8 +178,11 @@
                         </script>
                     </div>
                 </div>
+                </c:if>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训班名称</label>
+                    <label class="col-xs-4 control-label">
+                        <span class="star">*</span>
+                        ${param.type==CET_UPPER_TRAIN_TYPE_ABROAD?"研修方向":"培训班名称"}</label>
                     <div class="col-xs-7">
                                 <textarea required class="form-control noEnter" rows="2"
                                           name="trainName">${cetUpperTrain.trainName}</textarea>
@@ -240,15 +244,6 @@
                                value="${cetUpperTrain.period}">
                     </div>
                 </div>
-                <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
-                <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训地点</label>
-                    <div class="col-xs-7">
-                        <input required class="form-control" type="text" name="address"
-                               value="${cetUpperTrain.address}">
-                    </div>
-                </div>
-                </c:if>
                 <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>前往国家</label>
@@ -257,6 +252,15 @@
                                value="${cetUpperTrain.country}">
                     </div>
                 </div>
+                    </c:if>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训地点</label>
+                    <div class="col-xs-7">
+                        <input required class="form-control" type="text" name="address"
+                               value="${cetUpperTrain.address}">
+                    </div>
+                </div>
+                <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训机构</label>
                     <div class="col-xs-7">
@@ -265,7 +269,6 @@
                     </div>
                 </div>
                 </c:if>
-
                 <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
                     <div class="form-group">
                         <label class="col-xs-4 control-label">培训总结</label>

@@ -527,7 +527,7 @@ public class CadreCompanyService extends BaseMapper {
             }
         }
 
-        String fileName = String.format("%s兼职情况统计表", schoolName + cadreType);
+        String fileName = String.format("%s企业、社团兼职", cadreType);
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 

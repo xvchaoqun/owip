@@ -324,7 +324,7 @@ public class CadreParttimeController extends BaseController {
             valuesList.add(values);
         }
 
-        String fileName = "干部社会或学术兼职_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "社会或学术兼职";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

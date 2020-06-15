@@ -75,6 +75,12 @@ VALUES (724, 0, '培训记录汇总', '', 'url', '', '/cet/cetRecord', 384, '0/1
 
 update cet_upper_train set trainee_type_id=1;
 
+
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `train_name` `train_name` VARCHAR(300) NOT NULL COMMENT '培训班名称，研修方向（针对出国研修）' AFTER `train_type`,
+	CHANGE COLUMN `agency` `agency` VARCHAR(300) NULL DEFAULT NULL COMMENT '组织培训机构，针对出国研修' AFTER `country`;
+
+
 2020.6.9
 
 ALTER TABLE `cet_party`

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导入干部兼职</h3>
+    <h3>导入企业、社团兼职情况</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreCompany_import" method="post">
@@ -16,7 +16,7 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cadreCompany">干部兼职录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cadreCompany">企业、社团兼职情况录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

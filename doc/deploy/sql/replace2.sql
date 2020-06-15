@@ -28,6 +28,8 @@ update cg_rule set content = replace(content, @keyowrd, repeat('*', char_length(
 
 update unit_team set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
 update cadre_post set post = replace(post, @keyowrd, repeat('*', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
+update cadre_parttime set post = replace(post, @keyowrd, repeat('*', char_length(@keyowrd))) where post like concat('%',@keyowrd,'%');
+update cadre_parttime set unit = replace(unit, @keyowrd, repeat('*', char_length(@keyowrd))) where unit like concat('%',@keyowrd,'%');
 
 update unit_post set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
 

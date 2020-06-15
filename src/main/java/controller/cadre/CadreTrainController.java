@@ -311,7 +311,7 @@ public class CadreTrainController extends BaseController {
             valuesList.add(values);
         }
 
-        String fileName = "干部培训情况_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "干部培训情况";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }
