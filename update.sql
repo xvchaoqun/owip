@@ -42,6 +42,33 @@ update cet_unit_project up, base_meta_type t set up.is_online=1 where up.project
 update base_meta_class set bool_attr=null where code='mc_cet_upper_train_type2';
 
 -- 新增表 cet_record
+CREATE TABLE `cet_record` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`year` INT(10) UNSIGNED NOT NULL COMMENT '年度',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '参训人',
+	`trainee_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员类型，从元数据中获取，0代表其他',
+	`other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选其他参训人员类型时，需要填写',
+	`title` VARCHAR(200) NULL DEFAULT NULL COMMENT '时任单位及职务',
+	`start_date` DATE NULL DEFAULT NULL COMMENT '起始时间',
+	`end_date` DATE NULL DEFAULT NULL COMMENT '结束时间',
+	`name` VARCHAR(300) NULL DEFAULT NULL COMMENT '培训班名称，培训内容',
+	`type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训类型，1 党校专题培训  2 党校日常培训 3 二级党委培训 4 上级调训 5 党校其他培训',
+	`type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训项目ID，关联各个模块培训项目的主键',
+	`organizer` VARCHAR(300) NULL DEFAULT NULL COMMENT '培训主办方，主办单位',
+	`period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '完成学时数，总数，包含线上，线下',
+	`online_period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '线上完成学时数',
+	`should_finish_period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '应完成学时数，总数，包含线上，线下',
+	`is_graduate` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否结业',
+	`is_valid` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否计入年度学习任务',
+	`remark` VARCHAR(300) NULL DEFAULT NULL COMMENT '备注',
+	`archive_time` DATETIME NULL DEFAULT NULL COMMENT '归档时间',
+	PRIMARY KEY (`id`)
+)
+COMMENT='培训记录明细汇总表，如果已退出，则应删除相应的培训记录'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1983
+;
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
 VALUES (724, 0, '培训记录汇总', '', 'url', '', '/cet/cetRecord', 384, '0/1/384/', 1, 'cetRecord:*', NULL, NULL, NULL, 1, 195);
