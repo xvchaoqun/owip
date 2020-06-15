@@ -294,8 +294,8 @@
             { label: '完成百分比<br/>(网络)',name: '_finishOnline',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.periodOnline)==0) return '--'
 
-                     var a = getFinishPeriodOffline(rowObject);
-                var b = rowObject.periodOffline;
+                     var a = getFinishPeriodOnline(rowObject);
+                var b = rowObject.periodOnline;
                    a = (a>b?b:a)
 
                 var progress = Math.formatFloat(a*100/b, 1) + "%";

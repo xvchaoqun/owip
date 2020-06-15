@@ -239,7 +239,7 @@ public class CetRecordService extends CetBaseMapper {
         }
     }
 
-    //
+    // 根据类型 和 类型的主键 查找培训记录
     public CetRecord get(byte type, int typeId){
 
         CetRecordExample example = new CetRecordExample();
@@ -255,6 +255,25 @@ public class CetRecordService extends CetBaseMapper {
         example.createCriteria().andTypeEqualTo(type).andTypeIdEqualTo(typeId);
 
         return cetRecordMapper.deleteByExample(example);
+    }
+
+    // 按类型读取培训记录
+    public List<CetRecord> getRecords(int year, int userId, Integer traineeTypeId, Byte type, boolean isValid){
+
+        CetRecordExample example = new CetRecordExample();
+        CetRecordExample.Criteria criteria = example.createCriteria().andYearEqualTo(year).andUserIdEqualTo(userId)
+                .andIsValidEqualTo(isValid);
+
+        if(traineeTypeId!=null){
+            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
+        }
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
+        }
+
+        example.setOrderByClause("start_date asc, type asc");
+
+        return cetRecordMapper.selectByExample(example);
     }
 
     @Transactional

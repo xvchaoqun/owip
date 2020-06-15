@@ -1,10 +1,7 @@
 package controller.cet;
 
-import domain.cet.CetAnnual;
-import domain.cet.CetAnnualObj;
-import domain.cet.CetAnnualObjExample;
+import domain.cet.*;
 import domain.cet.CetAnnualObjExample.Criteria;
-import domain.cet.CetTraineeType;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.cet.common.TrainRecord;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -95,9 +91,10 @@ public class CetAnnualObjController extends CetBaseController {
         Integer annualId = cetAnnualObj.getAnnualId();
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();
-        
-        List<TrainRecord> trainRecords = cetAnnualObjService.getTrainRecords(userId, year, isValid);
-        modelMap.put("trainRecords", trainRecords);
+        int traineeTypeId = cetAnnual.getTraineeTypeId();
+
+        List<CetRecord> cetRecords = cetRecordService.getRecords(year, userId, traineeTypeId,null, isValid);
+        modelMap.put("cetRecords", cetRecords);
         
         return "cet/cetAnnualObj/cetAnnualObj_items";
     }
@@ -225,21 +222,36 @@ public class CetAnnualObjController extends CetBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-    
-    @RequiresPermissions("cetAnnualObj:edit")
+
+     @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping(value = "/archiveFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
     public Map do_archiveFinishPeriod(int annualId,
                                       //boolean isQuit,
                                       HttpServletRequest request) {
-        
+
         cetAnnualObjService.archiveFinishPeriod(annualId);
-        
+
         logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s", annualId));
-        
+
         return success(FormUtils.SUCCESS);
     }
-    
+
+	@RequiresPermissions("cetAnnualObj:edit")
+    @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_archiveObjFinishPeriod(int annualId,
+                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                         //boolean isQuit,
+                                         HttpServletRequest request) {
+
+        cetAnnualObjService.archiveObjFinishPeriod(ids);
+
+        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, StringUtils.join(ids, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cetAnnualObj:edit")
     @RequestMapping(value = "/cetAnnualObj_sync", method = RequestMethod.POST)
     @ResponseBody
@@ -253,21 +265,6 @@ public class CetAnnualObjController extends CetBaseController {
         resultMap.put("adminLevelChangedCount", adminLevelChangedCount);
         
         return resultMap;
-    }
-    
-    @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping(value = "/archiveObjFinishPeriod", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_archiveObjFinishPeriod(int annualId,
-                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
-                                         //boolean isQuit,
-                                         HttpServletRequest request) {
-        
-        cetAnnualObjService.archiveObjFinishPeriod(ids);
-        
-        logger.info(addLog(LogConstants.LOG_CET, "归档已完成学时： %s, %s", annualId, StringUtils.join(ids, ",")));
-        
-        return success(FormUtils.SUCCESS);
     }
     
     @RequiresPermissions("cetAnnualObj:edit")

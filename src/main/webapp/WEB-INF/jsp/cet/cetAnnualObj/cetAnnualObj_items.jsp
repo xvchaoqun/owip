@@ -23,7 +23,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${trainRecords}" var="record">
+    <c:forEach items="${cetRecords}" var="record">
         <tr>
             <td>
                 ${cm:formatDate(record.startDate, "yyyy-MM-dd")}

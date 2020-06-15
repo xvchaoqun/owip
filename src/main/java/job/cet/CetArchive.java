@@ -14,6 +14,7 @@ import persistence.cet.CetAnnualMapper;
 import persistence.cet.CetProjectMapper;
 import service.cet.CetAnnualObjService;
 import service.cet.CetProjectObjService;
+import service.cet.CetRecordService;
 
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class CetArchive implements Job {
     @Autowired
     private CetAnnualMapper cetAnnualMapper;
 
+    @Autowired
+    private CetRecordService cetRecordService;
+
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
@@ -39,6 +43,10 @@ public class CetArchive implements Job {
             for (CetProject cetProject : cetProjects) {
                 cetProjectObjService.refreshAllObjsFinishPeriod(cetProject.getId());
             }
+
+            cetRecordService.syncAllUpperTrain();
+            cetRecordService.syncAllProjectObj();
+            cetRecordService.syncAllUnitTrian();
 
             List<CetAnnual> cetAnnuals = cetAnnualMapper.selectByExample(new CetAnnualExample());
             for (CetAnnual cetAnnual : cetAnnuals) {

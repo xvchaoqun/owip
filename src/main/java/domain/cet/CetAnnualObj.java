@@ -16,7 +16,7 @@ public class CetAnnualObj implements Serializable {
         if(hasArchived) return null;
 
         CetAnnualObjService cetAnnualObjService = CmTag.getBean(CetAnnualObjService.class);
-        return cetAnnualObjService.getDbFinishPeriodMap(userId, year);
+        return cetAnnualObjService.getFinishPeriodMap(this);
     }
 
     public SysUserView getUser(){

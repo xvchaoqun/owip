@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
-import persistence.cet.common.TrainRecord;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
@@ -54,6 +53,8 @@ public class CetExportService extends CetBaseMapper {
     private CetTraineeTypeService cetTraineeTypeService;
     @Autowired
     private CetAnnualObjService cetAnnualObjService;
+    @Autowired
+    private CetRecordService cetRecordService;
     
     /**
      * 学时情况.xlsx
@@ -313,7 +314,6 @@ public class CetExportService extends CetBaseMapper {
         for (int i = 0; i < rowCount; i++) {
             
             CetAnnualObj obj = records.get(i);
-            Map<String, BigDecimal> r = obj.getR();
             SysUserView uv = obj.getUser();
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -349,7 +349,7 @@ public class CetExportService extends CetBaseMapper {
                     + "/" + NumberUtils.stripTrailingZeros(periodOnline));
             
             // 已完成学时数
-            BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(obj, r));
+            BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(obj));
             BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(obj));
             BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
             cell = row.getCell(column++);
@@ -380,19 +380,19 @@ public class CetExportService extends CetBaseMapper {
             
             // 党校专题
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.getSpecialPeriod(obj, r)));
+            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_SPECIAL)));
             
             // 党校日常
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.getDailyPeriod(obj, r)));
+            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_DAILY)));
 
             // 二级党校
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.getUnitPeriod(obj, r)));
+            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_PARTY)));
             
             // 上级调训
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.getUpperPeriod(obj, r)));
+            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_UPPER)));
         }
         
        ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + typeName + cetAnnual.getYear() +
@@ -407,8 +407,9 @@ public class CetExportService extends CetBaseMapper {
         
         int userId = cetAnnualObj.getUserId();
         int year = cetAnnual.getYear();
-    
-        BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj, cetAnnualObj.getR()));
+        int traineeTypeId = cetAnnual.getTraineeTypeId();
+
+        BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj));
         BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(cetAnnualObj));
         BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
 
@@ -457,14 +458,14 @@ public class CetExportService extends CetBaseMapper {
                 .replace("finishRate", rateOffline + "/" + rateOnline);
         cell.setCellValue(str);
         
-        List<TrainRecord> records = cetAnnualObjService.getTrainRecords(userId, year, true);
+        List<CetRecord> records = cetRecordService.getRecords(year, userId, traineeTypeId, null,true);
 
         int startRow = 3;
         int rowCount = records.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
             
-            TrainRecord record = records.get(i);
+            CetRecord record = records.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
