@@ -91,11 +91,13 @@ update cet_project p,
 (select project_id, group_concat(trainee_type_id) as trainee_type_ids from cet_project_trainee_type group by project_id) tmp
 set p.trainee_type_ids=tmp.trainee_type_ids where p.id=tmp.project_id;
 
-drop view cet_project_view;
+
 
 ALTER TABLE `cet_project`
 	ADD COLUMN `obj_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`;
 
+-- 删除相关类
+drop view cet_project_view;
 drop table cet_project_trainee_type;
 
 ALTER TABLE `cet_project`
@@ -109,6 +111,7 @@ set p.obj_count=tmp.obj_count where p.id=tmp.project_id;
 update cet_project p,
 (select project_id, count(*) as quit_count from cet_project_obj where is_quit=1 group by project_id) tmp
 set p.quit_count=tmp.quit_count where p.id=tmp.project_id;
+
 
 2020.6.9
 
