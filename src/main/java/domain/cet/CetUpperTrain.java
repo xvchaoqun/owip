@@ -44,7 +44,7 @@ public class CetUpperTrain implements Serializable {
 
     private String title;
 
-    private Integer postId;
+    private Integer postType;
 
     private Integer organizer;
 
@@ -54,10 +54,10 @@ public class CetUpperTrain implements Serializable {
 
     private String trainName;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date startDate;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endDate;
 
     private BigDecimal period;
@@ -180,12 +180,12 @@ public class CetUpperTrain implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getPostType() {
+        return postType;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPostType(Integer postType) {
+        this.postType = postType;
     }
 
     public Integer getOrganizer() {

@@ -13,6 +13,7 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, other_trainee_type, identity, title, post_type, 
-    period, word_note, pdf_note, add_user_id, add_time, status, reason, remark
+    period, word_note, pdf_note, score, add_user_id, add_time, status, reason, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -115,15 +116,15 @@
     insert into cet_unit_train (id, project_id, user_id, 
       trainee_type_id, other_trainee_type, identity, 
       title, post_type, period, 
-      word_note, pdf_note, add_user_id, 
-      add_time, status, reason, 
-      remark)
+      word_note, pdf_note, score, 
+      add_user_id, add_time, status, 
+      reason, remark)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
-      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train
@@ -160,6 +161,9 @@
       </if>
       <if test="pdfNote != null">
         pdf_note,
+      </if>
+      <if test="score != null">
+        score,
       </if>
       <if test="addUserId != null">
         add_user_id,
@@ -210,6 +214,9 @@
       </if>
       <if test="pdfNote != null">
         #{pdfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=VARCHAR},
       </if>
       <if test="addUserId != null">
         #{addUserId,jdbcType=INTEGER},
@@ -270,6 +277,9 @@
       <if test="record.pdfNote != null">
         pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
       </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=VARCHAR},
+      </if>
       <if test="record.addUserId != null">
         add_user_id = #{record.addUserId,jdbcType=INTEGER},
       </if>
@@ -303,6 +313,7 @@
       period = #{record.period,jdbcType=DECIMAL},
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=VARCHAR},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=TINYINT},
@@ -345,6 +356,9 @@
       <if test="pdfNote != null">
         pdf_note = #{pdfNote,jdbcType=VARCHAR},
       </if>
+      <if test="score != null">
+        score = #{score,jdbcType=VARCHAR},
+      </if>
       <if test="addUserId != null">
         add_user_id = #{addUserId,jdbcType=INTEGER},
       </if>
@@ -375,6 +389,7 @@
       period = #{period,jdbcType=DECIMAL},
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},
+      score = #{score,jdbcType=VARCHAR},
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT},

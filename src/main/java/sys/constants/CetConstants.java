@@ -216,8 +216,8 @@ public class CetConstants {
     public final static byte CET_UPPER_TRAIN_ST_DAILY = 2;
     public final static Map<Byte, String> CET_UPPER_TRAIN_ST_MAP = new LinkedHashMap<>();
     static {
-        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_SPECIAL, "党校专题培训");
-        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_DAILY, "党校日常培训");
+        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_SPECIAL, "专题培训");
+        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_DAILY, "日常培训");
     }
 
     // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过

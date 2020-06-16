@@ -44,13 +44,12 @@ pageEncoding="UTF-8" %>
             <tbody>
             <c:forEach items="${cetUnitProjects}" var="cetUnitProject" varStatus="st">
                 <tr>
-                    <td class="center" style="width: 10px">
-                        <label class="pos-rel">
-                            <input type="radio" name="cetUnitProjectId"
-                                   value="${cetUnitProject.id}"
-                                   class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                            <span class="lbl"></span>
-                        </label>
+                    <td class="center" width="50">
+                        <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                             <input type="radio" name="cetUnitProjectId" id="cetUnitProjectId${cetUnitProject.id}"
+                                    value="${cetUnitProject.id}">
+                             <label for="cetUnitProjectId${cetUnitProject.id}"></label>
+                         </div>
                     </td>
                     <td nowrap width="350px">${cetUnitProject.projectName}</td>
                     <td nowrap width="200px">${cm:displayParty(cetUnitProject.cetParty.partyId, null)}</td>
@@ -74,6 +73,10 @@ pageEncoding="UTF-8" %>
     </shiro:hasPermission>
 </div>
 <script>
+    $("#modal table > tbody tr td").click(function(e){
+        e.stopPropagation();
+        $("input[type=radio]", $(this).closest("tr")).prop("checked", true);
+    })
     function reRecordTrain(){
         var projectId = $("input[type=radio]:checked").val();
         if (projectId == undefined || projectId == null){
@@ -82,6 +85,6 @@ pageEncoding="UTF-8" %>
         }
         //console.log(projectId)
         //$("#cetUnitTraintDiv").modal("hide");
-        $.loadModal("${ctx}/user/cet/cetUnitTrain_au?reRecord=1&userId=${userId}&projectId=" + projectId);
+        $.loadModal("${ctx}/cet/cetUnitTrain_au?apply=1&userId=${userId}&projectId=" + projectId, 1000);
     }
 </script>

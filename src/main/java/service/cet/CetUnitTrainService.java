@@ -104,15 +104,6 @@ public class CetUnitTrainService extends CetBaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CetUnitTrain record) {
 
-        CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(record.getId());
-        CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(cetUnitTrain.getProjectId());
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
-            List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
-            if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
-                throw new OpException("没有权限。");
-            }
-        }
-
         record.setProjectId(null);
         return cetUnitTrainMapper.updateByPrimaryKeySelective(record);
     }
@@ -272,36 +263,6 @@ public class CetUnitTrainService extends CetBaseMapper {
         for (Integer id : ids) {
             cetUnitTrainMapper.deleteByPrimaryKey(id);
         }
-    }
-
-    //补录
-    @Transactional
-    public void reRecord(CetUnitTrain record) {
-
-        int userId = record.getUserId();
-        CadreView cv = CmTag.getCadreByUserId(userId);
-        if (cv != null) {
-            if(StringUtils.isBlank(record.getTitle())) {
-                record.setTitle(cv.getTitle());
-            }
-            if(record.getPostType()==null) {
-                record.setPostType(cv.getPostType());
-            }
-        } else {
-            UserBean userBean = userBeanService.get(userId);
-            if (userBean != null && StringUtils.isBlank(record.getTitle())) {
-                record.setTitle(userBean.getUnit());
-            }
-        }
-
-        cetUnitTrainMapper.insertSelective(record);
-    }
-
-    @Transactional
-    public int reRecordUpdateSelective(CetUnitTrain record) {
-
-        record.setProjectId(null);
-        return cetUnitTrainMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional

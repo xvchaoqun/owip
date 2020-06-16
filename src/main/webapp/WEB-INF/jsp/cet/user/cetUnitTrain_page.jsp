@@ -24,7 +24,7 @@
                                             data-url="${ctx}/user/cet/cetUnitTrain_list?reRecord=1">
                                         <i class="fa fa-plus"></i> 补录申请</button>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/user/cet/cetUnitTrain_au"
+                                            data-url="${ctx}/cet/cetUnitTrain_au?apply=1" data-width="1000"
                                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                         修改
                                     </button>

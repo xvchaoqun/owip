@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
@@ -29,7 +28,10 @@ import sys.utils.SqlUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user/cet")
@@ -160,64 +162,6 @@ public class UserCetUnitTrainController extends CetBaseController {
         modelMap.put("commonList", commonList);
 
         return "/cet/user/cetUnitTrain_list";
-    }
-
-    @RequiresPermissions("userCetUnitTrain:edit")
-    @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_userCetUnitTrain_list(CetUnitTrain record,
-                                        @RequestParam(value = "identities[]", required = false) Integer[] identities,
-                                        MultipartFile _word, MultipartFile _pdf,
-                                        HttpServletRequest request) throws IOException, InterruptedException{
-
-        Integer id = record.getId();
-
-        if (cetUnitTrainService.idDuplicate(id, record.getProjectId(), record.getUserId())) {
-
-            return failed("添加重复。");
-        }
-        record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
-                ? "" : StringUtils.join(identities, ","));
-        record.setWordNote(upload(_word, "cetUnitTrain_note"));
-        record.setPdfNote(uploadPdf(_pdf, "cetUnitTrain_note"));
-        record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
-
-        int projectId = record.getProjectId();
-
-        if (id == null) {
-            record.setAddTime(new Date());
-            record.setAddUserId(ShiroHelper.getCurrentUserId());
-            cetUnitTrainService.reRecord(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加二级单位培训班培训记录：%s", record.getId()));
-        } else {
-
-            cetUnitTrainService.reRecordUpdateSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "更新二级单位培训班培训记录：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("userCetUnitTrain:edit")
-    @RequestMapping("/cetUnitTrain_au")
-    public String cetUnitTrain_au(Integer id,
-                                  Integer reRecord,
-                                  Integer userId,
-                                  Integer projectId,
-                                  ModelMap modelMap) {
-
-        modelMap.put("reRecord", reRecord);
-        if (null != id) {
-            CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
-            modelMap.put("cetUnitTrain", cetUnitTrain);
-            modelMap.put("cetUnitProject", cetUnitTrain.getProject());
-        }
-        modelMap.put("userId", userId == null ?ShiroHelper.getCurrentUserId() : userId);
-        if (null != projectId) {
-            modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
-        }
-
-        return "cet/cetUnitTrain/cetUnitTrain_au";
     }
 
     @RequiresPermissions("userCetUnitTrain:edit")

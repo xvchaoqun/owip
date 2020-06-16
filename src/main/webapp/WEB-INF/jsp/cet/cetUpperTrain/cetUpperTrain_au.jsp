@@ -91,10 +91,22 @@
                         <textarea class="form-control" name="title">${cetUpperTrain.title}</textarea>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">时任职务属性</label>
+                    <div class="col-xs-7">
+                        <select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="252">
+                            <option></option>
+                            <jsp:include page="/metaTypes?__code=mc_post"/>
+                        </select>
+                        <script type="text/javascript">
+                            $("#modalForm select[name=postType]").val(${cetUpperTrain.postType});
+                        </script>
+                    </div>
+                </div>
                 <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
                     <div class="form-group owAuType">
                         <label class="col-xs-4 control-label"> 参训人身份</label>
-                        <div class="col-xs-6">
+                        <div class="col-xs-8">
                             <div class="input-group">
                                 <c:forEach items="${cm:getMetaTypes('mc_cet_identity')}" var="entity">
                                     <div class="checkbox checkbox-inline checkbox-sm">
@@ -107,7 +119,7 @@
                     </div>
                     <script>
                         <c:if test="${not empty cetUpperTrain}">
-                            var identity = ${cm:toJSONObject(cetUpperTrain.identity)};
+                            var identity = '${cetUpperTrain.identity}';
                             var identities = identity.split(',');
                             for(i in identities){
                                 $('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
@@ -116,34 +128,7 @@
                         </c:if>
                     </script>
                 </c:if>
-                <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
-                    <div class="form-group">
-                        <label class="col-xs-4 control-label"> 培训类别</label>
-                        <div class="col-xs-8">
-                            <div class="input-group">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="specialType" id="specialType0"
-                                           value="${CET_UPPER_TRAIN_ST_SPECIAL}">
-                                    <label for="specialType0">
-                                        党校专题培训
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="specialType" id="specialType1"
-                                           value="${CET_UPPER_TRAIN_ST_DAILY}">
-                                    <label for="specialType1">
-                                        党校日常培训
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        <c:if test="${not empty cetUpperTrain}">
-                            $("#modalForm input[name=specialType][value=${cetUpperTrain.specialType}]").prop("checked", true);
-                        </c:if>
-                    </script>
-                </c:if>
+
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
                     <div class="col-xs-7">
@@ -203,6 +188,33 @@
                     </div>
                 </div>
                 </c:if>
+                 <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"><span class="star">*</span>培训类别</label>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="specialType" id="specialType0"
+                                           value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                                    <label for="specialType0">
+                                        专题培训
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="specialType" id="specialType1"
+                                           value="${CET_UPPER_TRAIN_ST_DAILY}">
+                                    <label for="specialType1">
+                                        日常培训
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                            $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_UPPER_TRAIN_ST_SPECIAL:cetUpperTrain.specialType}']")
+                                .prop("checked", true);
+                    </script>
+                </c:if>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>
                     <div class="col-xs-7">
@@ -226,51 +238,42 @@
                     </div>
                 </div>
                 <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="star">*</span>培训形式</label>
-                        <div class="col-xs-8">
-                            <div class="input-group">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="isOnline" id="isOnline0"
-                                           ${(empty cetUpperTrain || !cetUpperTrain.isOnline)?"checked":""} value="0">
-                                    <label for="isOnline0">
-                                        线下培训
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="isOnline" id="isOnline1"
-                                           ${cetUpperTrain.isOnline?"checked":""} value="1">
-                                    <label for="isOnline1">
-                                        线上培训
-                                    </label>
-                                </div>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训形式</label>
+                    <div class="col-xs-7">
+                        <div class="input-group">
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isOnline" id="isOnline0"
+                                       ${(empty cetUpperTrain || !cetUpperTrain.isOnline)?"checked":""} value="0">
+                                <label for="isOnline0">
+                                    线下培训
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isOnline" id="isOnline1"
+                                       ${cetUpperTrain.isOnline?"checked":""} value="1">
+                                <label for="isOnline1">
+                                    线上培训
+                                </label>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
             <div class="col-xs-6">
+
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训开始时间</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训时间</label>
                     <div class="col-xs-7">
-                        <div class="input-group" style="width: 130px">
+                        <div class="input-group">
                             <input required class="form-control date-picker" name="startDate"
                                    type="text" autocomplete="off" disableautocomplete
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(cetUpperTrain.startDate,'yyyy-MM-dd')}"/>
-                            <span class="input-group-addon"> <i
-                                    class="fa fa-calendar bigger-110"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训结束时间</label>
-                    <div class="col-xs-7">
-                        <div class="input-group" style="width: 130px">
+                                   data-date-format="yyyy.mm.dd" style="width: 90px;float: left"
+                                   value="${cm:formatDate(cetUpperTrain.startDate,'yyyy.MM.dd')}"/>
+                            <div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
                             <input required class="form-control date-picker" name="endDate"
                                    type="text" autocomplete="off" disableautocomplete
-                                   data-date-format="yyyy-mm-dd"
-                                   value="${cm:formatDate(cetUpperTrain.endDate,'yyyy-MM-dd')}"/>
-                            <span class="input-group-addon"> <i
-                                    class="fa fa-calendar bigger-110"></i></span>
+                                   data-date-format="yyyy.mm.dd" style="width: 90px"
+                                   value="${cm:formatDate(cetUpperTrain.endDate,'yyyy.MM.dd')}"/>
                         </div>
                     </div>
                 </div>
@@ -293,8 +296,8 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训地点</label>
                     <div class="col-xs-7">
-                        <input required class="form-control" type="text" name="address"
-                               value="${cetUpperTrain.address}">
+                        <textarea required class="form-control" rows="2"
+                                          name="address">${cetUpperTrain.address}</textarea>
                     </div>
                 </div>
                 <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
@@ -329,7 +332,7 @@
                     <label class="col-xs-4 control-label"> 培训成绩</label>
                     <div class="col-xs-7">
                         <input class="form-control" type="text" name="score"
-                               value="${cetUpperTrain.score}" maxlength="20" placeholder="建议在20字以内">
+                               value="${cetUpperTrain.score}" maxlength="20">
                     </div>
                 </div>
                 <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD && param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
@@ -400,7 +403,7 @@
                 <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW}">
                     <div class="form-group red bolder">
                         <label class="col-xs-4 control-label"
-                               style="margin-top: -10px;">是否计入<br/>年度学习任务</label>
+                               style="margin-top: -10px;"><span class="star">*</span>是否计入<br/>年度学习任务</label>
                         <div class="col-xs-7">
                             <div class="input-group">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">

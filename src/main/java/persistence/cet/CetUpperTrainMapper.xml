@@ -13,7 +13,7 @@
     <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
     <result column="identity" jdbcType="VARCHAR" property="identity" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="organizer" jdbcType="INTEGER" property="organizer" />
     <result column="other_organizer" jdbcType="VARCHAR" property="otherOrganizer" />
     <result column="train_type" jdbcType="INTEGER" property="trainType" />
@@ -96,7 +96,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, special_type, is_online, unit_id, user_id, trainee_type_id, other_trainee_type, 
-    identity, title, post_id, organizer, other_organizer, train_type, train_name, start_date, 
+    identity, title, post_type, organizer, other_organizer, train_type, train_name, start_date, 
     end_date, period, address, country, agency, word_note, pdf_note, score, add_type, 
     add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
   </sql>
@@ -137,7 +137,7 @@
     insert into cet_upper_train (year, type, special_type, 
       is_online, unit_id, user_id, 
       trainee_type_id, other_trainee_type, identity, 
-      title, post_id, organizer, 
+      title, post_type, organizer, 
       other_organizer, train_type, train_name, 
       start_date, end_date, period, 
       address, country, agency, 
@@ -148,7 +148,7 @@
     values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{specialType,jdbcType=TINYINT}, 
       #{isOnline,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
       #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
       #{address,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
@@ -193,8 +193,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="postType != null">
+        post_type,
       </if>
       <if test="organizer != null">
         organizer,
@@ -291,8 +291,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
       </if>
       <if test="organizer != null">
         #{organizer,jdbcType=INTEGER},
@@ -401,8 +401,8 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
       </if>
       <if test="record.organizer != null">
         organizer = #{record.organizer,jdbcType=INTEGER},
@@ -485,7 +485,7 @@
       other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
       identity = #{record.identity,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
       organizer = #{record.organizer,jdbcType=INTEGER},
       other_organizer = #{record.otherOrganizer,jdbcType=VARCHAR},
       train_type = #{record.trainType,jdbcType=INTEGER},
@@ -544,8 +544,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
       </if>
       <if test="organizer != null">
         organizer = #{organizer,jdbcType=INTEGER},
@@ -625,7 +625,7 @@
       other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
       identity = #{identity,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      post_id = #{postId,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
       organizer = #{organizer,jdbcType=INTEGER},
       other_organizer = #{otherOrganizer,jdbcType=VARCHAR},
       train_type = #{trainType,jdbcType=INTEGER},

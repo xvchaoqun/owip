@@ -42,6 +42,8 @@ public class CetUnitTrain implements Serializable {
 
     private String pdfNote;
 
+    private String score;
+
     private Integer addUserId;
 
     private Date addTime;
@@ -140,6 +142,14 @@ public class CetUnitTrain implements Serializable {
 
     public void setPdfNote(String pdfNote) {
         this.pdfNote = pdfNote == null ? null : pdfNote.trim();
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score == null ? null : score.trim();
     }
 
     public Integer getAddUserId() {

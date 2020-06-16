@@ -88,6 +88,7 @@ public class CetUpperTrainController extends CetBaseController {
                                    byte type,
                                    Integer unitId,
                                    Integer userId,
+                                   Integer postType,
                                    Integer organizer,
                                    Integer trainType,
                                    @RequestParam(required = false, defaultValue = "0") int export,
@@ -163,6 +164,9 @@ public class CetUpperTrainController extends CetBaseController {
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (postType != null) {
+            criteria.andPostTypeEqualTo(postType);
         }
         if (organizer != null) {
             criteria.andOrganizerEqualTo(organizer);
@@ -731,8 +735,8 @@ public class CetUpperTrainController extends CetBaseController {
                     record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
                     sysUserService.findById(record.getUserId()).getRealname(),
                     record.getTitle(),
-                    record.getPostId() == null ? "" : metaTypeService.findAll().get(record.getPostId()).getName(),
-                    record.getOrganizer() == 0 ? record.getOtherOrganizer() : metaTypeService.findAll().get(record.getOrganizer()).getName(),
+                    record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
+                    record.getOrganizer() == 0 ? record.getOtherOrganizer() : CmTag.getMetaTypeName(record.getOrganizer()),
                     metaTypeService.findAll().get(record.getTrainType()).getName(),
                     record.getTrainName(),
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),

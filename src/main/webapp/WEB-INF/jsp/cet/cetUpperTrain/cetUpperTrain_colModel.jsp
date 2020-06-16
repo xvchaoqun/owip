@@ -15,8 +15,13 @@
     {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
     </c:if>
     { label: '年度',name: 'year', frozen: true},
-    {label: '参训人姓名', name: 'user.realname', frozen:true},
-    {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
+      {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
+      {label: '参训人姓名', name: 'user.realname', frozen:true},
+      { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
+              if(cellvalue==null)return '--';
+              if(cellvalue==0) return rowObject.otherTraineeType;
+              return traineeTypeMap[cellvalue].name
+    }},
       {label: '时任单位及职务', name: 'title', align: 'left', width: 350, formatter: function (cellvalue, options, rowObject) {
               if(cellvalue == undefined){
                   if (rowObject.unit != undefined) {
@@ -26,15 +31,10 @@
               }else{
                   return rowObject.title;
               }}},
-    {label: '时任职务属性', width: 150, name: 'postId', align: 'left', formatter: function (cellvalue, options, rowObject) {
+    {label: '时任职务属性', width: 150, name: 'postType', align: 'left', formatter: function (cellvalue, options, rowObject) {
             if (cellvalue==undefined || cellvalue == null) return "--";
             return $.jgrid.formatter.MetaType(cellvalue);
         }},
-    { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
-              if(cellvalue==null)return '--';
-              if(cellvalue==0) return rowObject.otherTraineeType;
-              return traineeTypeMap[cellvalue].name
-    }},
       <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
           {
               label: '参训人员身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
@@ -57,14 +57,9 @@
     }},
     </c:if>
   <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
-    {label: '培训类型', name: 'specialType', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == ${CET_UPPER_TRAIN_ST_SPECIAL}){
-                return '${CET_UPPER_TRAIN_ST_MAP.get(CET_UPPER_TRAIN_ST_SPECIAL)}';
-            } else if (cellvalue == ${CET_UPPER_TRAIN_ST_DAILY}){
-                return '${CET_UPPER_TRAIN_ST_MAP.get(CET_UPPER_TRAIN_ST_DAILY)}';
-            }else {
-                return '--';
-            }
+    {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
+            if(cellvalue==undefined) return '--'
+            return _cMap.CET_UPPER_TRAIN_ST_MAP[cellvalue]
         }},
   </c:if>
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
@@ -106,7 +101,7 @@
       }
       return ret;
     }},
-    {label: '培训成绩', name: 'score', align: 'left', width: 180},
+    {label: '培训成绩', name: 'score'},
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD&&param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
     {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
       if (rowObject.type==${CET_UPPER_TRAIN_TYPE_OW}) {

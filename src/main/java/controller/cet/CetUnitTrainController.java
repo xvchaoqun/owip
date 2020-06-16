@@ -5,12 +5,14 @@ import domain.cet.CetUnitTrain;
 import domain.cet.CetUnitTrainExample;
 import domain.cet.CetUnitTrainExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -229,14 +231,21 @@ public class CetUnitTrainController extends CetBaseController {
         return;
     }
     
-    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_au(CetUnitTrain record,
+                                  Boolean apply,
                                   @RequestParam(value = "identities[]", required = false) Integer[] identities,
                                   MultipartFile _word, MultipartFile _pdf,
                                   HttpServletRequest request) throws IOException, InterruptedException {
-        
+
+        if(BooleanUtils.isTrue(apply)){
+           record.setUserId(ShiroHelper.getCurrentUserId());
+           record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);
+        }else{
+             SecurityUtils.getSubject().checkPermission("cetUnitProject:edit");
+        }
+
         Integer id = record.getId();
         
         if (cetUnitTrainService.idDuplicate(id, record.getProjectId(), record.getUserId())) {
@@ -251,7 +260,7 @@ public class CetUnitTrainController extends CetBaseController {
         int projectId = record.getProjectId();
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (BooleanUtils.isNotTrue(apply) && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 return failed("没有权限。");
@@ -271,43 +280,31 @@ public class CetUnitTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
     
-    @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_au")
     public String cetUnitTrain_au(Integer id,
+                                  Boolean apply,
                                   Integer projectId, ModelMap modelMap) {
 
+        if(BooleanUtils.isNotTrue(apply)){
+            SecurityUtils.getSubject().checkPermission("cetUnitProject:edit");
+        }
+
         if (id != null) {
+
             CetUnitTrain cetUnitTrain = cetUnitTrainMapper.selectByPrimaryKey(id);
+            if(BooleanUtils.isTrue(apply)){
+                if(cetUnitTrain.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+                    return null;
+                }
+            }
             modelMap.put("cetUnitTrain", cetUnitTrain);
             projectId = cetUnitTrain.getProjectId();
         }
+
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
 
         return "cet/cetUnitTrain/cetUnitTrain_au";
     }
-    
-    /*@RequiresPermissions("cetUnitProject:edit")
-    @RequestMapping("/cetUnitTrain_batchAdd")
-    public String cetUnitTrain_batchAdd(int projectId, ModelMap modelMap) {
-
-        modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
-        
-        return "cet/cetUnitTrain/cetUnitTrain_batchAdd";
-    }
-    
-    @RequiresPermissions("cetUnitProject:edit")
-    @RequestMapping(value = "/cetUnitTrain_batchAdd", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetUnitTrain_batchAdd(HttpServletRequest request,
-                                        int projectId,
-                                        int traineeTypeId,
-                                        @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
-                                        ModelMap modelMap) {
-        
-       cetUnitTrainService.batchAdd(projectId, traineeTypeId, userIds);
-        
-        return success(FormUtils.SUCCESS);
-    }*/
     
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitTrain_import")

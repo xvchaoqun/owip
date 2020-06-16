@@ -17,12 +17,12 @@
                     <c:if test="${empty reRecord}">
                     <c:if test="${cm:hasRole(ROLE_CET_ADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
                     <shiro:hasPermission name="cetUnitProject:edit">
-                        <button class="popupBtn btn btn-success btn-sm"
+                        <button class="popupBtn btn btn-success btn-sm" data-width="1000"
                                 data-url="${ctx}/cet/cetUnitTrain_au?projectId=${param.projectId}">
                             <i class="fa fa-plus"></i> 添加
                         </button>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                data-url="${ctx}/cet/cetUnitTrain_au"
+                                data-url="${ctx}/cet/cetUnitTrain_au" data-width="1000"
                                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                             修改
                         </button>
@@ -105,8 +105,8 @@
         rownumbers: true,
         url: '${ctx}/cet/cetUnitTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '参训人姓名', name: 'user.realname', frozen:true},
             {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
+            {label: '参训人姓名', name: 'user.realname', frozen:true},
             { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined)return '--';
                 if(cellvalue==0) return rowObject.otherTraineeType;
@@ -123,6 +123,7 @@
                 }},
             </c:if>
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
+            {label: '时任职务属性', name: 'postType', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
             <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
                 {
                     label: '参训人身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
@@ -134,7 +135,7 @@
                         })).join("，")
                     }},
             </c:if>
-            {label: '时任职务属性', name: 'postType', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
+
             {label: '完成培训学时', name: 'period'},
             {label: '培训总结', name: '_note', width: 200, formatter: function (cellvalue, options, rowObject) {
 
@@ -156,6 +157,7 @@
               }
               return ret;
             }},
+            {label: '培训成绩', name: 'score'},
             {label: '操作人', name: 'addUser.realname'},
             {label: '添加时间', name: 'addTime', width: 150},
             <c:if test="${reRecord==1}">

@@ -14,7 +14,7 @@
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.unitId ||not empty param.userId ||not empty param.postId
+                   value="${not empty param.unitId ||not empty param.userId ||not empty param.postType
                    ||not empty param.organizer ||not empty param.trainType
                    || not empty param.code || not empty param.sort}"/>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -164,18 +164,18 @@
                                 </select>
                             </div>
 
-                            <%--<div class="form-group">
-                                <label>职务属性</label>
-                                <select data-rel="select2" name="postId"
+                            <div class="form-group">
+                                <label>时任职务属性</label>
+                                <select data-rel="select2" name="postType"
                                         data-width="150"
                                         data-placeholder="请选择">
                                     <option></option>
                                     <c:import url="/metaTypes?__code=mc_post"/>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#searchForm select[name=postId]").val(${param.postId});
+                                    $("#searchForm select[name=postType]").val(${param.postType});
                                 </script>
-                            </div>--%>
+                            </div>
                             <div class="form-group">
                                 <label>培训主办方</label>
                                 <select data-rel="select2" name="organizer"
