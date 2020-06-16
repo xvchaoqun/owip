@@ -55,6 +55,9 @@ public interface ICetMapper {
                              @Param("periodOnline") BigDecimal periodOnline,
                              @Param("ids") String ids);
 
+    // 批量删除已删除的培训记录
+    int removeDeletedCetRecords();
+
     // 按类型读取完成学时数
     public BigDecimal totalFinishPeriod(@Param("year") int year,
                                         @Param("userId") int userId,

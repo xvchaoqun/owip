@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.cet.CetAnnualMapper;
 import persistence.cet.CetProjectMapper;
+import persistence.cet.common.ICetMapper;
 import service.cet.CetAnnualObjService;
 import service.cet.CetProjectObjService;
 import service.cet.CetRecordService;
@@ -30,6 +31,8 @@ public class CetArchive implements Job {
     private CetAnnualObjService cetAnnualObjService;
     @Autowired
     private CetAnnualMapper cetAnnualMapper;
+    @Autowired
+    private ICetMapper iCetMapper;
 
     @Autowired
     private CetRecordService cetRecordService;
@@ -44,6 +47,7 @@ public class CetArchive implements Job {
                 cetProjectObjService.refreshAllObjsFinishPeriod(cetProject.getId());
             }
 
+            iCetMapper.removeDeletedCetRecords();
             cetRecordService.syncAllUpperTrain();
             cetRecordService.syncAllProjectObj();
             cetRecordService.syncAllUnitTrian();

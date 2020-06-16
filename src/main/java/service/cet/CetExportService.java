@@ -349,7 +349,7 @@ public class CetExportService extends CetBaseMapper {
                     + "/" + NumberUtils.stripTrailingZeros(periodOnline));
             
             // 已完成学时数
-            BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(obj));
+            BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.totalFinishPeriod(obj, null));
             BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(obj));
             BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
             cell = row.getCell(column++);
@@ -409,7 +409,7 @@ public class CetExportService extends CetBaseMapper {
         int year = cetAnnual.getYear();
         int traineeTypeId = cetAnnual.getTraineeTypeId();
 
-        BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriod(cetAnnualObj));
+        BigDecimal finishPeriod = NumberUtils.trimToZero(cetAnnualObjService.totalFinishPeriod(cetAnnualObj, null));
         BigDecimal finishPeriodOnline = NumberUtils.trimToZero(cetAnnualObjService.getFinishPeriodOnline(cetAnnualObj));
         BigDecimal finishPeriodOffline = finishPeriod.subtract(finishPeriodOnline);
 

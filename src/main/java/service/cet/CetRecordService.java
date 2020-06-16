@@ -20,7 +20,7 @@ public class CetRecordService extends CetBaseMapper {
     @Autowired
     private CetProjectObjService cetProjectObjService;
 
-    // 同步所有的上级调训
+    // 同步所有的上级调训（含党校其他培训）
     public void syncAllUpperTrain(){
 
         List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExample(new CetUpperTrainExample());
@@ -70,14 +70,19 @@ public class CetRecordService extends CetBaseMapper {
         }
     }
 
-    // 将一条上级调训记录归档至培训记录
+    // 将一条上级调训（含党校其他培训）记录归档至培训记录
     public void syncUpperTrain(int upperTrainId){
 
         CetUpperTrain t = cetUpperTrainMapper.selectByPrimaryKey(upperTrainId);
         byte type = CetConstants.CET_TYPE_UPPER;
 
-        if(t.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){
-            type = CetConstants.CET_TYPE_OTHER; // 党校其他培训
+        if(t.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){ // 党校其他培训
+
+            if(t.getSpecialType()==null || t.getSpecialType()==CetConstants.CET_UPPER_TRAIN_ST_SPECIAL){
+                type = CetConstants.CET_TYPE_OTHER_SPECIAL;
+            }else{
+                type = CetConstants.CET_TYPE_OTHER_DAILY;
+            }
         }
 
         if(t.getStatus()!=CetConstants.CET_UPPER_TRAIN_STATUS_PASS

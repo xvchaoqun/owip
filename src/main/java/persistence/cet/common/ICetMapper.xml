@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.cet.common.ICetMapper">
 
+    <!--批量删除已删除的培训记录-->
+    <delete id="removeDeletedCetRecords" parameterType="Integer">
+        delete from cet_record where type_id not in(select id from cet_upper_train) and type in(4,5,6);
+        delete  from cet_record where type_id not in(select id from cet_unit_train) and type in(3);
+        delete  from cet_record where type_id not in(select id from cet_project_obj) and type in(1,2);
+    </delete>
+
     <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"
                extends="persistence.cet.CetTrainCourseMapper.BaseResultMap">
         <result column="can_quit" jdbcType="BIT" property="canQuit" />

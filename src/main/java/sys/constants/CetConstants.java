@@ -263,20 +263,24 @@ public class CetConstants {
         CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_DELETE, "已删除");
     }
     
-    // 培训类型（用于年度学习档案统计），1 党校专题培训  2 党校日常培训 3 二级党委培训 4 上级调训 5 党校其他培训
+    // 培训类型（用于年度学习档案统计）
     public final static byte CET_TYPE_SPECIAL = 1; // CET_PROJECT_TYPE_ZT
     public final static byte CET_TYPE_DAILY = 2; // CET_PROJECT_TYPE_RC
     public final static byte CET_TYPE_PARTY = 3;
     public final static byte CET_TYPE_UPPER = 4;
-    public final static byte CET_TYPE_OTHER = 5; // 党校其他培训
+    public final static byte CET_TYPE_OTHER_SPECIAL = 5; // 党校其他培训（专题培训）
+    public final static byte CET_TYPE_OTHER_DAILY = 6; // 党校其他培训（日常培训）
     public static Map<Byte, String> CET_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
         CET_TYPE_MAP.put(CET_TYPE_SPECIAL, "党校专题培训");
         CET_TYPE_MAP.put(CET_TYPE_DAILY, "党校日常培训");
+
         CET_TYPE_MAP.put(CET_TYPE_PARTY, "二级党委培训");
+
         CET_TYPE_MAP.put(CET_TYPE_UPPER, "上级调训");
-        CET_TYPE_MAP.put(CET_TYPE_OTHER, "党校其他培训");
+        CET_TYPE_MAP.put(CET_TYPE_OTHER_SPECIAL, "党校专题培训"); // 用于显示个人培训记录类型
+        CET_TYPE_MAP.put(CET_TYPE_OTHER_DAILY, "党校日常培训");
     }
 
 }

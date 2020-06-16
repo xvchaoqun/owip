@@ -140,20 +140,20 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_SPECIAL));
         BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_DAILY));
-        BigDecimal otherFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_OTHER));
+        BigDecimal otherSpecialFinSishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_OTHER_SPECIAL));
+        BigDecimal otherDailyFinSishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_OTHER_DAILY));
+
         BigDecimal unitFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_PARTY));
         BigDecimal upperFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_UPPER));
 
         Map<String, BigDecimal> resultMap = new HashMap<>();
-        resultMap.put("specialPeriod", specialFinishPeriod);
-        resultMap.put("dailyPeriod", dailyFinishPeriod);
-        resultMap.put("otherPeriod", otherFinishPeriod);
+        resultMap.put("specialPeriod", specialFinishPeriod.add(otherSpecialFinSishPeriod));
+        resultMap.put("dailyPeriod", dailyFinishPeriod.add(otherDailyFinSishPeriod));
         resultMap.put("unitPeriod", unitFinishPeriod);
         resultMap.put("upperPeriod", upperFinishPeriod);
 
         // 总数
-        BigDecimal finishPeriod = specialFinishPeriod.add(dailyFinishPeriod)
-                .add(otherFinishPeriod).add(unitFinishPeriod).add(upperFinishPeriod);
+        BigDecimal finishPeriod = specialFinishPeriod.add(dailyFinishPeriod).add(unitFinishPeriod).add(upperFinishPeriod);
         resultMap.put("finishPeriod", finishPeriod);
 
         BigDecimal onlinePeriod = NumberUtils.trimToZero(iCetMapper.totalOnlinePeriod(year, userId, traineeTypeId, null));
@@ -214,7 +214,7 @@ public class CetAnnualObjService extends CetBaseMapper {
     }
 
     // 每个类别最终的完成学时
-    public BigDecimal totalFinishPeriod(CetAnnualObj cetAnnualObj, byte type) {
+    public BigDecimal totalFinishPeriod(CetAnnualObj cetAnnualObj, Byte type) {
 
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(cetAnnualObj.getAnnualId());
         int traineeTypeId = cetAnnual.getTraineeTypeId();
@@ -222,20 +222,6 @@ public class CetAnnualObjService extends CetBaseMapper {
         int year = cetAnnualObj.getYear();
 
         return NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, type));
-    }
-
-    // 最终的已完成学时（线下+网络）
-    public BigDecimal getFinishPeriod(CetAnnualObj cetAnnualObj) {
-
-        BigDecimal finishPeriod = BigDecimal.ZERO;
-
-        finishPeriod = finishPeriod.add(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_SPECIAL));
-        finishPeriod = finishPeriod.add(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_DAILY));
-        finishPeriod = finishPeriod.add(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_OTHER));
-        finishPeriod = finishPeriod.add(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_UPPER));
-        finishPeriod = finishPeriod.add(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_PARTY));
-
-        return finishPeriod;
     }
 
     // 最终的已完成学时（网络）
