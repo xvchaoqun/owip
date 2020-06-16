@@ -48,7 +48,7 @@
                             <td align="left">${drOnline.year}</td>
                             <td rowspan="4" align="center" width="150">
                                     <div class="qrcode"
-                                     data-url="${drOnlineUrl}/dr/drOnline/iLogin"
+                                     data-url="${drOnlineUrl}/dr/iLogin"
                                      style="width:120px; height:120px;"></div>
                             </td>
                         </tr>

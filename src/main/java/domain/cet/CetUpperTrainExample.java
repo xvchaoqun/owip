@@ -3,11 +3,7 @@ package domain.cet;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CetUpperTrainExample {
     protected String orderByClause;
@@ -316,6 +312,66 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andSpecialTypeIsNull() {
+            addCriterion("special_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIsNotNull() {
+            addCriterion("special_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeEqualTo(Byte value) {
+            addCriterion("special_type =", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotEqualTo(Byte value) {
+            addCriterion("special_type <>", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThan(Byte value) {
+            addCriterion("special_type >", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("special_type >=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThan(Byte value) {
+            addCriterion("special_type <", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("special_type <=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIn(List<Byte> values) {
+            addCriterion("special_type in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotIn(List<Byte> values) {
+            addCriterion("special_type not in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeBetween(Byte value1, Byte value2) {
+            addCriterion("special_type between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("special_type not between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitAdmin(Set<Integer> adminUnitIdSet) {
             String sql = "";
             if(adminUnitIdSet.size()>0){
@@ -505,126 +561,6 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDoubleIsNull() {
-            addCriterion("is_double is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleIsNotNull() {
-            addCriterion("is_double is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleEqualTo(Boolean value) {
-            addCriterion("is_double =", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotEqualTo(Boolean value) {
-            addCriterion("is_double <>", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleGreaterThan(Boolean value) {
-            addCriterion("is_double >", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_double >=", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleLessThan(Boolean value) {
-            addCriterion("is_double <", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_double <=", value, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleIn(List<Boolean> values) {
-            addCriterion("is_double in", values, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotIn(List<Boolean> values) {
-            addCriterion("is_double not in", values, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_double between", value1, value2, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_double not between", value1, value2, "isDouble");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryIsNull() {
-            addCriterion("is_branch_secretary is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryIsNotNull() {
-            addCriterion("is_branch_secretary is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryEqualTo(Boolean value) {
-            addCriterion("is_branch_secretary =", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryNotEqualTo(Boolean value) {
-            addCriterion("is_branch_secretary <>", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryGreaterThan(Boolean value) {
-            addCriterion("is_branch_secretary >", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_branch_secretary >=", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryLessThan(Boolean value) {
-            addCriterion("is_branch_secretary <", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_branch_secretary <=", value, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryIn(List<Boolean> values) {
-            addCriterion("is_branch_secretary in", values, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryNotIn(List<Boolean> values) {
-            addCriterion("is_branch_secretary not in", values, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_branch_secretary between", value1, value2, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsBranchSecretaryNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_branch_secretary not between", value1, value2, "isBranchSecretary");
-            return (Criteria) this;
-        }
-
         public Criteria andTraineeTypeIdIsNull() {
             addCriterion("trainee_type_id is null");
             return (Criteria) this;
@@ -752,6 +688,76 @@ public class CetUpperTrainExample {
 
         public Criteria andOtherTraineeTypeNotBetween(String value1, String value2) {
             addCriterion("other_trainee_type not between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNull() {
+            addCriterion("identity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNotNull() {
+            addCriterion("identity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityEqualTo(String value) {
+            addCriterion("identity =", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotEqualTo(String value) {
+            addCriterion("identity <>", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThan(String value) {
+            addCriterion("identity >", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThanOrEqualTo(String value) {
+            addCriterion("identity >=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThan(String value) {
+            addCriterion("identity <", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThanOrEqualTo(String value) {
+            addCriterion("identity <=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLike(String value) {
+            addCriterion("identity like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotLike(String value) {
+            addCriterion("identity not like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIn(List<String> values) {
+            addCriterion("identity in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotIn(List<String> values) {
+            addCriterion("identity not in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityBetween(String value1, String value2) {
+            addCriterion("identity between", value1, value2, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotBetween(String value1, String value2) {
+            addCriterion("identity not between", value1, value2, "identity");
             return (Criteria) this;
         }
 
@@ -1672,6 +1678,76 @@ public class CetUpperTrainExample {
 
         public Criteria andPdfNoteNotBetween(String value1, String value2) {
             addCriterion("pdf_note not between", value1, value2, "pdfNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIsNull() {
+            addCriterion("score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIsNotNull() {
+            addCriterion("score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreEqualTo(String value) {
+            addCriterion("score =", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotEqualTo(String value) {
+            addCriterion("score <>", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThan(String value) {
+            addCriterion("score >", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreGreaterThanOrEqualTo(String value) {
+            addCriterion("score >=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThan(String value) {
+            addCriterion("score <", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLessThanOrEqualTo(String value) {
+            addCriterion("score <=", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreLike(String value) {
+            addCriterion("score like", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotLike(String value) {
+            addCriterion("score not like", value, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreIn(List<String> values) {
+            addCriterion("score in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotIn(List<String> values) {
+            addCriterion("score not in", values, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreBetween(String value1, String value2) {
+            addCriterion("score between", value1, value2, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andScoreNotBetween(String value1, String value2) {
+            addCriterion("score not between", value1, value2, "score");
             return (Criteria) this;
         }
 

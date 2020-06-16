@@ -169,8 +169,9 @@ pageEncoding="UTF-8" %>
             {label: '参训人姓名', name: 'user.realname', frozen:true},
             {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
             { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined)return '--'
-                    return traineeTypeMap[cellvalue].name
+                    if(cellvalue==undefined)return '--';
+                    if(cellvalue==0) return rowObject.otherTraineeType;
+                    return traineeTypeMap[cellvalue].name;
                 }, width:180},
             <c:if test="${reRecord==1}">
             {label: '补录进度', name: 'status', width: 120, formatter: function (cellvalue, options, rowObject) {
@@ -187,7 +188,18 @@ pageEncoding="UTF-8" %>
             {label: '培训<br/>开始时间', name: 'project.startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '培训<br/>结束时间', name: 'project.endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
-            {label: '职务属性', name: 'postType', width: 140, align: 'center',formatter: $.jgrid.formatter.MetaType},
+            <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                {
+                    label: '参训人员身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == null) {
+                            return "--";
+                        }
+                        return ($.map(cellvalue.split(","), function(identity){
+                            return $.jgrid.formatter.MetaType(identity);
+                        })).join("，")
+                    }},
+            </c:if>
+            {label: '时任职务属性', name: 'postType', width: 140, align: 'left',formatter: $.jgrid.formatter.MetaType},
             {label: '完成培训学时', name: 'period'},
             {label: '培训总结', name: '_note', width: 200, align:"left", formatter: function (cellvalue, options, rowObject) {
 

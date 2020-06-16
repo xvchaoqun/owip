@@ -53,11 +53,12 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
+        <table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
 
         <!--<table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
                mapperName="cet.CetUpperTrainAdminMapper">

@@ -211,6 +211,15 @@ public class CetConstants {
     public final static byte CET_UPPER_TRAIN_TYPE_ABROAD = 8;
     public final static byte CET_UPPER_TRAIN_TYPE_SCHOOL = 10; // 党校其他培训
 
+    //其他培训类别 1党校专题培训 2党校日常培训
+    public final static byte CET_UPPER_TRAIN_ST_SPECIAL = 1;
+    public final static byte CET_UPPER_TRAIN_ST_DAILY = 2;
+    public final static Map<Byte, String> CET_UPPER_TRAIN_ST_MAP = new LinkedHashMap<>();
+    static {
+        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_SPECIAL, "党校专题培训");
+        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_DAILY, "党校日常培训");
+    }
+
     // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过
     public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0; // 待单位审批
     public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1; // 单位审批通过，isValid->待组织部确认

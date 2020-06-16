@@ -1,7 +1,6 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
-import persistence.cet.CetPartyMapper;
 import persistence.cet.CetUnitProjectMapper;
 import sys.tags.CmTag;
 
@@ -28,6 +27,10 @@ public class CetUnitTrain implements Serializable {
     private Integer userId;
 
     private Integer traineeTypeId;
+
+    private String otherTraineeType;
+
+    private String identity;
 
     private String title;
 
@@ -81,6 +84,22 @@ public class CetUnitTrain implements Serializable {
 
     public void setTraineeTypeId(Integer traineeTypeId) {
         this.traineeTypeId = traineeTypeId;
+    }
+
+    public String getOtherTraineeType() {
+        return otherTraineeType;
+    }
+
+    public void setOtherTraineeType(String otherTraineeType) {
+        this.otherTraineeType = otherTraineeType == null ? null : otherTraineeType.trim();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public String getTitle() {

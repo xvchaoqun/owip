@@ -233,6 +233,7 @@ public class CetUnitTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUnitTrain_au(CetUnitTrain record,
+                                  @RequestParam(value = "identities[]", required = false) Integer[] identities,
                                   MultipartFile _word, MultipartFile _pdf,
                                   HttpServletRequest request) throws IOException, InterruptedException {
         
@@ -242,7 +243,8 @@ public class CetUnitTrainController extends CetBaseController {
             
             return failed("添加重复。");
         }
-        
+        record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
+                ? "" : StringUtils.join(identities, ","));
         record.setWordNote(upload(_word, "cetUnitTrain_note"));
         record.setPdfNote(uploadPdf(_pdf, "cetUnitTrain_note"));
         

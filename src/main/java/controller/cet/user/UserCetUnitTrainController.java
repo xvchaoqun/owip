@@ -165,7 +165,9 @@ public class UserCetUnitTrainController extends CetBaseController {
     @RequiresPermissions("userCetUnitTrain:edit")
     @RequestMapping(value = "/cetUnitTrain_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_userCetUnitTrain_list(CetUnitTrain record, MultipartFile _word, MultipartFile _pdf,
+    public Map do_userCetUnitTrain_list(CetUnitTrain record,
+                                        @RequestParam(value = "identities[]", required = false) Integer[] identities,
+                                        MultipartFile _word, MultipartFile _pdf,
                                         HttpServletRequest request) throws IOException, InterruptedException{
 
         Integer id = record.getId();
@@ -174,7 +176,8 @@ public class UserCetUnitTrainController extends CetBaseController {
 
             return failed("添加重复。");
         }
-
+        record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
+                ? "" : StringUtils.join(identities, ","));
         record.setWordNote(upload(_word, "cetUnitTrain_note"));
         record.setPdfNote(uploadPdf(_pdf, "cetUnitTrain_note"));
         record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PARTY);

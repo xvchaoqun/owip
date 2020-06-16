@@ -346,6 +346,146 @@ public class CetUnitTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andOtherTraineeTypeIsNull() {
+            addCriterion("other_trainee_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIsNotNull() {
+            addCriterion("other_trainee_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeEqualTo(String value) {
+            addCriterion("other_trainee_type =", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotEqualTo(String value) {
+            addCriterion("other_trainee_type <>", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThan(String value) {
+            addCriterion("other_trainee_type >", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type >=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThan(String value) {
+            addCriterion("other_trainee_type <", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type <=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLike(String value) {
+            addCriterion("other_trainee_type like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotLike(String value) {
+            addCriterion("other_trainee_type not like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIn(List<String> values) {
+            addCriterion("other_trainee_type in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotIn(List<String> values) {
+            addCriterion("other_trainee_type not in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeBetween(String value1, String value2) {
+            addCriterion("other_trainee_type between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotBetween(String value1, String value2) {
+            addCriterion("other_trainee_type not between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNull() {
+            addCriterion("identity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNotNull() {
+            addCriterion("identity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityEqualTo(String value) {
+            addCriterion("identity =", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotEqualTo(String value) {
+            addCriterion("identity <>", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThan(String value) {
+            addCriterion("identity >", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThanOrEqualTo(String value) {
+            addCriterion("identity >=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThan(String value) {
+            addCriterion("identity <", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThanOrEqualTo(String value) {
+            addCriterion("identity <=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLike(String value) {
+            addCriterion("identity like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotLike(String value) {
+            addCriterion("identity not like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIn(List<String> values) {
+            addCriterion("identity in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotIn(List<String> values) {
+            addCriterion("identity not in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityBetween(String value1, String value2) {
+            addCriterion("identity between", value1, value2, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotBetween(String value1, String value2) {
+            addCriterion("identity not between", value1, value2, "identity");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

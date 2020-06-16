@@ -102,19 +102,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTraineeType">
-    insert into cet_trainee_type (id, name, code, 
-      template_id, sort_order, is_deleted, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{templateId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_trainee_type (name, code, template_id, 
+      sort_order, is_deleted, remark
+      )
+    values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{templateId,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTraineeType">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cet_trainee_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -135,9 +138,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>

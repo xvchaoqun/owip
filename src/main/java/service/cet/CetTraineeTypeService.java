@@ -2,6 +2,7 @@ package service.cet;
 
 import domain.cet.CetTraineeType;
 import domain.cet.CetTraineeTypeExample;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -99,5 +100,20 @@ public class CetTraineeTypeService extends CetBaseMapper {
     public void changeOrder(int id, int addNum) {
 
         changeOrder("cet_trainee_type", null, ORDER_BY_ASC, id, addNum);
+    }
+
+    @Transactional
+    public String genCode(){
+
+        String prefix = "t";
+        String code = "";
+        int count = 0;
+        do {
+            code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
+            CetTraineeTypeExample example = new CetTraineeTypeExample();
+            example.createCriteria().andCodeEqualTo(code);
+            count = (int) cetTraineeTypeMapper.countByExample(example);
+        } while(count>0);
+        return code;
     }
 }

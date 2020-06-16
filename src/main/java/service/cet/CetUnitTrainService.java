@@ -2,6 +2,7 @@ package service.cet;
 
 import bean.UserBean;
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cet.CetTraineeType;
 import domain.cet.CetUnitProject;
@@ -13,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
@@ -31,6 +33,8 @@ public class CetUnitTrainService extends CetBaseMapper {
     private UserBeanService userBeanService;
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     public boolean idDuplicate(Integer id, int projectId, int userId) {
 
@@ -199,7 +203,24 @@ public class CetUnitTrainService extends CetBaseMapper {
             String _traineeType = StringUtils.trim(xlsRow.get(2));
             if (StringUtils.isBlank(_traineeType)) continue;
             Integer traineeTypeId = _traineeTypeMap.get(_traineeType);
-            record.setTraineeTypeId(traineeTypeId);
+            if(traineeTypeId != null) {
+                record.setTraineeTypeId(traineeTypeId);
+            }else{
+                record.setTraineeTypeId(0);
+                record.setOtherTraineeType(StringUtils.trim(xlsRow.get(2)));
+            }
+            String _identity = StringUtils.trimToNull(xlsRow.get(3));
+            if (StringUtils.isNotBlank(_identity)) {
+                String[] identities = _identity.split(",|，|、");
+                String identity = "";
+                for (String s : identities) {
+                    MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType != null) {
+                        identity = StringUtils.trimToNull(identity) == null ? "" + metaType.getId() : (identity += "," + metaType.getId());
+                    }
+                }
+                record.setIdentity(identity);
+            }
 
             record.setProjectId(projectId);
             record.setUserId(userId);

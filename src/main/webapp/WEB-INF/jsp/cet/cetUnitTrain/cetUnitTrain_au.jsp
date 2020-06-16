@@ -33,8 +33,33 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</c:if>
+			<c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+				<div class="form-group owAuType">
+					<label class="col-xs-3 control-label"> 参训人身份</label>
+					<div class="col-xs-6">
+						<div class="input-group">
+							<c:forEach items="${cm:getMetaTypes('mc_cet_identity')}" var="entity">
+								<div class="checkbox checkbox-inline checkbox-sm">
+									<input type="checkbox" name="identities[]" id="identity${entity.key}" value="${entity.key}">
+									<label for="identity${entity.key}">${entity.value.name}</label>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+				<script>
+					<c:if test="${not empty cetUnitTrain}">
+						var identity = ${cm:toJSONObject(cetUnitTrain.identity)};
+						var identities = identity.split(',');
+						for(i in identities){
+							$('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
+						}
+						//console.log(identity);
+					</c:if>
+				</script>
+			</c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> 参训人类型</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择" data-width="272">
                         <option></option>
@@ -43,10 +68,18 @@ pageEncoding="UTF-8"%>
 							<option value="${entity.value.id}">${entity.value.name}</option>
 							</c:if>
 						</c:forEach>
+						<option value="0">其他</option>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=traineeTypeId]").val(${cetUnitTrain.traineeTypeId});
                     </script>
+				</div>
+			</div>
+
+			<div class="form-group hidden" id="otherTraineeType">
+				<div class="col-xs-offset-3 col-xs-5">
+					<input class="form-control" name="otherTraineeType" type="text"
+						   value="${cetUnitTrain.otherTraineeType}"/>
 				</div>
 			</div>
 
@@ -58,9 +91,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">职务属性</label>
+				<label class="col-xs-3 control-label">时任职务属性</label>
 				<div class="col-xs-6">
-					<select  data-rel="select2" name="postType" data-placeholder="请选择职务属性" data-width="272">
+					<select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="272">
                         <option></option>
                         <jsp:include page="/metaTypes?__code=mc_post"/>
                     </select>
@@ -116,6 +149,22 @@ pageEncoding="UTF-8"%>
 	</c:if>
 </div>
 <script>
+
+	function traineeTypeChange(){
+		if ($("select[name=traineeTypeId]").val() == "0"){
+			$("#otherTraineeType").removeClass("hidden");
+			$("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).attr("required", "required");
+		}else {
+			$("#otherTraineeType").addClass("hidden");
+			$("input[name=otherTraineeType]", "#otherTraineeType").val('').prop("disabled", true).removeAttr("required");
+		}
+	}
+
+	$("select[name=traineeTypeId]").on("change", function () {
+		traineeTypeChange();
+	})
+	traineeTypeChange();
+
 	$.fileInput($("#modalForm input[name=_word]"),{
 		no_file: '请上传word文件...',
 		allowExt: ['doc', 'docx'],

@@ -6,6 +6,8 @@
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
     <result column="period" jdbcType="DECIMAL" property="period" />
@@ -76,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, title, post_type, period, word_note, pdf_note, 
-    add_user_id, add_time, status, reason, remark
+    id, project_id, user_id, trainee_type_id, other_trainee_type, identity, title, post_type, 
+    period, word_note, pdf_note, add_user_id, add_time, status, reason, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -111,15 +113,17 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train (id, project_id, user_id, 
-      trainee_type_id, title, post_type, 
-      period, word_note, pdf_note, 
-      add_user_id, add_time, status, 
-      reason, remark)
+      trainee_type_id, other_trainee_type, identity, 
+      title, post_type, period, 
+      word_note, pdf_note, add_user_id, 
+      add_time, status, reason, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{traineeTypeId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, 
-      #{period,jdbcType=DECIMAL}, #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
+      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{addUserId,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train
@@ -135,6 +139,12 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id,
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type,
+      </if>
+      <if test="identity != null">
+        identity,
       </if>
       <if test="title != null">
         title,
@@ -179,6 +189,12 @@
       </if>
       <if test="traineeTypeId != null">
         #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        #{identity,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -233,6 +249,12 @@
       <if test="record.traineeTypeId != null">
         trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.otherTraineeType != null">
+        other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identity != null">
+        identity = #{record.identity,jdbcType=VARCHAR},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -274,6 +296,8 @@
       project_id = #{record.projectId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      identity = #{record.identity,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       post_type = #{record.postType,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
@@ -299,6 +323,12 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        identity = #{identity,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -338,6 +368,8 @@
     set project_id = #{projectId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      identity = #{identity,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       post_type = #{postType,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},

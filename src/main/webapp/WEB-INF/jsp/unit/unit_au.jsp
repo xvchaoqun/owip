@@ -82,7 +82,8 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $.reloadMetaData(function(){
-                            page_reload();
+							$("#modal").modal('hide');
+							$("#jqGrid").trigger("reloadGrid");
                         });
                         //SysMsg.success('操作成功。', '成功');
                     }

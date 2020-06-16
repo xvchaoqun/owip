@@ -53,7 +53,7 @@ pageEncoding="UTF-8" %>
                         </label>
                     </td>
                     <td nowrap width="350px">${cetUnitProject.projectName}</td>
-                    <td nowrap width="200px">${cm:displayParty(cetUnitProject.partyId, null)}</td>
+                    <td nowrap width="200px">${cm:displayParty(cetUnitProject.cetParty.partyId, null)}</td>
                     <td nowrap width="60px">${cm:formatDate(cetUnitProject.startDate, 'yyyy.MM.dd')}</td>
                     <td nowrap width="60px">${cm:formatDate(cetUnitProject.endDate, 'yyyy.MM.dd')}</td>
                 </tr>

@@ -28,19 +28,19 @@ public class CetUpperTrain implements Serializable {
 
     private Byte type;
 
+    private Byte specialType;
+
     private Boolean isOnline;
 
     private Integer unitId;
 
     private Integer userId;
 
-    private Boolean isDouble;
-
-    private Boolean isBranchSecretary;
-
     private Integer traineeTypeId;
 
     private String otherTraineeType;
+
+    private String identity;
 
     private String title;
 
@@ -71,6 +71,8 @@ public class CetUpperTrain implements Serializable {
     private String wordNote;
 
     private String pdfNote;
+
+    private String score;
 
     private Byte addType;
 
@@ -114,6 +116,14 @@ public class CetUpperTrain implements Serializable {
         this.type = type;
     }
 
+    public Byte getSpecialType() {
+        return specialType;
+    }
+
+    public void setSpecialType(Byte specialType) {
+        this.specialType = specialType;
+    }
+
     public Boolean getIsOnline() {
         return isOnline;
     }
@@ -138,22 +148,6 @@ public class CetUpperTrain implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean getIsDouble() {
-        return isDouble;
-    }
-
-    public void setIsDouble(Boolean isDouble) {
-        this.isDouble = isDouble;
-    }
-
-    public Boolean getIsBranchSecretary() {
-        return isBranchSecretary;
-    }
-
-    public void setIsBranchSecretary(Boolean isBranchSecretary) {
-        this.isBranchSecretary = isBranchSecretary;
-    }
-
     public Integer getTraineeTypeId() {
         return traineeTypeId;
     }
@@ -168,6 +162,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setOtherTraineeType(String otherTraineeType) {
         this.otherTraineeType = otherTraineeType == null ? null : otherTraineeType.trim();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public String getTitle() {
@@ -280,6 +282,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setPdfNote(String pdfNote) {
         this.pdfNote = pdfNote == null ? null : pdfNote.trim();
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score == null ? null : score.trim();
     }
 
     public Byte getAddType() {

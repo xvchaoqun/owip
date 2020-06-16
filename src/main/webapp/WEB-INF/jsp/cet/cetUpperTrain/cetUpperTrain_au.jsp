@@ -16,6 +16,9 @@
 <c:set var="CET_UPPERTRAIN_AU_TYPE_SINGLE" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_SINGLE%>"/>
 <c:set var="CET_UPPERTRAIN_AU_TYPE_BATCH" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH%>"/>
 
+<c:set var="CET_UPPER_TRAIN_ST_SPECIAL" value="<%=CetConstants.CET_UPPER_TRAIN_ST_SPECIAL%>"/>
+<c:set var="CET_UPPER_TRAIN_ST_DAILY" value="<%=CetConstants.CET_UPPER_TRAIN_ST_DAILY%>"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
@@ -88,24 +91,59 @@
                         <textarea class="form-control" name="title">${cetUpperTrain.title}</textarea>
                     </div>
                 </div>
-                <div class="form-group owAuType">
-                    <label class="col-xs-4 control-label">时任职务属性</label>
-                    <div class="col-xs-7">
-                        <div class="input-group">
-                            <div class="checkbox checkbox-inline checkbox-sm">
-                                <input type="checkbox" name="isDouble" id="isDouble"
-                                        ${cetUpperTrain.isDouble?"checked":""} value="1">
-                                <label for="isDouble">双肩挑</label>
-                            </div>
-                            <div class="checkbox checkbox-inline checkbox-sm">
-                                <input type="checkbox"
-                                       name="isBranchSecretary" id="isBranchSecretary"
-                                        ${cetUpperTrain.isBranchSecretary?"checked":""} value="1">
-                                <label for="isBranchSecretary">支部书记</label>
+                <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                    <div class="form-group owAuType">
+                        <label class="col-xs-4 control-label"> 参训人身份</label>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <c:forEach items="${cm:getMetaTypes('mc_cet_identity')}" var="entity">
+                                    <div class="checkbox checkbox-inline checkbox-sm">
+                                        <input type="checkbox" name="identities[]" id="identity${entity.key}" value="${entity.key}">
+                                        <label for="identity${entity.key}">${entity.value.name}</label>
+                                    </div>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <script>
+                        <c:if test="${not empty cetUpperTrain}">
+                            var identity = ${cm:toJSONObject(cetUpperTrain.identity)};
+                            var identities = identity.split(',');
+                            for(i in identities){
+                                $('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
+                            }
+                            //console.log(identities);
+                        </c:if>
+                    </script>
+                </c:if>
+                <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label"> 培训类别</label>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="specialType" id="specialType0"
+                                           value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                                    <label for="specialType0">
+                                        党校专题培训
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                    <input type="radio" name="specialType" id="specialType1"
+                                           value="${CET_UPPER_TRAIN_ST_DAILY}">
+                                    <label for="specialType1">
+                                        党校日常培训
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        <c:if test="${not empty cetUpperTrain}">
+                            $("#modalForm input[name=specialType][value=${cetUpperTrain.specialType}]").prop("checked", true);
+                        </c:if>
+                    </script>
+                </c:if>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span> 参训人员类型</label>
                     <div class="col-xs-7">
@@ -123,10 +161,9 @@
                 </div>
 
                 <div class="form-group hidden" id="otherTraineeType">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>其他参训人员类型</label>
-                    <div class="col-xs-7">
+                    <div class="col-xs-offset-4 col-xs-6">
                         <input class="form-control" name="otherTraineeType" type="text"
-                               value="${cetUpperTrain.address}"/>
+                               value="${cetUpperTrain.otherTraineeType}"/>
                     </div>
                 </div>
 
@@ -288,6 +325,13 @@
                 <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
                     <input type="hidden" name="type" value="${CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 </c:if>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label"> 培训成绩</label>
+                    <div class="col-xs-7">
+                        <input class="form-control" type="text" name="score"
+                               value="${cetUpperTrain.score}" maxlength="20" placeholder="建议在20字以内">
+                    </div>
+                </div>
                 <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD && param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
                     <div class="form-group">
@@ -435,15 +479,19 @@
 </style>
 <script>
 
-    $("select[name=traineeTypeId]").on("change", function () {
-        if ($(this).val() == 0){
+    function traineeTypeChange(){
+        if ($("select[name=traineeTypeId]").val() == "0"){
             $("#otherTraineeType").removeClass("hidden");
-            $("input[name=otherTraineeType]", "#otherTraineeType").attr("required", "required");
+            $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).attr("required", "required");
         }else {
             $("#otherTraineeType").addClass("hidden");
-            $("input[name=otherTraineeType]", "#otherTraineeType").removeAttr("required");
+            $("input[name=otherTraineeType]", "#otherTraineeType").val('').prop("disabled", true).removeAttr("required");
         }
+    }
+    $("select[name=traineeTypeId]").on("change", function () {
+        traineeTypeChange();
     })
+    traineeTypeChange();
 
     $.fileInput($('#modalForm input[type=file]'))
 
@@ -568,6 +616,7 @@
     });
     $.register.user_select($('#modalForm select[name=userId]'));
     $('#modalForm [data-rel="select2"]').customSelect2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     //$('[data-rel="tooltip"]').tooltip();
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));

@@ -2,6 +2,7 @@ package controller.cet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginUserService;
+import service.base.MetaTypeService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
@@ -20,6 +21,8 @@ import sys.HttpResponseMethod;
 
 public class CetBaseController extends CetBaseMapper implements HttpResponseMethod {
 
+    @Autowired
+    protected MetaTypeService metaTypeService;
     @Autowired
     protected CetPartyAdminService cetPartyAdminService;
     @Autowired

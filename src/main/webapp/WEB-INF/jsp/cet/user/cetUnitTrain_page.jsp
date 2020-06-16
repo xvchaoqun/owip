@@ -76,9 +76,21 @@
             },
             {label: '参训人姓名', name: 'user.realname', frozen: true},
             {label: '参训人工号', width: 110, name: 'user.code', frozen: true},
+            <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                {
+                    label: '参训人身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == null) {
+                            return "--";
+                        }
+                        return ($.map(cellvalue.split(","), function(identity){
+                            return $.jgrid.formatter.MetaType(identity);
+                        })).join("，")
+                    }},
+            </c:if>
             { label: '参训人类型', name: 'traineeTypeId', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined)return '--'
-                    return traineeTypeMap[cellvalue].name
+                    if(cellvalue==undefined)return '--';
+                    if(cellvalue==0) return rowObject.otherTraineeType;
+                    return traineeTypeMap[cellvalue].name;
                 }, width:180},
             <c:if test="${cls==6}">
                 {label: '补录进度', name: 'status', width: 120, formatter: function (cellvalue, options, rowObject) {

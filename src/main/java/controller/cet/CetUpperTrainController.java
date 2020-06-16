@@ -222,6 +222,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequestMapping(value = "/cetUpperTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetUpperTrain_au(CetUpperTrain record,
+                                   @RequestParam(value = "identities[]", required = false) Integer[] identities,
                                    MultipartFile _word, MultipartFile _pdf,
                                    Boolean check,// 审批
                                    Byte auType,//添加方式
@@ -239,8 +240,8 @@ public class CetUpperTrainController extends CetBaseController {
         }
 
         if (CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH != auType) {
-            record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
-            record.setIsBranchSecretary(BooleanUtils.isTrue(record.getIsBranchSecretary()));
+            record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
+                    ? "" : StringUtils.join(identities, ","));
         }
         record.setIsOnline(BooleanUtils.isTrue(record.getIsOnline()));
 
@@ -374,9 +375,20 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                     cetUpperTrain.setUserId(uv.getId());
                     cetUpperTrain.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
-                    cetUpperTrain.setIsDouble(StringUtils.equals(xlsRow.get(3), "是"));
-                    cetUpperTrain.setIsBranchSecretary(StringUtils.equals(xlsRow.get(4), "是"));
-
+                    String _identity = StringUtils.trimToNull(xlsRow.get(3));
+                    if (StringUtils.isNotBlank(_identity)) {
+                        String[] _identities = _identity.split(",|，|、");
+                        String identity = "";
+                        for (String s : _identities) {
+                            MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
+                            if (metaType != null) {
+                                identity = StringUtils.trimToNull(identity) == null ? "" + metaType.getId() : (identity += "," + metaType.getId());
+                            }
+                        }
+                        cetUpperTrain.setIdentity(identity);
+                    }else {
+                        cetUpperTrain.setIdentity("");
+                    }
 
                     records.add(cetUpperTrain);
                 }
@@ -594,32 +606,44 @@ public class CetUpperTrainController extends CetBaseController {
             }
             record.setUserId(uv.getId());
 
-            record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+            int col = 2;
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(col++)));
             CadreView cadre = cadreService.dbFindByUserId(uv.getId());
             if (cadre != null) {
                 if (record.getTitle() == null) {
                     record.setTitle(cadre.getTitle());
                 }
             }
+            String _identity = StringUtils.trimToNull(xlsRow.get(col++));
+            if (StringUtils.isNotBlank(_identity)) {
+                String[] identities = _identity.split(",|，|、");
+                String identity = "";
+                for (String s : identities) {
+                    MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType != null) {
+                        identity = StringUtils.trimToNull(identity) == null ? "" + metaType.getId() : (identity += "," + metaType.getId());
+                    }
+                }
+                record.setIdentity(identity);
+            }else {
+                record.setIdentity("");
+            }
 
-            record.setIsDouble(StringUtils.equals(xlsRow.get(3), "是"));
-            record.setIsBranchSecretary(StringUtils.equals(xlsRow.get(4), "是"));
-
-            CetTraineeType cetTraineeType = cetTraineeTypeService.getByName(StringUtils.trim(xlsRow.get(5)));
+            CetTraineeType cetTraineeType = cetTraineeTypeService.getByName(StringUtils.trim(xlsRow.get(col++)));
             if(cetTraineeType!=null) {
                 record.setTraineeTypeId(cetTraineeType.getId());
             }else{
                 record.setTraineeTypeId(0);
-                record.setOtherTraineeType(StringUtils.trim(xlsRow.get(5)));
+                record.setOtherTraineeType(StringUtils.trim(xlsRow.get(col - 1)));
             }
 
-            String _year = StringUtils.trimToNull(xlsRow.get(6));
+            String _year = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(_year) || !NumberUtils.isDigits(_year)) {
                 throw new OpException("第{0}行年度有误", row);
             }
             record.setYear(Integer.valueOf(_year));
 
-            String _organizerType = StringUtils.trimToNull(xlsRow.get(7));
+            String _organizerType = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(_organizerType)) {
                 throw new OpException("第{0}行培训班主办方为空", row);
             }
@@ -629,7 +653,7 @@ public class CetUpperTrainController extends CetBaseController {
                 record.setOtherOrganizer(_organizerType);
             }
 
-            String _trainType = StringUtils.trimToNull(xlsRow.get(8));
+            String _trainType = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(_trainType)) {
                 throw new OpException("第{0}行培训班类型为空", row);
             }
@@ -639,30 +663,30 @@ public class CetUpperTrainController extends CetBaseController {
             }
             record.setTrainType(trainType.getId());
 
-            String trainName = StringUtils.trimToNull(xlsRow.get(9));
+            String trainName = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(trainName)) {
                 throw new OpException("第{0}行培训班名称为空", row);
             }
             record.setTrainName(trainName);
 
-            record.setIsOnline(StringUtils.equals(xlsRow.get(10), "线上培训"));
+            record.setIsOnline(StringUtils.equals(xlsRow.get(col++), "线上培训"));
 
-            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(11))));
-            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(12))));
+            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
 
-            String period = StringUtils.trimToNull(xlsRow.get(13));
+            String period = StringUtils.trimToNull(xlsRow.get(col++));
             if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
                 throw new OpException("第{0}行培训学时有误", row);
             }
             record.setPeriod(new BigDecimal(period));
 
-            record.setAddress(StringUtils.trimToNull(xlsRow.get(14)));
-
-            String _type = StringUtils.trimToNull(xlsRow.get(15));
+            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
+            String _type = StringUtils.trimToNull(xlsRow.get(col++));
             record.setType(StringUtils.equals(_type, "党委组织部")?CetConstants.CET_UPPER_TRAIN_TYPE_OW
                     :CetConstants.CET_UPPER_TRAIN_TYPE_UNIT);
             if (record.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_UNIT) {
-                String unitCode = StringUtils.trimToNull(xlsRow.get(16));
+                String unitCode = StringUtils.trimToNull(xlsRow.get(col++));
                 if (StringUtils.isBlank(unitCode)) {
                     throw new OpException("第{0}行单位编码为空", row);
                 }
@@ -673,8 +697,8 @@ public class CetUpperTrainController extends CetBaseController {
                 record.setUnitId(unit.getId());
             }
 
-            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(17)), "是"));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(18)));
+            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
 
             records.add(record);
         }
@@ -697,24 +721,25 @@ public class CetUpperTrainController extends CetBaseController {
         List<CetUpperTrain> records = cetUpperTrainMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"派出类型|100", "派出单位|100", "参训人|100", "时任单位及职务|100|left",
-                "职务属性|100", "培训班主办方|100", "培训班类型|100",
-                "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "是否计入年度学习任务|100"};
+                "时任职务属性|100", "培训班主办方|100", "培训班类型|100",
+                "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "培训成绩|100", "是否计入年度学习任务|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUpperTrain record = records.get(i);
             String[] values = {
                     record.getType() + "",
-                    record.getUnitId() + "",
-                    record.getUserId() + "",
+                    record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
+                    sysUserService.findById(record.getUserId()).getRealname(),
                     record.getTitle(),
-                    record.getPostId() + "",
-                    record.getOrganizer() + "",
-                    record.getTrainType() + "",
+                    record.getPostId() == null ? "" : metaTypeService.findAll().get(record.getPostId()).getName(),
+                    record.getOrganizer() == 0 ? record.getOtherOrganizer() : metaTypeService.findAll().get(record.getOrganizer()).getName(),
+                    metaTypeService.findAll().get(record.getTrainType()).getName(),
                     record.getTrainName(),
-                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
                     record.getPeriod() + "",
-                    record.getIsValid() + ""
+                    record.getScore(),
+                    record.getIsValid() ? "是" : "否",
             };
             valuesList.add(values);
         }
