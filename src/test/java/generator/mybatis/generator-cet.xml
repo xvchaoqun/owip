@@ -42,9 +42,9 @@
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
         </table>-->
-       <table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
+       <!--<table tableName="cet_annual_obj" domainObjectName="cet.CetAnnualObj" mapperName="cet.CetAnnualObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
        <!-- <table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -94,20 +94,9 @@
 
         <!--<table tableName="cet_project_type" domainObjectName="cet.CetProjectType" mapperName="cet.CetProjectTypeMapper">
         </table>-->
-        <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
+        <table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="cet_project_view" domainObjectName="cet.CetProjectView"
-               mapperName="cet.CetProjectViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="obj_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
         <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -237,9 +226,7 @@
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->
-       <!-- <table tableName="cet_project_trainee_type" domainObjectName="cet.CetProjectTraineeType"
-               mapperName="cet.CetProjectTraineeTypeMapper">
-        </table>-->
+
         <!--<table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

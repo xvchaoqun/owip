@@ -5,6 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="trainee_type_ids" jdbcType="VARCHAR" property="traineeTypeIds" />
+    <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
+    <result column="obj_count" jdbcType="INTEGER" property="objCount" />
+    <result column="quit_count" jdbcType="INTEGER" property="quitCount" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
@@ -79,8 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, start_date, end_date, open_time, open_address, name, is_valid, project_type_id, 
-    file_name, pdf_file_path, word_file_path, period, require_period, remark, create_time
+    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, start_date, 
+    end_date, open_time, open_address, name, is_valid, project_type_id, file_name, pdf_file_path, 
+    word_file_path, period, require_period, remark, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -116,18 +121,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_project (type, year, start_date, 
-      end_date, open_time, open_address, 
-      name, is_valid, project_type_id, 
-      file_name, pdf_file_path, word_file_path, 
-      period, require_period, remark, 
-      create_time)
-    values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, #{projectTypeId,jdbcType=INTEGER}, 
-      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
-      #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into cet_project (type, year, trainee_type_ids, 
+      other_trainee_type, obj_count, quit_count, 
+      start_date, end_date, open_time, 
+      open_address, name, is_valid, 
+      project_type_id, file_name, pdf_file_path, 
+      word_file_path, period, require_period, 
+      remark, create_time)
+    values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR}, 
+      #{otherTraineeType,jdbcType=VARCHAR}, #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, 
+      #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
+      #{projectTypeId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, 
+      #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -140,6 +147,18 @@
       </if>
       <if test="year != null">
         year,
+      </if>
+      <if test="traineeTypeIds != null">
+        trainee_type_ids,
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type,
+      </if>
+      <if test="objCount != null">
+        obj_count,
+      </if>
+      <if test="quitCount != null">
+        quit_count,
       </if>
       <if test="startDate != null">
         start_date,
@@ -190,6 +209,18 @@
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeIds != null">
+        #{traineeTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="otherTraineeType != null">
+        #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="objCount != null">
+        #{objCount,jdbcType=INTEGER},
+      </if>
+      <if test="quitCount != null">
+        #{quitCount,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
@@ -253,6 +284,18 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
+      <if test="record.traineeTypeIds != null">
+        trainee_type_ids = #{record.traineeTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherTraineeType != null">
+        other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objCount != null">
+        obj_count = #{record.objCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.quitCount != null">
+        quit_count = #{record.quitCount,jdbcType=INTEGER},
+      </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
       </if>
@@ -305,6 +348,10 @@
     set id = #{record.id,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       year = #{record.year,jdbcType=INTEGER},
+      trainee_type_ids = #{record.traineeTypeIds,jdbcType=VARCHAR},
+      other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      obj_count = #{record.objCount,jdbcType=INTEGER},
+      quit_count = #{record.quitCount,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       open_time = #{record.openTime,jdbcType=TIMESTAMP},
@@ -331,6 +378,18 @@
       </if>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="traineeTypeIds != null">
+        trainee_type_ids = #{traineeTypeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="objCount != null">
+        obj_count = #{objCount,jdbcType=INTEGER},
+      </if>
+      <if test="quitCount != null">
+        quit_count = #{quitCount,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
@@ -381,6 +440,10 @@
     update cet_project
     set type = #{type,jdbcType=TINYINT},
       year = #{year,jdbcType=INTEGER},
+      trainee_type_ids = #{traineeTypeIds,jdbcType=VARCHAR},
+      other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      obj_count = #{objCount,jdbcType=INTEGER},
+      quit_count = #{quitCount,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       open_time = #{openTime,jdbcType=TIMESTAMP},

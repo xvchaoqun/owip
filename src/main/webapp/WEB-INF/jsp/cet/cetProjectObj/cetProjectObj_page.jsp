@@ -48,7 +48,7 @@
             批量导入
         </button>
         </c:if>
-        <button data-url="${ctx}/cet/cetProjectObj_quit?isQuit=1"
+        <button data-url="${ctx}/cet/cetProjectObj_quit?projectId=${cetProject.id}&isQuit=1"
                 data-title="退出"
                 data-msg="确定将这{0}个人员转移到“退出培训人员”？"
                 data-grid-id="#jqGrid2"
@@ -110,7 +110,7 @@
     </c:if>
     <c:if test="${isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
-        <button data-url="${ctx}/cet/cetProjectObj_quit?isQuit=0"
+        <button data-url="${ctx}/cet/cetProjectObj_quit?projectId=${cetProject.id}&isQuit=0"
                 data-title="重新学习"
                 data-msg="确定将这{0}个人员转移到“培训对象”？"
                 data-grid-id="#jqGrid2"
@@ -121,7 +121,7 @@
     </shiro:hasPermission>
     </c:if>
     <shiro:hasPermission name="cetProjectObj:del">
-        <button data-url="${ctx}/cet/cetProjectObj_batchDel"
+        <button data-url="${ctx}/cet/cetProjectObj_batchDel?projectId=${cetProject.id}"
                 data-title="删除"
                 data-msg="确定删除这{0}条数据？<br/>（相关数据将全部清除，请谨慎操作）"
                 data-grid-id="#jqGrid2"

@@ -39,8 +39,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CetProjectMapper cetProjectMapper;
     @Autowired(required = false)
-    protected CetProjectViewMapper cetProjectViewMapper;
-    @Autowired(required = false)
     protected CetProjectObjMapper cetProjectObjMapper;
     @Autowired(required = false)
     protected CetProjectObjPlanMapper cetProjectObjPlanMapper;
@@ -100,8 +98,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     protected CetTraineeCourseMapper cetTraineeCourseMapper;
     @Autowired(required = false)
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
-    @Autowired(required = false)
-    protected CetProjectTraineeTypeMapper cetProjectTraineeTypeMapper;
     @Autowired(required = false)
     protected CetShortMsgMapper cetShortMsgMapper;
     @Autowired(required = false)

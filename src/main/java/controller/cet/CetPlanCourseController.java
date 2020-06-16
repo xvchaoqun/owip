@@ -41,7 +41,7 @@ public class CetPlanCourseController extends CetBaseController {
 
         CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
         Integer projectId = cetProjectPlan.getProjectId();
-        modelMap.put("cetProject", cetProjectService.getView(projectId));
+        modelMap.put("cetProject", cetProjectMapper.selectByPrimaryKey(projectId));
 
         return "cet/cetPlanCourse/cetPlanCourse_page";
     }

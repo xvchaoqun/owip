@@ -73,12 +73,6 @@ public class CetProjectObjService extends CetBaseMapper {
         return cetTrainees.size() > 0 ? cetTrainees.get(0) : null;
     }
 
-    @Transactional
-    public void del(Integer id) {
-
-        cetProjectObjMapper.deleteByPrimaryKey(id);
-    }
-
     // 删除心得体会
     @Transactional
     public void clearWrite(Integer[] ids) {
@@ -88,18 +82,24 @@ public class CetProjectObjService extends CetBaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void batchDel(int projectId, Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
         CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria()
+                .andProjectIdEqualTo(projectId)
+                .andIdIn(Arrays.asList(ids));
         cetProjectObjMapper.deleteByExample(example);
+
+        iCetMapper.refreshObjCount(projectId);
+        iCetMapper.refreshQuitCount(projectId);
     }
 
     @Transactional
     public int updateByPrimaryKeySelective(CetProjectObj record) {
 
+        record.setIsQuit(null); // 不改变退出状态
         return cetProjectObjMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -266,6 +266,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
     @Transactional
     public void addOrUpdate(int projectId, int traineeTypeId, Integer[] userIds) {
+
         if (userIds == null || userIds.length == 0) return;
 
         Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
@@ -318,18 +319,23 @@ public class CetProjectObjService extends CetBaseMapper {
                     "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "新建");
         }
+
+        iCetMapper.refreshObjCount(projectId);
     }
 
     // 退出
     @Transactional
-    public void quit(boolean isQuit, Integer[] ids) {
+    public void quit(int projectId, boolean isQuit, Integer[] ids) {
 
         CetProjectObj record = new CetProjectObj();
         record.setIsQuit(isQuit);
 
         CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsQuitEqualTo(!isQuit);
+        example.createCriteria().andProjectIdEqualTo(projectId)
+                .andIdIn(Arrays.asList(ids)).andIsQuitEqualTo(!isQuit);
         cetProjectObjMapper.updateByExampleSelective(record, example);
+
+        iCetMapper.refreshQuitCount(projectId);
     }
 
     // 设置为必选学员/退课
@@ -668,12 +674,12 @@ public class CetProjectObjService extends CetBaseMapper {
 
     //批量导入CetProjectObj培训对象
     @Transactional
-    public int importCetProjectObj(List<CetProjectObj> records) {
+    public int importCetProjectObj(int projectId, List<CetProjectObj> records) {
+
         int addCount = 0;
         for (CetProjectObj _record : records) {
             Integer userId = _record.getUserId();
             Integer traineeTypeId = _record.getTraineeTypeId();
-            Integer projectId = _record.getProjectId();
             CetProjectObj _cetProjectObj = get(userId, projectId, traineeTypeId);
             if (_cetProjectObj == null) {
                 addCount++;
@@ -721,6 +727,9 @@ public class CetProjectObjService extends CetBaseMapper {
                         "新建");
             }
         }
+
+        iCetMapper.refreshObjCount(projectId);
+
         return addCount;
     }
 

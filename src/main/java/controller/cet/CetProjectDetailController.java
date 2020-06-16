@@ -186,7 +186,7 @@ public class CetProjectDetailController extends CetBaseController {
     @RequiresPermissions("cetProject:edit")
     @RequestMapping(value = "/cetProjectObj_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_import(Integer projectId, Integer traineeTypeId, HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cetProjectObj_import(int projectId, int traineeTypeId, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -195,14 +195,6 @@ public class CetProjectDetailController extends CetBaseController {
         XSSFWorkbook wb = new XSSFWorkbook(pkg);
         XSSFSheet sheet = wb.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
-
-        CetProjectTraineeTypeExample cetProjectTraineeTypeExample = new CetProjectTraineeTypeExample();
-        cetProjectTraineeTypeExample.createCriteria().andProjectIdEqualTo(projectId);
-        List<CetProjectTraineeType> cetProjectTraineeTypes = cetProjectTraineeTypeMapper.selectByExample(cetProjectTraineeTypeExample);
-        Set<Integer> trainTypeIds = new HashSet<>();
-        for (CetProjectTraineeType cetProjectTraineeType : cetProjectTraineeTypes){
-            trainTypeIds.add(cetProjectTraineeType.getTraineeTypeId());
-        }
 
         List<CetProjectObj> records = new ArrayList<>();
         int row = 1;
@@ -225,7 +217,7 @@ public class CetProjectDetailController extends CetBaseController {
             records.add(record);
         }
         Collections.reverse(records);
-        int successCount = cetProjectObjService.importCetProjectObj(records);
+        int successCount = cetProjectObjService.importCetProjectObj(projectId, records);
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);

@@ -151,7 +151,9 @@ pageEncoding="UTF-8" %>
               }
               return cellvalue?'是':'否'
             }},
-            { label: '参训人数',name: 'objCount'},
+            { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {
+                return rowObject.objCount-rowObject.quitCount;
+            }},
 
             { name: 'status', hidden:true},
             { label: '备注',name: 'remark', width: 300}

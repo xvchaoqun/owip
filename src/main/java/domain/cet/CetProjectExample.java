@@ -313,6 +313,266 @@ public class CetProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andTraineeTypeIdsIsNull() {
+            addCriterion("trainee_type_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsIsNotNull() {
+            addCriterion("trainee_type_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsEqualTo(String value) {
+            addCriterion("trainee_type_ids =", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsNotEqualTo(String value) {
+            addCriterion("trainee_type_ids <>", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsGreaterThan(String value) {
+            addCriterion("trainee_type_ids >", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("trainee_type_ids >=", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsLessThan(String value) {
+            addCriterion("trainee_type_ids <", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsLessThanOrEqualTo(String value) {
+            addCriterion("trainee_type_ids <=", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsLike(String value) {
+            addCriterion("trainee_type_ids like", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsNotLike(String value) {
+            addCriterion("trainee_type_ids not like", value, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsIn(List<String> values) {
+            addCriterion("trainee_type_ids in", values, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsNotIn(List<String> values) {
+            addCriterion("trainee_type_ids not in", values, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsBetween(String value1, String value2) {
+            addCriterion("trainee_type_ids between", value1, value2, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdsNotBetween(String value1, String value2) {
+            addCriterion("trainee_type_ids not between", value1, value2, "traineeTypeIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIsNull() {
+            addCriterion("other_trainee_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIsNotNull() {
+            addCriterion("other_trainee_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeEqualTo(String value) {
+            addCriterion("other_trainee_type =", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotEqualTo(String value) {
+            addCriterion("other_trainee_type <>", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThan(String value) {
+            addCriterion("other_trainee_type >", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type >=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThan(String value) {
+            addCriterion("other_trainee_type <", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLessThanOrEqualTo(String value) {
+            addCriterion("other_trainee_type <=", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeLike(String value) {
+            addCriterion("other_trainee_type like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotLike(String value) {
+            addCriterion("other_trainee_type not like", value, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeIn(List<String> values) {
+            addCriterion("other_trainee_type in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotIn(List<String> values) {
+            addCriterion("other_trainee_type not in", values, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeBetween(String value1, String value2) {
+            addCriterion("other_trainee_type between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOtherTraineeTypeNotBetween(String value1, String value2) {
+            addCriterion("other_trainee_type not between", value1, value2, "otherTraineeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountIsNull() {
+            addCriterion("obj_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountIsNotNull() {
+            addCriterion("obj_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountEqualTo(Integer value) {
+            addCriterion("obj_count =", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotEqualTo(Integer value) {
+            addCriterion("obj_count <>", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountGreaterThan(Integer value) {
+            addCriterion("obj_count >", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("obj_count >=", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountLessThan(Integer value) {
+            addCriterion("obj_count <", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountLessThanOrEqualTo(Integer value) {
+            addCriterion("obj_count <=", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountIn(List<Integer> values) {
+            addCriterion("obj_count in", values, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotIn(List<Integer> values) {
+            addCriterion("obj_count not in", values, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountBetween(Integer value1, Integer value2) {
+            addCriterion("obj_count between", value1, value2, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("obj_count not between", value1, value2, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountIsNull() {
+            addCriterion("quit_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountIsNotNull() {
+            addCriterion("quit_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountEqualTo(Integer value) {
+            addCriterion("quit_count =", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountNotEqualTo(Integer value) {
+            addCriterion("quit_count <>", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountGreaterThan(Integer value) {
+            addCriterion("quit_count >", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("quit_count >=", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountLessThan(Integer value) {
+            addCriterion("quit_count <", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountLessThanOrEqualTo(Integer value) {
+            addCriterion("quit_count <=", value, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountIn(List<Integer> values) {
+            addCriterion("quit_count in", values, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountNotIn(List<Integer> values) {
+            addCriterion("quit_count not in", values, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountBetween(Integer value1, Integer value2) {
+            addCriterion("quit_count between", value1, value2, "quitCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("quit_count not between", value1, value2, "quitCount");
+            return (Criteria) this;
+        }
+
         public Criteria andStartDateIsNull() {
             addCriterion("start_date is null");
             return (Criteria) this;

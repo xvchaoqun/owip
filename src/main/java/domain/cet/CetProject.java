@@ -31,6 +31,14 @@ public class CetProject implements Serializable {
 
     private Integer year;
 
+    private String traineeTypeIds;
+
+    private String otherTraineeType;
+
+    private Integer objCount;
+
+    private Integer quitCount;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
@@ -85,6 +93,38 @@ public class CetProject implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public String getTraineeTypeIds() {
+        return traineeTypeIds;
+    }
+
+    public void setTraineeTypeIds(String traineeTypeIds) {
+        this.traineeTypeIds = traineeTypeIds == null ? null : traineeTypeIds.trim();
+    }
+
+    public String getOtherTraineeType() {
+        return otherTraineeType;
+    }
+
+    public void setOtherTraineeType(String otherTraineeType) {
+        this.otherTraineeType = otherTraineeType == null ? null : otherTraineeType.trim();
+    }
+
+    public Integer getObjCount() {
+        return objCount;
+    }
+
+    public void setObjCount(Integer objCount) {
+        this.objCount = objCount;
+    }
+
+    public Integer getQuitCount() {
+        return quitCount;
+    }
+
+    public void setQuitCount(Integer quitCount) {
+        this.quitCount = quitCount;
     }
 
     public Date getStartDate() {

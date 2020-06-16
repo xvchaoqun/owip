@@ -83,6 +83,32 @@ ALTER TABLE `cet_upper_train`
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('memberApply_needContinueDevelop', '申请继续培养', 'false', 3, 52, '在党员发展申请中，支持申请继续培养');
 
+ALTER TABLE `cet_project`
+	ADD COLUMN `trainee_type_ids` VARCHAR(200) NULL COMMENT '参训人员类型，逗号隔开' AFTER `year`,
+	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_ids`;
+
+update cet_project p,
+(select project_id, group_concat(trainee_type_id) as trainee_type_ids from cet_project_trainee_type group by project_id) tmp
+set p.trainee_type_ids=tmp.trainee_type_ids where p.id=tmp.project_id;
+
+drop view cet_project_view;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `obj_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`;
+
+drop table cet_project_trainee_type;
+
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `obj_count` `obj_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`,
+	ADD COLUMN `quit_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '已退出参选人员数量' AFTER `obj_count`;
+
+update cet_project p,
+(select project_id, count(*) as obj_count from cet_project_obj group by project_id) tmp
+set p.obj_count=tmp.obj_count where p.id=tmp.project_id;
+
+update cet_project p,
+(select project_id, count(*) as quit_count from cet_project_obj where is_quit=1 group by project_id) tmp
+set p.quit_count=tmp.quit_count where p.id=tmp.project_id;
 
 2020.6.9
 

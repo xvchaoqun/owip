@@ -21,10 +21,10 @@ from cet_party cp
 left JOIN cet_party_admin cpa on cp.id=cpa.cet_party_id
 GROUP BY cp.id;
 
-DROP VIEW IF EXISTS `cet_project_view`;
+/*DROP VIEW IF EXISTS `cet_project_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp
-left join cet_project_obj cpo on cpo.project_id=cp.id group by cp.id;
+left join cet_project_obj cpo on cpo.project_id=cp.id group by cp.id;*/
 
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS

@@ -111,7 +111,7 @@
                                 <div class="col-xs-9 label-text" id="traineeTypeDiv">
                                     <c:forEach items="${traineeTypeMap}" var="entity">
                                         <label>
-                                            <input name="traineeTypeIds[]" type="checkbox" value="${entity.key}"> ${entity.value.name}&nbsp;
+                                            <input name="_traineeTypeIds[]" type="checkbox" value="${entity.key}"> ${entity.value.name}&nbsp;
                                             <span class="lbl"></span>
                                         </label>
                                     </c:forEach>
@@ -196,10 +196,10 @@
 
     var traineeTypeIds = ${cm:toJSONArray(traineeTypeIds)};
     for(i in traineeTypeIds){
-        $('#modalForm input[name="traineeTypeIds[]"][value="'+ traineeTypeIds[i] +'"]').prop("checked", true);
+        $('#modalForm input[name="_traineeTypeIds[]"][value="'+ traineeTypeIds[i] +'"]').prop("checked", true);
     }
     $("#submitBtn").click(function(){
-        if($('#modalForm input[name="traineeTypeIds[]"]:checked').length==0){
+        if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0){
             $.tip({
                 $target: $("#traineeTypeDiv"),
                 /*at: 'right center', my: 'left center',*/
@@ -211,7 +211,7 @@
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-            if($('#modalForm input[name="traineeTypeIds[]"]:checked').length==0){
+            if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0){
                 return false;
             }
 

@@ -2,9 +2,8 @@ package controller.cet;
 
 import controller.global.OpException;
 import domain.cet.CetProject;
+import domain.cet.CetProjectExample;
 import domain.cet.CetProjectType;
-import domain.cet.CetProjectView;
-import domain.cet.CetProjectViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -91,8 +90,8 @@ public class CetProjectController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetProjectViewExample example = new CetProjectViewExample();
-        CetProjectViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
+        CetProjectExample example = new CetProjectExample();
+        CetProjectExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("year desc, id desc");
 
         if (year!=null) {
@@ -109,12 +108,12 @@ public class CetProjectController extends CetBaseController {
             return;
         }
 
-        long count = cetProjectViewMapper.countByExample(example);
+        long count = cetProjectMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetProjectView> records= cetProjectViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetProject> records= cetProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -133,7 +132,7 @@ public class CetProjectController extends CetBaseController {
     @RequestMapping(value = "/cetProject_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProject_au(CetProject record,
-                                @RequestParam(value = "traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
+                                @RequestParam(value = "_traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
                                 MultipartFile _wordFilePath,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -222,14 +221,14 @@ public class CetProjectController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
     
-    public void cetProject_export(CetProjectViewExample example, HttpServletResponse response) {
+    public void cetProject_export(CetProjectExample example, HttpServletResponse response) {
 
-        List<CetProjectView> records = cetProjectViewMapper.selectByExample(example);
+        List<CetProject> records = cetProjectMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"年度|100","培训时间（开始）|100","培训时间（结束）|100","培训班名称|100","文件名|100","pdf文件|100","word文件|100","总学时|100","达到结业要求的学时数|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetProjectView record = records.get(i);
+            CetProject record = records.get(i);
             String[] values = {
                 record.getYear()+"",
                             DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),

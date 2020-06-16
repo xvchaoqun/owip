@@ -2,7 +2,7 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cet.*;
-import org.apache.ibatis.session.RowBounds;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +13,7 @@ import java.util.*;
 public class CetProjectService extends CetBaseMapper {
 
     @Autowired
-    private CetProjectObjService cetProjectObjService;
-    @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
-
-    public CetProjectView getView(int projectId){
-
-        CetProjectViewExample example = new CetProjectViewExample();
-        example.createCriteria().andIdEqualTo(projectId);
-        List<CetProjectView> cetProjectViews = cetProjectViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-
-        return cetProjectViews.size()==1?cetProjectViews.get(0):null;
-    }
 
     @Transactional
     public void insertSelective(CetProject record, Integer[] traineeTypeIds){
@@ -62,12 +51,10 @@ public class CetProjectService extends CetBaseMapper {
     // 已选参训人类型
     public Set<Integer> findTraineeTypeIdSet(Integer projectId) {
 
-        CetProjectTraineeTypeExample example = new CetProjectTraineeTypeExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
-        List<CetProjectTraineeType> cetProjectTraineeTypes = cetProjectTraineeTypeMapper.selectByExample(example);
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         Set<Integer> traineeTypeIds = new HashSet<>();
-        for (CetProjectTraineeType cetProjectTraineeType : cetProjectTraineeTypes) {
-            traineeTypeIds.add(cetProjectTraineeType.getTraineeTypeId());
+        for (CetTraineeType cetTraineeType : cetTraineeTypes) {
+            traineeTypeIds.add(cetTraineeType.getId());
         }
 
         return traineeTypeIds;
@@ -93,19 +80,12 @@ public class CetProjectService extends CetBaseMapper {
             }
         }
 
-        CetProjectTraineeTypeExample example = new CetProjectTraineeTypeExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
-        cetProjectTraineeTypeMapper.deleteByExample(example);
-
         if(traineeTypeIds==null || traineeTypeIds.length==0) return;
 
-        for (Integer traineeTypeId : traineeTypeIds) {
-
-            CetProjectTraineeType record = new CetProjectTraineeType();
-            record.setProjectId(projectId);
-            record.setTraineeTypeId(traineeTypeId);
-            cetProjectTraineeTypeMapper.insertSelective(record);
-        }
+        CetProject record = new CetProject();
+            record.setId(projectId);
+            record.setTraineeTypeIds(StringUtils.join(traineeTypeIds, ","));
+            cetProjectMapper.updateByPrimaryKeySelective(record);
     }
 
     public CetProject getByName(String projectName){

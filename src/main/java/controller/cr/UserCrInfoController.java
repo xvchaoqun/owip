@@ -83,7 +83,7 @@ public class UserCrInfoController extends CrBaseController {
         modelMap.put("crApplicant", crApplicant);
 
         Cadre cadre = cadreService.getByUserId(userId);
-        if(cadre!=null && cadre.getStatus()== CadreConstants.CADRE_STATUS_CJ){
+        if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
             modelMap.put("cadre", cadre);
         }
         String eva = crApplicantService.getEva(year, cadre, crApplicant);

@@ -22,8 +22,20 @@ public interface ICetMapper {
                                       @Param("search") String search, RowBounds rowBounds);
     int countObjList(@Param("projectId") int projectId, @Param("search") String search);
 
+    // 刷新参训人员数量
+    @Update("update cet_project p, " +
+            "(select project_id, count(*) as obj_count from cet_project_obj where project_id=#{projectId} group by project_id) tmp " +
+            "set p.obj_count=tmp.obj_count where p.id=tmp.project_id and p.id=#{projectId}")
+    int refreshObjCount(@Param("projectId") Integer projectId);
 
-    // 获取个人的进入年度学习档案的所有年度
+    // 刷新已退出参训人员数量
+    @Update("update cet_project p, " +
+            "(select project_id, count(*) as quit_count from cet_project_obj where project_id=#{projectId} and is_quit=1 group by project_id) tmp " +
+            "set p.quit_count=tmp.quit_count where p.id=tmp.project_id and p.id=#{projectId}")
+    int refreshQuitCount(@Param("projectId") Integer projectId);
+
+
+    // 按类别读取参训人数量
     @Select("select trainee_type_id, count(*) as num from cet_project_obj " +
             "where project_id=#{projectId} and is_quit=#{isQuit} group by trainee_type_id ")
     public List<Map> projectObj_typeCount(@Param("projectId") int projectId, @Param("isQuit") boolean isQuit);
@@ -63,8 +75,9 @@ public interface ICetMapper {
 
     // 培训计划的参训人类型
     @ResultMap("persistence.cet.CetTraineeTypeMapper.BaseResultMap")
-    @Select("select  ctt.* from cet_project_trainee_type cptt, cet_trainee_type ctt where cptt.project_id=#{projectId}" +
-            " and cptt.trainee_type_id = ctt.id order by ctt.sort_order asc")
+    @Select("select ctt.* from cet_project p, cet_trainee_type ctt " +
+            "where find_in_set(ctt.id, p.trainee_type_ids) and p.id=#{projectId}" +
+            " order by ctt.sort_order asc")
     public List<CetTraineeType> getCetTraineeTypes(@Param("projectId") Integer projectId);
 
     // 学员列表

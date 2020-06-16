@@ -354,12 +354,12 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_quit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_quit(boolean isQuit,
+    public Map do_cetProjectObj_quit(int projectId, boolean isQuit,
                                     @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                     HttpServletRequest request) {
 
-        cetProjectObjService.quit(isQuit, ids);
-        logger.info(addLog(LogConstants.LOG_CET, "培训对象： %s, %s", isQuit ? "退出" : "重新学习",
+        cetProjectObjService.quit(projectId, isQuit, ids);
+        logger.info(addLog(LogConstants.LOG_CET, "%s, 培训对象： %s, %s", projectId, isQuit ? "退出" : "重新学习",
                 StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -579,27 +579,16 @@ public class CetProjectObjController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProjectObj:del")
-    @RequestMapping(value = "/cetProjectObj_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetProjectObj_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetProjectObjService.del(id);
-            logger.info(addLog(LogConstants.LOG_CET, "删除培训对象：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetProjectObj:del")
     @RequestMapping(value = "/cetProjectObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetProjectObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetProjectObj_batchDel(HttpServletRequest request,
+                                      int projectId,
+                                      @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            cetProjectObjService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训对象：%s", StringUtils.join(ids, ",")));
+            cetProjectObjService.batchDel(projectId, ids);
+            logger.info(addLog(LogConstants.LOG_CET, "%s 批量删除培训对象：%s", projectId, StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
