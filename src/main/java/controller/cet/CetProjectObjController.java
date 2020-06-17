@@ -62,11 +62,15 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("cls", cls);
         modelMap.put("isQuit", isQuit);
 
-        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
-        modelMap.put("cetTraineeTypes", cetTraineeTypes);
-
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
+
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+        CetTraineeType _cetTraineeType = cetProjectService.dealOtherType(cetProject);
+        if (_cetTraineeType != null){
+            cetTraineeTypes.add(_cetTraineeType);
+        }
+        modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
         Map<Integer, Integer> typeCountMap = new HashMap<>();
         List<Map> typeCountList = iCetMapper.projectObj_typeCount(projectId, isQuit);
@@ -484,10 +488,11 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_add", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_add(int projectId, int traineeTypeId, int userId) {
+    public Map do_cetProjectObj_add(CetProjectObj record,
+                                    @RequestParam(value = "identities[]", required = false) Integer[] identities) {
 
-        cetProjectObjService.addOrUpdate(projectId, traineeTypeId, new Integer[]{userId});
-        logger.info(addLog(LogConstants.LOG_CET, "添加培训对象： %s, %s, %s", projectId, traineeTypeId, userId));
+        cetProjectObjService.addOrUpdate(record, identities);
+        logger.info(addLog(LogConstants.LOG_CET, "添加培训对象： %s, %s, %s", record.getProjectId(), record.getTraineeTypeId(), record.getUserId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -500,6 +505,10 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("cetProject", cetProject);
 
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+        CetTraineeType cetTraineeType = cetProjectService.dealOtherType(cetProject);
+        if (cetTraineeType != null){
+            cetTraineeTypes.add(cetTraineeType);
+        }
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
         return "cet/cetProjectObj/cetProjectObj_add";

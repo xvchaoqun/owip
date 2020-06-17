@@ -115,6 +115,14 @@
                                             <span class="lbl"></span>
                                         </label>
                                     </c:forEach>
+                                    <input name="otherTypeId" type="checkbox" value="0"> 其他&nbsp;
+                                    <span class="lbl"></span>
+                                </div>
+                            </div>
+                            <div class="form-group hidden" id="otherTraineeType">
+                                <div class="col-xs-offset-3 col-xs-8">
+                                    <input class="form-control"  style="width: 252px"
+                                           type="text" name="otherTraineeType" value="${cetProject.otherTraineeType}">
                                 </div>
                             </div>
                             <%--<div class="form-group">
@@ -169,6 +177,22 @@
 </div>
 
 <script>
+
+    function traineeTypeChange(){
+        if ($("input[name=otherTypeId]:checked").val()!='0'){
+            $("#otherTraineeType").addClass("hidden");
+            $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", true).removeAttr("required");
+        }else {
+            $("#otherTraineeType").removeClass("hidden");
+            $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).attr("required", "required");
+        }
+    }
+
+    $("input[name=otherTypeId]").on("click", function () {
+        traineeTypeChange();
+    })
+    traineeTypeChange();
+
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {
             var $this = $(this);
@@ -196,10 +220,16 @@
 
     var traineeTypeIds = ${cm:toJSONArray(traineeTypeIds)};
     for(i in traineeTypeIds){
+        //console.log(traineeTypeIds[i])
+        if (traineeTypeIds[i]==0){
+            $("#modalForm input[name=otherTypeId]").prop("checked", true);
+            $("#modalForm #otherTraineeType").removeClass("hidden");
+            $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).prop("required", "required");
+        }
         $('#modalForm input[name="_traineeTypeIds[]"][value="'+ traineeTypeIds[i] +'"]').prop("checked", true);
     }
     $("#submitBtn").click(function(){
-        if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0){
+        if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#modalForm input[name="otherTypeId"]:checked')){
             $.tip({
                 $target: $("#traineeTypeDiv"),
                 /*at: 'right center', my: 'left center',*/
@@ -211,7 +241,7 @@
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-            if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0){
+            if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#modalForm input[name="otherTypeId"]:checked')){
                 return false;
             }
 

@@ -16,12 +16,12 @@ public class CetProjectService extends CetBaseMapper {
     private CetTraineeTypeService cetTraineeTypeService;
 
     @Transactional
-    public void insertSelective(CetProject record, Integer[] traineeTypeIds){
+    public void insertSelective(CetProject record, List<Integer> traineeTypeIdList){
 
         record.setCreateTime(new Date());
         cetProjectMapper.insertSelective(record);
 
-        updateTrainTypes(record.getId(), traineeTypeIds);
+        updateTrainTypes(record.getId(), traineeTypeIdList);
     }
 
     @Transactional
@@ -41,11 +41,11 @@ public class CetProjectService extends CetBaseMapper {
     }
 
     @Transactional
-    public void updateWithTraineeTypes(CetProject record, Integer[] traineeTypeIds){
+    public void updateWithTraineeTypes(CetProject record, List<Integer> traineeTypeIdList){
 
         cetProjectMapper.updateByPrimaryKeySelective(record);
 
-        updateTrainTypes(record.getId(), traineeTypeIds);
+        updateTrainTypes(record.getId(), traineeTypeIdList);
     }
 
     // 已选参训人类型
@@ -56,17 +56,18 @@ public class CetProjectService extends CetBaseMapper {
         for (CetTraineeType cetTraineeType : cetTraineeTypes) {
             traineeTypeIds.add(cetTraineeType.getId());
         }
+        traineeTypeIds.add(0);
 
         return traineeTypeIds;
     }
 
     // 更新参训人类型
-    private void updateTrainTypes(int projectId, Integer[] traineeTypeIds){
+    private void updateTrainTypes(int projectId, List<Integer> traineeTypeIdList){
 
         Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
         {
             Set<Integer> traineeTypeIdSet = findTraineeTypeIdSet(projectId);
-            traineeTypeIdSet.removeAll(Arrays.asList(traineeTypeIds));
+            traineeTypeIdSet.removeAll(traineeTypeIdList);
             // 待删除的类型
             if(traineeTypeIdSet.size()>0) {
                 for (Integer traineeTypeId : traineeTypeIdSet) {
@@ -80,11 +81,11 @@ public class CetProjectService extends CetBaseMapper {
             }
         }
 
-        if(traineeTypeIds==null || traineeTypeIds.length==0) return;
+        if(traineeTypeIdList == null || traineeTypeIdList.size() == 0) return;
 
         CetProject record = new CetProject();
             record.setId(projectId);
-            record.setTraineeTypeIds(StringUtils.join(traineeTypeIds, ","));
+            record.setTraineeTypeIds(StringUtils.join(traineeTypeIdList, ","));
             cetProjectMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -96,6 +97,21 @@ public class CetProjectService extends CetBaseMapper {
         if (cetProjects.size() == 1)
             return cetProjects.get(0);
 
+        return null;
+    }
+
+    //处理其他参训人类型
+    public CetTraineeType dealOtherType(CetProject cetProject){
+
+        String[] t = cetProject.getTraineeTypeIds().split(",");
+        if (t == null || t.length == 0) return null;
+        List<String> _traineeTypeIds = Arrays.asList(t);
+        if (_traineeTypeIds.contains("0")){
+            CetTraineeType cetTraineeType = new CetTraineeType();
+            cetTraineeType.setId(0);
+            cetTraineeType.setName(cetProject.getOtherTraineeType());
+            return cetTraineeType;
+        }
         return null;
     }
 

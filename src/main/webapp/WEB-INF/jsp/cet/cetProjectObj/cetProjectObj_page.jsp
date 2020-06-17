@@ -669,6 +669,21 @@
                 return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 
             }, frozen: true},
+            {label: '时任职务属性', width: 150, name: 'postType', align: 'left', formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue==undefined || cellvalue == null) return "--";
+                    return $.jgrid.formatter.MetaType(cellvalue);
+                }},
+            <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+            {
+                label: '参训人员身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == null) {
+                        return "--";
+                    }
+                    return ($.map(cellvalue.split(","), function(identity){
+                        return $.jgrid.formatter.MetaType(identity);
+                    })).join("，")
+                }},
+            </c:if>
 
             <c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
             ||cetTraineeType.code=='t_cadre_kj'||cetTraineeType.code=='t_reserve'}">
@@ -766,7 +781,7 @@
 
                 if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '--';
 
-                 var a = rowObject.finishPeriod;
+                 var a = rowObject.finishPeriod==undefined?0:rowObject.finishPeriod;
                 var b = rowObject.shouldFinishPeriod;
                    a = (a>b?b:a)
 

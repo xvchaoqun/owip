@@ -11,7 +11,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_add" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>参训人员类型</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span> 参训人员类型</label>
             <div class="col-xs-7">
                 <select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择"  data-width="272">
                     <option></option>
@@ -25,14 +25,38 @@
             </div>
         </div>
         <div class="form-group">
-			<label class="col-xs-3 control-label">选择参训人员</label>
+			<label class="col-xs-3 control-label"><span class="star">*</span> 选择参训人员</label>
 			<div class="col-xs-7">
-				 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="272"
+				 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="272"
                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                     <option></option>
                 </select>
 			</div>
 		</div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">时任职务属性</label>
+            <div class="col-xs-7">
+                <select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="272">
+                    <option></option>
+                    <jsp:include page="/metaTypes?__code=mc_post"/>
+                </select>
+            </div>
+        </div>
+        <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+            <div class="form-group owAuType">
+                <label class="col-xs-3 control-label"> 参训人身份</label>
+                <div class="col-xs-7">
+                    <div class="input-group">
+                        <c:forEach items="${cm:getMetaTypes('mc_cet_identity')}" var="entity">
+                            <div class="checkbox checkbox-inline checkbox-sm">
+                                <input type="checkbox" name="identities[]" id="identity${entity.key}" value="${entity.key}">
+                                <label for="identity${entity.key}">${entity.value.name}</label>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </c:if>
     </form>
 </div>
 <div class="modal-footer">

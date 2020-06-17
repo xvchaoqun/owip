@@ -133,6 +133,8 @@ public class CetProjectController extends CetBaseController {
     @ResponseBody
     public Map do_cetProject_au(CetProject record,
                                 @RequestParam(value = "_traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
+                                Integer otherTypeId,
+                                String otherTraineeType,
                                 MultipartFile _wordFilePath,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -143,19 +145,32 @@ public class CetProjectController extends CetBaseController {
             return failed("培训时间有误。");
         }
 
-        if(traineeTypeIds==null || traineeTypeIds.length==0){
+        if((traineeTypeIds==null || traineeTypeIds.length==0) && otherTypeId == null){
             return failed("请选择参训人员类型。");
+        }
+
+        List<Integer> _traineeTypeIdList = new ArrayList<>();
+        List<Integer> traineeTypeIdList = new ArrayList<>();
+        if (traineeTypeIds != null) {
+            _traineeTypeIdList = Arrays.asList(traineeTypeIds);
+            traineeTypeIdList.addAll(_traineeTypeIdList);
+        }
+        if (otherTypeId != null){
+            traineeTypeIdList.add(otherTypeId);
+            record.setOtherTraineeType(otherTraineeType);
+        }else {
+            record.setOtherTraineeType("");
         }
 
         record.setWordFilePath(upload(_wordFilePath, "cet_project"));
         record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
         if (id == null) {
-            cetProjectService.insertSelective(record, traineeTypeIds);
+            cetProjectService.insertSelective(record, traineeTypeIdList);
             logger.info(addLog(LogConstants.LOG_CET, "添加专题培训：%s", record.getId()));
         } else {
             // 不改变培训类型
             record.setType(null);
-            cetProjectService.updateWithTraineeTypes(record, traineeTypeIds);
+            cetProjectService.updateWithTraineeTypes(record, traineeTypeIdList);
             logger.info(addLog(LogConstants.LOG_CET, "更新专题培训：%s", record.getId()));
         }
 
@@ -196,6 +211,8 @@ public class CetProjectController extends CetBaseController {
                 _type = cetProject.getType();
             }
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
+            if (cetProjectService.dealOtherType(cetProject) == null)
+                traineeTypeIdSet.remove(0);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
 

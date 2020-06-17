@@ -111,6 +111,10 @@ public class CetProjectObj implements Serializable {
 
     private Integer traineeTypeId;
 
+    private String otherTraineeType;
+
+    private String identity;
+
     private Boolean isQuit;
 
     private BigDecimal shouldFinishPeriod;
@@ -207,6 +211,22 @@ public class CetProjectObj implements Serializable {
 
     public void setTraineeTypeId(Integer traineeTypeId) {
         this.traineeTypeId = traineeTypeId;
+    }
+
+    public String getOtherTraineeType() {
+        return otherTraineeType;
+    }
+
+    public void setOtherTraineeType(String otherTraineeType) {
+        this.otherTraineeType = otherTraineeType == null ? null : otherTraineeType.trim();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public Boolean getIsQuit() {

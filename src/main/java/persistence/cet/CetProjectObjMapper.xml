@@ -6,6 +6,8 @@
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
@@ -98,11 +100,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, finish_period, 
-    is_graduate, word_write, write_file_path, remark, cadre_id, title, admin_level, post_type, 
-    is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, 
-    cadre_status, cadre_sort_order, party_id, branch_id, party_type_ids, post_id, branch_type_id, 
-    organizer_type, organizer_units, organizer_party_id, assign_date, active_time, candidate_time
+    id, project_id, user_id, trainee_type_id, other_trainee_type, identity, is_quit, 
+    should_finish_period, finish_period, is_graduate, word_write, write_file_path, remark, 
+    cadre_id, title, admin_level, post_type, is_ow, ow_grow_time, dp_grow_time, dp_type_id, 
+    pro_post, lp_work_time, mobile, email, cadre_status, cadre_sort_order, party_id, 
+    branch_id, party_type_ids, post_id, branch_type_id, organizer_type, organizer_units, 
+    organizer_party_id, assign_date, active_time, candidate_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -139,29 +142,31 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_project_obj (project_id, user_id, trainee_type_id, 
-      is_quit, should_finish_period, finish_period, 
-      is_graduate, word_write, write_file_path, 
-      remark, cadre_id, title, 
-      admin_level, post_type, is_ow, 
-      ow_grow_time, dp_grow_time, dp_type_id, 
-      pro_post, lp_work_time, mobile, 
-      email, cadre_status, cadre_sort_order, 
-      party_id, branch_id, party_type_ids, 
-      post_id, branch_type_id, organizer_type, 
-      organizer_units, organizer_party_id, assign_date, 
-      active_time, candidate_time)
+      other_trainee_type, identity, is_quit, 
+      should_finish_period, finish_period, is_graduate, 
+      word_write, write_file_path, remark, 
+      cadre_id, title, admin_level, 
+      post_type, is_ow, ow_grow_time, 
+      dp_grow_time, dp_type_id, pro_post, 
+      lp_work_time, mobile, email, 
+      cadre_status, cadre_sort_order, party_id, 
+      branch_id, party_type_ids, post_id, 
+      branch_type_id, organizer_type, organizer_units, 
+      organizer_party_id, assign_date, active_time, 
+      candidate_time)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
-      #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, 
-      #{isGraduate,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{cadreId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, 
-      #{owGrowTime,jdbcType=DATE}, #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, 
-      #{proPost,jdbcType=VARCHAR}, #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER}, 
-      #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{partyTypeIds,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{branchTypeId,jdbcType=INTEGER}, #{organizerType,jdbcType=TINYINT}, 
-      #{organizerUnits,jdbcType=VARCHAR}, #{organizerPartyId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
-      #{activeTime,jdbcType=DATE}, #{candidateTime,jdbcType=DATE})
+      #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{isQuit,jdbcType=BIT}, 
+      #{shouldFinishPeriod,jdbcType=DECIMAL}, #{finishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
+      #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{cadreId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
+      #{postType,jdbcType=INTEGER}, #{isOw,jdbcType=BIT}, #{owGrowTime,jdbcType=DATE}, 
+      #{dpGrowTime,jdbcType=DATE}, #{dpTypeId,jdbcType=INTEGER}, #{proPost,jdbcType=VARCHAR}, 
+      #{lpWorkTime,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{cadreStatus,jdbcType=TINYINT}, #{cadreSortOrder,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{partyTypeIds,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, 
+      #{branchTypeId,jdbcType=INTEGER}, #{organizerType,jdbcType=TINYINT}, #{organizerUnits,jdbcType=VARCHAR}, 
+      #{organizerPartyId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, #{activeTime,jdbcType=DATE}, 
+      #{candidateTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -177,6 +182,12 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id,
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type,
+      </if>
+      <if test="identity != null">
+        identity,
       </if>
       <if test="isQuit != null">
         is_quit,
@@ -284,6 +295,12 @@
       </if>
       <if test="traineeTypeId != null">
         #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        #{identity,jdbcType=VARCHAR},
       </if>
       <if test="isQuit != null">
         #{isQuit,jdbcType=BIT},
@@ -404,6 +421,12 @@
       <if test="record.traineeTypeId != null">
         trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.otherTraineeType != null">
+        other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identity != null">
+        identity = #{record.identity,jdbcType=VARCHAR},
+      </if>
       <if test="record.isQuit != null">
         is_quit = #{record.isQuit,jdbcType=BIT},
       </if>
@@ -511,6 +534,8 @@
       project_id = #{record.projectId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
+      identity = #{record.identity,jdbcType=VARCHAR},
       is_quit = #{record.isQuit,jdbcType=BIT},
       should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
       finish_period = #{record.finishPeriod,jdbcType=DECIMAL},
@@ -558,6 +583,12 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="otherTraineeType != null">
+        other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        identity = #{identity,jdbcType=VARCHAR},
       </if>
       <if test="isQuit != null">
         is_quit = #{isQuit,jdbcType=BIT},
@@ -663,6 +694,8 @@
     set project_id = #{projectId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
+      identity = #{identity,jdbcType=VARCHAR},
       is_quit = #{isQuit,jdbcType=BIT},
       should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
       finish_period = #{finishPeriod,jdbcType=DECIMAL},

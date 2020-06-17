@@ -139,6 +139,7 @@ public class CetProjectObjService extends CetBaseMapper {
         record.setMobile(uv.getMobile());
         record.setEmail(uv.getEmail());
 
+        if (StringUtils.isBlank(typeCode)) return;
         switch (typeCode) {
             // 干部、优秀年轻干部
             case "t_leader":
@@ -265,12 +266,24 @@ public class CetProjectObjService extends CetBaseMapper {
     }
 
     @Transactional
-    public void addOrUpdate(int projectId, int traineeTypeId, Integer[] userIds) {
+    public void addOrUpdate(CetProjectObj _record, Integer[] identities) {
+
+        int projectId = _record.getProjectId();
+        Integer[] userIds = new Integer[]{_record.getUserId()};
+        Integer postType = _record.getPostType();
+        Integer traineeTypeId = _record.getTraineeTypeId();
 
         if (userIds == null || userIds.length == 0) return;
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
 
-        Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
-        CetTraineeType cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
+        CetTraineeType cetTraineeType = new CetTraineeType();
+        if (traineeTypeId != null && traineeTypeId == 0){
+            cetTraineeType.setId(traineeTypeId);
+            cetTraineeType.setName(cetProject.getOtherTraineeType());
+        }else {
+            Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
+            cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
+        }
 
         // 检查别的参选人类型中是否已经选择参训对象
         {
@@ -286,7 +299,7 @@ public class CetProjectObjService extends CetBaseMapper {
                 SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
 
                 throw new OpException("参训人{0}（工号：{1}）已经是培训对象（{2}）", uv.getRealname(), uv.getCode(),
-                        cetTraineeTypeMap.get(otherTraineeTypeId).getName());
+                        cetTraineeType.getName());
             }
         }
 
@@ -303,6 +316,10 @@ public class CetProjectObjService extends CetBaseMapper {
             record.setProjectId(projectId);
             record.setUserId(userId);
             record.setTraineeTypeId(traineeTypeId);
+            record.setOtherTraineeType(cetTraineeType.getName());
+            record.setPostType(postType);
+            record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
+                    ? "" : StringUtils.join(identities, ","));
 
             appendTraineeInfo(cetTraineeType.getCode(), userId, record);
 
