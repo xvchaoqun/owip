@@ -2,6 +2,7 @@ package controller.cet;
 
 import controller.global.OpException;
 import domain.base.ContentTpl;
+import domain.base.MetaType;
 import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
@@ -178,6 +179,10 @@ public class CetProjectDetailController extends CetBaseController {
 
         modelMap.put("projectId", projectId);
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+        CetTraineeType _cetTraineeType = cetProjectService.dealOtherType(cetProjectMapper.selectByPrimaryKey(projectId));
+        if (_cetTraineeType != null){
+            cetTraineeTypes.add(_cetTraineeType);
+        }
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
         return "cet/cetProject/cetProject_detail/cetProjectObj_import";
@@ -213,6 +218,24 @@ public class CetProjectDetailController extends CetBaseController {
             record.setUserId(uv.getUserId());
 
             record.setTraineeTypeId(traineeTypeId);
+            MetaType metatype = metaTypeService.findByName("mc_post", xlsRow.get(2));
+            if (metatype != null){
+                record.setPostType(metatype.getId());
+            }
+            String _identity = StringUtils.trim(xlsRow.get(3));
+            if (StringUtils.isNotBlank(_identity)) {
+                String[] identities = _identity.split(",|，|、");
+                String identity = "";
+                for (String s : identities) {
+                    MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType != null) {
+                        identity = StringUtils.trimToNull(identity) == null ? "" + metaType.getId() : (identity += "," + metaType.getId());
+                    }
+                }
+                record.setIdentity(identity);
+            }else {
+                record.setIdentity("");
+            }
 
             records.add(record);
         }
