@@ -7,7 +7,7 @@
         ${CADRE_STATUS_MAP.get(status)}
     </h3>
 </div>
-<div class="modal-body ${(status==CADRE_STATUS_CJ||status==CADRE_STATUS_LEADER)?'overflow-visible':''}">
+<div class="modal-body ${(status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ||status==CADRE_STATUS_LEADER)?'overflow-visible':''}">
     <form class="form-horizontal" action="${ctx}/cadre_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadre.id}">
         <input type="hidden" name="status" value="${status}">
@@ -61,7 +61,7 @@
             </div>
         </div>
         </c:if>
-        <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+        <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">离任文件</label>
                 <div class="col-xs-8 label-text">
@@ -72,7 +72,7 @@
         </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label"><c:if
-                    test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
+                    test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
             <div class="col-xs-6">
                 <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
             </div>
@@ -169,7 +169,7 @@
     });
     $("#modal input[name=isDouble]").bootstrapSwitch();
 
-    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
     var treeNode = ${tree};
     if (treeNode.children.length == 0) {
         $("#tree3").html("没有发文");
@@ -198,7 +198,7 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
-            <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+            <c:if test="${cadre.id!=null && (status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             if (treeNode.children.length > 0) {
                 var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                     return node.data.key;

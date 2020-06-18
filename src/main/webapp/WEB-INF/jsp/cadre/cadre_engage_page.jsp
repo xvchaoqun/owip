@@ -433,7 +433,7 @@
         $.hashchange('', '${ctx}/cadreInspect');
     }
 
-    <c:if test="${status==CADRE_STATUS_CJ}">
+    <c:if test="${status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
@@ -444,7 +444,7 @@
     });
     </c:if>
 
-    <c:if test="${status!=CADRE_STATUS_CJ}">
+    <c:if test="${status!=CADRE_STATUS_CJ||status==CADRE_STATUS_KJ}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,

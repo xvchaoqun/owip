@@ -298,7 +298,7 @@
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
-        <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+        <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         {
             label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
 

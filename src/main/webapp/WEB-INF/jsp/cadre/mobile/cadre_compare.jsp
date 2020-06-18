@@ -7,7 +7,7 @@
   <c:forEach items="${cadres}" var="cadre">
     <div class="select">
       <select data-rel="select2-aj1ax"
-              data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ}" data-width="300"
+              data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_KJ},${CADRE_STATUS_KJ_LEAVE}" data-width="300"
               name="cadreId" data-placeholder="请输入账号或姓名或学工号">
         <option value="${cadre.id}">${cadre.realname}-${cadre.code}-${cadre.unitName}</option>
       </select>
@@ -16,7 +16,7 @@
   <c:forEach begin="${fn:length(cadres)}" end="4">
   <div class="select">
   <select data-rel="select2-ajax"
-          data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ}" data-width="300"
+          data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_KJ},${CADRE_STATUS_KJ_LEAVE}" data-width="300"
           name="cadreId" data-placeholder="请输入账号或姓名或学工号">
     <option></option>
   </select>
