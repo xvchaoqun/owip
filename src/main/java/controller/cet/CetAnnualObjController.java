@@ -135,11 +135,9 @@ public class CetAnnualObjController extends CetBaseController {
                                   Boolean isFinishedOffline,
                                   Boolean isFinishedOnline,
                                   Boolean needUpdateRequire,
-                                  Boolean sortByFinished,
+                                  Byte sortBy,
                                   Boolean displayFinishedOffline,
                                   Boolean displayFinishedOnline,
-                                  Boolean displayUnfinishedOffline,
-                                  Boolean displayUnfinishedOnline,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -156,7 +154,7 @@ public class CetAnnualObjController extends CetBaseController {
         Criteria criteria = example.createCriteria()
                 .andAnnualIdEqualTo(annualId)
                 .andIsQuitEqualTo(isQuit);
-        if (BooleanUtils.isTrue(sortByFinished)) {
+        if (NumberUtils.byteEqual(sortBy, (byte)1)) {
             example.setOrderByClause("finish_period_offline desc, finish_period_online desc, sort_order desc");
         } else {
             example.setOrderByClause("sort_order desc");
@@ -175,21 +173,14 @@ public class CetAnnualObjController extends CetBaseController {
         if (isFinishedOffline != null) {
             criteria.isFinishedOffline(BooleanUtils.isTrue(isFinishedOffline));
         }
-        if (BooleanUtils.isTrue(displayFinishedOffline)) {
-            criteria.isFinishedOffline(true);
+        if(displayFinishedOffline!=null) {
+            criteria.isFinishedOffline(BooleanUtils.isTrue(displayFinishedOffline));
         }
-        if (BooleanUtils.isTrue(displayUnfinishedOffline)) {
-            criteria.isFinishedOffline(false);
-        }
-
         if (isFinishedOnline != null) {
             criteria.isFinishedOnline(BooleanUtils.isTrue(isFinishedOnline));
         }
-        if (BooleanUtils.isTrue(displayFinishedOnline)) {
-            criteria.isFinishedOnline(true);
-        }
-        if (BooleanUtils.isTrue(displayUnfinishedOnline)) {
-            criteria.isFinishedOnline(false);
+        if(displayFinishedOnline!=null) {
+            criteria.isFinishedOnline(BooleanUtils.isTrue(displayFinishedOnline));
         }
         
         if (needUpdateRequire != null) {

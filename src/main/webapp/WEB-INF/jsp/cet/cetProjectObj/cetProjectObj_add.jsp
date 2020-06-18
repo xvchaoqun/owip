@@ -34,6 +34,12 @@
 			</div>
 		</div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">时任单位及职务</label>
+            <div class="col-xs-6">
+                <textarea class="form-control noEnter" rows="3" name="title"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">时任职务属性</label>
             <div class="col-xs-7">
                 <select  data-rel="select2" name="postType" data-placeholder="请选择时任职务属性" data-width="272">

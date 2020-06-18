@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.cadre.CadreEvaService;
 import service.cadre.CadreService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class CrApplicantService extends CrBaseMapper {
     public String getEva(int year, Cadre cadre, CrApplicant crApplicant) {
 
         String eva = "";
-        if (cadre != null) {
+        if (cadre != null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())) {
             int cadreId = cadre.getId();
             CadreEva cadreEva_3 = cadreEvaService.get(cadreId, year - 3);
             CadreEva cadreEva_2 = cadreEvaService.get(cadreId, year - 2);

@@ -1317,11 +1317,12 @@ var _modal_width;
                     style: 'btn-default',
                     url: '',
                     icon: '',
-                    label: ''
+                    label: '',
+                    attr:''
                 }, params);
                 return ('<button class="popupBtn btn {0} btn-xs" ' +
-                    'data-url="{1}" ><i class="fa {2}"></i> {3}</button>')
-                    .format(params.style, params.url, params.icon, params.label)
+                    'data-url="{1}" {4}><i class="fa {2}"></i> {3}</button>')
+                    .format(params.style, params.url, params.icon, params.label, params.attr)
             }
         }
     });

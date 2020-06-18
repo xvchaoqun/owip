@@ -150,9 +150,14 @@ public class CetProjectObjService extends CetBaseMapper {
                 CadreView cv = cadreService.dbFindByUserId(userId);
                 if (cv != null) {
                     record.setCadreId(cv.getId());
-                    record.setTitle(cv.getTitle());
+                    // 如果时任单位及职务、职务属性没有，则同步系统里的最新数据
+                    if(StringUtils.isBlank(record.getTitle())) {
+                        record.setTitle(cv.getTitle());
+                    }
                     record.setAdminLevel(cv.getAdminLevel());
-                    record.setPostType(cv.getPostType());
+                    if(record.getPostType()==null) {
+                        record.setPostType(cv.getPostType());
+                    }
                     record.setIsOw(cv.getIsOw());
                     record.setOwGrowTime(cv.getOwGrowTime());
                     record.setDpGrowTime(cv.getDpGrowTime());
@@ -695,10 +700,13 @@ public class CetProjectObjService extends CetBaseMapper {
 
         int addCount = 0;
         for (CetProjectObj _record : records) {
+
             Integer userId = _record.getUserId();
             Integer traineeTypeId = _record.getTraineeTypeId();
             CetProjectObj _cetProjectObj = get(userId, projectId, traineeTypeId);
+
             if (_cetProjectObj == null) {
+
                 addCount++;
                 CetTraineeType cetTraineeType = new CetTraineeType();
                 if (traineeTypeId != null && traineeTypeId == 0){
@@ -719,8 +727,7 @@ public class CetProjectObjService extends CetBaseMapper {
                     List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
                     if (cetProjectObjs.size() > 0) {
                         CetProjectObj cetProjectObj = cetProjectObjs.get(0);
-                        int otherTraineeTypeId = cetProjectObj.getTraineeTypeId();
-                        SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
+                        SysUserView uv = cetProjectObj.getUser();
 
                         throw new OpException("参训人{0}（工号：{1}）已经是培训对象（{2}）", uv.getRealname(), uv.getCode(),
                                 cetTraineeType.getName());
@@ -729,27 +736,29 @@ public class CetProjectObjService extends CetBaseMapper {
 
                 List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
 
-                CetProjectObj record = new CetProjectObj();
-                record.setProjectId(projectId);
-                record.setUserId(userId);
-                record.setTraineeTypeId(traineeTypeId);
-                record.setIdentity(_record.getIdentity());
-                record.setPostType(_record.getPostType());
-
-                appendTraineeInfo(cetTraineeType.getCode(), userId, record);
-
-                cetProjectObjMapper.insertSelective(record);
+                appendTraineeInfo(cetTraineeType.getCode(), userId, _record);
+                cetProjectObjMapper.insertSelective(_record);
 
                 // 同步至每个培训班的学员列表
                 for (CetTrain cetTrain : cetTrains) {
                     cetTraineeService.createIfNotExist(userId, cetTrain.getId());
                 }
 
-                sysApprovalLogService.add(record.getId(), record.getUserId(),
+                sysApprovalLogService.add(_record.getId(), _record.getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
                         "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                        "新建");
+                        "批量导入");
+            }else{
+
+                _record.setId(_cetProjectObj.getId());
+                cetProjectObjMapper.updateByPrimaryKeySelective(_record);
+
+                sysApprovalLogService.add(_record.getId(), _record.getUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                        "更新培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                        "批量导入");
             }
         }
 

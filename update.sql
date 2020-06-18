@@ -124,6 +124,7 @@ ALTER TABLE `cet_upper_train`
 	ADD COLUMN `score` VARCHAR(100) NULL DEFAULT NULL COMMENT '培训成绩' AFTER `pdf_note`,
 	CHANGE COLUMN `post_id` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '时任职务属性' AFTER `title`;
 ALTER TABLE `cet_unit_train`
+  	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
 	ADD COLUMN `identity` VARCHAR(200) NULL DEFAULT NULL COMMENT '参训人员身份（双肩挑，支部书记）' AFTER `other_trainee_type`,
 	CHANGE COLUMN `post_type` `post_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '时任职务属性' AFTER `title`;
 ALTER TABLE `cet_upper_train`
@@ -131,6 +132,13 @@ ALTER TABLE `cet_upper_train`
 
 ALTER TABLE `cet_unit_train`
 	ADD COLUMN `score` VARCHAR(100) NULL DEFAULT NULL COMMENT '培训成绩' AFTER `pdf_note`;
+
+ALTER TABLE `cet_project_obj`
+	DROP FOREIGN KEY `FK_cet_project_obj_cet_trainee_type`;
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
+  ADD COLUMN `identity` VARCHAR(200) NULL DEFAULT NULL COMMENT '参训人员身份（双肩挑，支部书记）' AFTER `other_trainee_type`;
+
 
 2020.6.9
 

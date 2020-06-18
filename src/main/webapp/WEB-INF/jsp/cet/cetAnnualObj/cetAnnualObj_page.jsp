@@ -7,32 +7,26 @@
         || not empty param.postTypes || not empty param.isFinishedOffline || not empty param.isFinishedOnline || not empty param.needUpdateRequire}"/>
 <div class="jqgrid-vertical-offset buttons">
 
-     <div class="type-select">
-        <span class="typeCheckbox ${param.sortByFinished==1?"checked":""}">
-        <input ${param.sortByFinished==1?"checked":""}  data-name="sortByFinished"
-                type="checkbox" value="1"> 按照已完成学时数排序
-        </span>
-        <span class="typeCheckbox ${param.displayFinishedOffline==1?"checked":""}">
-        <input ${param.displayFinishedOffline==1?"checked":""}  data-name="displayFinishedOffline"
-                type="checkbox" value="1"> 线下已完成
-        </span>
-        <span class="typeCheckbox ${param.displayUnfinishedOffline==1?"checked":""}">
-        <input ${param.displayUnfinishedOffline==1?"checked":""}  data-name="displayUnfinishedOffline"
-                type="checkbox" value="1"> 线下未完成
-        </span>
-        <span class="typeCheckbox ${param.displayFinishedOnline==1?"checked":""}">
-        <input ${param.displayFinishedOnline==1?"checked":""}  data-name="displayFinishedOnline"
-                type="checkbox" value="1"> 网络已完成
-        </span>
-        <span class="typeCheckbox ${param.displayUnfinishedOnline==1?"checked":""}">
-        <input ${param.displayUnfinishedOnline==1?"checked":""}  data-name="displayUnfinishedOnline"
-                type="checkbox" value="1"> 网络未完成
-        </span>
+     <div class="type-select" style="padding: 0">
+         <select name="displayFinishedOffline" data-placeholder="线下完成情况" data-width="135">
+            <option></option>
+            <option value="1">线下已完成</option>
+            <option value="0">线下未完成</option>
+        </select>
+         <select name="displayFinishedOnline" data-placeholder="网络完成情况" data-width="135">
+            <option></option>
+            <option value="1">网络已完成</option>
+            <option value="0">网络未完成</option>
+        </select>
+         <select name="sortBy" data-placeholder="排序方式" data-width="220">
+            <option></option>
+            <option value="1">按照已完成学时数排序</option>
+        </select>
     </div>
 
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetAnnualObj:edit">
-        <button class="popupBtn btn btn-success btn-sm"
+        <button class="popupBtn btn btn-info btn-sm"
                 data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}">
             <i class="fa fa-plus"></i> 添加
         </button>
@@ -49,40 +43,49 @@
                 data-grid-id="#jqGrid2"><i class="fa fa-clock-o"></i>
             设定年度学习任务
         </button>
-
-         <button data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}"
-                data-title="同步培训对象信息"
-                data-msg="确定同步培训对象信息？"
-                data-need-id="false"
-                data-callback="_sync_callback"
-                data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中，请稍后..."
-                class="jqItemBtn btn btn-primary btn-sm">
-            <i class="fa fa-refresh"></i> 同步培训对象信息
-        </button>
-
          <button data-url="${ctx}/cet/archiveObjFinishPeriod?annualId=${param.annualId}"
                 data-title="归档已完成学时"
                 data-msg="确定归档已完成学时？"
                 data-grid-id="#jqGrid2"
                  data-callback="_archive_callback"
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
-                class="jqBatchBtn btn btn-warning btn-sm">
+                class="jqBatchBtn btn btn-success btn-sm">
             <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
     </shiro:hasPermission>
 
-        <button class="jqExportBtn btn btn-info btn-sm"
-                        data-grid-id="#jqGrid2"
-                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
-                data-url="${ctx}/cet/cetAnnual_exportObjs?annualId=${param.annualId}">
-            <i class="fa fa-download"></i> 导出学时情况统计表</button>
-
-     <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-             data-url="${ctx}/cet/cetAnnualObj_data?annualId=${param.annualId}"
-             data-grid-id="#jqGrid2"
-             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-         <i class="fa fa-download"></i> 导出明细表
-     </button>
+        <div class="btn-group">
+            <button data-toggle="dropdown"
+                    class="btn btn-primary btn-sm dropdown-toggle">
+                <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
+                <shiro:hasPermission name="cetAnnualObj:edit">
+                    <li>
+                        <a href="javascript:;" class="jqItemBtn"
+                            data-title="同步培训对象信息"
+                            data-msg="确定同步培训对象信息？"
+                            data-need-id="false"
+                            data-callback="_sync_callback"
+                            data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中，请稍后..."
+                           data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}">
+                            <i class="fa fa-upload"></i> 同步培训对象信息（可选择部分人员进行同步）</a>
+                    </li>
+                </shiro:hasPermission>
+                <li>
+                    <a href="javascript:;" class="jqExportBtn" data-grid-id="#jqGrid2"
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
+                       data-url="${ctx}/cet/cetAnnual_exportObjs?annualId=${param.annualId}">
+                        <i class="fa fa-download"></i> 导出学时情况统计表</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="jqExportBtn"  data-grid-id="#jqGrid2"
+                       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"
+                       data-url="${ctx}/cet/cetAnnualObj_data?annualId=${param.annualId}">
+                        <i class="fa fa-download"></i> 导出明细表</a>
+                </li>
+            </ul>
+        </div>
         </c:if>
     <c:if test="${isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
@@ -128,11 +131,9 @@
     <div class="widget-body">
         <div class="widget-main no-padding">
             <form class="form-inline search-form" id="searchForm2">
-                <input type="hidden" name="sortByFinished" value="${param.sortByFinished}">
+                <input type="hidden" name="sortBy" value="${param.sortBy}">
                 <input type="hidden" name="displayFinishedOffline" value="${param.displayFinishedOffline}">
                 <input type="hidden" name="displayFinishedOnline" value="${param.displayFinishedOnline}">
-                <input type="hidden" name="displayUnfinishedOffline" value="${param.displayUnfinishedOffline}">
-                <input type="hidden" name="displayUnfinishedOnline" value="${param.displayUnfinishedOnline}">
 
                 <div class="form-group">
                     <label>姓名</label>
@@ -178,7 +179,7 @@
                 </div>
                 <div class="form-group">
                     <label>行政级别是否变更</label>
-                    <select data-rel="select2" name="needUpdateRequire" data-width="160" data-placeholder="请选择">
+                    <select data-rel="select2" name="needUpdateRequire" data-width="80" data-placeholder="请选择">
                         <option></option>
                         <option value="1">是</option>
                         <option value="0">否</option>
@@ -215,19 +216,44 @@
 </style>
 <script>
 
+    $(".type-select select[name=sortBy]").val('${param.sortBy}')
+    $(".type-select select[name=sortBy]").select2({
+        theme: "default",
+    }).change(function () {
+        $("#searchForm2 input[name=sortBy]").val($(this).val());
+        $("#searchForm2 .jqSearchBtn").click();
+        if($(this).val()==''){
+            throw new Error();
+        }
+    });
+
+    $(".type-select select[name=displayFinishedOffline]").val('${param.displayFinishedOffline}')
+    $(".type-select select[name=displayFinishedOffline]").select2({
+        theme: "default",
+    }).change(function () {
+        $("#searchForm2 input[name=displayFinishedOffline]").val($(this).val());
+        $("#searchForm2 .jqSearchBtn").click();
+        if($(this).val()==''){
+            throw new Error();
+        }
+    });
+
+    $(".type-select select[name=displayFinishedOnline]").val('${param.displayFinishedOnline}')
+    $(".type-select select[name=displayFinishedOnline]").select2({
+        theme: "default",
+    }).change(function () {
+        $("#searchForm2 input[name=displayFinishedOnline]").val($(this).val());
+        $("#searchForm2 .jqSearchBtn").click();
+        if($(this).val()==''){
+            throw new Error();
+        }
+    }).val('${param.displayFinishedOnline}')
+
     $(".typeCheckbox input").click(function () {
         var $input = $(this);
         var name = $(this).data("name");
         var isChecked = $input.is(":checked");
-        if(name=='displayFinishedOffline'&& isChecked){
-            $("#searchForm2 input[name=displayUnfinishedOffline]").val("");
-        }else if(name=='displayUnfinishedOffline'&& isChecked){
-            $("#searchForm2 input[name=displayFinishedOffline]").val("");
-        }else if(name=='displayFinishedOnline'&& isChecked){
-            $("#searchForm2 input[name=displayUnfinishedOnline]").val("");
-        }else if(name=='displayUnfinishedOnline'&& isChecked){
-            $("#searchForm2 input[name=displayFinishedOnline]").val("");
-        }
+
         $("#searchForm2 input[name="+name+"]").val(isChecked?$input.val():"");
         $("#searchForm2 .jqSearchBtn").click();
     })
@@ -265,8 +291,8 @@
             {label: '工作证号', name: 'user.code', frozen: true},
             {label: '姓名', name: 'user.realname', frozen: true},
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
+            {label: '时任职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
             {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
-            {label: '职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
             {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年度学习任务<br/>(线下)', name: 'periodOffline'},
             {

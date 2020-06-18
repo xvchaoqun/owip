@@ -312,14 +312,14 @@ public class CetAnnualObjService extends CetBaseMapper {
                     CetAnnualObj record = new CetAnnualObj();
                     record.setId(cetAnnualObj.getId());
 
-                    int adminLevel = cetAnnualObj.getAdminLevel();
+                    Integer adminLevel = cetAnnualObj.getAdminLevel();
                     CadreView cv = CmTag.getCadreByUserId(userId);
-                    int latestAdminLevel = cv.getAdminLevel();
+                    Integer latestAdminLevel = cv.getAdminLevel();
 
                     // 排序始终同步最新的
                     record.setSortOrder(cv.getSortOrder());
 
-                    if (adminLevel != latestAdminLevel) {
+                    if (!NumberUtils.intEqual(adminLevel, latestAdminLevel)) {
                         // 行政级别变更了，不允许直接修改信息，必须修改年度学习任务
                         record.setNeedUpdateRequire(true);
                         adminLevelChangedCount++;

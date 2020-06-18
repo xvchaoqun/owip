@@ -669,6 +669,8 @@
                 return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 
             }, frozen: true},
+
+            {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
             {label: '时任职务属性', width: 150, name: 'postType', align: 'left', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue==undefined || cellvalue == null) return "--";
                     return $.jgrid.formatter.MetaType(cellvalue);
@@ -684,10 +686,9 @@
                     })).join("，")
                 }},
             </c:if>
-
             <c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
             ||cetTraineeType.code=='t_cadre_kj'||cetTraineeType.code=='t_reserve'}">
-            {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
+
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
@@ -790,6 +791,14 @@
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
+            {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+                if(!rowObject.isGraduate) return '--'
+                return $.button.modal({
+                            style:"btn-success",
+                            url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                            icon:"fa-search",
+                            label:"查看", attr:"data-width='850'"})
+            }},
             </c:if>
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 250}
