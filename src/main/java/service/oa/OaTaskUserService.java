@@ -5,6 +5,7 @@ import controller.global.OpException;
 import domain.oa.*;
 import domain.sys.SysUserView;
 import ext.service.ShortMsgService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import sys.constants.OaConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
+import sys.utils.NumberUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -171,6 +173,12 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
         int userId = ShiroHelper.getCurrentUserId();
         OaTaskUserView oaTaskUser = getRealTaskUser(taskId, userId);
 
+        int userFileCount = NumberUtils.trimToZero(oaTaskUser.getUserFileCount());
+        if(userFileCount>0 && (files==null || files.length < userFileCount)){
+
+            throw new OpException("该任务要求至少上传{0}个附件，当前上传了{1}个附件", userFileCount, files.length);
+        }
+
         if (oaTaskUser == null || (oaTaskUser.getStatus() != null &&
                 oaTaskUser.getStatus() == OaConstants.OA_TASK_USER_STATUS_PASS)) {
 
@@ -184,7 +192,11 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
                 record.setTaskId(taskId);
                 record.setUserId(userId);
                 record.setFileName(file.getOriginalFilename());
-                record.setFilePath(upload(file, "oa_task_file"));
+                String filePath = upload(file, "oa_task_file");
+                if(StringUtils.isBlank(filePath)){
+                    throw new OpException("文件{0}上传失败，请刷新页面重试。", record.getFileName());
+                }
+                record.setFilePath(filePath);
                 record.setCreateTime(new Date());
 
                 oaTaskUserFileMapper.insertSelective(record);

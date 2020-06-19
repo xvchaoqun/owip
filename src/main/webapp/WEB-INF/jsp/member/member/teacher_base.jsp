@@ -53,7 +53,7 @@
                                         data-title="同步预备党员"
                                         data-msg="确定将此预备党员信息导入<span style='color:red;font-weight:bolder;'>[入党申请管理-预备党员]支部审核阶段</span>？"
                                         data-url="${ctx}/snyc_memberApply?userId=${param.userId}">
-                                    <i class="fa fa-random "></i> 同步至入党申请列表
+                                    <i class="fa fa-random "></i> 同步至党员发展列表
                                 </button>
                             </c:if>
                         </shiro:hasPermission>

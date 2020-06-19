@@ -18,6 +18,12 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IMemberMapper {
+
+    // 更新党员发展模块中的预备党员所在党组织 与 党员库中不一致的情况
+    @Update("update ow_member m, ow_member_apply ma set ma.party_id=m.party_id, ma.branch_id=m.branch_id where ma.stage = "
+            + OwConstants.OW_APPLY_STAGE_GROW +" and ma.user_id=m.user_id and (ma.party_id!=m.party_id or ma.branch_id!=m.branch_id)")
+    int adjustMemberApply();
+
     //查询分党委及党支部所有书记副书记
     @Select("select user_id from ow_party_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and(post_id=64 or  post_id=63)" +
             "union select user_id from ow_branch_member_view where group_party_id=#{partyId} and is_history=0 and is_deleted=0 and is_present=1 and type_id=80")

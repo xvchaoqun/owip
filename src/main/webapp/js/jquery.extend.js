@@ -509,15 +509,15 @@ var _modal_width;
                     var timeDifference = (new Date(time1)).getTime() - (new Date(time2)).getTime();
                     var years = (timeDifference / (365 * 24 * 3600 * 1000)).toFixed(2);
                     var months = (timeDifference / (1000 * 3600 * 24 * 30)).toFixed(2);
-                    var dates = (timeDifference / (1000 * 3600 * 24)).toFixed(2);
+                    var days = Math.floor(timeDifference / (1000 * 3600 * 24)) + 1;
                     if (_stage == 0 && years < 18) {
                         return '<span class="{0}" title="申请时须大于等于18周岁">{1}</span>'.format("red", _time1);
-                    } else if (_stage == 2 && (dates <= 15 || months >= 13)) {
+                    } else if (_stage == 2 && (days <= 15 || months >= 13)) {
                         return '<span class="{0}" title="确认为积极分子时间与申请时间间隔须大于15天，且小于13个月">{1}</span>'.format("red", _time1);
                     } else if (_stage == 3 && (years < 1 || years > 2)) {
                         return '<span class="{0}" title="确认为发展对象时间与成为积极分子的时间间隔须大于等于1年，且小于等于2年">{1}</span>'.format("red", _time1);
-                    } else if (_stage == 4 && dates < 45) {
-                        return '<span class="{0}" title="列入发展计划时间与成为发展对象的时间间隔须大于等于45天">{1}</span>'.format("red", _time1);
+                    } else if (_stage == 4 && days < 30) {
+                        return '<span class="{0}" title="列入发展计划时间与成为发展对象的时间间隔须大于等于30天">{1}</span>'.format("red", _time1);
                     } else if (_stage == 5) {
                         var _time3 = null;
                         if (partyPublic != undefined) {
@@ -527,7 +527,7 @@ var _modal_width;
                                 return '<span class="{0}" title="领取志愿书时间须在发展公示时间之后">{1}</span>'.format("red", _time1);
                             }
                         }
-                        if (dates < 8)
+                        if (days < 8)
                             return '<span class="{0}" title="领取志愿书时间与列入发展计划的时间间隔须大于等于8天">{1}</span>'.format("red", _time1);
                     } else if (_stage == 6 && (months > 1 || months < 0)) {
                         return '<span class="{0}" title="成为预备党员时间与领取志愿书的时间间隔须小于等于1个月">{1}</span>'.format("red", _time1);

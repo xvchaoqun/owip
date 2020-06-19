@@ -1,4 +1,6 @@
 
+2020.6.19
+南航 -- 北师大
 
 ALTER TABLE `cadre`
 	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原职务，离任时赋值' AFTER `remark`,
@@ -9,6 +11,10 @@ ALTER TABLE `cadre`
 
 ALTER TABLE `cet_upper_train`
  CHANGE COLUMN `train_type` `train_type` INT(10) UNSIGNED NULL COMMENT '培训班类型' AFTER `other_organizer`;
+
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES
+('调整预备党员所在党组织', '更新党员发展模块中的预备党员所在党组织与党员库中不一致的情况', 'job.member.MemberAutoAdjust', '0 0/10 * * * ?', 1, 0, 30, '2018-04-24 15:12:17', 0);
 
 
 2020.6.18
