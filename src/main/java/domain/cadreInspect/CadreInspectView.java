@@ -86,6 +86,12 @@ public class CadreInspectView implements Serializable {
 
     private String remark;
 
+    private String originalPost;
+
+    private Date appointDate;
+
+    private Date deposeDate;
+
     private Integer sortOrder;
 
     private Byte status;
@@ -414,6 +420,30 @@ public class CadreInspectView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getOriginalPost() {
+        return originalPost;
+    }
+
+    public void setOriginalPost(String originalPost) {
+        this.originalPost = originalPost == null ? null : originalPost.trim();
+    }
+
+    public Date getAppointDate() {
+        return appointDate;
+    }
+
+    public void setAppointDate(Date appointDate) {
+        this.appointDate = appointDate;
+    }
+
+    public Date getDeposeDate() {
+        return deposeDate;
+    }
+
+    public void setDeposeDate(Date deposeDate) {
+        this.deposeDate = deposeDate;
     }
 
     public Integer getSortOrder() {

@@ -6,7 +6,7 @@
     <h3>批量导入上级调训</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cet/cetUpperTrain_import" method="post">
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" enctype="multipart/form-data" action="${ctx}/cet/cetUpperTrain_import?type=${type}" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
@@ -15,7 +15,14 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cetUpperTrain">参训人员录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照
+            <c:if test="${type==8}">
+                <a href="${ctx}/attach?code=sample_cetUpperTrain_abroad">出国研修人员录入样表
+            </c:if>
+            <c:if test="${type!=8}">
+                <a href="${ctx}/attach?code=sample_cetUpperTrain">参训人员录入样表
+            </c:if>
+                    .xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

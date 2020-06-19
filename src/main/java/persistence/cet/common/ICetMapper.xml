@@ -4,9 +4,9 @@
 
     <!--批量删除已删除的培训记录-->
     <delete id="removeDeletedCetRecords" parameterType="Integer">
-        delete from cet_record where type_id not in(select id from cet_upper_train) and type in(4,5,6);
-        delete  from cet_record where type_id not in(select id from cet_unit_train) and type in(3);
-        delete  from cet_record where type_id not in(select id from cet_project_obj) and type in(1,2);
+        delete from cet_record where type_id not in(select id from cet_upper_train where is_deleted=0) and type in(4,5,6);
+        delete  from cet_record where type_id not in(select id from cet_unit_train where status=0) and type in(3);
+        delete  from cet_record where type_id not in(select id from cet_project_obj where is_quit=0) and type in(1,2);
     </delete>
 
     <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"

@@ -1,5 +1,19 @@
 
 
+ALTER TABLE `cadre`
+	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原职务，离任时赋值' AFTER `remark`,
+	ADD COLUMN `appoint_date` DATE NULL DEFAULT NULL COMMENT '任职日期，离任时赋值' AFTER `original_post`,
+	ADD COLUMN `depose_date` DATE NULL DEFAULT NULL COMMENT '免职日期，离任时赋值' AFTER `appoint_date`;
+
+-- 更新 cadre_view
+
+ALTER TABLE `cet_upper_train`
+ CHANGE COLUMN `train_type` `train_type` INT(10) UNSIGNED NULL COMMENT '培训班类型' AFTER `other_organizer`;
+
+
+2020.6.18
+西工大 -- 北师大
+
 -- 更新录入样表
 UPDATE `sys_resource` SET `url`='/cet/cetUnitTrain_info?cls=2' WHERE  `id`=2536;
 
@@ -24,8 +38,15 @@ ALTER TABLE `cet_unit_project`
 ALTER TABLE `cet_party`
 	CHANGE COLUMN `party_name` `name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `party_id`;
 -- 更新视图 cet_party_view
+DROP VIEW IF EXISTS `cet_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
+select cp.*,COUNT(cpa.user_id) AS admin_count
+from cet_party cp
+left JOIN cet_party_admin cpa on cp.id=cpa.cet_party_id
+GROUP BY cp.id;
 
 -- 删除原分党委管理员的 二级党委培训的权限
+-- 更新角色cet_admin_party 的权限
 
 -- 初始化二级党委列表（同步基层党组织数据）
 insert into cet_party(party_id, name, sort_order, is_deleted) select id as party_id, name, sort_order, is_deleted from  ow_party;
@@ -92,16 +113,12 @@ update cet_project p,
 set p.trainee_type_ids=tmp.trainee_type_ids where p.id=tmp.project_id;
 
 
-
-ALTER TABLE `cet_project`
-	ADD COLUMN `obj_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`;
-
 -- 删除相关类
 drop view cet_project_view;
 drop table cet_project_trainee_type;
 
 ALTER TABLE `cet_project`
-	CHANGE COLUMN `obj_count` `obj_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`,
+	ADD COLUMN  `obj_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`,
 	ADD COLUMN `quit_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '已退出参选人员数量' AFTER `obj_count`;
 
 update cet_project p,
@@ -139,6 +156,10 @@ ALTER TABLE `cet_project_obj`
 	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
   ADD COLUMN `identity` VARCHAR(200) NULL DEFAULT NULL COMMENT '参训人员身份（双肩挑，支部书记）' AFTER `other_trainee_type`;
 
+REPLACE INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('cet_admin_party', '二级党委管理员', 1, '384,869,880,2536,2537,652,881', '-1', 0, 0, 1, 29, '干部教育培训');
+REPLACE INTO `sys_role` (`code`, `name`, `type`, `resource_ids`, `m_resource_ids`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`) VALUES ('cet_admin_upper', '二级单位管理员', 1, '384,846', '-1', 1, 0, 1, 33, '干部培训-上级调训');
+delete from sys_role where code in ('cet_admin_unit', 'cet_admin_ps');
+
 
 2020.6.9
 
@@ -168,7 +189,7 @@ ENGINE=InnoDB
 
 ALTER TABLE `ow_member_apply`
 	ADD COLUMN `apply_stage` TINYINT(3) UNSIGNED NULL DEFAULT 0 COMMENT '申请培养阶段，0申请 2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书' AFTER `remark`;
-
+-- 更新 ow_member_apply_view
 
 update sys_role r, (select * from sys_role where code='cet_trainee') tmp
 set r.resource_ids = CONCAT_WS(',', r.resource_ids, tmp.resource_ids),r.m_resource_ids = CONCAT_WS(',',r.m_resource_ids,  tmp.m_resource_ids) where r.code='role_teacher';

@@ -49,7 +49,7 @@
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
       {
-      label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
+      label: '培训班主办方', name: 'organizer', width: 252, align: 'left', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
         return $.trim(rowObject.otherOrganizer)
       }

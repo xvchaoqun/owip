@@ -14,6 +14,9 @@
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
+    <result column="appoint_date" jdbcType="DATE" property="appointDate" />
+    <result column="depose_date" jdbcType="DATE" property="deposeDate" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
@@ -77,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, is_dep, has_crp, is_double, double_unit_ids, state, title, dispatch_cadre_id, 
-    label, profile, remark, sort_order, status
+    label, profile, remark, original_post, appoint_date, depose_date, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
     select
@@ -116,12 +119,14 @@
     insert into cadre (user_id, is_dep, has_crp, 
       is_double, double_unit_ids, state, 
       title, dispatch_cadre_id, label, 
-      profile, remark, sort_order, 
+      profile, remark, original_post, 
+      appoint_date, depose_date, sort_order, 
       status)
     values (#{userId,jdbcType=INTEGER}, #{isDep,jdbcType=BIT}, #{hasCrp,jdbcType=BIT}, 
       #{isDouble,jdbcType=BIT}, #{doubleUnitIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{label,jdbcType=VARCHAR}, 
-      #{profile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{profile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{originalPost,jdbcType=VARCHAR}, 
+      #{appointDate,jdbcType=DATE}, #{deposeDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.Cadre">
@@ -163,6 +168,15 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="originalPost != null">
+        original_post,
+      </if>
+      <if test="appointDate != null">
+        appoint_date,
+      </if>
+      <if test="deposeDate != null">
+        depose_date,
+      </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
@@ -203,6 +217,15 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPost != null">
+        #{originalPost,jdbcType=VARCHAR},
+      </if>
+      <if test="appointDate != null">
+        #{appointDate,jdbcType=DATE},
+      </if>
+      <if test="deposeDate != null">
+        #{deposeDate,jdbcType=DATE},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -257,6 +280,15 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.originalPost != null">
+        original_post = #{record.originalPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appointDate != null">
+        appoint_date = #{record.appointDate,jdbcType=DATE},
+      </if>
+      <if test="record.deposeDate != null">
+        depose_date = #{record.deposeDate,jdbcType=DATE},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -282,6 +314,9 @@
       label = #{record.label,jdbcType=VARCHAR},
       profile = #{record.profile,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
+      original_post = #{record.originalPost,jdbcType=VARCHAR},
+      appoint_date = #{record.appointDate,jdbcType=DATE},
+      depose_date = #{record.deposeDate,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
@@ -324,6 +359,15 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="originalPost != null">
+        original_post = #{originalPost,jdbcType=VARCHAR},
+      </if>
+      <if test="appointDate != null">
+        appoint_date = #{appointDate,jdbcType=DATE},
+      </if>
+      <if test="deposeDate != null">
+        depose_date = #{deposeDate,jdbcType=DATE},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -346,6 +390,9 @@
       label = #{label,jdbcType=VARCHAR},
       profile = #{profile,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      original_post = #{originalPost,jdbcType=VARCHAR},
+      appoint_date = #{appointDate,jdbcType=DATE},
+      depose_date = #{deposeDate,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}

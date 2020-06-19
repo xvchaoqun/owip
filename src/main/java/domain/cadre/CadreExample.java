@@ -1,6 +1,8 @@
 package domain.cadre;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CadreExample {
@@ -102,6 +104,32 @@ public class CadreExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -871,6 +899,196 @@ public class CadreExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostIsNull() {
+            addCriterion("original_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostIsNotNull() {
+            addCriterion("original_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostEqualTo(String value) {
+            addCriterion("original_post =", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostNotEqualTo(String value) {
+            addCriterion("original_post <>", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostGreaterThan(String value) {
+            addCriterion("original_post >", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostGreaterThanOrEqualTo(String value) {
+            addCriterion("original_post >=", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostLessThan(String value) {
+            addCriterion("original_post <", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostLessThanOrEqualTo(String value) {
+            addCriterion("original_post <=", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostLike(String value) {
+            addCriterion("original_post like", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostNotLike(String value) {
+            addCriterion("original_post not like", value, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostIn(List<String> values) {
+            addCriterion("original_post in", values, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostNotIn(List<String> values) {
+            addCriterion("original_post not in", values, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostBetween(String value1, String value2) {
+            addCriterion("original_post between", value1, value2, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginalPostNotBetween(String value1, String value2) {
+            addCriterion("original_post not between", value1, value2, "originalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateIsNull() {
+            addCriterion("appoint_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateIsNotNull() {
+            addCriterion("appoint_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date =", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date <>", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("appoint_date >", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date >=", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateLessThan(Date value) {
+            addCriterionForJDBCDate("appoint_date <", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date <=", value, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_date in", values, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_date not in", values, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_date between", value1, value2, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_date not between", value1, value2, "appointDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateIsNull() {
+            addCriterion("depose_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateIsNotNull() {
+            addCriterion("depose_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date =", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date <>", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("depose_date >", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date >=", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateLessThan(Date value) {
+            addCriterionForJDBCDate("depose_date <", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date <=", value, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateIn(List<Date> values) {
+            addCriterionForJDBCDate("depose_date in", values, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("depose_date not in", values, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("depose_date between", value1, value2, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeposeDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("depose_date not between", value1, value2, "deposeDate");
             return (Criteria) this;
         }
 

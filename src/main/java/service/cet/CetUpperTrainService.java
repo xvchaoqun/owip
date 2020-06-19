@@ -187,16 +187,27 @@ public class CetUpperTrainService extends CetBaseMapper {
     public CetUpperTrain get(CetUpperTrain record) {
 
         CetUpperTrainExample example = new CetUpperTrainExample();
-        example.createCriteria()
+        CetUpperTrainExample.Criteria criteria = example.createCriteria()
                 .andTypeEqualTo(record.getType())
                 .andIsOnlineEqualTo(record.getIsOnline())
                 .andUserIdEqualTo(record.getUserId())
                 .andTraineeTypeIdEqualTo(record.getTraineeTypeId())
                 .andYearEqualTo(record.getYear())
-                .andOrganizerEqualTo(record.getOrganizer())
-                .andTrainTypeEqualTo(record.getTrainType())
+                .andTrainNameEqualTo(record.getTrainName())
                 .andIsDeletedEqualTo(false)
                 .andStatusNotEqualTo(CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS);
+        if (record.getTrainType() != null){
+            criteria.andTrainTypeEqualTo(record.getTrainType());
+        }
+        if (record.getTraineeTypeId() == 0){
+            criteria.andOtherTraineeTypeEqualTo(record.getOtherTraineeType());
+        }
+        if (record.getOrganizer() != null) {
+            criteria.andOrganizerEqualTo(record.getOrganizer());
+            if (record.getOrganizer() == 0) {
+                criteria.andOtherOrganizerEqualTo(record.getOtherOrganizer());
+            }
+        }
 
         List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 

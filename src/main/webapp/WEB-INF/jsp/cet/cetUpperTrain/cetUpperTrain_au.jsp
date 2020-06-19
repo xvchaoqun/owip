@@ -302,7 +302,7 @@
                 </div>
                 <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_ABROAD}">
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训机构</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>组织培训机构</label>
                     <div class="col-xs-7">
                         <input required class="form-control" type="text" name="agency"
                                value="${cetUpperTrain.agency}">

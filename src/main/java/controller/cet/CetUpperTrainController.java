@@ -576,7 +576,10 @@ public class CetUpperTrainController extends CetBaseController {
 
     @RequiresPermissions("cetUpperTrain:import")
     @RequestMapping("/cetUpperTrain_import")
-    public String cetUpperTrain_import() {
+    public String cetUpperTrain_import(Byte type,
+                                       ModelMap modelMap) {
+
+        modelMap.put("type", type);
 
         return "cet/cetUpperTrain/cetUpperTrain_import";
     }
@@ -584,7 +587,7 @@ public class CetUpperTrainController extends CetBaseController {
     @RequiresPermissions("cetUpperTrain:import")
     @RequestMapping(value = "/cetUpperTrain_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUpperTrain_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cetUpperTrain_import(Byte type, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -651,62 +654,91 @@ public class CetUpperTrainController extends CetBaseController {
             }
             record.setYear(Integer.valueOf(_year));
 
-            String _organizerType = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(_organizerType)) {
-                throw new OpException("第{0}行培训班主办方为空", row);
-            }
-            MetaType organizerType = CmTag.getMetaTypeByName("mc_cet_upper_train_organizer", _organizerType);
-            if (organizerType == null) {
-                record.setOrganizer(0); // 其他主办方
-                record.setOtherOrganizer(_organizerType);
-            }
-
-            String _trainType = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(_trainType)) {
-                throw new OpException("第{0}行培训班类型为空", row);
-            }
-            MetaType trainType = CmTag.getMetaTypeByName("mc_cet_upper_train_type", _trainType);
-            if (trainType == null) {
-                throw new OpException("第{0}行培训班类型不存在", row);
-            }
-            record.setTrainType(trainType.getId());
-
-            String trainName = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(trainName)) {
-                throw new OpException("第{0}行培训班名称为空", row);
-            }
-            record.setTrainName(trainName);
-
-            record.setIsOnline(StringUtils.equals(xlsRow.get(col++), "线上培训"));
-
-            record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
-            record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
-
-            String period = StringUtils.trimToNull(xlsRow.get(col++));
-            if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
-                throw new OpException("第{0}行培训学时有误", row);
-            }
-            record.setPeriod(new BigDecimal(period));
-
-            record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
-            record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
-            String _type = StringUtils.trimToNull(xlsRow.get(col++));
-            record.setType(StringUtils.equals(_type, "党委组织部")?CetConstants.CET_UPPER_TRAIN_TYPE_OW
-                    :CetConstants.CET_UPPER_TRAIN_TYPE_UNIT);
-            if (record.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_UNIT) {
-                String unitCode = StringUtils.trimToNull(xlsRow.get(col++));
-                if (StringUtils.isBlank(unitCode)) {
-                    throw new OpException("第{0}行单位编码为空", row);
+            if (type == 8){
+                String trainName = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(trainName)){
+                    throw  new OpException("第{0}行研究方向为空", row);
                 }
-                Unit unit = unitService.findRunUnitByCode(unitCode);
-                if (unit == null) {
-                    throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                record.setTrainName(trainName);
+                record.setIsOnline(StringUtils.equals(xlsRow.get(col++), "线上培训"));
+                String country = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(country)){
+                    throw new OpException("第{0}行前往国家为空", row);
                 }
-                record.setUnitId(unit.getId());
-            }
+                record.setCountry(country);
+                record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+                record.setAgency(StringUtils.trimToNull(xlsRow.get(col++)));
+                record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                String period = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
+                    throw new OpException("第{0}行培训学时有误", row);
+                }
+                record.setPeriod(new BigDecimal(period));
+                record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
+                record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+                record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
+                record.setType(type);
+            }else {
+                String _organizerType = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(_organizerType)) {
+                    throw new OpException("第{0}行培训班主办方为空", row);
+                }
+                MetaType organizerType = CmTag.getMetaTypeByName("mc_cet_upper_train_organizer", _organizerType);
+                if (organizerType == null) {
+                    record.setOrganizer(0); // 其他主办方
+                    record.setOtherOrganizer(_organizerType.replaceAll("<br/>", ""));
+                } else {
+                    record.setOrganizer(organizerType.getId());
+                }
 
-            record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
+                String _trainType = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(_trainType)) {
+                    throw new OpException("第{0}行培训班类型为空", row);
+                }
+                MetaType trainType = CmTag.getMetaTypeByName("mc_cet_upper_train_type", _trainType);
+                if (trainType == null) {
+                    throw new OpException("第{0}行培训班类型不存在", row);
+                }
+                record.setTrainType(trainType.getId());
+
+                String trainName = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(trainName)) {
+                    throw new OpException("第{0}行培训班名称为空", row);
+                }
+                record.setTrainName(trainName);
+
+                record.setIsOnline(StringUtils.equals(xlsRow.get(col++), "线上培训"));
+
+                record.setStartDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+                record.setEndDate(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+
+                String period = StringUtils.trimToNull(xlsRow.get(col++));
+                if (StringUtils.isBlank(period) || !NumberUtils.isCreatable(period)) {
+                    throw new OpException("第{0}行培训学时有误", row);
+                }
+                record.setPeriod(new BigDecimal(period));
+
+                record.setAddress(StringUtils.trimToNull(xlsRow.get(col++)));
+                record.setScore(StringUtils.trimToNull(xlsRow.get(col++)));
+                String _type = StringUtils.trimToNull(xlsRow.get(col++));
+                record.setType(StringUtils.equals(_type, "党委组织部")?CetConstants.CET_UPPER_TRAIN_TYPE_OW
+                        :CetConstants.CET_UPPER_TRAIN_TYPE_UNIT);
+                if (record.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_UNIT) {
+                    String unitCode = StringUtils.trimToNull(xlsRow.get(col++));
+                    if (StringUtils.isNotBlank(unitCode)) {
+
+                        Unit unit = unitService.findRunUnitByCode(unitCode);
+                        if (unit == null) {
+                            throw new OpException("第{0}行单位编码[{1}]不存在", row, unitCode);
+                        }
+                        record.setUnitId(unit.getId());
+                    }
+                }
+
+                record.setIsValid(!StringUtils.equals(StringUtils.trimToNull(xlsRow.get(col++)), "是"));
+                record.setRemark(StringUtils.trimToNull(xlsRow.get(col++)));
+            }
 
             records.add(record);
         }

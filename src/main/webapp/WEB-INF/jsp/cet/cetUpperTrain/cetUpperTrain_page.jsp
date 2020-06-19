@@ -76,7 +76,7 @@
                     </button>
                     <shiro:hasPermission name="cetUpperTrain:import">
                     <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                        data-url="${ctx}/cet/cetUpperTrain_import"
+                        data-url="${ctx}/cet/cetUpperTrain_import?type=${param.type}"
                         data-rel="tooltip" data-placement="top" title="从Excel导入"><i class="fa fa-upload"></i> 批量导入</button>
                     </shiro:hasPermission>
                     </c:if>
