@@ -1,12 +1,14 @@
 
+-- 20200619 ly
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `train_type` `train_type` INT(10) UNSIGNED NULL COMMENT '培训班类型' AFTER `other_organizer`;
+
 -- 20200617 ly
 ALTER TABLE `cet_project_obj`
 	DROP FOREIGN KEY `FK_cet_project_obj_cet_trainee_type`;
 ALTER TABLE `cet_project_obj`
 	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
   ADD COLUMN `identity` VARCHAR(200) NULL DEFAULT NULL COMMENT '参训人员身份（双肩挑，支部书记）' AFTER `other_trainee_type`;
-
-
 
 --  20200615 ly
 INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (2601, NULL, '参训人员身份', '培训综合管理', '上级调训管理', 'mc_cet_identity', '', '', '', 2614, 1);

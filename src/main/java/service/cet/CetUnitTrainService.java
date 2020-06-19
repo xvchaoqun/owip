@@ -203,14 +203,18 @@ public class CetUnitTrainService extends CetBaseMapper {
             String _identity = StringUtils.trimToNull(xlsRow.get(3));
             if (StringUtils.isNotBlank(_identity)) {
                 String[] identities = _identity.split(",|，|、");
-                String identity = "";
+                List<Integer> identityList = new ArrayList<>();
                 for (String s : identities) {
-                    MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
-                    if (metaType != null) {
-                        identity = StringUtils.trimToNull(identity) == null ? "" + metaType.getId() : (identity += "," + metaType.getId());
+                    MetaType metaType1 = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType1 != null) {
+                        identityList.add(metaType1.getId());
                     }
                 }
-                record.setIdentity(identity);
+                if(identityList.size()>0) {
+                    record.setIdentity(StringUtils.join(identityList, ","));
+                }
+            }else {
+                record.setIdentity(""); // 为了更新时覆盖
             }
 
             record.setProjectId(projectId);

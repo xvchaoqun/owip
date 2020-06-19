@@ -220,18 +220,18 @@ public class CetProjectDetailController extends CetBaseController {
 
             record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
 
-            MetaType metatype = metaTypeService.findByName("mc_post", xlsRow.get(3));
-            if (metatype != null){
-                record.setPostType(metatype.getId());
+            MetaType metaType = metaTypeService.findByName("mc_post", xlsRow.get(3));
+            if (metaType != null){
+                record.setPostType(metaType.getId());
             }
             String _identity = StringUtils.trim(xlsRow.get(4));
             if (StringUtils.isNotBlank(_identity)) {
                 String[] identities = _identity.split(",|，|、");
                 List<Integer> identityList = new ArrayList<>();
                 for (String s : identities) {
-                    MetaType metaType = metaTypeService.findByName("mc_cet_identity", s);
-                    if (metaType != null) {
-                        identityList.add(metatype.getId());
+                    MetaType metaType1 = metaTypeService.findByName("mc_cet_identity", s);
+                    if (metaType1 != null) {
+                        identityList.add(metaType1.getId());
                     }
                 }
                 if(identityList.size()>0) {
