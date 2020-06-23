@@ -27,12 +27,12 @@
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetAnnualObj:edit">
         <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}">
+                data-url="${ctx}/cet/cetAnnualObj_au?annualId=${param.annualId}">
             <i class="fa fa-plus"></i> 添加
         </button>
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                       data-url="${ctx}/cet/cetAnnualObj_au?annualId=${param.annualId}"
+                       data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改</button>
         <button class="popupBtn btn btn-info btn-sm tooltip-info"
                 data-url="${ctx}/cet/cetAnnualObj_import?annualId=${param.annualId}"

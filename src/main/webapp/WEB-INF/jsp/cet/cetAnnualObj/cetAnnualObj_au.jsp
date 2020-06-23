@@ -3,20 +3,31 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h4>选择培训对象（${cetTraineeType.name}）</h4>
+    <h4>${empty cetAnnualObj?'添加':'修改'}培训对象（${cetTraineeType.name}）</h4>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_add" autocomplete="off" disableautocomplete
+    <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_au" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
+        <input type="hidden" name="id" value="${param.id}"/>
+        <c:if test="${empty cetAnnualObj}">
+            <div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span> 选择参训人员</label>
+                <div class="col-xs-7">
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="272"
+                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                        <option value="${cetAnnualObj.user.userId}">${cetAnnualObj.user.realname}-${cetAnnualObj.user.code}</option>
+                    </select>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${not empty cetAnnualObj}">
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span> 选择参训人员</label>
-            <div class="col-xs-7">
-                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="272"
-                        name="userId" data-placeholder="请输入账号或姓名或学工号">
-                    <option></option>
-                </select>
+            <label class="col-xs-3 control-label"> 参训人员姓名</label>
+            <div class="col-xs-6 label-text">
+                ${cetAnnualObj.user.realname}
             </div>
         </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label">时任单位及职务</label>
             <div class="col-xs-6">
@@ -32,6 +43,9 @@
                 </select>
             </div>
         </div>
+        <script type="text/javascript">
+            $("#modalForm select[name=postType]").val(${cetAnnualObj.postType});
+        </script>
         <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
             <div class="form-group owAuType">
                 <label class="col-xs-3 control-label"> 参训人身份</label>
@@ -47,6 +61,16 @@
                     </div>
                 </div>
             </div>
+            <script>
+                <c:if test="${not empty cetAnnualObj}">
+                var identity = '${cetAnnualObj.identity}';
+                var identities = identity.split(',');
+                for(i in identities){
+                    $('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
+                }
+                //console.log(identities);
+                </c:if>
+            </script>
         </c:if>
     </form>
 </div>

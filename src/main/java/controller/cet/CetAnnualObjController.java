@@ -271,7 +271,6 @@ public class CetAnnualObjController extends CetBaseController {
     public Map do_cetAnnualObj_au(CetAnnualObj cetAnnualObj,HttpServletRequest request,
                                    @RequestParam(value = "identities[]", required = false) Integer[] identities) {
 
-
         cetAnnualObj.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null ?
                 "" : StringUtils.join(identities, ","));
         cetAnnualObjService.addOrUpdate(cetAnnualObj);

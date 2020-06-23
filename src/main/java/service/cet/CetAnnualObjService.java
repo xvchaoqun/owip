@@ -81,7 +81,11 @@ public class CetAnnualObjService extends CetBaseMapper {
         // 已选人员
         Set<Integer> selectedAnnualObjUserIdSet = getSelectedAnnualObjUserIdSet(annualId);
 
-        if (selectedAnnualObjUserIdSet.contains(userId)) return isSuccess;
+        if (selectedAnnualObjUserIdSet.contains(userId)) {
+
+            updateByPrimaryKeySelective(record);
+            return isSuccess;
+        }
 
             record.setYear(year);
             record.setAnnualId(annualId);
