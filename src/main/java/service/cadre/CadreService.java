@@ -35,6 +35,7 @@ import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
 import sys.constants.*;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 
 import java.util.*;
@@ -155,7 +156,9 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public byte leave(int id, String title, Integer dispatchCadreId, Integer[] postIds) {
+    public byte leave(int id, String title, Integer dispatchCadreId,
+                      String _deposeDate, String _appointDate,String originalPost,
+                      Integer[] postIds) {
 
         Byte status = null;
         Cadre cadre = cadreMapper.selectByPrimaryKey(id);
@@ -215,10 +218,20 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
 
         Cadre record = new Cadre();
+
         record.setStatus(status);
         if (StringUtils.isNotBlank(title))
             record.setTitle(title);
         record.setDispatchCadreId(dispatchCadreId);
+
+        if (StringUtils.isNotBlank(_deposeDate)){
+         record.setDeposeDate(DateUtils.parseDate(_deposeDate,DateUtils.YYYYMMDD_DOT));
+        }
+        if (StringUtils.isNotBlank(_appointDate)){
+            record.setAppointDate(DateUtils.parseDate(_appointDate,DateUtils.YYYYMMDD_DOT));
+        }
+
+        record.setOriginalPost(originalPost);
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + status));
 
         CadreExample example = new CadreExample();

@@ -30,6 +30,11 @@
                 data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}">
             <i class="fa fa-plus"></i> 添加
         </button>
+        <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                data-url="${ctx}/cet/cetAnnualObj_import?annualId=${param.annualId}"
+                data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+            批量导入
+        </button>
        <button data-url="${ctx}/cet/cetAnnualObj_quit?isQuit=1"
                 data-title="退出"
                 data-msg="确定将这{0}个人员转移到“退出培训人员”？"
@@ -52,6 +57,7 @@
                 class="jqBatchBtn btn btn-success btn-sm">
             <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
+
     </shiro:hasPermission>
 
         <div class="btn-group">

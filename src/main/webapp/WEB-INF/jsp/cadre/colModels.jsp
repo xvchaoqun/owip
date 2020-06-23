@@ -296,7 +296,7 @@
         {label: '${_pMap['cadreStateName']}', name: 'state', width: 70, formatter: $.jgrid.formatter.MetaType},
         </c:if>
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
-        {label: '原职务', name: 'post', width: 350, align: 'left'},
+        {label: '原职务', name: 'originalPost', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
         <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         {
@@ -307,7 +307,7 @@
 
         }, frozen: true
         },
-        {label: '离任日期', name: 'dispatch.workTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_postTimeToDayFormat}'}},
+        {label: '离任日期', name: 'deposeDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: '${_p_postTimeToDayFormat}'}},
         </c:if>
         {label: '原行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '原职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},

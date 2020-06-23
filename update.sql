@@ -1,6 +1,8 @@
 
-2020.6.19
-南航 -- 北师大
+-- 更新cadre表中字段original_post、appoint_date、depose_date的数据
+-- 新增字段
+ALTER TABLE `cet_annual_obj`
+	ADD COLUMN `identity` VARCHAR(200) NULL COMMENT '参训人员身份（双肩挑，支部书记）' COLLATE 'utf8_general_ci' AFTER `post_type`;
 
 ALTER TABLE `cadre`
 	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原职务，离任时赋值' AFTER `remark`,

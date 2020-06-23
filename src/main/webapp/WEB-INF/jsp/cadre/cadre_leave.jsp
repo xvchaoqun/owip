@@ -17,6 +17,17 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">免职日期</label>
+            <div class="col-xs-8">
+                <div class="input-group" style="width: 150px">
+                    <input class="form-control date-picker" placeholder="请选择免职日期" type="text"
+                           name="_deposeDate" data-date-format="yyyy.mm.dd"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">离任后所在单位及职务</label>
             <div class="col-xs-8">
                 <textarea class="form-control noEnter" rows="3" name="title">${cadre.title}</textarea>
@@ -34,6 +45,24 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         </c:if>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">原职务</label>
+            <div class="col-xs-8">
+                <textarea class="form-control noEnter" rows="3" name="originalPost">${cadre.title}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">任职日期</label>
+            <div class="col-xs-8">
+                <div class="input-group" style="width: 150px">
+                    <input class="form-control date-picker" placeholder="请选择任职日期" type="text"
+                           name="_appointDate" data-date-format="yyyy.mm.dd"
+                           value="${empty cadre?_today:cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -48,10 +77,14 @@ pageEncoding="UTF-8"%>
     }else{
         $("#tree3").dynatree({
             checkbox: true,
-            selectMode: 2,
+            selectMode: 1,
             children: treeNode,
             onSelect: function(select, node) {
                 //node.expand(node.data.isFolder && node.isSelected());
+                $.getJSON("${ctx}/cadre_leave_dispatch",{id:node.data.key},function(data){
+                    var workTime = new Date(data.workTime).format("yyyy.MM.dd");
+                    $("input[name=_deposeDate]").val(workTime);
+                })
             },
             onCustomRender: function(node) {
                 if(!node.data.isFolder)
@@ -99,4 +132,5 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+    $.register.date($('.date-picker'));
 </script>

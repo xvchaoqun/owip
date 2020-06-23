@@ -39,6 +39,8 @@ public class CetAnnualObj implements Serializable {
 
     private Integer postType;
 
+    private String identity;
+
     private Date lpWorkTime;
 
     private BigDecimal periodOffline;
@@ -129,6 +131,14 @@ public class CetAnnualObj implements Serializable {
 
     public void setPostType(Integer postType) {
         this.postType = postType;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public Date getLpWorkTime() {

@@ -8,6 +8,8 @@ import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
 import domain.party.BranchMember;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -37,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.ICadreWorkMapper;
+import persistence.dispatch.DispatchCadreMapper;
 import service.cadre.CadreAdformService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
@@ -820,18 +823,31 @@ public class CadreController extends BaseController {
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_leave(int id, String title, Integer dispatchCadreId,
+                              String _deposeDate, String _appointDate, String originalPost,
                               @RequestParam(value = "postIds[]", required = false) Integer[] postIds,
                               HttpServletRequest request) {
 
-        //if(status==null) status=CadreConstants.CADRE_STATUS_LEAVE;
+        // if(status==null) status=CadreConstants.CADRE_STATUS_LEAVE;
 
-        byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId, postIds);
+        byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId,
+                _deposeDate, _appointDate, originalPost,  postIds);
 
-        logger.info(addLog(LogConstants.LOG_ADMIN, "干部离任：%s", id));
+       logger.info(addLog(LogConstants.LOG_ADMIN, "干部离任：%s", id));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("status", status);
 
         return resultMap;
+    }
+
+    // 离任干部发文
+    @RequiresPermissions("cadre:leave")
+    @RequestMapping("/cadre_leave_dispatch")
+    @ResponseBody
+    public Dispatch cadre_leave_dispatch(int id) {
+
+        DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
+
+        return dispatchCadre.getDispatch();
     }
 
     // 在“离任干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。

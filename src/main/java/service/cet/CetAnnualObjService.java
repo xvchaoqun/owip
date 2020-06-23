@@ -65,8 +65,13 @@ public class CetAnnualObjService extends CetBaseMapper {
     }
 
     @Transactional
-    public void addOrUpdate(int annualId, Integer[] userIds) {
-        if (userIds == null || userIds.length == 0) return;
+    public boolean addOrUpdate(CetAnnualObj record) {
+        boolean isSuccess = false;
+
+        Integer annualId = record.getAnnualId();
+        Integer userId = record.getUserId();
+        Integer postType = record.getPostType();
+        String title = record.getTitle();
 
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         int year = cetAnnual.getYear();
@@ -75,27 +80,26 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         // 已选人员
         Set<Integer> selectedAnnualObjUserIdSet = getSelectedAnnualObjUserIdSet(annualId);
-        // 提交更新人员
-        Set<Integer> toAddUserIdSet = new HashSet<>();
-        toAddUserIdSet.addAll(Arrays.asList(userIds));
 
-        for (Integer userId : userIds) {
+        if (selectedAnnualObjUserIdSet.contains(userId)) return isSuccess;
 
-            if (selectedAnnualObjUserIdSet.contains(userId)) continue;
-
-            CetAnnualObj record = new CetAnnualObj();
             record.setYear(year);
             record.setAnnualId(annualId);
-            record.setUserId(userId);
+            record.setSortOrder(getNextSortOrder("cet_annual_obj","annual_id="+annualId));
+
             switch (code) {
                 // 干部
                 case "t_cadre": {
                     CadreView cv = CmTag.getCadreByUserId(userId);
-                    record.setTitle(cv.getTitle());
-                    record.setAdminLevel(cv.getAdminLevel());
-                    record.setPostType(cv.getPostType());
-                    record.setLpWorkTime(cv.getLpWorkTime());
-                    record.setSortOrder(cv.getSortOrder());
+
+                    if (cv != null){
+                        record.setTitle(StringUtils.isBlank(title)?cv.getTitle():title);
+                        record.setPostType(postType == null?cv.getPostType():postType);
+
+                        record.setAdminLevel(cv.getAdminLevel());
+                        record.setLpWorkTime(cv.getLpWorkTime());
+                        record.setSortOrder(cv.getSortOrder());
+                    }
                 }
                 break;
             }
@@ -106,17 +110,30 @@ public class CetAnnualObjService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_ANNUAL,
                     "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     "新建");
-        }
+            isSuccess = true;
 
-        // 需要删除的人员
+       /* // 需要删除的人员
         selectedAnnualObjUserIdSet.removeAll(toAddUserIdSet);
         for (Integer userId : selectedAnnualObjUserIdSet) {
             CetAnnualObjExample example = new CetAnnualObjExample();
             example.createCriteria().andAnnualIdEqualTo(annualId).andUserIdEqualTo(userId);
             cetAnnualObjMapper.deleteByExample(example);
-        }
+        }*/
 
         updateObjCount(annualId);
+        return isSuccess;
+    }
+
+    public int importCetProjectObj(List<CetAnnualObj> cetAnnualObjs){
+
+        int successCount = 0;
+
+        for (CetAnnualObj cetAnnualObj : cetAnnualObjs){
+            //boolean isSuccess = addOrUpdate(cetAnnualObj);
+            if (addOrUpdate(cetAnnualObj)) successCount ++;
+        }
+
+        return successCount;
     }
 
     private void updateObjCount(int annualId) {

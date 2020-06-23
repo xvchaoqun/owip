@@ -1,7 +1,9 @@
 package domain.cadre;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -37,8 +39,10 @@ public class Cadre implements Serializable {
 
     private String originalPost;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date appointDate;
 
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date deposeDate;
 
     private Integer sortOrder;
