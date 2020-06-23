@@ -139,7 +139,7 @@
         //forceFit:true,
         rownumbers: true,
         url: '${ctx}/cadre_data?status=${status}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: ${(status==CADRE_STATUS_CJ || status==CADRE_STATUS_LEADER)?'colModels.cadre':'colModels.cadreLeave'}
+        colModel: ${status==CADRE_STATUS_LEADER?'colModels.cadre':'colModels.cadreLeave'}
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });

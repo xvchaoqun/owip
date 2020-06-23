@@ -6,7 +6,7 @@
     <h3>工作设想和预期目标（${crsApplicant.user.realname}）</h3>
   </div>
   <div class="modal-body">
-    <pre style="white-space: pre-wrap;font-size: 14pt">${crsApplicant.report}</pre>
+    <pre style="white-space: pre-wrap;font-size: 14pt;text-indent: 3em">${crsApplicant.report}</pre>
   </div>
   <div class="modal-footer">
     <div class="pull-left" style="position: absolute; font-size: 16pt">

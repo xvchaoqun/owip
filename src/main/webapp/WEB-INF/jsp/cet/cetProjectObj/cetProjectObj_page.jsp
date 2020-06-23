@@ -791,6 +791,7 @@
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
+            <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
                 if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
@@ -799,6 +800,7 @@
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},
+            </c:if>
             </c:if>
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 250}

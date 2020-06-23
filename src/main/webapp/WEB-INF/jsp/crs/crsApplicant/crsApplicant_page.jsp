@@ -99,8 +99,6 @@
             data-url="${ctx}/user/crsApplicant_preview?loadEl=body-content-view&hideEl=body-content-view2"
             data-id-name="applicantId"><i class="fa fa-search"></i> 预览报名表
     </button>
-</c:if>
-    <c:if test="${cls==2 || cls==3}">
     <div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
             <i class="fa fa-download"></i> 导出  <span class="caret"></span>

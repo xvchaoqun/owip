@@ -6,7 +6,7 @@
     <h3>管理工作经历（${crsApplicant.user.realname}）</h3>
   </div>
   <div class="modal-body">
-    <pre style="white-space: pre-wrap;font-size: 14pt">${crsApplicant.career}</pre>
+    <pre style="white-space: pre-wrap;font-size: 14pt;text-indent: 3em;">${crsApplicant.career}</pre>
   </div>
   <div class="modal-footer">
     <div class="pull-left" style="position: absolute; font-size: 16pt">

@@ -45,6 +45,7 @@
         <c:if test="${param.type=='admin'}">
         { label: '出生年月',name: 'birth',formatter: $.jgrid.formatter.date,formatoptions:{newformat: 'Y.m.d'}},
         { label: '身份证号码',  name: 'idcard', width: 160 },
+        { label: '所在单位',  name: 'unit', width: 150, align:'left' },
         { label: '办公电话',  name: 'phone', width: 150 },
         { label: '手机号',  name: 'mobile', width: 150 },
         { label: '邮箱',  name: 'email', width: 150 },

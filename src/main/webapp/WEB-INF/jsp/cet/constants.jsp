@@ -6,6 +6,8 @@
 <c:set value="<%=RequestUtils.getHomeURL(request)%>" var="cetInspectorLoginUrl"/>
 <c:set value="${cetInspectorLoginUrl}/m/cet_eva/login" var="cetInspectorLoginUrl"/>
 
+<c:set value="${_pMap['cet_support_cert']=='true'}" var="_p_cetSupportCert"/>
+
 <c:set value="<%=CetConstants.CET_TYPE_MAP%>" var="CET_TYPE_MAP"/>
 <c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
 

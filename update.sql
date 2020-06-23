@@ -1,15 +1,20 @@
 
+2020.6.23
 
 ALTER TABLE `cet_annual_obj`
 	ADD COLUMN `identity` VARCHAR(200) NULL COMMENT '参训人员身份（双肩挑，支部书记）' COLLATE 'utf8_general_ci' AFTER `post_type`;
 
 ALTER TABLE `cadre`
-	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原职务，离任时赋值' AFTER `remark`,
+	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原在单位及职务，离任时赋值' AFTER `remark`,
 	ADD COLUMN `appoint_date` DATE NULL DEFAULT NULL COMMENT '任职日期，离任时赋值' AFTER `original_post`,
 	ADD COLUMN `depose_date` DATE NULL DEFAULT NULL COMMENT '免职日期，离任时赋值' AFTER `appoint_date`;
 
--- 更新cadre表中字段original_post、appoint_date、depose_date的数据
-xxxxxx
+update cadre cv
+left join cadre_post cp on cp.cadre_id=cv.id and cp.is_main_post=1 and cp.is_first_main_post=1
+left join dispatch_cadre dc on dc.id = cv.dispatch_cadre_id
+left join dispatch d on d.id=dc.dispatch_id
+set original_post=cv.title, appoint_date=cp.lp_work_time,depose_date=d.work_time
+ where cv.status in(3,4,9);
 
 -- 更新 cadre_view
 
@@ -22,9 +27,15 @@ INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started
 
 -- 更新录入样表
 
+-- 撤销转出bug
+update ow_member m, ow_member_out o set m.party_id=o.party_id, m.branch_id=o.branch_id
+where m.party_id is null and m.status=1 and o.user_id=m.user_id and o.`status`<2;
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('cet_support_cert', '显示干部培训结业证书', 'false', 3, 61, '培训综合管理');
 
 2020.6.18
-西工大 -- 北师大
+西工大
 
 -- 更新录入样表
 UPDATE `sys_resource` SET `url`='/cet/cetUnitTrain_info?cls=2' WHERE  `id`=2536;

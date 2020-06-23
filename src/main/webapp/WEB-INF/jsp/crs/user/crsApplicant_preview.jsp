@@ -488,6 +488,7 @@ td.padding10 {
     font-weight: bolder
 }
 .pre{
+    text-indent: 2em;
         margin: 13px 5px;
         padding: 0;
         background-color: inherit;
