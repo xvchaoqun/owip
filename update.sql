@@ -1,6 +1,5 @@
 
--- 更新cadre表中字段original_post、appoint_date、depose_date的数据
--- 新增字段
+
 ALTER TABLE `cet_annual_obj`
 	ADD COLUMN `identity` VARCHAR(200) NULL COMMENT '参训人员身份（双肩挑，支部书记）' COLLATE 'utf8_general_ci' AFTER `post_type`;
 
@@ -8,6 +7,9 @@ ALTER TABLE `cadre`
 	ADD COLUMN `original_post` VARCHAR(255) NULL DEFAULT NULL COMMENT '原职务，离任时赋值' AFTER `remark`,
 	ADD COLUMN `appoint_date` DATE NULL DEFAULT NULL COMMENT '任职日期，离任时赋值' AFTER `original_post`,
 	ADD COLUMN `depose_date` DATE NULL DEFAULT NULL COMMENT '免职日期，离任时赋值' AFTER `appoint_date`;
+
+-- 更新cadre表中字段original_post、appoint_date、depose_date的数据
+xxxxxx
 
 -- 更新 cadre_view
 
@@ -17,6 +19,8 @@ ALTER TABLE `cet_upper_train`
 
 INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES
 ('调整预备党员所在党组织', '更新党员发展模块中的预备党员所在党组织与党员库中不一致的情况', 'job.member.MemberAutoAdjust', '0 0/10 * * * ?', 1, 0, 30, '2018-04-24 15:12:17', 0);
+
+-- 更新录入样表
 
 
 2020.6.18
@@ -159,7 +163,8 @@ ALTER TABLE `cet_unit_train`
 	ADD COLUMN `score` VARCHAR(100) NULL DEFAULT NULL COMMENT '培训成绩' AFTER `pdf_note`;
 
 ALTER TABLE `cet_project_obj`
-	DROP FOREIGN KEY `FK_cet_project_obj_cet_trainee_type`;
+	DROP INDEX `FK_cet_project_obj_cet_trainee_type`;
+
 ALTER TABLE `cet_project_obj`
 	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
   ADD COLUMN `identity` VARCHAR(200) NULL DEFAULT NULL COMMENT '参训人员身份（双肩挑，支部书记）' AFTER `other_trainee_type`;
@@ -420,7 +425,7 @@ UPDATE sys_scheduler_job SET need_log='0' WHERE  id = 28;
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
 
-ALTER TABLE `dr_online`
+/*ALTER TABLE `dr_online`
 	CHANGE COLUMN `notice` `notice` TEXT NULL COMMENT 'pc端手机端线上民主推荐说明' AFTER `members`,
 	ADD COLUMN `mobile_notice` TEXT NULL COMMENT '手机端线上民主推荐说明' AFTER `notice`,
 	ADD COLUMN `inspector_notice` TEXT NULL COMMENT '账号分发说明' AFTER `mobile_notice`;
@@ -433,7 +438,7 @@ ALTER TABLE `dr_online_inspector`
 ALTER TABLE `dr_online_inspector`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '所属单位' AFTER `type_id`;
 
-
+*/
 
 2020.5.20
 

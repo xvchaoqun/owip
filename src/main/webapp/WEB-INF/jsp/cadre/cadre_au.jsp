@@ -47,6 +47,26 @@
                 </c:if>
             </div>
         </div>
+        <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">原职务</label>
+            <div class="col-xs-6">
+                <textarea class="form-control noEnter" name="originalPost">${cadre.originalPost}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">任职日期</label>
+            <div class="col-xs-8">
+                <div class="input-group" style="width: 150px">
+                    <input class="form-control date-picker" placeholder="请选择任职日期" type="text"
+                           name="appointDate" data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(cadre.appointDate,'yyyy.MM.dd')}"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+            </c:if>
         <c:if test="${_p_useCadreState}">
         <div class="form-group">
             <label class="col-xs-4 control-label">${cm:getTextFromHTML(_pMap['cadreStateName'])}</label>
@@ -70,6 +90,7 @@
                 </div>
             </div>
         </c:if>
+        <c:if test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         <div class="form-group">
             <label class="col-xs-4 control-label">免职日期</label>
             <div class="col-xs-8">
@@ -82,31 +103,15 @@
                 </div>
             </div>
         </div>
+            </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label"><c:if
                     test="${status==CADRE_STATUS_CJ_LEAVE||status==CADRE_STATUS_KJ_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
             <div class="col-xs-6">
-                <textarea class="form-control" rows="3" name="title">${cadre.title}</textarea>
+                <textarea class="form-control" name="title">${cadre.title}</textarea>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">原职务</label>
-            <div class="col-xs-8">
-                <textarea class="form-control noEnter" rows="3" name="originalPost">${cadre.originalPost}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">任职日期</label>
-            <div class="col-xs-8">
-                <div class="input-group" style="width: 150px">
-                    <input class="form-control date-picker" placeholder="请选择任职日期" type="text"
-                           name="appointDate" data-date-format="yyyy.mm.dd"
-                           value="${cm:formatDate(cadre.appointDate,'yyyy.MM.dd')}"/>
-                    <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
-            </div>
-        </div>
+
         <div class="form-group">
             <label class="col-xs-4 control-label">是否双肩挑</label>
 

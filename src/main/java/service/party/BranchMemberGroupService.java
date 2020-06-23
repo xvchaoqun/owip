@@ -20,6 +20,8 @@ public class BranchMemberGroupService extends BaseMapper {
     
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private BranchAdminService branchAdminService;
     
     // 查找现任委员会
     public BranchMemberGroup getPresentGroup(int branchId) {
@@ -60,8 +62,7 @@ public class BranchMemberGroupService extends BaseMapper {
             int userId = branchMember.getUserId();
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
-            List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
-            if (branchIdList.size() == 0) {
+            if (branchAdminService.adminBranchIdCount(userId) == 0) {
                 sysUserService.delRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }

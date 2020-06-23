@@ -28,6 +28,8 @@ public class PartyService extends BaseMapper {
     @Autowired
     private PartyMemberGroupService partyMemberGroupService;
     @Autowired
+    private PartyAdminService partyAdminService;
+    @Autowired
     private OrgAdminService orgAdminService;
 
     // 树形选择分党委（状态正常的）
@@ -357,7 +359,7 @@ public class PartyService extends BaseMapper {
     //根据userId获取所有管理的基层党组织
     public List<Party> getPartysByUserId(Integer userId){
 
-        List<Integer> adminPartyIdList = iPartyMapper.adminPartyIdList(userId);
+        List<Integer> adminPartyIdList = partyAdminService.adminPartyIdList(userId);
 
         PartyExample partyExample = new PartyExample();
         partyExample.setOrderByClause("sort_order desc");

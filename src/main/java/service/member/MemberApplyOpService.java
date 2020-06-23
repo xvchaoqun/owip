@@ -67,7 +67,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "党员发展申请未通过");
             }
         }
     }
@@ -90,7 +90,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "通过党员发展申请");
             }
         }
     }
@@ -746,7 +746,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                 OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
                 OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                "重新提交入党申请（管理员）");
+                "重新提交党员发展申请（管理员）");
         }
     }
 

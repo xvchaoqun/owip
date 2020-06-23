@@ -83,7 +83,7 @@ public class EnterApplyService extends MemberBaseMapper{
         EnterApply currentApply = getCurrentApply(userId);
         if(currentApply!=null && currentApply.getType()!=type){
             // 当前申请状态每个用户只允许一个，且是最新的一条
-            throw new OpException("重复申请，已经申请了[{0}]。（申请入党、留学归国申请、转入申请、流入申请只能同时申请一个）",
+            throw new OpException("重复申请，已经申请了[{0}]。（党员发展申请、留学归国申请、转入申请、流入申请只能同时申请一个）",
                     OwConstants.OW_ENTER_APPLY_TYPE_MAP.get(currentApply.getType()));
         }
         return currentApply;
@@ -326,7 +326,7 @@ public class EnterApplyService extends MemberBaseMapper{
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         "撤回",
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "撤回入党申请");
+                        "撤回党员发展申请");
                 }
                 break;
             case OwConstants.OW_ENTER_APPLY_TYPE_RETURN: {

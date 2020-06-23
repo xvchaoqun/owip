@@ -537,7 +537,7 @@ public class MemberController extends MemberBaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (memberApply != null && memberApply.getStage() >= OwConstants.OW_APPLY_STAGE_INIT) {
-                return failed("该用户已经提交了入党申请[当前审批阶段："
+                return failed("该用户已经提交了党员发展申请[当前审批阶段："
                         + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())
                         + ((BooleanUtils.isTrue(memberApply.getIsRemove())) ? "（已移除）" : "")
                         + "]，不可以直接添加。");

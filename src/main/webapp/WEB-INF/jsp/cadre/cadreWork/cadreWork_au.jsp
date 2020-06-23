@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group date" data-date-min-view-mode="1"
                             <c:if test="${not empty fid}">
-                                data-date-end-date="'${cm:formatDate(topEndTime,'yyyy.MM')}'"
+                                data-date-end-date="'${cm:formatDate(empty topEndTime?now:topEndTime,'yyyy.MM')}'"
                             </c:if>
                          data-date-format="yyyy.mm" style="width: 120px">
                         <input required class="form-control" name="_startTime" type="text"
@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
                          data-date-min-view-mode="1"
                             <c:if test="${not empty fid}">
                                 data-date-start-date="'${cm:formatDate(topStartTime,'yyyy.MM')}'"
-                                data-date-end-date="'${cm:formatDate(topEndTime,'yyyy.MM')}'"
+                                data-date-end-date="'${cm:formatDate(empty topEndTime?now:topEndTime,'yyyy.MM')}'"
                             </c:if>
                          data-date-format="yyyy.mm">
                         <input ${not empty topEndTime?"required":""} placeholder="yyyy.mm"

@@ -33,7 +33,7 @@ public class StatPartyController extends BaseController {
     public String stat_ow_page(ModelMap modelMap,Integer partyId) {
 
         int userId = ShiroHelper.getCurrentUserId();
-        List<Integer> partyIds = iPartyMapper.adminPartyIdList(userId);
+        List<Integer> partyIds = partyAdminService.adminPartyIdList(userId);
 
         if (partyIds.size()>0) {
 

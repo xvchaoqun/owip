@@ -164,8 +164,8 @@ public class SysUserController extends BaseController {
         modelMap.put("unit", unit); // 学校人事库或学生库中的单位名称
 
 
-        modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
-        modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
+        modelMap.put("adminPartyIdList", partyAdminService.adminPartyIdList(userId));
+        modelMap.put("adminBranchIdList", branchAdminService.adminBranchIdList(userId));
 
         return "sys/sysUser/sysUser_info";
     }

@@ -295,6 +295,10 @@ public class MemberTransferService extends MemberBaseMapper {
                 VerifyAuth<MemberTransfer> verifyAuth = checkVerityAuth(id);
                 memberTransfer = verifyAuth.entity;
 
+                if(memberTransfer.getStatus()>=MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY){
+                    throw new OpException("转出分党委已审批，请勿重复操作（{0}）。", memberTransfer.getUser().getRealname());
+                }
+
                 check1(memberTransfer.getUserId());
             }
             if(type==2) {

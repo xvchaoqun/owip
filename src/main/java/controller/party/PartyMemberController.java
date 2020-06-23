@@ -255,7 +255,7 @@ public class PartyMemberController extends BaseController {
             if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId))
                 throw new UnauthorizedException();
 
-            partyMemberAdminService.toggleAdmin(partyMember);
+            partyAdminService.toggleAdmin(partyMember);
 
             // test
             /*SysUser sysUser = sysUserService.findById(partyMember.getUserId());
@@ -270,21 +270,18 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map partyAdmin_del(int userId, int partyId) {
+    public Map partyAdmin_del(int userId, int partyId, Boolean normal) {
 
-        // 权限控制
-        if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)) {
-            // 要求是分党委管理员
-            if (!partyMemberService.isPresentAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
-                throw new UnauthorizedException();
-            }
-
-            if (userId == ShiroHelper.getCurrentUserId()) {
-                return failed("不能删除自己");
-            }
+        // 要求是分党委管理员
+        if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId)) {
+            throw new UnauthorizedException();
         }
 
-        partyMemberService.delAdmin(userId, partyId);
+        if (userId == ShiroHelper.getCurrentUserId()) {
+            return failed("不能删除自己");
+        }
+
+        partyMemberService.delAdmin(userId, partyId, normal);
         logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织管理员权限，userId=%s, partyId=%s", userId, partyId));
         return success(FormUtils.SUCCESS);
     }

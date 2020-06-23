@@ -266,9 +266,9 @@ public class CetAnnualObjController extends CetBaseController {
     }
     
     @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping(value = "/cetAnnualObj_add", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetAnnualObj_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetAnnualObj_add(CetAnnualObj cetAnnualObj,HttpServletRequest request,
+    public Map do_cetAnnualObj_au(CetAnnualObj cetAnnualObj,HttpServletRequest request,
                                    @RequestParam(value = "identities[]", required = false) Integer[] identities) {
 
 
@@ -281,21 +281,21 @@ public class CetAnnualObjController extends CetBaseController {
     }
     
     @RequiresPermissions("cetAnnualObj:edit")
-    @RequestMapping("/cetAnnualObj_add")
-    public String cetAnnualObj_add(int annualId, ModelMap modelMap) {
-        
+    @RequestMapping("/cetAnnualObj_au")
+    public String cetAnnualObj_au(Integer id, int annualId, ModelMap modelMap) {
+
+        if(id!=null){
+            CetAnnualObj cetAnnualObj = cetAnnualObjMapper.selectByPrimaryKey(id);
+            annualId = cetAnnualObj.getAnnualId();
+            modelMap.put("cetAnnualObj", cetAnnualObj);
+        }
+
         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
         modelMap.put("cetAnnual", cetAnnual);
         CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(cetAnnual.getTraineeTypeId());
         modelMap.put("cetTraineeType", cetTraineeType);
-        String code = cetTraineeType.getCode();
-        switch (code) {
-            // 干部
-            case "t_cadre":
-                return "cet/cetAnnualObj/cetAnnualObj_selectCadres";
-        }
-        
-        return null;
+
+        return "cet/cetAnnualObj/cetAnnualObj_au";
     }
 
     @RequiresPermissions("cetAnnualObj:edit")
@@ -505,7 +505,7 @@ public class CetAnnualObjController extends CetBaseController {
             fileMap.put(filename, new File(filepath));
         }
         
-        String filename = String.format("%s%s%s年度培训学习明细表.xlsx",
+        String filename = String.format("%s%s%s年度培训学习明细表",
                     CmTag.getSysConfig().getSchoolName(), typeName, cetAnnual.getYear());
         DownloadUtils.addFileDownloadCookieHeader(response);
         DownloadUtils.zip(fileMap, filename, request, response);

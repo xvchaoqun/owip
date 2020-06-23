@@ -1056,7 +1056,7 @@ public class MemberApplyController extends MemberBaseController {
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId(), applySnReuse);
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "打回入党申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "打回党员发展申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

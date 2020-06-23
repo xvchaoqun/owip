@@ -47,7 +47,7 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
     @Autowired
-    protected BranchMemberAdminService branchMemberAdminService;
+    protected BranchAdminService branchAdminService;
     @Autowired
     protected BranchMemberService branchMemberService;
     @Autowired
@@ -55,7 +55,7 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     @Autowired
     protected PartyMemberGroupService partyMemberGroupService;
     @Autowired
-    protected PartyMemberAdminService partyMemberAdminService;
+    protected PartyAdminService partyAdminService;
     @Autowired
     protected PartyMemberService partyMemberService;
     @Autowired

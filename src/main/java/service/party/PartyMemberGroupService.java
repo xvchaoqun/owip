@@ -21,6 +21,8 @@ public class PartyMemberGroupService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private PartyAdminService partyAdminService;
 
     // 查找现任班子
     public PartyMemberGroup getPresentGroup(int partyId){
@@ -76,8 +78,7 @@ public class PartyMemberGroupService extends BaseMapper {
             int userId = partyMember.getUserId();
             // 删除账号的"分党委管理员"角色
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
-            List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
-            if(partyIdList.size()==0) {
+            if(partyAdminService.adminPartyIdCount(userId)==0) {
                 sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
             }
         }

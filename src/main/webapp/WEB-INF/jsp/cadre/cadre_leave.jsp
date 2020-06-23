@@ -10,6 +10,24 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadre_leave" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadre.id}">
         <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>原职务</label>
+            <div class="col-xs-7">
+                <textarea required class="form-control noEnter" name="originalPost">${cadre.title}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>任职日期</label>
+            <div class="col-xs-7">
+                <div class="input-group" style="width: 150px">
+                    <input required class="form-control date-picker" placeholder="请选择任职日期" type="text"
+                           name="_appointDate" data-date-format="yyyy.mm.dd"
+                           value="${empty cadre?_today:cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">离任文件</label>
             <div class="col-xs-9 label-text">
                 <div id="tree3"></div>
@@ -17,10 +35,10 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">免职日期</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>免职日期</label>
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
-                    <input class="form-control date-picker" placeholder="请选择免职日期" type="text"
+                    <input required class="form-control date-picker" placeholder="请选择免职日期" type="text"
                            name="_deposeDate" data-date-format="yyyy.mm.dd"/>
                     <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i></span>
@@ -29,8 +47,8 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">离任后所在单位及职务</label>
-            <div class="col-xs-8">
-                <textarea class="form-control noEnter" rows="3" name="title">${cadre.title}</textarea>
+            <div class="col-xs-7">
+                <textarea class="form-control noEnter" name="title">${cadre.title}</textarea>
             </div>
         </div>
         <c:if test="${fn:length(cadrePosts)>0}">
@@ -45,24 +63,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         </c:if>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">原职务</label>
-            <div class="col-xs-8">
-                <textarea class="form-control noEnter" rows="3" name="originalPost">${cadre.title}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">任职日期</label>
-            <div class="col-xs-8">
-                <div class="input-group" style="width: 150px">
-                    <input class="form-control date-picker" placeholder="请选择任职日期" type="text"
-                           name="_appointDate" data-date-format="yyyy.mm.dd"
-                           value="${empty cadre?_today:cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}"/>
-                    <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
-            </div>
-        </div>
+
     </form>
 </div>
 <div class="modal-footer">
@@ -73,7 +74,7 @@ pageEncoding="UTF-8"%>
 
     var treeNode = ${tree};
     if(treeNode.children.length==0){
-        $("#tree3").html("没有发文");
+        $("#tree3").html("未找到相关发文，可在“组织部发文管理模块”添加发文后再操作");
     }else{
         $("#tree3").dynatree({
             checkbox: true,

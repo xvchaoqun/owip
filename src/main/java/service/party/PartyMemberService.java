@@ -9,6 +9,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
@@ -26,7 +27,7 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     private OrgAdminService orgAdminService;
     @Autowired
-    private PartyMemberAdminService partyMemberAdminService;
+    private PartyAdminService partyAdminService;
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
@@ -175,7 +176,8 @@ public class PartyMemberService extends BaseMapper {
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
 
         if (userId == null || partyId == null) return false;
-        return iPartyMapper.isPartyAdmin(userId, partyId) > 0;
+
+        return partyAdminService.adminParty(userId, partyId);
     }
 
     public boolean hasAdminAuth(Integer userId, Integer partyId) {
@@ -188,15 +190,39 @@ public class PartyMemberService extends BaseMapper {
 
     // 删除分党委管理员
     @Transactional
-    public void delAdmin(int userId, int partyId) {
+    public void delAdmin(int userId, int partyId, Boolean normal) {
 
-        List<PartyMember> partyMembers = iPartyMapper.findPartyAdminOfPartyMember(userId, partyId);
-        for (PartyMember partyMember : partyMembers) { // 理论上只有一个
-            partyMemberAdminService.toggleAdmin(partyMember);
+       if(normal==null || !normal){  // normal=true时只删除普通管理员， normal=false或空时，删除班子成员和普通管理员
+
+            OwAdmin owAdmin = new OwAdmin();
+            owAdmin.setUserId(userId);
+            owAdmin.setPartyId(partyId);
+            owAdmin.setNormal(false); // 班子成员管理员
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+
+            for (OwAdmin record : owAdmins) { // 一般只有一个
+
+                PartyMember partyMember = new PartyMember();
+                partyMember.setId(record.getId());
+                partyMember.setUserId(userId);
+                partyMember.setGroupId(record.getGroupId());
+                partyMember.setIsAdmin(true);
+
+                partyAdminService.toggleAdmin(partyMember);
+            }
         }
-        List<OrgAdmin> orgAdmins = iPartyMapper.findPartyAdminOfOrgAdmin(userId, partyId);
-        for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
-            orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
+
+        if(normal==null){
+
+            OwAdmin owAdmin = new OwAdmin();
+            owAdmin.setUserId(userId);
+            owAdmin.setPartyId(partyId);
+            owAdmin.setNormal(true); // 普通管理员
+            List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+
+            for (OwAdmin record : owAdmins) {
+                orgAdminService.del(record.getId(), record.getUserId());
+            }
         }
     }
 
@@ -252,7 +278,7 @@ public class PartyMemberService extends BaseMapper {
         partyMemberMapper.insertSelective(record);
 
         if (autoAdmin) {
-            partyMemberAdminService.toggleAdmin(record);
+            partyAdminService.toggleAdmin(record);
         }
         if(CmTag.getCadre(record.getUserId())==null) {
             cadreService.addTempCadre(record.getUserId());
@@ -266,7 +292,7 @@ public class PartyMemberService extends BaseMapper {
         PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
 
         if (partyMember.getIsAdmin()) {
-            partyMemberAdminService.toggleAdmin(partyMember);
+            partyAdminService.toggleAdmin(partyMember);
         }
         partyMemberMapper.deleteByPrimaryKey(id);
     }
@@ -291,7 +317,7 @@ public class PartyMemberService extends BaseMapper {
             }
 
             if (partyMember.getIsAdmin()) {
-                partyMemberAdminService.toggleAdmin(partyMember);
+                partyAdminService.toggleAdmin(partyMember);
             }
         }
         PartyMemberExample example = new PartyMemberExample();
@@ -313,7 +339,7 @@ public class PartyMemberService extends BaseMapper {
         if (!old.getIsHistory() && !record.getIsAdmin() && autoAdmin) {
             record.setUserId(old.getUserId());
             record.setGroupId(old.getGroupId());
-            partyMemberAdminService.toggleAdmin(record);
+            partyAdminService.toggleAdmin(record);
         }
 
         if (record.getTypeIds() == null) {
@@ -344,7 +370,7 @@ public class PartyMemberService extends BaseMapper {
 
                 if (_record.getIsAdmin()) {
                     // 先清除管理员
-                    partyMemberAdminService.toggleAdmin(_record);
+                    partyAdminService.toggleAdmin(_record);
                 }
 
                 record.setId(_record.getId());
@@ -390,7 +416,7 @@ public class PartyMemberService extends BaseMapper {
 
         if (dismiss) {
             if (partyMember.getIsAdmin()) {
-                partyMemberAdminService.toggleAdmin(partyMember);
+                partyAdminService.toggleAdmin(partyMember);
             }
         } else {
             commonMapper.excuteSql("update ow_party_member set dismiss_date=null where id=" + id);

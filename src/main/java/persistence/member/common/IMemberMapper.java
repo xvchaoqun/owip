@@ -74,7 +74,7 @@ public interface IMemberMapper {
 
     int countNotMemberList(@Param("query") String query, @Param("regRoleStr") String regRoleStr);
 
-    // 入党申请数量分阶段统计
+    // 党员发展申请数量分阶段统计
     List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits") Boolean addPermits,
                                                   @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                                                   @Param("adminBranchIdList") List<Integer> adminBranchIdList);

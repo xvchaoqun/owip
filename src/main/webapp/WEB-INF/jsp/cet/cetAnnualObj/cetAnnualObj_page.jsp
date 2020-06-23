@@ -30,6 +30,10 @@
                 data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}">
             <i class="fa fa-plus"></i> 添加
         </button>
+        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/cet/cetAnnualObj_add?annualId=${param.annualId}"
+                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
+                        修改</button>
         <button class="popupBtn btn btn-info btn-sm tooltip-info"
                 data-url="${ctx}/cet/cetAnnualObj_import?annualId=${param.annualId}"
                 data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
@@ -298,7 +302,18 @@
             {label: '姓名', name: 'user.realname', frozen: true},
             {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
             {label: '时任职务属性', name: 'postType', width: 150, formatter: $.jgrid.formatter.MetaType},
-            {label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},
+            /*{label: '行政级别', name: 'adminLevel', formatter: $.jgrid.formatter.MetaType},*/
+            <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                {
+                    label: '参训人身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == null) {
+                            return "--";
+                        }
+                        return ($.map(cellvalue.split(","), function(identity){
+                            return $.jgrid.formatter.MetaType(identity);
+                        })).join("，")
+                    }},
+            </c:if>
             {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '年度学习任务<br/>(线下)', name: 'periodOffline'},
             {

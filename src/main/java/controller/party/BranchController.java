@@ -67,7 +67,7 @@ public class BranchController extends BaseController {
             modelMap.put("branchMembers", BranchMembers);
         }
 
-        modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
+        modelMap.put("adminIds", branchAdminService.adminBranchUserIdList(id));
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         return "party/branch/branch_base";

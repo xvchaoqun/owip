@@ -6,6 +6,7 @@ import domain.pmd.PmdPayParty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.party.PartyAdminService;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
@@ -22,6 +23,8 @@ public class PmdPartyAdminService extends PmdBaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private PartyMemberService partyMemberService;
+    @Autowired
+    private PartyAdminService partyAdminService;
 
     public boolean idDuplicate(Integer id, int partyId, int userId) {
 
@@ -88,7 +91,7 @@ public class PmdPartyAdminService extends PmdBaseMapper {
         Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
         for (Integer partyId : allPayPartyIdSet.keySet()) {
 
-            List<Integer> partyAdminIds = iPartyMapper.findPartyAdmin(partyId);
+            List<Integer> partyAdminIds = partyAdminService.adminPartyUserIdList(partyId);
             for (Integer partyAdminId : partyAdminIds) {
                 PmdPartyAdmin record = new PmdPartyAdmin();
                 record.setPartyId(partyId);

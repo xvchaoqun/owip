@@ -82,8 +82,8 @@ public class ProfileController extends BaseController {
             return "sys/profile/profile_sign";
         } else {
             Integer userId = loginUser.getId();
-            modelMap.put("adminPartyIdList", partyMemberAdminService.adminPartyIdList(userId));
-            modelMap.put("adminBranchIdList", branchMemberAdminService.adminBranchIdList(userId));
+            modelMap.put("adminPartyIdList", partyAdminService.adminPartyIdList(userId));
+            modelMap.put("adminBranchIdList", branchAdminService.adminBranchIdList(userId));
 
             return "sys/profile/profile";
         }

@@ -18,7 +18,7 @@ import service.BaseMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import service.global.CacheHelper;
-import service.party.PartyMemberAdminService;
+import service.party.PartyAdminService;
 import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
@@ -619,9 +619,9 @@ public class SysUserService extends BaseMapper {
         // 直属党支部管理员不需要“党支部管理、支部委员会”
         if (userRoles.contains(RoleConstants.ROLE_PARTYADMIN)) {
 
-            PartyMemberAdminService partyMemberAdminService = CmTag.getBean(PartyMemberAdminService.class);
-            if (partyMemberAdminService != null) {
-                List<Integer> adminPartyIdList = partyMemberAdminService.adminPartyIdList(userId);
+            PartyAdminService partyAdminService = CmTag.getBean(PartyAdminService.class);
+            if (partyAdminService != null) {
+                List<Integer> adminPartyIdList = partyAdminService.adminPartyIdList(userId);
                 boolean hasAdminParty = false;
                 for (Integer adminPartyId : adminPartyIdList) {
                     if (!PartyHelper.isDirectBranch(adminPartyId)) {

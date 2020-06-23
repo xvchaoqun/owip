@@ -6,6 +6,7 @@ import domain.pmd.PmdPayBranch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.party.BranchAdminService;
 import service.party.BranchMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
@@ -28,7 +29,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
     @Autowired
     private PmdPartyAdminService pmdPartyAdminService;
     @Autowired
-    private PmdBranchAdminService pmdBranchAdminService;
+    private BranchAdminService branchAdminService;
 
     /**
      * 判断是否是支部管理员
@@ -50,7 +51,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
                 return true;
             }
         }else{
-            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+            List<Integer> adminBranchIds = getAdminBranchIds(userId);
             Set<Integer> adminBranchIdSet = new HashSet<>();
             adminBranchIdSet.addAll(adminBranchIds);
             if (adminBranchIdSet.contains(branchId)) {
@@ -116,7 +117,7 @@ public class PmdBranchAdminService extends PmdBaseMapper {
             Map<Integer, PmdPayBranch> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(partyId);
             for (Integer branchId : allPayBranchIdSet.keySet()) {
 
-                List<Integer> branchAdminIds = iPartyMapper.findBranchAdmin(branchId);
+                List<Integer> branchAdminIds = branchAdminService.adminBranchUserIdList(branchId);
 
                 for (Integer branchAdminId : branchAdminIds) {
 

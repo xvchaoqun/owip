@@ -20,7 +20,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">时任单位及职务</label>
             <div class="col-xs-6">
-                <textarea class="form-control noEnter" rows="3" name="title"></textarea>
+                <textarea class="form-control noEnter" rows="3" name="title">${cetAnnualObj.title}</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -48,7 +48,6 @@
                 </div>
             </div>
         </c:if>
-        <%--<div id="tree3" style="min-height: 400px"></div>--%>
     </form>
 </div>
 <div class="modal-footer">
@@ -71,7 +70,7 @@
 
                 var $btn = $("#submitBtn").button('loading');
                 $(form).ajaxSubmit({
-                    data: {/*userIds: userIds,*/ annualId: "${param.annualId}"},
+                    data: {annualId: "${param.annualId}"},
                     success: function (data) {
                         if (data.success) {
                             $("#modal").modal('hide');

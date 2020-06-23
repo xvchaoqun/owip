@@ -68,6 +68,7 @@
 
     <resultMap id="OwAdminMap" type="persistence.party.common.OwAdmin">
         <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="party_id" property="partyId" jdbcType="INTEGER"/>
         <result column="branch_id" property="branchId" jdbcType="INTEGER"/>
@@ -99,42 +100,51 @@
     <!-- 所有分党委管理员（当前有效管理员） -->
     <select id="selectPartyAdminList" resultMap="OwAdminMap" parameterType="map">
         select tmp.*, uv.username, uv.realname, uv.code from (
-        <if test="oa.normal==null || oa.normal==false">
-            select null as id, m.user_id, mg.party_id, m.post_id, 0 as normal,
-            m.sort_order from ow_party_member m, ow_party_member_group mg
-            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
-        </if>
-        <if test="oa.normal==null">
-            union all
-        </if>
-        <if test="oa.normal==null || oa.normal==true">
-            select id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from ow_org_admin where type=1
-        </if>
-        <if test="oa.normal==null">
-            group by user_id
-        </if>
+            select * from (
+            <if test="oa.normal==null || oa.normal==false">
+                select m.id as id, mg.id as group_id, m.user_id, mg.party_id, m.post_id, 0 as normal,
+                m.sort_order from ow_party_member m, ow_party_member_group mg
+                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+            </if>
+            <if test="oa.normal==null">
+                union all
+            </if>
+            <if test="oa.normal==null || oa.normal==true">
+                select id, null as group_id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from
+                ow_org_admin where type=1
+            </if>
+            ) t
+            <!--混合查询时，忽略重复的普通管理员-->
+            <if test="oa.normal==null">
+                group by party_id, user_id
+            </if>
         ) tmp
         left join sys_user_view uv on tmp.user_id=uv.id
         left join ow_party p on p.id=tmp.party_id
         <include refid="PartyAdminSearchSql"/>
+
         order by p.sort_order desc, sort_order desc
     </select>
     <select id="countPartyAdminList" parameterType="map" resultType="java.lang.Integer">
         select count(tmp.user_id) from (
-        <if test="oa.normal==null || oa.normal==false">
-            select null as id, m.user_id, mg.party_id, m.post_id, 0 as normal, m.sort_order from
-            ow_party_member m, ow_party_member_group mg
-            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
-        </if>
-        <if test="oa.normal==null">
-            union all
-        </if>
-        <if test="oa.normal==null || oa.normal==true">
-            select id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from ow_org_admin where type=1
-        </if>
-        <if test="oa.normal==null">
-            group by user_id
-        </if>) tmp
+            select * from (
+            <if test="oa.normal==null || oa.normal==false">
+                select m.id as id, mg.id as group_id, m.user_id, mg.party_id, m.post_id, 0 as normal, m.sort_order from
+                ow_party_member m, ow_party_member_group mg
+                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+            </if>
+            <if test="oa.normal==null">
+                union all
+            </if>
+            <if test="oa.normal==null || oa.normal==true">
+                select id, null as group_id, user_id, party_id, null as post_id, 1 as normal, null as sort_order from
+                ow_org_admin where type=1
+            </if>) t
+            <!--混合查询时，忽略重复的普通管理员-->
+            <if test="oa.normal==null">
+                group by party_id, user_id
+            </if>
+            ) tmp
         left join sys_user_view uv on tmp.user_id=uv.id
         left join ow_party p on p.id=tmp.party_id
         <include refid="PartyAdminSearchSql"/>
@@ -166,20 +176,24 @@
     <!-- 所有支部管理员（当前有效管理员） -->
     <select id="selectBranchAdminList" resultMap="OwAdminMap" parameterType="map">
         select tmp.*, p.id as party_id, uv.username, uv.realname, uv.code from (
-        <if test="oa.normal==null || oa.normal==false">
-            select null as id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
-            ow_branch_member_group mg
-            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
-        </if>
-        <if test="oa.normal==null">
-            union all
-        </if>
-        <if test="oa.normal==null || oa.normal==true">
-            select id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
-        </if>
-        <if test="oa.normal==null">
-            group by user_id
-        </if>) tmp
+            select * from (
+              <if test="oa.normal==null || oa.normal==false">
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from
+                ow_branch_member m,
+                ow_branch_member_group mg
+                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+            </if>
+            <if test="oa.normal==null">
+                union all
+            </if>
+            <if test="oa.normal==null || oa.normal==true">
+                select id, null as group_id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+            </if>) t
+            <!--混合查询时，忽略重复的普通管理员-->
+            <if test="oa.normal==null">
+                group by branch_id, user_id
+            </if>
+          ) tmp
         left join sys_user_view uv on tmp.user_id=uv.id
         left join ow_branch b on b.id=tmp.branch_id
         left join ow_party p on p.id=b.party_id
@@ -188,20 +202,23 @@
     </select>
     <select id="countBranchAdminList" parameterType="map" resultType="java.lang.Integer">
         select count(tmp.user_id) from (
-        <if test="oa.normal==null || oa.normal==false">
-            select null as id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
-            ow_branch_member_group mg
-            where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
-        </if>
-        <if test="oa.normal==null">
-            union all
-        </if>
-        <if test="oa.normal==null || oa.normal==true">
-            select id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
-        </if>
-        <if test="oa.normal==null">
-            group by user_id
-        </if>) tmp
+              select * from (
+              <if test="oa.normal==null || oa.normal==false">
+                select m.id as id, mg.id as group_id, m.user_id, mg.branch_id, m.type_id as post_id, m.sort_order from ow_branch_member m,
+                ow_branch_member_group mg
+                where mg.is_present=1 and mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+            </if>
+            <if test="oa.normal==null">
+                union all
+            </if>
+            <if test="oa.normal==null || oa.normal==true">
+                select id, null as group_id, user_id, branch_id, null as post_id, null as sort_order from ow_org_admin where type=2
+            </if>) t
+            <!--混合查询时，忽略重复的普通管理员-->
+            <if test="oa.normal==null">
+                group by branch_id, user_id
+            </if>
+            ) tmp
         left join sys_user_view uv on tmp.user_id=uv.id
         left join ow_branch b on b.id=tmp.branch_id
         left join ow_party p on p.id=b.party_id

@@ -5,8 +5,8 @@ import java.util.List;
 // 分党委或支部管理员
 public class OwAdmin {
 
-    private Integer id; // 普通管理员的ID，即org_admin 表的id
-
+    private Integer id; // 普通管理员是org_admin表的id，班子成员是party_member/branch_member表的id
+    private Integer groupId; // 班子成员所属班子ID，普通管理员为空
     private Integer userId;
     private Integer partyId;
     private Integer branchId;  // 分党委管理员为空
@@ -16,8 +16,8 @@ public class OwAdmin {
     public String code;
 
     // 以下是搜索条件
-    String query;
-    Boolean normal; // 委员/普通管理员
+    String query; // 姓名/学工号/账号
+    Boolean normal; // 类别，班子成员/普通
     Boolean addPermits;
     List<Integer> adminPartyIdList;
     List<Integer> adminBranchIdList;
@@ -28,6 +28,15 @@ public class OwAdmin {
 
     public OwAdmin setId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public OwAdmin setGroupId(Integer groupId) {
+        this.groupId = groupId;
         return this;
     }
 

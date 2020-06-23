@@ -3,44 +3,79 @@ package service.party;
 import domain.party.PartyMember;
 import domain.party.PartyMemberGroup;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import persistence.party.common.OwAdmin;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by fafa on 2016/1/19.
  */
 @Service
-public class PartyMemberAdminService extends BaseMapper {
+public class PartyAdminService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
 
+    // 管理分党委ID列表
     @Cacheable(value="AdminPartyIdList", key="#userId")
     public List<Integer> adminPartyIdList(int userId){
 
-        return iPartyMapper.adminPartyIdList(userId);
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setUserId(userId);
+        List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+
+        return owAdmins.stream().map(OwAdmin::getPartyId).collect(Collectors.toList());
+    }
+
+    // 管理分党委数量
+    public int adminPartyIdCount(int userId){
+
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setUserId(userId);
+
+        return iPartyMapper.countPartyAdminList(owAdmin);
+    }
+    // 是否管理分党委
+    public boolean adminParty(int userId, int partyId){
+
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setUserId(userId);
+        owAdmin.setPartyId(partyId);
+
+        return iPartyMapper.countPartyAdminList(owAdmin)>0;
+    }
+
+    // 分党委管理员ID列表
+    public List<Integer> adminPartyUserIdList(int partyId){
+
+        OwAdmin owAdmin = new OwAdmin();
+        owAdmin.setPartyId(partyId);
+        List<OwAdmin> owAdmins = iPartyMapper.selectPartyAdminList(owAdmin, new RowBounds());
+
+        return owAdmins.stream().map(OwAdmin::getUserId).collect(Collectors.toList());
     }
 
     @Transactional
     @CacheEvict(value="AdminPartyIdList", key = "#partyMember.userId")
     public void toggleAdmin(PartyMember partyMember){
 
-        Assert.isTrue(partyMember != null && partyMember.getId() != null
-                && partyMember.getIsAdmin() != null && partyMember.getUserId() != null && partyMember.getGroupId() != null);
+        boolean isAdmin = BooleanUtils.isTrue(partyMember.getIsAdmin());
 
         PartyMember record = new PartyMember();
         record.setId(partyMember.getId());
-        record.setIsAdmin(!partyMember.getIsAdmin());
+        record.setIsAdmin(!isAdmin);
         partyMemberMapper.updateByPrimaryKeySelective(record); // 必须先更新，保证下面的判断正确
 
         PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(partyMember.getGroupId());
@@ -48,11 +83,10 @@ public class PartyMemberAdminService extends BaseMapper {
 
             Integer userId = partyMember.getUserId();
 
-            if(partyMember.getIsAdmin()){
+            if(isAdmin){
                 // 删除账号的"分党委管理员"角色
                 // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
-                List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
-                if(partyIdList.size()==0) {
+                if(adminPartyIdCount(userId)==0) {
                     sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
                 }
             }else{

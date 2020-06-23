@@ -185,18 +185,19 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchAdmin_del(@CurrentUser SysUserView loginUser, Integer userId, Integer branchId) {
+    public Map branchAdmin_del(Integer userId, Integer branchId, Boolean normal) {
 
-        if (userId.intValue() == loginUser.getId()) {
-            return failed("不能删除自己");
-        }
         // 权限控制
         Branch branch = branchService.findAll().get(branchId);
         int partyId = branch.getPartyId();
-        if (!partyMemberService.hasAdminAuth(loginUser.getId(), partyId))
+        if (!partyMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId)) {
             throw new UnauthorizedException();
+        }
+        if (userId.intValue() == ShiroHelper.getCurrentUserId()) {
+            return failed("不能删除自己");
+        }
 
-        branchMemberService.delAdmin(userId, branchId);
+        branchMemberService.delAdmin(userId, branchId, normal);
         logger.info(addLog(LogConstants.LOG_PARTY, "删除支部管理员权限，userId=%s, branchId=%s", userId, branchId));
         return success(FormUtils.SUCCESS);
     }
@@ -279,7 +280,7 @@ public class BranchMemberController extends BaseController {
                 }
             }
 
-            branchMemberAdminService.toggleAdmin(branchMember);
+            branchAdminService.toggleAdmin(branchMember);
 
             String op = branchMember.getIsAdmin() ? "删除" : "添加";
             logger.info(addLog(LogConstants.LOG_PARTY, "%s党支部委员管理员权限，memberId=%s", op, id));
