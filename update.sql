@@ -174,7 +174,8 @@ ALTER TABLE `cet_unit_train`
 	ADD COLUMN `score` VARCHAR(100) NULL DEFAULT NULL COMMENT '培训成绩' AFTER `pdf_note`;
 
 ALTER TABLE `cet_project_obj`
-	DROP INDEX `FK_cet_project_obj_cet_trainee_type`;
+	DROP INDEX `FK_cet_project_obj_cet_trainee_type`,
+	DROP FOREIGN KEY `FK_cet_project_obj_cet_trainee_type`;
 
 ALTER TABLE `cet_project_obj`
 	ADD COLUMN `other_trainee_type` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他参训人员类型，如果选了其他参训人员类型时，需要填写' AFTER `trainee_type_id`,
