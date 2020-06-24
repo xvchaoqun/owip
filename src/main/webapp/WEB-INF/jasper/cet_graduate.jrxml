@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cet_graduate" language="groovy" pageWidth="3508" pageHeight="2480" orientation="Landscape" columnWidth="3508" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c83327fd-4c64-485e-9444-27a713b0f415">
+	<property name="ireport.zoom" value="0.31863081771035684"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="9"/>
+	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="新宋体" fontSize="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+	<field name="realname" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="birth_year" class="java.lang.String"/>
+	<field name="birth_month" class="java.lang.String"/>
+	<field name="start_date" class="java.lang.String"/>
+	<field name="end_date" class="java.lang.String"/>
+	<field name="organizer" class="java.lang.String"/>
+	<field name="train_name" class="java.lang.String"/>
+	<field name="sn" class="java.lang.String"/>
+	<field name="idcard" class="java.lang.String"/>
+	<field name="year" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="day" class="java.lang.String"/>
+	<field name="bg" class="java.lang.String"/>
+	<detail>
+		<band height="2480" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="3508" height="2480" uuid="b8362748-fd83-4563-b41c-10cb515d969c"/>
+				<imageExpression><![CDATA[$F{bg}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1288" y="667" width="390" height="185" uuid="a5c49398-f8ca-47f1-9b78-f26f2fc36060"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="新宋体" size="80" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1716" y="771" width="215" height="85" uuid="813a0db1-79c6-470c-be16-978fbb279548"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1954" y="773" width="215" height="85" uuid="e17cc6f4-1925-402d-aa97-45c09d19d297"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birth_year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2227" y="773" width="197" height="85" uuid="85ab26c7-8dfe-4493-9cf3-a02a5ce4a4fe"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birth_month}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2717" y="775" width="416" height="85" uuid="fd7cc060-56ec-461d-ace2-a0e9d45874b3"/>
+				<textElement>
+					<font size="50"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1300" y="904" width="416" height="85" uuid="dc21073b-4cad-4b8d-be53-24b7a7cd82f6"/>
+				<textElement>
+					<font size="50"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{end_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1931" y="904" width="1118" height="85" uuid="54f015ca-d6b8-43ce-9dd3-02c390603400"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organizer}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1390" y="968" width="1555" height="135" uuid="c9f7ac80-56ef-492d-8fcd-a2f59e551b43"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="50" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{train_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="305" y="1676" width="754" height="103" uuid="ab3573e4-fba4-44bf-bb3b-64ad6d1d57f9"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="305" y="1939" width="754" height="103" uuid="1e09d231-4af4-4089-8dc7-71557e5b3d5e"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idcard}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2424" y="1813" width="237" height="103" uuid="3f35ad3c-5ca4-4462-97dd-fb29c03eaa6a"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2773" y="1813" width="144" height="103" uuid="888d5265-dcac-414c-9a2a-5042a5282d32"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2986" y="1814" width="144" height="103" uuid="a36d36e0-93b3-4369-9205-0cf650448ea5"/>
+				<textElement>
+					<font size="60"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
