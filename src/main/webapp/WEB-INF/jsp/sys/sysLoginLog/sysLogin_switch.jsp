@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="OW_ORG_ADMIN_PARTY" value="<%=OwConstants.OW_ORG_ADMIN_PARTY%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>切换账号</h3>
@@ -15,7 +16,7 @@
                     <c:set var="select_url" value="sysUser_selects"/>
                 </c:when>
                 <c:when test="${cm:isPermitted('sysLogin:switchParty')}">
-                    <c:set var="select_url" value="orgAdmin_selects"/>
+                    <c:set var="select_url" value="orgAdmin_selects?type=${OW_ORG_ADMIN_PARTY}"/>
                 </c:when>
                 <c:otherwise>
                     <c:set var="select_url" value=""/>
@@ -39,8 +40,7 @@
 </div>
 <div class="modal-footer">
 
-    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="_submitBtn" type="button" disabled class="linkBtn btn btn-primary">确定</button>
+    <button id="_submitBtn" data-loading-text='<i class="fa fa-spinner fa-spin"></i> 切换中' type="button" disabled class="linkBtn btn btn-primary">确定</button>
 
     <div style="text-align: left;margin-bottom: 10px;padding-top: 10px;">注：
         <br/>

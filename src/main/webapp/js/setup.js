@@ -567,8 +567,13 @@ $(document).on("click", ".linkBtn", function (e) {
     e.stopPropagation();
     var $this = $(this);
     var url = $this.data("url");
-    var target = $this.data("target");
-    window.open(url, target || '_self', '');
+    var target = $this.data("target") || '_self';
+    if(target=='_self') {
+        $this.data("loading-text", $this.data("loading-text") || '<i class="fa fa-spinner fa-spin"></i> 操作中')
+        $this.button("loading");
+    }
+
+    window.open(url, target, '');
 });
 // 打印地址
 $(document).on("click", ".printBtn", function (e) {

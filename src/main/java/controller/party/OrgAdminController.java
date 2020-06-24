@@ -194,10 +194,6 @@ public class OrgAdminController extends BaseController {
     @ResponseBody
     public Map do_orgAdmin_au(OrgAdmin record, HttpServletRequest request) {
 
-        if (orgAdminService.idDuplicate(null, record.getUserId(), record.getPartyId(), record.getBranchId())) {
-            return failed("添加重复");
-        }
-
         SysUserView uv = sysUserService.findById(record.getUserId());
 
         Integer partyId = record.getPartyId();
@@ -271,7 +267,9 @@ public class OrgAdminController extends BaseController {
     //@RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin_selects")
     @ResponseBody
-    public Map orgAdmin_selects(Integer pageSize, Integer pageNo, Byte type, String searchStr) throws IOException {
+    public Map orgAdmin_selects(Integer pageSize, Integer pageNo,
+                                @RequestParam(required = false, defaultValue = OwConstants.OW_ORG_ADMIN_PARTY+"") byte type,
+                                String searchStr) throws IOException {
 
         if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL))
             return null;

@@ -33,13 +33,14 @@
 <c:if test="${cls==1}">
     <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
-        <%--<button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetProjectObj_batchSelect?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
-            <i class="fa fa-plus"></i> 添加
-        </button>--%>
         <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetProjectObj_add?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
+                data-url="${ctx}/cet/cetProjectObj_au?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="fa fa-plus"></i> 添加
+        </button>
+        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                data-grid-id="#jqGrid2"
+                data-url="${ctx}/cet/cetProjectObj_au?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
+            <i class="fa fa-plus"></i> 修改
         </button>
         <c:if test="${cls==1}">
         <button class="popupBtn btn btn-info btn-sm tooltip-info"

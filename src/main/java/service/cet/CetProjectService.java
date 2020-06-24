@@ -1,13 +1,17 @@
 package service.cet;
 
 import controller.global.OpException;
-import domain.cet.*;
+import domain.cet.CetProject;
+import domain.cet.CetProjectExample;
+import domain.cet.CetProjectObjExample;
+import domain.cet.CetTraineeType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CetProjectService extends CetBaseMapper {
@@ -49,16 +53,9 @@ public class CetProjectService extends CetBaseMapper {
     }
 
     // 已选参训人类型
-    public Set<Integer> findTraineeTypeIdSet(Integer projectId) {
+    public Set<Integer> findTraineeTypeIdSet(int projectId) {
 
-        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
-        Set<Integer> traineeTypeIds = new HashSet<>();
-        for (CetTraineeType cetTraineeType : cetTraineeTypes) {
-            traineeTypeIds.add(cetTraineeType.getId());
-        }
-        traineeTypeIds.add(0);
-
-        return traineeTypeIds;
+        return getCetTraineeTypes(projectId).stream().map(CetTraineeType::getId).collect(Collectors.toSet());
     }
 
     // 更新参训人类型
@@ -89,30 +86,28 @@ public class CetProjectService extends CetBaseMapper {
             cetProjectMapper.updateByPrimaryKeySelective(record);
     }
 
-    public CetProject getByName(String projectName){
+    // 得到培训项目的参训人员类型（含其他类型）
+    public List<CetTraineeType> getCetTraineeTypes(int projectId){
 
-        CetProjectExample cetProjectExample = new CetProjectExample();
-        cetProjectExample.createCriteria().andNameEqualTo(projectName);
-        List<CetProject> cetProjects = cetProjectMapper.selectByExample(cetProjectExample);
-        if (cetProjects.size() == 1)
-            return cetProjects.get(0);
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
 
-        return null;
+        return getCetTraineeTypes(cetProject);
     }
 
-    //处理其他参训人类型
-    public CetTraineeType dealOtherType(CetProject cetProject){
+    public List<CetTraineeType> getCetTraineeTypes(CetProject cetProject){
 
-        String[] t = cetProject.getTraineeTypeIds().split(",");
-        if (t == null || t.length == 0) return null;
-        List<String> _traineeTypeIds = Arrays.asList(t);
-        if (_traineeTypeIds.contains("0")){
+        int projectId = cetProject.getId();
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
+
+        if(StringUtils.contains(","+ cetProject.getTraineeTypeIds() +",", ",0,")){
+
             CetTraineeType cetTraineeType = new CetTraineeType();
             cetTraineeType.setId(0);
             cetTraineeType.setName(cetProject.getOtherTraineeType());
-            return cetTraineeType;
-        }
-        return null;
-    }
 
+            cetTraineeTypes.add(cetTraineeType);
+        }
+
+        return cetTraineeTypes;
+    }
 }

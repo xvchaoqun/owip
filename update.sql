@@ -214,6 +214,7 @@ ENGINE=InnoDB
 
 ALTER TABLE `ow_member_apply`
 	ADD COLUMN `apply_stage` TINYINT(3) UNSIGNED NULL DEFAULT 0 COMMENT '申请培养阶段，0申请 2入党积极分子 3发展对象（积极分子满一年）4列入发展计划 5领取志愿书' AFTER `remark`;
+
 -- 更新 ow_member_apply_view
 
 update sys_role r, (select * from sys_role where code='cet_trainee') tmp

@@ -151,11 +151,11 @@ public class CetProjectObjService extends CetBaseMapper {
                 if (cv != null) {
                     record.setCadreId(cv.getId());
                     // 如果时任单位及职务、职务属性没有，则同步系统里的最新数据
-                    if(StringUtils.isBlank(record.getTitle())) {
+                    if (StringUtils.isBlank(record.getTitle())) {
                         record.setTitle(cv.getTitle());
                     }
                     record.setAdminLevel(cv.getAdminLevel());
-                    if(record.getPostType()==null) {
+                    if (record.getPostType() == null) {
                         record.setPostType(cv.getPostType());
                     }
                     record.setIsOw(cv.getIsOw());
@@ -271,76 +271,56 @@ public class CetProjectObjService extends CetBaseMapper {
     }
 
     @Transactional
-    public void addOrUpdate(CetProjectObj _record, Integer[] identities) {
+    public void addOrUpdate(CetProjectObj record, Integer[] identities) {
 
-        int projectId = _record.getProjectId();
-        Integer[] userIds = new Integer[]{_record.getUserId()};
-        Integer postType = _record.getPostType();
-        Integer traineeTypeId = _record.getTraineeTypeId();
+        int projectId = record.getProjectId();
+        int userId = record.getUserId();
+        Integer traineeTypeId = record.getTraineeTypeId();
 
-        if (userIds == null || userIds.length == 0) return;
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
 
         CetTraineeType cetTraineeType = new CetTraineeType();
-        if (traineeTypeId != null && traineeTypeId == 0){
+        if (traineeTypeId != null && traineeTypeId == 0) {
             cetTraineeType.setId(traineeTypeId);
             cetTraineeType.setName(cetProject.getOtherTraineeType());
-        }else {
+        } else {
             Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
             cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
         }
 
+        CetProjectObj cetProjectObj = get(userId, projectId);
+
         // 检查别的参选人类型中是否已经选择参训对象
-        {
-            CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andProjectIdEqualTo(projectId)
-                    .andTraineeTypeIdNotEqualTo(traineeTypeId)
-                    .andUserIdIn(Arrays.asList(userIds));
-
-            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-            if (cetProjectObjs.size() > 0) {
-                CetProjectObj cetProjectObj = cetProjectObjs.get(0);
-                int otherTraineeTypeId = cetProjectObj.getTraineeTypeId();
-                SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
-
-                throw new OpException("参训人{0}（工号：{1}）已经是培训对象（{2}）", uv.getRealname(), uv.getCode(),
-                        cetTraineeType.getName());
-            }
+        if (cetProjectObj != null && cetProjectObj.getTraineeTypeId().intValue() != traineeTypeId) {
+            SysUserView uv = cetProjectObj.getUser();
+            throw new OpException("参训人{0}（工号：{1}）已经是培训对象（类型：{2}）", uv.getRealname(), uv.getCode(),
+                    cetTraineeType.getName());
         }
 
-        // 已选人员
-        Set<Integer> selectedProjectObjUserIdSet = getSelectedProjectObjUserIdSet(projectId, traineeTypeId);
+        record.setOtherTraineeType(cetTraineeType.getName());
+        record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
+                ? "" : StringUtils.join(identities, ","));
+
+        appendTraineeInfo(cetTraineeType.getCode(), userId, record);
+
+        if (cetProjectObj != null || record.getId()!=null) {
+            record.setId(cetProjectObj.getId());
+            cetProjectObjMapper.updateByPrimaryKeySelective(record);
+        } else {
+            cetProjectObjMapper.insertSelective(record);
+        }
 
         List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
-
-        for (Integer userId : userIds) {
-
-            if (selectedProjectObjUserIdSet.contains(userId)) continue;
-
-            CetProjectObj record = new CetProjectObj();
-            record.setProjectId(projectId);
-            record.setUserId(userId);
-            record.setTraineeTypeId(traineeTypeId);
-            record.setOtherTraineeType(cetTraineeType.getName());
-            record.setPostType(postType);
-            record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
-                    ? "" : StringUtils.join(identities, ","));
-
-            appendTraineeInfo(cetTraineeType.getCode(), userId, record);
-
-            cetProjectObjMapper.insertSelective(record);
-
-            // 同步至每个培训班的学员列表
-            for (CetTrain cetTrain : cetTrains) {
-                cetTraineeService.createIfNotExist(userId, cetTrain.getId());
-            }
-
-            sysApprovalLogService.add(record.getId(), record.getUserId(),
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
-                    "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                    "新建");
+        // 同步至每个培训班的学员列表
+        for (CetTrain cetTrain : cetTrains) {
+            cetTraineeService.createIfNotExist(userId, cetTrain.getId());
         }
+
+        sysApprovalLogService.add(record.getId(), record.getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                (cetProjectObj==null?"添加":"更新") + "培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                "新建");
 
         iCetMapper.refreshObjCount(projectId);
     }
@@ -709,10 +689,10 @@ public class CetProjectObjService extends CetBaseMapper {
 
                 addCount++;
                 CetTraineeType cetTraineeType = new CetTraineeType();
-                if (traineeTypeId != null && traineeTypeId == 0){
+                if (traineeTypeId != null && traineeTypeId == 0) {
                     cetTraineeType.setId(traineeTypeId);
                     cetTraineeType.setName(cetProjectMapper.selectByPrimaryKey(projectId).getOtherTraineeType());
-                }else {
+                } else {
                     Map<Integer, CetTraineeType> cetTraineeTypeMap = cetTraineeTypeService.findAll();
                     cetTraineeType = cetTraineeTypeMap.get(traineeTypeId);
                 }
@@ -749,7 +729,7 @@ public class CetProjectObjService extends CetBaseMapper {
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
                         "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                         "批量导入");
-            }else{
+            } else {
 
                 _record.setId(_cetProjectObj.getId());
                 cetProjectObjMapper.updateByPrimaryKeySelective(_record);

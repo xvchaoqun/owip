@@ -211,8 +211,6 @@ public class CetProjectController extends CetBaseController {
                 _type = cetProject.getType();
             }
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
-            if (cetProjectService.dealOtherType(cetProject) == null)
-                traineeTypeIdSet.remove(0);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
 

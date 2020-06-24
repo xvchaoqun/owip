@@ -178,11 +178,9 @@ public class CetProjectDetailController extends CetBaseController {
     public String cetProjectObj_import(Integer projectId, ModelMap modelMap){
 
         modelMap.put("projectId", projectId);
-        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
-        CetTraineeType _cetTraineeType = cetProjectService.dealOtherType(cetProjectMapper.selectByPrimaryKey(projectId));
-        if (_cetTraineeType != null){
-            cetTraineeTypes.add(_cetTraineeType);
-        }
+
+        List<CetTraineeType> cetTraineeTypes = cetProjectService.getCetTraineeTypes(projectId);
+
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
         return "cet/cetProject/cetProject_detail/cetProjectObj_import";

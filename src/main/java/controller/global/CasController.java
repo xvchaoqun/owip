@@ -1,7 +1,6 @@
 package controller.global;
 
 import controller.BaseController;
-import domain.party.OrgAdmin;
 import domain.sys.SysUserView;
 import ext.service.ShortMsgService;
 import ext.utils.CasUtils;
@@ -28,7 +27,9 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.HttpRequestDeviceUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,10 +61,9 @@ public class CasController extends BaseController {
         if (!ShiroHelper.isPermitted("sysLogin:switch")) {
 
             if (ShiroHelper.isPermitted("sysLogin:switchParty")) {
-                // 限定了只允许切换党组织管理员的账号
-                SysUserView uv = sysUserService.findByUsername(username);
-                OrgAdmin orgAdmin = orgAdminService.get(uv.getId(), null, null);
-                if (orgAdmin == null) {
+
+                // 限定了只允许切换分党委管理员的账号
+                if (!CmTag.hasRole(username, RoleConstants.ROLE_PARTYADMIN)) {
                     throw new UnauthorizedException();
                 }
             } else {

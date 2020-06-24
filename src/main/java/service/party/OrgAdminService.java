@@ -1,5 +1,6 @@
 package service.party;
 
+import controller.global.OpException;
 import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
 import domain.sys.SysUserView;
@@ -28,37 +29,13 @@ public class OrgAdminService extends BaseMapper {
     @Autowired
     private BranchAdminService branchAdminService;
 
-    public OrgAdmin get(int userId, Integer partyId, Integer branchId){
-
-        //Assert.isTrue(partyId!=null || branchId!=null, "null");
-
-        OrgAdminExample example = new OrgAdminExample();
-        OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
-
-        List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExample(example);
-        return orgAdmins.size()==0?null:orgAdmins.get(0);
-    }
-
-    public boolean idDuplicate(Integer id, int userId, Integer partyId, Integer branchId){
-
-        Assert.isTrue(partyId!=null || branchId!=null, "null");
-
-        OrgAdminExample example = new OrgAdminExample();
-        OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
-
-        if(id!=null) criteria.andIdNotEqualTo(id);
-
-        return orgAdminMapper.countByExample(example) > 0;
-    }
     @Transactional
-    @CacheEvict(value="AdminPartyIdList", key = "#userId")
-    public int addPartyAdmin(int userId, int partyId){
+    @CacheEvict(value = "AdminPartyIdList", key = "#userId")
+    public int addPartyAdmin(int userId, int partyId) {
 
-        Assert.isTrue(!idDuplicate(null, userId, partyId, null), "duplicate");
+        if(partyAdminService.adminParty(userId, partyId)){
+            throw new OpException("添加重复，已经是管理员（班子成员或普通管理员）。");
+        }
 
         SysUserView sysUser = sysUserService.findById(userId);
 
@@ -79,10 +56,12 @@ public class OrgAdminService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="AdminBranchIdList", key = "#userId")
-    public int addBranchAdmin(int userId, int branchId){
+    @CacheEvict(value = "AdminBranchIdList", key = "#userId")
+    public int addBranchAdmin(int userId, int branchId) {
 
-        Assert.isTrue(!idDuplicate(null, userId, null, branchId), "duplicate");
+        if(branchAdminService.adminBranch(userId, branchId)){
+            throw new OpException("添加重复，已经是管理员（支部委员会成员或普通管理员）。");
+        }
 
         SysUserView sysUser = sysUserService.findById(userId);
 
@@ -103,11 +82,11 @@ public class OrgAdminService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict= {
+    @Caching(evict = {
             @CacheEvict(value = "AdminPartyIdList", key = "#userId"),
             @CacheEvict(value = "AdminBranchIdList", key = "#userId")
     })
-    public void del(Integer id, int userId){
+    public void del(Integer id, int userId) {
 
         OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
         Assert.isTrue(orgAdmin.getUserId().intValue() == userId, "wrong userId");
@@ -115,7 +94,7 @@ public class OrgAdminService extends BaseMapper {
         // 先删除
         orgAdminMapper.deleteByPrimaryKey(id);
 
-        if(orgAdmin.getPartyId()!=null) {
+        if (orgAdmin.getPartyId() != null) {
             // 见PartyMemberAdminService.toggleAdmin
             // 删除账号的"分党委管理员"角色
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
@@ -124,7 +103,7 @@ public class OrgAdminService extends BaseMapper {
             }
         }
 
-        if(orgAdmin.getBranchId()!=null) {
+        if (orgAdmin.getBranchId() != null) {
             // BranchMemberAdminService.toggleAdmin
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
@@ -135,14 +114,14 @@ public class OrgAdminService extends BaseMapper {
     }
 
     // 删除管理员
-    public void delAllOrgAdmin(Integer partyId, Integer branchId){
+    public void delAllOrgAdmin(Integer partyId, Integer branchId) {
 
-        if(partyId==null && branchId== null) return ; // 不能删除全部的管理员
+        if (partyId == null && branchId == null) return; // 不能删除全部的管理员
 
         OrgAdminExample example = new OrgAdminExample();
         OrgAdminExample.Criteria criteria = example.createCriteria();
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+        if (partyId != null) criteria.andPartyIdEqualTo(partyId);
+        if (branchId != null) criteria.andBranchIdEqualTo(branchId);
         List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExample(example);
 
         for (OrgAdmin orgAdmin : orgAdmins) {
