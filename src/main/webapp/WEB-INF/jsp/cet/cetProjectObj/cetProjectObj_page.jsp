@@ -558,8 +558,9 @@
 
             <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.objInfo.canQuit?("<span class='{0}'>可选</span>").format(rowObject.objInfo.isFinished?"text-success bolder":"text-default"):
-                        ("<span class='{0} bolder'>必选</span>").format(rowObject.objInfo.isFinished?"text-success":"text-danger");
+                var isFinished = rowObject.objInfo.isFinished;
+                return rowObject.objInfo.canQuit?("<span class='{0}' title='{1}'>可选</span>").format(isFinished?"text-success bolder":"text-default", isFinished?"已签到":"未签到"):
+                        ("<span class='{0} bolder' title='{1}'>必选</span>").format(isFinished?"text-success":"text-danger", isFinished?"已签到":"未签到");
             }, frozen: true},
             { label: '选课时间',name: 'objInfo.chooseTime', width: 160, frozen: true},
             { label: '选课操作人',name: 'objInfo.chooseUserId', formatter: function (cellvalue, options, rowObject) {

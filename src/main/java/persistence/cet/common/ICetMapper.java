@@ -305,14 +305,6 @@ public interface ICetMapper {
             "where cpp.id=#{planId} and cpo.write_file_path is not null group by cpo.id")
     public List<FinishPeriodBean> getWriteFinishPeriods(@Param("planId") int planId);
 
-    /**
-     * select user_id, sum(period) as yearPeriod from cet_trainee_course_view cteecv
-     * where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct
-     * where ct.id=25 and ct.plan_id=cpp.id and cpp.project_id=cp.id)
-     * and user_id in (select cpo.user_id from  cet_trainee ctee, cet_project_obj cpo
-     * where ctee.train_id=25 and ctee.obj_id=cpo.id)
-     * group by user_id;
-     */
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
     @Select("select user_id as userId, sum(period) as yearPeriod from cet_trainee_course_view cteecv  " +
             "where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
