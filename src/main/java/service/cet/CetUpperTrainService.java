@@ -2,8 +2,8 @@ package service.cet;
 
 import controller.global.OpException;
 import domain.cadre.CadreView;
-import domain.cet.CetUpperTrain;
-import domain.cet.CetUpperTrainExample;
+import domain.cet.*;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -31,6 +31,8 @@ public class CetUpperTrainService extends CetBaseMapper {
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected CetUpperTrainAdminService cetUpperTrainAdminService;
+    @Autowired
+    protected CetUnitTrainService cetUnitTrainService;
 
     @Transactional
     public void insertSelective(CetUpperTrain record) {
@@ -236,5 +238,35 @@ public class CetUpperTrainService extends CetBaseMapper {
         }
 
         return addCount;
+    }
+
+    @Transactional
+    public void batchTransfer(Integer[] ids, Byte cetType, Byte specialType, Integer projectId) {
+
+        if (cetType == CetConstants.CET_TYPE_T_PARTY_SCHOOL){
+            CetUpperTrain record = new CetUpperTrain();
+            record.setType(CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL);
+            record.setSpecialType(specialType);
+            CetUpperTrainExample example = new CetUpperTrainExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            cetUpperTrainMapper.updateByExampleSelective(record, example);
+        }else if (cetType == CetConstants.CET_TYPE_T_PARTY){
+
+            for (Integer id : ids) {
+                CetUnitTrain dest = new CetUnitTrain();
+                CetUpperTrain orig = cetUpperTrainMapper.selectByPrimaryKey(id);
+                try {
+                    PropertyUtils.copyProperties(dest, orig);
+                } catch (Exception e) {
+                    throw new OpException("批量转移参训人员异常");
+                }
+                dest.setProjectId(projectId);
+                dest.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
+                dest.setId(null);
+                cetUnitTrainMapper.insert(dest);
+                cetUpperTrainMapper.deleteByPrimaryKey(id);
+            }
+            cetUnitTrainService.updateTotalCount(projectId);
+        }
     }
 }

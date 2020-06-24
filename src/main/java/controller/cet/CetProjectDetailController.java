@@ -233,7 +233,7 @@ public class CetProjectDetailController extends CetBaseController {
                     }
                 }
                 if(identityList.size()>0) {
-                    record.setIdentity(StringUtils.join(identityList, ","));
+                    record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
                 }
             }else {
                 record.setIdentity(""); // 为了更新时覆盖

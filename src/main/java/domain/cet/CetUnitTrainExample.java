@@ -1,5 +1,7 @@
 package domain.cet;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -456,8 +458,12 @@ public class CetUnitTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdentityLike(String value) {
-            addCriterion("identity like", value, "identity");
+        public Criteria andIdentityLike(Integer[] values) {
+            List searchSqlList = new ArrayList<>();
+            for (Integer value : values) {
+                searchSqlList.add("identity like '%," + value + ",%'");
+            }
+            addCriterion("(" + StringUtils.join(searchSqlList, " and ") + ")");
             return (Criteria) this;
         }
 

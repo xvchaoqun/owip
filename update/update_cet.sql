@@ -1,7 +1,18 @@
 
+-- 2020.6.24 ly
+ALTER TABLE `cet_upper_train`
+	ALTER `train_type` DROP DEFAULT;
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训类别 1专题培训 2日常培训' AFTER `project_type`;
+DROP VIEW `cet_party_view`;
+ALTER TABLE `cet_party`
+  ADD COLUMN `admin_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '管理员数量' AFTER `name`;
+
 -- 20200619 ly
 ALTER TABLE `cet_upper_train`
 	CHANGE COLUMN `train_type` `train_type` INT(10) UNSIGNED NULL COMMENT '培训班类型' AFTER `other_organizer`;
+
+
 
 -- 20200617 ly
 ALTER TABLE `cet_project_obj`

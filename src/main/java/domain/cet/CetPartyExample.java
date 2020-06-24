@@ -294,6 +294,66 @@ public class CetPartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdminCountIsNull() {
+            addCriterion("admin_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountIsNotNull() {
+            addCriterion("admin_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountEqualTo(Integer value) {
+            addCriterion("admin_count =", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountNotEqualTo(Integer value) {
+            addCriterion("admin_count <>", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountGreaterThan(Integer value) {
+            addCriterion("admin_count >", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("admin_count >=", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountLessThan(Integer value) {
+            addCriterion("admin_count <", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountLessThanOrEqualTo(Integer value) {
+            addCriterion("admin_count <=", value, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountIn(List<Integer> values) {
+            addCriterion("admin_count in", values, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountNotIn(List<Integer> values) {
+            addCriterion("admin_count not in", values, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountBetween(Integer value1, Integer value2) {
+            addCriterion("admin_count between", value1, value2, "adminCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("admin_count not between", value1, value2, "adminCount");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

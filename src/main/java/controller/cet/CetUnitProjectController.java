@@ -1,5 +1,7 @@
 package controller.cet;
 
+import domain.cet.CetParty;
+import domain.cet.CetPartyExample;
 import domain.cet.CetUnitProject;
 import domain.cet.CetUnitProjectExample;
 import domain.cet.CetUnitProjectExample.Criteria;
@@ -13,22 +15,28 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.party.PartyMapper;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -36,11 +44,22 @@ import java.util.*;
 public class CetUnitProjectController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private PartyMapper partyMapper;
 
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitProject")
-    public String cetUnitProject(Byte cls, ModelMap modelMap) {
+    public String cetUnitProject(Byte cls,
+                                 Integer partyId,
+                                 Integer unitId,
+                                 ModelMap modelMap) {
 
+        if (unitId != null) {
+            modelMap.put("unit", CmTag.getUnit(unitId));
+        }
+        if (partyId != null) {
+            modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
+        }
         if (cls == null) {
             cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
         }
@@ -75,6 +94,17 @@ public class CetUnitProjectController extends CetBaseController {
                                     Byte cls,
                                     Integer year,
                                     String projectName,
+                                    Integer partyId,
+                                    Integer unitId,
+                                    @RequestDateRange DateRange startDate,
+                                    @RequestDateRange DateRange endDate,
+                                    Integer projectType,
+                                    Boolean isOnline,
+                                    String reportName,
+                                    String reporter,
+                                    BigDecimal prePeriod,
+                                    BigDecimal subPeriod,
+                                    String address,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
@@ -98,11 +128,57 @@ public class CetUnitProjectController extends CetBaseController {
         if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        /*if (unitId != null) {
-            criteria.andUnitIdEqualTo(unitId);
-        }*/
         if(StringUtils.isNotBlank(projectName)){
             criteria.andProjectNameLike(SqlUtils.like(projectName));
+        }
+        if (partyId != null){
+            CetPartyExample cetPartyExample = new CetPartyExample();
+            cetPartyExample.createCriteria().andPartyIdEqualTo(partyId);
+            List<CetParty> cetparties = cetPartyMapper.selectByExample(cetPartyExample);
+            List<Integer> cetPartyIds = new ArrayList<>();
+            if (cetparties != null) {
+                for (CetParty cetparty : cetparties) {
+                    cetPartyIds.add(cetparty.getId());
+                }
+                criteria.andCetPartyIdIn(cetPartyIds);
+            }
+
+        }
+        if (unitId != null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
+        if (startDate.getStart() != null) {
+            criteria.andStartDateGreaterThanOrEqualTo(startDate.getStart());
+        }
+        if (startDate.getEnd() != null) {
+            criteria.andStartDateLessThanOrEqualTo(startDate.getEnd());
+        }
+        if (endDate.getStart() != null){
+            criteria.andEndDateGreaterThanOrEqualTo(endDate.getStart());
+        }
+        if (endDate.getEnd() != null) {
+            criteria.andEndDateLessThanOrEqualTo(endDate.getEnd());
+        }
+        if (projectType != null) {
+            criteria.andProjectTypeEqualTo(projectType);
+        }
+        if (isOnline != null){
+            criteria.andIsOnlineEqualTo(isOnline);
+        }
+        if (StringUtils.isNotBlank(reportName)){
+            criteria.andReportNameLike(SqlUtils.like(reportName));
+        }
+        if (StringUtils.isNotBlank(reporter)) {
+            criteria.andReporterLike(SqlUtils.like(reporter));
+        }
+        if (prePeriod != null){
+            criteria.andPeriodGreaterThanOrEqualTo(prePeriod);
+        }
+        if (subPeriod != null) {
+            criteria.andPeriodLessThanOrEqualTo(subPeriod);
+        }
+        if (StringUtils.isNotBlank(address)) {
+            criteria.andAddressLike(SqlUtils.like(address));
         }
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
@@ -311,24 +387,29 @@ public class CetUnitProjectController extends CetBaseController {
 
         List<CetUnitProject> records = cetUnitProjectMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100", "培训班主办方|100", "培训结束时间|100", "培训开始时间|100", "培训班名称|100", "培训班类型|100", "培训学时|100", "参训人数|100", "培训地点|100", "是否计入年度学习任务|100", "备注|100", "操作人|100", "添加时间|100"};
+        String[] titles = {"年度|50", "培训项目名称|200", "培训班主办方|200", "主办单位|100", "培训开始时间|100", "培训结束时间|100", "培训班类型|100",
+                            "培训形式|100", "培训类别|100", "报告名称|200", "主讲人|100", "培训学时|80", "参训人数|70", "培训地点|150",
+                            "是否计入年度学习任务|100", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUnitProject record = records.get(i);
             String[] values = {
                     record.getYear() + "",
-                    record.getUnitId() + "",
-                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                     record.getProjectName(),
-                    record.getProjectType() + "",
+                    record.getCetParty() == null ? "" : record.getCetParty().getName(),
+                    record.getUnit().getName(),
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
+                    metaTypeService.getName(record.getProjectType()),
+                    record.getIsOnline() ? "线上培训" : "线下培训",
+                    record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_RC ? "日常培训" : "专题培训",
+                    record.getReportName(),
+                    record.getReporter(),
                     record.getPeriod() + "",
                     record.getTotalCount() + "",
                     record.getAddress(),
-                    record.getIsValid() + "",
-                    record.getRemark(),
-                    record.getAddUserId() + "",
-                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    record.getIsValid() ? "是" : "否",
+                    record.getRemark()
             };
             valuesList.add(values);
         }
@@ -350,7 +431,7 @@ public class CetUnitProjectController extends CetBaseController {
 
         CetUnitProjectExample example = new CetUnitProjectExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("start_date desc");
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andProjectNameLike("%" + searchStr.trim() + "%");
@@ -369,7 +450,15 @@ public class CetUnitProjectController extends CetBaseController {
             for (CetUnitProject record : records) {
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", record.getProjectName());
+                String str = record.getReportName();
+                if (StringUtils.isNotBlank(str)){
+                    str = "（" + str + "（" + DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT)
+                            + "-" + DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT) + "））";
+                }else {
+                    str = "（" + DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT)
+                            + "-" + DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT) + "）";
+                }
+                option.put("text", record.getProjectName() + str);
                 option.put("id", record.getId() + "");
 
                 options.add(option);

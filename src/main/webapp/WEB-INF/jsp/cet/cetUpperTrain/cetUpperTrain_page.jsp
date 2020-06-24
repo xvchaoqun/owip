@@ -9,14 +9,15 @@
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT%>"/>
+<c:set var="CET_UPPER_TRAIN_ST_MAP" value="<%=CetConstants.CET_UPPER_TRAIN_ST_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.unitId ||not empty param.userId ||not empty param.postType
-                   ||not empty param.organizer ||not empty param.trainType
-                   || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.unitId ||not empty param.userId || not empty param.postType || not empty param.identities
+                   ||not empty param.organizer || not empty param.specialType || not empty param.trainType || not empty param.year || not empty param.title || not empty param.otherOrganizer
+                   || not empty param.startDate || not empty param.endDate || not empty param.prePeriod || not empty param.trainName}"/>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
@@ -94,13 +95,21 @@
                         </c:if>
                     </button>
                     </c:if>
-                <c:if test="${cls==1||cls==2||cls==5}">
+                <c:if test="${cls==1||cls==2||cls==3||cls==5}">
                     <button id="uploadNoteBtn" class="jqOpenViewBtn btn btn-warning btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetUpperTrain_uploadNote?addType=${param.addType}"
                         data-grid-id="#jqGrid"
                         data-rel="tooltip" data-placement="top"
                         title="上传培训总结"><i class="fa fa-upload"></i> 上传培训总结</button>
+                    <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                        <a href="javascript:;" data-width="700" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/cet/cetUpperTrain_batchTransfer?addType=${param.addType}">
+                            <i class="fa fa-random"></i> 批量转移</a>
+                    </c:if>
                 </c:if>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/cet/cetUpperTrain_data?addType=${param.addType}&type=${param.type}"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
                 <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW}">
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-url="${ctx}/sysApprovalLog"
@@ -145,7 +154,7 @@
                     </div>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main no-padding">
+                    <div class="widget-main no-padding columns">
                         <form class="form-inline search-form" id="searchForm">
                             <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_UNIT && param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW}">
                             <div class="form-group">
@@ -157,13 +166,24 @@
                             </div>
                             </c:if>
                             <div class="form-group">
+                                <label>年度</label>
+                                <input class="form-control date-picker" placeholder="请选择年份"
+                                       name="year" type="text" style="width: 80px;"
+                                       data-date-format="yyyy" data-date-min-view-mode="2"
+                                       value="${param.year}"/>
+                            </div>
+                            <div class="form-group">
                                 <label>参训人姓名</label>
                                 <select data-ajax-url="${ctx}/cadre_selects?key=1"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
                             </div>
-
+                            <div class="form-group">
+                                <label>时任单位及职务</label>
+                                <input class="form-control search-query" name="title" type="text" value="${param.title}"
+                                       placeholder="请输入">
+                            </div>
                             <div class="form-group">
                                 <label>时任职务属性</label>
                                 <select data-rel="select2" name="postType"
@@ -176,6 +196,19 @@
                                     $("#searchForm select[name=postType]").val(${param.postType});
                                 </script>
                             </div>
+                            <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                                <div class="form-group">
+                                    <label>参训人身份</label>
+                                    <select  class="multiselect" multiple="" name="identities"
+                                            data-width="120"
+                                            data-placeholder="请选择">
+                                        <c:import url="/metaTypes?__code=mc_cet_identity"/>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $.register.multiselect($('#searchForm select[name=identities]'), ${cm:toJSONArray(selectIdentities)});
+                                    </script>
+                                </div>
+                            </c:if>
                             <div class="form-group">
                                 <label>培训主办方</label>
                                 <select data-rel="select2" name="organizer"
@@ -189,6 +222,22 @@
                                     $("#searchForm select[name=organizer]").val(${param.organizer});
                                 </script>
                             </div>
+                            <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                                <div class="form-group">
+                                    <label>培训类别</label>
+                                    <select data-rel="select2" name="specialType"
+                                            data-width="200"
+                                            data-placeholder="请选择">
+                                        <option></option>
+                                        <c:forEach items="${CET_UPPER_TRAIN_ST_MAP}" var="typeMap">
+                                            <option value="${typeMap.key}">${typeMap.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#searchForm select[name=organizer]").val(${param.organizer});
+                                    </script>
+                                </div>
+                            </c:if>
                             <div class="form-group">
                                 <label>培训班类型</label>
                                 <select data-rel="select2" name="trainType"
@@ -201,7 +250,43 @@
                                     $("#searchForm select[name=trainType]").val(${param.trainType});
                                 </script>
                             </div>
-
+                            <div class="form-group">
+                                <label>${param.type==CET_UPPER_TRAIN_TYPE_ABROAD ? '研修方向' : '培训班名称'}</label>
+                                <input class="form-control search-query" name="trainName" type="text" value="${param.trainName}"
+                                       placeholder="请输入">
+                            </div>
+                            <div class="form-group">
+                                <label>培训开始时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="开始时间范围">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                </span>
+                                    <input placeholder="请选择开始时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="startDate" value="${param.startDate}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>培训结束时间</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip" title="结束时间范围">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar bigger-110"></i>
+                                                </span>
+                                    <input placeholder="请选择结束时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="endDate" value="${param.endDate}"/>
+                                </div>
+                            </div>
+                            <div class="form-group column">
+                                <label>培训学时</label>
+                                <div class="input-group input">
+                                    <input style="width: 50px" class="form-control search-query float" type="text" name="prePeriod"
+                                           value="${param.prePeriod}">
+                                </div>
+                                <label>至</label>
+                                <div class="input-group input">
+                                    <input style="width: 50px" class="form-control search-query float"
+                                                            type="text"
+                                                            name="subPeriod"
+                                                            value="${param.subPeriod}">
+                                </div>
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/cet/cetUpperTrain?cls=${cls}&type=${param.type}&addType=${param.addType}"
@@ -226,6 +311,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <jsp:include page="/WEB-INF/jsp/cet/cetUpperTrain/cetUpperTrain_colModel.jsp?addType=${param.addType}"/>
 <script>
     $("#jqGrid").jqGrid({
@@ -240,7 +326,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.user_select($('#searchForm select[name=userId]'));
     $.register.del_select($('#searchForm select[name=unitId]'));
-    $('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $('[data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
 </script>

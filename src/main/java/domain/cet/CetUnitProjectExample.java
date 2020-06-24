@@ -623,6 +623,66 @@ public class CetUnitProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andSpecialTypeIsNull() {
+            addCriterion("special_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIsNotNull() {
+            addCriterion("special_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeEqualTo(Byte value) {
+            addCriterion("special_type =", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotEqualTo(Byte value) {
+            addCriterion("special_type <>", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThan(Byte value) {
+            addCriterion("special_type >", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("special_type >=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThan(Byte value) {
+            addCriterion("special_type <", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("special_type <=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIn(List<Byte> values) {
+            addCriterion("special_type in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotIn(List<Byte> values) {
+            addCriterion("special_type not in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeBetween(Byte value1, Byte value2) {
+            addCriterion("special_type between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("special_type not between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
         public Criteria andIsOnlineIsNull() {
             addCriterion("is_online is null");
             return (Criteria) this;

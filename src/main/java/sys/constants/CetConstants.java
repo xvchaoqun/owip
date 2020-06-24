@@ -283,4 +283,12 @@ public class CetConstants {
         CET_TYPE_MAP.put(CET_TYPE_OTHER_DAILY, "党校日常培训");
     }
 
+    public final static byte CET_TYPE_T_PARTY_SCHOOL = 1;
+    public final static byte CET_TYPE_T_PARTY = 2;
+    public final static Map<Byte, String> CET_TYPE_T_MAP = new LinkedHashMap<Byte, String>();
+    static {
+        CET_TYPE_T_MAP.put(CET_TYPE_T_PARTY_SCHOOL, "党校培训");
+        CET_TYPE_T_MAP.put(CET_TYPE_T_PARTY, "二级党委培训");
+    }
+
 }

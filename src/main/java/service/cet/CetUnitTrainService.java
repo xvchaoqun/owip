@@ -4,10 +4,7 @@ import bean.UserBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
-import domain.cet.CetTraineeType;
-import domain.cet.CetUnitProject;
-import domain.cet.CetUnitTrain;
-import domain.cet.CetUnitTrainExample;
+import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -211,7 +208,7 @@ public class CetUnitTrainService extends CetBaseMapper {
                     }
                 }
                 if(identityList.size()>0) {
-                    record.setIdentity(StringUtils.join(identityList, ","));
+                    record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
                 }
             }else {
                 record.setIdentity(""); // 为了更新时覆盖
@@ -293,5 +290,29 @@ public class CetUnitTrainService extends CetBaseMapper {
             }
             updateTotalCount(projectId);
         }
+    }
+
+    public List<Integer> getProjectIds(Integer partyId) {
+
+        CetPartyExample cetPartyExample = new CetPartyExample();
+        cetPartyExample.createCriteria().andPartyIdEqualTo(partyId);
+        List<CetParty> cetParties = cetPartyMapper.selectByExample(cetPartyExample);
+        if (cetParties != null && cetParties.size() > 0) {
+            List<Integer> cetPartyIds = new ArrayList<>();
+            for (CetParty cetParty : cetParties) {
+                cetPartyIds.add(cetParty.getId());
+            }
+            CetUnitProjectExample projectExample = new CetUnitProjectExample();
+            projectExample.createCriteria().andCetPartyIdIn(cetPartyIds);
+            List<CetUnitProject> cetUnitProjects = cetUnitProjectMapper.selectByExample(projectExample);
+            if (cetUnitProjects != null && cetUnitProjects.size() > 0){
+                List<Integer> projectIds = new ArrayList<>();
+                for (CetUnitProject cetUnitProject : cetUnitProjects) {
+                    projectIds.add(cetUnitProject.getId());
+                }
+                return projectIds;
+            }
+        }
+        return null;
     }
 }

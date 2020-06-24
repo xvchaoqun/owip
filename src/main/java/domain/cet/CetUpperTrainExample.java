@@ -731,8 +731,12 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdentityLike(String value) {
-            addCriterion("identity like", value, "identity");
+        public Criteria andIdentityLike(Integer[] values) {
+            List searchSqlList = new ArrayList<>();
+            for (Integer value : values) {
+                searchSqlList.add("identity like '%," + value + ",%'");
+            }
+            addCriterion("(" + StringUtils.join(searchSqlList, " and ") + ")");
             return (Criteria) this;
         }
 

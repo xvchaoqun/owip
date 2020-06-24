@@ -127,7 +127,7 @@
                     return ret;
                 }
             },
-            {label: '操作人', name: 'addUser.realname'},
+            /*{label: '操作人', name: 'addUser.realname'},*/
             {label: '添加时间', name: 'addTime', width: 150},
             <c:if test="${cls==6}">
                 {label: '补录审批备注', name: 'reason', width: 200},

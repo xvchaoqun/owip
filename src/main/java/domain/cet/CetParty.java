@@ -13,6 +13,8 @@ public class CetParty implements Serializable {
 
     private String name;
 
+    private Integer adminCount;
+
     private Integer sortOrder;
 
     private Boolean isDeleted;
@@ -41,6 +43,14 @@ public class CetParty implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getAdminCount() {
+        return adminCount;
+    }
+
+    public void setAdminCount(Integer adminCount) {
+        this.adminCount = adminCount;
     }
 
     public Integer getSortOrder() {

@@ -190,30 +190,30 @@
                 </c:if>
                  <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="star">*</span>培训类别</label>
-                        <div class="col-xs-8">
-                            <div class="input-group">
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="specialType" id="specialType0"
-                                           value="${CET_UPPER_TRAIN_ST_SPECIAL}">
-                                    <label for="specialType0">
-                                        专题培训
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input type="radio" name="specialType" id="specialType1"
-                                           value="${CET_UPPER_TRAIN_ST_DAILY}">
-                                    <label for="specialType1">
-                                        日常培训
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                            $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_UPPER_TRAIN_ST_SPECIAL:cetUpperTrain.specialType}']")
-                                .prop("checked", true);
-                    </script>
+                     <label class="col-xs-4 control-label"><span class="star">*</span>培训类别</label>
+                     <div class="col-xs-8">
+                         <div class="input-group">
+                             <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                 <input type="radio" name="specialType" id="specialType0"
+                                        value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                                 <label for="specialType0">
+                                     专题培训
+                                 </label>
+                             </div>
+                             <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                 <input type="radio" name="specialType" id="specialType1"
+                                        value="${CET_UPPER_TRAIN_ST_DAILY}">
+                                 <label for="specialType1">
+                                     日常培训
+                                 </label>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                     <script>
+                         $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_UPPER_TRAIN_ST_SPECIAL:cetUpperTrain.specialType}']")
+                             .prop("checked", true);
+                     </script>
                 </c:if>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>
@@ -335,21 +335,21 @@
                                value="${cetUpperTrain.score}" maxlength="20">
                     </div>
                 </div>
-                <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD && param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+                <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
                     <div class="form-group">
                         <label class="col-xs-4 control-label"><span class="star">*</span>派出单位</label>
                         <div class="col-xs-8">
                             <div class="input-group">
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="type" id="type0"
+                                    <input required type="radio" name="type" id="type0" ${(empty cetUpperTrain || cetUpperTrain.type == CET_UPPER_TRAIN_TYPE_OW) ? "checked" : ""}
                                            value="${CET_UPPER_TRAIN_TYPE_OW}">
                                     <label for="type0">
                                         党委组织部
                                     </label>
                                 </div>
                                 <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                    <input required type="radio" name="type" id="type1"
+                                    <input required type="radio" name="type" id="type1" ${(cetUpperTrain.type == CET_UPPER_TRAIN_TYPE_UNIT || cetUpperTrain.type == CET_UPPER_TRAIN_TYPE_ABROAD) ? "checked" : ""}
                                            value="${CET_UPPER_TRAIN_TYPE_UNIT}">
                                     <label for="type1">
                                         其他部门派出
@@ -481,7 +481,6 @@
     }
 </style>
 <script>
-
     function traineeTypeChange(){
         if ($("select[name=traineeTypeId]").val() == "0"){
             $("#otherTraineeType").removeClass("hidden");
@@ -542,8 +541,15 @@
         allowMime: ['application/pdf']
     });
     </c:if>
+    if ($("#type1").attr("checked")){
+        $("#unitDiv").show();
+        $("#modalForm select[name=unitId]").prop("disabled", false).attr("required", "required");
+    }else {
+        $("#unitDiv").hide();
+        $("#modalForm select[name=unitId]").val(null).trigger("change").prop("disabled", true).removeAttr("required");
+    }
     $("#modalForm input[name=type]").click(function () {
-        if ($(this).val() ==${CET_UPPER_TRAIN_TYPE_UNIT}) {
+        if ($(this).val() == ${CET_UPPER_TRAIN_TYPE_UNIT}) {
             $("#unitDiv").show();
             $("#modalForm select[name=unitId]").prop("disabled", false).attr("required", "required");
         } else {

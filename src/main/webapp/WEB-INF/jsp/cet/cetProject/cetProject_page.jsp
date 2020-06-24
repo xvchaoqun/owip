@@ -6,7 +6,8 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12 multi-row-head-table">
 
         <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.year ||not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.year ||not empty param.name ||not empty param.projectTypeId ||not empty param.prePeriod
+             ||not empty param.subPeriod ||not empty param.objCount}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProject:edit">
                     <button class="openView btn btn-info btn-sm"
@@ -38,10 +39,10 @@ pageEncoding="UTF-8" %>
                      <i class="prompt fa fa-question-circle"
                data-prompt="统计汇总培训班中所有学员的培训学时（已完成学时数）"></i> 刷新培训学时
                 </button>
-                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/cet/cetProject_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>--%>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/cet/cetProject_data?type=${param.type}"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -54,7 +55,7 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main no-padding">
+                    <div class="widget-main no-padding columns">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>年度</label>
@@ -68,14 +69,46 @@ pageEncoding="UTF-8" %>
                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                    placeholder="请输入培训班名称">
                         </div>
+                        <div class="form-group">
+                            <label>专题分类</label>
+                            <select data-rel="select2" name="projectTypeId"
+                                    data-width="150"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <c:forEach items="${cetProjectTypeMap}" var="entity">
+                                    <option value="${entity.key}">${entity.value.name}</option>
+                                </c:forEach>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=projectTypeId]").val(${param.projectTypeId});
+                            </script>
+                        </div>
+                        <div class="form-group column">
+                            <label>培训学时</label>
+                            <div class="input-group input">
+                                <input style="width: 50px" class="form-control search-query float" type="text" name="prePeriod"
+                                       value="${param.prePeriod}">
+                            </div> <label>至</label>
+                            <div class="input-group input">
+                                <input style="width: 50px" class="form-control search-query float"
+                                       type="text"
+                                       name="subPeriod"
+                                       value="${param.subPeriod}">
+                            </div>
+                        </div>
+                        <%--<div class="form-group">
+                            <label>参训人数</label>
+                            <input class="form-control search-query num" name="objCount" type="text" value="${param.objCount}"
+                                   placeholder="请输入">
+                        </div>--%>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                        data-url="${ctx}/cet/cetProject"
+                                        data-url="${ctx}/cet/cetProject?type=${param.type}"
                                         data-target="#page-content"
                                         data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetProject"
+                                            data-url="${ctx}/cet/cetProject?type=${param.type}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>

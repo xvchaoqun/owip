@@ -2,6 +2,10 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT%>" var="CET_UNIT_PROJECT_STATUS_UNREPORT"/>
+
+<c:set var="CET_UPPER_TRAIN_ST_SPECIAL" value="<%=CetConstants.CET_UPPER_TRAIN_ST_SPECIAL%>"/>
+<c:set var="CET_UPPER_TRAIN_ST_DAILY" value="<%=CetConstants.CET_UPPER_TRAIN_ST_DAILY%>"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${cetUnitProject!=null?'编辑':'添加'}二级党委培训班</h3>
@@ -65,6 +69,31 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训类别</label>
+                    <div class="col-xs-8">
+                        <div class="input-group">
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input type="radio" name="specialType" id="specialType0"
+                                       value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                                <label for="specialType0">
+                                    专题培训
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input type="radio" name="specialType" id="specialType1"
+                                       value="${CET_UPPER_TRAIN_ST_DAILY}">
+                                <label for="specialType1">
+                                    日常培训
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $("#modalForm input[name=specialType][value='${empty cetUnitProject.specialType?CET_UPPER_TRAIN_ST_SPECIAL:cetUnitProject.specialType}']")
+                        .prop("checked", true);
+                </script>
+                <div class="form-group">
                     <label class="col-xs-4 control-label">报告名称</label>
                     <div class="col-xs-7">
                         <input class="form-control" name="reportName" value="${cetUnitProject.reportName}"/>
@@ -109,8 +138,8 @@
                         <div class="input-group">
 							<input required class="form-control date-picker" name="startDate"
 								   type="text" autocomplete="off" disableautocomplete
-								   data-date-format="yyyy-mm-dd"
-								   value="${cm:formatDate(cetUnitProject.startDate,'yyyy-MM-dd')}"/>
+								   data-date-format="yyyy.mm.dd"
+								   value="${cm:formatDate(cetUnitProject.startDate,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 						</div>
@@ -122,8 +151,8 @@
                         <div class="input-group">
 							<input required class="form-control date-picker" name="endDate"
 								   type="text" autocomplete="off" disableautocomplete
-								   data-date-format="yyyy-mm-dd"
-								   value="${cm:formatDate(cetUnitProject.endDate,'yyyy-MM-dd')}"/>
+								   data-date-format="yyyy.mm.dd"
+								   value="${cm:formatDate(cetUnitProject.endDate,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 						</div>

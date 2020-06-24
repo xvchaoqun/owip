@@ -38,11 +38,12 @@
       <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
           {
               label: '参训人员身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
-                  if (cellvalue == null) {
+                  if (cellvalue == null || cellvalue == '') {
                       return "--";
                   }
                   return ($.map(cellvalue.split(","), function(identity){
-                      return $.jgrid.formatter.MetaType(identity);
+                      if (identity != null && identity != '')
+                            return $.jgrid.formatter.MetaType(identity);
                   })).join("，")
               }},
       </c:if>
@@ -102,7 +103,7 @@
       return ret;
     }},
     {label: '培训成绩', name: 'score'},
-      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD&&param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
+      <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
     {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
       if (rowObject.type==${CET_UPPER_TRAIN_TYPE_OW}) {
         return '党委组织部'
@@ -119,7 +120,7 @@
       return cellvalue?'是':'否'
     }},
     </c:if>
-    {label: '操作人', name: 'addUser.realname'},
+    /*{label: '操作人', name: 'addUser.realname'},*/
       {label: '备注', name: 'remark', width: 150},
     {label: '添加时间', name: 'addTime', width: 150}
   ]

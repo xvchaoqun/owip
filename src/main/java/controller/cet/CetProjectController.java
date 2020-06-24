@@ -25,6 +25,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -66,6 +67,10 @@ public class CetProjectController extends CetBaseController {
     @RequestMapping("/cetProject")
     public String cetProject( ModelMap modelMap) {
 
+        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll();
+        modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
+
+
         Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
         modelMap.put("projectTypeMap", projectTypeMap);
 
@@ -75,12 +80,16 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject_data")
     public void cetProject_data(HttpServletResponse response,
-                                    byte type,
-                                    Integer year,
-                                    String name,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                Byte type,
+                                Integer year,
+                                String name,
+                                Integer projectTypeId,
+                                BigDecimal prePeriod,
+                                BigDecimal subPeriod,
+                                Integer objCount,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -100,11 +109,23 @@ public class CetProjectController extends CetBaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
+        if (projectTypeId != null) {
+            criteria.andProjectTypeIdEqualTo(projectTypeId);
+        }
+        if (objCount != null) {
+            criteria.andObjCountEqualTo(objCount);
+        }
+        if (prePeriod != null) {
+            criteria.andPeriodGreaterThanOrEqualTo(prePeriod);
+        }
+        if (subPeriod != null) {
+            criteria.andPeriodLessThanOrEqualTo(subPeriod);
+        }
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetProject_export(example, response);
+            cetProject_export(example, type, response);
             return;
         }
 
@@ -236,29 +257,28 @@ public class CetProjectController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
     
-    public void cetProject_export(CetProjectExample example, HttpServletResponse response) {
+    public void cetProject_export(CetProjectExample example, Byte type, HttpServletResponse response) {
 
         List<CetProject> records = cetProjectMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100","培训时间（开始）|100","培训时间（结束）|100","培训班名称|100","文件名|100","pdf文件|100","word文件|100","总学时|100","达到结业要求的学时数|100","备注|100"};
+        String[] titles = {"年度|50","培训时间（开始）|100","培训时间（结束）|100","培训班名称|200","专题分类|100","总学时|100","参训人数|100","是否计入年度学习任务|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetProject record = records.get(i);
             String[] values = {
-                record.getYear()+"",
-                            DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                            DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
-                            record.getName(),
-                            record.getFileName(),
-                            record.getPdfFilePath(),
-                            record.getWordFilePath(),
-                            record.getPeriod() + "",
-                            record.getRequirePeriod() + "",
-                            record.getRemark()
+                    record.getYear()+"",
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
+                    record.getName(),
+                    cetProjectTypeMapper.selectByPrimaryKey(record.getProjectTypeId()).getName(),
+                    record.getPeriod() + "",
+                    record.getObjCount() + "",
+                    record.getIsValid() ? "是" : "否",
+                    record.getRemark()
             };
             valuesList.add(values);
         }
-        String fileName = "专题培训_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "党校培训-" + (type == 1 ? "专题培训_" : "日常培训_") + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

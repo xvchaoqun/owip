@@ -13,8 +13,9 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.addUserId || not empty param.projectName || not empty param.traineeTypeId || not empty param.userId || not empty param.sort
-             || not empty param._startDate || not empty param._endDate}"/>
+            <c:set var="_query" value="${not empty param.projectName || not empty param.traineeTypeId || not empty param.userId
+             || not empty param.partyId || not empty param._startDate || not empty param._endDate || not empty param.title || not empty param.identities
+             || not empty param.postType || not empty param.prePeriod || not empty param.subPeriod}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==2}">active</c:if>">
@@ -98,6 +99,7 @@ pageEncoding="UTF-8" %>
                                                         <option value="${entity.value.id}">${entity.value.name}</option>
                                                     </c:if>
                                                 </c:forEach>
+                                                <option value="0">其他</option>
                                             </select>
                                         </div>
                                         <script>$("#searchForm select[name=traineeTypeId]").val(${traineeTypeId});</script>
@@ -105,6 +107,18 @@ pageEncoding="UTF-8" %>
                                             <label>培训项目名称</label>
                                             <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
                                                    placeholder="请输入">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>培训主办方</label>
+                                            <select required data-rel="select2-ajax"
+                                                    data-width="372"
+                                                    data-ajax-url="${ctx}/party_selects"
+                                                    name="partyId" data-placeholder="请选择">
+                                                <option value="${party.id}">${party.name}</option>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=partyId]").val(${param.project.cetParty.partyId});
+                                            </script>
                                         </div>
                                         <div class="form-group">
                                             <label>培训开始时间</label>
@@ -125,11 +139,47 @@ pageEncoding="UTF-8" %>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>操作人</label>
-                                            <select data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}" data-rel="select2-ajax"
-                                                    name="addUserId" data-placeholder="请输入账号或姓名或工号">
-                                                <option value="${addSysUser.id}">${addSysUser.realname}-${addSysUser.code}</option>
+                                            <label>时任单位及职务</label>
+                                            <input class="form-control search-query" name="title" type="text" value="${param.title}"
+                                                   placeholder="请输入">
+                                        </div>
+                                        <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
+                                            <div class="form-group">
+                                                <label>参训人身份</label>
+                                                <select  class="multiselect" multiple="" name="identities"
+                                                         data-width="120"
+                                                         data-placeholder="请选择">
+                                                    <c:import url="/metaTypes?__code=mc_cet_identity"/>
+                                                </select>
+                                                <script type="text/javascript">
+                                                    $.register.multiselect($('#searchForm select[name=identities]'), ${cm:toJSONArray(selectIdentities)});
+                                                </script>
+                                            </div>
+                                        </c:if>
+                                        <div class="form-group">
+                                            <label>时任职务属性</label>
+                                            <select data-rel="select2" name="postType"
+                                                    data-width="150"
+                                                    data-placeholder="请选择">
+                                                <option></option>
+                                                <c:import url="/metaTypes?__code=mc_post"/>
                                             </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=postType]").val(${param.postType});
+                                            </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>培训学时</label>
+                                            <div class="input-group">
+                                                <input style="width: 50px" class="form-control search-query" type="text" name="prePeriod"
+                                                       value="${param.prePeriod}">
+                                            </div> <label>至</label>
+                                            <div class="input-group">
+                                                <input style="width: 50px" class="form-control search-query"
+                                                       type="text"
+                                                       name="subPeriod"
+                                                       value="${param.subPeriod}">
+                                            </div>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
@@ -191,11 +241,12 @@ pageEncoding="UTF-8" %>
             <c:if test="${cm:getMetaTypes('mc_cet_identity').size()>0}">
                 {
                     label: '参训人员身份', name: 'identity', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == null) {
+                        if (cellvalue == null || cellvalue == '') {
                             return "--";
                         }
                         return ($.map(cellvalue.split(","), function(identity){
-                            return $.jgrid.formatter.MetaType(identity);
+                            if (identity != null && identity != '')
+                                return $.jgrid.formatter.MetaType(identity);
                         })).join("，")
                     }},
             </c:if>
@@ -221,7 +272,7 @@ pageEncoding="UTF-8" %>
                     }
                     return ret==""?"--":ret;
                 }},
-            {label: '操作人', name: 'addUser.realname'},
+            /*{label: '操作人', name: 'addUser.realname'},*/
             {label: '添加时间', name: 'addTime', width: 150},
             { label: '备注',name: 'remark', align: 'left', width: 150},
         ]

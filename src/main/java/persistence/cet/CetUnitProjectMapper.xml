@@ -10,6 +10,7 @@
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="special_type" jdbcType="TINYINT" property="specialType" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="report_name" jdbcType="VARCHAR" property="reportName" />
     <result column="reporter" jdbcType="VARCHAR" property="reporter" />
@@ -83,8 +84,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, cet_party_id, unit_id, start_date, end_date, project_name, project_type, 
-    is_online, report_name, reporter, period, total_count, address, is_valid, add_user_id, 
-    add_time, remark, status, back_reason
+    special_type, is_online, report_name, reporter, period, total_count, address, is_valid, 
+    add_user_id, add_time, remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitProjectExample" resultMap="BaseResultMap">
     select
@@ -122,18 +123,18 @@
     </selectKey>
     insert into cet_unit_project (year, cet_party_id, unit_id, 
       start_date, end_date, project_name, 
-      project_type, is_online, report_name, 
-      reporter, period, total_count, 
-      address, is_valid, add_user_id, 
-      add_time, remark, status, 
-      back_reason)
+      project_type, special_type, is_online, 
+      report_name, reporter, period, 
+      total_count, address, is_valid, 
+      add_user_id, add_time, remark, 
+      status, back_reason)
     values (#{year,jdbcType=INTEGER}, #{cetPartyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR}, 
-      #{projectType,jdbcType=INTEGER}, #{isOnline,jdbcType=BIT}, #{reportName,jdbcType=VARCHAR}, 
-      #{reporter,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{totalCount,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, #{addUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{backReason,jdbcType=VARCHAR})
+      #{projectType,jdbcType=INTEGER}, #{specialType,jdbcType=TINYINT}, #{isOnline,jdbcType=BIT}, 
+      #{reportName,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
+      #{totalCount,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -161,6 +162,9 @@
       </if>
       <if test="projectType != null">
         project_type,
+      </if>
+      <if test="specialType != null">
+        special_type,
       </if>
       <if test="isOnline != null">
         is_online,
@@ -220,6 +224,9 @@
       </if>
       <if test="projectType != null">
         #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        #{specialType,jdbcType=TINYINT},
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
@@ -292,6 +299,9 @@
       <if test="record.projectType != null">
         project_type = #{record.projectType,jdbcType=INTEGER},
       </if>
+      <if test="record.specialType != null">
+        special_type = #{record.specialType,jdbcType=TINYINT},
+      </if>
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
@@ -343,6 +353,7 @@
       end_date = #{record.endDate,jdbcType=DATE},
       project_name = #{record.projectName,jdbcType=VARCHAR},
       project_type = #{record.projectType,jdbcType=INTEGER},
+      special_type = #{record.specialType,jdbcType=TINYINT},
       is_online = #{record.isOnline,jdbcType=BIT},
       report_name = #{record.reportName,jdbcType=VARCHAR},
       reporter = #{record.reporter,jdbcType=VARCHAR},
@@ -382,6 +393,9 @@
       </if>
       <if test="projectType != null">
         project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        special_type = #{specialType,jdbcType=TINYINT},
       </if>
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
@@ -431,6 +445,7 @@
       end_date = #{endDate,jdbcType=DATE},
       project_name = #{projectName,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=INTEGER},
+      special_type = #{specialType,jdbcType=TINYINT},
       is_online = #{isOnline,jdbcType=BIT},
       report_name = #{reportName,jdbcType=VARCHAR},
       reporter = #{reporter,jdbcType=VARCHAR},

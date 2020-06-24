@@ -3,8 +3,6 @@ package controller.cet;
 import controller.global.OpException;
 import domain.cet.CetParty;
 import domain.cet.CetPartyExample;
-import domain.cet.CetPartyView;
-import domain.cet.CetPartyViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,8 +69,8 @@ public class CetPartyController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetPartyViewExample example = new CetPartyViewExample();
-        CetPartyViewExample.Criteria criteria = example.createCriteria();
+        CetPartyExample example = new CetPartyExample();
+        CetPartyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
         if (partyId!=null) {
@@ -92,12 +90,12 @@ public class CetPartyController extends CetBaseController {
             return;
         }*/
 
-        long count = cetPartyViewMapper.countByExample(example);
+        long count = cetPartyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetPartyView> records= cetPartyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetParty> records= cetPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();

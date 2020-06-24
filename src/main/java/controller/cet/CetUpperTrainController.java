@@ -35,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.*;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -60,6 +62,7 @@ public class CetUpperTrainController extends CetBaseController {
                                 byte addType,
                                 Integer unitId,
                                 Integer userId,
+                                @RequestParam(required = false, value = "identities") Integer[] identities,
                                 ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted("cetUpperTrain:list")
@@ -69,6 +72,9 @@ public class CetUpperTrainController extends CetBaseController {
 
         modelMap.put("cls", cls);
 
+        if (null != identities){
+            modelMap.put("selectIdentities", Arrays.asList(identities));
+        }
         if (unitId != null) {
             modelMap.put("unit", CmTag.getUnit(unitId));
         }
@@ -86,11 +92,20 @@ public class CetUpperTrainController extends CetBaseController {
                                    byte addType,
                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
                                    byte type,
+                                   Integer year,
+                                   String title,
+                                   @RequestDateRange DateRange startDate,
+                                   @RequestDateRange DateRange endDate,
+                                   BigDecimal prePeriod,
+                                   BigDecimal subPeriod,
+                                   String trainName,
+                                   @RequestParam(required = false, value = "identities") Integer[] identities,
                                    Integer unitId,
                                    Integer userId,
                                    Integer postType,
                                    Integer organizer,
                                    Integer trainType,
+                                   Byte specialType,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
@@ -105,7 +120,7 @@ public class CetUpperTrainController extends CetBaseController {
 
         CetUpperTrainExample example = new CetUpperTrainExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("start_date desc");
 
         CetUpperTrainExample checkExample = new CetUpperTrainExample();
         Criteria checkCriteria = checkExample.createCriteria()
@@ -194,10 +209,44 @@ public class CetUpperTrainController extends CetBaseController {
             criteria.andIdIsNull();
         }
 
+        if (null != prePeriod){
+            criteria.andPeriodGreaterThanOrEqualTo(prePeriod);
+        }
+        if (null != subPeriod){
+            criteria.andPeriodLessThanOrEqualTo(subPeriod);
+        }
+        if (null != year){
+            criteria.andYearEqualTo(year);
+        }
+        if (StringUtils.isNotBlank(title)){
+            criteria.andTitleLike(SqlUtils.like(title));
+        }
+        if (StringUtils.isNotBlank(trainName)){
+            criteria.andTrainNameLike(SqlUtils.like(trainName));
+        }
+        if (null != startDate.getStart()){
+            criteria.andStartDateGreaterThanOrEqualTo(startDate.getStart());
+        }
+        if (null != startDate.getEnd()) {
+            criteria.andStartDateLessThanOrEqualTo(startDate.getEnd());
+        }
+        if (null != endDate.getStart()) {
+            criteria.andEndDateGreaterThanOrEqualTo(endDate.getStart());
+        }
+        if (null != endDate.getEnd()) {
+            criteria.andEndDateLessThanOrEqualTo(endDate.getEnd());
+        }
+        if (null !=identities){
+            criteria.andIdentityLike(identities);
+        }
+        if (specialType != null){
+            criteria.andSpecialTypeEqualTo(specialType);
+        }
+
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetUpperTrain_export(example, response);
+            cetUpperTrain_export(example, type, response);
             return;
         }
 
@@ -243,9 +292,11 @@ public class CetUpperTrainController extends CetBaseController {
             record.setAddType(null);
         }
 
+        if (null != identities)
+            Arrays.sort(identities);
         if (CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH != auType) {
             record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
-                    ? "" : StringUtils.join(identities, ","));
+                    ? "" : "," + StringUtils.join(identities, ",") + ",");
         }
         record.setIsOnline(BooleanUtils.isTrue(record.getIsOnline()));
 
@@ -390,7 +441,7 @@ public class CetUpperTrainController extends CetBaseController {
                             }
                         }
                         if(identityList.size()>0) {
-                            record.setIdentity(StringUtils.join(identityList, ","));
+                            record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
                         }
                     }else {
                         cetUpperTrain.setIdentity("");
@@ -470,7 +521,34 @@ public class CetUpperTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 上传培训总结
+    @RequestMapping(value = "/cetUpperTrain_batchTransfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetUpperTrain_batchTransfer(HttpServletRequest request,
+                                              @RequestParam(value = "ids[]") Integer[] ids,
+                                              Byte cetType,
+                                              Byte specialType,
+                                              Integer projectId) {
+
+        if (null != ids && ids.length > 0) {
+            cetUpperTrainService.batchTransfer(ids, cetType, specialType, projectId);
+            logger.info(addLog(LogConstants.LOG_CET, "批量转移上级调训（%s）至%s的%s",
+                    StringUtils.join(ids, ","), CetConstants.CET_TYPE_T_MAP.get(cetType), CetConstants.CET_UPPER_TRAIN_ST_MAP.get(specialType)));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/cetUpperTrain_batchTransfer")
+    public String cetUpperTrain_batchTransfer(Integer id,
+                                              byte addType,
+                                              ModelMap modelMap) {
+
+        modelMap.put("addType", addType);
+
+        return "cet/cetUpperTrain/cetUpperTrain_batchTransfer";
+    }
+
+        // 上传培训总结
     //@RequiresPermissions("cetUpperTrain:edit")
     @RequestMapping(value = "/cetUpperTrain_uploadNote", method = RequestMethod.POST)
     @ResponseBody
@@ -634,7 +712,7 @@ public class CetUpperTrainController extends CetBaseController {
                     }
                 }
                 if(identityList.size()>0) {
-                    record.setIdentity(StringUtils.join(identityList, ","));
+                    record.setIdentity("," + StringUtils.join(identityList, ",") + ",");
                 }
             }else {
                 record.setIdentity("");
@@ -756,34 +834,112 @@ public class CetUpperTrainController extends CetBaseController {
         return resultMap;
     }
 
-    public void cetUpperTrain_export(CetUpperTrainExample example, HttpServletResponse response) {
+    public void cetUpperTrain_export(CetUpperTrainExample example, Byte type, HttpServletResponse response) {
 
         List<CetUpperTrain> records = cetUpperTrainMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"派出类型|100", "派出单位|100", "参训人|100", "时任单位及职务|100|left",
-                "时任职务属性|100", "培训班主办方|100", "培训班类型|100",
-                "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "培训成绩|100", "是否计入年度学习任务|100"};
+        String[] titles_ow = {"年度|50","参训工号|100","参训人姓名|100","参训人类型|100","时任单位及职务|200","时任职务属性|100"
+                ,"参训人员身份|100","培训班主办方|200","培训班类型|100","培训班名称|200","培训形式|100",
+                "培训开始时间|100","培训结束时间|100","培训学时|70","培训地点|150","培训成绩|100","派出单位|150","是否计入年度学习任务|80","备注|150"};
+        String[] titles_abroad = {"年度|50","参训工号|100","参训人姓名|100","参训人类型|100","时任单位及职务|200","时任职务属性|100"
+                ,"参训人员身份|100","研修方向|200","培训形式|100",
+                "培训开始时间|100","培训结束时间|100","培训学时|70","前往国家|50", "培训地点|100","组织培训机构|100","培训成绩|100","派出单位|150","是否计入年度学习任务|80","备注|150"};
+        String[] titles_school = {"年度|50","参训工号|100","参训人姓名|100","参训人类型|100","时任单位及职务|200","时任职务属性|100"
+                ,"参训人员身份|100","培训类别|100","培训班类型|100","培训班名称|200","培训形式|100",
+                "培训开始时间|100","培训结束时间|100","培训学时|70","培训地点|150","培训成绩|100","是否计入年度学习任务|80","备注|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUpperTrain record = records.get(i);
-            String[] values = {
-                    record.getType() + "",
-                    record.getUnitId() == null ? "" : unitService.findAll().get(record.getUnitId()).getName(),
-                    sysUserService.findById(record.getUserId()).getRealname(),
-                    record.getTitle(),
-                    record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
-                    record.getOrganizer() == 0 ? record.getOtherOrganizer() : CmTag.getMetaTypeName(record.getOrganizer()),
-                    metaTypeService.findAll().get(record.getTrainType()).getName(),
-                    record.getTrainName(),
-                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
-                    record.getPeriod() + "",
-                    record.getScore(),
-                    record.getIsValid() ? "是" : "否",
-            };
-            valuesList.add(values);
+            List<String> _identities = new ArrayList();
+            if (StringUtils.isNotBlank(record.getIdentity())) {
+                String[] identities = record.getIdentity().split(",");
+                for (String identity : identities) {
+                    if (StringUtils.trimToNull(identity) == null)
+                        continue;
+                    _identities.add(metaTypeService.getName(Integer.valueOf(identity)));
+                }
+            }
+            if (type == CetConstants.CET_UPPER_TRAIN_TYPE_OW || type == CetConstants.CET_UPPER_TRAIN_TYPE_UNIT) {
+                String[] values = {
+                        record.getYear() + "",
+                        record.getUser().getCode(),
+                        record.getUser().getRealname(),
+                        record.getTraineeTypeId() == 0 ? record.getOtherTraineeType() : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
+                        record.getTitle(),
+                        record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
+                        record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
+                        record.getOrganizer() != null ? (record.getOrganizer() == 0 ? record.getOtherOrganizer() : metaTypeService.getName(record.getOrganizer())) : "",
+                        metaTypeService.getName(record.getTrainType()),
+                        record.getTrainName(),
+                        record.getIsOnline() ? "线上培训" : "线下培训",
+                        DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                        DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
+                        record.getPeriod() + "",
+                        record.getAddress(),
+                        record.getScore(),
+                        record.getUnitId() == null ? "" : record.getUnit().getName(),
+                        record.getIsValid() ? "是" : "否",
+                        record.getRemark()
+                };
+                valuesList.add(values);
+            }else if (type == CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD){
+                String[] values = {
+                        record.getYear() + "",
+                        record.getUser().getCode(),
+                        record.getUser().getRealname(),
+                        record.getTraineeTypeId() == 0 ? record.getOtherTraineeType() : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
+                        record.getTitle(),
+                        record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
+                        record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
+                        record.getTrainName(),
+                        record.getIsOnline() ? "线上培训" : "线下培训",
+                        DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                        DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
+                        record.getPeriod() + "",
+                        record.getCountry(),
+                        record.getAddress(),
+                        record.getAgency(),
+                        record.getScore(),
+                        record.getUnitId() == null ? "" : record.getUnit().getName(),
+                        record.getIsValid() ? "是" : "否",
+                        record.getRemark()
+                };
+                valuesList.add(values);
+            }else if (type == CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){
+                String[] values = {
+                        record.getYear() + "",
+                        record.getUser().getCode(),
+                        record.getUser().getRealname(),
+                        record.getTraineeTypeId() == 0 ? record.getOtherTraineeType() : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
+                        record.getTitle(),
+                        record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
+                        record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
+                        record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_RC ? "日常培训" : "专题培训",
+                        metaTypeService.getName(record.getTrainType()),
+                        record.getTrainName(),
+                        record.getIsOnline() ? "线上培训" : "线下培训",
+                        DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
+                        DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
+                        record.getPeriod() + "",
+                        record.getAddress(),
+                        record.getScore(),
+                        record.getIsValid() ? "是" : "否",
+                        record.getRemark()
+                };
+                valuesList.add(values);
+            }
         }
-        String fileName = "上级调训或单位培训_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
+        if (type == CetConstants.CET_UPPER_TRAIN_TYPE_OW || type == CetConstants.CET_UPPER_TRAIN_TYPE_UNIT){
+            String str = type == CetConstants.CET_UPPER_TRAIN_TYPE_OW ? "上级调训-组织部派出_" : "上级调训-其他部门派出_";
+            String fileName = str + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles_ow, valuesList, fileName, response);
+        }else if (type == CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD){
+            String fileName = "上级调训-出国研修_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles_abroad, valuesList, fileName, response);
+        }else if (type == CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){
+            String fileName = "党校培训-其他培训_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            ExportHelper.export(titles_school, valuesList, fileName, response);
+        }
+
     }
 }

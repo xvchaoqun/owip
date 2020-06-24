@@ -38,6 +38,7 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -61,8 +62,12 @@ public class CetUnitTrainController extends CetBaseController {
     public String cetUnitTrain_page(Integer projectId,
                                     Integer reRecord,
                                     Integer userId,
+                                    @RequestParam(required = false, value = "identities") Integer[] identities,
                                     ModelMap modelMap) {
 
+        if (null != identities){
+            modelMap.put("selectIdentities", Arrays.asList(identities));
+        }
         modelMap.put("reRecord", reRecord);
 
         modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
@@ -81,8 +86,12 @@ public class CetUnitTrainController extends CetBaseController {
                                     Integer addUserId,
                                     String projectName,
                                     Integer traineeTypeId,
+                                    @RequestParam(required = false, value = "identities") Integer[] identities,
                                     ModelMap modelMap) {
 
+        if (null != identities){
+            modelMap.put("selectIdentities", Arrays.asList(identities));
+        }
         modelMap.put("reRecord", reRecord);
         modelMap.put("projectName", projectName);
         modelMap.put("traineeTypeId", traineeTypeId);
@@ -133,6 +142,12 @@ public class CetUnitTrainController extends CetBaseController {
                                   Integer addUserId,
                                   @RequestDateRange DateRange _startDate,
                                   @RequestDateRange DateRange _endDate,
+                                  Integer partyId,
+                                  String title,
+                                  @RequestParam(required = false, value = "identities") Integer[] identities,
+                                  Integer postType,
+                                  BigDecimal prePeriod,
+                                  BigDecimal subPeriod,
 
                                   Integer reRecord,
                                   @RequestParam(required = false, defaultValue = "0") int export,
@@ -200,15 +215,34 @@ public class CetUnitTrainController extends CetBaseController {
         if (null != addUserId){
             criteria.andAddUserIdEqualTo(addUserId);
         }
+        if (null != traineeTypeId){
+            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
+        }
+        if (partyId != null) {
+            List<Integer> proIds = cetUnitTrainService.getProjectIds(partyId);
+            criteria.andProjectIdIn(proIds);
+        }
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andTitleLike(SqlUtils.like(title));
+        }
+        if (null !=identities){
+            criteria.andIdentityLike(identities);
+        }
+        if (postType != null) {
+            criteria.andPostTypeEqualTo(postType);
+        }
+        if (null != prePeriod){
+            criteria.andPeriodGreaterThanOrEqualTo(prePeriod);
+        }
+        if (null != subPeriod){
+            criteria.andPeriodLessThanOrEqualTo(subPeriod);
+        }
         
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetUnitTrain_export(example, response);
+            cetUnitTrain_export(example, projectId, response);
             return;
-        }
-        if (null != traineeTypeId){
-            criteria.andTraineeTypeIdEqualTo(traineeTypeId);
         }
         
         long count = cetUnitTrainMapper.countByExample(example);
@@ -253,7 +287,7 @@ public class CetUnitTrainController extends CetBaseController {
             return failed("添加重复。");
         }
         record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
-                ? "" : StringUtils.join(identities, ","));
+                ? "" : "," + StringUtils.join(identities, ",") + ",");
         record.setWordNote(upload(_word, "cetUnitTrain_note"));
         record.setPdfNote(uploadPdf(_pdf, "cetUnitTrain_note"));
         
@@ -382,26 +416,37 @@ public class CetUnitTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
     
-    public void cetUnitTrain_export(CetUnitTrainExample example, HttpServletResponse response) {
+    public void cetUnitTrain_export(CetUnitTrainExample example, Integer projectId, HttpServletResponse response) {
         
         List<CetUnitTrain> records = cetUnitTrainMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"参训人|100", "时任单位及职务|100", "职务属性|100", "完成培训学时|100", "培训总结|100", "操作人|100", "添加时间|100"};
+        String[] titles = {"参训人工号|100", "参训人|100", "参训人类型|100", "时任单位及职务|150", "时任职务属性|100", "参训人身份|120", "完成培训学时|100", "培训成绩|100", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUnitTrain record = records.get(i);
+            List<String> _identities = new ArrayList();
+            if (StringUtils.isNotBlank(record.getIdentity())) {
+                String[] identities = record.getIdentity().split(",");
+                for (String identity : identities) {
+                    if (StringUtils.trimToNull(identity) == null)
+                        continue;
+                    _identities.add(metaTypeService.getName(Integer.valueOf(identity)));
+                }
+            }
             String[] values = {
-                    record.getUserId() + "",
+                    record.getUser().getCode(),
+                    record.getUser().getRealname(),
+                    record.getTraineeTypeId() == 0 ? record.getOtherTraineeType() : cetTraineeTypeMapper.selectByPrimaryKey(record.getTraineeTypeId()).getName(),
                     record.getTitle(),
-                    record.getPostType() + "",
+                    record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
+                    record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
                     record.getPeriod() + "",
-                    record.getWordNote(),
-                    record.getAddUserId() + "",
-                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    record.getScore(),
+                    record.getRemark(),
             };
             valuesList.add(values);
         }
-        String fileName = "二级单位培训班培训记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = cetUnitProjectMapper.selectByPrimaryKey(projectId).getProjectName() + "培训记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

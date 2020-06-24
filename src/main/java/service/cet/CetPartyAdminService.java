@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.party.common.OwAdmin;
-import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
@@ -20,8 +19,6 @@ import java.util.List;
 @Service
 public class CetPartyAdminService extends CetBaseMapper {
 
-    @Autowired
-    private PartyMemberService partyMemberService;
     @Autowired
     private SysUserService sysUserService;
 
@@ -85,6 +82,7 @@ public class CetPartyAdminService extends CetBaseMapper {
         CetPartyAdmin cetPartyAdmin = get(cetPartyId, userId);
         if (cetPartyAdmin == null) {
             cetPartyAdminMapper.insert(record);
+            updateAdminCount(cetPartyId);
         } else {
             record.setId(cetPartyAdmin.getId());
             cetPartyAdminMapper.updateByPrimaryKeySelective(record);
@@ -102,6 +100,7 @@ public class CetPartyAdminService extends CetBaseMapper {
         CetParty cetParty = cetPartyMapper.selectByPrimaryKey(cetPartyAdmin.getCetPartyId());
         int userId = cetPartyAdmin.getUserId();
         cetPartyAdminMapper.deleteByPrimaryKey(id);
+        updateAdminCount(cetParty.getId());
 
         // 变更权限
         if (!cetParty.getIsDeleted())
@@ -117,5 +116,17 @@ public class CetPartyAdminService extends CetBaseMapper {
         } else {
             sysUserService.delRole(userId, RoleConstants.ROLE_CET_ADMIN_PARTY);
         }
+    }
+
+    //更新管理员数量
+    @Transactional
+    public void updateAdminCount(Integer cetPartyId){
+        CetPartyAdminExample example = new CetPartyAdminExample();
+        example.createCriteria().andCetPartyIdEqualTo(cetPartyId);
+        long adminCount = cetPartyAdminMapper.countByExample(example);
+        CetParty record = new CetParty();
+        record.setId(cetPartyId);
+        record.setAdminCount((int) adminCount);
+        cetPartyMapper.updateByPrimaryKeySelective(record);
     }
 }

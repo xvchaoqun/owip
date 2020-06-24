@@ -299,7 +299,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
         record.setOtherTraineeType(cetTraineeType.getName());
         record.setIdentity(StringUtils.trimToNull(StringUtils.join(identities, ",")) == null
-                ? "" : StringUtils.join(identities, ","));
+                ? "" : "," + StringUtils.join(identities, ",") + ",");
 
         appendTraineeInfo(cetTraineeType.getCode(), userId, record);
 

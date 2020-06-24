@@ -110,6 +110,7 @@ public class CetPartyService extends CetBaseMapper {
                 int userId = owAdmin.getUserId();
                 cetPartyAdminService.insertOrUpdate(cetParty.getId(), userId);
             }
+            cetPartyAdminService.updateAdminCount(cetParty.getId());
         }
     }
 

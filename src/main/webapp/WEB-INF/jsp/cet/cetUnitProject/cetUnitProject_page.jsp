@@ -6,10 +6,15 @@ pageEncoding="UTF-8" %>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="_PASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS%>" var="_UNPASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_DELETE%>" var="_DELETE"/>
+<c:set value="<%=CetConstants.CET_UPPER_TRAIN_ST_MAP%>" var="CET_UPPER_TRAIN_ST_MAP"/>
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.year ||not empty param.projectName || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.year ||not empty param.projectName ||
+             not empty param.partyId || not empty param.unitId || not empty param.startDate || not empty param.endDate || not empty param.projectType
+             || not empty param.isOnline || not empty param.reportName || not empty param.reporter || not empty param.prePeriod || not empty param.subPeriod
+              || not empty param.address}"/>
 
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${cls==1}">active</c:if>">
@@ -82,6 +87,10 @@ pageEncoding="UTF-8" %>
                     </button>
                 </c:if>
                 </shiro:hasRole>
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                        data-url="${ctx}/cet/cetUnitProject_data"
+                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</button>
                 <shiro:lacksRole name="${ROLE_CET_ADMIN}">
                 <c:if test="${cls==2}">
                     <button data-url="${ctx}/cet/cetUnitProject_del"
@@ -140,6 +149,100 @@ pageEncoding="UTF-8" %>
                             <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
                                    placeholder="请输入">
                         </div>
+                        <div class="form-group">
+                            <label>培训主办方</label>
+                            <select required data-rel="select2-ajax"
+                                    data-width="372"
+                                    data-ajax-url="${ctx}/party_selects"
+                                    name="partyId" data-placeholder="请选择">
+                                <option value="${party.id}">${party.name}</option>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=partyId]").val(${param.cetParty.partyId});
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label>主办单位</label>
+                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                    data-placeholder="请选择所属单位">
+                                <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=unitId]").val(${param.unitId});
+                                $.register.del_select($("#searchForm select[name=unitId]"), 250)
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label>培训开始时间</label>
+                            <div class="input-group tooltip-success" data-rel="tooltip" title="开始时间范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                                <input placeholder="请选择开始时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="startDate" value="${param.startDate}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>培训结束时间</label>
+                            <div class="input-group tooltip-success" data-rel="tooltip" title="结束时间范围">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                                <input placeholder="请选择结束时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="endDate" value="${param.endDate}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>培训班类型</label>
+                            <select data-rel="select2" name="projectType"
+                                    data-width="120"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_cet_upper_train_type2"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=projectType]").val(${param.projectType});
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label>培训形式</label>
+                            <select name="isOnline" data-width="120" data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="1">线上培训</option>
+                                <option value="0">线下培训 </option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=isOnline]").val('${param.isOnline}');
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label>报告名称</label>
+                            <input class="form-control search-query" name="reportName" type="text" value="${param.reportName}"
+                                   placeholder="请输入">
+                        </div>
+                        <div class="form-group">
+                            <label>主讲人</label>
+                            <input class="form-control search-query" name="reporter" type="text" value="${param.reporter}"
+                                   placeholder="请输入">
+                        </div>
+                        <div class="form-group">
+                            <label>培训学时</label>
+                            <div class="input-group">
+                                <input style="width: 50px" class="form-control search-query" type="text" name="prePeriod"
+                                       value="${param.prePeriod}">
+                            </div>
+                            <label>至</label>
+                            <div class="input-group">
+                                <input style="width: 50px" class="form-control search-query"
+                                       type="text"
+                                       name="subPeriod"
+                                       value="${param.subPeriod}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>培训地点</label>
+                            <input class="form-control search-query" name="address" type="text" value="${param.address}"
+                                   placeholder="请输入">
+                        </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
                                    data-url="${ctx}/cet/cetUnitProject?addType=${param.addType}&cls=${cls}"
@@ -164,6 +267,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     $.register.date($('.date-picker'));
     function _report(){
@@ -199,6 +303,10 @@ pageEncoding="UTF-8" %>
                 },
                 {label: '培训班类型', name: 'projectType', width: 120, formatter: $.jgrid.formatter.MetaType},
                 { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
+                {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
+                        if(cellvalue==undefined) return '--'
+                        return _cMap.CET_UPPER_TRAIN_ST_MAP[cellvalue]
+                    }},
                 {label: '报告名称', name: 'reportName', width: 150},
                 {label: '主讲人', name: 'reporter', width: 80},
                 {label: '培训学时', name: 'period', width: 80},
@@ -211,7 +319,7 @@ pageEncoding="UTF-8" %>
                   return cellvalue?'是':'否'
                 }},
                 { label: '备注',name: 'remark', align: 'left', width: 150},
-                {label: '操作人', name: 'addUser.realname'},
+                /*{label: '操作人', name: 'addUser.realname'},*/
                 {label: '添加时间', name: 'addTime', width: 150},
                 {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                     return _cMap.CET_UNIT_PROJECT_STATUS_MAP[cellvalue]
@@ -220,8 +328,8 @@ pageEncoding="UTF-8" %>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$.register.date($('.date-picker'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
 </script>

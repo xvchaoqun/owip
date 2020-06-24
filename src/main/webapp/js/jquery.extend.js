@@ -159,10 +159,10 @@ if (jQuery.validator) {
 
     // 课时
     jQuery.validator.addMethod("period", function (value, element) {
-        var period = /^\d*(\.(5|0))?$/;
+        var period = /^\d*(\.[0-9]{1})?$/;
         //console.log(value + ":" + period.test(value))
         return this.optional(element) || (period.test(value));
-    }, "请输入正确的课时（最小单位0.5小时）");
+    }, "请输入正确的课时（最小单位0.1小时）");
 
     //自定义validate验证输入的数字小数点位数不能大于两位
     jQuery.validator.addMethod("minNumber", function (value, element) {

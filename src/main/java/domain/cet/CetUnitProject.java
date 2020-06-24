@@ -1,6 +1,7 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetPartyMapper;
 import sys.tags.CmTag;
@@ -15,7 +16,9 @@ public class CetUnitProject implements Serializable {
     public SysUserView getAddUser(){
         return CmTag.getUserById(addUserId);
     }
-
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
     public CetParty getCetParty(){
 
         if(cetPartyId==null) return null;
@@ -30,15 +33,17 @@ public class CetUnitProject implements Serializable {
 
     private Integer unitId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date startDate;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endDate;
 
     private String projectName;
 
     private Integer projectType;
+
+    private Byte specialType;
 
     private Boolean isOnline;
 
@@ -128,6 +133,14 @@ public class CetUnitProject implements Serializable {
 
     public void setProjectType(Integer projectType) {
         this.projectType = projectType;
+    }
+
+    public Byte getSpecialType() {
+        return specialType;
+    }
+
+    public void setSpecialType(Byte specialType) {
+        this.specialType = specialType;
     }
 
     public Boolean getIsOnline() {
