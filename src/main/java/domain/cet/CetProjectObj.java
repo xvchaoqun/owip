@@ -2,11 +2,9 @@ package domain.cet;
 
 import domain.sys.SysUserView;
 import persistence.cet.CetDiscussGroupMapper;
-import persistence.cet.CetTrainCourseMapper;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetPlanCourseObjService;
-import service.cet.CetTraineeCourseService;
-import service.cet.CetTraineeService;
+import service.cet.CetTrainObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -39,23 +37,17 @@ public class CetProjectObj implements Serializable {
 
         if (trainCourseId != null) {
             // 培训班选课页面
-            CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
-            CetTraineeCourseView ctc = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+            CetTrainObjService cetTrainObjService = CmTag.getBean(CetTrainObjService.class);
+            CetTrainObjView ctc = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
 
             if (ctc != null) {
                 resultMap.put("canQuit", ctc.getCanQuit());
-                resultMap.put("traineeId", ctc.getTraineeId());
                 resultMap.put("isFinished", ctc.getIsFinished());
                 resultMap.put("chooseTime", ctc.getChooseTime());
                 resultMap.put("chooseUserId", ctc.getChooseUserId());
                 resultMap.put("chooseUserName", ctc.getChooseUserName());
             } else {
                 resultMap.put("canQuit", true);
-                CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
-                CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-                CetTraineeService cetTraineeService = CmTag.getBean(CetTraineeService.class);
-                CetTraineeView cetTraineeView = cetTraineeService.createIfNotExist(userId, cetTrainCourse.getTrainId());
-                resultMap.put("traineeId", cetTraineeView.getId());
             }
         } else if (planCourseId != null) {
             // 培训方案选课页面(自主学习和上级专题班)

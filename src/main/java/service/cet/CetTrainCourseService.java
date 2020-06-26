@@ -221,17 +221,17 @@ public class CetTrainCourseService extends CetBaseMapper {
         return addCount;
     }
 
-    // 获取课程参训人（已选课学员） <userId, CetTraineeCourseView>
-    public Map<Integer, CetTraineeCourseView> findTrainees(int trainCourseId) {
+    // 获取课程参训人（已选课学员） <userId, CetTrainObjView>
+    public Map<Integer, CetTrainObjView> findTrainees(int trainCourseId) {
 
-        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
         example.createCriteria().andTrainCourseIdEqualTo(trainCourseId);
 
-        Map<Integer, CetTraineeCourseView> resultMap = new HashMap<>();
-        List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);
-        for (CetTraineeCourseView cetTraineeCourseView : cetTraineeCourseViews) {
+        Map<Integer, CetTrainObjView> resultMap = new HashMap<>();
+        List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
+        for (CetTrainObjView cetTrainObjView : cetTrainObjViews) {
 
-            resultMap.put(cetTraineeCourseView.getUserId(), cetTraineeCourseView);
+            resultMap.put(cetTrainObjView.getUserId(), cetTrainObjView);
         }
 
         return resultMap;
@@ -241,7 +241,7 @@ public class CetTrainCourseService extends CetBaseMapper {
     /*public TreeNode selectObjs_tree(int trainCourseId) {
 
         // 已选课参训人员（包含本人选课的）
-        Map<Integer, CetTraineeCourseView> trainees = findTrainees(trainCourseId);
+        Map<Integer, CetTrainObjView> trainees = findTrainees(trainCourseId);
         Set<Integer> selectedUserIdSet = trainees.keySet();
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
@@ -280,7 +280,7 @@ public class CetTrainCourseService extends CetBaseMapper {
 
                 if(selectedUserIdSet.contains(userId)){
 
-                    CetTraineeCourseView ctee = trainees.get(userId);
+                    CetTrainObjView ctee = trainees.get(userId);
                     if(ctee.getCanQuit()){
                         node.addClass = "self"; // 本人已选课的
                     }else{
@@ -309,7 +309,7 @@ public class CetTrainCourseService extends CetBaseMapper {
     public void selectObjs(int trainCourseId, Integer[] userIds) {
 
         // 已选课参训人员（包含本人选课的）
-        Map<Integer, CetTraineeCourseView> trainees = findTrainees(trainCourseId);
+        Map<Integer, CetTrainObjView> trainees = findTrainees(trainCourseId);
         // 本次待删除的参训人
         Set<Integer> removeUserIdSet = trainees.keySet();
         if(userIds!=null && userIds.length>0) {
@@ -317,7 +317,7 @@ public class CetTrainCourseService extends CetBaseMapper {
         }
         for (int userId : removeUserIdSet) {
 
-            CetTraineeCourseView ctc = trainees.get(userId);
+            CetTrainObjView ctc = trainees.get(userId);
             if(ctc.getCanQuit()){
                 // 本人选课，不处理
                 continue;
@@ -327,7 +327,7 @@ public class CetTrainCourseService extends CetBaseMapper {
                     throw new OpException("参训人{0}已上课签到，不可删除。", uv.getRealname());
                 }
                 // 退课
-                cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, "退课");
+                cetTrainObjService.applyItem(userId, trainCourseId, false, true, "退课");
             }
         }
 
@@ -355,22 +355,22 @@ public class CetTrainCourseService extends CetBaseMapper {
                     traineeId = record.getId();
                 }
 
-                CetTraineeCourseView ctc = trainees.get(userId);
+                CetTrainObjView ctc = trainees.get(userId);
                 if (ctc == null) {
                     // 选课
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, "必选课");
+                    cetTrainObjService.applyItem(userId, trainCourseId, true, true, "必选课");
                 } else {
                     Boolean canQuit = ctc.getCanQuit();
                     if (canQuit) {
                         // 本人已选课，修改为必选课
-                        CetTraineeCourse record = new CetTraineeCourse();
+                        CetTrainObj record = new CetTrainObj();
                         record.setId(ctc.getId());
                         record.setCanQuit(false);
-                        cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                        cetTrainObjMapper.updateByPrimaryKeySelective(record);
 
                         sysApprovalLogService.add(traineeId, userId,
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                                 "修改为必选课", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                                 cetTrainCourse.getCetCourse().getName());
                     }

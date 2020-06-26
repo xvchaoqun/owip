@@ -49,7 +49,7 @@
                     <div class="panel panel-default" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="text-danger bolder"><i
-                                    class="fa fa-times-rectangle-o"></i>   可选课列表</span>
+                                    class="fa fa-times-rectangle-o"></i>   未选课列表</span>
                             </h3>
                         </div>
                         <div class="collapse in">

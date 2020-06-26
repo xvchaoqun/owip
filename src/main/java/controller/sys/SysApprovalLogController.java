@@ -2,8 +2,7 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.abroad.ApplySelf;
-import domain.cet.CetProjectObj;
-import domain.cet.CetTrainee;
+import domain.cet.CetTrainObj;
 import domain.crs.CrsApplicant;
 import domain.dp.DpParty;
 import domain.pmd.PmdMember;
@@ -18,8 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.abroad.ApplySelfMapper;
-import persistence.cet.CetProjectObjMapper;
-import persistence.cet.CetTraineeMapper;
+import persistence.cet.CetTrainObjMapper;
 import persistence.crs.CrsApplicantMapper;
 import persistence.dp.DpPartyMapper;
 import persistence.pmd.PmdMemberMapper;
@@ -46,9 +44,7 @@ public class SysApprovalLogController extends BaseController {
     @Autowired(required = false)
     private DpPartyMapper dpPartyMapper;
     @Autowired(required = false)
-    private CetTraineeMapper cetTraineeMapper;
-    @Autowired(required = false)
-    private CetProjectObjMapper cetProjectObjMapper;
+    private CetTrainObjMapper cetTrainObjMapper;
     @Autowired(required = false)
     private ApplySelfMapper applySelfMapper;
     @Autowired(required = false)
@@ -77,10 +73,9 @@ public class SysApprovalLogController extends BaseController {
                     userId = pmdMember.getUserId();
                     break;
                 }
-                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE: {
-                    CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(id);
-                    CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
-                    userId = cetProjectObj.getUserId();
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ: {
+                    CetTrainObj cetTrainObj = cetTrainObjMapper.selectByPrimaryKey(id); // ??
+                    userId = cetTrainObj.getUserId();
                     break;
                 }
                 case SystemConstants.SYS_DP_LOG_TYPE_PARTY: {

@@ -48,23 +48,6 @@ select ct.*, cp.year, cpp.project_id from cet_train ct
 left join cet_project_plan cpp on cpp.id=ct.plan_id
 left join cet_project cp on cp.id = cpp.project_id;
 
-DROP VIEW IF EXISTS `cet_trainee_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_view` AS
-select ctee.*, cpo.user_id, cpo.trainee_type_id, cpo.project_id, cpo.is_quit as obj_is_quit,
-ct.plan_id,
-sum(cc.period) as total_period,
-sum(if(cteec.is_finished, cc.period, 0)) finish_period,
--- 选课总数
-count(cc.id) course_count,
--- 签到总数
-sum(if(cteec.is_finished, 1,0)) finish_count
-from cet_trainee ctee
-left join cet_project_obj cpo on ctee.obj_id=cpo.id
-left join cet_train ct on ct.id = ctee.train_id
-left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
-left join cet_train_course ctc on ctc.id=cteec.train_course_id
-left join cet_course cc on cc.id=ctc.course_id group by ctee.id;
-
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
 select ctc.*,
@@ -76,25 +59,34 @@ cteec.finish_count,
 ctic.eva_finish_count
 from cet_train_course ctc
 left join (select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count
-from  cet_trainee_course group by train_course_id) cteec on ctc.id=cteec.train_course_id
+from  cet_train_obj group by train_course_id) cteec on ctc.id=cteec.train_course_id
 left join (select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course group by train_course_id)
  ctic on ctc.id=ctic.train_course_id;
 
-DROP VIEW IF EXISTS `cet_trainee_course_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
-select cteec.id as id,cteec.trainee_id as trainee_id,cteec.train_course_id as train_course_id,
-cteec.can_quit as can_quit,cteec.is_finished as is_finished,cteec.sign_time as sign_time,cteec.sign_out_time as sign_out_time,
-cteec.sign_type as sign_type,cteec.remark as remark,cteec.choose_time as choose_time,cteec.choose_user_id as choose_user_id,
-cteec.ip as ip,ctee.train_id as train_id,cpo.project_id as project_id,cpo.trainee_type_id as trainee_type_id,
-cpo.user_id as user_id,ctc.course_id as course_id,cc.period as period,cp.year as year,uv.code as choose_user_code,uv.realname as choose_user_name
-from cet_trainee_course cteec
-left join cet_trainee ctee on cteec.trainee_id=ctee.id
-left join cet_project_obj cpo on cpo.id=ctee.obj_id
-left join cet_train_course ctc on ctc.id=cteec.train_course_id
-left join cet_train ct on ct.id=ctee.train_id
+DROP VIEW IF EXISTS `cet_train_obj_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_train_obj_view` AS
+select cto.id as id,cto.train_id, cto.user_id, cto.train_course_id as train_course_id,
+cto.can_quit as can_quit,cto.is_finished as is_finished,cto.sign_time as sign_time,cto.sign_out_time as sign_out_time,
+cto.sign_type as sign_type,cto.remark as remark,cto.choose_time as choose_time,cto.choose_user_id as choose_user_id,
+cto.ip as ip,cpo.project_id as project_id,cpo.trainee_type_id as trainee_type_id, ct.plan_id,
+cpo.is_quit, ctc.course_id as course_id,cc.period as period,cp.year as year,uv.code as choose_user_code,uv.realname as choose_user_name
+from cet_train_obj cto
+left join cet_train ct on ct.id=cto.train_id
+left join cet_project_plan cpp on ct.plan_id=cpp.id
+left join cet_project_obj cpo on cpo.project_id=cpp.project_id and cpo.user_id=cto.user_id
+left join cet_train_course ctc on ctc.id=cto.train_course_id
 left join cet_course cc on cc.id=ctc.course_id
 left join cet_project cp on cp.id=cpo.project_id
-left join sys_user_view uv on uv.id=cteec.choose_user_id order by cpo.id;
+left join sys_user_view uv on uv.id=cto.choose_user_id order by cpo.id;
+
+DROP VIEW IF EXISTS `cet_trainee_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_view` AS
+select user_id, trainee_type_id, project_id, plan_id, train_id, is_quit as obj_is_quit,
+       count(*) as course_count,
+       sum(if(is_finished, 1, 0)) as finish_count,
+       sum(period) as total_period,
+       sum(if(is_finished, period, 0)) as finish_period
+from cet_train_obj_view group by user_id, train_id;
 
 DROP VIEW IF EXISTS `cet_train_inspector_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_inspector_view` AS
@@ -125,10 +117,10 @@ group by ctc.id;
 
 DROP VIEW IF EXISTS `cet_expert_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_expert_view` AS
-select ce.* , count(distinct cc.id) as course_num, count(distinct cteec.trainee_id) as trainee_num from cet_expert ce
+select ce.* , count(distinct cc.id) as course_num, count(distinct cto.train_id, cto.obj_id) as trainee_num from cet_expert ce
 left join cet_course cc on cc.expert_id=ce.id
 left join cet_train_course ctc on ctc.course_id=cc.id
-left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
+left join cet_train_obj cto on cto.train_course_id=ctc.id
 group by ce.id;
 
 

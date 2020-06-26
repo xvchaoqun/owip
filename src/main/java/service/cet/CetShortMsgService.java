@@ -37,7 +37,7 @@ public class CetShortMsgService extends CetBaseMapper {
     @Autowired
     protected CetCourseService cetCourseService;
     @Autowired
-    protected CetTraineeCourseService cetTraineeCourseService;
+    protected CetTrainObjService cetTrainObjService;
     @Autowired
     protected SysUserService sysUserService;
 
@@ -48,23 +48,19 @@ public class CetShortMsgService extends CetBaseMapper {
         厦三层第六会议室开课， 请安排好工作按时上课。 联系电话： 58806798。 谢谢！ [系统短信， 请勿直接回复]
      */
     @Transactional
-    public boolean sendMsg_2(int traineeId, int trainCourseId) {
+    public boolean sendMsg_2(int userId, int trainCourseId) {
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_2);
         if (tpl == null) return false;
 
-        CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-        if (cetTrainee == null) return false;
-        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
-        if (cetProjectObj == null) return false;
-        CetTraineeCourse cetTraineeCourse = cetTraineeCourseService.get(traineeId, trainCourseId);
+        CetTrainObjView cetTrainObj = cetTrainObjService.get(userId, trainCourseId);
         // 已签到则不发
-        if(cetTraineeCourse==null || cetTraineeCourse.getIsFinished()) return false;
+        if(cetTrainObj==null || cetTrainObj.getIsFinished()) return false;
 
-        CetTrainCourse cetTrainCourse = cetTraineeCourse.getCetTrainCourse();
+        CetTrainCourse cetTrainCourse = cetTrainObj.getCetTrainCourse();
         if(cetTrainCourse==null && cetTrainCourse.getStartTime().after(new Date())) return false;
 
-        return sendMsg2(cetTrainCourse, cetProjectObj.getUserId(), null);
+        return sendMsg2(cetTrainCourse, cetTrainObj.getUserId(), null);
     }
 
     // userId=null, 则给指定的mobile发送，否则给userId对应的手机号发送
@@ -141,7 +137,7 @@ public class CetShortMsgService extends CetBaseMapper {
         CetTrainCourse cetTrainCourse = iCetMapper.getTomorrowFirstCourse(traineeId);
         if(cetTrainCourse==null) return false;
 
-        CetTraineeCourse cteec = cetTraineeCourseService.get(traineeId, cetTrainCourse.getId());
+        CetTrainObj cteec = cetTrainObjService.get(traineeId, cetTrainCourse.getId());
         if(cteec==null) return false;
         // 已签到
         if(cteec.getIsFinished()) return false;
@@ -323,13 +319,13 @@ public class CetShortMsgService extends CetBaseMapper {
         for (CetTrainCourse cetTrainCourse : todayTrainCourseList) {
 
             int trainCourseId = cetTrainCourse.getId();
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(trainCourseId)
                     .andIsFinishedEqualTo(false);
-            List<CetTraineeCourse> cetTraineeCourses = cetTraineeCourseMapper.selectByExample(example);
+            List<CetTrainObjView> cetTrainObjs = cetTrainObjViewMapper.selectByExample(example);
 
-            for (CetTraineeCourse cetTraineeCourse : cetTraineeCourses) {
-                if(sendMsg_2(cetTraineeCourse.getTraineeId(), trainCourseId)) successCount++;
+            for (CetTrainObjView cetTrainObj : cetTrainObjs) {
+                if(sendMsg_2(cetTrainObj.getUserId(), trainCourseId)) successCount++;
             }
         }
         return successCount;

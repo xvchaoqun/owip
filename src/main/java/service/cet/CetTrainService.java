@@ -1,9 +1,11 @@
 package service.cet;
 
-import domain.cet.*;
+import domain.cet.CetTrain;
+import domain.cet.CetTrainExample;
+import domain.cet.CetTrainView;
+import domain.cet.CetTrainViewExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.CetConstants;
@@ -12,9 +14,6 @@ import java.util.*;
 
 @Service
 public class CetTrainService extends CetBaseMapper {
-
-    @Autowired
-    private CetTraineeService cetTraineeService;
 
     public CetTrainView getView(int trainId){
 
@@ -32,33 +31,7 @@ public class CetTrainService extends CetBaseMapper {
         record.setIsDeleted(false);
         record.setCreateTime(new Date());
         cetTrainMapper.insertSelective(record);
-
-        int trainId = record.getId();
-        // 同步培训班学员
-        if(record.getPlanId()!=null){
-            CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(record.getPlanId());
-            CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andProjectIdEqualTo(cetProjectPlan.getProjectId());
-            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
-            for (CetProjectObj cetProjectObj : cetProjectObjs) {
-                cetTraineeService.createIfNotExist(cetProjectObj.getUserId(), trainId);
-            }
-        }
     }
-
-    /*@Transactional
-    public void fakeDel(Integer[] ids){
-
-        if(ids==null || ids.length==0) return;
-
-        CetTrainExample example = new CetTrainExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        CetTrain record = new CetTrain();
-        record.setIsDeleted(true);
-
-        cetTrainMapper.updateByExampleSelective(record, example);
-    }*/
 
     // 彻底删除
     @Transactional

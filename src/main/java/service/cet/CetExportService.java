@@ -48,7 +48,7 @@ public class CetExportService extends CetBaseMapper {
     @Autowired
     private CetProjectPlanService cetProjectPlanService;
     @Autowired
-    private CetTraineeCourseService cetTraineeCourseService;
+    private CetTrainObjService cetTrainObjService;
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
     @Autowired
@@ -163,7 +163,7 @@ public class CetExportService extends CetBaseMapper {
             SysUserView uv = sysUserService.findById(userId);
             CadreView cv = cadreService.dbFindByUserId(userId);
             
-            CetTraineeCourseView teev = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+            CetTrainObjView teev = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
             int column = 0;
             row = sheet.getRow(startRow++);
             // 序号

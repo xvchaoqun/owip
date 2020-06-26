@@ -25,10 +25,8 @@
 
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
                extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
-        <result column="obj_id" jdbcType="INTEGER" property="objId"/>
-        <!--<result column="course_count" jdbcType="INTEGER" property="courseCount"/>
-        <result column="total_period" jdbcType="DECIMAL" property="totalPeriod"/>
-        <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>-->
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
     </resultMap>
 
     <sql id="selectUserList_where">
@@ -74,9 +72,9 @@
 
     <!-- // 获取培训对象在每年或某个培训项目中的培训方案中的已完成学时（针对线下培训、线上培训和实践教学）-->
     <select id="getPlanFinishPeriod" parameterType="map" resultType="DECIMAL">
-        select sum(finish_period) from cet_trainee_view ctv
-            LEFT JOIN cet_project cp ON ctv.project_id=cp.id
-            LEFT JOIN cet_project_plan cpp ON ctv.plan_id=cpp.id
+        select sum(if(ctov.is_finished, ctov.period, 0)) from cet_train_obj_view ctov
+            LEFT JOIN cet_project cp ON ctov.project_id=cp.id
+            LEFT JOIN cet_project_plan cpp ON ctov.plan_id=cpp.id
             <where>
                 <if test="year!=null">
                     and cp.year=#{year}
@@ -84,7 +82,7 @@
                 <if test="projectId!=null">
                     and cp.id=#{projectId}
                 </if>
-                and cp.is_valid=1 and cpp.type=${type} and ctv.user_id=#{userId}
+                and cp.is_valid=1 and cpp.type=${type} and ctov.user_id=#{userId}
             </where>
     </select>
 
@@ -109,22 +107,22 @@
     </select>
 
     <sql id="searchTrains">
-        where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
-        and cpo.is_quit=0
-        and cpo.user_id=#{userId} and ct.is_deleted=0
+        where o.is_quit=0 and o.user_id=#{userId} and ct.is_deleted=0
         <if test="isFinished!=null">
             and ct.is_finished = #{isFinished}
         </if>
     </sql>
     <!-- 查询参训人的培训班列表 -->
     <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
-        select ct.*, cpo.id as obj_id
-        from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
+        select ct.*, o.user_id, count(o.id) as course_count
+        from cet_train_view ct
+          left join cet_train_obj o on ct.id=o.train_id
+         group by o.user_id
         <include refid="searchTrains"/>
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id) from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
+        select count(ct.id) from cet_train_view ct left join cet_train_obj o on ct.id=o.train_id
         <include refid="searchTrains"/>
     </select>
 
@@ -153,7 +151,7 @@
     <!--未选课学员-->
     <select id="notApplyUserIds" parameterType="map" resultType="java.lang.Integer">
         select user_id from cet_project_obj cpo
-        where cpo.project_id = #{projectId} and not exists(select 1 from cet_trainee_course_view where train_course_id in
+        where cpo.project_id = #{projectId} and not exists(select 1 from cet_train_obj_view where train_course_id in
         <foreach collection="trainCourseIds" item="trainCourseId" separator="," open="(" close=")">
             #{trainCourseId}
         </foreach>

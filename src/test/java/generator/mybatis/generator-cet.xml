@@ -52,9 +52,9 @@
         <!--<table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
+        <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain"
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -71,12 +71,6 @@
         </table>-->
 
         <!--<table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
-        </table>
-        <table tableName="cet_party_view" domainObjectName="cet.CetPartyView"
-               mapperName="cet.CetPartyViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
         </table>-->
 
         <!--<table tableName="cet_unit_view" domainObjectName="cet.CetUnitView"
@@ -192,38 +186,25 @@
         <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
             <columnOverride column="msg" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
-        </table>-->
+
         <!--<table tableName="cet_code_wx_sign" domainObjectName="cet.CetCodeWxSign" mapperName="cet.CetCodeWxSignMapper">
         </table>-->
-        <!--<table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
-               mapperName="cet.CetTraineeCourseViewMapper"
+
+        <!--<table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!--<table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
+               mapperName="cet.CetTrainObjViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>-->
-        <!--<table tableName="cet_trainee_course_cadre_view" domainObjectName="cet.CetTraineeCourseCadreView"
-               mapperName="cet.CetTraineeCourseCadreViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
-        <!--<table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
+        <table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
                mapperName="cet.CetTraineeViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-            <columnOverride column="id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="train_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="obj_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="course_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="is_quit" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->

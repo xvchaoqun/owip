@@ -81,7 +81,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-warning">
                                 <li>
-                                    <a href="javascript:;" id="signBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
+                                    <a href="javascript:;" id="signBtn" data-url="${ctx}/cet/cetTrainObj_sign"
                                        data-title="签到"
                                        data-msg="已选{0}位参训人员，确定签到？（已上课）"
                                        data-grid-id="#jqGrid_popup"
@@ -90,7 +90,7 @@
                                        class="jqBatchBtn"><i class="fa fa-arrow-right"></i> 批量签到</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" id="unSignBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
+                                    <a href="javascript:;" id="unSignBtn" data-url="${ctx}/cet/cetTrainObj_sign"
                                        data-title="还原"
                                        data-msg="已选{0}位参训人员，确定还原？（上课情况将重置为未上课）"
                                        data-grid-id="#jqGrid_popup"
@@ -101,14 +101,14 @@
                                 <li class="divider"></li>
                                 <li>
                                     <a href="javascript:;" class="confirm"
-                                       data-url="${ctx}/cet/cetTraineeCourse_sign?trainCourseId=${param.trainCourseId}&sign=1"
+                                       data-url="${ctx}/cet/cetTrainObj_sign?trainCourseId=${param.trainCourseId}&sign=1"
                                        data-callback="_popupReload"
                                        data-title="全部签到"
                                        data-msg="确定全部签到？"><i class="fa fa-arrow-right"></i> 全部签到</a>
                                 </li>
                                 <li>
                                     <a href="javascript:;" class="confirm"
-                                       data-url="${ctx}/cet/cetTraineeCourse_sign?trainCourseId=${param.trainCourseId}&sign=0"
+                                       data-url="${ctx}/cet/cetTrainObj_sign?trainCourseId=${param.trainCourseId}&sign=0"
                                        data-callback="_popupReload"
                                        data-title="全部还原"
                                        data-msg="确定全部还原？（上课情况将全部重置为未上课）"><i class="fa fa-arrow-right"></i> 全部还原（未签到）</a>
@@ -118,7 +118,7 @@
                     </div>
                 </form>
                 <form class="form-inline search-form" id="popup_uploadForm"
-                      action="${ctx}/cet/cetTraineeCourse_sign_import" method="post" style="padding-bottom: 0;">
+                      action="${ctx}/cet/cetTrainObj_sign_import" method="post" style="padding-bottom: 0;">
                     <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
                     <div class="form-group" style="width: 200px;margin: 0 10px;">
                         <input class="form-control" type="file" name="xlsx" extension="xlsx"/>
@@ -210,7 +210,6 @@
     </div>
     {{}}}
 </script>
-<jsp:include page="../cetTrainee/cetTrainee_colModel.jsp?type=sign"/>
 <script src="${ctx}/extend/js/clipboard.min.js"></script>
 <script>
 
@@ -248,6 +247,8 @@
         $("#jqGrid2").trigger("reloadGrid");
     }
     $.register.user_select($("#popup_searchForm select[name=userId]"));
+
+    var cetTraineeTypeMap = ${cm:toJSONObject(cetTraineeTypeMap)};
     $("#jqGrid_popup").jqGrid({
         height: 390,
         width: 950,
@@ -256,7 +257,23 @@
         },
         pager: "jqGridPager_popup",
         url: "${ctx}/cet/cetTrainCourse_trainee_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}",
-        colModel: colModel,
+        colModel: [
+            {name:'isFinished', hidden:true},
+              { label: '上课情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
+                  return rowObject.isFinished?'<span class="text-success">已上课</span>':'<span class="text-danger">未上课</span>'
+              }},
+              {label: '签到时间', name: 'signTime', width: 160},
+              {label: '签退时间', name: 'signOutTime', width: 160},
+              {label: '签到方式', name: 'signType', width: 80, formatter: function (cellvalue, options, rowObject){
+                  if(cellvalue==undefined) return '--'
+                  return _cMap.CET_TRAINEE_SIGN_TYPE_MAP[cellvalue];
+              } },
+              {label: '参训人类别', name: 'traineeTypeId', width: 120, formatter: function (cellvalue, options, rowObject) {
+                  return cetTraineeTypeMap[cellvalue].name;
+              }},
+              {label: '工作证号', name: 'user.code', width: 110, frozen: true},
+              {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+        ],
         onSelectRow: function (id, status) {
             //saveJqgridSelected("#" + this.id, id, status);
             _popup_onSelectRow(this)

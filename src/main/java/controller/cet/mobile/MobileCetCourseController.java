@@ -19,7 +19,7 @@ public class MobileCetCourseController extends CetBaseController {
     @RequestMapping("/courseList_page")
     public String courseList_page(int trainId, ModelMap modelMap) throws IOException {
 
-        cetTraineeCourseService.trainDetail(trainId, modelMap);
+        cetTrainObjService.trainDetail(trainId, modelMap);
 
         return "cet/mobile/courseList_page";
     }

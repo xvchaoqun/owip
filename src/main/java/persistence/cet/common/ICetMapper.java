@@ -88,7 +88,7 @@ public interface ICetMapper {
     public List<Integer> getCetProjectObjIds(@Param("projectId") Integer projectId);
 
     // 专题培训 - 已选课学员列表
-    @Select("select distinct user_id from cet_trainee_course_view where project_id=#{projectId}")
+    @Select("select distinct user_id from cet_train_obj_view where project_id=#{projectId}")
     public List<Integer> getCetProjectHasApplyUserIds(@Param("projectId") Integer projectId);
 
     // 学员的培训列表
@@ -102,7 +102,6 @@ public interface ICetMapper {
                                        @Param("year") Integer year,
                                        @Param("name") String name);
 
-
     // 学员的培训班列表
     public List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId,
                                                   @Param("hasSelected") Boolean hasSelected,
@@ -115,25 +114,28 @@ public interface ICetMapper {
 
     // 学员已选课程
     @ResultMap("persistence.cet.common.ICetMapper.ICetTrainCourseBaseResultMap")
-    @Select("select ctc.*, cteec.can_quit, cteec.is_finished from cet_trainee_course cteec, cet_train_course ctc " +
-            "where cteec.trainee_id=#{traineeId} and cteec.train_course_id=ctc.id order by ctc.sort_order asc")
-    public List<ICetTrainCourse> selectedCetTrainCourses(@Param("traineeId") Integer traineeId);
+    @Select("select ctc.*, cto.can_quit, cto.is_finished from cet_train_obj cto, cet_train_course ctc " +
+            "where cto.train_id=#{trainId} and cto.user_id=#{userId} and cto.train_course_id=ctc.id order by ctc.sort_order asc")
+    public List<ICetTrainCourse> selectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
 
     // 学员未选课程
     @ResultMap("persistence.cet.CetTrainCourseViewMapper.BaseResultMap")
     @Select("select * from cet_train_course_view ctc where ctc.train_id=#{trainId} and " +
-            " not exists(select 1 from cet_trainee_course where train_course_id=ctc.id and trainee_id=#{traineeId}) order by ctc.sort_order asc")
-    public List<CetTrainCourseView> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
-                                                              @Param("traineeId") Integer traineeId);
+            " not exists(select 1 from cet_train_obj cto where cto.train_course_id=ctc.id " +
+            "and cto.train_id=#{trainId} and cto.user_id=#{userId}) order by ctc.sort_order asc")
+    public List<CetTrainCourseView> unSelectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
 
     // 已选课学员
-    @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId} order by choose_time asc")
+    @Select("select user_id from cet_train_obj_view where train_course_id=#{trainCourseId} order by choose_time asc")
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
     // 培训班已选课学员数量
-    @Select("select count(distinct cteec.trainee_id) from cet_trainee_course cteec, cet_trainee ctee, cet_train_course ctc \n" +
-            "where cteec.trainee_id=ctee.id and cteec.train_course_id=ctc.id and ctc.train_id=#{trainId}")
+    @Select("select count(distinct user_id) from cet_train_obj where train_id=#{trainId}")
     public int traineeCount(@Param("trainId") Integer trainId);
+
+    // 某培训方案中学员已选的培训班
+    @Select("select distinct train_id from cet_train_obj_view where user_id=#{userId} and plan_id=#{planId}")
+    public List<Integer> selectTrainIds(@Param("userId") Integer userId, @Param("planId") Integer planId);
 
     // 已分组学员
     public List<Integer> groupUserIds(@Param("discussGroupId") int discussGroupId,
@@ -182,22 +184,6 @@ public interface ICetMapper {
                                @Param("name") String name,
                                @Param("courseTypes") Byte[] courseTypes);
 
-    // 获取参训人员第二天的第一堂课
-    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select ctc.* from cet_train_course ctc, cet_trainee_course cteec " +
-            "where ctc.id = cteec.train_course_id and cteec.trainee_id=#{traineeId} and " +
-            "left(ctc.start_time, 10) = date_add(curdate(),interval 1 day) " +
-            "order by ctc.start_time asc limit 1")
-    public CetTrainCourse getTomorrowFirstCourse(@Param("traineeId") int traineeId);
-
-    // 获取参训人员当天还未开课的第一堂课
-    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select ctc.* from cet_train_course ctc, cet_trainee_course cteec " +
-            "where ctc.id = cteec.train_course_id and cteec.trainee_id=#{traineeId} and " +
-            "left(ctc.start_time, 10) = curdate() and ctc.start_time > now() " +
-            "order by ctc.start_time asc limit 1")
-    public CetTrainCourse getTodayFirstCourse(@Param("traineeId") int traineeId);
-
     // 获取当天还未开课课程
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
     @Select("<script>" + "select * from cet_train_course " +
@@ -230,9 +216,9 @@ public interface ICetMapper {
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
-    @Select("select sum(ctv.finish_period) from cet_trainee_view ctv " +
+    @Select("select sum(ctv.finish_period) from cet_train_obj_view ctov " +
             "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
-            "where cp.is_valid=1 and ctv.plan_id=#{planId} and ctv.obj_id=#{objId}")
+            "where cp.is_valid=1 and ctov.plan_id=#{planId} and ctov.obj_id=#{objId}")
     public BigDecimal getProjectPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
@@ -242,7 +228,7 @@ public interface ICetMapper {
                                           @Param("year") Integer year,
                                           @Param("projectId") Integer projectId);
 
-    @Select("select obj_id as objId, sum(finish_period) as period from cet_trainee_view where plan_id=#{planId} group by obj_id")
+    @Select("select obj_id as objId, sum(if(is_finished, period, 0)) as period from cet_train_obj_view where plan_id=#{planId} group by obj_id")
     public List<FinishPeriodBean> getPlanFinishPeriods(@Param("planId") int planId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对自主学习）
@@ -306,11 +292,10 @@ public interface ICetMapper {
     public List<FinishPeriodBean> getWriteFinishPeriods(@Param("planId") int planId);
 
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
-    @Select("select user_id as userId, sum(period) as yearPeriod from cet_trainee_course_view cteecv  " +
+    @Select("select user_id as userId, sum(period) as yearPeriod from cet_train_obj_view  " +
             "where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
             "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id) " +
-            "and user_id in (select cpo.user_id from  cet_trainee ctee, cet_project_obj cpo " +
-            "where ctee.train_id=#{trainId} and ctee.obj_id=cpo.id) group by user_id")
+            "and train_id=#{trainId} group by user_id")
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 
     // 一个培训班内，每个参训人对每个课程的评价情况

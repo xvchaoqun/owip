@@ -56,7 +56,7 @@
                 'data-url="${ctx}/cet/cetTrain_summary?view=1&id={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.trainId);
             }},
-            { label: '选课总学时',name: 'totalPeriod'},
+            { label: '已选课总学时',name: 'totalPeriod'},
             { label: '完成学时数',name: 'finishPeriod'},
             { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(rowObject.totalPeriod)==0) return '--'

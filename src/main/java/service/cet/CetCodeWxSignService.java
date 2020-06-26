@@ -1,17 +1,9 @@
 package service.cet;
 
-import domain.cet.*;
-import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import persistence.cet.CetCodeWxSignMapper;
 import service.sys.SysApprovalLogService;
-import sys.constants.SystemConstants;
-import sys.tags.CmTag;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class CetCodeWxSignService extends CetBaseMapper{
@@ -21,7 +13,7 @@ public class CetCodeWxSignService extends CetBaseMapper{
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
 
-
+/*
     public CetCodeWxSign getByCode(String code){
 
         CetCodeWxSignExample example = new CetCodeWxSignExample();
@@ -43,16 +35,16 @@ public class CetCodeWxSignService extends CetBaseMapper{
     }
 
     //根据trainCourseId和userId得到参训情况
-    public CetTraineeCourseView getcetTraineeCourseView(String code, String trainCourse){
+    public CetTrainObjView getcetTrainObjView(String code, String trainCourse){
         SysUserView uv = CmTag.getUserByCode(code);
 
         if (uv != null) {
-            CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+            CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(Integer.valueOf(trainCourse)).andUserIdEqualTo(uv.getUserId());
-            List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);
+            List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
 
 
-            return cetTraineeCourseViews.size() > 0 ? cetTraineeCourseViews.get(0) : null;
+            return cetTrainObjViews.size() > 0 ? cetTrainObjViews.get(0) : null;
         }
         return null;
     }
@@ -76,17 +68,17 @@ public class CetCodeWxSignService extends CetBaseMapper{
 
     // 签到签退
     @Transactional
-    public void sign(CetTraineeCourseView record, boolean sign, byte signType, Date signTime) {
+    public void sign(CetTrainObjView record, boolean sign, byte signType, Date signTime) {
 
             Integer traineeCourseId = record.getId();
-            CetTraineeCourse cetTraineeCourse = cetTraineeCourseMapper.selectByPrimaryKey(traineeCourseId);
-            int traineeId = cetTraineeCourse.getTraineeId();
+            CetTrainObj cetTrainObj = cetTrainObjMapper.selectByPrimaryKey(traineeCourseId);
+            int traineeId = cetTrainObj.getTraineeId();
             CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
             CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
             int userId = cetProjectObj.getUserId();
-            String courseName = cetTraineeCourse.getCetTrainCourse().getCetCourse().getName();
+            String courseName = cetTrainObj.getCetTrainCourse().getCetCourse().getName();
 
-            CetTraineeCourse _record = new CetTraineeCourse();
+            CetTrainObj _record = new CetTrainObj();
             _record.setIsFinished(sign);
             _record.setSignType(signType);
             if (sign){
@@ -95,15 +87,15 @@ public class CetCodeWxSignService extends CetBaseMapper{
                 _record.setSignTime(signTime);
             }
 
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            CetTrainObjExample example = new CetTrainObjExample();
             example.createCriteria().andIdEqualTo(traineeCourseId);
 
-            cetTraineeCourseMapper.updateByExampleSelective(_record, example);
+            cetTrainObjMapper.updateByExampleSelective(_record, example);
 
             sysApprovalLogService.add(traineeId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                     sign ? "签到" : "还原", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
-    }
+    }*/
 
 }

@@ -1,20 +1,40 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import persistence.cet.CetTrainCourseMapper;
+import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CetTraineeCourseView implements Serializable {
+public class CetTrainObjView implements Serializable {
+
+    public CetTrainCourse getCetTrainCourse(){
+
+        if(trainCourseId==null) return null;
+        CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
+
+        return cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+    }
+
+    public CetTrain getCetTrain(){
+
+        if(trainId==null) return null;
+        CetTrainMapper cetTrainMapper = CmTag.getBean(CetTrainMapper.class);
+        return cetTrainMapper.selectByPrimaryKey(trainId);
+    }
 
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
+
     private Integer id;
 
-    private Integer traineeId;
+    private Integer trainId;
+
+    private Integer userId;
 
     private Integer trainCourseId;
 
@@ -36,13 +56,13 @@ public class CetTraineeCourseView implements Serializable {
 
     private String ip;
 
-    private Integer trainId;
-
     private Integer projectId;
 
     private Integer traineeTypeId;
 
-    private Integer userId;
+    private Integer planId;
+
+    private Boolean isQuit;
 
     private Integer courseId;
 
@@ -64,12 +84,20 @@ public class CetTraineeCourseView implements Serializable {
         this.id = id;
     }
 
-    public Integer getTraineeId() {
-        return traineeId;
+    public Integer getTrainId() {
+        return trainId;
     }
 
-    public void setTraineeId(Integer traineeId) {
-        this.traineeId = traineeId;
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getTrainCourseId() {
@@ -152,14 +180,6 @@ public class CetTraineeCourseView implements Serializable {
         this.ip = ip == null ? null : ip.trim();
     }
 
-    public Integer getTrainId() {
-        return trainId;
-    }
-
-    public void setTrainId(Integer trainId) {
-        this.trainId = trainId;
-    }
-
     public Integer getProjectId() {
         return projectId;
     }
@@ -176,12 +196,20 @@ public class CetTraineeCourseView implements Serializable {
         this.traineeTypeId = traineeTypeId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getPlanId() {
+        return planId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
+    }
+
+    public Boolean getIsQuit() {
+        return isQuit;
+    }
+
+    public void setIsQuit(Boolean isQuit) {
+        this.isQuit = isQuit;
     }
 
     public Integer getCourseId() {

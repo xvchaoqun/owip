@@ -36,7 +36,7 @@
         </p>
         <div style="max-height: 400px;overflow-y: auto">
             <ul id="history" class="list-group">
-                <c:forEach items="${cetTraineeCourseViews}" var="record">
+                <c:forEach items="${cetTrainObjViews}" var="record">
                     <li class="list-group-item">${record.user.code}&nbsp;&nbsp;${record.user.realname}&nbsp;&nbsp;${cm:formatDate(record.signTime, "yyyy-MM-dd HH:mm:ss")}</li>
                 </c:forEach>
                 <li class="list-group-item">每次成功读卡，将在此列表显示状态。</li>

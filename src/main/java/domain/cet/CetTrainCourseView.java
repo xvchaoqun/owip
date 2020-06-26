@@ -1,7 +1,7 @@
 package domain.cet;
 
 import service.cet.CetCourseService;
-import service.cet.CetTraineeCourseService;
+import service.cet.CetTrainObjService;
 import sys.helper.CetHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -13,15 +13,15 @@ import java.util.Date;
 public class CetTrainCourseView implements Serializable {
 
 
-    public CetTraineeCourseView getCetTraineeCourseView(){
+    public CetTrainObjView getCetTrainObjView(){
 
         HttpServletRequest request = ContextHelper.getRequest();
         if(request==null) return null;
         Integer userId = (Integer) request.getAttribute("userId");
         if(userId==null) return null;
 
-        CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
-        return cetTraineeCourseService.getCetTraineeCourseView(userId, id);
+        CetTrainObjService cetTrainObjService = CmTag.getBean(CetTrainObjService.class);
+        return cetTrainObjService.getCetTrainObjView(userId, id);
     }
 
     public CetCourse getCetCourse(){

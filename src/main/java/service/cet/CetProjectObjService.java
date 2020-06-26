@@ -42,11 +42,9 @@ public class CetProjectObjService extends CetBaseMapper {
     @Autowired
     private CadreService cadreService;
     @Autowired
-    private CetTraineeService cetTraineeService;
-    @Autowired
     private CetTrainCourseService cetTrainCourseService;
     @Autowired
-    private CetTraineeCourseService cetTraineeCourseService;
+    private CetTrainObjService cetTrainObjService;
     @Autowired
     private CetProjectPlanService cetProjectPlanService;
     @Autowired
@@ -310,12 +308,6 @@ public class CetProjectObjService extends CetBaseMapper {
             cetProjectObjMapper.insertSelective(record);
         }
 
-        List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
-        // 同步至每个培训班的学员列表
-        for (CetTrain cetTrain : cetTrains) {
-            cetTraineeService.createIfNotExist(userId, cetTrain.getId());
-        }
-
         sysApprovalLogService.add(record.getId(), record.getUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
@@ -358,71 +350,67 @@ public class CetProjectObjService extends CetBaseMapper {
         }
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-        int trainId = cetTrainCourse.getTrainId();
         // 已选课学员
-        Map<Integer, CetTraineeCourseView> trainees = cetTrainCourseService.findTrainees(trainCourseId);
+        Map<Integer, CetTrainObjView> trainees = cetTrainCourseService.findTrainees(trainCourseId);
 
         for (CetProjectObj cetProjectObj : cetProjectObjs) {
 
             int userId = cetProjectObj.getUserId();
 
-            // 如果还没选过课，则先创建参训人
-            CetTraineeView cetTrainee = cetTraineeService.createIfNotExist(userId, trainId);
-            int traineeId = cetTrainee.getId();
-
-            CetTraineeCourseView ctc = trainees.get(userId);
-            if (ctc == null) { // 目前还从未选课?
+            CetTrainObjView ctov = trainees.get(userId);
+            if (ctov == null) { // 目前还从未选课?
                 if (opType == 1) {
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, false, "设为必选[管理员]");
+                    cetTrainObjService.applyItem(userId, trainCourseId, true, true, false, "设为必选[管理员]");
                 } else if (opType == 3) {
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
+                    cetTrainObjService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
                 }
             } else {
                 /*if (ctc.getIsFinished()) {
                     continue;
                 }*/
 
-                if (!ctc.getCanQuit()) { // 目前是必选
+                if (!ctov.getCanQuit()) { // 目前是必选
 
                     if (opType == 2) { // 必选->设为可选
 
-                        CetTraineeCourse record = new CetTraineeCourse();
-                        record.setId(ctc.getId());
+                        CetTrainObj record = new CetTrainObj();
+                        record.setId(ctov.getId());
                         record.setCanQuit(true);
-                        cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                        cetTrainObjMapper.updateByPrimaryKeySelective(record);
 
-                        sysApprovalLogService.add(traineeId, userId,
+                        sysApprovalLogService.add(userId, userId,
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                                "改为可选[管理员]", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                                "改为可选[管理员]("+cetTrainCourse.getName()+")",
+                                SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                                 cetTrainCourse.getCetCourse().getName());
                     } else if (opType == 4) { // 必选->退课
 
-                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "设为可选[管理员]");
+                        cetTrainObjService.applyItem(userId, trainCourseId, false, true, true, "设为可选[管理员]");
                     }
                 } else { // 目前是可选
 
                     if (opType == 4) { // 可选->退课
                         // 什么情况下都要退课？
-                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "退课[管理员]");
+                        cetTrainObjService.applyItem(userId, trainCourseId, false, true, true, "退课[管理员]");
                     } else if (opType == 3) { // 可选->选课
 
-                        if (ctc.getChooseUserId() == null) { // 未选课的情况下才选课
-                            cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
+                        if (ctov.getChooseUserId() == null) { // 未选课的情况下才选课
+                            cetTrainObjService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
                         }
                     } else if (opType == 1) {  // 可选->设为必选
 
-                        CetTraineeCourse record = new CetTraineeCourse();
-                        record.setId(ctc.getId());
+                        CetTrainObj record = new CetTrainObj();
+                        record.setId(ctov.getId());
                         record.setCanQuit(false);
                         record.setChooseTime(new Date());
                         record.setChooseUserId(ShiroHelper.getCurrentUserId());
-                        cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                        cetTrainObjMapper.updateByPrimaryKeySelective(record);
 
-                        sysApprovalLogService.add(traineeId, userId,
+                        sysApprovalLogService.add(userId, userId,
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                                "改为必选[管理员]", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                                "改为必选[管理员]("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                                 cetTrainCourse.getCetCourse().getName());
                     }
                 }
@@ -456,9 +444,9 @@ public class CetProjectObjService extends CetBaseMapper {
 
             try {
                 if (isQuit) {
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "导入退课[管理员]");
+                    cetTrainObjService.applyItem(userId, trainCourseId, false, true, true, "导入退课[管理员]");
                 } else {
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, canQuit, "导入选课[管理员]");
+                    cetTrainObjService.applyItem(userId, trainCourseId, true, true, canQuit, "导入选课[管理员]");
                 }
                 success++;
             } catch (Exception ex) {
@@ -714,15 +702,8 @@ public class CetProjectObjService extends CetBaseMapper {
                     }
                 }
 
-                List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
-
                 appendTraineeInfo(cetTraineeType.getCode(), userId, _record);
                 cetProjectObjMapper.insertSelective(_record);
-
-                // 同步至每个培训班的学员列表
-                for (CetTrain cetTrain : cetTrains) {
-                    cetTraineeService.createIfNotExist(userId, cetTrain.getId());
-                }
 
                 sysApprovalLogService.add(_record.getId(), _record.getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,

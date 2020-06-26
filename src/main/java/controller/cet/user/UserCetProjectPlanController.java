@@ -46,17 +46,13 @@ public class UserCetProjectPlanController extends CetBaseController {
             case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
 
-                CetProjectObj cetProjectObj = cetProjectObjService.get(userId, cetProjectPlan.getProjectId());
-                CetTraineeViewExample example = new CetTraineeViewExample();
-                example.createCriteria().andPlanIdEqualTo(planId).andObjIdEqualTo(cetProjectObj.getId());
-                long trainCount = cetTraineeViewMapper.countByExample(example);
+                List<Integer> trainIds = iCetMapper.selectTrainIds(userId, planId);
+                long trainCount = trainIds.size();
                 if(trainCount==0){
                     throw new OpException("暂无培训班。");
                 }else if(trainCount==1){
-                    List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
                     // 只有一个培训班时，直接跳转
-                    int trainId = cetTraineeViews.get(0).getTrainId();
-                    return "forward:/user/cet/cetTrain_detail?cls=3&trainId=" + trainId;
+                    return "forward:/user/cet/cetTrain_detail?cls=3&trainId=" + trainIds.get(0);
                 }
                 return "forward:/user/cet/cetTrain";
 

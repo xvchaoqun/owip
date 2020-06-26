@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/cet/cetTraineeCourse"
-                 data-url-export="${ctx}/cet/cetTraineeCourse_data"
+                 data-url-page="${ctx}/cet/cetTrainObj"
+                 data-url-export="${ctx}/cet/cetTrainObj_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.traineeId ||not empty param.trainCourseId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.objId ||not empty param.trainCourseId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetTraineeCourse:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetTraineeCourse_au"><i class="fa fa-plus"></i> 添加</a>
+                <shiro:hasPermission name="cetTrainObj:edit">
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetTrainObj_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetTraineeCourse_au"
+                       data-url="${ctx}/cet/cetTrainObj_au"
                        data-grid-id="#jqGrid"
                        ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cetTraineeCourse:del">
-                    <button data-url="${ctx}/cet/cetTraineeCourse_batchDel"
+                <shiro:hasPermission name="cetTrainObj:del">
+                    <button data-url="${ctx}/cet/cetTrainObj_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>参训人员</label>
-                            <input class="form-control search-query" name="traineeId" type="text" value="${param.traineeId}"
+                            <input class="form-control search-query" name="objId" type="text" value="${param.objId}"
                                    placeholder="请输入参训人员">
                         </div>
                         <div class="form-group">
@@ -76,9 +76,9 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/cet/cetTraineeCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetTrainObj_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '参训人员',name: 'traineeId'},
+            { label: '参训人员',name: 'objId'},
             { label: '培训班课程',name: 'trainCourseId'},
             { label: '是否实际完成',name: 'isFinished'},
             { label: '备注',name: 'remark'},

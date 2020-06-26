@@ -263,8 +263,8 @@ public class CetTrainCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
-        CetTraineeCourseViewExample.Criteria criteria = example.createCriteria()
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
+        CetTrainObjViewExample.Criteria criteria = example.createCriteria()
                 .andTrainCourseIdEqualTo(trainCourseId);
 
         if(userId!=null){
@@ -274,13 +274,13 @@ public class CetTrainCourseController extends CetBaseController {
             criteria.andIsFinishedEqualTo(isFinished);
         }
 
-        long count = cetTraineeCourseViewMapper.countByExample(example);
+        long count = cetTrainObjViewMapper.countByExample(example);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTraineeCourseView> records= cetTraineeCourseViewMapper.selectByExampleWithRowbounds(example,
+        List<CetTrainObjView> records= cetTrainObjViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

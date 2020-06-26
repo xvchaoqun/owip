@@ -1,7 +1,7 @@
 package controller.cet;
 
 import domain.cet.*;
-import domain.cet.CetTraineeCourseExample.Criteria;
+import domain.cet.CetTrainObjExample.Criteria;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -39,24 +39,23 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/cet")
-public class CetTraineeCourseController extends CetBaseController {
+public class CetTrainObjController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetTraineeCourse:list")
-    @RequestMapping("/cetTraineeCourse")
-    public String cetTraineeCourse(Integer userId, ModelMap modelMap) {
+    @RequiresPermissions("cetTrainObj:list")
+    @RequestMapping("/cetTrainObj")
+    public String cetTrainObj(Integer userId, ModelMap modelMap) {
 
         if(userId!=null)
             modelMap.put("sysUser", CmTag.getUserById(userId));
 
-        return "cet/cetTraineeCourse/cetTraineeCourse_page";
+        return "cet/cetTrainObj/cetTrainObj_page";
     }
 
-    @RequiresPermissions("cetTraineeCourse:list")
-    @RequestMapping("/cetTraineeCourse_data")
-    public void cetTraineeCourse_data(HttpServletResponse response,
-                                    Integer traineeId,
+    @RequiresPermissions("cetTrainObj:list")
+    @RequestMapping("/cetTrainObj_data")
+    public void cetTrainObj_data(HttpServletResponse response,
                                     Integer trainCourseId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -70,23 +69,20 @@ public class CetTraineeCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeCourseExample example = new CetTraineeCourseExample();
+        CetTrainObjExample example = new CetTrainObjExample();
         Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (traineeId!=null) {
-            criteria.andTraineeIdEqualTo(traineeId);
-        }
         if (trainCourseId!=null) {
             criteria.andTrainCourseIdEqualTo(trainCourseId);
         }
 
-        long count = cetTraineeCourseMapper.countByExample(example);
+        long count = cetTrainObjMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTraineeCourse> records= cetTraineeCourseMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetTrainObj> records= cetTrainObjMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -96,62 +92,62 @@ public class CetTraineeCourseController extends CetBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cetTraineeCourse.class, cetTraineeCourseMixin.class);
+        //baseMixins.put(cetTrainObj.class, cetTrainObjMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
-    @RequiresPermissions("cetTraineeCourse:edit")
-    @RequestMapping(value = "/cetTraineeCourse_au", method = RequestMethod.POST)
+    @RequiresPermissions("cetTrainObj:edit")
+    @RequestMapping(value = "/cetTrainObj_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTraineeCourse_au(CetTraineeCourse record, HttpServletRequest request) {
+    public Map do_cetTrainObj_au(CetTrainObj record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (id == null) {
-            cetTraineeCourseService.insertSelective(record);
+            cetTrainObjService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "添加参训情况：%s", record.getId()));
         } else {
 
-            cetTraineeCourseService.updateByPrimaryKeySelective(record);
+            cetTrainObjService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "更新参训情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetTraineeCourse:edit")
-    @RequestMapping("/cetTraineeCourse_au")
-    public String cetTraineeCourse_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cetTrainObj:edit")
+    @RequestMapping("/cetTrainObj_au")
+    public String cetTrainObj_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CetTraineeCourse cetTraineeCourse = cetTraineeCourseMapper.selectByPrimaryKey(id);
-            modelMap.put("cetTraineeCourse", cetTraineeCourse);
+            CetTrainObj cetTrainObj = cetTrainObjMapper.selectByPrimaryKey(id);
+            modelMap.put("cetTrainObj", cetTrainObj);
         }
-        return "cet/cetTraineeCourse/cetTraineeCourse_au";
+        return "cet/cetTrainObj/cetTrainObj_au";
     }
 
-    @RequiresPermissions("cetTraineeCourse:del")
-    @RequestMapping(value = "/cetTraineeCourse_del", method = RequestMethod.POST)
+    @RequiresPermissions("cetTrainObj:del")
+    @RequestMapping(value = "/cetTrainObj_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTraineeCourse_del(HttpServletRequest request, Integer id) {
+    public Map do_cetTrainObj_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cetTraineeCourseService.del(id);
+            cetTrainObjService.del(id);
             logger.info(addLog(LogConstants.LOG_CET, "删除参训情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetTraineeCourse:del")
-    @RequestMapping(value = "/cetTraineeCourse_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cetTrainObj:del")
+    @RequestMapping(value = "/cetTrainObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTraineeCourse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetTrainObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cetTraineeCourseService.batchDel(ids);
+            cetTrainObjService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除参训情况：%s", StringUtils.join(ids, ",")));
         }
 
@@ -168,7 +164,7 @@ public class CetTraineeCourseController extends CetBaseController {
             if(ShiroHelper.getCurrentUserId()==null){
                 return "redirect:/login";
             }
-            isPermitted = ShiroHelper.isPermitted("cetTraineeCourse:sign");
+            isPermitted = ShiroHelper.isPermitted("cetTrainObj:sign");
         }else{
             String signToken = cetTrainCourseService.getSignToken(id);
 
@@ -188,16 +184,16 @@ public class CetTraineeCourseController extends CetBaseController {
             modelMap.put("cetTrainCourse", cetTrainCourse);
 
             // 已刷卡签到的学员
-            CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+            CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(id)
                     .andIsFinishedEqualTo(true)
                     .andSignTypeEqualTo(CetConstants.CET_TRAINEE_SIGN_TYPE_CARD);
             example.setOrderByClause("sign_time desc");
-            List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);
-            modelMap.put("cetTraineeCourseViews", cetTraineeCourseViews);
+            List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
+            modelMap.put("cetTrainObjViews", cetTrainObjViews);
         }
 
-        return "cet/cetTraineeCourse/cetTraineeCourse_sign_page";
+        return "cet/cetTrainObj/cetTrainObj_sign_page";
     }
 
     @RequestMapping(value = "/sign", method = RequestMethod.POST)
@@ -209,7 +205,7 @@ public class CetTraineeCourseController extends CetBaseController {
             if(ShiroHelper.getCurrentUserId()==null){
                 return failed("没有登录。");
             }
-            SecurityUtils.getSubject().checkPermission("cetTraineeCourse:sign");
+            SecurityUtils.getSubject().checkPermission("cetTrainObj:sign");
 
         }else{
             String signToken = cetTrainCourseService.getSignToken(id);
@@ -231,18 +227,18 @@ public class CetTraineeCourseController extends CetBaseController {
             return failed("学工号"+ code +"不存在。");
         }
 
-        CetTraineeCourseView cetTraineeCourseView = cetTraineeCourseService.getCetTraineeCourseView(uv.getId(), id);
-        if(cetTraineeCourseView==null){
+        CetTrainObjView cetTrainObjView = cetTrainObjService.getCetTrainObjView(uv.getId(), id);
+        if(cetTrainObjView==null){
             return failed(String.format("参训学员（工号：%s）不存在。", code));
         }
 
         Date signTime = null;
-        if(BooleanUtils.isTrue(cetTraineeCourseView.getIsFinished())){
+        if(BooleanUtils.isTrue(cetTrainObjView.getIsFinished())){
             // 以第一次签到时间为准
-            signTime = cetTraineeCourseView.getSignTime();
+            signTime = cetTrainObjView.getSignTime();
         }else {
             signTime = new Date();
-            cetTraineeCourseService.sign(id, new Integer[]{cetTraineeCourseView.getId()}, true,
+            cetTrainObjService.sign(id, new Integer[]{cetTrainObjView.getId()}, true,
                     CetConstants.CET_TRAINEE_SIGN_TYPE_CARD, signTime);
         }
 
@@ -254,7 +250,7 @@ public class CetTraineeCourseController extends CetBaseController {
     }
 
     // 更新读卡签到token及有效期
-    @RequiresPermissions("cetTraineeCourse:sign")
+    @RequiresPermissions("cetTrainObj:sign")
     @RequestMapping(value = "/updateSignToken", method = RequestMethod.POST)
     @ResponseBody
     public Map updateSignToken(Integer trainCourseId,
@@ -276,14 +272,14 @@ public class CetTraineeCourseController extends CetBaseController {
 
 
     // 手动签到
-    @RequiresPermissions("cetTraineeCourse:sign")
-    @RequestMapping(value = "/cetTraineeCourse_sign", method = RequestMethod.POST)
+    @RequiresPermissions("cetTrainObj:sign")
+    @RequestMapping(value = "/cetTrainObj_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTraineeCourse_sign(Integer trainCourseId, @RequestParam(value = "ids[]", required = false) Integer[] ids,
+    public Map cetTrainObj_sign(Integer trainCourseId, @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                      Boolean sign) {
 
         Date signTime = new Date();
-        cetTraineeCourseService.sign(trainCourseId, ids, BooleanUtils.isTrue(sign),
+        cetTrainObjService.sign(trainCourseId, ids, BooleanUtils.isTrue(sign),
                 CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL, signTime);
 
         logger.info(addLog(LogConstants.LOG_CET,
@@ -294,17 +290,17 @@ public class CetTraineeCourseController extends CetBaseController {
     }
 
     // 签到，批量导入
-    @RequiresPermissions("cetTraineeCourse:sign")
-    @RequestMapping(value = "/cetTraineeCourse_sign_import", method = RequestMethod.POST)
+    @RequiresPermissions("cetTrainObj:sign")
+    @RequestMapping(value = "/cetTrainObj_sign_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTraineeCourse_sign_import(MultipartFile xlsx, int trainCourseId) throws IOException, InvalidFormatException {
+    public Map cetTrainObj_sign_import(MultipartFile xlsx, int trainCourseId) throws IOException, InvalidFormatException {
 
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
 
-        Map<String, Object> retMap = cetTraineeCourseService.signImport(trainCourseId, xlsRows);
+        Map<String, Object> retMap = cetTrainObjService.signImport(trainCourseId, xlsRows);
 
         int totalCount = xlsRows.size();
         int successCount = (int) retMap.get("success");
@@ -332,7 +328,7 @@ public class CetTraineeCourseController extends CetBaseController {
             if(ShiroHelper.getCurrentUserId()==null){
                 return "redirect:/login";
             }
-            isPermitted = ShiroHelper.isPermitted("cetTraineeCourse:sign");
+            isPermitted = ShiroHelper.isPermitted("cetTrainObj:sign");
         }else{
             String signToken = cetTrainCourseService.getSignToken(id);
 
@@ -352,13 +348,13 @@ public class CetTraineeCourseController extends CetBaseController {
             modelMap.put("cetTrainCourse", cetTrainCourse);
 
             // 已签到的学员
-            CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+            CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(id)
                     .andIsFinishedEqualTo(true)
                     .andSignTypeEqualTo(CetConstants.CET_TRAINEE_SIGN_TYPE_CARD);
             example.setOrderByClause("sign_time desc");
-            List<CetTraineeCourseView> cetTraineeCourseViews = cetTraineeCourseViewMapper.selectByExample(example);
-            modelMap.put("cetTraineeCourseViews", cetTraineeCourseViews);
+            List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
+            modelMap.put("cetTrainObjViews", cetTrainObjViews);
         }
 
         modelMap.put("cls", cls);
@@ -367,7 +363,7 @@ public class CetTraineeCourseController extends CetBaseController {
     }
 
     //二维码签到签退（单人）
-    @RequestMapping(value = "/codeSign", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/codeSign", method = RequestMethod.POST)
     @ResponseBody
     public Map do_codeSign(String codeSignIn, String codeSignOut, String trainCourse, ModelMap modelMap) {
 
@@ -378,30 +374,30 @@ public class CetTraineeCourseController extends CetBaseController {
         if(uv==null){
             return failed("学工号"+ code + "不存在。");
         }
-        CetTraineeCourseView cetTraineeCourseView = cetTraineeCourseService.getCetTraineeCourseView(uv.getId(), Integer.parseInt(trainCourse));
-        if(cetTraineeCourseView == null){
+        CetTrainObjView cetTrainObjView = cetTrainObjService.getCetTrainObjView(uv.getId(), Integer.parseInt(trainCourse));
+        if(cetTrainObjView == null){
             return failed("您不是本次课程的学员。");
         }
 
         if (codeSignIn != null && codeSignOut == null) {
-            if (cetTraineeCourseView.getSignTime() != null) {
+            if (cetTrainObjView.getSignTime() != null) {
                 // 以第一次签到时间为准
-                signTime = cetTraineeCourseView.getSignTime();
+                signTime = cetTrainObjView.getSignTime();
             } else {
                 signTime = new Date();
-                cetCodeWxSignService.sign(cetTraineeCourseView, false,
+                cetCodeWxSignService.sign(cetTrainObjView, false,
                         CetConstants.CET_TRAINEE_SIGN_TYPE_QRCODE, signTime);
             }
         }else if (codeSignIn == null && codeSignOut != null){
-            if (cetTraineeCourseView.getSignTime() == null){
+            if (cetTrainObjView.getSignTime() == null){
                 return failed(String.format("参训学员（工号：%s）签退前未进行签到。", code));
             }
-            if (cetTraineeCourseView.getSignOutTime() != null) {
+            if (cetTrainObjView.getSignOutTime() != null) {
                 // 以第一次签到时间为准
-                signTime = cetTraineeCourseView.getSignOutTime();
+                signTime = cetTrainObjView.getSignOutTime();
             } else {
                 signTime = new Date();
-                cetCodeWxSignService.sign(cetTraineeCourseView, true,
+                cetCodeWxSignService.sign(cetTrainObjView, true,
                         CetConstants.CET_TRAINEE_SIGN_TYPE_QRCODE, signTime);
             }
         }
@@ -410,5 +406,5 @@ public class CetTraineeCourseController extends CetBaseController {
         resultMap.put("signTime", DateUtils.formatDate(signTime, DateUtils.YYYY_MM_DD_HH_MM_SS));
 
         return resultMap;
-    }
+    }*/
 }

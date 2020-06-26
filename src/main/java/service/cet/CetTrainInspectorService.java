@@ -177,15 +177,14 @@ public class CetTrainInspectorService extends CetBaseMapper {
         }
 
         // 读取已选课人员
-        CetTraineeViewExample example = new CetTraineeViewExample();
-        example.createCriteria().andTrainIdEqualTo(trainId)
-                .andCourseCountGreaterThan(0);
-        List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
+        example.createCriteria().andTrainIdEqualTo(trainId);
+        List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
 
         Date now = new Date();
-        for (CetTraineeView ctee : cetTraineeViews) {
+        for (CetTrainObjView ctov : cetTrainObjViews) {
 
-            Integer userId = ctee.getUserId();
+            Integer userId = ctov.getUserId();
             CadreView cv = CmTag.getCadreByUserId(userId);
             // 使用工作证号当做账号
             String mobile = cv.getCode();

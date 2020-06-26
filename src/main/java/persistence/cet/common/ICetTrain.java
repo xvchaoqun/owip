@@ -1,10 +1,8 @@
 package persistence.cet.common;
 
-import domain.cet.*;
-import persistence.cet.CetTraineeViewMapper;
+import domain.cet.CetProject;
+import domain.cet.CetTrainView;
 import sys.tags.CmTag;
-
-import java.util.List;
 
 /**
  * Created by lm on 2018/3/14.
@@ -16,24 +14,25 @@ public class ICetTrain extends CetTrainView {
         return iCetMapper.getCetProject(getId());
     }
 
+    private Integer userId;
+    // 已选课数量
+    private Integer courseCount;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public ICetTrain setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
+
     public Integer getCourseCount() {
-
-        CetTraineeViewMapper cetTraineeViewMapper = CmTag.getBean(CetTraineeViewMapper.class);
-
-        CetTraineeViewExample example = new CetTraineeViewExample();
-        example.createCriteria().andObjIdEqualTo(objId).andTrainIdEqualTo(getId());
-        List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
-
-        return cetTraineeViews.size()==0?null:cetTraineeViews.get(0).getCourseCount();
+        return courseCount;
     }
 
-    private Integer objId;
-
-    public Integer getObjId() {
-        return objId;
-    }
-
-    public void setObjId(Integer objId) {
-        this.objId = objId;
+    public ICetTrain setCourseCount(Integer courseCount) {
+        this.courseCount = courseCount;
+        return this;
     }
 }

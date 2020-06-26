@@ -2,7 +2,6 @@ package controller.cet;
 
 import domain.cet.*;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -10,16 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -108,7 +102,6 @@ public class CetTraineeController extends CetBaseController {
         CetTraineeViewExample.Criteria criteria =
                 example.createCriteria().andTrainIdEqualTo(trainId)
                         .andTraineeTypeIdEqualTo(traineeTypeId);
-        example.setOrderByClause("id asc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -133,32 +126,5 @@ public class CetTraineeController extends CetBaseController {
         //baseMixins.put(cetTrainee.class, cetTraineeMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("cetTrainee:del")
-    @RequestMapping(value = "/cetTrainee_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrainee_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetTraineeService.del(id);
-            logger.info(addLog(LogConstants.LOG_CET, "删除可选课人员：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetTrainee:del")
-    @RequestMapping(value = "/cetTrainee_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map cetTrainee_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            cetTraineeService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除可选课人员：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 }

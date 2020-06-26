@@ -277,24 +277,6 @@
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_CET",
       "ignore": true
-    },
-    {
-      "table": "cet_trainee",
-      "key": "id",
-      "searchColumns": "train_id,user_id",
-      "showColumns": "train_id,user_id,course_count,remark",
-      "excludeEditColumns": "id",
-      "logType":"LogConstants.LOG_CET",
-      "ignore": true
-    },
-    {
-      "table": "cet_trainee_course",
-      "key": "id",
-      "searchColumns": "trainee_id,train_course_id",
-      "showColumns": "trainee_id,train_course_id,is_finished,remark,choose_time,ip",
-      "excludeEditColumns": "id,choose_time,ip",
-      "logType":"LogConstants.LOG_CET",
-      "ignore": true
     }
   ]
 }

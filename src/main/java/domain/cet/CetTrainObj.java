@@ -6,7 +6,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CetTraineeCourse implements Serializable {
+public class CetTrainObj implements Serializable {
 
     public CetTrainCourse getCetTrainCourse(){
 
@@ -18,7 +18,9 @@ public class CetTraineeCourse implements Serializable {
 
     private Integer id;
 
-    private Integer traineeId;
+    private Integer trainId;
+
+    private Integer userId;
 
     private Integer trainCourseId;
 
@@ -32,13 +34,13 @@ public class CetTraineeCourse implements Serializable {
 
     private Byte signType;
 
-    private String remark;
-
     private Date chooseTime;
 
     private Integer chooseUserId;
 
     private String ip;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -50,12 +52,20 @@ public class CetTraineeCourse implements Serializable {
         this.id = id;
     }
 
-    public Integer getTraineeId() {
-        return traineeId;
+    public Integer getTrainId() {
+        return trainId;
     }
 
-    public void setTraineeId(Integer traineeId) {
-        this.traineeId = traineeId;
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getTrainCourseId() {
@@ -106,14 +116,6 @@ public class CetTraineeCourse implements Serializable {
         this.signType = signType;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
     public Date getChooseTime() {
         return chooseTime;
     }
@@ -136,5 +138,13 @@ public class CetTraineeCourse implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

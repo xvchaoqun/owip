@@ -451,16 +451,16 @@ public class CetCourseController extends CetBaseController {
         if(trainCourseId!=null){
             Integer userId = ShiroHelper.getCurrentUserId();
             if(userId!=null) {
-                CetTraineeCourseView cetTraineeCourseView = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+                CetTrainObjView cetTrainObjView = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
 
-                if(cetTraineeCourseView!=null && BooleanUtils.isNotTrue(cetTraineeCourseView.getIsFinished())){
+                if(cetTrainObjView!=null && BooleanUtils.isNotTrue(cetTrainObjView.getIsFinished())){
 
-                    CetTraineeCourse record = new CetTraineeCourse();
-                    record.setId(cetTraineeCourseView.getId());
+                    CetTrainObj record = new CetTrainObj();
+                    record.setId(cetTrainObjView.getId());
                     record.setIsFinished(true);
                     record.setSignTime(new Date());
 
-                    cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                    cetTrainObjMapper.updateByPrimaryKeySelective(record);
                 }
             }
         }

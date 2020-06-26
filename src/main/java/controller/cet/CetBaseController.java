@@ -109,9 +109,7 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     @Autowired
     protected CetTrainCourseService cetTrainCourseService;
     @Autowired
-    protected CetTraineeService cetTraineeService;
-    @Autowired
-    protected CetTraineeCourseService cetTraineeCourseService;
+    protected CetTrainObjService cetTrainObjService;
     @Autowired
     protected CetTraineeTypeService cetTraineeTypeService;
     @Autowired

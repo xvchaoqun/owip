@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetTraineeCourseViewMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetTraineeCourseView">
+<mapper namespace="persistence.cet.CetTrainObjViewMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetTrainObjView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
+    <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
@@ -14,10 +15,10 @@
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
     <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
@@ -54,17 +55,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
-    sign_type, remark, choose_time, choose_user_id, ip, train_id, project_id, trainee_type_id, 
-    user_id, course_id, period, year, choose_user_code, choose_user_name
+    id, train_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
+    sign_type, remark, choose_time, choose_user_id, ip, project_id, trainee_type_id, 
+    plan_id, is_quit, course_id, period, year, choose_user_code, choose_user_name
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetTrainObjViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_course_view
+    from cet_train_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -72,19 +73,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.cet.CetTraineeCourseViewExample" resultType="java.lang.Long">
-    select count(*) from cet_trainee_course_view
+  <select id="countByExample" parameterType="domain.cet.CetTrainObjViewExample" resultType="java.lang.Long">
+    select count(*) from cet_train_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTraineeCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainObjViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_course_view
+    from cet_train_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

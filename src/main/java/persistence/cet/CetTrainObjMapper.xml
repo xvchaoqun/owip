@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetTraineeCourseMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetTraineeCourse">
+<mapper namespace="persistence.cet.CetTrainObjMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetTrainObj">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
+    <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_out_time" jdbcType="TIMESTAMP" property="signOutTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
     <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,16 +75,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
-    sign_type, remark, choose_time, choose_user_id, ip
+    id, train_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
+    sign_type, choose_time, choose_user_id, ip, remark
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetTrainObjExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_course
+    from cet_train_obj
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,39 +95,45 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cet_trainee_course
+    from cet_train_obj
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cet_trainee_course
+    delete from cet_train_obj
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cet.CetTraineeCourseExample">
-    delete from cet_trainee_course
+  <delete id="deleteByExample" parameterType="domain.cet.CetTrainObjExample">
+    delete from cet_train_obj
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cet.CetTraineeCourse">
-    insert into cet_trainee_course (id, trainee_id, train_course_id, 
+  <insert id="insert" parameterType="domain.cet.CetTrainObj">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_train_obj (train_id, user_id, train_course_id, 
       can_quit, is_finished, sign_time, 
-      sign_out_time, sign_type, remark, 
-      choose_time, choose_user_id, ip
+      sign_out_time, sign_type, choose_time, 
+      choose_user_id, ip, remark
       )
-    values (#{id,jdbcType=INTEGER}, #{traineeId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
+    values (#{trainId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
       #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, 
-      #{signOutTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
-      #{chooseTime,jdbcType=TIMESTAMP}, #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}
+      #{signOutTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, #{chooseTime,jdbcType=TIMESTAMP}, 
+      #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="domain.cet.CetTraineeCourse">
-    insert into cet_trainee_course
+  <insert id="insertSelective" parameterType="domain.cet.CetTrainObj">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_train_obj
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="trainId != null">
+        train_id,
       </if>
-      <if test="traineeId != null">
-        trainee_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="trainCourseId != null">
         train_course_id,
@@ -146,9 +153,6 @@
       <if test="signType != null">
         sign_type,
       </if>
-      <if test="remark != null">
-        remark,
-      </if>
       <if test="chooseTime != null">
         choose_time,
       </if>
@@ -158,13 +162,16 @@
       <if test="ip != null">
         ip,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="trainId != null">
+        #{trainId,jdbcType=INTEGER},
       </if>
-      <if test="traineeId != null">
-        #{traineeId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="trainCourseId != null">
         #{trainCourseId,jdbcType=INTEGER},
@@ -184,9 +191,6 @@
       <if test="signType != null">
         #{signType,jdbcType=TINYINT},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="chooseTime != null">
         #{chooseTime,jdbcType=TIMESTAMP},
       </if>
@@ -196,22 +200,28 @@
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cet.CetTraineeCourseExample" resultType="java.lang.Long">
-    select count(*) from cet_trainee_course
+  <select id="countByExample" parameterType="domain.cet.CetTrainObjExample" resultType="java.lang.Long">
+    select count(*) from cet_train_obj
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cet_trainee_course
+    update cet_train_obj
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.traineeId != null">
-        trainee_id = #{record.traineeId,jdbcType=INTEGER},
+      <if test="record.trainId != null">
+        train_id = #{record.trainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.trainCourseId != null">
         train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
@@ -231,9 +241,6 @@
       <if test="record.signType != null">
         sign_type = #{record.signType,jdbcType=TINYINT},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
       <if test="record.chooseTime != null">
         choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       </if>
@@ -243,34 +250,41 @@
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cet_trainee_course
+    update cet_train_obj
     set id = #{record.id,jdbcType=INTEGER},
-      trainee_id = #{record.traineeId,jdbcType=INTEGER},
+      train_id = #{record.trainId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
       train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
       can_quit = #{record.canQuit,jdbcType=BIT},
       is_finished = #{record.isFinished,jdbcType=BIT},
       sign_time = #{record.signTime,jdbcType=TIMESTAMP},
       sign_out_time = #{record.signOutTime,jdbcType=TIMESTAMP},
       sign_type = #{record.signType,jdbcType=TINYINT},
-      remark = #{record.remark,jdbcType=VARCHAR},
       choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       choose_user_id = #{record.chooseUserId,jdbcType=INTEGER},
-      ip = #{record.ip,jdbcType=VARCHAR}
+      ip = #{record.ip,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTraineeCourse">
-    update cet_trainee_course
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTrainObj">
+    update cet_train_obj
     <set>
-      <if test="traineeId != null">
-        trainee_id = #{traineeId,jdbcType=INTEGER},
+      <if test="trainId != null">
+        train_id = #{trainId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="trainCourseId != null">
         train_course_id = #{trainCourseId,jdbcType=INTEGER},
@@ -290,9 +304,6 @@
       <if test="signType != null">
         sign_type = #{signType,jdbcType=TINYINT},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
       <if test="chooseTime != null">
         choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       </if>
@@ -302,31 +313,35 @@
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTraineeCourse">
-    update cet_trainee_course
-    set trainee_id = #{traineeId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrainObj">
+    update cet_train_obj
+    set train_id = #{trainId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       train_course_id = #{trainCourseId,jdbcType=INTEGER},
       can_quit = #{canQuit,jdbcType=BIT},
       is_finished = #{isFinished,jdbcType=BIT},
       sign_time = #{signTime,jdbcType=TIMESTAMP},
       sign_out_time = #{signOutTime,jdbcType=TIMESTAMP},
       sign_type = #{signType,jdbcType=TINYINT},
-      remark = #{remark,jdbcType=VARCHAR},
       choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       choose_user_id = #{chooseUserId,jdbcType=INTEGER},
-      ip = #{ip,jdbcType=VARCHAR}
+      ip = #{ip,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainObjExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_course
+    from cet_train_obj
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -49,9 +49,7 @@ public class MobileCetEvaIndexController extends CetBaseController {
 			String code = trainInspector.getMobile();
 			SysUserView uv = CmTag.getUserByCode(code);
 			int userId = uv.getId();
-			CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-			int traineeId = cetTrainee.getId();
-			List<ICetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+			List<ICetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(trainId, userId);
 			for (CetTrainCourse cetTrainCourse : cetTrainCourses) {
 				trainCourseMap.put(cetTrainCourse.getId(), cetTrainCourse);
 			}

@@ -5,7 +5,6 @@ import domain.cet.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,43 +20,44 @@ import sys.utils.ContextHelper;
 import java.util.*;
 
 @Service
-public class CetTraineeCourseService extends CetBaseMapper {
+public class CetTrainObjService extends CetBaseMapper {
 
     @Autowired
-    private CetTraineeService cetTraineeService;
+    private CetProjectObjService cetProjectObjService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
     private SysUserService sysUserService;
 
-    public CetTraineeCourse get(int traineeId, int trainCourseId) {
+    public CetTrainObjView get(int userId, int trainCourseId) {
 
-        CetTraineeCourseExample example = new CetTraineeCourseExample();
-        example.createCriteria().andTraineeIdEqualTo(traineeId).andTrainCourseIdEqualTo(trainCourseId);
-        List<CetTraineeCourse> cetTraineeCourses = cetTraineeCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
+        example.createCriteria().andUserIdEqualTo(userId).andTrainCourseIdEqualTo(trainCourseId);
+        List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper
+                .selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return cetTraineeCourses.size() > 0 ? cetTraineeCourses.get(0) : null;
+        return cetTrainObjViews.size() > 0 ? cetTrainObjViews.get(0) : null;
     }
 
-    public CetTraineeCourseView getCetTraineeCourseView(int userId, int trainCourseId) {
+    public CetTrainObjView getCetTrainObjView(int userId, int trainCourseId) {
 
-        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
         example.createCriteria().andUserIdEqualTo(userId).andTrainCourseIdEqualTo(trainCourseId);
-        List<CetTraineeCourseView> cetTraineeCourses = cetTraineeCourseViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<CetTrainObjView> cetTrainObjs = cetTrainObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return cetTraineeCourses.size() > 0 ? cetTraineeCourses.get(0) : null;
+        return cetTrainObjs.size() > 0 ? cetTrainObjs.get(0) : null;
     }
 
     @Transactional
-    public void insertSelective(CetTraineeCourse record) {
+    public void insertSelective(CetTrainObj record) {
 
-        cetTraineeCourseMapper.insertSelective(record);
+        cetTrainObjMapper.insertSelective(record);
     }
 
     @Transactional
     public void del(Integer id) {
 
-        cetTraineeCourseMapper.deleteByPrimaryKey(id);
+        cetTrainObjMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -65,14 +65,14 @@ public class CetTraineeCourseService extends CetBaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        CetTraineeCourseExample example = new CetTraineeCourseExample();
+        CetTrainObjExample example = new CetTrainObjExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cetTraineeCourseMapper.deleteByExample(example);
+        cetTrainObjMapper.deleteByExample(example);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CetTraineeCourse record) {
-        return cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(CetTrainObj record) {
+        return cetTrainObjMapper.updateByPrimaryKeySelective(record);
     }
 
     //
@@ -123,16 +123,9 @@ public class CetTraineeCourseService extends CetBaseMapper {
         modelMap.put("cetProject", cetProject);
 
         int userId = ShiroHelper.getCurrentUserId();
-        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-        if (cetTrainee == null) {
-            throw new UnauthorizedException();
-        }
-        modelMap.put("cetTrainee", cetTrainee);
 
-        int traineeId = cetTrainee.getId();
-
-        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
-        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, traineeId);
+        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(trainId, userId);
+        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, userId);
 
         modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
         modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);
@@ -153,7 +146,7 @@ public class CetTraineeCourseService extends CetBaseMapper {
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         for (Integer trainCourseId : trainCourseIds) {
 
-            CetTraineeCourse record = new CetTraineeCourse();
+            CetTrainObj record = new CetTrainObj();
             record.setTraineeId(traineeId);
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
@@ -161,12 +154,12 @@ public class CetTraineeCourseService extends CetBaseMapper {
             record.setChooseUserId(currentUserId);
             record.setIp(ip);
 
-            cetTraineeCourseMapper.insertSelective(record);
+            cetTrainObjMapper.insertSelective(record);
         }
 
         sysApprovalLogService.add(traineeId, userId,
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                 "报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 MessageFormat.format("已选{0}门课", trainCourseIds.length));
     }*/
@@ -183,13 +176,13 @@ public class CetTraineeCourseService extends CetBaseMapper {
             checkApplyIsOpen(isApply, trainId, trainCourseId);
         }
 
-        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-        if (cetTrainee == null) return;
-        int traineeId = cetTrainee.getId();
+        CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+        if (cetProjectObj == null) return;
+
         Date now = new Date();
         String ip = ContextHelper.getRealIp();
 
-        CetTraineeCourse cetTraineeCourse = get(traineeId, trainCourseId);
+        CetTrainObjView cetTrainObj = get(userId, trainCourseId);
 
         if (isApply) {
 
@@ -202,12 +195,13 @@ public class CetTraineeCourseService extends CetBaseMapper {
                 }
             }
 
-            if (cetTraineeCourse != null) {
+            if (cetTrainObj != null) {
                 throw new OpException("重复选课。");
             }
 
-            CetTraineeCourse record = new CetTraineeCourse();
-            record.setTraineeId(traineeId);
+            CetTrainObj record = new CetTrainObj();
+            record.setTrainId(trainId);
+            record.setUserId(userId);
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
             record.setCanQuit(canQuit);
@@ -215,33 +209,26 @@ public class CetTraineeCourseService extends CetBaseMapper {
             record.setChooseUserId(ShiroHelper.getCurrentUserId());
             record.setIp(ip);
 
-            cetTraineeCourseMapper.insertSelective(record);
+            cetTrainObjMapper.insertSelective(record);
 
-            if (cetTrainee.getIsQuit()) {
-                CetTrainee _record = new CetTrainee();
-                _record.setId(traineeId);
-                _record.setIsQuit(false);
-                cetTraineeMapper.updateByPrimaryKeySelective(_record);
-            }
-
-            sysApprovalLogService.add(traineeId, userId,
+            sysApprovalLogService.add(userId, userId,
                     isAdmin ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
                             : SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    remark, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                    remark+"("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         } else {
 
-            if (cetTraineeCourse == null) {
+            if (cetTrainObj == null) {
                 throw new OpException("退课异常，已选课程中无此课程。");
             }
 
             String courseName = cetTrainCourse.getCetCourse().getName();
-            if (cetTraineeCourse.getIsFinished()) {
+            if (cetTrainObj.getIsFinished()) {
                 throw new OpException("[{0}]已完成，不可退课。", courseName);
             }
 
-            if (!isAdmin && !cetTraineeCourse.getCanQuit()) {
+            if (!isAdmin && !cetTrainObj.getCanQuit()) {
                 throw new OpException("[{0}]是必选课程，不可退课。", courseName);
             }
 
@@ -251,106 +238,60 @@ public class CetTraineeCourseService extends CetBaseMapper {
                 }
             }
 
-            cetTraineeCourseMapper.deleteByPrimaryKey(cetTraineeCourse.getId());
+            cetTrainObjMapper.deleteByPrimaryKey(cetTrainObj.getId());
 
-            List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
-            if (selectedCetTrainCourses.size() == 0) {
-                // 退出培训班
-                CetTrainee record = new CetTrainee();
-                record.setId(traineeId);
-                record.setIsQuit(true);
-                cetTraineeMapper.updateByPrimaryKeySelective(record);
-            }
-            sysApprovalLogService.add(traineeId, userId,
+            sysApprovalLogService.add(userId, userId,
                     isAdmin ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
                             : SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    remark, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                    remark+"("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         }
     }
 
-    // 退出培训班
-    @Transactional
-    public void quit(int userId, int traineeId) {
-
-        CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
-        if (cetProjectObj.getUserId() != userId) {
-            throw new UnauthorizedException();
-        }
-
-        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
-
-        for (CetTrainCourse tc : selectedCetTrainCourses) {
-
-            int trainCourseId = tc.getId();
-            CetTraineeCourse ctee = get(traineeId, trainCourseId);
-
-            if (ctee.getIsFinished()) {
-                throw new OpException("您已经完成培训课程[{0}]，不可退出培训班。", tc.getCetCourse().getName());
-            }
-            if (!ctee.getCanQuit()) {
-                throw new OpException("培训课程[{0}]是必选课程，不可退出培训班。", tc.getCetCourse().getName());
-            }
-
-            //退课
-            applyItem(userId, trainCourseId, false, false, true, "退课");
-        }
-
-        sysApprovalLogService.add(traineeId, userId,
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                "退出培训班", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                "");
-    }
-
     // 签到/还原
     @Transactional
-    public void sign(Integer trainCourseId, Integer[] traineeCourseIds, boolean sign, byte signType, Date signTime) {
+    public void sign(Integer trainCourseId, Integer[] trainObjIds, boolean sign, byte signType, Date signTime) {
 
-        List<CetTraineeCourse> cetTraineeCourses = null;
-        if(traineeCourseIds==null || traineeCourseIds.length==0){ // 全部签到/全部还原
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
+        List<CetTrainObj> cetTrainObjs = null;
+        if(trainObjIds==null || trainObjIds.length==0){ // 全部签到/全部还原
+            CetTrainObjExample example = new CetTrainObjExample();
             example.createCriteria().andTrainCourseIdEqualTo(trainCourseId);
-            cetTraineeCourses = cetTraineeCourseMapper.selectByExample(example);
+            cetTrainObjs = cetTrainObjMapper.selectByExample(example);
         }else{
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
-            example.createCriteria().andIdIn(Arrays.asList(traineeCourseIds));
-            cetTraineeCourses = cetTraineeCourseMapper.selectByExample(example);
+            CetTrainObjExample example = new CetTrainObjExample();
+            example.createCriteria().andIdIn(Arrays.asList(trainObjIds));
+            cetTrainObjs = cetTrainObjMapper.selectByExample(example);
         }
 
-        if(cetTraineeCourses==null || cetTraineeCourses.size()==0) return;
+        if(cetTrainObjs==null || cetTrainObjs.size()==0) return;
 
-        for (CetTraineeCourse cetTraineeCourse : cetTraineeCourses) {
+        for (CetTrainObj cetTrainObj : cetTrainObjs) {
 
-            Integer traineeCourseId = cetTraineeCourse.getId();
-            int traineeId = cetTraineeCourse.getTraineeId();
-            CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-            CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
-            int userId = cetProjectObj.getUserId();
-            String courseName = cetTraineeCourse.getCetTrainCourse().getCetCourse().getName();
+            int trainObjId = cetTrainObj.getId();
+            int userId = cetTrainObj.getUserId();
+            String courseName = cetTrainObj.getCetTrainCourse().getCetCourse().getName();
 
-            CetTraineeCourse record = new CetTraineeCourse();
+            CetTrainObj record = new CetTrainObj();
             record.setIsFinished(sign);
             record.setSignType(signType);
             record.setSignTime(signTime);
 
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
-            example.createCriteria().andIdEqualTo(traineeCourseId)
+            CetTrainObjExample example = new CetTrainObjExample();
+            example.createCriteria().andIdEqualTo(trainObjId)
                     .andIsFinishedNotEqualTo(sign); // 只对未签到/已签到的进行操作
 
-            cetTraineeCourseMapper.updateByExampleSelective(record, example);
+            cetTrainObjMapper.updateByExampleSelective(record, example);
 
             if (!sign) {
-                commonMapper.excuteSql("update cet_trainee_course set sign_time=null, sign_type=null where id="
-                        + traineeCourseId);
+                commonMapper.excuteSql("update cet_train_obj set sign_time=null, sign_type=null where id=" + trainObjId);
             }
 
-            sysApprovalLogService.add(traineeId, userId,
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+            sysApprovalLogService.add(userId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    sign ? "签到" : "还原", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                    (sign ? "签到" : "还原") + "("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
         }
     }
 
@@ -359,7 +300,7 @@ public class CetTraineeCourseService extends CetBaseMapper {
     public Map<String, Object> signImport(int trainCourseId, List<Map<Integer, String>> xlsRows) {
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-        Integer trainId = cetTrainCourse.getTrainId();
+        int trainId = cetTrainCourse.getTrainId();
         String courseName = cetTrainCourse.getCetCourse().getName();
 
         int success = 0;
@@ -374,33 +315,32 @@ public class CetTraineeCourseService extends CetBaseMapper {
                 continue;
             }
             int userId = uv.getId();
-            CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-            if (cetTrainee == null){
+            CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+            if (cetProjectObj == null){
                 failedXlsRows.add(xlsRow);
                 continue;
             }
-            int traineeId = cetTrainee.getId();
 
-            CetTraineeCourse record = new CetTraineeCourse();
+            CetTrainObj record = new CetTrainObj();
             record.setIsFinished(true);
             record.setSignType(CetConstants.CET_TRAINEE_SIGN_TYPE_IMPORT);
             record.setSignTime(new Date());
 
-            CetTraineeCourseExample example = new CetTraineeCourseExample();
-            example.createCriteria().andTraineeIdEqualTo(traineeId)
+            CetTrainObjExample example = new CetTrainObjExample();
+            example.createCriteria().andUserIdEqualTo(userId)
                     .andTrainCourseIdEqualTo(trainCourseId);
 
-            int ret = cetTraineeCourseMapper.updateByExampleSelective(record, example);
+            int ret = cetTrainObjMapper.updateByExampleSelective(record, example);
             if(ret==1) {
                 success++;
             }else{
                 failedXlsRows.add(xlsRow);
             }
 
-            sysApprovalLogService.add(traineeId, userId,
+            sysApprovalLogService.add(userId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    "签到(导入)", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                    "签到(导入)("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
         }
 
         Map<String, Object> resultMap = new HashMap<>();

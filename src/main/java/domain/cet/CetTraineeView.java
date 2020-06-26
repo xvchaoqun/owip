@@ -1,6 +1,5 @@
 package domain.cet;
 
-import persistence.cet.CetProjectObjMapper;
 import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
@@ -16,82 +15,27 @@ public class CetTraineeView implements Serializable {
         return cetTrainMapper.selectByPrimaryKey(trainId);
     }
 
-    public CetProjectObj getObj(){
-
-        if(objId==null) return null;
-        CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
-        return cetProjectObjMapper.selectByPrimaryKey(objId);
-    }
-
-    private Integer id;
-
-    private Integer trainId;
-
-    private Integer objId;
-
-    private Boolean isQuit;
-
-    private String remark;
-
     private Integer userId;
 
     private Integer traineeTypeId;
 
     private Integer projectId;
 
+    private Integer planId;
+
+    private Integer trainId;
+
     private Boolean objIsQuit;
 
-    private Integer planId;
+    private Long courseCount;
+
+    private BigDecimal finishCount;
 
     private BigDecimal totalPeriod;
 
     private BigDecimal finishPeriod;
 
-    private Integer courseCount;
-
-    private Integer finishCount;
-
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getTrainId() {
-        return trainId;
-    }
-
-    public void setTrainId(Integer trainId) {
-        this.trainId = trainId;
-    }
-
-    public Integer getObjId() {
-        return objId;
-    }
-
-    public void setObjId(Integer objId) {
-        this.objId = objId;
-    }
-
-    public Boolean getIsQuit() {
-        return isQuit;
-    }
-
-    public void setIsQuit(Boolean isQuit) {
-        this.isQuit = isQuit;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
 
     public Integer getUserId() {
         return userId;
@@ -117,6 +61,22 @@ public class CetTraineeView implements Serializable {
         this.projectId = projectId;
     }
 
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
+    }
+
+    public Integer getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
+    }
+
     public Boolean getObjIsQuit() {
         return objIsQuit;
     }
@@ -125,12 +85,20 @@ public class CetTraineeView implements Serializable {
         this.objIsQuit = objIsQuit;
     }
 
-    public Integer getPlanId() {
-        return planId;
+    public Long getCourseCount() {
+        return courseCount;
     }
 
-    public void setPlanId(Integer planId) {
-        this.planId = planId;
+    public void setCourseCount(Long courseCount) {
+        this.courseCount = courseCount;
+    }
+
+    public BigDecimal getFinishCount() {
+        return finishCount;
+    }
+
+    public void setFinishCount(BigDecimal finishCount) {
+        this.finishCount = finishCount;
     }
 
     public BigDecimal getTotalPeriod() {
@@ -147,21 +115,5 @@ public class CetTraineeView implements Serializable {
 
     public void setFinishPeriod(BigDecimal finishPeriod) {
         this.finishPeriod = finishPeriod;
-    }
-
-    public Integer getCourseCount() {
-        return courseCount;
-    }
-
-    public void setCourseCount(Integer courseCount) {
-        this.courseCount = courseCount;
-    }
-
-    public Integer getFinishCount() {
-        return finishCount;
-    }
-
-    public void setFinishCount(Integer finishCount) {
-        this.finishCount = finishCount;
     }
 }

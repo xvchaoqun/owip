@@ -192,9 +192,9 @@
     </button>
         <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"
+                <%--?displayType=1&hideStatus=1--%>
                 data-url="${ctx}/sysApprovalLog"
-                data-width="850"
-                data-id-name="objId">
+                data-width="850">
             <i class="fa fa-history"></i> 操作记录
         </button>
     </c:if>
@@ -572,9 +572,6 @@
                 return cellvalue?"已学习":"未学习"
             },frozen: true},
             </c:if>
-            { name: 'traineeId', hidden:true, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.objInfo.traineeId;;
-            }},
             </c:if>
             <c:if test="${cls==3}">
             { label: '是否结业',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -822,20 +819,13 @@
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#logBtn,#resultEditBtn, #uploadNoteBtn").prop("disabled", true);
+            $("#resultEditBtn, #uploadNoteBtn").prop("disabled", true);
             return;
         }
         var rowData = $(grid).getRowData(ids[0]);
-        var traineeId = rowData.traineeId;
-        $("#logBtn").prop("disabled", $.trim(traineeId)=='');
         var planCourseObjId = rowData.planCourseObjId;
         //console.log("planCourseObjId="+ $.trim(planCourseObjId))
         $("#resultEditBtn,#uploadNoteBtn").prop("disabled", $.trim(planCourseObjId)=='');
-
-        var querystr = "&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE%>&id="+traineeId;
-        $("#logBtn").data("querystr", querystr);
-
-
     }
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
