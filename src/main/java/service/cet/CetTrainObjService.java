@@ -131,39 +131,6 @@ public class CetTrainObjService extends CetBaseMapper {
         modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);
     }
 
-    //参训人员报名
-    /*@Transactional
-    public void apply(int userId, int trainId, Integer[] trainCourseIds) {
-
-        if (trainCourseIds == null || trainCourseIds.length == 0) return;
-
-        checkApplyIsOpen(trainId);
-        CetTraineeView cetTrainee = cetTraineeService.createIfNotExist(userId, trainId);
-        int traineeId = cetTrainee.getId();
-
-        Date now = new Date();
-        String ip = ContextHelper.getRealIp();
-        Integer currentUserId = ShiroHelper.getCurrentUserId();
-        for (Integer trainCourseId : trainCourseIds) {
-
-            CetTrainObj record = new CetTrainObj();
-            record.setTraineeId(traineeId);
-            record.setTrainCourseId(trainCourseId);
-            record.setIsFinished(false);
-            record.setChooseTime(now);
-            record.setChooseUserId(currentUserId);
-            record.setIp(ip);
-
-            cetTrainObjMapper.insertSelective(record);
-        }
-
-        sysApprovalLogService.add(traineeId, userId,
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
-                "报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                MessageFormat.format("已选{0}门课", trainCourseIds.length));
-    }*/
-
     // 选课/退课
     @Transactional
     public void applyItem(int userId, int trainCourseId, boolean isApply, boolean isAdmin, boolean canQuit, String remark) {

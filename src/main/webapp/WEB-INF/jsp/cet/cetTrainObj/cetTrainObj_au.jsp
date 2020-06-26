@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>参训人员</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="traineeId" value="${cetTrainObj.traineeId}">
+                        <input required class="form-control" type="text" name="userId" value="${cetTrainObj.userId}">
 				</div>
 			</div>
 			<div class="form-group">
