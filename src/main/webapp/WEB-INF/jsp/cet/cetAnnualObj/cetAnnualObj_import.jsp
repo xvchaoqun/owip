@@ -3,11 +3,17 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>批量导入</h3>
+    <h3>批量导入参训人员信息</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
-          enctype="multipart/form-data" action="${ctx}/cet/cetAnnualObj_import?annualId=${annualId}" method="post">
+          enctype="multipart/form-data" action="${ctx}/cet/cetAnnualObj_import?annualId=${param.annualId}" method="post">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"> 参训人员类型</label>
+            <div class="col-xs-6 label-text">
+                ${cetTraineeType.name}
+            </div>
+        </div>
         <div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">

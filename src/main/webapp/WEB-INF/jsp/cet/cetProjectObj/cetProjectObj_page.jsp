@@ -64,9 +64,7 @@
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             设置应完成学时</button>
 
-        <button class="downloadBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
-            <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
+
 
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
@@ -98,7 +96,7 @@
                data-prompt="统计汇总当前培训班中学员的培训学时（已完成学时数）"></i>  刷新培训学时
         </button>
 
-        <button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
+        <%--<button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
                 data-title="同步学员信息"
                 data-msg="确定同步学员信息？<br/>（同步最新的行政级别、党派等信息）"
                 data-need-id="false"
@@ -106,7 +104,10 @@
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 同步中..."
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 同步学员信息
-        </button>
+        </button>--%>
+        <button class="downloadBtn btn btn-success btn-sm"
+                data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
+            <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
     </shiro:hasPermission>
     </c:if>
     <c:if test="${isQuit}">

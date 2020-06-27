@@ -46,9 +46,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-       <!-- <table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
+        <table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -190,7 +190,7 @@
         <!--<table tableName="cet_code_wx_sign" domainObjectName="cet.CetCodeWxSign" mapperName="cet.CetCodeWxSignMapper">
         </table>-->
 
-        <table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
+        <!--<table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
@@ -204,7 +204,7 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->

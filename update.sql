@@ -31,8 +31,6 @@ ROW_FORMAT=DYNAMIC
 AUTO_INCREMENT=8672
 ;
 
-
-
 insert into cet_train_obj select ctc.id, ct.train_id, ct.obj_id, o.user_id, ctc.train_course_id, ctc.can_quit, ctc.is_finished,
 ctc.sign_time, ctc.sign_out_time, ctc.sign_type, ctc.choose_time, ctc.choose_user_id, ctc.ip, ctc.remark
 from cet_trainee_course ctc, cet_trainee ct, cet_project_obj o where ctc.trainee_id=ct.id and ct.obj_id=o.id;
@@ -54,6 +52,15 @@ drop view cet_trainee_course_view;
 
 
 delete from sys_resource where permission='userCetTrain:list2';
+
+update cet_unit_project set special_type=1 where special_type is null;
+
+ALTER TABLE `cet_record`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训类型，1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训 5 二级党委日常培训' AFTER `name`,
+	CHANGE COLUMN `type_id` `source_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训记录来源ID，关联各个模块培训项目的主键' AFTER `type`,
+	ADD COLUMN `source_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '培训记录来源类别，1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训 5 二级党委日常培训 6 党校其他培训 7 二级党委其他培训' AFTER `source_id`;
+
+truncate table cet_record;
 
 2020.6.23
 

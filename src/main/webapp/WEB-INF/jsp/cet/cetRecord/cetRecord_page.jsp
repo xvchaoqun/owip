@@ -6,7 +6,7 @@
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.year ||not empty param.userId
+                   value="${not empty param.year ||not empty param.userId||not empty param.type
                    ||not empty param.traineeTypeId || not empty param.trainDate || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -44,19 +44,19 @@
                                     </c:forEach>
                                 </select>
                                 <script>
-                                    $("#modalForm select[name=type]").val('${param.type}')
+                                    $("#searchForm select[name=type]").val('${param.type}')
                                 </script>
                             </div>
                             <div class="form-group">
                                 <label>参训人员类型</label>
-                                <select required data-rel="select2" name="traineeTypeId" data-placeholder="请选择" data-width="275">
+                                <select data-rel="select2" name="traineeTypeId" data-placeholder="请选择">
                                     <option></option>
                                     <c:forEach items="${traineeTypeMap}" var="entity">
                                         <option value="${entity.key}">${entity.value.name}</option>
                                     </c:forEach>
                                 </select>
                                 <script type="text/javascript">
-                                    $("#modalForm select[name=traineeTypeId]").val(${param.traineeTypeId});
+                                    $("#searchForm select[name=traineeTypeId]").val(${param.traineeTypeId});
                                 </script>
                             </div>
                             <div class="form-group">

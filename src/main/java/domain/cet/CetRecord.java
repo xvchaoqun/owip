@@ -33,7 +33,9 @@ public class CetRecord implements Serializable {
 
     private Byte type;
 
-    private Integer typeId;
+    private Integer sourceId;
+
+    private Byte sourceType;
 
     private String organizer;
 
@@ -133,12 +135,20 @@ public class CetRecord implements Serializable {
         this.type = type;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getSourceId() {
+        return sourceId;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setSourceId(Integer sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public Byte getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(Byte sourceType) {
+        this.sourceType = sourceType;
     }
 
     public String getOrganizer() {

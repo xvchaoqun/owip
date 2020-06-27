@@ -40,12 +40,12 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                                <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
+                                <%--<c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
                                     <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
                                             data-url="${ctx}/cet/cetCourse_addToTrain"
                                             data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
                                         添加到培训班</button>
-                                </c:if>
+                                </c:if>--%>
                             </c:if>
                             <c:if test="${cls==4}">
                                 <button data-url="${ctx}/cet/cetCourse_fakeDel?del=0"

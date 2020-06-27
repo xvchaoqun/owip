@@ -161,15 +161,16 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_SPECIAL));
         BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_DAILY));
-        BigDecimal otherSpecialFinSishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_OTHER_SPECIAL));
-        BigDecimal otherDailyFinSishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_OTHER_DAILY));
 
-        BigDecimal unitFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_PARTY));
+        BigDecimal unitSpecialFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_PARTY_SPECIAL));
+        BigDecimal unitDailyFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_PARTY_DAILY));
+        BigDecimal unitFinishPeriod = unitSpecialFinishPeriod.add(unitDailyFinishPeriod);
+
         BigDecimal upperFinishPeriod = NumberUtils.trimToZero(iCetMapper.totalFinishPeriod(year, userId, traineeTypeId, CetConstants.CET_TYPE_UPPER));
 
         Map<String, BigDecimal> resultMap = new HashMap<>();
-        resultMap.put("specialPeriod", specialFinishPeriod.add(otherSpecialFinSishPeriod));
-        resultMap.put("dailyPeriod", dailyFinishPeriod.add(otherDailyFinSishPeriod));
+        resultMap.put("specialPeriod", specialFinishPeriod);
+        resultMap.put("dailyPeriod", dailyFinishPeriod);
         resultMap.put("unitPeriod", unitFinishPeriod);
         resultMap.put("upperPeriod", upperFinishPeriod);
 
@@ -285,7 +286,11 @@ public class CetAnnualObjService extends CetBaseMapper {
 
         BigDecimal specialFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_SPECIAL));
         BigDecimal dailyFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_DAILY));
-        BigDecimal unitFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_PARTY)); // 二级党委
+
+        BigDecimal unitSpecialFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_PARTY_SPECIAL)); // 二级党委
+        BigDecimal unitDailyFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_PARTY_DAILY)); // 二级党委
+        BigDecimal unitFinishPeriod = unitSpecialFinishPeriod.add(unitDailyFinishPeriod);
+
         BigDecimal upperFinishPeriod = NumberUtils.trimToZero(totalFinishPeriod(cetAnnualObj, CetConstants.CET_TYPE_UPPER)); // 上级调训
 
         // 总数

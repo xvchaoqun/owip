@@ -53,8 +53,9 @@ public class CetRecordService extends CetBaseMapper {
             if(quitObjIds.size()>0) {
                 CetRecordExample example1 = new CetRecordExample();
                 example1.createCriteria()
-                        .andTypeIn(Arrays.asList(CetConstants.CET_TYPE_PARTY, CetConstants.CET_TYPE_DAILY))
-                        .andTypeIdIn(quitObjIds);
+                        .andSourceTypeIn(Arrays.asList(CetConstants.CET_SOURCE_TYPE_SPECIAL,
+                                CetConstants.CET_SOURCE_TYPE_DAILY))
+                        .andSourceIdIn(quitObjIds);
                 cetRecordMapper.deleteByExample(example1);
             }
         }
@@ -75,25 +76,28 @@ public class CetRecordService extends CetBaseMapper {
 
         CetUpperTrain t = cetUpperTrainMapper.selectByPrimaryKey(upperTrainId);
         byte type = CetConstants.CET_TYPE_UPPER;
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_UPPER;
 
         if(t.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){ // 党校其他培训
 
-            if(t.getSpecialType()==null || t.getSpecialType()==CetConstants.CET_UPPER_TRAIN_ST_SPECIAL){
-                type = CetConstants.CET_TYPE_OTHER_SPECIAL;
+            if(t.getSpecialType()==null || t.getSpecialType()==CetConstants.CET_PROJECT_TYPE_SPECIAL){
+                type = CetConstants.CET_TYPE_SPECIAL;
             }else{
-                type = CetConstants.CET_TYPE_OTHER_DAILY;
+                type = CetConstants.CET_TYPE_DAILY;
             }
+
+            sourceType = CetConstants.CET_SOURCE_TYPE_OTHER;
         }
 
         if(t.getStatus()!=CetConstants.CET_UPPER_TRAIN_STATUS_PASS
                 || t.getIsValid()==null){
 
             // 未通过审核不计入
-            delByType(type, upperTrainId);
+            delByType(sourceType, upperTrainId);
             return;
         }
 
-        CetRecord r = get(type, upperTrainId);
+        CetRecord r = get(sourceType, upperTrainId);
         if(r==null){
             r = new CetRecord();
         }
@@ -107,7 +111,8 @@ public class CetRecordService extends CetBaseMapper {
         r.setEndDate(t.getEndDate());
         r.setName(t.getTrainName());
         r.setType(type);
-        r.setTypeId(upperTrainId);
+        r.setSourceType(sourceType);
+        r.setSourceId(upperTrainId);
         r.setOrganizer(StringUtils.defaultIfBlank(CmTag.getMetaTypeName(t.getOrganizer()), t.getOtherOrganizer()));
         r.setPeriod(t.getPeriod());
         if(BooleanUtils.isTrue(t.getIsOnline())) {
@@ -130,19 +135,26 @@ public class CetRecordService extends CetBaseMapper {
 
         CetUnitTrain t = cetUnitTrainMapper.selectByPrimaryKey(unitTrainId);
         CetUnitProject p = t.getProject();
-        byte type = CetConstants.CET_TYPE_PARTY;
+
+        byte type = CetConstants.CET_TYPE_PARTY_SPECIAL;
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_PARTY_OTHER;
+
+        if(p.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY){
+
+            type = CetConstants.CET_TYPE_PARTY_DAILY;
+        }
 
         if(t.getStatus()!=CetConstants.CET_UNITTRAIN_RERECORD_PASS
                 || p.getStatus() != CetConstants.CET_UNIT_PROJECT_STATUS_PASS){
 
             // 未通过审核不计入
-            delByType(type, unitTrainId);
+            delByType(sourceType, unitTrainId);
             return;
         }
 
         CetParty cetParty = p.getCetParty();
         String organizer = (cetParty==null)?"":cetParty.getName();
-        CetRecord r = get(type, unitTrainId);
+        CetRecord r = get(sourceType, unitTrainId);
         if(r==null){
             r = new CetRecord();
         }
@@ -156,7 +168,8 @@ public class CetRecordService extends CetBaseMapper {
         r.setEndDate(p.getEndDate());
         r.setName(p.getProjectName());
         r.setType(type);
-        r.setTypeId(unitTrainId);
+        r.setSourceType(sourceType);
+        r.setSourceId(unitTrainId);
         r.setOrganizer(organizer);
         r.setPeriod(t.getPeriod());
         if(BooleanUtils.isTrue(p.getIsOnline())) {
@@ -182,14 +195,18 @@ public class CetRecordService extends CetBaseMapper {
         CetProject p = cetProjectMapper.selectByPrimaryKey(o.getProjectId());
 
         byte type = CetConstants.CET_TYPE_SPECIAL;
-        if(p.getType()==CetConstants.CET_PROJECT_TYPE_RC){
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_SPECIAL;
+
+        if(p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY){
+
             type = CetConstants.CET_TYPE_DAILY;
+            sourceType = CetConstants.CET_SOURCE_TYPE_DAILY;
         }
 
         // 已退出培训不计入
         if(BooleanUtils.isTrue(o.getIsQuit())){
 
-            delByType(type, projectObjId);
+            delByType(sourceType, projectObjId);
             return;
         }
 
@@ -200,11 +217,11 @@ public class CetRecordService extends CetBaseMapper {
         // 还没有完成学时不计入
         if(finishPeriod.compareTo(BigDecimal.ZERO)<=0){
 
-            delByType(type, projectObjId);
+            delByType(sourceType, projectObjId);
             return;
         }
 
-        CetRecord r = get(type, projectObjId);
+        CetRecord r = get(sourceType, projectObjId);
         if(r==null){
             r = new CetRecord();
         }
@@ -218,7 +235,8 @@ public class CetRecordService extends CetBaseMapper {
         r.setEndDate(p.getEndDate());
         r.setName(p.getName());
         r.setType(type);
-        r.setTypeId(projectObjId);
+        r.setSourceType(sourceType);
+        r.setSourceId(projectObjId);
         r.setOrganizer("党委组织部");
         r.setPeriod(finishPeriod);
 
@@ -245,19 +263,19 @@ public class CetRecordService extends CetBaseMapper {
     }
 
     // 根据类型 和 类型的主键 查找培训记录
-    public CetRecord get(byte type, int typeId){
+    public CetRecord get(byte sourceType, int sourceId){
 
         CetRecordExample example = new CetRecordExample();
-        example.createCriteria().andTypeEqualTo(type).andTypeIdEqualTo(typeId);
+        example.createCriteria().andSourceTypeEqualTo(sourceType).andSourceIdEqualTo(sourceId);
         List<CetRecord> cetRecords = cetRecordMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return cetRecords.size()>0?cetRecords.get(0):null;
     }
 
-    public int delByType(byte type, int typeId){
+    public int delByType(byte sourceType, int sourceId){
 
         CetRecordExample example = new CetRecordExample();
-        example.createCriteria().andTypeEqualTo(type).andTypeIdEqualTo(typeId);
+        example.createCriteria().andSourceTypeEqualTo(sourceType).andSourceIdEqualTo(sourceId);
 
         return cetRecordMapper.deleteByExample(example);
     }

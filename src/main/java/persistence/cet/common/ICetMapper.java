@@ -216,8 +216,8 @@ public interface ICetMapper {
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
-    @Select("select sum(ctv.finish_period) from cet_train_obj_view ctov " +
-            "LEFT JOIN cet_project cp ON ctv.project_id=cp.id " +
+    @Select("select sum(if(ctov.is_finished, ctov.period, 0)) from cet_train_obj_view ctov " +
+            "LEFT JOIN cet_project cp ON ctov.project_id=cp.id " +
             "where cp.is_valid=1 and ctov.plan_id=#{planId} and ctov.obj_id=#{objId}")
     public BigDecimal getProjectPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);

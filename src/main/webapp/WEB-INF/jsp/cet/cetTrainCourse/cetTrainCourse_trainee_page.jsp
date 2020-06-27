@@ -26,12 +26,12 @@
                 </a>
             </li>
 
-            <li class="">
+            <%--<li class="">
                 <a data-toggle="tab" href="#code" aria-expanded="false">
                     <i class="green ace-icon fa fa-id-card bigger-120"></i>
                     二维码签到
                 </a>
-            </li>
+            </li>--%>
         </ul>
 
         <div class="tab-content" style="padding: 0">

@@ -5,9 +5,8 @@
 <c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_SPECIAL" value="<%=CetConstants.CET_UPPER_TRAIN_ST_SPECIAL%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_DAILY" value="<%=CetConstants.CET_UPPER_TRAIN_ST_DAILY%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_MAP" value="<%=CetConstants.CET_UPPER_TRAIN_ST_MAP%>"/>
+<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
+<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
 <script>
   var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
   var colModel = [
@@ -60,7 +59,7 @@
   <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
     {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
             if(cellvalue==undefined) return '--'
-            return _cMap.CET_UPPER_TRAIN_ST_MAP[cellvalue]
+            return _cMap.CET_PROJECT_TYPE_MAP[cellvalue]
         }},
   </c:if>
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},

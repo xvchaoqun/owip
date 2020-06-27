@@ -70,7 +70,7 @@
                 <i class="fa fa-download"></i> 批量操作 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                <shiro:hasPermission name="cetAnnualObj:edit">
+                <%--<shiro:hasPermission name="cetAnnualObj:edit">
                     <li>
                         <a href="javascript:;" class="jqItemBtn"
                             data-title="同步培训对象信息"
@@ -81,7 +81,7 @@
                            data-url="${ctx}/cet/cetAnnualObj_sync?annualId=${param.annualId}">
                             <i class="fa fa-upload"></i> 同步培训对象信息（可选择部分人员进行同步）</a>
                     </li>
-                </shiro:hasPermission>
+                </shiro:hasPermission>--%>
                 <li>
                     <a href="javascript:;" class="jqExportBtn" data-grid-id="#jqGrid2"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"

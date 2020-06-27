@@ -16,8 +16,8 @@
 <c:set var="CET_UPPERTRAIN_AU_TYPE_SINGLE" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_SINGLE%>"/>
 <c:set var="CET_UPPERTRAIN_AU_TYPE_BATCH" value="<%=CetConstants.CET_UPPERTRAIN_AU_TYPE_BATCH%>"/>
 
-<c:set var="CET_UPPER_TRAIN_ST_SPECIAL" value="<%=CetConstants.CET_UPPER_TRAIN_ST_SPECIAL%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_DAILY" value="<%=CetConstants.CET_UPPER_TRAIN_ST_DAILY%>"/>
+<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
+<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
 
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -195,14 +195,14 @@
                          <div class="input-group">
                              <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                  <input type="radio" name="specialType" id="specialType0"
-                                        value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                                        value="${CET_PROJECT_TYPE_SPECIAL}">
                                  <label for="specialType0">
                                      专题培训
                                  </label>
                              </div>
                              <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                  <input type="radio" name="specialType" id="specialType1"
-                                        value="${CET_UPPER_TRAIN_ST_DAILY}">
+                                        value="${CET_PROJECT_TYPE_DAILY}">
                                  <label for="specialType1">
                                      日常培训
                                  </label>
@@ -211,7 +211,7 @@
                      </div>
                  </div>
                      <script>
-                         $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_UPPER_TRAIN_ST_SPECIAL:cetUpperTrain.specialType}']")
+                         $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_PROJECT_TYPE_SPECIAL:cetUpperTrain.specialType}']")
                              .prop("checked", true);
                      </script>
                 </c:if>

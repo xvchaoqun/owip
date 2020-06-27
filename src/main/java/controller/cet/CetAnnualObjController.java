@@ -301,7 +301,11 @@ public class CetAnnualObjController extends CetBaseController {
     @RequestMapping("/cetAnnualObj_import")
     public String cetProjectObj_import(Integer annualId, ModelMap modelMap){
 
-        modelMap.put("annualId",annualId);
+         CetAnnual cetAnnual = cetAnnualMapper.selectByPrimaryKey(annualId);
+        modelMap.put("cetAnnual", cetAnnual);
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(cetAnnual.getTraineeTypeId());
+        modelMap.put("cetTraineeType", cetTraineeType);
+
         return "cet/cetAnnualObj/cetAnnualObj_import";
     }
 

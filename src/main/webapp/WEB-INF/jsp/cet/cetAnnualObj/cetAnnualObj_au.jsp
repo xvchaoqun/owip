@@ -3,12 +3,18 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h4>${empty cetAnnualObj?'添加':'修改'}培训对象（${cetTraineeType.name}）</h4>
+    <h4>${empty cetAnnualObj?'添加':'修改'}参训人员信息</h4>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetAnnualObj_au" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}"/>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"> 参训人员类型</label>
+            <div class="col-xs-6 label-text">
+                ${cetTraineeType.name}
+            </div>
+        </div>
         <c:if test="${empty cetAnnualObj}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 选择参训人员</label>
@@ -24,6 +30,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"> 参训人员姓名</label>
             <div class="col-xs-6 label-text">
+                <input type="hidden" name="userId" value="${cetAnnualObj.userId}"/>
                 ${cetAnnualObj.user.realname}
             </div>
         </div>

@@ -14,13 +14,13 @@
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
-                <li>
+                <li class="active">
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetProject_detail_obj?cls=1&projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 培训对象及学习情况</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetProjectPlan?projectId=${param.projectId}">
@@ -44,7 +44,7 @@
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="tab-content padding-4" id="detail-content">
-            <c:import url="${ctx}/cet/cetProjectPlan"/>
+            <c:import url="${ctx}/cet/cetProject_detail_obj"/>
             </div>
         </div>
     </div>

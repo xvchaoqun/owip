@@ -532,7 +532,7 @@ public class CetUpperTrainController extends CetBaseController {
         if (null != ids && ids.length > 0) {
             cetUpperTrainService.batchTransfer(ids, cetType, specialType, projectId);
             logger.info(addLog(LogConstants.LOG_CET, "批量转移上级调训（%s）至%s的%s",
-                    StringUtils.join(ids, ","), CetConstants.CET_TYPE_T_MAP.get(cetType), CetConstants.CET_UPPER_TRAIN_ST_MAP.get(specialType)));
+                    StringUtils.join(ids, ","), CetConstants.CET_TYPE_T_MAP.get(cetType), CetConstants.CET_PROJECT_TYPE_MAP.get(specialType)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -914,7 +914,7 @@ public class CetUpperTrainController extends CetBaseController {
                         record.getTitle(),
                         record.getPostType() == null ? "" : CmTag.getMetaTypeName(record.getPostType()),
                         record.getIdentity() != "" ? StringUtils.join(_identities, ",") : "",
-                        record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_RC ? "日常培训" : "专题培训",
+                        record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY ? "日常培训" : "专题培训",
                         metaTypeService.getName(record.getTrainType()),
                         record.getTrainName(),
                         record.getIsOnline() ? "线上培训" : "线下培训",

@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
-<div class="jqgrid-vertical-offset buttons">
+<div class=" buttons">
     <c:if test="${cls==1}">
         <button class="popupBtn btn btn-info btn-sm"
            data-width="1200"

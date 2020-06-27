@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="_PASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_UNPASS%>" var="_UNPASS"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_DELETE%>" var="_DELETE"/>
-<c:set value="<%=CetConstants.CET_UPPER_TRAIN_ST_MAP%>" var="CET_UPPER_TRAIN_ST_MAP"/>
+<c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -305,7 +305,7 @@ pageEncoding="UTF-8" %>
                 { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
                 {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
                         if(cellvalue==undefined) return '--'
-                        return _cMap.CET_UPPER_TRAIN_ST_MAP[cellvalue]
+                        return _cMap.CET_PROJECT_TYPE_MAP[cellvalue]
                     }},
                 {label: '报告名称', name: 'reportName', width: 150},
                 {label: '主讲人', name: 'reporter', width: 80},

@@ -56,12 +56,12 @@
       }},
       </c:if>
       <c:if test="${param.list=='admin'}">
-      {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
+      /*{label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
           return ('<button class="openView btn btn-warning btn-xs" ' +
           'data-url="${ctx}/cet/cetCourse_detail?courseId={0}"><i class="fa fa-search"></i> 详情</button>')
                   .format(rowObject.id);
-      }},
-      {label: '备注', name: 'remark', width: 400}
+      }},*/
+      {label: '备注', name: 'remark', align: 'left', width: 200}
       </c:if>
   ]
   </c:if>

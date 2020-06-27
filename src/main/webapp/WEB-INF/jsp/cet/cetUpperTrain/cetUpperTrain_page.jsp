@@ -9,7 +9,7 @@
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_MAP" value="<%=CetConstants.CET_UPPER_TRAIN_ST_MAP%>"/>
+<c:set var="CET_PROJECT_TYPE_MAP" value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
@@ -229,7 +229,7 @@
                                             data-width="200"
                                             data-placeholder="请选择">
                                         <option></option>
-                                        <c:forEach items="${CET_UPPER_TRAIN_ST_MAP}" var="typeMap">
+                                        <c:forEach items="${CET_PROJECT_TYPE_MAP}" var="typeMap">
                                             <option value="${typeMap.key}">${typeMap.value}</option>
                                         </c:forEach>
                                     </select>

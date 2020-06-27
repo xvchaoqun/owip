@@ -292,7 +292,7 @@ public class CetExportService extends CetBaseMapper {
         str = cell.getStringCellValue()
                 .replace("type", typeName);
         cell.setCellValue(str);
-        cell = row.getCell(14);
+        cell = row.getCell(12);
         str = cell.getStringCellValue()
                 .replace("year", cetAnnual.getYear() + "");
         cell.setCellValue(str);
@@ -333,13 +333,13 @@ public class CetExportService extends CetBaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(obj.getTitle());
             
-            // 行政级别
+            /*// 行政级别
             cell = row.getCell(column++);
             cell.setCellValue(metaTypeService.getName(obj.getAdminLevel()));
             
             // 职务属性
             cell = row.getCell(column++);
-            cell.setCellValue(metaTypeService.getName(obj.getPostType()));
+            cell.setCellValue(metaTypeService.getName(obj.getPostType()));*/
             
             // 年度学习任务
             BigDecimal periodOffline = NumberUtils.trimToZero(obj.getPeriodOffline());
@@ -388,7 +388,10 @@ public class CetExportService extends CetBaseMapper {
 
             // 二级党校
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.stripTrailingZeros(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_PARTY)));
+            BigDecimal unitSpecialFinishPeriod = NumberUtils.trimToZero(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_PARTY_SPECIAL)); // 二级党委
+            BigDecimal unitDailyFinishPeriod = NumberUtils.trimToZero(cetAnnualObjService.totalFinishPeriod(obj, CetConstants.CET_TYPE_PARTY_DAILY)); // 二级党委
+            BigDecimal unitFinishPeriod = unitSpecialFinishPeriod.add(unitDailyFinishPeriod);
+            cell.setCellValue(NumberUtils.stripTrailingZeros(unitFinishPeriod));
             
             // 上级调训
             cell = row.getCell(column++);
@@ -448,8 +451,7 @@ public class CetExportService extends CetBaseMapper {
         str = cell.getStringCellValue()
                 .replace("code", uv.getCode())
                 .replace("realname", uv.getRealname())
-                .replace("title", cetAnnualObj.getTitle())
-                .replace("adminLevel", metaTypeService.getName(cetAnnualObj.getAdminLevel()));
+                .replace("title", cetAnnualObj.getTitle());
         cell.setCellValue(str);
         cell = row.getCell(3);
         str = cell.getStringCellValue()

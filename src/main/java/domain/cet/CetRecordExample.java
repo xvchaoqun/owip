@@ -763,63 +763,123 @@ public class CetRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNull() {
-            addCriterion("type_id is null");
+        public Criteria andSourceIdIsNull() {
+            addCriterion("source_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIsNotNull() {
-            addCriterion("type_id is not null");
+        public Criteria andSourceIdIsNotNull() {
+            addCriterion("source_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdEqualTo(Integer value) {
-            addCriterion("type_id =", value, "typeId");
+        public Criteria andSourceIdEqualTo(Integer value) {
+            addCriterion("source_id =", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotEqualTo(Integer value) {
-            addCriterion("type_id <>", value, "typeId");
+        public Criteria andSourceIdNotEqualTo(Integer value) {
+            addCriterion("source_id <>", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThan(Integer value) {
-            addCriterion("type_id >", value, "typeId");
+        public Criteria andSourceIdGreaterThan(Integer value) {
+            addCriterion("source_id >", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type_id >=", value, "typeId");
+        public Criteria andSourceIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("source_id >=", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThan(Integer value) {
-            addCriterion("type_id <", value, "typeId");
+        public Criteria andSourceIdLessThan(Integer value) {
+            addCriterion("source_id <", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("type_id <=", value, "typeId");
+        public Criteria andSourceIdLessThanOrEqualTo(Integer value) {
+            addCriterion("source_id <=", value, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdIn(List<Integer> values) {
-            addCriterion("type_id in", values, "typeId");
+        public Criteria andSourceIdIn(List<Integer> values) {
+            addCriterion("source_id in", values, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotIn(List<Integer> values) {
-            addCriterion("type_id not in", values, "typeId");
+        public Criteria andSourceIdNotIn(List<Integer> values) {
+            addCriterion("source_id not in", values, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("type_id between", value1, value2, "typeId");
+        public Criteria andSourceIdBetween(Integer value1, Integer value2) {
+            addCriterion("source_id between", value1, value2, "sourceId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("type_id not between", value1, value2, "typeId");
+        public Criteria andSourceIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("source_id not between", value1, value2, "sourceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeIsNull() {
+            addCriterion("source_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeIsNotNull() {
+            addCriterion("source_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeEqualTo(Byte value) {
+            addCriterion("source_type =", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeNotEqualTo(Byte value) {
+            addCriterion("source_type <>", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeGreaterThan(Byte value) {
+            addCriterion("source_type >", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("source_type >=", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeLessThan(Byte value) {
+            addCriterion("source_type <", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("source_type <=", value, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeIn(List<Byte> values) {
+            addCriterion("source_type in", values, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeNotIn(List<Byte> values) {
+            addCriterion("source_type not in", values, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeBetween(Byte value1, Byte value2) {
+            addCriterion("source_type between", value1, value2, "sourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("source_type not between", value1, value2, "sourceType");
             return (Criteria) this;
         }
 

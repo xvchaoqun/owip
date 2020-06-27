@@ -66,12 +66,12 @@ public class CetConstants {
     }
 
     // 培训类型， 1 专题培训 2 日常培训
-    public final static byte CET_PROJECT_TYPE_ZT = 1;
-    public final static byte CET_PROJECT_TYPE_RC = 2;
+    public final static byte CET_PROJECT_TYPE_SPECIAL = 1;
+    public final static byte CET_PROJECT_TYPE_DAILY = 2;
     public static Map<Byte, String> CET_PROJECT_TYPE_MAP = new LinkedHashMap<Byte, String>();
     static {
-        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_ZT, "专题培训");
-        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_RC, "日常培训");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_SPECIAL, "专题培训");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_DAILY, "日常培训");
     }
 
     // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
@@ -211,15 +211,6 @@ public class CetConstants {
     public final static byte CET_UPPER_TRAIN_TYPE_ABROAD = 8;
     public final static byte CET_UPPER_TRAIN_TYPE_SCHOOL = 10; // 党校其他培训
 
-    //其他培训类别 1党校专题培训 2党校日常培训
-    public final static byte CET_UPPER_TRAIN_ST_SPECIAL = 1;
-    public final static byte CET_UPPER_TRAIN_ST_DAILY = 2;
-    public final static Map<Byte, String> CET_UPPER_TRAIN_ST_MAP = new LinkedHashMap<>();
-    static {
-        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_SPECIAL, "专题培训");
-        CET_UPPER_TRAIN_ST_MAP.put(CET_UPPER_TRAIN_ST_DAILY, "日常培训");
-    }
-
     // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过
     public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0; // 待单位审批
     public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1; // 单位审批通过，isValid->待组织部确认
@@ -264,25 +255,32 @@ public class CetConstants {
     }
     
     // 培训类型（用于年度学习档案统计）
-    public final static byte CET_TYPE_SPECIAL = 1; // CET_PROJECT_TYPE_ZT
-    public final static byte CET_TYPE_DAILY = 2; // CET_PROJECT_TYPE_RC
-    public final static byte CET_TYPE_PARTY = 3;
+    public final static byte CET_TYPE_SPECIAL = 1; // CET_PROJECT_TYPE_SPECIAL
+    public final static byte CET_TYPE_DAILY = 2; // CET_PROJECT_TYPE_DAILY
+    public final static byte CET_TYPE_PARTY_SPECIAL = 3;
+    public final static byte CET_TYPE_PARTY_DAILY = 5;
     public final static byte CET_TYPE_UPPER = 4;
-    public final static byte CET_TYPE_OTHER_SPECIAL = 5; // 党校其他培训（专题培训）
-    public final static byte CET_TYPE_OTHER_DAILY = 6; // 党校其他培训（日常培训）
     public static Map<Byte, String> CET_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
+        CET_TYPE_MAP.put(CET_TYPE_UPPER, "上级调训");
         CET_TYPE_MAP.put(CET_TYPE_SPECIAL, "党校专题培训");
         CET_TYPE_MAP.put(CET_TYPE_DAILY, "党校日常培训");
-
-        CET_TYPE_MAP.put(CET_TYPE_PARTY, "二级党委培训");
-
-        CET_TYPE_MAP.put(CET_TYPE_UPPER, "上级调训");
-        CET_TYPE_MAP.put(CET_TYPE_OTHER_SPECIAL, "党校专题培训"); // 用于显示个人培训记录类型
-        CET_TYPE_MAP.put(CET_TYPE_OTHER_DAILY, "党校日常培训");
+        CET_TYPE_MAP.put(CET_TYPE_PARTY_SPECIAL, "二级党委专题培训");
+        CET_TYPE_MAP.put(CET_TYPE_PARTY_DAILY, "二级党委日常培训");
     }
 
+    // 培训记录来源类别（用于年度学习档案统计），1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训
+    // 5 二级党委日常培训 6 党校其他培训 7 二级党委其他培训
+    public final static byte CET_SOURCE_TYPE_SPECIAL = 1;
+    public final static byte CET_SOURCE_TYPE_DAILY = 2;
+    public final static byte CET_SOURCE_TYPE_PARTY_SPECIAL = 3; // 未用
+    public final static byte CET_SOURCE_TYPE_PARTY_DAILY = 5;  // 未用
+    public final static byte CET_SOURCE_TYPE_UPPER = 4;
+    public final static byte CET_SOURCE_TYPE_OTHER = 6;
+    public final static byte CET_SOURCE_TYPE_PARTY_OTHER = 7;
+
+    // 培训记录转移类型  1 ： 党校其他培训  2：二级党委培训
     public final static byte CET_TYPE_T_PARTY_SCHOOL = 1;
     public final static byte CET_TYPE_T_PARTY = 2;
     public final static Map<Byte, String> CET_TYPE_T_MAP = new LinkedHashMap<Byte, String>();

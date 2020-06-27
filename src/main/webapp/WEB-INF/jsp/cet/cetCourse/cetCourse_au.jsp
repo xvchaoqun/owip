@@ -24,13 +24,13 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-3 control-label">${empty cetCourse?'':'*'}编号</label>
 				<div class="col-xs-6">
 					<input ${empty cetCourse?'':'required'} class="form-control num" type="text" name="num" value="${cetCourse.num}">
 					<c:if test="${empty cetCourse}"><span class="label-inline"> * 留空自动生成</span></c:if>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>课程名称</label>
 				<div class="col-xs-6">

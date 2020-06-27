@@ -4,8 +4,8 @@
 <c:set var="CET_TYPE_T_MAP" value="<%=CetConstants.CET_TYPE_T_MAP%>"/>
 <c:set var="CET_TYPE_T_PARTY_SCHOOL" value="<%=CetConstants.CET_TYPE_T_PARTY_SCHOOL%>"/>
 <c:set var="CET_TYPE_T_PARTY" value="<%=CetConstants.CET_TYPE_T_PARTY%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_SPECIAL" value="<%=CetConstants.CET_UPPER_TRAIN_ST_SPECIAL%>"/>
-<c:set var="CET_UPPER_TRAIN_ST_DAILY" value="<%=CetConstants.CET_UPPER_TRAIN_ST_DAILY%>"/>
+<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
+<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>批量转移</h3>
@@ -42,14 +42,14 @@
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input type="radio" name="specialType" id="specialType0"
-                               value="${CET_UPPER_TRAIN_ST_SPECIAL}">
+                               value="${CET_PROJECT_TYPE_SPECIAL}">
                         <label for="specialType0">
                             专题培训
                         </label>
                     </div>
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input type="radio" name="specialType" id="specialType1"
-                               value="${CET_UPPER_TRAIN_ST_DAILY}">
+                               value="${CET_PROJECT_TYPE_DAILY}">
                         <label for="specialType1">
                             日常培训
                         </label>

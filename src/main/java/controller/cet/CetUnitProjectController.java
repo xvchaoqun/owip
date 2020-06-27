@@ -402,7 +402,7 @@ public class CetUnitProjectController extends CetBaseController {
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
                     metaTypeService.getName(record.getProjectType()),
                     record.getIsOnline() ? "线上培训" : "线下培训",
-                    record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_RC ? "日常培训" : "专题培训",
+                    record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY ? "日常培训" : "专题培训",
                     record.getReportName(),
                     record.getReporter(),
                     record.getPeriod() + "",
