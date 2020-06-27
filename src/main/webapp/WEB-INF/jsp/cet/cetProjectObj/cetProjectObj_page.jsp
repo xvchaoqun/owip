@@ -192,8 +192,7 @@
     </button>
         <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"
-                <%--?displayType=1&hideStatus=1--%>
-                data-url="${ctx}/sysApprovalLog"
+                data-url="${ctx}/sysApprovalLog?displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ%>"
                 data-width="850">
             <i class="fa fa-history"></i> 操作记录
         </button>

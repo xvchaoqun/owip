@@ -57,7 +57,7 @@ public class CetShortMsgService extends CetBaseMapper {
         // 已签到则不发
         if(cetTrainObj==null || cetTrainObj.getIsFinished()) return false;
 
-        CetTrainCourse cetTrainCourse = cetTrainObj.getCetTrainCourse();
+        CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(cetTrainObj.getTrainCourseId());
         if(cetTrainCourse==null && cetTrainCourse.getStartTime().after(new Date())) return false;
 
         return sendMsg2(cetTrainCourse, cetTrainObj.getUserId(), null);

@@ -9,6 +9,7 @@ ALTER TABLE `cet_party`
 CREATE TABLE `cet_train_obj` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
 	`train_id` INT(10) UNSIGNED NOT NULL COMMENT '所属培训班',
+	`obj_id` INT(10) UNSIGNED NOT NULL COMMENT '所属培训对象，关联表cet_project_obj',
 	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '参训人员',
 	`train_course_id` INT(10) UNSIGNED NOT NULL COMMENT '培训班课程',
 	`can_quit` TINYINT(1) UNSIGNED NULL DEFAULT '1' COMMENT '是否允许退课，由管理员设置的必选课程，不允许退课',
@@ -31,14 +32,17 @@ AUTO_INCREMENT=8672
 ;
 
 
-insert into cet_train_obj select ctc.id, ct.train_id, o.user_id, ctc.train_course_id, ctc.can_quit, ctc.is_finished,
+
+insert into cet_train_obj select ctc.id, ct.train_id, ct.obj_id, o.user_id, ctc.train_course_id, ctc.can_quit, ctc.is_finished,
 ctc.sign_time, ctc.sign_out_time, ctc.sign_type, ctc.choose_time, ctc.choose_user_id, ctc.ip, ctc.remark
 from cet_trainee_course ctc, cet_trainee ct, cet_project_obj o where ctc.trainee_id=ct.id and ct.obj_id=o.id;
 
 -- 更新 cet_train_obj_view
 
-update sys_approval_log l, cet_trainee tee, cet_project_obj o, cet_train t  set l.record_id=o.user_id,
-stage=concat(stage, '(',  t.name, ')')  where l.type=4 and l.record_id=tee.id and tee.train_id=t.id and tee.obj_id=o.id;
+update sys_approval_log l, cet_trainee tee, cet_train t  set l.record_id=tee.obj_id,
+stage=concat(stage, '(',  t.name, ')')  where l.type=4 and l.record_id=tee.id and tee.train_id=t.id;
+
+update sys_approval_log set type= 4 where type=5;
 
 drop table cet_trainee_course;
 drop table cet_trainee;

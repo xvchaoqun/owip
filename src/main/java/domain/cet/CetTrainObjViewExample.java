@@ -286,6 +286,66 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andObjIdIsNull() {
+            addCriterion("obj_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdIsNotNull() {
+            addCriterion("obj_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdEqualTo(Integer value) {
+            addCriterion("obj_id =", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdNotEqualTo(Integer value) {
+            addCriterion("obj_id <>", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdGreaterThan(Integer value) {
+            addCriterion("obj_id >", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("obj_id >=", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdLessThan(Integer value) {
+            addCriterion("obj_id <", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdLessThanOrEqualTo(Integer value) {
+            addCriterion("obj_id <=", value, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdIn(List<Integer> values) {
+            addCriterion("obj_id in", values, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdNotIn(List<Integer> values) {
+            addCriterion("obj_id not in", values, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id between", value1, value2, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id not between", value1, value2, "objId");
+            return (Criteria) this;
+        }
+
         public Criteria andTrainCourseIdIsNull() {
             addCriterion("train_course_id is null");
             return (Criteria) this;

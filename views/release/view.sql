@@ -65,7 +65,7 @@ left join (select train_course_id, count(id) as eva_finish_count from cet_train_
 
 DROP VIEW IF EXISTS `cet_train_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_obj_view` AS
-select cto.id as id,cto.train_id, cto.user_id, cto.train_course_id as train_course_id,
+select cto.id as id,cto.train_id, cto.user_id, cto.obj_id, cto.train_course_id as train_course_id,
 cto.can_quit as can_quit,cto.is_finished as is_finished,cto.sign_time as sign_time,cto.sign_out_time as sign_out_time,
 cto.sign_type as sign_type,cto.remark as remark,cto.choose_time as choose_time,cto.choose_user_id as choose_user_id,
 cto.ip as ip,cpo.project_id as project_id,cpo.trainee_type_id as trainee_type_id, ct.plan_id,
@@ -81,7 +81,7 @@ left join sys_user_view uv on uv.id=cto.choose_user_id order by cpo.id;
 
 DROP VIEW IF EXISTS `cet_trainee_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_view` AS
-select user_id, trainee_type_id, project_id, plan_id, train_id, is_quit as obj_is_quit,
+select user_id, obj_id, trainee_type_id, project_id, plan_id, train_id, is_quit as obj_is_quit,
        count(*) as course_count,
        sum(if(is_finished, 1, 0)) as finish_count,
        sum(period) as total_period,

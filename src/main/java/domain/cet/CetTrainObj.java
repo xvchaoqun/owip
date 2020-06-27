@@ -1,24 +1,14 @@
 package domain.cet;
 
-import persistence.cet.CetTrainCourseMapper;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrainObj implements Serializable {
-
-    public CetTrainCourse getCetTrainCourse(){
-
-        if(trainCourseId==null) return null;
-        CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
-
-        return cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-    }
-
     private Integer id;
 
     private Integer trainId;
+
+    private Integer objId;
 
     private Integer userId;
 
@@ -58,6 +48,14 @@ public class CetTrainObj implements Serializable {
 
     public void setTrainId(Integer trainId) {
         this.trainId = trainId;
+    }
+
+    public Integer getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Integer getUserId() {

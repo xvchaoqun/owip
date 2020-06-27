@@ -5,6 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="obj_id" jdbcType="INTEGER" property="objId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
@@ -55,8 +56,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
-    sign_type, remark, choose_time, choose_user_id, ip, project_id, trainee_type_id, 
+    id, train_id, user_id, obj_id, train_course_id, can_quit, is_finished, sign_time, 
+    sign_out_time, sign_type, remark, choose_time, choose_user_id, ip, project_id, trainee_type_id, 
     plan_id, is_quit, course_id, period, year, choose_user_code, choose_user_name
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainObjViewExample" resultMap="BaseResultMap">

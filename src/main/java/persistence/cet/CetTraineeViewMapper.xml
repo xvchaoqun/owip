@@ -3,6 +3,7 @@
 <mapper namespace="persistence.cet.CetTraineeViewMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTraineeView">
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="obj_id" jdbcType="INTEGER" property="objId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="plan_id" jdbcType="INTEGER" property="planId" />
@@ -43,7 +44,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, trainee_type_id, project_id, plan_id, train_id, obj_is_quit, course_count, 
+    user_id, obj_id, trainee_type_id, project_id, plan_id, train_id, obj_is_quit, course_count, 
     finish_count, total_period, finish_period
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeViewExample" resultMap="BaseResultMap">

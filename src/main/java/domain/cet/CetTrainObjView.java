@@ -1,8 +1,6 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
-import persistence.cet.CetTrainCourseMapper;
-import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,21 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetTrainObjView implements Serializable {
-
-    public CetTrainCourse getCetTrainCourse(){
-
-        if(trainCourseId==null) return null;
-        CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
-
-        return cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-    }
-
-    public CetTrain getCetTrain(){
-
-        if(trainId==null) return null;
-        CetTrainMapper cetTrainMapper = CmTag.getBean(CetTrainMapper.class);
-        return cetTrainMapper.selectByPrimaryKey(trainId);
-    }
 
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
@@ -35,6 +18,8 @@ public class CetTrainObjView implements Serializable {
     private Integer trainId;
 
     private Integer userId;
+
+    private Integer objId;
 
     private Integer trainCourseId;
 
@@ -98,6 +83,14 @@ public class CetTrainObjView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Integer getTrainCourseId() {

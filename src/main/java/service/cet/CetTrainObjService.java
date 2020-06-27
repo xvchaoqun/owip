@@ -23,8 +23,6 @@ import java.util.*;
 public class CetTrainObjService extends CetBaseMapper {
 
     @Autowired
-    private CetProjectObjService cetProjectObjService;
-    @Autowired
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
     private SysUserService sysUserService;
@@ -144,6 +142,7 @@ public class CetTrainObjService extends CetBaseMapper {
         }
 
         CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+        int objId = cetProjectObj.getId();
         if (cetProjectObj == null) return;
 
         Date now = new Date();
@@ -168,6 +167,7 @@ public class CetTrainObjService extends CetBaseMapper {
 
             CetTrainObj record = new CetTrainObj();
             record.setTrainId(trainId);
+            record.setObjId(objId);
             record.setUserId(userId);
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
@@ -178,7 +178,7 @@ public class CetTrainObjService extends CetBaseMapper {
 
             cetTrainObjMapper.insertSelective(record);
 
-            sysApprovalLogService.add(userId, userId,
+            sysApprovalLogService.add(objId, userId,
                     isAdmin ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
                             : SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
@@ -207,7 +207,7 @@ public class CetTrainObjService extends CetBaseMapper {
 
             cetTrainObjMapper.deleteByPrimaryKey(cetTrainObj.getId());
 
-            sysApprovalLogService.add(userId, userId,
+            sysApprovalLogService.add(objId, userId,
                     isAdmin ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
                             : SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
@@ -237,7 +237,7 @@ public class CetTrainObjService extends CetBaseMapper {
 
             int trainObjId = cetTrainObj.getId();
             int userId = cetTrainObj.getUserId();
-            String courseName = cetTrainObj.getCetTrainCourse().getCetCourse().getName();
+            int objId = cetTrainObj.getObjId();
 
             CetTrainObj record = new CetTrainObj();
             record.setIsFinished(sign);
@@ -255,10 +255,11 @@ public class CetTrainObjService extends CetBaseMapper {
             }
 
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-            sysApprovalLogService.add(userId, userId,
+            sysApprovalLogService.add(objId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
-                    (sign ? "签到" : "还原") + "("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
+                    (sign ? "签到" : "还原") + "("+cetTrainCourse.getName()+")",
+                    SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, cetTrainCourse.getName());
         }
     }
 
@@ -304,7 +305,9 @@ public class CetTrainObjService extends CetBaseMapper {
                 failedXlsRows.add(xlsRow);
             }
 
-            sysApprovalLogService.add(userId, userId,
+            CetTrainObjView cetTrainObjView = get(userId, trainCourseId);
+
+            sysApprovalLogService.add(cetTrainObjView.getObjId(), userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                     "签到(导入)("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);

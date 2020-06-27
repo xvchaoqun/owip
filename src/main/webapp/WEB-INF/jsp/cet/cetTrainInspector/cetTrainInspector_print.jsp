@@ -95,7 +95,6 @@ table tr td.title{
 		</td>
 	</tr>
 </table>
-<%--<fmt:message key="site.cetTrain.export.pagesize" bundle="${spring}" var="pagesize"/>--%>
 <c:if test='${(vs.index+1)%param.pagesize==0}'>
 <div style="page-break-after: always; clear: left;"></div>
 	<div class="PageNext"></div>

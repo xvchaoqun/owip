@@ -310,7 +310,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
         sysApprovalLogService.add(record.getId(), record.getUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                 (cetProjectObj==null?"添加":"更新") + "培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 "新建");
 
@@ -356,6 +356,7 @@ public class CetProjectObjService extends CetBaseMapper {
         for (CetProjectObj cetProjectObj : cetProjectObjs) {
 
             int userId = cetProjectObj.getUserId();
+            int objId = cetProjectObj.getId();
 
             CetTrainObjView ctov = trainees.get(userId);
             if (ctov == null) { // 目前还从未选课?
@@ -378,7 +379,7 @@ public class CetProjectObjService extends CetBaseMapper {
                         record.setCanQuit(true);
                         cetTrainObjMapper.updateByPrimaryKeySelective(record);
 
-                        sysApprovalLogService.add(userId, userId,
+                        sysApprovalLogService.add(objId, userId,
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                                 "改为可选[管理员]("+cetTrainCourse.getName()+")",
@@ -407,7 +408,7 @@ public class CetProjectObjService extends CetBaseMapper {
                         record.setChooseUserId(ShiroHelper.getCurrentUserId());
                         cetTrainObjMapper.updateByPrimaryKeySelective(record);
 
-                        sysApprovalLogService.add(userId, userId,
+                        sysApprovalLogService.add(objId, userId,
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                                 "改为必选[管理员]("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
@@ -707,7 +708,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
                 sysApprovalLogService.add(_record.getId(), _record.getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                         "添加培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                         "批量导入");
             } else {
@@ -717,7 +718,7 @@ public class CetProjectObjService extends CetBaseMapper {
 
                 sysApprovalLogService.add(_record.getId(), _record.getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                         "更新培训对象", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                         "批量导入");
             }

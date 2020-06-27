@@ -1,5 +1,6 @@
 package domain.cet;
 
+import persistence.cet.CetProjectObjMapper;
 import persistence.cet.CetTrainMapper;
 import sys.tags.CmTag;
 
@@ -15,7 +16,16 @@ public class CetTraineeView implements Serializable {
         return cetTrainMapper.selectByPrimaryKey(trainId);
     }
 
+    public CetProjectObj getObj(){
+
+        if(objId==null) return null;
+        CetProjectObjMapper cetProjectObjMapper = CmTag.getBean(CetProjectObjMapper.class);
+        return cetProjectObjMapper.selectByPrimaryKey(objId);
+    }
+
     private Integer userId;
+
+    private Integer objId;
 
     private Integer traineeTypeId;
 
@@ -43,6 +53,14 @@ public class CetTraineeView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Integer getTraineeTypeId() {
