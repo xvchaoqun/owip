@@ -531,8 +531,8 @@ public class CetUpperTrainController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetUpperTrainService.batchTransfer(ids, cetType, specialType, projectId);
-            logger.info(addLog(LogConstants.LOG_CET, "批量转移上级调训（%s）至%s的%s",
-                    StringUtils.join(ids, ","), CetConstants.CET_TYPE_T_MAP.get(cetType), CetConstants.CET_PROJECT_TYPE_MAP.get(specialType)));
+            logger.info(addLog(LogConstants.LOG_CET, "批量转移上级调训（%s）至%s",
+                    StringUtils.join(ids, ","), CetConstants.CET_TYPE_T_MAP.get(cetType)));
         }
 
         return success(FormUtils.SUCCESS);

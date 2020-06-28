@@ -36,7 +36,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group specialType">
             <label class="col-xs-4 control-label"><span class="star">*</span>选择培训类别</label>
             <div class="col-xs-8">
                 <div class="input-group">
@@ -76,7 +76,6 @@
 
 <script>
 
-    $("#specialType0").click();
 
     function isShow() {
         var cetType = $("select[name=cetType]").val();
@@ -84,8 +83,17 @@
         if (cetType == '${CET_TYPE_T_PARTY}') {
             $(".trainClass").removeClass("hidden");
             $(".trainClass select[name=projectId]").attr("required", 'required');
-        }else {
+            $(".specialType").addClass("hidden");
+            $(".specialType input[type=radio]").removeAttr("checked");
+        }else if (cetType == '${CET_TYPE_T_PARTY_SCHOOL}') {
+            $(".trainClass select[name=projectId]").removeAttr("required");
             $(".trainClass").addClass("hidden");
+            $(".specialType").removeClass("hidden");
+            $("#specialType0").click();
+        }else{
+            $(".specialType").addClass("hidden");
+            $(".trainClass").addClass("hidden");
+            $(".specialType input[type=radio]").removeAttr("checked");
             $(".trainClass select[name=projectId]").removeAttr("required");
         }
     }
