@@ -7,6 +7,8 @@ import domain.cadre.CadreTrain;
 import domain.cadre.CadreTrainExample;
 import domain.cadre.CadreTrainExample.Criteria;
 import domain.cadre.CadreView;
+import domain.cet.CetRecord;
+import domain.cet.CetRecordExample;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -264,6 +266,48 @@ public class CadreTrainController extends BaseController {
         modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreTrain/cadreTrain_au";
+    }
+
+    @RequiresPermissions("cadreTrain:edit")
+    @RequestMapping(value = "/cadreTrain_collect", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreTrain_collect(HttpServletRequest request,
+                                     int cadreId,
+                                     @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            cadreTrainService.cadreTrain_collect(ids, cadreId);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "提取%s所有培训记录：%s", cadreId, StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreTrain:edit")
+    @RequestMapping("/cadreTrain_collect")
+    public String cadreTrain_collect(int cadreId,
+                                     String name,
+                                     String organizer,
+                                     ModelMap modelMap){
+
+        CadreView cadre = iCadreMapper.getCadre(cadreId);
+        Integer userId = cadre.getUserId();
+        modelMap.put("cadreId", cadreId);
+        CetRecordExample example = new CetRecordExample();
+        CetRecordExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("start_date desc");
+        if (StringUtils.isNotBlank(name)){
+            criteria.andNameLike(SqlUtils.trimLike(name));
+        }
+        if (StringUtils.isNotBlank(organizer)){
+            criteria.andOrganizerLike(SqlUtils.trimLike(organizer));
+        }
+
+        List<CetRecord> cetRecords = cetRecordMapper.selectByExample(example);
+        modelMap.put("cetRecords", cetRecords);
+
+        return "cadre/cadreTrain/cadreTrain_collect";
     }
 
     @RequiresPermissions("cadreTrain:del")

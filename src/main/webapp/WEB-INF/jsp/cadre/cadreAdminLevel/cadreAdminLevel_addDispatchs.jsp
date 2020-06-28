@@ -12,12 +12,7 @@ pageEncoding="UTF-8" %>
             <tr>
                 <c:if test="${type=='edit'}">
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                    <th class="center">
-                        <label class="pos-rel">
-                            <input type="checkbox" class="ace checkAll">
-                            <span class="lbl"></span>
-                        </label>
-                    </th>
+                        <th class="center"></th>
                     </shiro:lacksPermission>
                 </c:if>
                 <th nowrap>年份</th>
@@ -38,15 +33,16 @@ pageEncoding="UTF-8" %>
                 <tr>
                     <c:if test="${type=='edit'}">
                         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                        <td class="center">
-                            <c:if test="${!otherDispatchCadreRelateSet.contains(dispatchCadre.id)}">
-                                <label class="pos-rel">
-                                    <input type="checkbox"
-                                           value="${dispatchCadre.id}" class="ace" ${dispatchCadreIdSet.contains(dispatchCadre.id)?"checked":""}>
-                                    <span class="lbl"></span>
-                                </label>
-                            </c:if>
-                        </td>
+                            <td class="center">
+                                    <div style="margin: -22px -10px 4px 14px;" class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                        <c:if test="${!otherDispatchCadreRelateSet.contains(dispatchCadre.id)}">
+                                        <input type="radio" name="dispatchCadreId" id="${dispatchCadre.id}"
+                                            ${dispatchCadreIdSet.contains(dispatchCadre.id)?"checked":""}
+                                               value="${dispatchCadre.id}">
+                                        <label for="${dispatchCadre.id}"></label>
+                                        </c:if>
+                                    </div>
+                            </td>
                         </shiro:lacksPermission>
                     </c:if>
                     <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
@@ -94,21 +90,15 @@ pageEncoding="UTF-8" %>
     <script>
         function addDispatch(type){
 
-            var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
+            var ids = $.map($("#modal .table td :radio:checked"),function(item, index){
                 return $(item).val();
             });
-            if(ids.length>1){
-                SysMsg.warning("只能选择一个发文");
-                return;
-            }else{
-
-                $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:ids[0]},function(ret){
-                    if(ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+            $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:ids[0]},function(ret){
+                if(ret.success) {
+                    _reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         }
     </script>
     </shiro:lacksPermission>

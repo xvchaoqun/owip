@@ -2,6 +2,7 @@ package service.cadre;
 
 import controller.global.OpException;
 import domain.cadre.*;
+import domain.cet.CetRecord;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.ibatis.session.RowBounds;
@@ -241,5 +242,29 @@ public class CadreTrainService extends BaseMapper {
             }
         }
         return addCount;
+    }
+
+    @Transactional
+    public void cadreTrain_collect(Integer[] ids, int cadreId) {
+
+        for (Integer id : ids) {
+            CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(id);
+
+            //判断是否添加重复
+            CadreTrainExample example = new CadreTrainExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStartTimeEqualTo(cetRecord.getStartDate()).andEndTimeEqualTo(cetRecord.getEndDate());
+            List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExample(example);
+            if (cadreTrains.size() > 0) continue;
+
+            CadreTrain record = new CadreTrain();
+            record.setCadreId(cadreId);
+            record.setStartTime(cetRecord.getStartDate());
+            record.setEndTime(cetRecord.getEndDate());
+            record.setContent(cetRecord.getName());
+            record.setUnit(cetRecord.getOrganizer());
+            record.setRemark(cetRecord.getRemark());
+            insertSelective(record);
+        }
     }
 }
