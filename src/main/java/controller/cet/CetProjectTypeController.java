@@ -33,7 +33,10 @@ public class CetProjectTypeController extends CetBaseController {
 
     @RequiresPermissions("cetProjectType:list")
     @RequestMapping("/cetProjectType")
-    public String cetProjectType() {
+    public String cetProjectType(@RequestParam(required = false, defaultValue = "1") Byte type,
+                                 ModelMap modelMap) {
+
+        modelMap.put("type", type);
 
         return "cet/cetProjectType/cetProjectType_page";
     }
@@ -41,10 +44,12 @@ public class CetProjectTypeController extends CetBaseController {
     @RequiresPermissions("cetProjectType:list")
     @RequestMapping("/cetProjectType_data")
     public void cetProjectType_data(HttpServletResponse response,
+                                    @RequestParam(defaultValue = "1") Byte type,
                                     String name,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    String code,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -55,11 +60,14 @@ public class CetProjectTypeController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetProjectTypeExample example = new CetProjectTypeExample();
-        CetProjectTypeExample.Criteria criteria = example.createCriteria();
+        CetProjectTypeExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
+        }
+        if (StringUtils.isNotBlank(code)){
+            criteria.andCodeLike(SqlUtils.trimLike(code));
         }
 
         if (export == 1) {
@@ -98,11 +106,11 @@ public class CetProjectTypeController extends CetBaseController {
 
         if (id == null) {
             cetProjectTypeService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加专题分类：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训类别：%s", record.getId()));
         } else {
 
             cetProjectTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "更新专题分类：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训类别：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -136,10 +144,10 @@ public class CetProjectTypeController extends CetBaseController {
     @RequiresPermissions("cetProjectType:changeOrder")
     @RequestMapping(value = "/cetProjectType_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cetProjectType_changeOrder(Integer id, Integer addNum, Byte type, HttpServletRequest request) {
 
-        cetProjectTypeService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_CET, "专题分类调序：%s,%s", id, addNum));
+        cetProjectTypeService.changeOrder(id, addNum, type);
+        logger.info(addLog(LogConstants.LOG_CET, "培训类别调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -158,7 +166,7 @@ public class CetProjectTypeController extends CetBaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "专题分类_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "培训类别_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

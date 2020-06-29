@@ -7,6 +7,10 @@ public class CetProjectType implements Serializable {
 
     private String name;
 
+    private Byte type;
+
+    private String code;
+
     private Integer sortOrder;
 
     private String remark;
@@ -29,6 +33,22 @@ public class CetProjectType implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public Integer getSortOrder() {

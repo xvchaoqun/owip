@@ -70,7 +70,7 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入培训班名称">
                         </div>
                         <div class="form-group">
-                            <label>专题分类</label>
+                            <label>培训类别</label>
                             <select data-rel="select2" name="projectTypeId"
                                     data-width="150"
                                     data-placeholder="请选择">
@@ -147,7 +147,7 @@ pageEncoding="UTF-8" %>
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 400, align:'left'},
             {
-                label: '专题分类', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
+                label: '培训类别', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--'
                 var projectTypeMap = ${cm:toJSONObject(projectTypeMap)};
                 return projectTypeMap[cellvalue].name

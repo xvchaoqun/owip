@@ -1,4 +1,11 @@
 
+-- 2020.6.29 ly
+ALTER TABLE `cet_project_type`
+	COMMENT='培训类别，针对专题班',
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 年度培训' AFTER `name`,
+	ADD COLUMN `code` VARCHAR(50) NULL DEFAULT NULL COMMENT '代码' AFTER `type`;
+UPDATE `sys_resource` SET `name`='培训类别（党校培训）' WHERE  `id`=658;
+
 -- 2020.6.24 ly
 ALTER TABLE `cet_upper_train`
 	ALTER `train_type` DROP DEFAULT;

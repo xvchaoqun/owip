@@ -17,12 +17,15 @@ import java.util.Map;
 @Service
 public class CetProjectTypeService extends CetBaseMapper {
 
-    public boolean idDuplicate(Integer id, String name){
+    public boolean idDuplicate(Integer id, String name, String code){
 
         Assert.isTrue(StringUtils.isNotBlank(name), "类型为空");
 
         CetProjectTypeExample example = new CetProjectTypeExample();
         CetProjectTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name.trim());
+        if (StringUtils.isNotBlank(code)){
+            criteria.andCodeEqualTo(code);
+        }
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return cetProjectTypeMapper.countByExample(example) > 0;
@@ -32,7 +35,7 @@ public class CetProjectTypeService extends CetBaseMapper {
     @CacheEvict(value="CetProjectType:ALL", allEntries = true)
     public void insertSelective(CetProjectType record){
 
-        Assert.isTrue(!idDuplicate(null, record.getName()), "类型重复");
+        Assert.isTrue(!idDuplicate(null, record.getName(), record.getCode()), "名称或代码重复");
         record.setSortOrder(getNextSortOrder("cet_project_type", null));
         cetProjectTypeMapper.insertSelective(record);
     }
@@ -53,16 +56,16 @@ public class CetProjectTypeService extends CetBaseMapper {
     public int updateByPrimaryKeySelective(CetProjectType record){
 
         if(StringUtils.isNotBlank(record.getName()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "类型重复");
+            Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getCode()), "类型或代码重复");
 
         return cetProjectTypeMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="CetProjectType:ALL")
-    public Map<Integer, CetProjectType> findAll() {
+    @Cacheable(value="CetProjectType", key = "#type")
+    public Map<Integer, CetProjectType> findAll(Byte type) {
 
         CetProjectTypeExample example = new CetProjectTypeExample();
-        example.createCriteria();
+        example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("sort_order asc");
         List<CetProjectType> cetProjectTypees = cetProjectTypeMapper.selectByExample(example);
         Map<Integer, CetProjectType> map = new LinkedHashMap<>();
@@ -80,8 +83,8 @@ public class CetProjectTypeService extends CetBaseMapper {
      */
     @Transactional
     @CacheEvict(value = "CetProjectType:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, int addNum, Byte type) {
 
-        changeOrder("cet_project_type", null, ORDER_BY_ASC, id, addNum);
+        changeOrder("cet_project_type", "type=" + type, ORDER_BY_ASC, id, addNum);
     }
 }

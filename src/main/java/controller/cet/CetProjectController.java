@@ -65,13 +65,13 @@ public class CetProjectController extends CetBaseController {
     
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
-    public String cetProject( ModelMap modelMap) {
+    public String cetProject(Byte type,
+                             ModelMap modelMap) {
 
-        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll();
+        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(type);
         modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
 
-
-        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
+        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(type);
         modelMap.put("projectTypeMap", projectTypeMap);
 
         return "cet/cetProject/cetProject_page";
@@ -235,7 +235,7 @@ public class CetProjectController extends CetBaseController {
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
 
-        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
+        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(_type);
         modelMap.put("projectTypes", projectTypeMap.values());
 
         modelMap.put("type", _type);

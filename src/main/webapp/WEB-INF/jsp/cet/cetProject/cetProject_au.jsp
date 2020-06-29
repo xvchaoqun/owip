@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>专题分类</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>培训类别</label>
                                 <div class="col-xs-8">
                                     <select required name="projectTypeId" data-rel="select2"
                                             data-width="308"

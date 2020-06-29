@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>" var="CET_PROJECT_TYPE_SPECIAL"/>
+<c:set value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>" var="CET_PROJECT_TYPE_DAILY"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -8,7 +10,18 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/cet/cetProjectType"
                  data-url-export="${ctx}/cet/cetProjectType_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.name || not empty param.code}"/>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="<c:if test="${type==CET_PROJECT_TYPE_SPECIAL}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${CET_PROJECT_TYPE_SPECIAL}"><i class="fa fa-dot-circle-o"></i> 专题培训</a>
+                        </li>
+                        <li class="<c:if test="${type==CET_PROJECT_TYPE_DAILY}">active</c:if>">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${CET_PROJECT_TYPE_DAILY}"><i class="fa fa-circle-o"></i> 日常培训</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane in active multi-row-head-table">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProjectType:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetProjectType_au"><i class="fa fa-plus"></i> 添加</a>
@@ -44,11 +57,16 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
-                        <div class="form-group">
-                            <label>名称</label>
-                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入名称">
-                        </div>
+                            <div class="form-group">
+                                <label>名称</label>
+                                <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                       placeholder="请输入">
+                            </div>
+                            <div class="form-group">
+                                <label>代码</label>
+                                <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                       placeholder="请输入">
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -73,10 +91,11 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetProjectType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '专题分类',name: 'name', width:200},
+            { label: '名称',name: 'name', width:200},
+            { label: '代码',name: 'code', width:200},
             {
                 label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
+                formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder?type=" + ${type}}
             },
             /*{ label: '课程',name: 'courseNum'},
             { label: '选课人次',name: 'traineeCount'},*/
