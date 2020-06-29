@@ -240,7 +240,6 @@ public class SystemConstants {
     public final static byte USER_SOURCE_BKS = 2;
     public final static byte USER_SOURCE_YJS = 3;
     public final static byte USER_SOURCE_REG = 4;
-    public final static byte USER_SOURCE_DP_IMPORT = 5;
     public final static Map<Byte, String> USER_SOURCE_MAP = new LinkedHashMap();
 
     static {
@@ -249,7 +248,6 @@ public class SystemConstants {
         USER_SOURCE_MAP.put(USER_SOURCE_YJS, "研究生库");
         USER_SOURCE_MAP.put(USER_SOURCE_ADMIN, "后台创建");
         USER_SOURCE_MAP.put(USER_SOURCE_REG, "用户注册");
-        USER_SOURCE_MAP.put(USER_SOURCE_DP_IMPORT, "民族党派导入");
     }
 
 

@@ -73,7 +73,7 @@ public class DpMemberService extends DpBaseMapper {
         sysUser.setPasswd(encrypt.getPassword());
         sysUser.setCreateTime(new Date());
         sysUser.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
-        sysUser.setSource(SystemConstants.USER_SOURCE_DP_IMPORT);
+        sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
         sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
         sysUserService.insertSelective(sysUser);
 
