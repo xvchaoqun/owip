@@ -272,13 +272,10 @@ public class CetConstants {
 
     // 培训记录来源类别（用于年度学习档案统计），1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训
     // 5 二级党委日常培训 6 党校其他培训 7 二级党委其他培训
-    public final static byte CET_SOURCE_TYPE_SPECIAL = 1;
-    public final static byte CET_SOURCE_TYPE_DAILY = 2;
-    public final static byte CET_SOURCE_TYPE_PARTY_SPECIAL = 3; // 未用
-    public final static byte CET_SOURCE_TYPE_PARTY_DAILY = 5;  // 未用
-    public final static byte CET_SOURCE_TYPE_UPPER = 4;
-    public final static byte CET_SOURCE_TYPE_OTHER = 6;
-    public final static byte CET_SOURCE_TYPE_PARTY_OTHER = 7;
+    public final static byte CET_SOURCE_TYPE_UPPER = 1; // 上级调训 cet_upper_train
+    public final static byte CET_SOURCE_TYPE_PROJECT = 2;  // 党校过程培训  cet_project_obj
+    public final static byte CET_SOURCE_TYPE_UNIT = 3; // 二级党校历史培训 cet_unit_train
+    public final static byte CET_SOURCE_TYPE_UNIT_PROJECT = 4; // 二级党校过程培训
 
     // 培训记录转移类型  1 ： 党校其他培训  2：二级党委培训
     public final static byte CET_TYPE_T_PARTY_SCHOOL = 1;

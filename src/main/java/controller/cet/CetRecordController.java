@@ -150,19 +150,6 @@ public class CetRecordController extends CetBaseController {
     }
 
     @RequiresPermissions("cetRecord:del")
-    @RequestMapping(value = "/cetRecord_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetRecord_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetRecordService.del(id);
-            logger.info(log(LogConstants.LOG_CET, "删除培训记录明细汇总表：{0}", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetRecord:del")
     @RequestMapping(value = "/cetRecord_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetRecord_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {

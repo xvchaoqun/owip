@@ -22,6 +22,11 @@
     <result column="is_valid" jdbcType="BIT" property="isValid" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="archive_time" jdbcType="TIMESTAMP" property="archiveTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="special_type" jdbcType="TINYINT" property="specialType" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="no" jdbcType="SMALLINT" property="no" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -84,7 +89,8 @@
   <sql id="Base_Column_List">
     id, year, user_id, trainee_type_id, other_trainee_type, title, start_date, end_date, 
     name, type, source_id, source_type, organizer, period, online_period, should_finish_period, 
-    is_graduate, is_valid, remark, archive_time
+    is_graduate, is_valid, remark, archive_time, is_deleted, special_type, project_type, 
+    user_type, no
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">
     select
@@ -125,15 +131,17 @@
       end_date, name, type, source_id, 
       source_type, organizer, period, 
       online_period, should_finish_period, is_graduate, 
-      is_valid, remark, archive_time
-      )
+      is_valid, remark, archive_time, 
+      is_deleted, special_type, project_type, 
+      user_type, no)
     values (#{year,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{otherTraineeType,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{sourceId,jdbcType=INTEGER}, 
       #{sourceType,jdbcType=TINYINT}, #{organizer,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
       #{onlinePeriod,jdbcType=DECIMAL}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
-      #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{archiveTime,jdbcType=TIMESTAMP}
-      )
+      #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{archiveTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{specialType,jdbcType=TINYINT}, #{projectType,jdbcType=INTEGER}, 
+      #{userType,jdbcType=INTEGER}, #{no,jdbcType=SMALLINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -198,6 +206,21 @@
       <if test="archiveTime != null">
         archive_time,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="specialType != null">
+        special_type,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="no != null">
+        no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="year != null">
@@ -256,6 +279,21 @@
       </if>
       <if test="archiveTime != null">
         #{archiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="specialType != null">
+        #{specialType,jdbcType=TINYINT},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=SMALLINT},
       </if>
     </trim>
   </insert>
@@ -328,6 +366,21 @@
       <if test="record.archiveTime != null">
         archive_time = #{record.archiveTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.specialType != null">
+        special_type = #{record.specialType,jdbcType=TINYINT},
+      </if>
+      <if test="record.projectType != null">
+        project_type = #{record.projectType,jdbcType=INTEGER},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.no != null">
+        no = #{record.no,jdbcType=SMALLINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -354,7 +407,12 @@
       is_graduate = #{record.isGraduate,jdbcType=BIT},
       is_valid = #{record.isValid,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
-      archive_time = #{record.archiveTime,jdbcType=TIMESTAMP}
+      archive_time = #{record.archiveTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      special_type = #{record.specialType,jdbcType=TINYINT},
+      project_type = #{record.projectType,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      no = #{record.no,jdbcType=SMALLINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -419,6 +477,21 @@
       <if test="archiveTime != null">
         archive_time = #{archiveTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="specialType != null">
+        special_type = #{specialType,jdbcType=TINYINT},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="no != null">
+        no = #{no,jdbcType=SMALLINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -442,7 +515,12 @@
       is_graduate = #{isGraduate,jdbcType=BIT},
       is_valid = #{isValid,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
-      archive_time = #{archiveTime,jdbcType=TIMESTAMP}
+      archive_time = #{archiveTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      special_type = #{specialType,jdbcType=TINYINT},
+      project_type = #{projectType,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=INTEGER},
+      no = #{no,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">

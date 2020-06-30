@@ -24,6 +24,7 @@ public class CetRecordService extends CetBaseMapper {
     public void syncAllUpperTrain(){
 
         List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExample(new CetUpperTrainExample());
+
         for (CetUpperTrain cetUpperTrain : cetUpperTrains) {
             syncUpperTrain(cetUpperTrain.getId());
         }
@@ -53,10 +54,11 @@ public class CetRecordService extends CetBaseMapper {
             if(quitObjIds.size()>0) {
                 CetRecordExample example1 = new CetRecordExample();
                 example1.createCriteria()
-                        .andSourceTypeIn(Arrays.asList(CetConstants.CET_SOURCE_TYPE_SPECIAL,
-                                CetConstants.CET_SOURCE_TYPE_DAILY))
+                        .andSourceTypeEqualTo(CetConstants.CET_SOURCE_TYPE_PROJECT)
                         .andSourceIdIn(quitObjIds);
-                cetRecordMapper.deleteByExample(example1);
+                CetRecord record = new CetRecord();
+                record.setIsDeleted(true);
+                cetRecordMapper.updateByExampleSelective(record, example1);
             }
         }
 
@@ -76,7 +78,7 @@ public class CetRecordService extends CetBaseMapper {
 
         CetUpperTrain t = cetUpperTrainMapper.selectByPrimaryKey(upperTrainId);
         byte type = CetConstants.CET_TYPE_UPPER;
-        byte sourceType = CetConstants.CET_SOURCE_TYPE_UPPER;
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_UPPER; // 上级调训
 
         if(t.getType()==CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL){ // 党校其他培训
 
@@ -85,8 +87,6 @@ public class CetRecordService extends CetBaseMapper {
             }else{
                 type = CetConstants.CET_TYPE_DAILY;
             }
-
-            sourceType = CetConstants.CET_SOURCE_TYPE_OTHER;
         }
 
         if(t.getStatus()!=CetConstants.CET_UPPER_TRAIN_STATUS_PASS
@@ -137,7 +137,7 @@ public class CetRecordService extends CetBaseMapper {
         CetUnitProject p = t.getProject();
 
         byte type = CetConstants.CET_TYPE_PARTY_SPECIAL;
-        byte sourceType = CetConstants.CET_SOURCE_TYPE_PARTY_OTHER;
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_UNIT;
 
         if(p.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY){
 
@@ -195,12 +195,11 @@ public class CetRecordService extends CetBaseMapper {
         CetProject p = cetProjectMapper.selectByPrimaryKey(o.getProjectId());
 
         byte type = CetConstants.CET_TYPE_SPECIAL;
-        byte sourceType = CetConstants.CET_SOURCE_TYPE_SPECIAL;
+        byte sourceType = CetConstants.CET_SOURCE_TYPE_PROJECT;
 
         if(p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY){
 
             type = CetConstants.CET_TYPE_DAILY;
-            sourceType = CetConstants.CET_SOURCE_TYPE_DAILY;
         }
 
         // 已退出培训不计入
@@ -277,7 +276,9 @@ public class CetRecordService extends CetBaseMapper {
         CetRecordExample example = new CetRecordExample();
         example.createCriteria().andSourceTypeEqualTo(sourceType).andSourceIdEqualTo(sourceId);
 
-        return cetRecordMapper.deleteByExample(example);
+        CetRecord record = new CetRecord();
+        record.setIsDeleted(true);
+        return cetRecordMapper.updateByExampleSelective(record, example);
     }
 
     // 按类型读取培训记录
@@ -304,11 +305,6 @@ public class CetRecordService extends CetBaseMapper {
         cetRecordMapper.insertSelective(record);
     }
 
-    @Transactional
-    public void del(Integer id){
-
-        cetRecordMapper.deleteByPrimaryKey(id);
-    }
 
     @Transactional
     public void batchDel(Integer[] ids){
@@ -317,7 +313,10 @@ public class CetRecordService extends CetBaseMapper {
 
         CetRecordExample example = new CetRecordExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cetRecordMapper.deleteByExample(example);
+
+        CetRecord record = new CetRecord();
+        record.setIsDeleted(true);
+        cetRecordMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional

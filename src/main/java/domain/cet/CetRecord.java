@@ -53,6 +53,16 @@ public class CetRecord implements Serializable {
 
     private Date archiveTime;
 
+    private Boolean isDeleted;
+
+    private Byte specialType;
+
+    private Integer projectType;
+
+    private Integer userType;
+
+    private Short no;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -213,5 +223,45 @@ public class CetRecord implements Serializable {
 
     public void setArchiveTime(Date archiveTime) {
         this.archiveTime = archiveTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Byte getSpecialType() {
+        return specialType;
+    }
+
+    public void setSpecialType(Byte specialType) {
+        this.specialType = specialType;
+    }
+
+    public Integer getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(Integer projectType) {
+        this.projectType = projectType;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public Short getNo() {
+        return no;
+    }
+
+    public void setNo(Short no) {
+        this.no = no;
     }
 }

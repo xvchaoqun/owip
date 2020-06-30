@@ -1382,6 +1382,306 @@ public class CetRecordExample {
             addCriterion("archive_time not between", value1, value2, "archiveTime");
             return (Criteria) this;
         }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIsNull() {
+            addCriterion("special_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIsNotNull() {
+            addCriterion("special_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeEqualTo(Byte value) {
+            addCriterion("special_type =", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotEqualTo(Byte value) {
+            addCriterion("special_type <>", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThan(Byte value) {
+            addCriterion("special_type >", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("special_type >=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThan(Byte value) {
+            addCriterion("special_type <", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("special_type <=", value, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeIn(List<Byte> values) {
+            addCriterion("special_type in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotIn(List<Byte> values) {
+            addCriterion("special_type not in", values, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeBetween(Byte value1, Byte value2) {
+            addCriterion("special_type between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("special_type not between", value1, value2, "specialType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIsNull() {
+            addCriterion("project_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIsNotNull() {
+            addCriterion("project_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeEqualTo(Integer value) {
+            addCriterion("project_type =", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeNotEqualTo(Integer value) {
+            addCriterion("project_type <>", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeGreaterThan(Integer value) {
+            addCriterion("project_type >", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_type >=", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeLessThan(Integer value) {
+            addCriterion("project_type <", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("project_type <=", value, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIn(List<Integer> values) {
+            addCriterion("project_type in", values, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeNotIn(List<Integer> values) {
+            addCriterion("project_type not in", values, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeBetween(Integer value1, Integer value2) {
+            addCriterion("project_type between", value1, value2, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_type not between", value1, value2, "projectType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNull() {
+            addCriterion("user_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIsNotNull() {
+            addCriterion("user_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeEqualTo(Integer value) {
+            addCriterion("user_type =", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotEqualTo(Integer value) {
+            addCriterion("user_type <>", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThan(Integer value) {
+            addCriterion("user_type >", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_type >=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThan(Integer value) {
+            addCriterion("user_type <", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("user_type <=", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIn(List<Integer> values) {
+            addCriterion("user_type in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotIn(List<Integer> values) {
+            addCriterion("user_type not in", values, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeBetween(Integer value1, Integer value2) {
+            addCriterion("user_type between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_type not between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoIsNull() {
+            addCriterion("no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoIsNotNull() {
+            addCriterion("no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoEqualTo(Short value) {
+            addCriterion("no =", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoNotEqualTo(Short value) {
+            addCriterion("no <>", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoGreaterThan(Short value) {
+            addCriterion("no >", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoGreaterThanOrEqualTo(Short value) {
+            addCriterion("no >=", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoLessThan(Short value) {
+            addCriterion("no <", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoLessThanOrEqualTo(Short value) {
+            addCriterion("no <=", value, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoIn(List<Short> values) {
+            addCriterion("no in", values, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoNotIn(List<Short> values) {
+            addCriterion("no not in", values, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoBetween(Short value1, Short value2) {
+            addCriterion("no between", value1, value2, "no");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoNotBetween(Short value1, Short value2) {
+            addCriterion("no not between", value1, value2, "no");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
