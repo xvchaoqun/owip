@@ -85,7 +85,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/baseInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo, MultipartFile _avatar) throws IOException {
+    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo, String _arriveTime, MultipartFile _avatar) throws IOException {
 
         record.setUserId(userId);
 
@@ -97,6 +97,9 @@ public class MemberBaseInfoController extends MemberBaseController {
         if(teacherInfo!=null) {
            teacherInfo.setUserId(userId);
            teacherInfo.setIsRetire(BooleanUtils.isTrue(teacherInfo.getIsRetire()));
+           if (StringUtils.isNotBlank(_arriveTime)) {
+                teacherInfo.setArriveTime(DateUtils.parseDate(_arriveTime, DateUtils.YYYY_MM_DD));
+           }
         }
 
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);

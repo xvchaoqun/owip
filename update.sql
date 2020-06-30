@@ -1,16 +1,5 @@
 
 
-ALTER TABLE `cet_upper_train`
-	ADD COLUMN `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
-	  ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间' AFTER `back_reason`;
-
-ALTER TABLE `cet_record`
-	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除' AFTER `archive_time`,
-	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训大类， 1 专题 2 日常' AFTER `is_deleted`,
-	ADD COLUMN `project_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '培训类别， 关联cet_project_type表' AFTER `special_type`,
-	ADD COLUMN `user_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '身份类别， 1 教职工  2学生' AFTER `project_type`,
-	ADD COLUMN `no` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT '证书编号，结业情况下，生成证书编号。培训大类、身份类别、年份、培训子类相同时，从0001算起' AFTER `user_type`;
-
 2020.6.30
  西工大  -- 北师大
 
@@ -98,6 +87,18 @@ update cet_project set project_type_id = project_type_id+14 where type=2;
 
 -- 更新SyncService：状态已经变更为退休状态的，不再同步人事库
 --
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+	  ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间' AFTER `back_reason`;
+
+ALTER TABLE `cet_record`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除' AFTER `archive_time`,
+	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训大类， 1 专题 2 日常' AFTER `is_deleted`,
+	ADD COLUMN `project_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '培训类别， 关联cet_project_type表' AFTER `special_type`,
+	ADD COLUMN `user_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '身份类别， 1 教职工  2学生' AFTER `project_type`,
+	ADD COLUMN `no` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT '证书编号，结业情况下，生成证书编号。培训大类、身份类别、年份、培训子类相同时，从0001算起' AFTER `user_type`;
+
 
 2020.6.23
 
