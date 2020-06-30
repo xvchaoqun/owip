@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="profile-info-row">
-            <div class="profile-info-name td"> 人员分类</div>
+            <div class="profile-info-name td"> 人员类别</div>
             <div class="profile-info-value td">
                 <span class="editable">${teacherInfo.staffType}</span>
             </div>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="profile-info-row">
-            <div class="profile-info-name td"> 到校时间</div>
+            <div class="profile-info-name td"> 到校日期</div>
             <div class="profile-info-value td">
                 <span class="editable">${cm:formatDate(teacherInfo.arriveTime, "yyyy.MM.dd")}</span>
             </div>

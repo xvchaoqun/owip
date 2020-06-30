@@ -231,7 +231,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <%--<div class="form-group">
                                                 <label>岗位类别</label>
                                                 <select name="postClass" data-width="150" data-rel="select2"
                                                         data-placeholder="请选择">
@@ -243,7 +243,7 @@
                                                 <script>
                                                     $("#searchForm select[name=postClass]").val('${param.postClass}');
                                                 </script>
-                                            </div>
+                                            </div>--%>
                                             <div class="form-group">
                                                 <label>人员状态</label>
                                                 <select name="staffStatus" data-width="150" data-rel="select2"
@@ -512,7 +512,7 @@
             {label: '最高学历', name: 'education', width: 120},
             {label: '编制类别', name: 'authorizedType'},
             {label: '人员类别', name: 'staffType'},
-            {label: '岗位类别', name: 'postClass'},
+            /*{label: '岗位类别', name: 'postClass'},*/
             {label: '专业技术职务', name: 'proPost', width: 150},
             {label: '联系手机', name: 'mobile', width: 110},
             </c:if>

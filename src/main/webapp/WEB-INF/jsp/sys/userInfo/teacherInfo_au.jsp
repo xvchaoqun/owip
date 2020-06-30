@@ -118,13 +118,13 @@
                         <input class="form-control" type="text" name="country" value="${empty sysUser.country?'中国':sysUser.country}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">人员结构</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="fromType" value="${teacherInfo.fromType}">
                         <span class="help-block">例如：本校、境内、境外等</span>
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">所在单位</label>
                     <div class="col-xs-6">
@@ -145,7 +145,7 @@
                         <input class="form-control" type="text" name="degree" value="${teacherInfo.degree}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">学位授予日期</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 150px">
@@ -155,7 +155,7 @@
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>
-                </div>
+                </div>--%>
                 <%--<div class="form-group">
                     <label class="col-xs-3 control-label">所学专业</label>
                     <div class="col-xs-6">

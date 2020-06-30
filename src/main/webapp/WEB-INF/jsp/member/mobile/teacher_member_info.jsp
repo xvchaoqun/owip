@@ -139,7 +139,7 @@
       </div>
       <div class="profile-user-info profile-user-info-striped">
         <div class="profile-info-row">
-          <div class="profile-info-name"> 人员分类</div>
+          <div class="profile-info-name"> 人员类别</div>
           <div class="profile-info-value">
             <span class="editable">${member.staffType}</span>
           </div>
@@ -150,7 +150,7 @@
             <span class="editable">${member.staffStatus}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 在岗情况</div>
           <div class="profile-info-value td">
             <span class="editable">${member.onJob}</span>
@@ -161,7 +161,7 @@
           <div class="profile-info-value td">
             <span class="editable">${member.postClass}</span>
           </div>
-        </div>
+        </div>--%>
         <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 主岗等级</div>
           <div class="profile-info-value td">
@@ -175,12 +175,12 @@
             <span class="editable">${member.proPost}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 职称级别</div>
           <div class="profile-info-value td">
             <span class="editable">${member.proPostLevel}</span>
           </div>
-        </div>
+        </div>--%>
         <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 职称级别</div>
           <div class="profile-info-value td">

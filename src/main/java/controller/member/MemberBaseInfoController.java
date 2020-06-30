@@ -5,6 +5,7 @@ import domain.sys.StudentInfo;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/baseInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_baseInfo_au(int userId, SysUserInfo record, Boolean isRetire, MultipartFile _avatar) throws IOException {
+    public Map do_baseInfo_au(int userId, SysUserInfo record, TeacherInfo teacherInfo, MultipartFile _avatar) throws IOException {
 
         record.setUserId(userId);
 
@@ -93,11 +94,9 @@ public class MemberBaseInfoController extends MemberBaseController {
 
         filterCadreReserveInfo(userId, record);
 
-        TeacherInfo teacherInfo = null;
-        if(isRetire!=null) {
-            teacherInfo = new TeacherInfo();
-            teacherInfo.setUserId(userId);
-            teacherInfo.setIsRetire(isRetire);
+        if(teacherInfo!=null) {
+           teacherInfo.setUserId(userId);
+           teacherInfo.setIsRetire(BooleanUtils.isTrue(teacherInfo.getIsRetire()));
         }
 
         sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);

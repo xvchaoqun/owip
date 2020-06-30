@@ -14,7 +14,7 @@
             ${teacherInfo.authorizedType}
         </td>
         <td>
-            人员分类
+            人员类别
         </td>
         <td>
             ${teacherInfo.staffType}
@@ -71,7 +71,7 @@
             ${teacherInfo.workBreak}
         </td>
         <td>
-            到校时间
+            到校日期
         </td>
         <td>
             ${cm:formatDate(teacherInfo.arriveTime, "yyyy.MM.dd")}

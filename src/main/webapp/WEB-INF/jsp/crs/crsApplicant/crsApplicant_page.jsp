@@ -246,7 +246,7 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m'}
             },
-            {label: '到校时间', name: 'cadre.arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '到校日期', name: 'cadre.arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
             {
                 label: '专技职务评定时间',

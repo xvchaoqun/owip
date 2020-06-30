@@ -71,7 +71,7 @@
             ${teacherInfo.authorizedType}
         </td>
         <td class="bg-right">
-            人员分类
+            人员类别
         </td>
         <td class="bg-left">
             ${teacherInfo.staffType}

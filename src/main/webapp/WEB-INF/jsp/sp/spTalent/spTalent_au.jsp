@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"> 人员分类</label>
+				<label class="col-xs-4 control-label"> 人员类别</label>
 				<div class="col-xs-6">
                         <input class="form-control" type="text" name="staffType" value="${spTalent.staffType}">
 				</div>

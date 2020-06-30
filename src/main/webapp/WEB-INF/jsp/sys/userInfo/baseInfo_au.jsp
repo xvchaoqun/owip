@@ -105,6 +105,50 @@
                 </div>
             </div>
             <c:if test="${sysUser.type==USER_TYPE_JZG}">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">最高学历</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="education" value="${teacherInfo.education}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">最高学位</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="degree" value="${teacherInfo.degree}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">毕业学校</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="school" value="${teacherInfo.school}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">到校日期</label>
+                    <div class="col-xs-6">
+                        <div class="input-group" style="width: 150px">
+                            <input class="form-control date-picker" name="_arriveTime" type="text"
+                                   data-date-format="yyyy-mm-dd"
+                                   value="${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">编制类别</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="authorizedType"
+                               value="${teacherInfo.authorizedType}">
+                        <span class="help-block">注：事业编制、非事业编等</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">人员类别</label>
+                    <div class="col-xs-6">
+                        <input class="form-control" type="text" name="staffType" value="${teacherInfo.staffType}">
+                        <span class="help-block">注：普通编制、校聘、院处聘、合同制等</span>
+                    </div>
+                </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休</label>
                 <div class="col-xs-6">

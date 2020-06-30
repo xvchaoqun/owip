@@ -118,7 +118,7 @@ pageEncoding="UTF-8" %>
                 { label: '民族',name: 'user.nation'},
                 { label: '到校日期',name: 'arriveDate',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m.d'}},
                 { label: '编制类别',name: 'authorizedType'},
-                { label: '人员分类',name: 'staffType'},
+                { label: '人员类别',name: 'staffType'},
                 { label: '政治面貌',name: 'politicsStatus',width: 150,formatter: $.jgrid.formatter.MetaType},
                 { label: '专业技术职务',name: 'proPost',width: 150},
                 { label: '专技岗位等级',name: 'proPostLevel',width: 200},

@@ -191,7 +191,7 @@ public class SpTalentController extends SpBaseController {
 
         List<SpTalent> records = spTalentMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名|100","所在单位|100","编制类别|100","人员分类|100","政治面貌|100","专业技术职务|100","专技岗位等级|100","一级学科|100","人才/荣誉称号|100","是否领导干部|100","所担任行政职务|100","授予日期|100","联系方式|100","备注|100"};
+        String[] titles = {"姓名|100","所在单位|100","编制类别|100","人员类别|100","政治面貌|100","专业技术职务|100","专技岗位等级|100","一级学科|100","人才/荣誉称号|100","是否领导干部|100","所担任行政职务|100","授予日期|100","联系方式|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             SpTalent record = records.get(i);

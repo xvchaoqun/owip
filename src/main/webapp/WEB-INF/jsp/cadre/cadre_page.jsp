@@ -404,7 +404,7 @@
                                         <option value="sWorkTime_asc">按现职级年限排序(降序)</option>
                                         <option value="sWorkTime_desc">按现职级年限排序(升序)</option>
                                         <option value="growTime">按党派加入时间排序</option>
-                                        <option value="arriveTime">按到校时间排序</option>
+                                        <option value="arriveTime">按到校日期排序</option>
                                         <option value="finishTime">按毕业时间排序</option>
                                     </select>
                                     <script>

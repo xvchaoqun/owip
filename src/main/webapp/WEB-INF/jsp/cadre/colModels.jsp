@@ -53,7 +53,7 @@
         {
             label: '参加工作<br/>时间', name: 'workTime', width: 80, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}
         },
-        {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+        {label: '到校日期', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '最高学位', name: 'degree'},
         {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},

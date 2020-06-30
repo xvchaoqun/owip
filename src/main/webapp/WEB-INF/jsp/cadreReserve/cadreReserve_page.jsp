@@ -366,7 +366,7 @@
             {label: '政治面貌', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '党派<br/>加入时间', name: '_growTime', width: 80, formatter: $.jgrid.formatter.growTime},
             {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
-            {label: '到校时间', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+            {label: '到校日期', name: 'arriveTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
             {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'degree'},
             {label: '毕业时间', name: 'finishTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
