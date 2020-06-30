@@ -104,6 +104,20 @@
                     <input class="form-control" type="text" name="email" value="${ui.email}">
                 </div>
             </div>
+            <c:if test="${sysUser.type==USER_TYPE_JZG}">
+            <div class="form-group">
+                <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休</label>
+                <div class="col-xs-6">
+                    <label>
+                        <input name="isRetire" ${teacherInfo.isRetire?"checked":""} type="checkbox"/>
+                        <span class="lbl"></span>
+                    </label>
+                    <c:if test="${!teacherInfo.isRetire}">
+                    <span class="help-block">注：如果学校人事信息变更为退休状态，此处会自动变更为退休状态</span>
+                    </c:if>
+                </div>
+            </div>
+             </c:if>
         </div>
     </div>
 </form>

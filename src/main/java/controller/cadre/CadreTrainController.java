@@ -10,8 +10,6 @@ import domain.cadre.CadreView;
 import domain.cet.CetRecord;
 import domain.cet.CetRecordExample;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -22,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.cet.CetRecordMapper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -46,6 +46,9 @@ import java.util.*;
 public class CadreTrainController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired(required = false)
+    protected CetRecordMapper cetRecordMapper;
 
     @RequestMapping("/cadreTrain_import")
     public String cadreCompany_import(ModelMap modelMap) {
@@ -145,8 +148,6 @@ public class CadreTrainController extends BaseController {
     @RequiresPermissions("cadreTrain:list")
     @RequestMapping("/cadreTrain_data")
     public void cadreTrain_data(HttpServletResponse response,
-                                @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_parttime") String sort,
-                                @OrderParam(required = false, defaultValue = "desc") String order,
                                 Integer cadreId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
@@ -162,7 +163,7 @@ public class CadreTrainController extends BaseController {
 
         CadreTrainExample example = new CadreTrainExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("start_time asc");
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -268,8 +269,9 @@ public class CadreTrainController extends BaseController {
         return "cadre/cadreTrain/cadreTrain_au";
     }
 
+    // 提取培训记录（培训综合管理-培训记录汇总）
     @RequiresPermissions("cadreTrain:edit")
-    @RequestMapping(value = "/cadreTrain_collect", method = RequestMethod.POST)
+    @RequestMapping(value = "/cadreTrain_draw", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreTrain_collect(HttpServletRequest request,
                                      int cadreId,
@@ -277,7 +279,7 @@ public class CadreTrainController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            cadreTrainService.cadreTrain_collect(ids, cadreId);
+            cadreTrainService.cadreTrain_draw(ids, cadreId);
             logger.info(addLog(LogConstants.LOG_ADMIN, "提取%s所有培训记录：%s", cadreId, StringUtils.join(ids, ",")));
         }
 
@@ -285,18 +287,18 @@ public class CadreTrainController extends BaseController {
     }
 
     @RequiresPermissions("cadreTrain:edit")
-    @RequestMapping("/cadreTrain_collect")
-    public String cadreTrain_collect(int cadreId,
+    @RequestMapping("/cadreTrain_draw")
+    public String cadreTrain_draw(int cadreId,
                                      String name,
                                      String organizer,
                                      ModelMap modelMap){
 
         CadreView cadre = iCadreMapper.getCadre(cadreId);
         Integer userId = cadre.getUserId();
-        modelMap.put("cadreId", cadreId);
+        modelMap.put("cadre", cadre);
         CetRecordExample example = new CetRecordExample();
         CetRecordExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
-        example.setOrderByClause("start_date desc");
+        example.setOrderByClause("start_date asc");
         if (StringUtils.isNotBlank(name)){
             criteria.andNameLike(SqlUtils.trimLike(name));
         }
@@ -307,7 +309,7 @@ public class CadreTrainController extends BaseController {
         List<CetRecord> cetRecords = cetRecordMapper.selectByExample(example);
         modelMap.put("cetRecords", cetRecords);
 
-        return "cadre/cadreTrain/cadreTrain_collect";
+        return "cadre/cadreTrain/cadreTrain_draw";
     }
 
     @RequiresPermissions("cadreTrain:del")

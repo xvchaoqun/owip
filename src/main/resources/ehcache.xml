@@ -132,7 +132,7 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
-       <cache name="CetProjectType:ALL"
+       <cache name="CetProjectType"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"
@@ -148,14 +148,6 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-        <cache name="CetProjectType"
-               eternal="false"
-               maxElementsInMemory="2000"
-               overflowToDisk="false"
-               diskPersistent="false"
-               timeToIdleSeconds="0"
-               timeToLiveSeconds="300"
-               memoryStoreEvictionPolicy="LRU"/>
        <cache name="CetTrainCourseSignToken"
               eternal="false"
               maxElementsInMemory="2000"

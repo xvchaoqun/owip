@@ -1,4 +1,6 @@
 
+2020.6.30
+ 西工大  -- 北师大
 ALTER TABLE `cet_unit_project`
 	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训类别 1专题培训 2日常培训' AFTER `project_type`;
 DROP VIEW `cet_party_view`;
@@ -61,6 +63,26 @@ ALTER TABLE `cet_record`
 	ADD COLUMN `source_type` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT '培训记录来源类别，1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训 5 二级党委日常培训 6 党校其他培训 7 二级党委其他培训' AFTER `source_id`;
 
 truncate table cet_record;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+VALUES (780, 0, '组织关系转出打印', NULL, 'function', NULL, NULL, 252, '0/1/105/252/', 1, 'memberOut:print', 0, NULL, NULL, 1, NULL);
+
+-- 给分党委、党建管理员添加 “memberOut:print”权限
+
+ALTER TABLE `cet_project_type`
+	COMMENT='培训类型，针对过程培训班',
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训' AFTER `name`,
+	ADD COLUMN `code` VARCHAR(50) NULL DEFAULT NULL COMMENT '代码' AFTER `type`;
+UPDATE `sys_resource` SET `name`='培训类别（党校培训）' WHERE  `id`=658;
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `project_type_id` `project_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训类别' AFTER `is_valid`;
+
+insert cet_project_type(name, type, code, sort_order, remark, is_deleted) select name, 2 as type, code, sort_order, remark, is_deleted from cet_project_type;
+update cet_project set project_type_id = project_type_id+14 where type=2;
+
+
+-- 更新SyncService：状态已经变更为退休状态的，不再同步人事库
+--
 
 2020.6.23
 

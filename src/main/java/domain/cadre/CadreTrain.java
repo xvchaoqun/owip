@@ -1,9 +1,17 @@
 package domain.cadre;
 
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreTrain implements Serializable {
+
+    // 培训月份数
+    public int getMonth(){
+        return DateUtils.monthDiff(startTime, endTime);
+    }
+
     private Integer id;
 
     private Integer cadreId;

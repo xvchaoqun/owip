@@ -104,7 +104,7 @@ pageEncoding="UTF-8" %>
                                         </div>
                                         <script>$("#searchForm select[name=traineeTypeId]").val(${traineeTypeId});</script>
                                         <div class="form-group">
-                                            <label>培训项目名称</label>
+                                            <label>培训班名称</label>
                                             <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
                                                    placeholder="请输入">
                                         </div>
@@ -233,7 +233,7 @@ pageEncoding="UTF-8" %>
                         return '${CET_UNITTRAIN_RERECORD_MAP.get(CET_UNITTRAIN_RERECORD_SAVE)}';
                 }},
             </c:if>
-            {label: '培训项目名称', name: 'project.projectName', align: 'left',width: 350},
+            {label: '培训班名称', name: 'project.projectName', align: 'left',width: 350},
             { label: '培训班主办方',name: 'project.cetParty.name', align:'left', width: 270, frozen: true},
             {label: '培训<br/>开始时间', name: 'project.startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '培训<br/>结束时间', name: 'project.endDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

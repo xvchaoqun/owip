@@ -419,7 +419,7 @@ public class CetUnitProjectController extends CetBaseController {
 
     @RequestMapping("/cetUnitProject_selects")
     @ResponseBody
-    public Map cetUnitProject_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map cetUnitProject_selects(Integer pageSize, Integer pageNo, String searchStr, Byte status) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -435,6 +435,9 @@ public class CetUnitProjectController extends CetBaseController {
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andProjectNameLike("%" + searchStr.trim() + "%");
+        }
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
         }
 
         long count = cetUnitProjectMapper.countByExample(example);

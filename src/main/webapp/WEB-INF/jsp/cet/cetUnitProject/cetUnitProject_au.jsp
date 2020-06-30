@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>培训项目名称</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训班名称</label>
                     <div class="col-xs-7">
 					<textarea required class="form-control noEnter" rows="2"
                               name="projectName">${cetUnitProject.projectName}</textarea>

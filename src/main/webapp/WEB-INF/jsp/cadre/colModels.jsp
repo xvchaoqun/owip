@@ -600,8 +600,8 @@
         {label: '结束时间', name: 'endTime', formatter: $.jgrid.formatter.date,
             formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '培训内容', name: 'content', width: 550, align:'left'},
-        {label: '主办单位', name: 'unit', width: 280},
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
+        {label: '主办单位', name: 'unit', width: 280, align:'left'},
+        {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreFamily = [

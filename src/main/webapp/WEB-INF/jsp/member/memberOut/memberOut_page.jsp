@@ -142,6 +142,7 @@
                                 </c:if>
                                 <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
                                     <c:if test="${cls==3}">
+                                        <shiro:hasPermission name="memberOut:print">
                                         <c:forEach items="${printTypeList}" var="_type">
                                         <button class="print print${_type.id} jqOpenViewBatchBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/report/printPreview"
@@ -158,6 +159,7 @@
                                             <i class="fa fa-print"></i> 批量介绍信套打(${_type.name})
                                         </button>
                                         </c:forEach>
+                                        </shiro:hasPermission>
                                         <shiro:hasPermission name="memberOutSelfPrint:edit">
                                         <button data-url="${ctx}/memberOut/memberOut_selfPrint"
                                                 data-title="变更自助打印状态"
@@ -418,7 +420,7 @@
             }}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
-             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
+            <shiro:hasPermission name="memberOut:print">
             { label: '后台打印', width: 110, formatter:function(cellvalue, options, rowObject){
 
                 var isFillPrint = _cMap.metaTypeMap[rowObject.type].boolAttr;
@@ -434,15 +436,12 @@
                     return html;
                 }
             }},
+            </shiro:hasPermission>
             <shiro:hasPermission name="memberOutSelfPrint:edit">
             {label: '自助打印状态', name: 'isSelfPrint', formatter: function (cellvalue, options, rowObject) {
                     return cellvalue?"开启":"关闭"}},
             {label: '自助打印次数', name: 'isSelfPrintCount'},
             </shiro:hasPermission>
-            /*{label: '打印次数', name: 'printCount'},
-            {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
-            {label: '最近打印人', name: 'lastPrintUser.realname'},*/
-            </shiro:hasAnyRoles>
             </c:if>
             {label: '党员本人联系电话', name: 'phone', width: 180},
             {label: '转入单位', name: 'toUnit', width: 150},

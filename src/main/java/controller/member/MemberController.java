@@ -121,9 +121,17 @@ public class MemberController extends MemberBaseController {
                 MemberStay memberStay = memberStayService.get(userId, MemberConstants.MEMBER_STAY_TYPE_ABROAD);
                 if (memberStay != null) {
                     if (memberStay.getStatus() == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
-                        status += "，出国暂留申请已完成审批";
+                        status += "，出国（境）暂留申请已完成审批";
                     } else if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_APPLY)
-                        status += "，已申请出国暂留，但还未审核通过";
+                        status += "，已申请出国（境）暂留，但还未审核通过";
+                }
+
+                memberStay = memberStayService.get(userId, MemberConstants.MEMBER_STAY_TYPE_INTERNAL);
+                if (memberStay != null) {
+                    if (memberStay.getStatus() == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
+                        status += "，非出国（境）暂留申请已完成审批";
+                    } else if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_APPLY)
+                        status += "，已申请非出国（境）暂留，但还未审核通过";
                 }
             }
         }
@@ -1205,15 +1213,15 @@ public class MemberController extends MemberBaseController {
     private List<String> getTeacherExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
-                "编制类别|80", "人员类别|100", "人员状态|80", "在岗情况|80",/* "岗位类别|80", "主岗等级|120",*/
-                "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "国家/地区|80", "证件号码|150",
+                "编制类别|80", "人员类别|100", "人员状态|80", /*"在岗情况|80", "岗位类别|80", "主岗等级|120",*/
+                "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", /*"国家/地区|80",*/ "证件号码|150",
                 "政治面貌|80", "所属" + CmTag.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
                 "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
-                "专业技术职务|120", "职称级别|120", /*"管理岗位等级|120","任职级别|120",*/
+                "专业技术职务|120", /*"职称级别|120", "管理岗位等级|120","任职级别|120",*/
                 /*"行政职务|180", */"学历|120", "毕业学校|200", /*"学位授予学校|200",*/
-                "学位|100", "人员结构|100", /*"人才类型|100", "人才称号|200",*/ "手机号码|100"}));
+                "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100"}));
     }
 
     public void teacher_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
@@ -1265,7 +1273,7 @@ public class MemberController extends MemberBaseController {
                     record.getAuthorizedType(),
                     record.getStaffType(),
                     record.getStaffStatus(), // 人员状态
-                    record.getOnJob(), // 在岗情况
+                    /*record.getOnJob(),*/ // 在岗情况
                     /*record.getPostClass(), // 岗位类别
                     record.getMainPostLevel(), // 主岗等级*/
                     gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),
@@ -1273,7 +1281,7 @@ public class MemberController extends MemberBaseController {
                     birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",
                     ageRange, // 年龄范围
                     record.getNation(),
-                    uv.getCountry(),// 国家/地区
+                    /*uv.getCountry(),*/// 国家/地区
                     record.getIdcard(), // 证件号码
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId == null ? "" : partyMap.get(partyId).getName(),
@@ -1292,7 +1300,7 @@ public class MemberController extends MemberBaseController {
 
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
-                    record.getProPostLevel(), //职称级别
+                    /*record.getProPostLevel(),*/ //职称级别
                     /*record.getManageLevel(), // 管理岗位等级
                     adminLevel, // 任职级别 -- 行政级别*/
                     /*post, // 行政职务 -- 职务*/
@@ -1300,7 +1308,7 @@ public class MemberController extends MemberBaseController {
                     record.getSchool(), // 毕业学校
                     /*record.getDegreeSchool(),*/
                     record.getDegree(), // 学位
-                    record.getFromType(), // 人员结构
+                    /*record.getFromType(),*/ // 人员结构
                     /*record.getTalentType(), // 人才类型
                     record.getTalentTitle(),*/
                     record.getMobile()

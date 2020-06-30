@@ -61,6 +61,9 @@ public class MemberBaseInfoController extends MemberBaseController {
             SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
             modelMap.put("ui", ui);
 
+            TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+            modelMap.put("teacherInfo", teacherInfo);
+
             return "sys/userInfo/baseInfo_au";
         }else if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
 
@@ -81,7 +84,7 @@ public class MemberBaseInfoController extends MemberBaseController {
     @RequiresPermissions("memberBaseInfo:edit")
     @RequestMapping(value = "/baseInfo_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_baseInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
+    public Map do_baseInfo_au(int userId, SysUserInfo record, Boolean isRetire, MultipartFile _avatar) throws IOException {
 
         record.setUserId(userId);
 
@@ -89,7 +92,15 @@ public class MemberBaseInfoController extends MemberBaseController {
         record.setAvatar(avatar);
 
         filterCadreReserveInfo(userId, record);
-        sysUserService.insertOrUpdateUserInfoSelective(record);
+
+        TeacherInfo teacherInfo = null;
+        if(isRetire!=null) {
+            teacherInfo = new TeacherInfo();
+            teacherInfo.setUserId(userId);
+            teacherInfo.setIsRetire(isRetire);
+        }
+
+        sysUserService.insertOrUpdateUserInfoSelective(record, teacherInfo);
 
         memberService.addModify(userId, "修改账号基本信息");
 

@@ -227,13 +227,13 @@
                                value="${teacherInfo.mainPostLevel}">
                     </div>
                 </div>--%>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">在岗情况</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="onJob" value="${teacherInfo.onJob}">
                         <span class="help-block">注：在岗、离校、退休、离休等</span>
                     </div>
-                </div>
+                </div>--%>
             </div>
             <div class="col-xs-4">
                  <div class="form-group">
@@ -242,13 +242,13 @@
                         <input class="form-control" type="text" name="proPost" value="${teacherInfo.proPost}">
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">职称级别</label>
                     <div class="col-xs-6">
                         <input class="form-control" type="text" name="proPostLevel" value="${teacherInfo.proPostLevel}">
                         <span class="help-block">注：正高、副高、中级、初级等</span>
                     </div>
-                </div>
+                </div>--%>
                 <%--<div class="form-group">
                     <label class="col-xs-3 control-label">职称级别</label>
                     <div class="col-xs-6">

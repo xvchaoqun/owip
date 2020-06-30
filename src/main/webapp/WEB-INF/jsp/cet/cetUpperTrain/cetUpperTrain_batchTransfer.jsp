@@ -20,12 +20,12 @@
                 <label class="col-xs-4 control-label">转移数量</label>
 
                 <div class="col-xs-8 label-text">
-                        ${count} 个
+                        ${count} 条
                 </div>
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>选择培训总类名称</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>转移分类</label>
             <div class="col-xs-8">
                 <select required data-rel="select2"
                         name="cetType" data-placeholder="请选择">
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="form-group specialType">
-            <label class="col-xs-4 control-label"><span class="star">*</span>选择培训类别</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>所属培训类别</label>
             <div class="col-xs-8">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -58,11 +58,11 @@
             </div>
         </div>
         <div class="form-group trainClass">
-            <label class="col-xs-4 control-label"><span class="star">*</span>选择培训班（报告名称）</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>所属培训班</label>
             <div class="col-xs-8">
                 <select data-rel="select2-ajax"
                         data-width="372"
-                        data-ajax-url="${ctx}/cet/cetUnitProject_selects"
+                        data-ajax-url="${ctx}/cet/cetUnitProject_selects?status=<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>"
                         name="projectId" data-placeholder="请选择">
                 </select>
             </div>

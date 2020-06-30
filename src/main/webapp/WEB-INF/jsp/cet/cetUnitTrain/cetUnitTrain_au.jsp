@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
 			<c:if test="${param.apply==1}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label"><span class="star">*</span> 培训项目名称</label>
+					<label class="col-xs-4 control-label"><span class="star">*</span> 培训班名称</label>
 					<div class="col-xs-8 label-text">
 						${cetUnitProject.projectName}
 					</div>

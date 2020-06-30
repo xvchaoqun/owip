@@ -145,7 +145,7 @@ pageEncoding="UTF-8" %>
                                    value="${param.year}"/>
                         </div>
                         <div class="form-group">
-                            <label>培训项目名称</label>
+                            <label>培训班名称</label>
                             <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
                                    placeholder="请输入">
                         </div>
@@ -291,7 +291,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, rowObject.totalCount);
                 }, frozen: true},
                 { label: '年度',name: 'year', width: 60, frozen: true},
-                {label: '培训项目名称', name: 'projectName', align: 'left',width: 350, frozen: true},
+                {label: '培训班名称', name: 'projectName', align: 'left',width: 350, frozen: true},
                 { label: '培训班主办方',name: 'cetParty.name', align:'left', width: 310},
                 { label: '主办单位',name: 'unitId', width: 150, align:'left', formatter: $.jgrid.formatter.unit},
                 {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
@@ -320,10 +320,11 @@ pageEncoding="UTF-8" %>
                 }},
                 { label: '备注',name: 'remark', align: 'left', width: 150},
                 /*{label: '操作人', name: 'addUser.realname'},*/
-                {label: '添加时间', name: 'addTime', width: 150},
                 {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                     return _cMap.CET_UNIT_PROJECT_STATUS_MAP[cellvalue]
-                }}
+                }},
+                /*{label: '添加时间', name: 'addTime', width: 150},*/
+
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

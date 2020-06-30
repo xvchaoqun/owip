@@ -32,11 +32,13 @@
                data-grid-id="#jqGrid_cadreTrain"
                data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                 修改</button>
+            <shiro:hasPermission name="cet:menu">
             <button class="popupBtn btn btn-info btn-sm"
                     data-width="1000"
                     data-grid-id="#jqGrid_cadreTrain"
-                    data-url="${ctx}/cadreTrain_collect?cadreId=${param.cadreId}">
-                <i class="fa fa-plus"></i> 提取培训记录</button>
+                    data-url="${ctx}/cadreTrain_draw?cadreId=${param.cadreId}">
+                <i class="fa fa-plus"></i> 从培训记录中添加</button>
+            </shiro:hasPermission>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreTrain:del">
             <button data-url="${ctx}/cadreTrain_batchDel"

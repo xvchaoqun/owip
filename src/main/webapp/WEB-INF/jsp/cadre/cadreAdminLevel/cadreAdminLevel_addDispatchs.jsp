@@ -80,6 +80,9 @@ pageEncoding="UTF-8" %>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
     <c:if test="${type=='edit'}">
         <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
+        <c:if test="${fn:length(dispatchCadreIdSet)>0}">
+        <input style="float: right" type="button" onclick="addDispatch(-1)" class="btn btn-xs btn-danger" value="清除并保存"/>
+            </c:if>
     </c:if>
     <c:if test="${type!='edit'}">
         <button class="popupBtn btn btn-success"
@@ -88,12 +91,15 @@ pageEncoding="UTF-8" %>
             重新编辑</button>
     </c:if>
     <script>
-        function addDispatch(type){
+        function addDispatch(dispatchCadreId){
 
-            var ids = $.map($("#modal .table td :radio:checked"),function(item, index){
-                return $(item).val();
-            });
-            $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:ids[0]},function(ret){
+            if(dispatchCadreId == undefined){
+                dispatchCadreId = $("#modal .table td :radio:checked").val();
+            }else{
+                dispatchCadreId = null; // 清除
+            }
+
+            $.post("${ctx}/cadreAdminLevel_addDispatch",{id:'${param.id}',cls:'${param.cls}',dispatchCadreId:dispatchCadreId},function(ret){
                 if(ret.success) {
                     _reload();
                     //SysMsg.success('操作成功。', '成功');

@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
         <form class="form-inline search-form" id="searchForm_popup" style="float: left">
             <input type="hidden" name="userId" value="${param.userId}">
             <div class="form-group">
-                <label>培训项目名称</label>
+                <label>培训班名称</label>
                 <input class="form-control search-query" name="projectName" type="text" value="${param.projectName}"
                        placeholder="请输入培训项目名称">
             </div>
@@ -35,7 +35,7 @@ pageEncoding="UTF-8" %>
             <thead>
             <tr>
                 <th class="center"></th>
-                <th nowrap>培训项目名称</th>
+                <th nowrap>培训班名称</th>
                 <th nowrap>培训班主办方</th>
                 <th nowrap>培训开始时间</th>
                 <th nowrap>培训结束时间</th>

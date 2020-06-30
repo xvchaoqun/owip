@@ -269,7 +269,7 @@ public class MemberApplyExportController extends MemberBaseController {
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         String[] titles = {"工作证号|100","姓名|100","编制类别|100","人员类别|100",
-                "人员状态|100","在岗情况|100",/*"岗位类别|100", "主岗等级|100",*/
+                "人员状态|100",/*"在岗情况|100","岗位类别|100", "主岗等级|100",*/
                 "性别|100","出生日期|100", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
                 "发展程度|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left","所在单位|200",
                 "提交书面申请书时间|150" , "确定为入党积极分子时间|150", "确定为发展对象时间|150","到校日期|100",
@@ -318,7 +318,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getAuthorizedType(),
                     record==null?"":record.getStaffType(),
                     record==null?"":record.getStaffStatus(), // 人员状态
-                    record==null?"":record.getOnJob(), // 在岗情况
+                    /*record==null?"":record.getOnJob(),*/ // 在岗情况
                     /*record==null?"":record.getPostClass(), // 岗位类别
                     record==null?"":record.getMainPostLevel(), // 主岗等级*/
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
@@ -367,7 +367,7 @@ public class MemberApplyExportController extends MemberBaseController {
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|100","编制类别|100","人员类别|100",
-                "人员状态|80","在岗情况|80",/*"岗位类别|80", "主岗等级|120",*/
+                "人员状态|80",/*"在岗情况|80","岗位类别|80", "主岗等级|120",*/
                 "性别|100","出生日期|80", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
                 "政治面貌|100","所在分党委、党总支、直属党支部|300|left","所在党支部|300|left", "所在单位|200", "入党时间|80","到校日期|80",
                 "专业技术职务|120","职称|120",/*"管理岗位等级|120",*/"任职级别|100","行政职务|180",
@@ -411,7 +411,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getAuthorizedType(),
                     record==null?"":record.getStaffType(),
                     record==null?"":record.getStaffStatus(), // 人员状态
-                    record==null?"":record.getOnJob(), // 在岗情况
+                    /*record==null?"":record.getOnJob(),*/ // 在岗情况
                     /*record==null?"":record.getPostClass(), // 岗位类别
                     record==null?"":record.getMainPostLevel(), // 主岗等级*/
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),

@@ -1,14 +1,18 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.*;
+import domain.cadre.CadreTrain;
+import domain.cadre.CadreTrainExample;
+import domain.cadre.CadreView;
 import domain.cet.CetRecord;
+import domain.cet.CetRecordExample;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.cet.CetRecordMapper;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
@@ -18,15 +22,18 @@ import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class CadreTrainService extends BaseMapper {
+
     @Autowired
     private CadreService cadreService;
-
+    @Autowired(required = false)
+    protected CetRecordMapper cetRecordMapper;
 
     public List<CadreTrain> list(int cadreId) {
 
@@ -245,26 +252,42 @@ public class CadreTrainService extends BaseMapper {
     }
 
     @Transactional
-    public void cadreTrain_collect(Integer[] ids, int cadreId) {
+    public void cadreTrain_draw(Integer[] ids, int cadreId) {
 
-        for (Integer id : ids) {
-            CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(id);
+        List<CetRecord> cetRecords = new ArrayList<>();
+        {
+            CetRecordExample example = new CetRecordExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            example.setOrderByClause("start_date asc");
+            cetRecords = cetRecordMapper.selectByExample(example);
+        }
+
+        for (CetRecord cetRecord:cetRecords) {
+
+            CadreTrain record = new CadreTrain();
 
             //判断是否添加重复
             CadreTrainExample example = new CadreTrainExample();
             example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStartTimeEqualTo(cetRecord.getStartDate()).andEndTimeEqualTo(cetRecord.getEndDate());
+                    .andStartTimeEqualTo(cetRecord.getStartDate())
+                    .andEndTimeEqualTo(cetRecord.getEndDate())
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExample(example);
-            if (cadreTrains.size() > 0) continue;
+            if (cadreTrains.size() > 0){
+                record.setId(cadreTrains.get(0).getId());
+            }
 
-            CadreTrain record = new CadreTrain();
             record.setCadreId(cadreId);
             record.setStartTime(cetRecord.getStartDate());
             record.setEndTime(cetRecord.getEndDate());
             record.setContent(cetRecord.getName());
             record.setUnit(cetRecord.getOrganizer());
             record.setRemark(cetRecord.getRemark());
-            insertSelective(record);
+            if(record.getId()!=null){
+                updateByPrimaryKeySelective(record);
+            }else {
+                insertSelective(record);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div id="cadreTrainCollectDiv">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-        <h3>提取所有培训记录</h3>
+        <h3>培训记录（${cadre.user.realname}）</h3>
     </div>
     <div class="modal-body">
         <form class="form-inline search-form" id="searchForm_popup" style="float: left">
@@ -21,13 +21,13 @@ pageEncoding="UTF-8" %>
             </div>
             <c:set var="_query" value="${not empty param.name || not empty param.organizer}"/>
             <div class="form-group">
-                <button type="button" data-url="${ctx}/cadreTrain_collect?cadreId=${param.cadreId}"
+                <button type="button" data-url="${ctx}/cadreTrain_draw?cadreId=${param.cadreId}"
                         data-target="#cadreTrainCollectDiv" data-form="#searchForm_popup"
                         class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
                 </button>
                 <c:if test="${_query}">
                     <button type="button"
-                            data-url="${ctx}/cadreTrain_collect?cadreId=${param.cadreId}"
+                            data-url="${ctx}/cadreTrain_draw?cadreId=${param.cadreId}"
                             data-target="#cadreTrainCollectDiv"
                             class="reloadBtn btn btn-warning btn-sm">
                         <i class="fa fa-reply"></i> 重置
@@ -78,8 +78,9 @@ pageEncoding="UTF-8" %>
         </c:if>
     </div>
     <div class="modal-footer">
+        <div class="note">数据来源：培训综合管理-培训记录汇总</div>
         <button class="btn btn-default cancel"><i class="fa fa-times"></i> 取消</button>
-        <button id="submitBtn" class="btn btn-success"><i class="fa fa-save"></i> 保存</button>
+        <button id="submitBtn" class="btn btn-success"><i class="fa fa-check"></i> 确定</button>
     </div>
 </div>
 <script>
@@ -113,7 +114,7 @@ pageEncoding="UTF-8" %>
             return;
         }
 
-        $.post("${ctx}/cadreTrain_collect",{cadreId: ${param.cadreId}, ids:ids},function(ret){
+        $.post("${ctx}/cadreTrain_draw",{cadreId: ${param.cadreId}, ids:ids},function(ret){
             if(ret.success) {
                 $("#modal").modal('hide');
                 $("#jqGrid_cadreTrain").trigger("reloadGrid");

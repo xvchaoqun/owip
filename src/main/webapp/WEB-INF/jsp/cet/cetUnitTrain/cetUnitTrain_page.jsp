@@ -223,7 +223,7 @@
             }},
             {label: '培训成绩', name: 'score'},
             /*{label: '操作人', name: 'addUser.realname'},*/
-            {label: '添加时间', name: 'addTime', width: 150},
+            /*{label: '添加时间', name: 'addTime', width: 150},*/
             <c:if test="${reRecord==1}">
                 {label: '补录审批备注', name: 'reason', width: 150},
             </c:if>

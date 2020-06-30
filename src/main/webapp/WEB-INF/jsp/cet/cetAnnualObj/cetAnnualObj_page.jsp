@@ -314,7 +314,7 @@
                         })).join("，")
                     }},
             </c:if>
-            {label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            /*{label: '任现职时间', name: 'lpWorkTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},*/
             {label: '年度学习任务<br/>(线下)', name: 'periodOffline'},
             {
                 label: '线下已完成<br/>/归档学时', name: '_finishPeriodOffline', formatter: function (cellvalue, options, rowObject) {
@@ -377,8 +377,8 @@
                         :Math.trimToZero(rowObject.r.upperPeriod);
                 }
             },
-            {label: '联系方式', name: 'user.mobile', width: 110},
-            {label: '电子邮箱', name: 'user.email', width: 180, align: 'left'},
+            /*{label: '联系方式', name: 'user.mobile', width: 110},
+            {label: '电子邮箱', name: 'user.email', width: 180, align: 'left'},*/
             /*{label: '备注', name: 'remark', width: 250},*/
         ],rowattr: function(rowData, currentObj, rowId)
         {

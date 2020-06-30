@@ -2,7 +2,6 @@ package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.cadre.common.StatCadreMapper;
-import persistence.cet.CetRecordMapper;
 import persistence.crp.CrpRecordMapper;
 import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
@@ -13,9 +12,6 @@ import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 
 public class BaseMapper extends CoreBaseMapper{
-
-    @Autowired
-    protected CetRecordMapper cetRecordMapper;
 
     @Autowired
     protected PartyReportMapper partyReportMapper;

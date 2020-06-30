@@ -52,7 +52,7 @@ public class ExtService extends BaseMapper {
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工作证号|100","姓名","编制类别","人员类别","人员状态","在岗情况",/*"岗位类别", "主岗等级|150",*/
+        String[] titles = {"工作证号|100","姓名","编制类别","人员类别","人员状态",/*"在岗情况",*//*"岗位类别", "主岗等级|150",*/
                 "性别","出生日期|100", "年龄","年龄范围","民族", "国家/地区", "证件号码|150",
                 "政治面貌","所在分党委、党总支、直属党支部|300|left","所在党支部|200|left", "所在单位", "入党时间|100","到校日期|100",
                 "专业技术职务|150","职称级别|150",/*"管理岗位等级","任职级别","行政职务",*/"学历","毕业学校|150|left",/*"学位授予学校",*/
@@ -83,7 +83,7 @@ public class ExtService extends BaseMapper {
                         extJzg==null?"":extJzg.getBzlx(),
                         extJzg==null?"":extJzg.getRylx(),
                         extJzg==null?"":extJzg.getRyzt(), // 人员状态
-                        extJzg==null?"":extJzg.getSfzg(), // 在岗情况
+                        /*extJzg==null?"":extJzg.getSfzg(),*/ // 在岗情况
                         /*extJzg==null?"":extJzg.getGwlb(), // 岗位类别
                         extJzg==null?"":extJzg.getGwjb(), // 主岗等级--岗位级别*/
                         extJzg==null?"":extJzg.getXb(),

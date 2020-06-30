@@ -3,6 +3,7 @@ package ext.service;
 import controller.global.OpException;
 import domain.sys.*;
 import ext.domain.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -674,8 +675,13 @@ public class SyncService extends BaseMapper {
             /*teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
                     || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
                     || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
-            record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
-                    ||StringUtils.equals(extJzg.getRyzt(), "离世"));
+
+            // 状态已经变更为退休状态的，不再同步人事库
+            if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())) {
+
+                record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
+                        || StringUtils.equals(extJzg.getRyzt(), "离世"));
+            }
 
             //teacher.setRetireTime(); 退休时间
             record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));

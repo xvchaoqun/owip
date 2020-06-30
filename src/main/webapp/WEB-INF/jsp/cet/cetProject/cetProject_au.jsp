@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
                                 <div class="col-xs-8">
-                                    <input required class="form-control" type="text" name="name" value="${cetProject.name}">
+                                    <textarea required class="form-control" name="name">${cetProject.name}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">

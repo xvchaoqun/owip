@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
             { label: '代码',name: 'code', width:200},
             {
                 label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder?type=" + ${type}}
+                formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
             },
             /*{ label: '课程',name: 'courseNum'},
             { label: '选课人次',name: 'traineeCount'},*/

@@ -36,8 +36,6 @@ public class CetProjectTypeController extends CetBaseController {
     public String cetProjectType(@RequestParam(required = false, defaultValue = "1") Byte type,
                                  ModelMap modelMap) {
 
-        modelMap.put("type", type);
-
         return "cet/cetProjectType/cetProjectType_page";
     }
 
@@ -144,9 +142,9 @@ public class CetProjectTypeController extends CetBaseController {
     @RequiresPermissions("cetProjectType:changeOrder")
     @RequestMapping(value = "/cetProjectType_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectType_changeOrder(Integer id, Integer addNum, Byte type, HttpServletRequest request) {
+    public Map do_cetProjectType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cetProjectTypeService.changeOrder(id, addNum, type);
+        cetProjectTypeService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_CET, "培训类别调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

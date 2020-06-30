@@ -55,7 +55,7 @@
         url: '${ctx}/user/cet/cetUnitTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '年度', name: 'project.year', width: 60},
-            {label: '培训项目名称', name: 'project.projectName', align: 'left', width: 350},
+            {label: '培训班名称', name: 'project.projectName', align: 'left', width: 350},
             {label: '培训班主办方', name: 'project.partyId', width: 260, align: 'left',formatter: function (cellvalue, options, rowObject) {
                     return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
                 }},

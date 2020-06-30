@@ -90,6 +90,8 @@ public class CadreAdformService extends BaseMapper {
     @Autowired
     protected CadreFamilyService cadreFamilyService;
     @Autowired
+    protected CadreTrainService cadreTrainService;
+    @Autowired
     private CacheHelper cacheHelper;
     @Autowired
     protected AvatarService avatarService;
@@ -497,7 +499,12 @@ public class CadreAdformService extends BaseMapper {
         bean.setCes(evaResult);
 
         // 培训情况
-        bean.setTrainDesc(cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN));
+        String trainDesc = cadreInfoService.getTrimContent(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
+        if(StringUtils.isBlank(trainDesc)){
+            trainDesc = freemarkerService.freemarker(cadreTrainService.list(cadreId),
+                "cadreTrains", "/cadre/cadreTrain.ftl");
+        }
+        bean.setTrainDesc(trainDesc);
 
         // 所有的家庭成员
         CadreFamilyExample example = new CadreFamilyExample();
