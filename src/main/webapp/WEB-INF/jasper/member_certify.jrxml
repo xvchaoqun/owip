@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="member_in_bj" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2b04da4f-5544-45ba-95c6-02f02e15260b">
 	<property name="ireport.zoom" value="0.289664379736688"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="196"/>
+	<property name="ireport.y" value="0"/>
 	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="fs" fontSize="16"/>
 	<field name="from" class="java.lang.String"/>
 	<field name="to" class="java.lang.String"/>
@@ -18,12 +18,12 @@
 		<band height="3508" splitType="Stretch">
 			<image isUsingCache="false">
 				<reportElement x="38" y="0" width="2480" height="3508" uuid="e538a5db-b96b-4fce-b3c5-05a677599421"/>
-				<imageExpression><![CDATA["D:\\项目相关\\功能\\1、零碎需求\\member_certify.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$F{bg}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="1878" y="573" width="203" height="85" uuid="8dbdd5dc-3fc6-4958-a95f-8c00f660103a"/>
 				<textElement>
-					<font size="66"/>
+					<font size="48"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
 			</textField>
@@ -79,7 +79,7 @@
 			<textField>
 				<reportElement x="1664" y="1941" width="254" height="88" isPrintWhenDetailOverflows="true" uuid="9cfdaa2c-5841-45f3-8c73-42c35ca54efc"/>
 				<textElement>
-					<font size="66"/>
+					<font size="48"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
 			</textField>
