@@ -1,5 +1,6 @@
 package service.member;
 
+import domain.member.Member;
 import domain.member.MemberCertify;
 import domain.member.MemberCertifyExample;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class MemberCertifyService extends MemberBaseMapper {
     @Transactional
     public void insertSelective(MemberCertify record){
 
+        Member member = memberMapper.selectByPrimaryKey(record.getUserId());
+        record.setPoliticalStatus(member.getPoliticalStatus());
         record.setSn(generateSn(record.getYear()));
         record.setCreateTime(new Date());
 

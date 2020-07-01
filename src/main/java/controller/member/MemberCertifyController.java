@@ -71,7 +71,7 @@ public class MemberCertifyController extends MemberBaseController {
 
         MemberCertifyExample example = new MemberCertifyExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("certify_date desc");
+        example.setOrderByClause("certify_date desc,sn desc");
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
