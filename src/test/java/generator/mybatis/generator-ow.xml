@@ -37,15 +37,15 @@
         <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
         </table>-->
 
-       <!-- <table tableName="ow_member_out" domainObjectName="member.MemberOut">
+        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
        </table>
         <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-         </table>
-        <table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
+         </table>-->
+        <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
         </table>-->
 
 
@@ -112,7 +112,7 @@
                 mapperName="member.ApplySnMapper">
          </table>-->
 
-         <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
                 mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
              <columnOverride column="remark" jdbcType="VARCHAR"/>
@@ -124,13 +124,15 @@
                enableDeleteByExample="false">
            <ignoreColumn column="update_time"/>
             <columnOverride column="remark" jdbcType="VARCHAR"/>
-       </table>
+       </table>-->
 
+        <table tableName="ow_member_certify" domainObjectName="member.MemberCertify" mapperName="member.MemberCertifyMapper">
+        </table>
 
        <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-       <!-- <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
+        </table>
+        <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -165,7 +167,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>-->
-       <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
+        <!--<table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -189,7 +191,7 @@
         <!--<table tableName="ow_party_member" domainObjectName="party.PartyMember">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-         <!--  <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
+           <!--<table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
                   enableInsert="false" enableUpdateByPrimaryKey="false"
                   enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                   enableDeleteByExample="false">
@@ -218,7 +220,7 @@
 
         <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
         </table>-->
-      <!--  <table tableName="ow_branch_view" domainObjectName="party.BranchView"
+        <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -236,7 +238,7 @@
 
         </table>-->
         <!--<table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
-       <!- <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
+       <table tableName="ow_party_eva" domainObjectName="party.PartyEva" mapperName="party.PartyEvaMapper">
 
         </table>-->
         <!--<table tableName="ow_party_reward" domainObjectName="party.PartyReward" mapperName="party.PartyRewardMapper">
@@ -247,15 +249,15 @@
         <table tableName="ow_party_punish_view" domainObjectName="party.PartyPunishView" mapperName="party.PartyPunishViewMapper">
         </table>-->
         <!--<table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
-      <!-  <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
+      <table tableName="ow_party_reward_view" domainObjectName="party.PartyRewardView" mapperName="party.PartyRewardViewMapper">
 
         </table>-->
         <!--<table tableName="ow_party_post_view" domainObjectName="party.PartyPostView" mapperName="party.PartyPostViewMapper">
 
         </table>-->
-    <!--    <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
-        </table>-->
-        <!--<table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
+      <!--  <table tableName="ow_party_report" domainObjectName="party.PartyReport" mapperName="party.PartyReportMapper">
+        </table>
+        <table tableName="ow_member_report" domainObjectName="member.MemberReport" mapperName="member.MemberReportMapper">
         </table>-->
     </context>
 </generatorConfiguration>

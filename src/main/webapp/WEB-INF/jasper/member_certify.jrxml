@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="member_in_bj" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2b04da4f-5544-45ba-95c6-02f02e15260b">
+	<property name="ireport.zoom" value="0.289664379736688"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="196"/>
+	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="fs" fontSize="16"/>
+	<field name="from" class="java.lang.String"/>
+	<field name="to" class="java.lang.String"/>
+	<field name="bg" class="java.lang.String"/>
+	<field name="sn" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="year" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="day" class="java.lang.String"/>
+	<field name="ps" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<detail>
+		<band height="3508" splitType="Stretch">
+			<image isUsingCache="false">
+				<reportElement x="38" y="0" width="2480" height="3508" uuid="e538a5db-b96b-4fce-b3c5-05a677599421"/>
+				<imageExpression><![CDATA["D:\\项目相关\\功能\\1、零碎需求\\member_certify.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="1878" y="573" width="203" height="85" uuid="8dbdd5dc-3fc6-4958-a95f-8c00f660103a"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="843" y="811" width="437" height="114" uuid="0d75b4fb-f82f-4b38-8a77-d792b12ff3e4"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1772" y="811" width="199" height="114" uuid="90a70fa3-233e-4872-b8c8-82a395dfa26a"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="714" y="965" width="536" height="94" uuid="826b2895-7297-423d-8ef3-72c9499e93dc"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{from}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1322" y="965" width="679" height="94" uuid="30003e42-890d-4aef-9a63-b2845bc16e89"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{to}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1262" y="1212" width="182" height="96" uuid="bb4a2265-19f4-4842-be9c-89618f04ea99"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1532" y="1212" width="178" height="96" uuid="22af7af8-2058-45ca-a924-0e2833034a28"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1801" y="1212" width="148" height="96" uuid="51d7c12d-38ef-4764-b116-9fe77e620de1"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1664" y="1941" width="254" height="88" isPrintWhenDetailOverflows="true" uuid="9cfdaa2c-5841-45f3-8c73-42c35ca54efc"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="805" y="2269" width="363" height="86" uuid="6c02206c-8198-4246-8a41-9d11f5bf2cd0"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1641" y="2258" width="297" height="97" uuid="002df67f-c86f-4b16-a39a-250d11743662"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="2398" width="562" height="85" uuid="5f3fe6b8-d29d-46c3-b153-5bd649b2e0ca"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{from}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1168" y="2398" width="568" height="85" uuid="afca293d-e013-4c15-96ad-fed16e73213f"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{to}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1141" y="2909" width="263" height="90" uuid="54f75b9c-6a9b-4d70-8305-6feb1ccaee17"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1501" y="2909" width="209" height="90" uuid="5bdacf18-61a4-421c-9cbd-471047a71d99"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1790" y="2909" width="181" height="90" uuid="1f7399f6-f45f-4e1b-9634-933ef50b7ed4"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="2073" width="686" height="109" uuid="6c87c330-f668-4829-8306-b01bf6f61c96"/>
+				<textElement>
+					<font size="66"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

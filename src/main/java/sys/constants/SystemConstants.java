@@ -256,6 +256,7 @@ public class SystemConstants {
     public final static byte JASPER_PRINT_TYPE_LETTER_FILL_PRINT = 2;
     public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD = 3;
     public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL = 4;
+    public final static byte JASPER_PRINT_TYPE_MEMBER_CERTIFY = 5;
     public final static Map<Byte, String> JASPER_PRINT_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -263,6 +264,7 @@ public class SystemConstants {
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_LETTER_FILL_PRINT, "介绍信套打");
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD, "出国境组织关系暂留审批表");
         JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL, "国内组织关系暂留审批表");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_CERTIFY, "打印组织关系介绍信");
     }
 
     public final static Map<Byte, String> PIE_COLOR_MAP = new LinkedHashMap<>();

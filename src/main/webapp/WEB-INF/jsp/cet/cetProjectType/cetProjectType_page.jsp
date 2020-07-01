@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
+            <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="5"></table>
             <div id="jqGridPager"></div>
         </div>
         <div id="body-content-view"></div>
