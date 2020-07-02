@@ -1,9 +1,12 @@
 package domain.cadreReserve;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import domain.base.MetaType;
+import org.apache.commons.lang3.StringUtils;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
+import sys.utils.SqlUtils;
+
+import java.util.*;
 
 public class CadreReserveViewExample {
     protected String orderByClause;
@@ -1129,6 +1132,17 @@ public class CadreReserveViewExample {
 
         public Criteria andDispatchCadreIdNotBetween(Integer value1, Integer value2) {
             addCriterion("dispatch_cadre_id not between", value1, value2, "dispatchCadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andLabelsContain(Set<Integer> labelIds) {
+
+            List<String> labelIdList = new ArrayList<>();
+            for (Integer labelId : labelIds) {
+                labelIdList.add("find_in_set("+labelId+", label)");
+            }
+            addCriterion("(" + StringUtils.join(labelIdList, " or ") + ")");
+
             return (Criteria) this;
         }
 
@@ -2562,8 +2576,26 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andNationIn(List<String> values) {
-            addCriterion("nation in", values, "nation");
+        public Criteria andNationIn(List<String> values, Set<String> nations) {
+
+            String searchSql = "";
+            if(values.contains("其他")){
+
+                nations.remove("其他");
+                searchSql = "nation not in(" + SqlUtils.toParamValues(nations) + ") or nation is null";
+            }
+
+            if(values.size()>0){
+
+                searchSql += (searchSql!=""?" or ":"") + "nation in (" + SqlUtils.toParamValues(values) + ")";
+            }
+
+            if(values.contains("-1")){ // 少数民族
+                searchSql += (searchSql!=""?" or ":"")
+                        + "(nation != '汉族' and nation != '其他' and nation!='' and nation is not null)";
+            }
+
+            addCriterion("(" + searchSql + ")");
             return (Criteria) this;
         }
 
@@ -3062,8 +3094,31 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andDpTypeIdIn(List<Integer> values) {
-            addCriterion("dp_type_id in", values, "dpTypeId");
+        public Criteria andDpTypeIdIn(Set<Integer> values) {
+
+            MetaType metaType= CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
+            List searchSqlList = new ArrayList<>();
+
+            if(metaType!=null && values.contains(metaType.getId())){
+                searchSqlList.add("(dp_type_id is null and is_ow=0 or dp_type_id="+metaType.getId()+")");
+                values.remove(metaType.getId());
+            }else if(values.contains(-2)){
+                searchSqlList.add("(dp_type_id is null and is_ow=0)");
+            }
+
+            if(values.contains(-1)){
+                searchSqlList.add("is_ow!=1");
+            }
+            if(values.contains(0)){
+                searchSqlList.add("is_ow=1");
+            }
+            values.removeAll(Arrays.asList(-2, -1, 0));
+
+            if(values.size()>0){
+                searchSqlList.add("dp_type_id in (" + StringUtils.join(values, ",") + ")");
+            }
+            if(searchSqlList.size()>0)
+                addCriterion("(" + StringUtils.join(searchSqlList, " or ") + ")");
             return (Criteria) this;
         }
 
@@ -3149,6 +3204,20 @@ public class CadreReserveViewExample {
 
         public Criteria andDpPostNotBetween(String value1, String value2) {
             addCriterion("dp_post not between", value1, value2, "dpPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
+
+            String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
+            addCriterion("(ow_positive_time >='" + date + "' or dp_grow_time >='" + date + "')");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
+
+            String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
+            addCriterion("(ow_positive_time <='" + date + "' or dp_grow_time <='" + date + "')");
             return (Criteria) this;
         }
 

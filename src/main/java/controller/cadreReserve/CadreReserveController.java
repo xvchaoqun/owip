@@ -1,6 +1,7 @@
 package controller.cadreReserve;
 
 import controller.BaseController;
+import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
@@ -10,6 +11,8 @@ import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -20,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +33,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.CadreReserveCount;
+import persistence.cadre.common.ICadreWorkMapper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -41,12 +47,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class CadreReserveController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private ICadreWorkMapper iCadreWorkMapper;
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve/search")
@@ -130,39 +139,120 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
-    public String cadreReserve(Byte status, Integer reserveType,
+    public String cadreReserve(Byte reserveStatus, Integer reserveType,
+                               @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
+                               @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
+                               @RequestParam(required = false, value = "nation") String[] nation,
+                               @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+                               @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
                                @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                               @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                               @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
                                @RequestParam(required = false, value = "proPosts") String[] proPosts,
+                               @RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+                               @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
+                               @RequestParam(required = false, value = "workTypes") Integer[] workTypes,
+                               @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
+
                                Integer cadreId, ModelMap modelMap) {
 
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
 
-        if (status == null && reserveType == null) {
+        if (reserveStatus == null && reserveType == null) {
             // 默认页面
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
             // 正常状态的年轻干部库，读取指定的类别
-            status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
+            reserveStatus = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
-        if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
+        if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
             // 非正常状态的年轻干部库，读取全部的类别
             reserveType = null;
         }
 
-        modelMap.put("status", status);
+        modelMap.put("reserveStatus", reserveStatus);
         modelMap.put("reserveType", reserveType);
+
+        if (dpTypes != null) {
+            modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
+        }
+        modelMap.put("staffTypes", iPropertyMapper.staffTypes());
+        if(staffTypes!=null){
+            modelMap.put("selectStaffTypes", Arrays.asList(staffTypes));
+        }
+        if (nation != null) {
+            List<String> selectNations = Arrays.asList(nation);
+            modelMap.put("selectNations", selectNations);
+        }
+        if(labels!=null){
+            modelMap.put("selectLabels", Arrays.asList(labels));
+        }
+        modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+        if(authorizedTypes!=null){
+            modelMap.put("selectAuthorizedTypes", Arrays.asList(authorizedTypes));
+        }
+        if (unitTypes != null) {
+            modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+        }
+        if (unitIds != null) {
+            modelMap.put("selectUnitIds", Arrays.asList(unitIds));
+        }
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
+        if (adminLevels != null) {
+            modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
+        }
+        if (maxEdus != null) {
+            modelMap.put("selectMaxEdus", Arrays.asList(maxEdus));
+        }
+        modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
+        if (proPosts != null) {
+            modelMap.put("selectProPosts", Arrays.asList(proPosts));
+        }
+        if (postTypes != null) {
+            modelMap.put("selectPostTypes", Arrays.asList(postTypes));
+        }
+        modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
+        if (proPostLevels != null) {
+            modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
+        }
+        if (workTypes != null) {
+            modelMap.put("selectWorkTypes",Arrays.asList(workTypes));
+        }
+        if (leaderTypes != null) {
+            modelMap.put("selectLeaderTypes", Arrays.asList(leaderTypes));
+        }
+
         if (unitTypes != null) {
             modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
         }
 
         modelMap.put("staffStatuses", iPropertyMapper.staffStatuses());
         modelMap.put("isTemps", iPropertyMapper.isTemps());
-
-        modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
-        if (proPosts != null) {
-            modelMap.put("selectProPosts", Arrays.asList(proPosts));
-        }
 
         if (cadreId != null) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
@@ -198,17 +288,44 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_data")
-    public void cadreReserve_data(HttpServletResponse response, Byte status, Integer reserveType,
-                                  Integer cadreId,
+    public void cadreReserve_data(HttpServletResponse response, Byte reserveStatus, Integer reserveType,
+                                  Byte gender,
+                                  @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
+                                  @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
+                                  @RequestParam(required = false, value = "nation") String[] nation,
+                                  String title,
+                                  @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+                                  Integer state,
+                                  @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+                                  @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+                                  @RequestDateRange DateRange _birth,
+                                  @RequestDateRange DateRange _cadreGrowTime,
+                                  @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
                                   Integer startAge,
                                   Integer endAge,
-                                  @RequestDateRange DateRange _birth,
-                                  @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+                                  Integer startDpAge, // 党龄
+                                  Integer endDpAge, // 党龄
+                                  @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
+                                  @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+                                  Byte degreeType,
+                                  String major, // 所学专业
                                   @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
-                                  Integer adminLevel,
-                                  Integer postType,
-                                  String title,
+                                  @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
+                                  Integer startNowPostAge,
+                                  Integer endNowPostAge,
+                                  @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
+                                  Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
+                                  Boolean isPrincipal, // 是否正职
+                                  Integer startNowLevelAge,
+                                  Integer endNowLevelAge,
+                                  Boolean isDouble, // 是否双肩挑
+                                  Boolean andWorkTypes,
+                                  Integer[] workTypes,
+                                  @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
+                                  Boolean isDep,
                                   Boolean hasCrp, // 是否有干部挂职经历
+                                  Boolean hasAbroadEdu, // 是否有国外学习经历
+                                  Integer cadreId,
                                   String staffStatus,
                                   String isTemp,
                                   @RequestParam(required = false, defaultValue = "0") int export,
@@ -217,15 +334,15 @@ public class CadreReserveController extends BaseController {
 
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
 
-        if (status == null && reserveType == null) {
+        if (reserveStatus == null && reserveType == null) {
             // 默认页面
             reserveType = new ArrayList<>(cadreReserveTypeMap.keySet()).get(0);
         }
         if (reserveType != null) {
             // 正常状态的年轻干部库，读取指定的类别
-            status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
+            reserveStatus = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
-        if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
+        if (reserveStatus != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
             // 非正常状态的年轻干部库，读取全部的类别
             reserveType = null;
         }
@@ -241,36 +358,59 @@ public class CadreReserveController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         CadreReserveViewExample.Criteria criteria = example.createCriteria();
 
-        if (status != null)
-            criteria.andReserveStatusEqualTo(status);
-        if (status == null || status == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
+        if (reserveStatus != null)
+            criteria.andReserveStatusEqualTo(reserveStatus);
+        if (reserveStatus == null || reserveStatus == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
             criteria.andReserveTypeEqualTo(reserveType);
 
         example.setOrderByClause("reserve_sort_order asc");
 
-        if (cadreId != null) {
-            criteria.andIdEqualTo(cadreId);
+        if (gender != null){
+            criteria.andGenderEqualTo(gender);
         }
+        if (dpTypes != null) {
+            criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
+        }
+        if (staffTypes != null) {
+            criteria.andStaffTypeIn(Arrays.asList(staffTypes));
+        }
+        if (nation != null) {
 
-        if (adminLevel != null) {
-            criteria.andAdminLevelEqualTo(adminLevel);
-        }
-        if (postType != null) {
-            criteria.andPostTypeEqualTo(postType);
-        }
+            Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_nation");
+            Set<String> nations = metaTypeMap.values()
+                    .stream().map(MetaType::getName).collect(Collectors.toSet());
 
+            criteria.andNationIn(Arrays.asList(nation), nations);
+        }
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike(SqlUtils.like(title));
+            criteria.andTitleLike(SqlUtils.trimLike(title));
         }
-        if (hasCrp != null) {
-            criteria.andHasCrpEqualTo(hasCrp);
+        if (labels != null) {
+            criteria.andLabelsContain(new HashSet<>(Arrays.asList(labels)));
+        }
+        if (state != null) {
+            criteria.andStateEqualTo(state);
+        }
+        if (authorizedTypes != null) {
+            criteria.andAuthorizedTypeIn(Arrays.asList(authorizedTypes));
+        }
+        if (unitTypes != null) {
+            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }
         if (_birth.getStart() != null) {
             criteria.andBirthGreaterThanOrEqualTo(_birth.getStart());
         }
-
         if (_birth.getEnd() != null) {
             criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
+        }
+        if (_cadreGrowTime.getStart() != null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
+        }
+        if (_cadreGrowTime.getEnd() != null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
+        }
+        if (unitIds != null) {
+            criteria.andUnitIdIn(Arrays.asList(unitIds));
         }
         if (endAge != null) {
             //  >= 不含（减一）
@@ -280,11 +420,103 @@ public class CadreReserveController extends BaseController {
             // <= 包含
             criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));
         }
-        if (unitTypes != null) {
-            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
+        if (endDpAge != null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endDpAge + 1)));
+        }
+        if (startDpAge != null) {
+            criteria.andGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startDpAge));
+        }
+        if (adminLevels != null) {
+            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+        }
+        if(degreeType!=null){
+            if(degreeType==-1){
+                criteria.andDegreeTypeIsNull();
+            }else{
+                criteria.andDegreeTypeEqualTo(degreeType);
+            }
+        }
+        if(StringUtils.isNotBlank(major)){
+            criteria.andMajorLike(SqlUtils.like(major));
         }
         if (proPosts != null) {
             criteria.andProPostIn(Arrays.asList(proPosts));
+        }
+        if (maxEdus != null) {
+            if(new HashSet<>(Arrays.asList(maxEdus)).contains(-1)){
+                criteria.andEduIdIsNull();
+            }else {
+                criteria.andEduIdIn(Arrays.asList(maxEdus));
+            }
+        }
+        if (postTypes != null) {
+            criteria.andPostTypeIn(Arrays.asList(postTypes));
+        }
+        if (endNowPostAge != null) {
+            criteria.andCadrePostYearLessThanOrEqualTo(endNowPostAge);
+        }
+        if (startNowPostAge != null) {
+            criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+        }
+        if (proPostLevels != null) {
+            criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+        }
+        if (firstUnitPost != null) {
+            if(firstUnitPost==-1){ // 缺第一主职
+                criteria.andMainCadrePostIdIsNull();
+            }else if (firstUnitPost==1){ // 第一主职已关联岗位
+                criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNotNull();
+            }else if (firstUnitPost==0){ // 第一主职没关联岗位
+                criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
+            }
+        }
+        if (isPrincipal != null) {
+            criteria.andIsPrincipalEqualTo(isPrincipal);
+        }
+        if (endNowLevelAge != null) {
+            criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);
+        }
+        if (startNowLevelAge != null) {
+            criteria.andAdminLevelYearGreaterThanOrEqualTo(startNowLevelAge);
+        }
+        if (isDouble != null) {
+            criteria.andIsDoubleEqualTo(isDouble);
+        }
+        if (workTypes != null){
+            List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
+                    BooleanUtils.isTrue(andWorkTypes));
+            if(cadreIds.size()==0){
+                criteria.andIdIsNull();
+            }else {
+                criteria.andIdIn(cadreIds);
+            }
+        }
+        if (leaderTypes != null) {
+            criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
+        }
+        if(isDep!=null){
+            criteria.andIsDepEqualTo(isDep);
+        }
+        if (hasCrp != null) {
+            criteria.andHasCrpEqualTo(hasCrp);
+        }
+        if(hasAbroadEdu!=null){
+
+            CadreCategorySearchBean searchBean = new CadreCategorySearchBean();
+            List<Integer> cadreIds = iCadreMapper.selectCadreIdListByEdu(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
+
+            if(hasAbroadEdu){
+                criteria.andIdIn(cadreIds);
+            }else{
+                criteria.andIdNotIn(cadreIds);
+            }
+        }
+        if (cadreId != null) {
+            criteria.andIdEqualTo(cadreId);
+        }
+
+        if (unitTypes != null) {
+            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }
         if(StringUtils.isNotBlank(staffStatus)){
             criteria.andStaffStatusEqualTo(staffStatus);

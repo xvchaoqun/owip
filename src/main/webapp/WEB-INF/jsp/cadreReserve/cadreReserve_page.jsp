@@ -8,21 +8,28 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content">
+            <div class="myTableDiv"
              data-url-page="${ctx}/cadreReserve"
              data-url-co="${ctx}/cadreReserve_changeOrder"
              data-url-export="${ctx}/cadreReserve_data?reserveType=${reserveType}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId ||not empty param.adminLevel
-            ||not empty param.postType ||not empty param.title || not empty param.hasCrp|| not empty param.code
-            || not empty param.unitTypes || not empty param.proPosts
-            || not empty param.startAge|| not empty param.endAge|| not empty param._birth
-             || not empty param.staffStatus|| not empty param.isTemp }"/>
-            <div class="tabbable">
+            <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender ||not empty param.nation
+                ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
+                ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
+                ||not empty param._birth||not empty param._cadreGrowTime
+                ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels
+                ||not empty param.maxEdus||not empty param.major ||not empty param.staffTypes ||not empty param.degreeType
+                ||not empty param.proPosts ||not empty param.postTypes ||not empty param.proPostLevels
+                ||not empty param.isPrincipal ||not empty param.isDouble ||not empty param.hasCrp || not empty param.code
+                ||not empty param.leaderTypes  ||not empty param.type  ||not empty param.isDep
+                 ||not empty param.state  ||not empty param.title ||not empty param.labels ||not empty param.workTypes
+                 ||not empty param.hasAbroadEdu || not empty param.staffStatus|| not empty param.isTemp || not empty param.authorizedTypes}"/>
+                <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 
                     <c:forEach var="_type" items="${cm:getMetaTypes('mc_cadre_reserve_type')}">
-                        <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
+                        <li class="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
                             <a href="javascript:;" class="loadPage"
                                data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
                                 <i class="fa fa-flag"></i>
@@ -32,9 +39,9 @@
                     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
                         <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
-                                <li class="<c:if test="${status==_status.key}">active</c:if>">
+                                <li class="<c:if test="${reserveStatus==_status.key}">active</c:if>">
                                     <a href="javascript:;" class="loadPage"
-                                       data-url="${ctx}/cadreReserve?status=${_status.key}">
+                                       data-url="${ctx}/cadreReserve?reserveStatus=${_status.key}">
                                         <c:if test="${_status.key==CADRE_RESERVE_STATUS_ABOLISH}">
                                             <i class="fa fa-times"></i>
                                         </c:if>
@@ -55,11 +62,11 @@
                         </div>
                     </shiro:lacksPermission>
                 </ul>
-                <div class="tab-content  multi-row-head-table">
+                <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-                                <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">
+                                <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL}">
                                     <shiro:hasPermission name="cadreReserve:edit">
                                         <a class="popupBtn btn btn-info btn-sm btn-success"
                                            data-url="${ctx}/cadreReserve_au?reserveType=${reserveType}"><i
@@ -69,7 +76,7 @@
 
                                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/cadreReserve_au"
-                                                data-querystr="&status=${status}&reserveType=${reserveType}">
+                                                data-querystr="&reserveStatus=${reserveStatus}&reserveType=${reserveType}">
                                             <i class="fa fa-edit"></i> 修改信息
                                         </button>
 
@@ -102,7 +109,7 @@
                                     <i class="fa fa-search"></i> 任免操作记录
                                 </button>
 
-                                <c:if test="${status==CADRE_RESERVE_STATUS_TO_INSPECT}">
+                                <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_TO_INSPECT}">
                                     <shiro:lacksPermission name="cadreInspect:list">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/cadreReserve_inspectPass">
@@ -115,7 +122,7 @@
                                         删除
                                     </button>
                                 </c:if>
-                                <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
+                                <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_ABOLISH}">
                                     <button data-url="${ctx}/cadreReserve_unAbolish"
                                             data-title="重新入库"
                                             data-msg="确认重新入库？"
@@ -160,13 +167,13 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
                                 <div class="widget-toolbar">
                                     <a href="javascript:;" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                        <i class="ace-icon fa fa-chevron-down}"></i>
                                     </a>
                                 </div>
                             </div>
@@ -174,124 +181,58 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input name="reserveType" type="hidden" value="${reserveType}">
-                                        <input name="status" type="hidden" value="${status}">
-
-                                        <div class="form-group">
-                                            <label>姓名</label>
-
-                                            <div class="input-group">
-                                                <select data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=${status}&reserveType=${reserveType}"
-                                                        name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                    <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
-                                                </select>
+                                        <input name="reserveStatus" type="hidden" value="${reserveStatus}">
+                                        <div class="columns">
+                                            <div class="column">
+                                                <label>姓名</label>
+                                                <div class="input">
+                                                    <select data-rel="select2-ajax"
+                                                            data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=${reserveStatus}&reserveType=${reserveType}"
+                                                            name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                        <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>单位及职务</label>
-                                            <input class="form-control search-query" name="title" type="text"
-                                                   value="${param.title}"
-                                                   placeholder="请输入单位及职务">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>行政级别</label>
-                                            <select data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
-                                                <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=adminLevel]").val(${param.adminLevel});
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>职务属性</label>
-                                            <select data-rel="select2" name="postType" data-placeholder="请选择职务属性">
-                                                <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_post"/>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=postType]").val(${param.postType});
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>部门属性</label>
-                                            <select class="multiselect" multiple="" name="unitTypes">
-                                                            <c:import url="/metaTypes?__code=mc_unit_type"/>
-                                                        </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>出生日期</label>
-                                           <div class="input-group tooltip-success" data-rel="tooltip"
-                                                             title="出生日期范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                            <input placeholder="请选择出生日期范围" data-rel="date-range-picker"
-                                                                   class="form-control date-range-picker"
-                                                                   type="text" name="_birth" value="${param._birth}"/>
-                                                        </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>年龄</label>
-                                           <input class="num" type="text" name="startAge"
-                                                               value="${param.startAge}"> 至 <input class="num"
-                                                                                                   type="text"
-                                                                                                   name="endAge"
-                                                                                                   value="${param.endAge}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>专业技术职务</label>
-                                            <select class="multiselect" multiple="" name="proPosts">
-                                                            <c:forEach items="${proPosts}" var="proPost">
-                                                                <option value="${proPost}">${proPost}</option>
+                                            <jsp:include page="cadre_searchPage.jsp"/>
+                                            <div class="column">
+                                                <label>是否在职</label>
+                                                <div class="input">
+                                                    <select data-width="100" data-rel="select2" data-placeholder="请选择" name="staffStatus">
+                                                        <option></option>
+                                                        <c:forEach items="${staffStatuses}" var="staffStatus">
+                                                            <option value="${staffStatus}">${staffStatus}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=staffStatus]").val('${param.staffStatus}');
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <c:if test="${fn:length(isTemps)>0}">
+                                                <div class="column">
+                                                    <label>是否临时人员</label>
+                                                    <div class="input">
+                                                        <select data-width="100" data-rel="select2" data-placeholder="请选择" name="isTemp">
+                                                            <option></option>
+                                                            <c:forEach items="${isTemps}" var="isTemp">
+                                                                <option value="${isTemp}">${isTemp}</option>
                                                             </c:forEach>
                                                         </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>是否在职</label>
-                                            <select data-width="100" data-rel="select2" data-placeholder="请选择" name="staffStatus">
-                                                <option></option>
-                                                <c:forEach items="${staffStatuses}" var="staffStatus">
-                                                    <option value="${staffStatus}">${staffStatus}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=staffStatus]").val('${param.staffStatus}');
-                                            </script>
-                                        </div>
-                                        <c:if test="${fn:length(isTemps)>0}">
-                                        <div class="form-group">
-                                            <label>是否临时人员</label>
-                                            <select data-width="100" data-rel="select2" data-placeholder="请选择" name="isTemp">
-                                                <option></option>
-                                                <c:forEach items="${isTemps}" var="isTemp">
-                                                    <option value="${isTemp}">${isTemp}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=isTemp]").val('${param.isTemp}');
-                                            </script>
-                                        </div>
+                                                        <script>
+                                                            $("#searchForm select[name=isTemp]").val('${param.isTemp}');
+                                                        </script>
+                                                    </div>
+                                                </div>
                                             </c:if>
-                                        <div class="form-group">
-                                            <label>是否有挂职经历</label>
-                                            <select name="hasCrp" data-width="100" data-rel="select2"
-                                                    data-placeholder="请选择">
-                                                <option></option>
-                                                <option value="1">是</option>
-                                                <option value="0">否</option>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=hasCrp]").val('${param.hasCrp}');
-                                            </script>
                                         </div>
+                                        <div class="clearfix"></div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                     class="fa fa-search"></i> 查找</a>
 
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
                                                 <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                        data-querystr="status=${status}&reserveType=${reserveType}">
+                                                        data-querystr="reserveStatus=${reserveStatus}&reserveType=${reserveType}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -302,21 +243,17 @@
                         </div>
                         <div class="space-4"></div>
 
-                        <table id="jqGrid" class="jqGrid table-striped"></table>
+                        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="1"></table>
                         <div id="jqGridPager"></div>
 
                     </div>
                 </div>
             </div>
+            </div>
         </div>
         <div id="body-content-view"></div>
     </div>
 </div>
-<style>
-    #searchForm .num {
-        width: 50px;
-    }
-</style>
 <script type="text/template" id="sort_tpl">
     <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i
             class="fa fa-arrow-up"></i></a>
@@ -327,8 +264,6 @@
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
-    $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
@@ -341,7 +276,7 @@
                 }, frozen: true
             },
             <shiro:hasPermission name="cadreReserve:changeOrder">
-            <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">
+            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                     return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.reserveId})
