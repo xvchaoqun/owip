@@ -91,15 +91,15 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetProjectType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称',name: 'name', width:200},
-            { label: '代码',name: 'code', width:200},
+            { label: '培训班类型',name: 'name', width:400, align:'left'},
+            { label: '代码',name: 'code'},
             {
                 label: '排序', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
             },
             /*{ label: '课程',name: 'courseNum'},
             { label: '选课人次',name: 'traineeCount'},*/
-            { label: '备注',name: 'remark', width:300}
+            { label: '备注',name: 'remark', width:300, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

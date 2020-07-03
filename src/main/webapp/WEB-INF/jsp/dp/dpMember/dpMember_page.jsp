@@ -407,7 +407,7 @@ pageEncoding="UTF-8" %>
             {label: '邮箱', name: 'email'},
             <c:if test="${cls==3||cls==7}">
             {label: '退休时间', name: 'retireTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},
+            /*{label: '是否离休', name: 'isHonorRetire', formatter: $.jgrid.formatter.TRUEFALSE},*/
             </c:if>
             {label: '备注', name: 'remark', width: 200},
             {hidden: true, key: true, name: 'userId'}, {hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}

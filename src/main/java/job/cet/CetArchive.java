@@ -42,9 +42,12 @@ public class CetArchive implements Job {
 
         logger.info("归档培训学时...");
         try {
-            List<CetProject> cetProjects = cetProjectMapper.selectByExample(new CetProjectExample());
+            CetProjectExample example = new CetProjectExample();
+            example.createCriteria().andIsDeletedEqualTo(false)
+                    .andHasArchiveEqualTo(false);
+            List<CetProject> cetProjects = cetProjectMapper.selectByExample(example);
             for (CetProject cetProject : cetProjects) {
-                cetProjectObjService.refreshAllObjsFinishPeriod(cetProject.getId());
+                cetProjectObjService.archiveProject(cetProject.getId());
             }
 
             iCetMapper.removeDeletedCetRecords();

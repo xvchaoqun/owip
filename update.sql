@@ -1,7 +1,120 @@
 
+2020.7.2
 
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训' AFTER `id`;
+ALTER TABLE `cet_record`
+	CHANGE COLUMN `user_type` `user_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '身份类别， 1 教职工  2学生' AFTER `project_type`;
+
+update sys_resource set name='培训班类型（党校培训）' where permission='cetProjectType:list';
+
+ALTER TABLE `cet_unit_train`
+	ADD COLUMN `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间' AFTER `remark`;
+
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间' AFTER `candidate_time`;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `has_archive` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否已归档，由触发器、定时器变更状态' AFTER `create_time`;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，0 正常 1 已删除' AFTER `has_archive`;
+
+
+CREATE TABLE `ow_member_certify` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`user_id` INT(10) UNSIGNED NOT NULL COMMENT '用户，从党员库中选择',
+	`year` INT(10) UNSIGNED NOT NULL COMMENT '年份',
+	`sn` INT(10) UNSIGNED NOT NULL COMMENT '介绍信编号，年份+3位数字自动编码',
+	`political_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '政治面貌，1 预备党员、2 正式党员',
+	`from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '转出单位',
+	`to_title` VARCHAR(100) NULL DEFAULT NULL COMMENT '转入单位抬头',
+	`to_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '转入单位',
+	`certify_date` DATE NULL DEFAULT NULL COMMENT '介绍信日期',
+	`create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+)
+COMMENT='临时组织关系介绍信'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=2
+;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`)
+VALUES (2540, 0, '临时组织关系介绍信', '', 'url', '', '/member/memberCertify', 105, '0/1/105/', 1, 'memberCertify:*', NULL, NULL, NULL, 1, 15000);
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `category` CHAR(200) NULL DEFAULT NULL COMMENT '专题分类，关联元数据，逗号分割' AFTER `project_type_id`;
+
+update cet_project set category=project_type_id;
+-- 新建元数据
+INSERT INTO `base_meta_class` (id, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`,
+`extra_options`, `sort_order`, `available`) VALUES (3002, NULL, '培训内容分类', '培训综合管理', '党校培训', 'mc_cet_project_category', '', '', '', 2615, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '党性修养', 'mt_iad6jf', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '政治理论', 'mt_t1aiiv', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '时政解读', 'mt_ralley', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '公共管理', 'mt_fc4sly', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '经济管理', 'mt_xeamzj', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '社会管理', 'mt_8osohw', NULL, '', '', 6, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '文化管理', 'mt_rlrzn2', NULL, '', '', 7, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '应急管理', 'mt_yh3re9', NULL, '', '', 8, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '依法行政', 'mt_hot0vk', NULL, '', '', 9, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '能力建设', 'mt_lj9py9', NULL, '', '', 10, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '科技人文', 'mt_avqjjc', NULL, '', '', 11, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '国际战略', 'mt_0usseq', NULL, '', '', 12, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '身心健康', 'mt_p0fk5f', NULL, '', '', 13, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '教育实践', 'mt_a3ojvc', NULL, '', '', 14, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '专题讲座', 'mt_8f2gfg', NULL, '', '', 15, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '网络培训', 'mt_95kwc7', NULL, '', '', 16, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (3002, '其他', 'mt_m4sr7y', NULL, '', '', 17, 1);
+
+update cet_project p, base_meta_class c, base_meta_type t, cet_project_type pt
+set p.category=t.id where p.category=pt.id and pt.name=t.name and t.class_id=c.id and c.code='mc_cet_project_category';
+
+truncate table cet_project_type;
+insert into cet_project_type(id, name, type, sort_order) select mt.id, mt.name, 1 as type, mt.sort_order from base_meta_type mt, base_meta_class mc where mc.code='mc_cet_train_type' and mt.class_id=mc.id;
+
+insert into cet_project_type(id, name, type, sort_order) select mt.id + 100, mt.name, 2 as type, mt.sort_order from base_meta_type mt, base_meta_class mc where mc.code='mc_cet_train_type' and mt.class_id=mc.id;
+
+
+update cet_project p, (select pp.project_id, t.`type` from cet_train t, cet_project_plan pp where t.plan_id=pp.id group by pp.project_id) t set p.project_type_id= t.type where p.id=t.project_id;
+
+update cet_project set project_type_id = project_type_id+100 where type=2;
+
+delete from base_meta_class where code='mc_cet_train_type';
+delete from sys_resource where url='/metaClass_type_list?cls=mc_cet_train_type';
+
+ALTER TABLE `cet_train`
+	DROP COLUMN `type`;
+-- 更新 cet_train_view
+
+ALTER TABLE `cet_unit_project`
+	ALTER `project_type` DROP DEFAULT;
+ALTER TABLE `cet_unit_project`
+	ADD COLUMN `project_type_id`  INT UNSIGNED NULL COMMENT '培训班类型' AFTER `project_name`,
+	CHANGE COLUMN `project_type` `category` VARCHAR(200) NULL COMMENT '培训内容分类' AFTER `project_type_id`;
+
+update cet_unit_project p, base_meta_class c, base_meta_type t, base_meta_type t1,  base_meta_class c1
+set p.category=t.id where p.category=t1.id and t.name=t1.name and t.class_id=c.id
+                      and c.code='mc_cet_project_category' and t1.class_id=c1.id and c1.code='mc_cet_upper_train_type2' ;
+
+delete from base_meta_class where code='mc_cet_upper_train_type2';
+delete from sys_resource where url='/metaClass_type_list?cls=mc_cet_upper_train_type2';
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `project_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班类型，针对其他培训' AFTER `special_type`,
+	ADD COLUMN `category` VARCHAR(200) NULL DEFAULT NULL COMMENT '培训内容分类，针对其他培训' AFTER `project_type_id`;
+
+-- 创建 triggers
+
+update cet_project set project_type_id=414 where type=1 and (project_type_id is null or project_type_id<414);
+update cet_project set project_type_id=514 where type=2 and (project_type_id is null or project_type_id<414);
 2020.6.30
- 西工大  -- 北师大
+ 西工大
 
 ALTER TABLE `cet_unit_project`
 	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训类别 1专题培训 2日常培训' AFTER `project_type`;
@@ -74,18 +187,18 @@ VALUES (780, 0, '组织关系转出打印', NULL, 'function', NULL, NULL, 252, '
 -- 给分党委、党建管理员添加 “memberOut:print”权限
 
 ALTER TABLE `cet_project_type`
-	COMMENT='培训类型，针对过程培训班',
+	COMMENT='培训班类型，针对过程培训班',
 	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训' AFTER `name`,
 	ADD COLUMN `code` VARCHAR(50) NULL DEFAULT NULL COMMENT '代码' AFTER `type`;
-UPDATE `sys_resource` SET `name`='培训类别（党校培训）' WHERE  `id`=658;
+UPDATE `sys_resource` SET `name`='培训班类型（党校培训）' WHERE  `id`=658;
 ALTER TABLE `cet_project`
-	CHANGE COLUMN `project_type_id` `project_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训类别' AFTER `is_valid`;
+	CHANGE COLUMN `project_type_id` `project_type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班类型' AFTER `is_valid`;
 
 insert cet_project_type(name, type, code, sort_order, remark, is_deleted) select name, 2 as type, code, sort_order, remark, is_deleted from cet_project_type;
-update cet_project set project_type_id = project_type_id+14 where type=2;
+-- update cet_project set project_type_id = project_type_id+14 where type=2;
 
 
--- 更新SyncService：状态已经变更为退休状态的，不再同步人事库
+-- 更新SyncService：状态已经变更为退休状态的，不再同步人事库  teacherInfo!=null &&
 --
 
 ALTER TABLE `cet_upper_train`
@@ -95,10 +208,9 @@ ALTER TABLE `cet_upper_train`
 ALTER TABLE `cet_record`
 	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除' AFTER `archive_time`,
 	ADD COLUMN `special_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '培训大类， 1 专题 2 日常' AFTER `is_deleted`,
-	ADD COLUMN `project_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '培训类别， 关联cet_project_type表' AFTER `special_type`,
+	ADD COLUMN `project_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '培训班类型， 关联cet_project_type表' AFTER `special_type`,
 	ADD COLUMN `user_type` INT UNSIGNED NULL DEFAULT NULL COMMENT '身份类别， 1 教职工  2学生' AFTER `project_type`,
 	ADD COLUMN `no` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT '证书编号，结业情况下，生成证书编号。培训大类、身份类别、年份、培训子类相同时，从0001算起' AFTER `user_type`;
-
 
 2020.6.23
 

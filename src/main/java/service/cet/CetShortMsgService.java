@@ -211,7 +211,8 @@ public class CetShortMsgService extends CetBaseMapper {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 1);
             CetProjectExample example = new CetProjectExample();
-            CetProjectExample.Criteria criteria = example.createCriteria();
+            CetProjectExample.Criteria criteria = example.createCriteria()
+                    .andIsDeletedEqualTo(false);
             if(projectId!=null){
                 // 通知指定班
                 criteria.andIdEqualTo(projectId);

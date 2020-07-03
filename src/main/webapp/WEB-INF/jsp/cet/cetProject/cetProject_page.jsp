@@ -28,17 +28,18 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 彻底删除
                     </button>
                 </shiro:hasPermission>
-
+                <shiro:hasRole name="${ROLE_SUPER}">
                 <button data-url="${ctx}/cet/refreshAllObjsFinishPeriod"
-                        data-title="刷新培训学时"
-                        data-msg="确定统计并刷新该培训班中所有学员最新的培训学时？"
+                        data-title="归档培训学时"
+                        data-msg="确定统计并归档该培训班中所有学员最新的培训学时？"
                         data-grid-id="#jqGrid"
                         data-id-name="projectId"
                         data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中，请稍后..."
                         class="jqItemBtn btn btn-warning btn-sm">
                      <i class="prompt fa fa-question-circle"
-               data-prompt="统计汇总培训班中所有学员的培训学时（已完成学时数）"></i> 刷新培训学时
+               data-prompt="统计汇总培训班中所有学员的培训学时（已完成学时数）"></i> 归档培训学时
                 </button>
+                </shiro:hasRole>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetProject_data?type=${param.type}"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -131,13 +132,15 @@ pageEncoding="UTF-8" %>
         $("#jqGrid").trigger("reloadGrid");
     }
     $.register.date($('.date-picker'));
+
+    var cetProjectTypeMap = ${cm:toJSONObject(cetProjectTypeMap)};
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/cet/cetProject_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail?projectId={0}"><i class="fa fa-search"></i> 详情</button>')
+                'data-url="${ctx}/cet/cetProject_detail?cls=1&projectId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
 
@@ -147,12 +150,17 @@ pageEncoding="UTF-8" %>
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 400, align:'left'},
             {
-                label: '培训类别', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
+                label: '培训班类型', name: 'projectTypeId', width: 130, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--'
-                var projectTypeMap = ${cm:toJSONObject(projectTypeMap)};
-                return projectTypeMap[cellvalue].name
-            }
-            },
+                if(cetProjectTypeMap[cellvalue]==undefined) return '--'
+                return cetProjectTypeMap[cellvalue].name
+            }},
+            {label: '培训内容分类', name: 'category', align:'left', width: 180, formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(cellvalue)=='') return '--'
+                    return ($.map(cellvalue.split(","), function(category){
+                        return $.jgrid.formatter.MetaType(category);
+                    })).join("，")
+                }},
             {
                 label: '培训方案', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
@@ -169,7 +177,6 @@ pageEncoding="UTF-8" %>
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
-                    //console.log(rowObject.fileName)
                     var fileName = (rowObject.fileName || rowObject.id);
                     ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
@@ -178,17 +185,11 @@ pageEncoding="UTF-8" %>
             }
             },
             { label: '总学时',name: 'period'},
-            {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
-              if (cellvalue==undefined) {
-                return '--'
-              }
-              return cellvalue?'是':'否'
-            }},
+            { label: '是否计入<br/>年度学习任务', name: 'isValid', formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">是</span>', off:'<span class="red bolder">否</span>'}},
             { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.objCount-rowObject.quitCount;
             }},
-
-            { name: 'status', hidden:true},
+            { label: '归档状态', name: 'hasArchive', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">已归档</span>', off:'<span class="red bolder">未归档</span>'}},
             { label: '备注',name: 'remark', width: 300}
         ]
     }).jqGrid("setFrozenColumns");

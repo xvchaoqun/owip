@@ -41,7 +41,9 @@ public class CetUnitProject implements Serializable {
 
     private String projectName;
 
-    private Integer projectType;
+    private Integer projectTypeId;
+
+    private String category;
 
     private Byte specialType;
 
@@ -127,12 +129,20 @@ public class CetUnitProject implements Serializable {
         this.projectName = projectName == null ? null : projectName.trim();
     }
 
-    public Integer getProjectType() {
-        return projectType;
+    public Integer getProjectTypeId() {
+        return projectTypeId;
     }
 
-    public void setProjectType(Integer projectType) {
-        this.projectType = projectType;
+    public void setProjectTypeId(Integer projectTypeId) {
+        this.projectTypeId = projectTypeId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
     }
 
     public Byte getSpecialType() {

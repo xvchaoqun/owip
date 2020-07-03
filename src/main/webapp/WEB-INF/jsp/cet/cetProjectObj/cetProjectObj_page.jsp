@@ -84,18 +84,19 @@
             <i class="prompt fa fa-question-circle"
                data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
+        <shiro:hasRole name="${ROLE_SUPER}">
          <button data-url="${ctx}/cet/refreshObjFinishPeriod?projectId=${cetProject.id}"
-                data-title="刷新培训学时"
-                data-msg="确定统计并刷新该学员最新的培训学时？"
+                data-title="归档培训学时"
+                data-msg="确定统计并归档该学员最新的培训学时？"
                 data-grid-id="#jqGrid2"
                 data-id-name="objId"
                  data-callback="_callback2"
                 data-loading-text="<i class='fa fa-spinner fa-spin'></i> 统计中..."
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="prompt fa fa-question-circle"
-               data-prompt="统计汇总当前培训班中学员的培训学时（已完成学时数）"></i>  刷新培训学时
+               data-prompt="统计汇总当前培训班中学员的培训学时（已完成学时数）"></i>  归档培训学时
         </button>
-
+        </shiro:hasRole>
         <%--<button data-url="${ctx}/cet/cetProjectObj_syncTraineeInfo?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}"
                 data-title="同步学员信息"
                 data-msg="确定同步学员信息？<br/>（同步最新的行政级别、党派等信息）"

@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="plan_id" jdbcType="INTEGER" property="planId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
@@ -58,9 +57,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
-    start_time, end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, 
-    remark, is_deleted, is_finished, create_time, year, project_id
+    id, plan_id, is_on_campus, name, has_summary, summary, start_date, end_date, start_time, 
+    end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, remark, 
+    is_deleted, is_finished, create_time, year, project_id
   </sql>
   <sql id="Blob_Column_List">
     eva_note

@@ -6,6 +6,8 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="special_type" jdbcType="TINYINT" property="specialType" />
+    <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -95,10 +97,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, special_type, is_online, unit_id, user_id, trainee_type_id, other_trainee_type, 
-    identity, title, post_type, organizer, other_organizer, train_type, train_name, start_date, 
-    end_date, period, address, country, agency, word_note, pdf_note, score, add_type, 
-    add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
+    id, year, type, special_type, project_type_id, category, is_online, unit_id, user_id, 
+    trainee_type_id, other_trainee_type, identity, title, post_type, organizer, other_organizer, 
+    train_type, train_name, start_date, end_date, period, address, country, agency, word_note, 
+    pdf_note, score, add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, 
+    back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -135,27 +138,29 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_upper_train (year, type, special_type, 
-      is_online, unit_id, user_id, 
-      trainee_type_id, other_trainee_type, identity, 
-      title, post_type, organizer, 
-      other_organizer, train_type, train_name, 
-      start_date, end_date, period, 
-      address, country, agency, 
-      word_note, pdf_note, score, 
-      add_type, add_user_id, add_time, 
-      is_valid, is_deleted, remark, 
-      status, back_reason)
+      project_type_id, category, is_online, 
+      unit_id, user_id, trainee_type_id, 
+      other_trainee_type, identity, title, 
+      post_type, organizer, other_organizer, 
+      train_type, train_name, start_date, 
+      end_date, period, address, 
+      country, agency, word_note, 
+      pdf_note, score, add_type, 
+      add_user_id, add_time, is_valid, 
+      is_deleted, remark, status, 
+      back_reason)
     values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{specialType,jdbcType=TINYINT}, 
-      #{isOnline,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
-      #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, 
-      #{address,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
-      #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, 
-      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
+      #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIT}, 
+      #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
+      #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{postType,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, #{otherOrganizer,jdbcType=VARCHAR}, 
+      #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, 
+      #{pdfNote,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
+      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -171,6 +176,12 @@
       </if>
       <if test="specialType != null">
         special_type,
+      </if>
+      <if test="projectTypeId != null">
+        project_type_id,
+      </if>
+      <if test="category != null">
+        category,
       </if>
       <if test="isOnline != null">
         is_online,
@@ -269,6 +280,12 @@
       </if>
       <if test="specialType != null">
         #{specialType,jdbcType=TINYINT},
+      </if>
+      <if test="projectTypeId != null">
+        #{projectTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
@@ -380,6 +397,12 @@
       <if test="record.specialType != null">
         special_type = #{record.specialType,jdbcType=TINYINT},
       </if>
+      <if test="record.projectTypeId != null">
+        project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
+      </if>
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
@@ -478,6 +501,8 @@
       year = #{record.year,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
       special_type = #{record.specialType,jdbcType=TINYINT},
+      project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=VARCHAR},
       is_online = #{record.isOnline,jdbcType=BIT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
@@ -522,6 +547,12 @@
       </if>
       <if test="specialType != null">
         special_type = #{specialType,jdbcType=TINYINT},
+      </if>
+      <if test="projectTypeId != null">
+        project_type_id = #{projectTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
       </if>
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
@@ -618,6 +649,8 @@
     set year = #{year,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       special_type = #{specialType,jdbcType=TINYINT},
+      project_type_id = #{projectTypeId,jdbcType=INTEGER},
+      category = #{category,jdbcType=VARCHAR},
       is_online = #{isOnline,jdbcType=BIT},
       unit_id = #{unitId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},

@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.member.Member;
 import domain.pmd.*;
 import domain.pmd.PmdMemberExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,7 @@ import sys.constants.RoleConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -358,6 +360,33 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.del(id);
         logger.info(addLog(LogConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 批量删除未缴费记录
+    @RequiresPermissions("pmdMember:allList")
+    @RequestMapping(value = "/pmdMember_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_batchDel(@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request) {
+
+
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
+
+        pmdMemberService.batchDel(ids);
+
+        List<String> members = new ArrayList<>();
+        for (PmdMember pmdMember : pmdMembers) {
+            SysUserView uv = pmdMember.getUser();
+            members.add(String.format("%s,%s,%s,%s,%s,%s", DateUtils.formatDate(pmdMember.getPayMonth(), DateUtils.YYYY_MM)
+                    , uv.getCode(), uv.getRealname(), pmdMember.getPartyId(),
+                    pmdMember.getBranchId(), pmdMember.getDuePay()));
+        }
+
+        logger.info(addLog(LogConstants.LOG_PMD, "批量删除未缴费记录(%s条)：%s", pmdMembers.size(),
+                JSONUtils.toString(members, false)));
 
         return success(FormUtils.SUCCESS);
     }

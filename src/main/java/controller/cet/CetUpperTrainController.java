@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.cet.CetProjectType;
 import domain.cet.CetTraineeType;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
@@ -81,6 +82,11 @@ public class CetUpperTrainController extends CetBaseController {
         if (userId != null) {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
+
+         Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
 
         return "cet/cetUpperTrain/cetUpperTrain_page";
     }
@@ -499,6 +505,11 @@ public class CetUpperTrainController extends CetBaseController {
             }
 
         }
+
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        modelMap.put("specialProjectTypes", new ArrayList<>(specialProjectTypeMap.values()));
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        modelMap.put("dailyProjectTypes", new ArrayList<>(dailyProjectTypeMap.values()));
 
         return "cet/cetUpperTrain/cetUpperTrain_au";
     }

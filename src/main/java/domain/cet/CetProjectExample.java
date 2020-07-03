@@ -1013,6 +1013,76 @@ public class CetProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andCategoryIsNull() {
+            addCriterion("category is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNotNull() {
+            addCriterion("category is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryEqualTo(String value) {
+            addCriterion("category =", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotEqualTo(String value) {
+            addCriterion("category <>", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThan(String value) {
+            addCriterion("category >", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThanOrEqualTo(String value) {
+            addCriterion("category >=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThan(String value) {
+            addCriterion("category <", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThanOrEqualTo(String value) {
+            addCriterion("category <=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLike(String value) {
+            addCriterion("category like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotLike(String value) {
+            addCriterion("category not like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIn(List<String> values) {
+            addCriterion("category in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotIn(List<String> values) {
+            addCriterion("category not in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryBetween(String value1, String value2) {
+            addCriterion("category between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotBetween(String value1, String value2) {
+            addCriterion("category not between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
         public Criteria andFileNameIsNull() {
             addCriterion("file_name is null");
             return (Criteria) this;
@@ -1470,6 +1540,126 @@ public class CetProjectExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveIsNull() {
+            addCriterion("has_archive is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveIsNotNull() {
+            addCriterion("has_archive is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveEqualTo(Boolean value) {
+            addCriterion("has_archive =", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveNotEqualTo(Boolean value) {
+            addCriterion("has_archive <>", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveGreaterThan(Boolean value) {
+            addCriterion("has_archive >", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_archive >=", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveLessThan(Boolean value) {
+            addCriterion("has_archive <", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_archive <=", value, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveIn(List<Boolean> values) {
+            addCriterion("has_archive in", values, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveNotIn(List<Boolean> values) {
+            addCriterion("has_archive not in", values, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_archive between", value1, value2, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasArchiveNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_archive not between", value1, value2, "hasArchive");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
     }

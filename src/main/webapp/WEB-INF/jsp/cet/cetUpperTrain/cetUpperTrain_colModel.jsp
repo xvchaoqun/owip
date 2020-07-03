@@ -9,6 +9,8 @@
 <c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
 <script>
   var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
+  var specialProjectTypeMap = ${cm:toJSONObject(specialProjectTypeMap)};
+    var dailyProjectTypeMap = ${cm:toJSONObject(dailyProjectTypeMap)};
   var colModel = [
    <c:if test="${cls==3}">
     {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
@@ -55,14 +57,31 @@
       }
       return $.jgrid.formatter.MetaType(cellvalue)
     }},
+      {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
     </c:if>
   <c:if test="${param.type==CET_UPPER_TRAIN_TYPE_SCHOOL}">
     {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
             if(cellvalue==undefined) return '--'
             return _cMap.CET_PROJECT_TYPE_MAP[cellvalue]
         }},
+      {
+        label: '培训班类型', name: 'projectTypeId', align:'left', formatter: function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return '--'
+            if(rowObject.specialType==<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>) {
+                if (specialProjectTypeMap[cellvalue] == undefined) return '--'
+                return specialProjectTypeMap[cellvalue].name
+            }else{
+                if (dailyProjectTypeMap[cellvalue] == undefined) return '--'
+                return dailyProjectTypeMap[cellvalue].name
+            }
+    }},
+    {label: '培训内容分类', name: 'category', align:'left', width: 180, formatter: function (cellvalue, options, rowObject) {
+        if($.trim(cellvalue)=='') return '--'
+        return ($.map(cellvalue.split(","), function(category){
+            return $.jgrid.formatter.MetaType(category);
+        })).join("，")
+    }},
   </c:if>
-    {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
       </c:if>
     {label: '${param.type==CET_UPPER_TRAIN_TYPE_ABROAD?"研修方向":"培训班名称"}', name: 'trainName', align: 'left',width: 350},
     { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'线上培训', off:'线下培训'}},

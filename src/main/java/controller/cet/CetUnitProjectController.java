@@ -1,9 +1,6 @@
 package controller.cet;
 
-import domain.cet.CetParty;
-import domain.cet.CetPartyExample;
-import domain.cet.CetUnitProject;
-import domain.cet.CetUnitProjectExample;
+import domain.cet.*;
 import domain.cet.CetUnitProjectExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -84,6 +81,11 @@ public class CetUnitProjectController extends CetBaseController {
 
         modelMap.put("statusCountMap", statusCountMap);
 
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
+
         return "cet/cetUnitProject/cetUnitProject_page";
     }
 
@@ -98,7 +100,7 @@ public class CetUnitProjectController extends CetBaseController {
                                     Integer unitId,
                                     @RequestDateRange DateRange startDate,
                                     @RequestDateRange DateRange endDate,
-                                    Integer projectType,
+                                    Integer projectTypeId,
                                     Boolean isOnline,
                                     String reportName,
                                     String reporter,
@@ -159,8 +161,8 @@ public class CetUnitProjectController extends CetBaseController {
         if (endDate.getEnd() != null) {
             criteria.andEndDateLessThanOrEqualTo(endDate.getEnd());
         }
-        if (projectType != null) {
-            criteria.andProjectTypeEqualTo(projectType);
+        if (projectTypeId != null) {
+            criteria.andProjectTypeIdEqualTo(projectTypeId);
         }
         if (isOnline != null){
             criteria.andIsOnlineEqualTo(isOnline);
@@ -288,6 +290,11 @@ public class CetUnitProjectController extends CetBaseController {
             modelMap.put("unit", unitService.findAll().get(cetUnitProject.getUnitId()));
         }
 
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        modelMap.put("specialProjectTypes", new ArrayList<>(specialProjectTypeMap.values()));
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        modelMap.put("dailyProjectTypes", new ArrayList<>(dailyProjectTypeMap.values()));
+
         return "cet/cetUnitProject/cetUnitProject_au";
     }
 
@@ -400,7 +407,7 @@ public class CetUnitProjectController extends CetBaseController {
                     record.getUnit().getName(),
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
-                    metaTypeService.getName(record.getProjectType()),
+                    cetProjectTypeMapper.selectByPrimaryKey(record.getProjectTypeId()).getName(),
                     record.getIsOnline() ? "线上培训" : "线下培训",
                     record.getSpecialType() == null ? "" : record.getSpecialType() == CetConstants.CET_PROJECT_TYPE_DAILY ? "日常培训" : "专题培训",
                     record.getReportName(),

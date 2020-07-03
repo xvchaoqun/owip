@@ -522,8 +522,8 @@ public class CetProjectObjService extends CetBaseMapper {
         return periodMap;
     }
 
-    // 刷新某个人的已完成学时 汇总数据
-    public void refreshObjFinishPeriod(int projectId, int objId) {
+    // 归档某个人的已完成学时 汇总数据
+    public void archiveProjectObj(int projectId, int objId) {
 
         Map<Integer, BigDecimal> periodMap = getRealObjFinishPeriodMap(projectId, objId);
 
@@ -554,28 +554,21 @@ public class CetProjectObjService extends CetBaseMapper {
         }
     }
 
-    // 刷新培训班所有培训对象的已完成学时数
-    public void refreshAllObjsFinishPeriod(int projectId) {
+    // 归档培训班所有培训对象的已完成学时数
+    public void archiveProject(int projectId) {
 
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andProjectIdEqualTo(projectId);
         List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
         for (CetProjectObj cetProjectObj : cetProjectObjs) {
 
-            refreshObjFinishPeriod(cetProjectObj.getProjectId(), cetProjectObj.getId());
+            archiveProjectObj(cetProjectObj.getProjectId(), cetProjectObj.getId());
         }
-    }
 
-    // 刷新年度所有培训班的培训对象的已完成学时
-    public void refreshYearObjsFinishPeriod(int year) {
-
-        CetProjectExample example = new CetProjectExample();
-        example.createCriteria().andYearEqualTo(year);
-        List<CetProject> cetProjects = cetProjectMapper.selectByExample(example);
-        for (CetProject cetProject : cetProjects) {
-
-            refreshAllObjsFinishPeriod(cetProject.getId());
-        }
+        CetProject record = new CetProject();
+        record.setId(projectId);
+        record.setHasArchive(true);
+        cetProjectMapper.updateByPrimaryKeySelective(record);
     }
 
     // 获取培训对象的已完成学时分项 Map<planId, period>

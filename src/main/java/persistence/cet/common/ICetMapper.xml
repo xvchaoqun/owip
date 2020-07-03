@@ -6,7 +6,9 @@
     <delete id="removeDeletedCetRecords" parameterType="Integer">
         update cet_record set is_deleted=1 where source_id not in(select id from cet_upper_train where is_deleted=0) and source_type = 1;
         update cet_record set is_deleted=1 where source_id not in(select id from cet_unit_train where status=0) and source_type = 3;
-        update cet_record set is_deleted=1 where source_id not in(select id from cet_project_obj where is_quit=0) and source_type = 2;
+        update cet_record set is_deleted=1 where source_id
+        not in(select po.id from cet_project_obj po
+          left join cet_project p on po.project_id=p.id where p.is_deleted=0 and po.is_quit=0) and source_type = 2;
     </delete>
 
     <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"

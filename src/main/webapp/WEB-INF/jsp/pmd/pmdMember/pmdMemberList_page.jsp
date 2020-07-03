@@ -34,12 +34,12 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-plus"></i> 添加
                         </button>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="pmdMember:del">
-                        <button id="delBtn" data-url="${ctx}/pmd/pmdMember_del"
-                                data-title="删除"
-                                data-msg="<div class='model-alert-tip'>确定删除这条缴费记录？（删除后不可恢复，请谨慎操作）</div>"
-                                class="jqItemBtn btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i> 删除
+                    <shiro:hasPermission name="pmdMember:allList">
+                        <button data-url="${ctx}/pmd/pmdMember_batchDel"
+                                data-title="批量删除"
+                                data-msg="<div class='model-alert-tip'>确定删除这{0}条缴费记录？<br/>（仅删除未缴费记录，删除后不可恢复，请谨慎操作）</div>"
+                                class="jqBatchBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 批量删除
                         </button>
                     </shiro:hasPermission>
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
@@ -249,7 +249,7 @@ pageEncoding="UTF-8" %>
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#delBtn,#helpSetSalaryBtn, #showSalaryBtn, #orderBtn").prop("disabled", true);
+            $("#helpSetSalaryBtn, #showSalaryBtn, #orderBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasPay = (rowData.hasPay == "true");
@@ -257,7 +257,6 @@ pageEncoding="UTF-8" %>
             var isDelay = (rowData.isDelay == "true");
             var isOnlinePay = (rowData.isOnlinePay == "true");
 
-            $("#delBtn").prop("disabled", hasPay);
             $("#helpSetSalaryBtn, #showSalaryBtn").prop("disabled",
                     (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}
                     &&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}

@@ -61,7 +61,7 @@ pageEncoding="UTF-8" %>
                                        value="${param.year}"/>
                             </div>
                             <div class="form-group">
-                                <label>证明信编号</label>
+                                <label>介绍信编号</label>
                                 <input class="form-control search-query" name="sn" type="text" value="${param.sn}"
                                        placeholder="请输入">
                             </div>
@@ -122,10 +122,17 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/member/memberCertify_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '学工号',name: 'user.code', width:110},
-            { label: '姓名',name: 'user.realname'},
             { label: '年份',name: 'year', width:70},
-            { label: '证明信编号',name: 'sn'},
+            { label: '学工号',name: 'user.code', width:120},
+            { label: '姓名',name: 'user.realname'},
+            { label: '介绍信编号',name: 'sn'},
+            { label: '介绍信打印', width: 110, formatter:function(cellvalue, options, rowObject){
+
+                var html = '<button class="openView btn btn-primary btn-xs"'
+                    +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids[]={0}"><i class="fa fa-print"></i> 打印</button>'
+                        .format(rowObject.id);
+                return html;
+                }},
             { label: '政治面貌',name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue==null || cellvalue=='') return '--';
                     if (cellvalue==${MEMBER_POLITICAL_STATUS_POSITIVE}) {
@@ -134,17 +141,11 @@ pageEncoding="UTF-8" %>
                         return '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}';
                     }
                 }},
-            { label: '转出单位',name: 'fromUnit', width:200},
-            { label: '转入单位抬头',name: 'toTitle', width:200},
-            { label: '转入单位',name: 'toUnit', width:200},
-            { label: '证明信日期',name: 'certifyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            { label: '后台打印', width: 110, formatter:function(cellvalue, options, rowObject){
+            { label: '转出单位',name: 'fromUnit', width:200, align:'left'},
+            { label: '转入单位抬头',name: 'toTitle', width:200, align:'left'},
+            { label: '转入单位',name: 'toUnit', width:200, align:'left'},
+            { label: '介绍信日期',name: 'certifyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
 
-                var html = '<button class="openView btn btn-primary btn-xs"'
-                    +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_MEMBER_CERTIFY}&ids[]={0}"><i class="fa fa-print"></i> 打印组织关系证明</button>'
-                        .format(rowObject.id);
-                return html;
-                }, width: 140},
             { label: '创建时间',name: 'createTime', width: 150}
         ]
     }).jqGrid("setFrozenColumns");

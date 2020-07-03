@@ -105,12 +105,14 @@ public class PmdMonthService extends PmdBaseMapper {
     
     // 更新结算数据（当结算有误时调用）
     @Transactional
-    public void updateEnd(int monthId) {
+    public void updateEnd(int monthId, boolean updateEndTime) {
 
         PmdMonth record = new PmdMonth();
         record.setId(monthId);
         record.setEndUserId(ShiroHelper.getCurrentUserId());
-        record.setEndTime(new Date());
+        if(updateEndTime) {
+            record.setEndTime(new Date());
+        }
 
         // 保存数据汇总
         PmdReportBean r = iPmdMapper.getOwPmdReportBean(monthId);

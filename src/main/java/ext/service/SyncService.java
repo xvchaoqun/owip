@@ -648,7 +648,7 @@ public class SyncService extends BaseMapper {
                 record.setArriveTime(extJzg.getLxrq());
             record.setAuthorizedType(extJzg.getBzlx());
             record.setStaffType(extJzg.getRylx());
-            record.setStaffStatus(extJzg.getRyzt()); // 离退
+            record.setStaffStatus(StringUtils.equals(extJzg.getSfzg(), "离休")?"离休":extJzg.getRyzt()); // 离退
             record.setPostClass(extJzg.getGwlx()); // 岗位类型
             record.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
             record.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
@@ -677,14 +677,15 @@ public class SyncService extends BaseMapper {
                     || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
 
             // 状态已经变更为退休状态的，不再同步人事库
-            if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())) {
-
+            if(teacherInfo!=null && BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
+                record.setIsRetire(true);
+            }else{
                 record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
                         || StringUtils.equals(extJzg.getRyzt(), "离世"));
             }
 
             //teacher.setRetireTime(); 退休时间
-            record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
+            //record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
             extCommonService.syncFilter(ui, teacherInfo==null?null:record, null);
             sysUserService.insertOrUpdateUserInfoSelective(ui);
@@ -700,7 +701,7 @@ public class SyncService extends BaseMapper {
         if (!CmTag.getBoolProperty("useCadrePost") && extJzg != null) {
 
             String proPost = extJzg.getZc();
-            if(StringUtils.isBlank(proPost)){ // 保证下面的职称只同步一次，且不被空值覆盖
+            if(teacherInfo!=null && StringUtils.isBlank(proPost)){ // 保证下面的职称只同步一次，且不被空值覆盖
                 proPost = teacherInfo.getProPost();
             }
             proPost = SqlUtils.toParamValue(proPost);
@@ -709,7 +710,7 @@ public class SyncService extends BaseMapper {
                     DateUtils.YYYY_MM_DD));
 
             String proPostLevel = extJzg.getZjgwdj();
-            if(StringUtils.isBlank(proPostLevel)){ // 保证下面的职称级别只同步一次，且不被空值覆盖
+            if(teacherInfo!=null && StringUtils.isBlank(proPostLevel)){ // 保证下面的职称级别只同步一次，且不被空值覆盖
                 proPostLevel = teacherInfo.getProPostLevel();
             }
             proPostLevel = SqlUtils.toParamValue(proPostLevel);

@@ -237,7 +237,7 @@ public class PmdMonthController extends PmdBaseController {
         if(BooleanUtils.isTrue(update)){
             
             SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
-            pmdMonthService.updateEnd(monthId);
+            pmdMonthService.updateEnd(monthId, true);
             logger.info(addLog(LogConstants.LOG_PMD, "更新结算缴费， %s", monthId));
             
         }else {

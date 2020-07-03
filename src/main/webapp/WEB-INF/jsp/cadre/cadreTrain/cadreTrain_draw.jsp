@@ -78,7 +78,7 @@ pageEncoding="UTF-8" %>
         </c:if>
     </div>
     <div class="modal-footer">
-        <div class="note">数据来源：培训综合管理-培训记录汇总</div>
+        <div class="note">数据来源：培训综合管理-培训记录汇总，起止日期相同的记录将被覆盖</div>
         <button class="btn btn-default cancel"><i class="fa fa-times"></i> 取消</button>
         <button id="submitBtn" class="btn btn-success"><i class="fa fa-check"></i> 确定</button>
     </div>

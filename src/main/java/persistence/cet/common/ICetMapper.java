@@ -55,8 +55,28 @@ public interface ICetMapper {
                              @Param("periodOnline") BigDecimal periodOnline,
                              @Param("ids") String ids);
 
-    // 批量删除已删除的培训记录
+    // 批量删除已删除的培训记录（假删除）
     int removeDeletedCetRecords();
+
+    // 没有删除的、审批通过的、还未归档的上级调训记录ID
+    @Select("select ut.id from cet_upper_train ut " +
+            "left join cet_record r on ut.id=r.source_id and r.source_type =1 " +
+            "where ut.is_deleted=0 and ut.status=1 and (ut.update_time > r.archive_time or r.id is null)")
+    public List<Integer> unArchiveUpperTrainIds();
+
+    // 已报送的、审批通过的、还未归档的二级党委培训记录
+    @Select("select ut.id from cet_unit_train ut " +
+            "left join cet_unit_project up on up.id=ut.project_id " +
+            "left join cet_record r on ut.id=r.source_id and r.source_type =3 " +
+            "where up.status=2 and ut.status=0 and (ut.update_time > r.archive_time or r.id is null)")
+    public List<Integer> unArchiveUnitTrainIds();
+
+    // 未退出的、还未归档的记录党校过程培训记录
+    @Select("select po.id from cet_project_obj po " +
+            "left join cet_project p on p.id=po.project_id " +
+            "left join cet_record r on po.id=r.source_id and r.source_type =2 " +
+            "where po.is_quit=0 and (po.update_time > r.archive_time or r.id is null)")
+    public List<Integer> unArchiveProjectObjIds();
 
     // 按类型读取完成学时数
     public BigDecimal totalFinishPeriod(@Param("year") int year,

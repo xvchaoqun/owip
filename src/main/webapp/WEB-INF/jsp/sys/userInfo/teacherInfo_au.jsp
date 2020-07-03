@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">是否离休</label>
                     <div class="col-xs-6">
                         <label>
@@ -102,7 +102,7 @@
                             <span class="lbl"></span>
                         </label>
                     </div>
-                </div>
+                </div>--%>
                 <c:if test="${empty cadre}">
                     <div class="form-group">
                         <label class="col-xs-3 control-label">手机号码</label>

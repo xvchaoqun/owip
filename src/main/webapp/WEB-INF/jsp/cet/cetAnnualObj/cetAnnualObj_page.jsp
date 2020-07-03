@@ -52,6 +52,9 @@
                 data-grid-id="#jqGrid2"><i class="fa fa-clock-o"></i>
             设定年度学习任务
         </button>
+
+    </shiro:hasPermission>
+        <shiro:hasRole name="${ROLE_SUPER}">
          <button data-url="${ctx}/cet/archiveObjFinishPeriod?annualId=${param.annualId}"
                 data-title="归档已完成学时"
                 data-msg="确定归档已完成学时？"
@@ -61,8 +64,7 @@
                 class="jqBatchBtn btn btn-success btn-sm">
             <i class="fa fa-refresh"></i> 归档已完成学时
         </button>
-
-    </shiro:hasPermission>
+        </shiro:hasRole>
 
         <div class="btn-group">
             <button data-toggle="dropdown"

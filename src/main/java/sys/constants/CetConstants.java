@@ -286,4 +286,13 @@ public class CetConstants {
         CET_TYPE_T_MAP.put(CET_TYPE_T_PARTY, "二级党委培训");
     }
 
+    // 参训人员类别
+    public final static byte CET_USER_TYPE_TEACHER = 1; //教工
+    public final static byte CET_USER_TYPE_STUDENT = 2; //学生
+    public final static Map<Byte, String> CET_USER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CET_USER_TYPE_MAP.put(CET_USER_TYPE_TEACHER, "教职工");
+        CET_USER_TYPE_MAP.put(CET_USER_TYPE_STUDENT, "学生");
+    }
 }

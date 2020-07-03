@@ -35,7 +35,9 @@ public class CetProjectService extends CetBaseMapper {
 
         CetProjectExample example = new CetProjectExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cetProjectMapper.deleteByExample(example);
+        CetProject record = new CetProject();
+        record.setIsDeleted(true);
+        cetProjectMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -81,9 +83,9 @@ public class CetProjectService extends CetBaseMapper {
         if(traineeTypeIdList == null || traineeTypeIdList.size() == 0) return;
 
         CetProject record = new CetProject();
-            record.setId(projectId);
-            record.setTraineeTypeIds(StringUtils.join(traineeTypeIdList, ","));
-            cetProjectMapper.updateByPrimaryKeySelective(record);
+        record.setId(projectId);
+        record.setTraineeTypeIds(StringUtils.join(traineeTypeIdList, ","));
+        cetProjectMapper.updateByPrimaryKeySelective(record);
     }
 
     // 得到培训项目的参训人员类型（含其他类型）

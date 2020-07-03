@@ -1,6 +1,7 @@
 package service.cet;
 
 import domain.cet.*;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.CetConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.NumberUtils;
 
@@ -20,26 +22,27 @@ public class CetRecordService extends CetBaseMapper {
     @Autowired
     private CetProjectObjService cetProjectObjService;
 
-    // 同步所有的上级调训（含党校其他培训）
+    // 增量同步上级调训（含党校其他培训）
     public void syncAllUpperTrain(){
 
-        List<CetUpperTrain> cetUpperTrains = cetUpperTrainMapper.selectByExample(new CetUpperTrainExample());
+        List<Integer> upperTrainIds = iCetMapper.unArchiveUpperTrainIds();
 
-        for (CetUpperTrain cetUpperTrain : cetUpperTrains) {
-            syncUpperTrain(cetUpperTrain.getId());
+        for (Integer upperTrainId : upperTrainIds) {
+            syncUpperTrain(upperTrainId);
         }
     }
 
-    // 同步所有的二级党委培训
+    // 增量同步二级党委培训
     public void syncAllUnitTrian(){
 
-        List<CetUnitTrain> cetUnitTrains = cetUnitTrainMapper.selectByExample(new CetUnitTrainExample());
-        for (CetUnitTrain cetUnitTrain : cetUnitTrains) {
-            syncUnitTrain(cetUnitTrain.getId());
+        List<Integer> unitTrainIds = iCetMapper.unArchiveUnitTrainIds();
+
+        for (Integer unitTrainId : unitTrainIds) {
+            syncUnitTrain(unitTrainId);
         }
     }
 
-    // 同步所有的二级党校培训
+    // 增量同步党校培训
     public void syncAllProjectObj(){
 
         {
@@ -64,11 +67,9 @@ public class CetRecordService extends CetBaseMapper {
 
         {
             // 第二步：同步未退出参训人员的培训记录
-            CetProjectObjExample example = new CetProjectObjExample();
-            example.createCriteria().andIsQuitEqualTo(false);
-            List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
-            for (CetProjectObj cetProjectObj : cetProjectObjs) {
-                sysProjectObj(cetProjectObj.getId());
+            List<Integer> objIds = iCetMapper.unArchiveProjectObjIds();
+            for (Integer objId : objIds) {
+                sysProjectObj(objId);
             }
         }
     }
@@ -122,6 +123,14 @@ public class CetRecordService extends CetBaseMapper {
         r.setIsGraduate(true);
         r.setIsValid(t.getIsValid());
         r.setArchiveTime(new Date());
+
+        SysUserView uv = t.getUser();
+        r.setIsDeleted(false);
+        r.setSpecialType(t.getSpecialType());
+        r.setProjectType(t.getProjectTypeId());
+        r.setUserType(uv.getType()== SystemConstants.USER_TYPE_JZG?
+                CetConstants.CET_USER_TYPE_TEACHER:CetConstants.CET_USER_TYPE_STUDENT);
+        //r.setNo();
 
         if(r.getId()==null){
             cetRecordMapper.insertSelective(r);
@@ -179,6 +188,14 @@ public class CetRecordService extends CetBaseMapper {
         r.setIsGraduate(true);
         r.setIsValid(p.getIsValid());
         r.setArchiveTime(new Date());
+
+        SysUserView uv = t.getUser();
+        r.setIsDeleted(false);
+        r.setSpecialType(p.getSpecialType());
+        r.setProjectType(p.getProjectTypeId());
+        r.setUserType(uv.getType()== SystemConstants.USER_TYPE_JZG?
+                CetConstants.CET_USER_TYPE_TEACHER:CetConstants.CET_USER_TYPE_STUDENT);
+        //r.setNo();
 
         if(r.getId()==null){
             cetRecordMapper.insertSelective(r);
@@ -253,6 +270,14 @@ public class CetRecordService extends CetBaseMapper {
 
         r.setIsValid(p.getIsValid());
         r.setArchiveTime(new Date());
+
+        SysUserView uv = o.getUser();
+        r.setIsDeleted(false);
+        r.setSpecialType(p.getType());
+        r.setProjectType(p.getProjectTypeId());
+        r.setUserType(uv.getType()== SystemConstants.USER_TYPE_JZG?
+                CetConstants.CET_USER_TYPE_TEACHER:CetConstants.CET_USER_TYPE_STUDENT);
+        //r.setNo();
 
         if(r.getId()==null){
             cetRecordMapper.insertSelective(r);

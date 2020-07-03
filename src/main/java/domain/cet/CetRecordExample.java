@@ -1573,52 +1573,52 @@ public class CetRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeEqualTo(Integer value) {
+        public Criteria andUserTypeEqualTo(Byte value) {
             addCriterion("user_type =", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotEqualTo(Integer value) {
+        public Criteria andUserTypeNotEqualTo(Byte value) {
             addCriterion("user_type <>", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeGreaterThan(Integer value) {
+        public Criteria andUserTypeGreaterThan(Byte value) {
             addCriterion("user_type >", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUserTypeGreaterThanOrEqualTo(Byte value) {
             addCriterion("user_type >=", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeLessThan(Integer value) {
+        public Criteria andUserTypeLessThan(Byte value) {
             addCriterion("user_type <", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeLessThanOrEqualTo(Integer value) {
+        public Criteria andUserTypeLessThanOrEqualTo(Byte value) {
             addCriterion("user_type <=", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeIn(List<Integer> values) {
+        public Criteria andUserTypeIn(List<Byte> values) {
             addCriterion("user_type in", values, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotIn(List<Integer> values) {
+        public Criteria andUserTypeNotIn(List<Byte> values) {
             addCriterion("user_type not in", values, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeBetween(Integer value1, Integer value2) {
+        public Criteria andUserTypeBetween(Byte value1, Byte value2) {
             addCriterion("user_type between", value1, value2, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotBetween(Integer value1, Integer value2) {
+        public Criteria andUserTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("user_type not between", value1, value2, "userType");
             return (Criteria) this;
         }

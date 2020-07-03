@@ -194,7 +194,7 @@
 <script>
     <c:if test="${not empty cadre}">
     $("#baseInfoForm input[name=gender]").prop("disabled", true);
-    $("#baseInfoForm input[name=_birth]").prop("disabled", true);
+    $("#baseInfoForm input[name=birth]").prop("disabled", true);
     $("#baseInfoForm select[name=nation]").prop("disabled", true);
     </c:if>
     $.fileInput($("#_avatar"), {
@@ -226,10 +226,12 @@
         var idcard = '${ui.idcard}';
         if(idcard.length==15||idcard.length==18){
 
-            var _birth = $("#baseInfoForm input[name=_birth]").val();
+            var birth = $("#baseInfoForm input[name=birth]").val();
             var gender = $("#baseInfoForm input[name=gender]:checked").val();
+
+            //console.log("$.getBirthdayByIdcard(idcard)="+$.getBirthdayByIdcard(idcard) +" birth="+birth)
             if($.getGenderByIdcard(idcard)!=gender
-                || $.getBirthdayByIdcard(idcard)!=_birth){
+                || $.getBirthdayByIdcard(idcard)!=birth){
 
                 SysMsg.confirm("性别或出生年月与身份证不符，请再次确认是否提交？", "信息确认", function(){
 

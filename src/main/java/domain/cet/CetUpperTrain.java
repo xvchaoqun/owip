@@ -30,6 +30,10 @@ public class CetUpperTrain implements Serializable {
 
     private Byte specialType;
 
+    private Integer projectTypeId;
+
+    private String category;
+
     private Boolean isOnline;
 
     private Integer unitId;
@@ -122,6 +126,22 @@ public class CetUpperTrain implements Serializable {
 
     public void setSpecialType(Byte specialType) {
         this.specialType = specialType;
+    }
+
+    public Integer getProjectTypeId() {
+        return projectTypeId;
+    }
+
+    public void setProjectTypeId(Integer projectTypeId) {
+        this.projectTypeId = projectTypeId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
     }
 
     public Boolean getIsOnline() {

@@ -11,20 +11,6 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="planId" value="${planId}">
 		<input type="hidden" name="isOnCampus" value="1">
 
-		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>培训班类型</label>
-
-			<div class="col-xs-6">
-				<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="275">
-					<option></option>
-					<c:import url="/metaTypes?__code=mc_cet_train_type"/>
-				</select>
-				<script type="text/javascript">
-					$("#modalForm select[name=type]").val(${cetTrain.type});
-				</script>
-			</div>
-		</div>
-
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>培训班名称</label>
 				<div class="col-xs-6">

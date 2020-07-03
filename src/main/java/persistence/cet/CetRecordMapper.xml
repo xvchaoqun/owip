@@ -25,7 +25,7 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="special_type" jdbcType="TINYINT" property="specialType" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
-    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="no" jdbcType="SMALLINT" property="no" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -141,7 +141,7 @@
       #{onlinePeriod,jdbcType=DECIMAL}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
       #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{archiveTime,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=BIT}, #{specialType,jdbcType=TINYINT}, #{projectType,jdbcType=INTEGER}, 
-      #{userType,jdbcType=INTEGER}, #{no,jdbcType=SMALLINT})
+      #{userType,jdbcType=TINYINT}, #{no,jdbcType=SMALLINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -290,7 +290,7 @@
         #{projectType,jdbcType=INTEGER},
       </if>
       <if test="userType != null">
-        #{userType,jdbcType=INTEGER},
+        #{userType,jdbcType=TINYINT},
       </if>
       <if test="no != null">
         #{no,jdbcType=SMALLINT},
@@ -376,7 +376,7 @@
         project_type = #{record.projectType,jdbcType=INTEGER},
       </if>
       <if test="record.userType != null">
-        user_type = #{record.userType,jdbcType=INTEGER},
+        user_type = #{record.userType,jdbcType=TINYINT},
       </if>
       <if test="record.no != null">
         no = #{record.no,jdbcType=SMALLINT},
@@ -411,7 +411,7 @@
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       special_type = #{record.specialType,jdbcType=TINYINT},
       project_type = #{record.projectType,jdbcType=INTEGER},
-      user_type = #{record.userType,jdbcType=INTEGER},
+      user_type = #{record.userType,jdbcType=TINYINT},
       no = #{record.no,jdbcType=SMALLINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -487,7 +487,7 @@
         project_type = #{projectType,jdbcType=INTEGER},
       </if>
       <if test="userType != null">
-        user_type = #{userType,jdbcType=INTEGER},
+        user_type = #{userType,jdbcType=TINYINT},
       </if>
       <if test="no != null">
         no = #{no,jdbcType=SMALLINT},
@@ -519,7 +519,7 @@
       is_deleted = #{isDeleted,jdbcType=BIT},
       special_type = #{specialType,jdbcType=TINYINT},
       project_type = #{projectType,jdbcType=INTEGER},
-      user_type = #{userType,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=TINYINT},
       no = #{no,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

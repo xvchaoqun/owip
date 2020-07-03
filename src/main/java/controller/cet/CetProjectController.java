@@ -39,7 +39,7 @@ public class CetProjectController extends CetBaseController {
     @ResponseBody
     public Map refreshObjFinishPeriod( int projectId, int objId, ModelMap modelMap) {
 
-        cetProjectObjService.refreshObjFinishPeriod(projectId, objId);
+        cetProjectObjService.archiveProjectObj(projectId, objId);
         
         return success();
     }
@@ -49,30 +49,21 @@ public class CetProjectController extends CetBaseController {
     @ResponseBody
     public Map refreshAllObjsFinishPeriod( int projectId, ModelMap modelMap) {
 
-        cetProjectObjService.refreshAllObjsFinishPeriod(projectId);
-        
-        return success();
-    }
-    @RequiresPermissions("cetProject:list")
-    @RequestMapping("/refreshYearObjsFinishPeriod")
-    @ResponseBody
-    public Map refreshYearObjsFinishPeriod( int year, ModelMap modelMap) {
-
-        cetProjectObjService.refreshYearObjsFinishPeriod(year);
+        cetProjectObjService.archiveProject(projectId);
         
         return success();
     }
     
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
-    public String cetProject(Byte type,
+    public String cetProject(@RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
+                             Byte type,
                              ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
 
         Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(type);
         modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
-
-        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(type);
-        modelMap.put("projectTypeMap", projectTypeMap);
 
         return "cet/cetProject/cetProject_page";
     }
@@ -80,6 +71,7 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject_data")
     public void cetProject_data(HttpServletResponse response,
+                                @RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
                                 Byte type,
                                 Integer year,
                                 String name,
@@ -102,6 +94,14 @@ public class CetProjectController extends CetBaseController {
         CetProjectExample example = new CetProjectExample();
         CetProjectExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("year desc, id desc");
+
+        if(cls==1){
+            criteria.andIsDeletedEqualTo(false);
+        }else if(cls==2){
+            criteria.andIsDeletedEqualTo(true);
+        }else {
+            criteria.andIdIsNull();
+        }
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
@@ -235,8 +235,8 @@ public class CetProjectController extends CetBaseController {
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
 
-        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(_type);
-        modelMap.put("projectTypes", projectTypeMap.values());
+        Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(_type);
+        modelMap.put("cetProjectTypes", cetProjectTypeMap.values());
 
         modelMap.put("type", _type);
 
@@ -261,7 +261,7 @@ public class CetProjectController extends CetBaseController {
 
         List<CetProject> records = cetProjectMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|50","培训时间（开始）|100","培训时间（结束）|100","培训班名称|200","专题分类|100","总学时|100","参训人数|100","是否计入年度学习任务|100","备注|100"};
+        String[] titles = {"年度|50","培训时间（开始）|100","培训时间（结束）|100","培训班名称|200","培训班类型|100","总学时|100","参训人数|100","是否计入年度学习任务|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetProject record = records.get(i);

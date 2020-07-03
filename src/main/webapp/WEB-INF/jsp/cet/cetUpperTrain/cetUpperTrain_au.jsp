@@ -28,7 +28,7 @@
         </c:if>
     </h3>
 </div>
-<div class="modal-body">
+<div class="modal-body overflow-visible">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" autocomplete="off" disableautocomplete
           id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrain.id}">
@@ -210,10 +210,52 @@
                          </div>
                      </div>
                  </div>
-                     <script>
-                         $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_PROJECT_TYPE_SPECIAL:cetUpperTrain.specialType}']")
-                             .prop("checked", true);
-                     </script>
+
+                     <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>
+                    <div class="col-xs-7">
+                        <select required name="projectTypeId" data-rel="select2"
+                                            data-width="223"
+                                            data-placeholder="请选择">
+                            <option></option>
+                        </select>
+                        <script>
+                            var projectTypes = [];
+                            $("#modalForm input[name=specialType]").change(function(){
+                                //console.log("---------" + $(this).val())
+                                var $projectTypeId = $("#modalForm select[name=projectTypeId]")
+                                            .empty().prepend("<option></option>").select2();
+
+                                if($(this).val()!='${CET_PROJECT_TYPE_SPECIAL}'){
+                                    projectTypes = ${cm:toJSONArray(dailyProjectTypes)}
+                                }else{
+                                    projectTypes = ${cm:toJSONArray(specialProjectTypes)}
+                                }
+                                //console.dir(projectTypes)
+                                for (i in projectTypes) {
+                                    var selected = (projectTypes[i].id == '${cetUpperTrain.projectTypeId}');
+                                    $projectTypeId.append(new Option(projectTypes[i].name, projectTypes[i].id, selected, selected))
+                                }
+                                $projectTypeId.trigger('change');
+                            })
+                            $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_PROJECT_TYPE_SPECIAL:cetUpperTrain.specialType}']")
+                                .click();
+                        </script>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">培训内容分类</label>
+                    <div class="col-xs-8">
+                        <div class="input-group">
+                            <select class="multiselect" multiple="" name="category" data-width="223" data-placeholder="请选择">
+                                <c:import url="/metaTypes?__code=mc_cet_project_category"/>
+                            </select>
+                            <script type="text/javascript">
+                                $.register.multiselect($('#modalForm select[name=category]'), '${cetUpperTrain.category}'.split(","));
+                            </script>
+                        </div>
+                    </div>
+                </div>
                 </c:if>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班类型</label>

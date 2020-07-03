@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.projectName ||
-             not empty param.partyId || not empty param.unitId || not empty param.startDate || not empty param.endDate || not empty param.projectType
+             not empty param.partyId || not empty param.unitId || not empty param.startDate || not empty param.endDate || not empty param.projectTypeId
              || not empty param.isOnline || not empty param.reportName || not empty param.reporter || not empty param.prePeriod || not empty param.subPeriod
               || not empty param.address}"/>
 
@@ -190,18 +190,18 @@ pageEncoding="UTF-8" %>
                                 <input placeholder="请选择结束时间范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="endDate" value="${param.endDate}"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <%--<div class="form-group">
                             <label>培训班类型</label>
-                            <select data-rel="select2" name="projectType"
+                            <select data-rel="select2" name="projectTypeId"
                                     data-width="120"
                                     data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_cet_upper_train_type2"/>
                             </select>
                             <script type="text/javascript">
-                                $("#searchForm select[name=projectType]").val(${param.projectType});
+                                $("#searchForm select[name=projectTypeId]").val(${param.projectTypeId});
                             </script>
-                        </div>
+                        </div>--%>
                         <div class="form-group">
                             <label>培训形式</label>
                             <select name="isOnline" data-width="120" data-rel="select2"
@@ -273,6 +273,10 @@ pageEncoding="UTF-8" %>
     function _report(){
         $("#jqGrid").trigger("reloadGrid");
     }
+
+    var specialProjectTypeMap = ${cm:toJSONObject(specialProjectTypeMap)};
+    var dailyProjectTypeMap = ${cm:toJSONObject(dailyProjectTypeMap)};
+
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/cet/cetUnitProject_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -301,7 +305,23 @@ pageEncoding="UTF-8" %>
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
                 },
-                {label: '培训班类型', name: 'projectType', width: 120, formatter: $.jgrid.formatter.MetaType},
+                {
+                    label: '培训班类型', name: 'projectTypeId', width: 130, formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '--'
+                        if(rowObject.specialType==<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>) {
+                            if (specialProjectTypeMap[cellvalue] == undefined) return '--'
+                            return specialProjectTypeMap[cellvalue].name
+                        }else{
+                            if (dailyProjectTypeMap[cellvalue] == undefined) return '--'
+                            return dailyProjectTypeMap[cellvalue].name
+                        }
+                }},
+                {label: '培训内容分类', name: 'category', align:'left', width: 180, formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(cellvalue)=='') return '--'
+                    return ($.map(cellvalue.split(","), function(category){
+                        return $.jgrid.formatter.MetaType(category);
+                    })).join("，")
+                }},
                 { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
                 {label: '培训类别', name: 'specialType', width: 80, formatter: function (cellvalue, options, rowObject) {
                         if(cellvalue==undefined) return '--'

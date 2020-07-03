@@ -6,7 +6,7 @@
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="openView btn btn-xs btn-success"
-               data-url="${ctx}/cet/cetProject_detail?projectId=${cetProjectPlan.projectId}">
+               data-url="${ctx}/cet/cetProject_detail?cls=2&projectId=${cetProjectPlan.projectId}">
                 <i class="ace-icon fa fa-backward"></i> 返回</a>
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
@@ -144,7 +144,6 @@
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFinished ? '已结课' : '未结课';
             }, frozen: true},
-            {label: '培训班类型', name: 'type', width: 250, formatter: $.jgrid.formatter.MetaType, frozen: true},
             {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
             {label: '可选课人数', name: 'objCount', width: 90},
             {

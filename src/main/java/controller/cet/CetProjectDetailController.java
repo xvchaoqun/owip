@@ -157,8 +157,6 @@ public class CetProjectDetailController extends CetBaseController {
     public Map do_cetProject_detail_begin(int projectId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")Date openTime,
                                           String openAddress) {
 
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-
         CetProject record = new CetProject();
         record.setId(projectId);
         record.setOpenTime(openTime);

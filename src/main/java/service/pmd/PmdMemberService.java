@@ -17,10 +17,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PmdMemberService extends PmdBaseMapper {
@@ -142,6 +139,103 @@ public class PmdMemberService extends PmdBaseMapper {
         example.createCriteria().andUserIdEqualTo(pmdMember.getUserId());
         if(pmdMemberMapper.countByExample(example)==0)
             pmdConfigMemberService.del(pmdMember.getUserId());
+    }
+
+    // 批量删除未缴费记录（同时删除党员列表中的记录，如果是往月缴费数据，则更新往月缴纳报表）
+    @Transactional
+    public void batchDel(Integer[] ids){
+
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andHasPayEqualTo(true);
+        PmdMemberPayViewExample example2 = new PmdMemberPayViewExample();
+        example2.createCriteria().andIdIn(Arrays.asList(ids)).andHasPayEqualTo(true); // 补缴已确认数据
+        if (pmdMemberMapper.countByExample(example) >0
+                || pmdMemberPayViewMapper.countByExample(example2) > 0) {
+            throw new OpException("操作失败，存在已缴费的记录。");
+        }
+
+        example = new PmdMemberExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andHasPayEqualTo(false);
+        List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
+
+        Set<Integer> updatePmdBranchIdSet = new HashSet<>();
+        Set<Integer> updatePmdPartyIdSet = new HashSet<>();
+        Set<Integer> updatePmdMonthIdSet = new HashSet<>();
+        Set<Integer> updateUserIdSet = new HashSet<>();
+        List<Integer> deletePmdMemberIds = new ArrayList<>();
+
+        for (PmdMember pmdMember : pmdMembers) {
+
+            deletePmdMemberIds.add(pmdMember.getId());
+            updateUserIdSet.add(pmdMember.getUserId());
+
+            int monthId = pmdMember.getMonthId();
+            int partyId = pmdMember.getPartyId();
+            Integer branchId = pmdMember.getBranchId();
+
+            List<PmdMonth> pmdMonths = new ArrayList<>(); // 待更新汇总数据的月份（本月延迟党员数和缴费金额、往月应补缴金额）
+            {
+                PmdMonthExample _example = new PmdMonthExample();
+                _example.createCriteria().andIdGreaterThanOrEqualTo(monthId);
+                pmdMonths = pmdMonthMapper.selectByExample(_example);
+            }
+
+            for (PmdMonth pmdMonth : pmdMonths) {
+
+                // 当前缴费月份不需要更新结算
+                if(pmdMonth.getStatus()!=PmdConstants.PMD_MONTH_STATUS_END) continue;
+
+                updatePmdMonthIdSet.add(pmdMonth.getId());
+
+                PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
+                if(pmdParty!=null){
+                    updatePmdPartyIdSet.add(pmdParty.getId());
+                }
+
+                if(branchId!=null) {
+                    PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
+
+                    if(pmdBranch!=null){
+                        updatePmdBranchIdSet.add(pmdBranch.getId());
+                    }
+                }
+            }
+        }
+
+        // 先删除记录
+        {
+            example = new PmdMemberExample();
+            example.createCriteria().andIdIn(deletePmdMemberIds);
+            pmdMemberMapper.deleteByExample(example);
+
+            PmdMemberPayExample _example = new PmdMemberPayExample();
+            _example.createCriteria().andMemberIdIn(deletePmdMemberIds);
+            pmdMemberPayMapper.deleteByExample(_example);
+        }
+
+        // 更新相关汇总数据
+        for (Integer pmdBranchId : updatePmdBranchIdSet) {
+
+            pmdBranchService.updateReport(pmdBranchId);
+        }
+
+        for (Integer pmdPartyId : updatePmdPartyIdSet) {
+
+            pmdPartyService.updateReport(pmdPartyId);
+        }
+
+        for (Integer pmdMonthId : updatePmdMonthIdSet) {
+            pmdMonthService.updateEnd(pmdMonthId, false);
+        }
+
+        // 清除缴费人员，如果需要
+        for (Integer userId : updateUserIdSet) {
+
+            example = new PmdMemberExample();
+            example.createCriteria().andUserIdEqualTo(userId);
+            if(pmdMemberMapper.countByExample(example)==0)
+                pmdConfigMemberService.del(userId);
+        }
     }
 
     @Transactional

@@ -36,6 +36,8 @@ public class CetProjectTypeController extends CetBaseController {
     public String cetProjectType(@RequestParam(required = false, defaultValue = "1") Byte type,
                                  ModelMap modelMap) {
 
+        modelMap.put("type", type);
+
         return "cet/cetProjectType/cetProjectType_page";
     }
 
@@ -133,7 +135,7 @@ public class CetProjectTypeController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetProjectTypeService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除专题分类：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训类别：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

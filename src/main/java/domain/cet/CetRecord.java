@@ -59,7 +59,7 @@ public class CetRecord implements Serializable {
 
     private Integer projectType;
 
-    private Integer userType;
+    private Byte userType;
 
     private Short no;
 
@@ -249,11 +249,11 @@ public class CetRecord implements Serializable {
         this.projectType = projectType;
     }
 
-    public Integer getUserType() {
+    public Byte getUserType() {
         return userType;
     }
 
-    public void setUserType(Integer userType) {
+    public void setUserType(Byte userType) {
         this.userType = userType;
     }
 

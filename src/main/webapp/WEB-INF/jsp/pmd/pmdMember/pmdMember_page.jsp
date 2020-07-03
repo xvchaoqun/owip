@@ -253,7 +253,7 @@
             var needConfirmDuePay = (rowData.needConfirmDuePay == "true");
             //console.log(rowData.configMemberTypeId)
             $("#helpPayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || (isCurrentMonth && isDelay));
-            $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay));
+            $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay) || !isCurrentMonth);
             $("#delayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
             //$("#notifyBtn").prop("disabled", needConfirmDuePay||$.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);

@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 证明信日期</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span> 介绍信日期</label>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 252px">
                     <input required class="form-control date-picker" name="certifyDate" type="text"

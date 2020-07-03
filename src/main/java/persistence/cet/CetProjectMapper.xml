@@ -16,6 +16,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="is_valid" jdbcType="BIT" property="isValid" />
     <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
@@ -23,6 +24,8 @@
     <result column="require_period" jdbcType="DECIMAL" property="requirePeriod" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="has_archive" jdbcType="BIT" property="hasArchive" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,9 +86,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, start_date,
-    end_date, open_time, open_address, name, is_valid, project_type_id, file_name, pdf_file_path,
-    word_file_path, period, require_period, remark, create_time
+    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, start_date, 
+    end_date, open_time, open_address, name, is_valid, project_type_id, category, file_name, 
+    pdf_file_path, word_file_path, period, require_period, remark, create_time, has_archive, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -121,20 +125,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_project (type, year, trainee_type_ids,
-      other_trainee_type, obj_count, quit_count,
-      start_date, end_date, open_time,
-      open_address, name, is_valid,
-      project_type_id, file_name, pdf_file_path,
-      word_file_path, period, require_period,
-      remark, create_time)
-    values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR},
-      #{otherTraineeType,jdbcType=VARCHAR}, #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER},
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP},
-      #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT},
-      #{projectTypeId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR},
-      #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL},
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    insert into cet_project (type, year, trainee_type_ids, 
+      other_trainee_type, obj_count, quit_count, 
+      start_date, end_date, open_time, 
+      open_address, name, is_valid, 
+      project_type_id, category, file_name, 
+      pdf_file_path, word_file_path, period, 
+      require_period, remark, create_time, 
+      has_archive, is_deleted)
+    values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR}, 
+      #{otherTraineeType,jdbcType=VARCHAR}, #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, 
+      #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
+      #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
+      #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{hasArchive,jdbcType=BIT}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -181,6 +187,9 @@
       <if test="projectTypeId != null">
         project_type_id,
       </if>
+      <if test="category != null">
+        category,
+      </if>
       <if test="fileName != null">
         file_name,
       </if>
@@ -201,6 +210,12 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="hasArchive != null">
+        has_archive,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -243,6 +258,9 @@
       <if test="projectTypeId != null">
         #{projectTypeId,jdbcType=INTEGER},
       </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
@@ -263,6 +281,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hasArchive != null">
+        #{hasArchive,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -317,6 +341,9 @@
       <if test="record.projectTypeId != null">
         project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
+      </if>
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
@@ -337,6 +364,12 @@
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hasArchive != null">
+        has_archive = #{record.hasArchive,jdbcType=BIT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -359,13 +392,16 @@
       name = #{record.name,jdbcType=VARCHAR},
       is_valid = #{record.isValid,jdbcType=BIT},
       project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       require_period = #{record.requirePeriod,jdbcType=DECIMAL},
       remark = #{record.remark,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      has_archive = #{record.hasArchive,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -412,6 +448,9 @@
       <if test="projectTypeId != null">
         project_type_id = #{projectTypeId,jdbcType=INTEGER},
       </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
@@ -433,6 +472,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="hasArchive != null">
+        has_archive = #{hasArchive,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -451,13 +496,16 @@
       name = #{name,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=BIT},
       project_type_id = #{projectTypeId,jdbcType=INTEGER},
+      category = #{category,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
       pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       require_period = #{requirePeriod,jdbcType=DECIMAL},
       remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      has_archive = #{hasArchive,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">

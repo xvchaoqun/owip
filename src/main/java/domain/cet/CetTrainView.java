@@ -50,8 +50,6 @@ public class CetTrainView implements Serializable {
 
     private Integer planId;
 
-    private Integer type;
-
     private Boolean isOnCampus;
 
     private String name;
@@ -108,14 +106,6 @@ public class CetTrainView implements Serializable {
 
     public void setPlanId(Integer planId) {
         this.planId = planId;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public Boolean getIsOnCampus() {

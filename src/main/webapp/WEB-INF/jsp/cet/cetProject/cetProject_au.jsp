@@ -89,13 +89,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>培训类别</label>
+                                <label class="col-xs-3 control-label"><span class="star">*</span>培训班类型</label>
                                 <div class="col-xs-8">
                                     <select required name="projectTypeId" data-rel="select2"
                                             data-width="308"
                                             data-placeholder="请选择">
                                         <option></option>
-                                        <c:forEach var="projectType" items="${projectTypes}">
+                                        <c:forEach var="projectType" items="${cetProjectTypes}">
                                             <option value="${projectType.id}">
                                                     ${projectType.name}
                                             </option>
@@ -104,6 +104,19 @@
                                     <script>
                                         $("#modalForm select[name=projectTypeId]").val("${cetProject.projectTypeId}");
                                     </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">培训内容分类</label>
+                                <div class="col-xs-9">
+                                    <div class="input-group">
+                                        <select class="multiselect" multiple="" name="category" data-width="308" data-placeholder="请选择">
+                                            <c:import url="/metaTypes?__code=mc_cet_project_category"/>
+                                        </select>
+                                        <script type="text/javascript">
+                                            $.register.multiselect($('#modalForm select[name=category]'), '${cetProject.category}'.split(","));
+                                        </script>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

@@ -381,6 +381,136 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectTypeIdIsNull() {
+            addCriterion("project_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdIsNotNull() {
+            addCriterion("project_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdEqualTo(Integer value) {
+            addCriterion("project_type_id =", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotEqualTo(Integer value) {
+            addCriterion("project_type_id <>", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdGreaterThan(Integer value) {
+            addCriterion("project_type_id >", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_type_id >=", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdLessThan(Integer value) {
+            addCriterion("project_type_id <", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("project_type_id <=", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdIn(List<Integer> values) {
+            addCriterion("project_type_id in", values, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotIn(List<Integer> values) {
+            addCriterion("project_type_id not in", values, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("project_type_id between", value1, value2, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_type_id not between", value1, value2, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNull() {
+            addCriterion("category is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNotNull() {
+            addCriterion("category is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryEqualTo(String value) {
+            addCriterion("category =", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotEqualTo(String value) {
+            addCriterion("category <>", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThan(String value) {
+            addCriterion("category >", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThanOrEqualTo(String value) {
+            addCriterion("category >=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThan(String value) {
+            addCriterion("category <", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThanOrEqualTo(String value) {
+            addCriterion("category <=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLike(String value) {
+            addCriterion("category like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotLike(String value) {
+            addCriterion("category not like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIn(List<String> values) {
+            addCriterion("category in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotIn(List<String> values) {
+            addCriterion("category not in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryBetween(String value1, String value2) {
+            addCriterion("category between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotBetween(String value1, String value2) {
+            addCriterion("category not between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
         public Criteria andIsOnlineIsNull() {
             addCriterion("is_online is null");
             return (Criteria) this;

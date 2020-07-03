@@ -44,7 +44,7 @@
         <c:if test="${cls==4}">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="openView btn btn-xs btn-success"
-                    data-url="${ctx}/cet/cetProject_detail?projectId=${param.projectId}">
+                    data-url="${ctx}/cet/cetProject_detail?cls=2&projectId=${param.projectId}">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>

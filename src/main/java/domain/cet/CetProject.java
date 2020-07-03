@@ -55,6 +55,8 @@ public class CetProject implements Serializable {
 
     private Integer projectTypeId;
 
+    private String category;
+
     private String fileName;
 
     private String pdfFilePath;
@@ -68,6 +70,10 @@ public class CetProject implements Serializable {
     private String remark;
 
     private Date createTime;
+
+    private Boolean hasArchive;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -183,6 +189,14 @@ public class CetProject implements Serializable {
         this.projectTypeId = projectTypeId;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -237,5 +251,21 @@ public class CetProject implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getHasArchive() {
+        return hasArchive;
+    }
+
+    public void setHasArchive(Boolean hasArchive) {
+        this.hasArchive = hasArchive;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

@@ -241,12 +241,12 @@
             <span class="editable">${cm:formatDate(member.retireTime,'yyyy-MM-dd')}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 是否离休</div>
           <div class="profile-info-value td">
             <span class="editable">${member.isHonorRetire?"是":"否"}</span>
           </div>
-        </div>
+        </div>--%>
         <%--<div class="profile-info-row">
           <div class="profile-info-name"> 人才/荣誉称号</div>
           <div class="profile-info-value">
