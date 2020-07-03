@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
-<c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
-<c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
-<c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
-<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
-<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <script>
   var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
   var specialProjectTypeMap = ${cm:toJSONObject(specialProjectTypeMap)};

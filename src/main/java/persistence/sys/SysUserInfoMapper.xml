@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.sys.SysUserInfo">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="idcard_type" jdbcType="VARCHAR" property="idcardType" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
@@ -95,7 +96,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
+    user_id, realname, user_status, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
     post, msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
     msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, m_res_ids_minus
@@ -131,30 +132,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sys.SysUserInfo">
-    insert into sys_user_info (user_id, realname, country, 
-      idcard_type, idcard, birth, 
-      avatar, avatar_upload_time, gender, 
-      nation, native_place, homeplace, 
-      household, specialty, health, 
-      sign, mobile, post, 
-      msg_mobile, not_send_msg, file_number, 
-      unit, phone, home_phone, 
-      email, mailing_address, msg_title, 
-      resume, sync, res_ids_add, 
-      m_res_ids_add, res_ids_minus, m_res_ids_minus
-      )
-    values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
-      #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
-      #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, 
-      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{homeplace,jdbcType=VARCHAR}, 
-      #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{health,jdbcType=INTEGER}, 
-      #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
-      #{msgMobile,jdbcType=VARCHAR}, #{notSendMsg,jdbcType=BIT}, #{fileNumber,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, 
-      #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER}, #{resIdsAdd,jdbcType=VARCHAR}, 
-      #{mResIdsAdd,jdbcType=VARCHAR}, #{resIdsMinus,jdbcType=VARCHAR}, #{mResIdsMinus,jdbcType=VARCHAR}
-      )
+    insert into sys_user_info (user_id, realname, user_status, 
+      country, idcard_type, idcard, 
+      birth, avatar, avatar_upload_time, 
+      gender, nation, native_place, 
+      homeplace, household, specialty, 
+      health, sign, mobile, 
+      post, msg_mobile, not_send_msg, 
+      file_number, unit, phone, 
+      home_phone, email, mailing_address, 
+      msg_title, resume, sync, 
+      res_ids_add, m_res_ids_add, res_ids_minus, 
+      m_res_ids_minus)
+    values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=DATE}, #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{homeplace,jdbcType=VARCHAR}, #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
+      #{health,jdbcType=INTEGER}, #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{msgMobile,jdbcType=VARCHAR}, #{notSendMsg,jdbcType=BIT}, 
+      #{fileNumber,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, 
+      #{msgTitle,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER}, 
+      #{resIdsAdd,jdbcType=VARCHAR}, #{mResIdsAdd,jdbcType=VARCHAR}, #{resIdsMinus,jdbcType=VARCHAR}, 
+      #{mResIdsMinus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -164,6 +165,9 @@
       </if>
       <if test="realname != null">
         realname,
+      </if>
+      <if test="userStatus != null">
+        user_status,
       </if>
       <if test="country != null">
         country,
@@ -265,6 +269,9 @@
       </if>
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=VARCHAR},
       </if>
       <if test="country != null">
         #{country,jdbcType=VARCHAR},
@@ -376,6 +383,9 @@
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
       </if>
+      <if test="record.userStatus != null">
+        user_status = #{record.userStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.country != null">
         country = #{record.country,jdbcType=VARCHAR},
       </if>
@@ -478,6 +488,7 @@
     update sys_user_info
     set user_id = #{record.userId,jdbcType=INTEGER},
       realname = #{record.realname,jdbcType=VARCHAR},
+      user_status = #{record.userStatus,jdbcType=VARCHAR},
       country = #{record.country,jdbcType=VARCHAR},
       idcard_type = #{record.idcardType,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
@@ -518,6 +529,9 @@
     <set>
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=VARCHAR},
       </if>
       <if test="country != null">
         country = #{country,jdbcType=VARCHAR},
@@ -618,6 +632,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysUserInfo">
     update sys_user_info
     set realname = #{realname,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
       idcard_type = #{idcardType,jdbcType=VARCHAR},
       idcard = #{idcard,jdbcType=VARCHAR},

@@ -15,6 +15,7 @@
     <result column="timeout" jdbcType="INTEGER" property="timeout" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="idcard_type" jdbcType="VARCHAR" property="idcardType" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
@@ -40,9 +41,12 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sys.SysUserView">
-    <result column="resume" jdbcType="LONGVARCHAR" property="resume" />
+    <result column="resume" jdbcType="VARCHAR" property="resume" />
+    <result column="sync" jdbcType="INTEGER" property="sync" />
+    <result column="res_ids_add" jdbcType="VARCHAR" property="resIdsAdd" />
+    <result column="m_res_ids_add" jdbcType="VARCHAR" property="mResIdsAdd" />
+    <result column="res_ids_minus" jdbcType="VARCHAR" property="resIdsMinus" />
+    <result column="m_res_ids_minus" jdbcType="VARCHAR" property="mResIdsMinus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,30 +79,11 @@
   </sql>
   <sql id="Base_Column_List">
     id, username, passwd, salt, role_ids, code, type, create_time, source, locked, timeout, 
-    user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
+    user_id, realname, user_status, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
     post, msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
-    msg_title
+    msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, m_res_ids_minus
   </sql>
-  <sql id="Blob_Column_List">
-    resume
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.sys.SysUserViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_user_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.sys.SysUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -117,22 +102,6 @@
     select count(*) from sys_user_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sys.SysUserViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_user_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysUserViewExample" resultMap="BaseResultMap">

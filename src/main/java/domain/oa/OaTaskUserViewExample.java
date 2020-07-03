@@ -1428,6 +1428,76 @@ public class OaTaskUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTaskContentIsNull() {
+            addCriterion("task_content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentIsNotNull() {
+            addCriterion("task_content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentEqualTo(String value) {
+            addCriterion("task_content =", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotEqualTo(String value) {
+            addCriterion("task_content <>", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentGreaterThan(String value) {
+            addCriterion("task_content >", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentGreaterThanOrEqualTo(String value) {
+            addCriterion("task_content >=", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLessThan(String value) {
+            addCriterion("task_content <", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLessThanOrEqualTo(String value) {
+            addCriterion("task_content <=", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentLike(String value) {
+            addCriterion("task_content like", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotLike(String value) {
+            addCriterion("task_content not like", value, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentIn(List<String> values) {
+            addCriterion("task_content in", values, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotIn(List<String> values) {
+            addCriterion("task_content not in", values, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentBetween(String value1, String value2) {
+            addCriterion("task_content between", value1, value2, "taskContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskContentNotBetween(String value1, String value2) {
+            addCriterion("task_content not between", value1, value2, "taskContent");
+            return (Criteria) this;
+        }
+
         public Criteria andTaskUserIdIsNull() {
             addCriterion("task_user_id is null");
             return (Criteria) this;

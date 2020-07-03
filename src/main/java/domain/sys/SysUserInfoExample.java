@@ -262,6 +262,76 @@ public class SysUserInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserStatusIsNull() {
+            addCriterion("user_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusIsNotNull() {
+            addCriterion("user_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusEqualTo(String value) {
+            addCriterion("user_status =", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusNotEqualTo(String value) {
+            addCriterion("user_status <>", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusGreaterThan(String value) {
+            addCriterion("user_status >", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("user_status >=", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusLessThan(String value) {
+            addCriterion("user_status <", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusLessThanOrEqualTo(String value) {
+            addCriterion("user_status <=", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusLike(String value) {
+            addCriterion("user_status like", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusNotLike(String value) {
+            addCriterion("user_status not like", value, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusIn(List<String> values) {
+            addCriterion("user_status in", values, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusNotIn(List<String> values) {
+            addCriterion("user_status not in", values, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusBetween(String value1, String value2) {
+            addCriterion("user_status between", value1, value2, "userStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStatusNotBetween(String value1, String value2) {
+            addCriterion("user_status not between", value1, value2, "userStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andCountryIsNull() {
             addCriterion("country is null");
             return (Criteria) this;

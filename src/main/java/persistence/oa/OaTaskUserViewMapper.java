@@ -15,17 +15,11 @@ public interface OaTaskUserViewMapper {
 
     int insertSelective(OaTaskUserView record);
 
-    List<OaTaskUserView> selectByExampleWithBLOBsWithRowbounds(OaTaskUserViewExample example, RowBounds rowBounds);
-
-    List<OaTaskUserView> selectByExampleWithBLOBs(OaTaskUserViewExample example);
-
     List<OaTaskUserView> selectByExampleWithRowbounds(OaTaskUserViewExample example, RowBounds rowBounds);
 
     List<OaTaskUserView> selectByExample(OaTaskUserViewExample example);
 
     int updateByExampleSelective(@Param("record") OaTaskUserView record, @Param("example") OaTaskUserViewExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") OaTaskUserView record, @Param("example") OaTaskUserViewExample example);
 
     int updateByExample(@Param("record") OaTaskUserView record, @Param("example") OaTaskUserViewExample example);
 }

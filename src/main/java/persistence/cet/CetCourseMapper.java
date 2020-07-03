@@ -17,10 +17,6 @@ public interface CetCourseMapper {
 
     int insertSelective(CetCourse record);
 
-    List<CetCourse> selectByExampleWithBLOBsWithRowbounds(CetCourseExample example, RowBounds rowBounds);
-
-    List<CetCourse> selectByExampleWithBLOBs(CetCourseExample example);
-
     List<CetCourse> selectByExampleWithRowbounds(CetCourseExample example, RowBounds rowBounds);
 
     List<CetCourse> selectByExample(CetCourseExample example);
@@ -29,13 +25,9 @@ public interface CetCourseMapper {
 
     int updateByExampleSelective(@Param("record") CetCourse record, @Param("example") CetCourseExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") CetCourse record, @Param("example") CetCourseExample example);
-
     int updateByExample(@Param("record") CetCourse record, @Param("example") CetCourseExample example);
 
     int updateByPrimaryKeySelective(CetCourse record);
-
-    int updateByPrimaryKeyWithBLOBs(CetCourse record);
 
     int updateByPrimaryKey(CetCourse record);
 }

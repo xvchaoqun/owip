@@ -932,6 +932,76 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andEvaNoteIsNull() {
+            addCriterion("eva_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteIsNotNull() {
+            addCriterion("eva_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteEqualTo(String value) {
+            addCriterion("eva_note =", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteNotEqualTo(String value) {
+            addCriterion("eva_note <>", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteGreaterThan(String value) {
+            addCriterion("eva_note >", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteGreaterThanOrEqualTo(String value) {
+            addCriterion("eva_note >=", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteLessThan(String value) {
+            addCriterion("eva_note <", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteLessThanOrEqualTo(String value) {
+            addCriterion("eva_note <=", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteLike(String value) {
+            addCriterion("eva_note like", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteNotLike(String value) {
+            addCriterion("eva_note not like", value, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteIn(List<String> values) {
+            addCriterion("eva_note in", values, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteNotIn(List<String> values) {
+            addCriterion("eva_note not in", values, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteBetween(String value1, String value2) {
+            addCriterion("eva_note between", value1, value2, "evaNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaNoteNotBetween(String value1, String value2) {
+            addCriterion("eva_note not between", value1, value2, "evaNote");
+            return (Criteria) this;
+        }
+
         public Criteria andEvaClosedIsNull() {
             addCriterion("eva_closed is null");
             return (Criteria) this;

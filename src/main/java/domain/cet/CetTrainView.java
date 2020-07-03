@@ -72,6 +72,8 @@ public class CetTrainView implements Serializable {
 
     private Boolean evaAnonymous;
 
+    private String evaNote;
+
     private Boolean evaClosed;
 
     private Date evaCloseTime;
@@ -87,8 +89,6 @@ public class CetTrainView implements Serializable {
     private Integer year;
 
     private Integer projectId;
-
-    private String evaNote;
 
     private static final long serialVersionUID = 1L;
 
@@ -196,6 +196,14 @@ public class CetTrainView implements Serializable {
         this.evaAnonymous = evaAnonymous;
     }
 
+    public String getEvaNote() {
+        return evaNote;
+    }
+
+    public void setEvaNote(String evaNote) {
+        this.evaNote = evaNote == null ? null : evaNote.trim();
+    }
+
     public Boolean getEvaClosed() {
         return evaClosed;
     }
@@ -258,13 +266,5 @@ public class CetTrainView implements Serializable {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
-    }
-
-    public String getEvaNote() {
-        return evaNote;
-    }
-
-    public void setEvaNote(String evaNote) {
-        this.evaNote = evaNote == null ? null : evaNote.trim();
     }
 }

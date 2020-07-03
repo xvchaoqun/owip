@@ -68,3 +68,10 @@
 <c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
 <c:set var="ROLE_CET_ADMIN_PARTY" value="<%=RoleConstants.ROLE_CET_ADMIN_PARTY%>"/>
 <c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="CET_UNIT_PROJECT_STATUS_PASS"/>
+
+<c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
+<c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
+<c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
+<c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>

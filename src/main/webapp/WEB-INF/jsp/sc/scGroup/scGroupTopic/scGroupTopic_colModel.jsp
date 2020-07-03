@@ -27,13 +27,13 @@
 
               var unitIds = cellvalue.split(",");
               var unitname = "-"
-              for(i in unitIds){
-                  var unit = _cMap.unitMap[unitIds[i]];
+              $.each(unitIds, function (i, unitId) {
+                  var unit = _cMap.unitMap[unitId];
                   if(unit!=undefined && unit.name!=undefined) {
                       unitname = unit.name;
-                      break;
+                      return false;
                   }
-              }
+              })
               if(unitIds.length>1){
                   unitname += "，..."
               }

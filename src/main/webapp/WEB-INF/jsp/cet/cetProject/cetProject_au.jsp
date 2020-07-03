@@ -232,15 +232,15 @@
     });
 
     var traineeTypeIds = ${cm:toJSONArray(traineeTypeIds)};
-    for(i in traineeTypeIds){
-        //console.log(traineeTypeIds[i])
-        if (traineeTypeIds[i]==0){
+    $.each(traineeTypeIds, function (i, item) {
+        //console.log(item)
+        if (item==0){
             $("#modalForm input[name=otherTypeId]").prop("checked", true);
             $("#modalForm #otherTraineeType").removeClass("hidden");
             $("input[name=otherTraineeType]", "#otherTraineeType").prop("disabled", false).prop("required", "required");
         }
-        $('#modalForm input[name="_traineeTypeIds[]"][value="'+ traineeTypeIds[i] +'"]').prop("checked", true);
-    }
+        $('#modalForm input[name="_traineeTypeIds[]"][value="'+ item +'"]').prop("checked", true);
+    })
     $("#submitBtn").click(function(){
         if($('#modalForm input[name="_traineeTypeIds[]"]:checked').length==0 && !$('#modalForm input[name="otherTypeId"]:checked')){
             $.tip({

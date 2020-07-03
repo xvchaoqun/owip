@@ -98,11 +98,10 @@
                                 }else{
                                     projectTypes = ${cm:toJSONArray(specialProjectTypes)}
                                 }
-                                //console.dir(projectTypes)
-                                for (i in projectTypes) {
-                                    var selected = (projectTypes[i].id == '${cetUnitProject.projectTypeId}');
-                                    $projectTypeId.append(new Option(projectTypes[i].name, projectTypes[i].id, selected, selected))
-                                }
+                                $.each(projectTypes, function (i, item) {
+                                    var selected = (item.id == '${cetUnitProject.projectTypeId}');
+                                    $projectTypeId.append(new Option(item.name, item.id, selected, selected))
+                                })
                                 $projectTypeId.trigger('change');
                             })
                             $("#modalForm input[name=specialType][value='${empty cetUnitProject.specialType?CET_PROJECT_TYPE_SPECIAL:cetUnitProject.specialType}']")

@@ -72,9 +72,10 @@
                 <c:if test="${not empty cetAnnualObj}">
                 var identity = '${cetAnnualObj.identity}';
                 var identities = identity.split(',');
-                for(i in identities){
-                    $('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
-                }
+
+                $.each(identities, function (i, item) {
+                    $('#modalForm input[name="identities[]"][value="'+ item +'"]').prop("checked", true);
+                })
                 //console.log(identities);
                 </c:if>
             </script>

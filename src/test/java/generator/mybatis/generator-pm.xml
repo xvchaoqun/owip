@@ -31,6 +31,7 @@
             <columnOverride column="absents" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="resolution" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="decision" jdbcType="VARCHAR"></columnOverride>
         </table>
 
         <!--<table tableName="pm_meeting_file" domainObjectName="pm.PmMeetingFile" mapperName="pm.PmMeetingFileMapper">-->

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
@@ -105,13 +106,20 @@
         url: '${ctx}/cet/cetRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '年度', name: 'year', width: 60, frozen: true},
-            {label: '参训人姓名', name: 'user.realname', frozen:true},
             {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
+            {label: '参训人姓名', name: 'user.realname', frozen:true},
+            <c:if test="${_p_cetSupportCert}">
+            {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+                if(!rowObject.isGraduate) return '--'
+                return $.button.modal({
+                            style:"btn-success",
+                            url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                            icon:"fa-search",
+                            label:"查看", attr:"data-width='850'"})
+            }},
+            </c:if>
             {label: '时任单位及职务', name: 'title', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
               if(cellvalue == undefined){
-                  /*if (rowObject.unit != undefined) {
-                      return rowObject.unit.name;
-                  }*/
                   return "--";
               }else{
                   return rowObject.title;
@@ -130,12 +138,12 @@
             {label: '培训主办方', name: 'organizer', align: 'left', width: 180},
             {label: '完成<br/>学时总数', name: 'period', width: 80},
             {label: '线上完成<br/>学时数', name: 'onlinePeriod', width: 80},
-            {label: '是否结业', name: 'isGraduate', formatter: function (cellvalue, options, rowObject) {
+            {label: '是否<br/>结业', name: 'isGraduate', formatter: function (cellvalue, options, rowObject) {
               if (cellvalue==undefined) {
                 return '--'
               }
               return cellvalue?'是':'否'
-            }},
+            }, width: 50},
             {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
               if (cellvalue==undefined) {
                 return '--'

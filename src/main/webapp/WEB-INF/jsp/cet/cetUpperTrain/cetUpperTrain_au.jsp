@@ -121,9 +121,9 @@
                         <c:if test="${not empty cetUpperTrain}">
                             var identity = '${cetUpperTrain.identity}';
                             var identities = identity.split(',');
-                            for(i in identities){
-                                $('#modalForm input[name="identities[]"][value="'+ identities[i] +'"]').prop("checked", true);
-                            }
+                            $.each(identities, function (i, item) {
+                                $('#modalForm input[name="identities[]"][value="'+ item +'"]').prop("checked", true);
+                            })
                             //console.log(identities);
                         </c:if>
                     </script>
@@ -232,10 +232,10 @@
                                     projectTypes = ${cm:toJSONArray(specialProjectTypes)}
                                 }
                                 //console.dir(projectTypes)
-                                for (i in projectTypes) {
-                                    var selected = (projectTypes[i].id == '${cetUpperTrain.projectTypeId}');
-                                    $projectTypeId.append(new Option(projectTypes[i].name, projectTypes[i].id, selected, selected))
-                                }
+                                $.each(projectTypes, function (i, projectType) {
+                                    var selected = (projectType.id == '${cetUpperTrain.projectTypeId}');
+                                    $projectTypeId.append(new Option(projectType.name, projectType.id, selected, selected))
+                                })
                                 $projectTypeId.trigger('change');
                             })
                             $("#modalForm input[name=specialType][value='${empty cetUpperTrain.specialType?CET_PROJECT_TYPE_SPECIAL:cetUpperTrain.specialType}']")

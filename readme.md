@@ -171,13 +171,13 @@ m.political_status, m.grow_time, m.positive_time, m.`status`, m.party_post
  from ow_member m
 left join ow_member_out o on o.user_id=m.user_id and o.`status`=2
 left join ow_member_quit q on q.user_id=m.user_id and q.`status`=3
-where m.create_time <='2019-12-30 23:59:59'
+where m.create_time <='2019-12-31 23:59:59'
 
 and m.user_id not in(
-select user_id from ow_member_out where apply_time<='2019-12-29 23:59:59' and status=2)
+select user_id from ow_member_out where apply_time<='2019-12-30 23:59:59' and status=2)
 
 and m.user_id not in(
-select user_id from ow_member_quit where create_time <='2019-12-29 23:59:59' and status=3)
+select user_id from ow_member_quit where create_time <='2019-12-30 23:59:59' and status=3)
 ) tmp 
 left join ow_party p on p.id=tmp.party_id
 left join ow_branch b on b.id=tmp.branch_id

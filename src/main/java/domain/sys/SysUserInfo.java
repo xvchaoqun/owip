@@ -11,6 +11,8 @@ public class SysUserInfo implements Serializable {
 
     private String realname;
 
+    private String userStatus;
+
     private String country;
 
     private String idcardType;
@@ -90,6 +92,14 @@ public class SysUserInfo implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus == null ? null : userStatus.trim();
     }
 
     public String getCountry() {

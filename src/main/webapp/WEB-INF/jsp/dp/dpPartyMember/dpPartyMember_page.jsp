@@ -100,12 +100,10 @@
                     if (cellvalue == undefined) return '--';
                     var typeIdStrs = [];
                     var typeIds = cellvalue.split(",");
-                    for(i in typeIds){
-                        var typeId = typeIds[i];
+                    $.each(typeIds, function (i, typeId) {
                         //console.log(typeId)
-                        if(typeId instanceof Function == false)
-                            typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
-                    }
+                        typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
+                    })
                     //console.log(typeIdStrs)
                     return typeIdStrs.join(",");
             }

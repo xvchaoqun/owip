@@ -8,12 +8,10 @@
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetProjectPlan">
-    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,27 +72,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, start_date, end_date, type, has_summary, period, sort_order, remark
+    id, project_id, start_date, end_date, type, has_summary, summary, period, sort_order, 
+    remark
   </sql>
-  <sql id="Blob_Column_List">
-    summary
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetProjectPlanExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_project_plan
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.cet.CetProjectPlanExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -109,11 +89,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from cet_project_plan
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -130,12 +108,12 @@
   <insert id="insert" parameterType="domain.cet.CetProjectPlan">
     insert into cet_project_plan (id, project_id, start_date, 
       end_date, type, has_summary, 
-      period, sort_order, remark, 
-      summary)
+      summary, period, sort_order, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{hasSummary,jdbcType=BIT}, 
-      #{period,jdbcType=DECIMAL}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{summary,jdbcType=LONGVARCHAR})
+      #{summary,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectPlan">
     insert into cet_project_plan
@@ -158,6 +136,9 @@
       <if test="hasSummary != null">
         has_summary,
       </if>
+      <if test="summary != null">
+        summary,
+      </if>
       <if test="period != null">
         period,
       </if>
@@ -166,9 +147,6 @@
       </if>
       <if test="remark != null">
         remark,
-      </if>
-      <if test="summary != null">
-        summary,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -190,6 +168,9 @@
       <if test="hasSummary != null">
         #{hasSummary,jdbcType=BIT},
       </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
       <if test="period != null">
         #{period,jdbcType=DECIMAL},
       </if>
@@ -198,9 +179,6 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="summary != null">
-        #{summary,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +209,9 @@
       <if test="record.hasSummary != null">
         has_summary = #{record.hasSummary,jdbcType=BIT},
       </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=VARCHAR},
+      </if>
       <if test="record.period != null">
         period = #{record.period,jdbcType=DECIMAL},
       </if>
@@ -240,26 +221,7 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.summary != null">
-        summary = #{record.summary,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update cet_project_plan
-    set id = #{record.id,jdbcType=INTEGER},
-      project_id = #{record.projectId,jdbcType=INTEGER},
-      start_date = #{record.startDate,jdbcType=DATE},
-      end_date = #{record.endDate,jdbcType=DATE},
-      type = #{record.type,jdbcType=TINYINT},
-      has_summary = #{record.hasSummary,jdbcType=BIT},
-      period = #{record.period,jdbcType=DECIMAL},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      summary = #{record.summary,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +234,7 @@
       end_date = #{record.endDate,jdbcType=DATE},
       type = #{record.type,jdbcType=TINYINT},
       has_summary = #{record.hasSummary,jdbcType=BIT},
+      summary = #{record.summary,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
@@ -297,6 +260,9 @@
       <if test="hasSummary != null">
         has_summary = #{hasSummary,jdbcType=BIT},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
       <if test="period != null">
         period = #{period,jdbcType=DECIMAL},
       </if>
@@ -306,23 +272,7 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="summary != null">
-        summary = #{summary,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetProjectPlan">
-    update cet_project_plan
-    set project_id = #{projectId,jdbcType=INTEGER},
-      start_date = #{startDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE},
-      type = #{type,jdbcType=TINYINT},
-      has_summary = #{hasSummary,jdbcType=BIT},
-      period = #{period,jdbcType=DECIMAL},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      summary = #{summary,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetProjectPlan">
@@ -332,27 +282,12 @@
       end_date = #{endDate,jdbcType=DATE},
       type = #{type,jdbcType=TINYINT},
       has_summary = #{hasSummary,jdbcType=BIT},
+      summary = #{summary,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetProjectPlanExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_project_plan
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectPlanExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

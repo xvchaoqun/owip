@@ -10,6 +10,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="expert_id" jdbcType="INTEGER" property="expertId" />
     <result column="teach_method" jdbcType="INTEGER" property="teachMethod" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -18,9 +19,6 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetCourse">
-    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,28 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, found_date, name, address, has_summary, expert_id, teach_method, 
-    url, period, duration, sort_order, remark, is_deleted
+    id, year, type, num, found_date, name, address, has_summary, summary, expert_id, 
+    teach_method, url, period, duration, sort_order, remark, is_deleted
   </sql>
-  <sql id="Blob_Column_List">
-    summary
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetCourseExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_course
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.cet.CetCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -117,11 +96,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from cet_course
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -136,18 +113,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetCourse">
-    insert into cet_course (id, year, type, 
-      num, found_date, name, 
-      address, has_summary, expert_id, 
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_course (year, type, num, 
+      found_date, name, address, 
+      has_summary, summary, expert_id, 
       teach_method, url, period, 
       duration, sort_order, remark, 
-      is_deleted, summary)
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{num,jdbcType=INTEGER}, #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{expertId,jdbcType=INTEGER}, 
+      is_deleted)
+    values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{num,jdbcType=INTEGER}, 
+      #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, #{expertId,jdbcType=INTEGER}, 
       #{teachMethod,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
       #{duration,jdbcType=DECIMAL}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=BIT}, #{summary,jdbcType=LONGVARCHAR})
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -155,9 +135,6 @@
     </selectKey>
     insert into cet_course
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="year != null">
         year,
       </if>
@@ -178,6 +155,9 @@
       </if>
       <if test="hasSummary != null">
         has_summary,
+      </if>
+      <if test="summary != null">
+        summary,
       </if>
       <if test="expertId != null">
         expert_id,
@@ -203,14 +183,8 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
-      <if test="summary != null">
-        summary,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
@@ -231,6 +205,9 @@
       </if>
       <if test="hasSummary != null">
         #{hasSummary,jdbcType=BIT},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
       </if>
       <if test="expertId != null">
         #{expertId,jdbcType=INTEGER},
@@ -255,9 +232,6 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
-      </if>
-      <if test="summary != null">
-        #{summary,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -294,6 +268,9 @@
       <if test="record.hasSummary != null">
         has_summary = #{record.hasSummary,jdbcType=BIT},
       </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=VARCHAR},
+      </if>
       <if test="record.expertId != null">
         expert_id = #{record.expertId,jdbcType=INTEGER},
       </if>
@@ -318,33 +295,7 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
-      <if test="record.summary != null">
-        summary = #{record.summary,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update cet_course
-    set id = #{record.id,jdbcType=INTEGER},
-      year = #{record.year,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
-      num = #{record.num,jdbcType=INTEGER},
-      found_date = #{record.foundDate,jdbcType=DATE},
-      name = #{record.name,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      has_summary = #{record.hasSummary,jdbcType=BIT},
-      expert_id = #{record.expertId,jdbcType=INTEGER},
-      teach_method = #{record.teachMethod,jdbcType=INTEGER},
-      url = #{record.url,jdbcType=VARCHAR},
-      period = #{record.period,jdbcType=DECIMAL},
-      duration = #{record.duration,jdbcType=DECIMAL},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=BIT},
-      summary = #{record.summary,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -359,6 +310,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
+      summary = #{record.summary,jdbcType=VARCHAR},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
       url = #{record.url,jdbcType=VARCHAR},
@@ -395,6 +347,9 @@
       <if test="hasSummary != null">
         has_summary = #{hasSummary,jdbcType=BIT},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
       <if test="expertId != null">
         expert_id = #{expertId,jdbcType=INTEGER},
       </if>
@@ -419,30 +374,7 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
-      <if test="summary != null">
-        summary = #{summary,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetCourse">
-    update cet_course
-    set year = #{year,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
-      num = #{num,jdbcType=INTEGER},
-      found_date = #{foundDate,jdbcType=DATE},
-      name = #{name,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      has_summary = #{hasSummary,jdbcType=BIT},
-      expert_id = #{expertId,jdbcType=INTEGER},
-      teach_method = #{teachMethod,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      period = #{period,jdbcType=DECIMAL},
-      duration = #{duration,jdbcType=DECIMAL},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      is_deleted = #{isDeleted,jdbcType=BIT},
-      summary = #{summary,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetCourse">
@@ -454,6 +386,7 @@
       name = #{name,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
+      summary = #{summary,jdbcType=VARCHAR},
       expert_id = #{expertId,jdbcType=INTEGER},
       teach_method = #{teachMethod,jdbcType=INTEGER},
       url = #{url,jdbcType=VARCHAR},
@@ -464,22 +397,6 @@
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetCourseExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_course
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

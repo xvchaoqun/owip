@@ -15,6 +15,7 @@
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
     <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
     <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
+    <result column="eva_note" jdbcType="VARCHAR" property="evaNote" />
     <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
     <result column="eva_close_time" jdbcType="TIMESTAMP" property="evaCloseTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -23,9 +24,6 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
-    <result column="eva_note" jdbcType="LONGVARCHAR" property="evaNote" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -58,28 +56,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, plan_id, is_on_campus, name, has_summary, summary, start_date, end_date, start_time, 
-    end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, remark, 
-    is_deleted, is_finished, create_time, year, project_id
+    end_time, enroll_status, eva_count, eva_anonymous, eva_note, eva_closed, eva_close_time, 
+    remark, is_deleted, is_finished, create_time, year, project_id
   </sql>
-  <sql id="Blob_Column_List">
-    eva_note
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_train_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.cet.CetTrainViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -98,22 +77,6 @@
     select count(*) from cet_train_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_train_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainViewExample" resultMap="BaseResultMap">

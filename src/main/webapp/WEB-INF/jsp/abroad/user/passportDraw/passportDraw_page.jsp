@@ -128,12 +128,6 @@
                 formatter: function (cellvalue, options, rowObject) {
 
                     var filesArray = [];
-                    /*for (var i in rowObject.files) {
-                        if (rowObject.files.hasOwnProperty(i)) {
-                            var file = rowObject.files[i];
-                            filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                        }
-                    }*/
                     rowObject.files.forEach(function(file, i){
                         filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                     })

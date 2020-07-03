@@ -1,6 +1,19 @@
+
 2020.7.3
 
-西工大 --北师大
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `user_status` VARCHAR(100) NULL DEFAULT NULL COMMENT '人员状态，人事状态/在岗情况/学籍状态' AFTER `realname`;
+
+DROP VIEW IF EXISTS `sys_user_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+-- 更新 SyncService 增加 ui.setUserStatus
+
+
+2020.7.3
+
+西工大
 
 ALTER TABLE `cet_upper_train`
 	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `pdf_note`;

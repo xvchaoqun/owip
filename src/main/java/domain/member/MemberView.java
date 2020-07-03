@@ -51,6 +51,8 @@ public class MemberView implements Serializable {
 
     private String label;
 
+    private String profile;
+
     private BigDecimal integrity;
 
     private Byte userSource;
@@ -76,6 +78,10 @@ public class MemberView implements Serializable {
     private String unit;
 
     private Integer unitId;
+
+    private Integer partySortOrder;
+
+    private Integer branchSortOrder;
 
     private Byte outStatus;
 
@@ -172,8 +178,6 @@ public class MemberView implements Serializable {
     private String eduCategory;
 
     private String xjStatus;
-
-    private String profile;
 
     private static final long serialVersionUID = 1L;
 
@@ -361,6 +365,14 @@ public class MemberView implements Serializable {
         this.label = label == null ? null : label.trim();
     }
 
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile == null ? null : profile.trim();
+    }
+
     public BigDecimal getIntegrity() {
         return integrity;
     }
@@ -463,6 +475,22 @@ public class MemberView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
+    }
+
+    public Integer getBranchSortOrder() {
+        return branchSortOrder;
+    }
+
+    public void setBranchSortOrder(Integer branchSortOrder) {
+        this.branchSortOrder = branchSortOrder;
     }
 
     public Byte getOutStatus() {
@@ -847,13 +875,5 @@ public class MemberView implements Serializable {
 
     public void setXjStatus(String xjStatus) {
         this.xjStatus = xjStatus == null ? null : xjStatus.trim();
-    }
-
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile == null ? null : profile.trim();
     }
 }

@@ -1587,6 +1587,76 @@ public class MemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andProfileIsNull() {
+            addCriterion("profile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileIsNotNull() {
+            addCriterion("profile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileEqualTo(String value) {
+            addCriterion("profile =", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotEqualTo(String value) {
+            addCriterion("profile <>", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileGreaterThan(String value) {
+            addCriterion("profile >", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileGreaterThanOrEqualTo(String value) {
+            addCriterion("profile >=", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLessThan(String value) {
+            addCriterion("profile <", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLessThanOrEqualTo(String value) {
+            addCriterion("profile <=", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileLike(String value) {
+            addCriterion("profile like", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotLike(String value) {
+            addCriterion("profile not like", value, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileIn(List<String> values) {
+            addCriterion("profile in", values, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotIn(List<String> values) {
+            addCriterion("profile not in", values, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileBetween(String value1, String value2) {
+            addCriterion("profile between", value1, value2, "profile");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfileNotBetween(String value1, String value2) {
+            addCriterion("profile not between", value1, value2, "profile");
+            return (Criteria) this;
+        }
+
         public Criteria andIntegrityIsNull() {
             addCriterion("integrity is null");
             return (Criteria) this;
@@ -2444,6 +2514,126 @@ public class MemberViewExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNull() {
+            addCriterion("party_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIsNotNull() {
+            addCriterion("party_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderEqualTo(Integer value) {
+            addCriterion("party_sort_order =", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotEqualTo(Integer value) {
+            addCriterion("party_sort_order <>", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThan(Integer value) {
+            addCriterion("party_sort_order >", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order >=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThan(Integer value) {
+            addCriterion("party_sort_order <", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("party_sort_order <=", value, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderIn(List<Integer> values) {
+            addCriterion("party_sort_order in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotIn(List<Integer> values) {
+            addCriterion("party_sort_order not in", values, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIsNull() {
+            addCriterion("branch_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIsNotNull() {
+            addCriterion("branch_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderEqualTo(Integer value) {
+            addCriterion("branch_sort_order =", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotEqualTo(Integer value) {
+            addCriterion("branch_sort_order <>", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderGreaterThan(Integer value) {
+            addCriterion("branch_sort_order >", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("branch_sort_order >=", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderLessThan(Integer value) {
+            addCriterion("branch_sort_order <", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("branch_sort_order <=", value, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderIn(List<Integer> values) {
+            addCriterion("branch_sort_order in", values, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotIn(List<Integer> values) {
+            addCriterion("branch_sort_order not in", values, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("branch_sort_order between", value1, value2, "branchSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("branch_sort_order not between", value1, value2, "branchSortOrder");
             return (Criteria) this;
         }
 

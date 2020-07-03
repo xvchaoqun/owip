@@ -22,6 +22,7 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_content" jdbcType="VARCHAR" property="taskContent" />
     <result column="task_user_id" jdbcType="INTEGER" property="taskUserId" />
     <result column="task_user_ids" jdbcType="VARCHAR" property="taskUserIds" />
     <result column="task_deadline" jdbcType="TIMESTAMP" property="taskDeadline" />
@@ -36,9 +37,6 @@
     <result column="assign_realname" jdbcType="VARCHAR" property="assignRealname" />
     <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
     <result column="report_realname" jdbcType="VARCHAR" property="reportRealname" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.oa.OaTaskUserView">
-    <result column="task_content" jdbcType="LONGVARCHAR" property="taskContent" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -101,29 +99,10 @@
   <sql id="Base_Column_List">
     id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
     remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
-    sort_order, status, code, realname, task_name, task_user_id, task_user_ids, task_deadline, 
-    user_file_count, task_contact, task_is_delete, task_is_publish, task_status, task_pub_date, 
-    task_type, assign_code, assign_realname, report_code, report_realname
+    sort_order, status, code, realname, task_name, task_content, task_user_id, task_user_ids, 
+    task_deadline, user_file_count, task_contact, task_is_delete, task_is_publish, task_status, 
+    task_pub_date, task_type, assign_code, assign_realname, report_code, report_realname
   </sql>
-  <sql id="Blob_Column_List">
-    task_content
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.oa.OaTaskUserViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from oa_task_user_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.oa.OaTaskUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -151,24 +130,24 @@
       has_report, report_user_id, report_time, 
       is_back, is_delete, check_remark, 
       sort_order, status, code, 
-      realname, task_name, task_user_id, 
-      task_user_ids, task_deadline, user_file_count, 
-      task_contact, task_is_delete, task_is_publish, 
-      task_status, task_pub_date, task_type, 
-      assign_code, assign_realname, report_code, 
-      report_realname, task_content)
+      realname, task_name, task_content, 
+      task_user_id, task_user_ids, task_deadline, 
+      user_file_count, task_contact, task_is_delete, 
+      task_is_publish, task_status, task_pub_date, 
+      task_type, assign_code, assign_realname, 
+      report_code, report_realname)
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
       #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
       #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskUserId,jdbcType=INTEGER}, 
-      #{taskUserIds,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, #{userFileCount,jdbcType=INTEGER}, 
-      #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, 
-      #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=INTEGER}, 
-      #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, 
-      #{reportRealname,jdbcType=VARCHAR}, #{taskContent,jdbcType=LONGVARCHAR})
+      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskContent,jdbcType=VARCHAR}, 
+      #{taskUserId,jdbcType=INTEGER}, #{taskUserIds,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, 
+      #{userFileCount,jdbcType=INTEGER}, #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, 
+      #{taskIsPublish,jdbcType=BIT}, #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, 
+      #{taskType,jdbcType=INTEGER}, #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, 
+      #{reportCode,jdbcType=VARCHAR}, #{reportRealname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUserView">
     insert into oa_task_user_view
@@ -233,6 +212,9 @@
       <if test="taskName != null">
         task_name,
       </if>
+      <if test="taskContent != null">
+        task_content,
+      </if>
       <if test="taskUserId != null">
         task_user_id,
       </if>
@@ -274,9 +256,6 @@
       </if>
       <if test="reportRealname != null">
         report_realname,
-      </if>
-      <if test="taskContent != null">
-        task_content,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -340,6 +319,9 @@
       <if test="taskName != null">
         #{taskName,jdbcType=VARCHAR},
       </if>
+      <if test="taskContent != null">
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
       <if test="taskUserId != null">
         #{taskUserId,jdbcType=INTEGER},
       </if>
@@ -381,9 +363,6 @@
       </if>
       <if test="reportRealname != null">
         #{reportRealname,jdbcType=VARCHAR},
-      </if>
-      <if test="taskContent != null">
-        #{taskContent,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -456,6 +435,9 @@
       <if test="record.taskName != null">
         task_name = #{record.taskName,jdbcType=VARCHAR},
       </if>
+      <if test="record.taskContent != null">
+        task_content = #{record.taskContent,jdbcType=VARCHAR},
+      </if>
       <if test="record.taskUserId != null">
         task_user_id = #{record.taskUserId,jdbcType=INTEGER},
       </if>
@@ -498,51 +480,7 @@
       <if test="record.reportRealname != null">
         report_realname = #{record.reportRealname,jdbcType=VARCHAR},
       </if>
-      <if test="record.taskContent != null">
-        task_content = #{record.taskContent,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update oa_task_user_view
-    set id = #{record.id,jdbcType=INTEGER},
-      task_id = #{record.taskId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
-      assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      has_report = #{record.hasReport,jdbcType=BOOLEAN},
-      report_user_id = #{record.reportUserId,jdbcType=INTEGER},
-      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
-      is_back = #{record.isBack,jdbcType=BOOLEAN},
-      is_delete = #{record.isDelete,jdbcType=BIT},
-      check_remark = #{record.checkRemark,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT},
-      code = #{record.code,jdbcType=VARCHAR},
-      realname = #{record.realname,jdbcType=VARCHAR},
-      task_name = #{record.taskName,jdbcType=VARCHAR},
-      task_user_id = #{record.taskUserId,jdbcType=INTEGER},
-      task_user_ids = #{record.taskUserIds,jdbcType=VARCHAR},
-      task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
-      user_file_count = #{record.userFileCount,jdbcType=INTEGER},
-      task_contact = #{record.taskContact,jdbcType=VARCHAR},
-      task_is_delete = #{record.taskIsDelete,jdbcType=BIT},
-      task_is_publish = #{record.taskIsPublish,jdbcType=BIT},
-      task_status = #{record.taskStatus,jdbcType=TINYINT},
-      task_pub_date = #{record.taskPubDate,jdbcType=DATE},
-      task_type = #{record.taskType,jdbcType=INTEGER},
-      assign_code = #{record.assignCode,jdbcType=VARCHAR},
-      assign_realname = #{record.assignRealname,jdbcType=VARCHAR},
-      report_code = #{record.reportCode,jdbcType=VARCHAR},
-      report_realname = #{record.reportRealname,jdbcType=VARCHAR},
-      task_content = #{record.taskContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -569,6 +507,7 @@
       code = #{record.code,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
       task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_content = #{record.taskContent,jdbcType=VARCHAR},
       task_user_id = #{record.taskUserId,jdbcType=INTEGER},
       task_user_ids = #{record.taskUserIds,jdbcType=VARCHAR},
       task_deadline = #{record.taskDeadline,jdbcType=TIMESTAMP},
@@ -587,22 +526,6 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.oa.OaTaskUserViewExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from oa_task_user_view
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.oa.OaTaskUserViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

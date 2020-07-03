@@ -62,8 +62,8 @@
 
     <c:if test="${not empty mbis}">
     var mbis = ${cm:toJSONArray(mbis)};
-    for(i in mbis){
-        var mbi = mbis[i];
+
+    $.each(mbis, function (i, mbi) {
         if(mbi.code=='avatar'){
             $("#_avatarTitle").addClass("text-danger bolder");
             $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
@@ -73,7 +73,7 @@
             $item.val(mbi.modifyValue);
             $item.closest("td").prev().addClass("text-danger bolder");
         }
-    }
+    })
     </c:if>
     $("#submitBtn").click(function () {
         $("#modalForm").submit();

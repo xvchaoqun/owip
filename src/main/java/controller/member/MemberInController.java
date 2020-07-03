@@ -262,7 +262,7 @@ public class MemberInController extends MemberBaseController {
 
                 record.setStatus(null); // 更新的时候不能更新状态
                 if (memberIn.getStatus() == MemberConstants.MEMBER_IN_STATUS_OW_VERIFY) {
-                    memberInService.updateAfterOwVerify(record, memberIn.getUserId());
+                    memberInService.updateAfterOwVerify(record);
                 } else {
                     memberInService.updateByPrimaryKeySelective(record);
                 }

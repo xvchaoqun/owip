@@ -295,9 +295,8 @@
     function _approval(approvalTdBeanMap, isDeleted) {
 
         var html = "-";
-        for (i in approvalTdBeanMap) {
+        $.each(approvalTdBeanMap, function (i, tdBean) {
 
-            var tdBean = approvalTdBeanMap[i];
             //console.log(tdBean)
             var applySelfId = tdBean.applySelfId;
             var approvalTypeId = tdBean.approvalTypeId;
@@ -317,7 +316,7 @@
                    return html;
                 } break;
             }
-        }
+        })
 
         return html;
     }

@@ -687,6 +687,7 @@ public class SyncService extends BaseMapper {
             //teacher.setRetireTime(); 退休时间
             //record.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
+            ui.setUserStatus(StringUtils.defaultIfEmpty(record.getStaffStatus(), extJzg.getSfzg()));
             extCommonService.syncFilter(ui, teacherInfo==null?null:record, null);
             sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
@@ -788,6 +789,7 @@ public class SyncService extends BaseMapper {
 
                 record.setXjStatus(extBks.getXjzt());
 
+                ui.setUserStatus(record.getXjStatus());
                 extCommonService.syncFilter(ui, null, studentInfo==null?null:record);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
@@ -833,6 +835,7 @@ public class SyncService extends BaseMapper {
 
                 record.setXjStatus(extYjs.getZt());
 
+                ui.setUserStatus(record.getXjStatus());
                 extCommonService.syncFilter(ui, null, studentInfo==null?null:record);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }

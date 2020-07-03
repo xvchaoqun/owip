@@ -9,6 +9,7 @@
         { label: '姓名',name: 'realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 return $.user(rowObject.id, cellvalue);
             },frozen:true  },
+
         { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.username)=='') return '--'
                 var avatar = $.trim(rowObject.avatar)
@@ -32,6 +33,7 @@
                 if(cellvalue==undefined) return '--';
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }},
+        { label: '人员状态',name: 'userStatus', width: 80},
         { label: '性别',  name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         { label: '系统角色',  name: 'roleIds', align:'left', width: 156 , formatter:function(cellvalue, options, rowObject){
 
@@ -45,18 +47,18 @@
         <c:if test="${param.type=='admin'}">
         { label: '出生年月',name: 'birth',formatter: $.jgrid.formatter.date,formatoptions:{newformat: 'Y.m.d'}},
         { label: '身份证号码',  name: 'idcard', width: 160 },
-        { label: '所在单位',  name: 'unit', width: 150, align:'left' },
+        { label: '所在单位',  name: 'unit', width: 200, align:'left' },
         { label: '办公电话',  name: 'phone', width: 150 },
         { label: '手机号',  name: 'mobile', width: 150 },
-        { label: '邮箱',  name: 'email', width: 150 },
+        { label: '邮箱',  name: 'email', width: 200, align:'left' },
         </c:if>
         { label: '账号来源', name: 'source', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '--';
                 return _cMap.USER_SOURCE_MAP[cellvalue];
             } },
-        { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
+        /*{ label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?"禁用":"正常";
-            } },
+            } },*/
         <c:if test="${param.type=='admin'}">
         { label: '登录超时', name: 'timeout', width: 80, formatter:function(cellvalue, options, rowObject){
 

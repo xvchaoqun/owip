@@ -241,7 +241,7 @@ public class MemberInService extends MemberBaseMapper {
 
     // 组织部审批之后，如再有修改需要保存修改记录
     @Transactional
-    public void updateAfterOwVerify(MemberIn record, int userId){
+    public void updateAfterOwVerify(MemberIn record){
 
         {
             MemberInModifyExample example = new MemberInModifyExample();
@@ -251,7 +251,8 @@ public class MemberInService extends MemberBaseMapper {
             }
         }
 
-        Member member = new Member();
+        /* 20200703 不可同步至党员库，如果修改了党员信息，比如转到别的支部后，再次修改，又被覆盖还原了 */
+        /*Member member = new Member();
         member.setUserId(userId);
         member.setPartyId(record.getPartyId());
         member.setBranchId(record.getBranchId());
@@ -261,17 +262,17 @@ public class MemberInService extends MemberBaseMapper {
         member.setCandidateTime(record.getCandidateTime());
         member.setGrowTime(record.getGrowTime());
         member.setPositiveTime(record.getPositiveTime());
-        memberService.updateByPrimaryKeySelective(member, "更新组织关系转入记录");
+        memberService.updateByPrimaryKeySelective(member, "更新组织关系转入记录");*/
+
+        record.setIsModify(true);
+        memberInMapper.updateByPrimaryKeySelective(record);
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
-            iMemberMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
+            //iMemberMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
         }
-
-        record.setIsModify(true);
-        memberInMapper.updateByPrimaryKeySelective(record);
 
         addModify(record.getId(), false);
     }

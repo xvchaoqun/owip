@@ -71,6 +71,8 @@ public class CetCourse implements Serializable {
 
     private Boolean hasSummary;
 
+    private String summary;
+
     private Integer expertId;
 
     private Integer teachMethod;
@@ -86,8 +88,6 @@ public class CetCourse implements Serializable {
     private String remark;
 
     private Boolean isDeleted;
-
-    private String summary;
 
     private static final long serialVersionUID = 1L;
 
@@ -155,6 +155,14 @@ public class CetCourse implements Serializable {
         this.hasSummary = hasSummary;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
+    }
+
     public Integer getExpertId() {
         return expertId;
     }
@@ -217,13 +225,5 @@ public class CetCourse implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
     }
 }

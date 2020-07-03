@@ -376,10 +376,10 @@
                 return ;
             }
             var minStatus;
-            for(var key in ids){
-                var rowData = $(this).getRowData(ids[key]);
+            $.each(ids, function (i, id) {
+                var rowData = $(this).getRowData(id);
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
-            }
+            })
 
             $.loadModal("${ctx}/memberReturn_back?ids[]={0}&status={1}".format(ids, minStatus))
         }

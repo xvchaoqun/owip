@@ -17,10 +17,6 @@ public interface CetProjectPlanMapper {
 
     int insertSelective(CetProjectPlan record);
 
-    List<CetProjectPlan> selectByExampleWithBLOBsWithRowbounds(CetProjectPlanExample example, RowBounds rowBounds);
-
-    List<CetProjectPlan> selectByExampleWithBLOBs(CetProjectPlanExample example);
-
     List<CetProjectPlan> selectByExampleWithRowbounds(CetProjectPlanExample example, RowBounds rowBounds);
 
     List<CetProjectPlan> selectByExample(CetProjectPlanExample example);
@@ -29,13 +25,9 @@ public interface CetProjectPlanMapper {
 
     int updateByExampleSelective(@Param("record") CetProjectPlan record, @Param("example") CetProjectPlanExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") CetProjectPlan record, @Param("example") CetProjectPlanExample example);
-
     int updateByExample(@Param("record") CetProjectPlan record, @Param("example") CetProjectPlanExample example);
 
     int updateByPrimaryKeySelective(CetProjectPlan record);
-
-    int updateByPrimaryKeyWithBLOBs(CetProjectPlan record);
 
     int updateByPrimaryKey(CetProjectPlan record);
 }

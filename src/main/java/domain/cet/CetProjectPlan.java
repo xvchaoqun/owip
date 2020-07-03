@@ -39,13 +39,13 @@ public class CetProjectPlan implements Serializable {
 
     private Boolean hasSummary;
 
+    private String summary;
+
     private BigDecimal period;
 
     private Integer sortOrder;
 
     private String remark;
-
-    private String summary;
 
     private static final long serialVersionUID = 1L;
 
@@ -97,6 +97,14 @@ public class CetProjectPlan implements Serializable {
         this.hasSummary = hasSummary;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
+    }
+
     public BigDecimal getPeriod() {
         return period;
     }
@@ -119,13 +127,5 @@ public class CetProjectPlan implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
     }
 }

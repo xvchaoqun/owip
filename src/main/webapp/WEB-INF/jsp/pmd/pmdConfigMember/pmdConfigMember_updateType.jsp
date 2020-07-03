@@ -57,10 +57,10 @@ pageEncoding="UTF-8"%>
             //console.log(types);
             var $configMemberTypeId = $("#modalForm select[name=configMemberTypeId]")
                     .empty().prepend("<option></option>").select2();
-            for (i in types) {
-                var selected = (types[i].id == '${param.configMemberTypeId}');
-                $configMemberTypeId.append(new Option(types[i].name, types[i].id, selected, selected))
-            }
+            $.each(types, function (i, type) {
+                var selected = (type.id == '${param.configMemberTypeId}');
+                $configMemberTypeId.append(new Option(type.name, type.id, selected, selected))
+            })
             $configMemberTypeId.trigger('change');
         }
     }).change();

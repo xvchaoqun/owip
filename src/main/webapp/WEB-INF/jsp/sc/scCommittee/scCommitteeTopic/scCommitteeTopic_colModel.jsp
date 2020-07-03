@@ -34,12 +34,12 @@
               var unitIds = cellvalue.split(",");
               var unitname = "-"
               var unitnames = []
-              for(i in unitIds){
-                  var unit = _cMap.unitMap[unitIds[i]];
+              $.each(unitIds, function (i, unitId) {
+                  var unit = _cMap.unitMap[unitId];
                   if(unit!=undefined && unit.name!=undefined) {
                       unitnames.push(unit.name);
                   }
-              }
+              })
               if(unitnames.length>0){
                   unitname = unitnames.join(",")
               }

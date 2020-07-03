@@ -25,7 +25,7 @@
         </javaClientGenerator>
 
         <!--协同办公-->
-        <table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
+        <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>
@@ -35,7 +35,7 @@
             <columnOverride column="is_publish" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_delete" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="oa_task_admin" domainObjectName="oa.OaTaskAdmin" mapperName="oa.OaTaskAdminMapper">
             <columnOverride column="types" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -51,6 +51,7 @@
          <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
             <columnOverride column="task_user_ids" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="task_content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>

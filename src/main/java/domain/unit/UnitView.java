@@ -19,6 +19,8 @@ public class UnitView implements Serializable {
 
     private String url;
 
+    private String remark;
+
     private Date createTime;
 
     private Integer sortOrder;
@@ -48,8 +50,6 @@ public class UnitView implements Serializable {
     private BigDecimal viceKjCount;
 
     private BigDecimal noneCount;
-
-    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -107,6 +107,14 @@ public class UnitView implements Serializable {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {
@@ -227,13 +235,5 @@ public class UnitView implements Serializable {
 
     public void setNoneCount(BigDecimal noneCount) {
         this.noneCount = noneCount;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

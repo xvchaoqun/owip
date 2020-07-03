@@ -43,6 +43,8 @@ public class SysUserView implements Serializable {
 
     private String realname;
 
+    private String userStatus;
+
     private String country;
 
     private String idcardType;
@@ -94,6 +96,16 @@ public class SysUserView implements Serializable {
     private String msgTitle;
 
     private String resume;
+
+    private Integer sync;
+
+    private String resIdsAdd;
+
+    private String mResIdsAdd;
+
+    private String resIdsMinus;
+
+    private String mResIdsMinus;
 
     private static final long serialVersionUID = 1L;
 
@@ -199,6 +211,14 @@ public class SysUserView implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus == null ? null : userStatus.trim();
     }
 
     public String getCountry() {
@@ -407,5 +427,45 @@ public class SysUserView implements Serializable {
 
     public void setResume(String resume) {
         this.resume = resume == null ? null : resume.trim();
+    }
+
+    public Integer getSync() {
+        return sync;
+    }
+
+    public void setSync(Integer sync) {
+        this.sync = sync;
+    }
+
+    public String getResIdsAdd() {
+        return resIdsAdd;
+    }
+
+    public void setResIdsAdd(String resIdsAdd) {
+        this.resIdsAdd = resIdsAdd == null ? null : resIdsAdd.trim();
+    }
+
+    public String getmResIdsAdd() {
+        return mResIdsAdd;
+    }
+
+    public void setmResIdsAdd(String mResIdsAdd) {
+        this.mResIdsAdd = mResIdsAdd == null ? null : mResIdsAdd.trim();
+    }
+
+    public String getResIdsMinus() {
+        return resIdsMinus;
+    }
+
+    public void setResIdsMinus(String resIdsMinus) {
+        this.resIdsMinus = resIdsMinus == null ? null : resIdsMinus.trim();
+    }
+
+    public String getmResIdsMinus() {
+        return mResIdsMinus;
+    }
+
+    public void setmResIdsMinus(String mResIdsMinus) {
+        this.mResIdsMinus = mResIdsMinus == null ? null : mResIdsMinus.trim();
     }
 }

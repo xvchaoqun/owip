@@ -8,10 +8,6 @@ import org.apache.ibatis.session.RowBounds;
 public interface CetTrainViewMapper {
     long countByExample(CetTrainViewExample example);
 
-    List<CetTrainView> selectByExampleWithBLOBsWithRowbounds(CetTrainViewExample example, RowBounds rowBounds);
-
-    List<CetTrainView> selectByExampleWithBLOBs(CetTrainViewExample example);
-
     List<CetTrainView> selectByExampleWithRowbounds(CetTrainViewExample example, RowBounds rowBounds);
 
     List<CetTrainView> selectByExample(CetTrainViewExample example);

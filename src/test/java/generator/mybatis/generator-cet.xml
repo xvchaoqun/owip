@@ -52,10 +52,10 @@
        <!-- <table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
+        <!--<table tableName="cet_unit_train" domainObjectName="cet.CetUnitTrain" mapperName="cet.CetUnitTrainMapper">
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <ignoreColumn column="update_time"/>
-        </table>
+        </table>-->
         <!--<table tableName="cet_upper_train" domainObjectName="cet.CetUpperTrain" mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
@@ -99,10 +99,10 @@
         </table>-->
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
-        <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
+        <table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
        <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
         </table>-->
         <!--<table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
@@ -130,8 +130,9 @@
         <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
         </table>-->
 
-        <!--<table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
-        </table>-->
+        <table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
+        <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
+        </table>
         <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
         </table>-->
         <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
@@ -150,14 +151,14 @@
         <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="eva_note" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
                 <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-                <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
+                <columnOverride column="eva_note" jdbcType="VARCHAR"></columnOverride>
 
         </table>-->
 

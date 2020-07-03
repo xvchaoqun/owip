@@ -15,15 +15,13 @@
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
     <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
     <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
+    <result column="eva_note" jdbcType="VARCHAR" property="evaNote" />
     <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
     <result column="eva_close_time" jdbcType="TIMESTAMP" property="evaCloseTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrain">
-    <result column="eva_note" jdbcType="LONGVARCHAR" property="evaNote" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,28 +83,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, plan_id, is_on_campus, name, has_summary, summary, start_date, end_date, start_time, 
-    end_time, enroll_status, eva_count, eva_anonymous, eva_closed, eva_close_time, remark, 
-    is_deleted, is_finished, create_time
+    end_time, enroll_status, eva_count, eva_anonymous, eva_note, eva_closed, eva_close_time, 
+    remark, is_deleted, is_finished, create_time
   </sql>
-  <sql id="Blob_Column_List">
-    eva_note
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_train
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -121,11 +100,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from cet_train
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -147,16 +124,16 @@
       has_summary, summary, start_date, 
       end_date, start_time, end_time, 
       enroll_status, eva_count, eva_anonymous, 
-      eva_closed, eva_close_time, remark, 
-      is_deleted, is_finished, create_time, 
-      eva_note)
+      eva_note, eva_closed, eva_close_time, 
+      remark, is_deleted, is_finished, 
+      create_time)
     values (#{planId,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{enrollStatus,jdbcType=TINYINT}, #{evaCount,jdbcType=INTEGER}, #{evaAnonymous,jdbcType=BIT}, 
-      #{evaClosed,jdbcType=BIT}, #{evaCloseTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{evaNote,jdbcType=LONGVARCHAR})
+      #{evaNote,jdbcType=VARCHAR}, #{evaClosed,jdbcType=BIT}, #{evaCloseTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -200,6 +177,9 @@
       <if test="evaAnonymous != null">
         eva_anonymous,
       </if>
+      <if test="evaNote != null">
+        eva_note,
+      </if>
       <if test="evaClosed != null">
         eva_closed,
       </if>
@@ -217,9 +197,6 @@
       </if>
       <if test="createTime != null">
         create_time,
-      </if>
-      <if test="evaNote != null">
-        eva_note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -259,6 +236,9 @@
       <if test="evaAnonymous != null">
         #{evaAnonymous,jdbcType=BIT},
       </if>
+      <if test="evaNote != null">
+        #{evaNote,jdbcType=VARCHAR},
+      </if>
       <if test="evaClosed != null">
         #{evaClosed,jdbcType=BIT},
       </if>
@@ -276,9 +256,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="evaNote != null">
-        #{evaNote,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -330,6 +307,9 @@
       <if test="record.evaAnonymous != null">
         eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
       </if>
+      <if test="record.evaNote != null">
+        eva_note = #{record.evaNote,jdbcType=VARCHAR},
+      </if>
       <if test="record.evaClosed != null">
         eva_closed = #{record.evaClosed,jdbcType=BIT},
       </if>
@@ -348,36 +328,7 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.evaNote != null">
-        eva_note = #{record.evaNote,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update cet_train
-    set id = #{record.id,jdbcType=INTEGER},
-      plan_id = #{record.planId,jdbcType=INTEGER},
-      is_on_campus = #{record.isOnCampus,jdbcType=BIT},
-      name = #{record.name,jdbcType=VARCHAR},
-      has_summary = #{record.hasSummary,jdbcType=BIT},
-      summary = #{record.summary,jdbcType=VARCHAR},
-      start_date = #{record.startDate,jdbcType=DATE},
-      end_date = #{record.endDate,jdbcType=DATE},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
-      eva_count = #{record.evaCount,jdbcType=INTEGER},
-      eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
-      eva_closed = #{record.evaClosed,jdbcType=BIT},
-      eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=BIT},
-      is_finished = #{record.isFinished,jdbcType=BIT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      eva_note = #{record.evaNote,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -397,6 +348,7 @@
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       eva_count = #{record.evaCount,jdbcType=INTEGER},
       eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
+      eva_note = #{record.evaNote,jdbcType=VARCHAR},
       eva_closed = #{record.evaClosed,jdbcType=BIT},
       eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -446,6 +398,9 @@
       <if test="evaAnonymous != null">
         eva_anonymous = #{evaAnonymous,jdbcType=BIT},
       </if>
+      <if test="evaNote != null">
+        eva_note = #{evaNote,jdbcType=VARCHAR},
+      </if>
       <if test="evaClosed != null">
         eva_closed = #{evaClosed,jdbcType=BIT},
       </if>
@@ -464,33 +419,7 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="evaNote != null">
-        eva_note = #{evaNote,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetTrain">
-    update cet_train
-    set plan_id = #{planId,jdbcType=INTEGER},
-      is_on_campus = #{isOnCampus,jdbcType=BIT},
-      name = #{name,jdbcType=VARCHAR},
-      has_summary = #{hasSummary,jdbcType=BIT},
-      summary = #{summary,jdbcType=VARCHAR},
-      start_date = #{startDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      enroll_status = #{enrollStatus,jdbcType=TINYINT},
-      eva_count = #{evaCount,jdbcType=INTEGER},
-      eva_anonymous = #{evaAnonymous,jdbcType=BIT},
-      eva_closed = #{evaClosed,jdbcType=BIT},
-      eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR},
-      is_deleted = #{isDeleted,jdbcType=BIT},
-      is_finished = #{isFinished,jdbcType=BIT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      eva_note = #{evaNote,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrain">
@@ -507,6 +436,7 @@
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
       eva_count = #{evaCount,jdbcType=INTEGER},
       eva_anonymous = #{evaAnonymous,jdbcType=BIT},
+      eva_note = #{evaNote,jdbcType=VARCHAR},
       eva_closed = #{evaClosed,jdbcType=BIT},
       eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
@@ -515,22 +445,6 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetTrainExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from cet_train
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

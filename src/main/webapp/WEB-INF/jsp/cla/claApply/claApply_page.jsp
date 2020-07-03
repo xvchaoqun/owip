@@ -423,14 +423,7 @@
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if (tdBean.approvalTypeId != -1 && tdBean.tdType == 2)
             attrs += "class='not_approval' ";
-        /*    if(tdBean.tdType!=1) {
-         var apprvalRealnames = [];
-         for (var i in tdBean.approverList) {
-         var sysUser = tdBean.approverList[i];
-         apprvalRealnames.push(sysUser.realname);
-         }
-         attrs += "data-tooltip=\"tooltip\" title=\"L{0}：{1}\"".format(tdBean.applyId, apprvalRealnames.join("，"))
-         }*/
+
         return attrs;
     }
     //初审未通过，或者终审完成，需要短信提醒
@@ -481,9 +474,7 @@
     function _approval(approvalTdBeanMap, isDeleted) {
 
         var html = "-";
-        for (i in approvalTdBeanMap) {
-
-            var tdBean = approvalTdBeanMap[i];
+        $.each(approvalTdBeanMap, function (i, tdBean) {
             //console.log(tdBean)
             var applyId = tdBean.applyId;
             var approvalTypeId = tdBean.approvalTypeId;
@@ -503,7 +494,7 @@
                     return html;
                 } break;
             }
-        }
+        })
 
         return html;
     }

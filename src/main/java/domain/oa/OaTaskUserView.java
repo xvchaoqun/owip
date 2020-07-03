@@ -44,6 +44,8 @@ public class OaTaskUserView implements Serializable {
 
     private String taskName;
 
+    private String taskContent;
+
     private Integer taskUserId;
 
     private String taskUserIds;
@@ -71,8 +73,6 @@ public class OaTaskUserView implements Serializable {
     private String reportCode;
 
     private String reportRealname;
-
-    private String taskContent;
 
     private static final long serialVersionUID = 1L;
 
@@ -236,6 +236,14 @@ public class OaTaskUserView implements Serializable {
         this.taskName = taskName == null ? null : taskName.trim();
     }
 
+    public String getTaskContent() {
+        return taskContent;
+    }
+
+    public void setTaskContent(String taskContent) {
+        this.taskContent = taskContent == null ? null : taskContent.trim();
+    }
+
     public Integer getTaskUserId() {
         return taskUserId;
     }
@@ -346,13 +354,5 @@ public class OaTaskUserView implements Serializable {
 
     public void setReportRealname(String reportRealname) {
         this.reportRealname = reportRealname == null ? null : reportRealname.trim();
-    }
-
-    public String getTaskContent() {
-        return taskContent;
-    }
-
-    public void setTaskContent(String taskContent) {
-        this.taskContent = taskContent == null ? null : taskContent.trim();
     }
 }
