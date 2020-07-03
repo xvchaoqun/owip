@@ -79,17 +79,17 @@ pageEncoding="UTF-8" %>
                                 </script>
                             </div>
                             <div class="form-group">
-                                <label>转出单位</label>
+                                <label>原单位</label>
                                 <input class="form-control search-query" name="fromUnit" type="text" value="${param.fromUnit}"
                                        placeholder="请输入">
                             </div>
                             <div class="form-group">
-                                <label>转入单位抬头</label>
+                                <label>介绍信抬头</label>
                                 <input class="form-control search-query" name="toTitle" type="text" value="${param.toTitle}"
                                        placeholder="请输入">
                             </div>
                             <div class="form-group">
-                                <label>转入单位</label>
+                                <label>拟去往的工作学习单位</label>
                                 <input class="form-control search-query" name="toUnit" type="text" value="${param.toUnit}"
                                        placeholder="请输入">
                             </div>
@@ -141,9 +141,9 @@ pageEncoding="UTF-8" %>
                         return '${MEMBER_POLITICAL_STATUS_MAP.get(MEMBER_POLITICAL_STATUS_GROW)}';
                     }
                 }},
-            { label: '转出单位',name: 'fromUnit', width:200, align:'left'},
-            { label: '转入单位抬头',name: 'toTitle', width:200, align:'left'},
-            { label: '转入单位',name: 'toUnit', width:200, align:'left'},
+            { label: '原单位',name: 'fromUnit', width:200, align:'left'},
+            { label: '介绍信抬头',name: 'toTitle', width:200, align:'left'},
+            { label: '拟去往的工作学习单位',name: 'toUnit', width:200, align:'left'},
             { label: '介绍信日期',name: 'certifyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
 
             { label: '创建时间',name: 'createTime', width: 150}

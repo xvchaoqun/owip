@@ -1,4 +1,10 @@
 
+ALTER TABLE `ow_member_certify`
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '原单位' AFTER `political_status`,
+	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL DEFAULT NULL COMMENT '介绍信抬头' AFTER `from_unit`,
+	CHANGE COLUMN `to_unit` `to_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '拟去往的工作学习单位' AFTER `to_title`;
+
+
 2020.7.3
 
 ALTER TABLE `sys_user_info`
