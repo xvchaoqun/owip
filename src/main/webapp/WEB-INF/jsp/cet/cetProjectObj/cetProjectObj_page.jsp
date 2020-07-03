@@ -774,7 +774,6 @@
             {label: '入党时间', name: 'owGrowTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
             </c:if>
-
             <c:if test="${cls==1}">
             {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
             {label: '已完成学时数', name: 'finishPeriod', width: 110},

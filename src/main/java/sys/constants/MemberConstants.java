@@ -88,20 +88,16 @@ public class MemberConstants {
         MEMBER_TYPE_MAP.put(MEMBER_TYPE_STUDENT, "学生");
     }
 
-    // 党员状态, 1正常，2已退休(弃用) 3已出党 4已转出 5暂时转出（外出挂职、休学等）
+    // 党员状态, 1正常 3已出党 4已转出
     public final static byte MEMBER_STATUS_NORMAL = 1; // 正常
-    //public final static byte MEMBER_STATUS_RETIRE= 2; // 已退休
     public final static byte MEMBER_STATUS_QUIT = 3; // 已出党
     public final static byte MEMBER_STATUS_TRANSFER = 4; // 已转出
-    //public final static byte MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
     public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_NORMAL, "正常");
-        //MEMBER_STATUS_MAP.put(MEMBER_STATUS_RETIRE, "已退休");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已出党");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER, "已转出");
-        //MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
     }
 
     // 党员来源

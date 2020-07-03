@@ -121,6 +121,17 @@
       return ret;
     }},
     {label: '培训成绩', name: 'score'},
+    {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
+    <c:if test="${_p_cetSupportCert}">
+    {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+        if(!rowObject.isGraduate) return '--'
+        return $.button.modal({
+                    style:"btn-success",
+                    url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                    icon:"fa-search",
+                    label:"查看", attr:"data-width='850'"})
+    }},
+    </c:if>
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
     {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
       if (rowObject.type==${CET_UPPER_TRAIN_TYPE_OW}) {

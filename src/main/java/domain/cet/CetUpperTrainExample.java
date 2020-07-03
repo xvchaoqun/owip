@@ -1815,6 +1815,66 @@ public class CetUpperTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsGraduateIsNull() {
+            addCriterion("is_graduate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIsNotNull() {
+            addCriterion("is_graduate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateEqualTo(Boolean value) {
+            addCriterion("is_graduate =", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotEqualTo(Boolean value) {
+            addCriterion("is_graduate <>", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThan(Boolean value) {
+            addCriterion("is_graduate >", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate >=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThan(Boolean value) {
+            addCriterion("is_graduate <", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate <=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIn(List<Boolean> values) {
+            addCriterion("is_graduate in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotIn(List<Boolean> values) {
+            addCriterion("is_graduate not in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate between", value1, value2, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate not between", value1, value2, "isGraduate");
+            return (Criteria) this;
+        }
+
         public Criteria andScoreIsNull() {
             addCriterion("score is null");
             return (Criteria) this;

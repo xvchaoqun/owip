@@ -120,7 +120,7 @@ public class CetRecordService extends CetBaseMapper {
             r.setOnlinePeriod(t.getPeriod());
         }
         //r.setShouldFinishPeriod();
-        r.setIsGraduate(true);
+        r.setIsGraduate(t.getIsGraduate());
         r.setIsValid(t.getIsValid());
         r.setArchiveTime(new Date());
 
@@ -185,7 +185,7 @@ public class CetRecordService extends CetBaseMapper {
             r.setOnlinePeriod(t.getPeriod());
         }
         //r.setShouldFinishPeriod();
-        r.setIsGraduate(true);
+        r.setIsGraduate(t.getIsGraduate());
         r.setIsValid(p.getIsValid());
         r.setArchiveTime(new Date());
 

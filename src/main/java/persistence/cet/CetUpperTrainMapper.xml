@@ -28,6 +28,7 @@
     <result column="agency" jdbcType="VARCHAR" property="agency" />
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
+    <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="score" jdbcType="VARCHAR" property="score" />
     <result column="add_type" jdbcType="TINYINT" property="addType" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
@@ -100,8 +101,8 @@
     id, year, type, special_type, project_type_id, category, is_online, unit_id, user_id, 
     trainee_type_id, other_trainee_type, identity, title, post_type, organizer, other_organizer, 
     train_type, train_name, start_date, end_date, period, address, country, agency, word_note, 
-    pdf_note, score, add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, 
-    back_reason
+    pdf_note, is_graduate, score, add_type, add_user_id, add_time, is_valid, is_deleted, 
+    remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -145,10 +146,10 @@
       train_type, train_name, start_date, 
       end_date, period, address, 
       country, agency, word_note, 
-      pdf_note, score, add_type, 
-      add_user_id, add_time, is_valid, 
-      is_deleted, remark, status, 
-      back_reason)
+      pdf_note, is_graduate, score, 
+      add_type, add_user_id, add_time, 
+      is_valid, is_deleted, remark, 
+      status, back_reason)
     values (#{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{specialType,jdbcType=TINYINT}, 
       #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIT}, 
       #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
@@ -157,10 +158,10 @@
       #{trainType,jdbcType=INTEGER}, #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, 
-      #{pdfNote,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
-      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{backReason,jdbcType=VARCHAR})
+      #{pdfNote,jdbcType=VARCHAR}, #{isGraduate,jdbcType=BIT}, #{score,jdbcType=VARCHAR}, 
+      #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -242,6 +243,9 @@
       </if>
       <if test="pdfNote != null">
         pdf_note,
+      </if>
+      <if test="isGraduate != null">
+        is_graduate,
       </if>
       <if test="score != null">
         score,
@@ -346,6 +350,9 @@
       </if>
       <if test="pdfNote != null">
         #{pdfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="isGraduate != null">
+        #{isGraduate,jdbcType=BIT},
       </if>
       <if test="score != null">
         #{score,jdbcType=VARCHAR},
@@ -463,6 +470,9 @@
       <if test="record.pdfNote != null">
         pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
       </if>
+      <if test="record.isGraduate != null">
+        is_graduate = #{record.isGraduate,jdbcType=BIT},
+      </if>
       <if test="record.score != null">
         score = #{record.score,jdbcType=VARCHAR},
       </if>
@@ -523,6 +533,7 @@
       agency = #{record.agency,jdbcType=VARCHAR},
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
+      is_graduate = #{record.isGraduate,jdbcType=BIT},
       score = #{record.score,jdbcType=VARCHAR},
       add_type = #{record.addType,jdbcType=TINYINT},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
@@ -614,6 +625,9 @@
       <if test="pdfNote != null">
         pdf_note = #{pdfNote,jdbcType=VARCHAR},
       </if>
+      <if test="isGraduate != null">
+        is_graduate = #{isGraduate,jdbcType=BIT},
+      </if>
       <if test="score != null">
         score = #{score,jdbcType=VARCHAR},
       </if>
@@ -671,6 +685,7 @@
       agency = #{agency,jdbcType=VARCHAR},
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},
+      is_graduate = #{isGraduate,jdbcType=BIT},
       score = #{score,jdbcType=VARCHAR},
       add_type = #{addType,jdbcType=TINYINT},
       add_user_id = #{addUserId,jdbcType=INTEGER},

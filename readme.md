@@ -161,6 +161,33 @@ where mi.user_id=m.user_id and m.status=1 and mi.status<=0 and u.id=m.user_id;
 # 查询已转出党员， 仍然在党员库中的情况（原因：在党员已经转出审批完成的情况下，进行了转入操作，结果又进入了党员库）
 select mi.id, mi.user_id, mi.status, m.status m_stauts, mi.apply_time, m.create_time, u.code from ow_member_out mi, ow_member m, sys_user u where mi.user_id=m.user_id and m.status=1 and mi.status=2 and u.id=m.user_id;
 
+# 查询2019-12-30的党员库（性别、出生年月、籍贯、民族、学历、个人身份（本科生、研究生、教职工）、专业技术职务、党内职务）
+select u.code, u.realname, u.type, u.gender,u.birth, u.nation, u.native_place, ti.pro_post, tmp.party_post, p.name as party_name, b.name as branch_name, tmp.political_status, tmp.grow_time, tmp.positive_time, tmp.status from 
+(
+select m.user_id, 
+(if(isnull(m.party_id), if(isnull(o.party_id), q.party_id, o.party_id), m.party_id)) as party_id, 
+(if(isnull(m.branch_id), if(isnull(o.branch_id), q.branch_id, o.branch_id), m.branch_id)) as branch_id,
+m.political_status, m.grow_time, m.positive_time, m.`status`, m.party_post
+ from ow_member m
+left join ow_member_out o on o.user_id=m.user_id and o.`status`=2
+left join ow_member_quit q on q.user_id=m.user_id and q.`status`=3
+where m.create_time <='2019-12-30 23:59:59'
+
+and m.user_id not in(
+select user_id from ow_member_out where apply_time<='2019-12-29 23:59:59' and status=2)
+
+and m.user_id not in(
+select user_id from ow_member_quit where create_time <='2019-12-29 23:59:59' and status=3)
+) tmp 
+left join ow_party p on p.id=tmp.party_id
+left join ow_branch b on b.id=tmp.branch_id
+left join sys_user_view u on u.id=tmp.user_id
+left join sys_teacher_info ti on ti.user_id=tmp.user_id
+order by p.is_deleted asc, p.sort_order desc, b.is_deleted asc, b.sort_order desc
+into outfile '/var/lib/mysql-files/member.csv' character set gbk
+ fields terminated by ',' optionally enclosed by '"'
+ lines terminated by '\n';
+
 菜单说明
 1、菜单样式提供给1级菜单
 2、menu和url都会显示在菜单栏，function不会

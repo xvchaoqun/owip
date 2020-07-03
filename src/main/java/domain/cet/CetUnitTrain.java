@@ -44,6 +44,8 @@ public class CetUnitTrain implements Serializable {
 
     private String score;
 
+    private Boolean isGraduate;
+
     private Integer addUserId;
 
     private Date addTime;
@@ -150,6 +152,14 @@ public class CetUnitTrain implements Serializable {
 
     public void setScore(String score) {
         this.score = score == null ? null : score.trim();
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
     }
 
     public Integer getAddUserId() {

@@ -14,6 +14,7 @@
     <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
     <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
     <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -80,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, other_trainee_type, identity, title, post_type, 
-    period, word_note, pdf_note, score, add_user_id, add_time, status, reason, remark
+    period, word_note, pdf_note, score, is_graduate, add_user_id, add_time, status, reason, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUnitTrainExample" resultMap="BaseResultMap">
     select
@@ -117,14 +119,16 @@
       trainee_type_id, other_trainee_type, identity, 
       title, post_type, period, 
       word_note, pdf_note, score, 
-      add_user_id, add_time, status, 
-      reason, remark)
+      is_graduate, add_user_id, add_time, 
+      status, reason, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{traineeTypeId,jdbcType=INTEGER}, #{otherTraineeType,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{postType,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
       #{wordNote,jdbcType=VARCHAR}, #{pdfNote,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, 
-      #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
-      #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{isGraduate,jdbcType=BIT}, #{addUserId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUnitTrain">
     insert into cet_unit_train
@@ -164,6 +168,9 @@
       </if>
       <if test="score != null">
         score,
+      </if>
+      <if test="isGraduate != null">
+        is_graduate,
       </if>
       <if test="addUserId != null">
         add_user_id,
@@ -217,6 +224,9 @@
       </if>
       <if test="score != null">
         #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="isGraduate != null">
+        #{isGraduate,jdbcType=BIT},
       </if>
       <if test="addUserId != null">
         #{addUserId,jdbcType=INTEGER},
@@ -280,6 +290,9 @@
       <if test="record.score != null">
         score = #{record.score,jdbcType=VARCHAR},
       </if>
+      <if test="record.isGraduate != null">
+        is_graduate = #{record.isGraduate,jdbcType=BIT},
+      </if>
       <if test="record.addUserId != null">
         add_user_id = #{record.addUserId,jdbcType=INTEGER},
       </if>
@@ -314,6 +327,7 @@
       word_note = #{record.wordNote,jdbcType=VARCHAR},
       pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
       score = #{record.score,jdbcType=VARCHAR},
+      is_graduate = #{record.isGraduate,jdbcType=BIT},
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=TINYINT},
@@ -359,6 +373,9 @@
       <if test="score != null">
         score = #{score,jdbcType=VARCHAR},
       </if>
+      <if test="isGraduate != null">
+        is_graduate = #{isGraduate,jdbcType=BIT},
+      </if>
       <if test="addUserId != null">
         add_user_id = #{addUserId,jdbcType=INTEGER},
       </if>
@@ -390,6 +407,7 @@
       word_note = #{wordNote,jdbcType=VARCHAR},
       pdf_note = #{pdfNote,jdbcType=VARCHAR},
       score = #{score,jdbcType=VARCHAR},
+      is_graduate = #{isGraduate,jdbcType=BIT},
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT},

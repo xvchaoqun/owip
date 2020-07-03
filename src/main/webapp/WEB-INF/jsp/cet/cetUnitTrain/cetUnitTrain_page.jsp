@@ -1,17 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PASS%>" var="CET_UNITTRAIN_RERECORD_PASS"/>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_PARTY%>" var="CET_UNITTRAIN_RERECORD_PARTY"/>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_CET%>" var="CET_UNITTRAIN_RERECORD_CET"/>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_SAVE%>" var="CET_UNITTRAIN_RERECORD_SAVE"/>
-<c:set value="<%=CetConstants.CET_UNITTRAIN_RERECORD_MAP%>" var="CET_UNITTRAIN_RERECORD_MAP"/>
-<c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
-<c:set var="ROLE_CET_ADMIN_PARTY" value="<%=RoleConstants.ROLE_CET_ADMIN_PARTY%>"/>
-<c:set value="<%=CetConstants.CET_UNIT_PROJECT_STATUS_PASS%>" var="CET_UNIT_PROJECT_STATUS_PASS"/>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="widget-box transparent">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
-            <div class="tab-content padding-4" id="detail-content">
+            <div class="tab-content padding-4 multi-row-head-table" id="detail-content">
                 <c:set var="_query" value="${not empty param.userId || not empty param.traineeTypeId || not empty param.title
                  || not empty param.postType || not empty param.identities || not empty param.prePeriod || not empty param.subPeriod || not empty param.score}"/>
                 <div class="jqgrid-vertical-offset buttons">
@@ -222,6 +215,17 @@
               return ret;
             }},
             {label: '培训成绩', name: 'score'},
+            {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
+            <c:if test="${_p_cetSupportCert}">
+            {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+                if(!rowObject.isGraduate) return '--'
+                return $.button.modal({
+                            style:"btn-success",
+                            url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                            icon:"fa-search",
+                            label:"查看", attr:"data-width='850'"})
+            }},
+            </c:if>
             /*{label: '操作人', name: 'addUser.realname'},*/
             /*{label: '添加时间', name: 'addTime', width: 150},*/
             <c:if test="${reRecord==1}">

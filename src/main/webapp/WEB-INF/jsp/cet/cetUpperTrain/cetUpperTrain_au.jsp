@@ -377,6 +377,27 @@
                                value="${cetUpperTrain.score}" maxlength="20">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>是否结业</label>
+                    <div class="col-xs-7">
+                        <div class="input-group">
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isGraduate" id="isGraduate1"
+                                       ${(empty cetUpperTrain || cetUpperTrain.isGraduate)?"checked":""} value="1">
+                                <label for="isGraduate1">
+                                    是
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+                                <input required type="radio" name="isGraduate" id="isGraduate0"
+                                       ${not empty cetUpperTrain && !cetUpperTrain.isGraduate?"checked":""} value="0">
+                                <label for="isGraduate0">
+                                    否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                 <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
                     <div class="form-group">

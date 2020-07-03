@@ -76,6 +76,8 @@ public class CetUpperTrain implements Serializable {
 
     private String pdfNote;
 
+    private Boolean isGraduate;
+
     private String score;
 
     private Byte addType;
@@ -302,6 +304,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setPdfNote(String pdfNote) {
         this.pdfNote = pdfNote == null ? null : pdfNote.trim();
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
     }
 
     public String getScore() {

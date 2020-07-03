@@ -104,16 +104,16 @@ pageEncoding="UTF-8"%>
 						   value="${cetUnitTrain.otherTraineeType}"/>
 				</div>
 			</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label"><span class="star">*</span>完成培训学时</label>
+					<div class="col-xs-6">
+							<input required class="form-control period" type="text"
+								   name="period" value="${empty cetUnitTrain?cetUnitProject.period:cetUnitTrain.period}">
+						<span class="help-block">注：此处默认为培训项目的学时，请修改为实际完成学时</span>
+					</div>
+				</div>
 				</div>
             <div class="col-xs-6">
-			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>完成培训学时</label>
-				<div class="col-xs-6">
-                        <input required class="form-control period" type="text"
-							   name="period" value="${empty cetUnitTrain?cetUnitProject.period:cetUnitTrain.period}">
-					<span class="help-block">注：此处默认为培训项目的学时，请修改为实际完成学时</span>
-				</div>
-			</div>
 
 			<div class="form-group">
 					<label class="col-xs-4 control-label">培训总结</label>
@@ -126,13 +126,34 @@ pageEncoding="UTF-8"%>
 						<input class="form-control" type="file" name="_pdf"/>
 					</div>
 				</div>
-		<div class="form-group">
-                    <label class="col-xs-4 control-label"> 培训成绩</label>
-                    <div class="col-xs-6">
-                        <input class="form-control" type="text" name="score"
-                               value="${cetUpperTrain.score}" maxlength="20">
-                    </div>
-                </div>
+			<div class="form-group">
+				<label class="col-xs-4 control-label"> 培训成绩</label>
+				<div class="col-xs-6">
+					<input class="form-control" type="text" name="score"
+						   value="${cetUnitTrain.score}" maxlength="20">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-4 control-label"><span class="star">*</span>是否结业</label>
+				<div class="col-xs-7">
+					<div class="input-group">
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isGraduate" id="isGraduate1"
+								   ${(empty cetUnitTrain || cetUnitTrain.isGraduate)?"checked":""} value="1">
+							<label for="isGraduate1">
+								是
+							</label>
+						</div>
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="isGraduate" id="isGraduate0"
+								   ${not empty cetUnitTrain && !cetUnitTrain.isGraduate?"checked":""} value="0">
+							<label for="isGraduate0">
+								否
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">

@@ -1,3 +1,14 @@
+2020.7.3
+
+西工大 --北师大
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `pdf_note`;
+update cet_upper_train set is_graduate=1;
+
+ALTER TABLE `cet_unit_train`
+	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `score`;
+update cet_unit_train set is_graduate=1;
 
 2020.7.2
 
