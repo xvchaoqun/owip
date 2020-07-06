@@ -12,7 +12,7 @@ import java.util.Date;
 public class VerifyGrowTime implements Serializable {
 
     public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
+        return CmTag.getCadreByDb(cadreId);
     }
 
     public SysUserView getSubmitUser(){

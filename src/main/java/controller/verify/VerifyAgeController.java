@@ -1,5 +1,6 @@
 package controller.verify;
 
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.verify.VerifyAge;
 import domain.verify.VerifyAgeExample;
@@ -122,7 +123,13 @@ public class VerifyAgeController extends VerifyBaseController {
     @RequiresPermissions("verifyAge:edit")
     @RequestMapping(value = "/verifyAge_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyAge_au(VerifyAge record, HttpServletRequest request) {
+    public Map do_verifyAge_au(VerifyAge record, int userId, HttpServletRequest request) {
+
+        Cadre cadre = cadreService.getByUserId(userId);
+        if(cadre==null){
+            cadre = cadreService.addTempCadre(userId);
+        }
+        record.setCadreId(cadre.getId());
 
         if (verifyAgeService.idDuplicate(record.getCadreId())) {
             return failed("添加重复");

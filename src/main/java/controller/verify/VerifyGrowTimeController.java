@@ -1,6 +1,7 @@
 package controller.verify;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.verify.VerifyGrowTime;
 import domain.verify.VerifyGrowTimeExample;
@@ -105,7 +106,13 @@ public class VerifyGrowTimeController extends VerifyBaseController {
     @RequiresPermissions("verifyGrowTime:edit")
     @RequestMapping(value = "/verifyGrowTime_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyGrowTime_au(VerifyGrowTime record, HttpServletRequest request) {
+    public Map do_verifyGrowTime_au(VerifyGrowTime record, int userId, HttpServletRequest request) {
+
+        Cadre cadre = cadreService.getByUserId(userId);
+        if(cadre==null){
+            cadre = cadreService.addTempCadre(userId);
+        }
+        record.setCadreId(cadre.getId());
 
         if (verifyGrowTimeService.idDuplicate(record.getCadreId())){
             throw new OpException("添加重复！");

@@ -1,5 +1,6 @@
 package controller.verify;
 
+import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.verify.VerifyWorkTime;
 import domain.verify.VerifyWorkTimeExample;
@@ -119,7 +120,13 @@ public class VerifyWorkTimeController extends VerifyBaseController {
     @RequiresPermissions("verifyWorkTime:edit")
     @RequestMapping(value = "/verifyWorkTime_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_verifyWorkTime_au(VerifyWorkTime record, HttpServletRequest request) {
+    public Map do_verifyWorkTime_au(VerifyWorkTime record, int userId, HttpServletRequest request) {
+
+        Cadre cadre = cadreService.getByUserId(userId);
+        if(cadre==null){
+            cadre = cadreService.addTempCadre(userId);
+        }
+        record.setCadreId(cadre.getId());
 
         if (verifyWorkTimeService.idDuplicate(record.getCadreId())) {
             return failed("添加重复");
