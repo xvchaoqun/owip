@@ -35,7 +35,7 @@ public class MobileCadreAdFormController extends BaseController {
 	}
 
 	// 干部任免审批表下载
-	//@RequiresPermissions("cadreAdform:download")
+	@RequiresPermissions("m:cadre:view")
 	@RequestMapping("/cadreAdform_download")
 	public void cadreAdform_download(Integer cadreId,
 									 Boolean isWord, // 否： 中组部格式

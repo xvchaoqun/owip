@@ -43,6 +43,7 @@
                   })).join("，")
               }},
       </c:if>
+      {label: '培训班名称', name: 'trainName', align: 'left',width: 350},
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_ABROAD}">
       <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
       {
@@ -78,7 +79,6 @@
     }},
   </c:if>
       </c:if>
-    {label: '${param.type==CET_UPPER_TRAIN_TYPE_ABROAD?"研修方向":"培训班名称"}', name: 'trainName', align: 'left',width: 350},
     { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'线上培训', off:'线下培训'}},
     {label: '培训<br/>开始时间', name: 'startDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     {label: '培训<br/>结束时间', name: 'endDate', width: 90, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

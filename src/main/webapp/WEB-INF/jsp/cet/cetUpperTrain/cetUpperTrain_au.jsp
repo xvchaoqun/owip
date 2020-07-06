@@ -271,9 +271,7 @@
                 </div>
                 </c:if>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label">
-                        <span class="star">*</span>
-                        ${param.type==CET_UPPER_TRAIN_TYPE_ABROAD?"研修方向":"培训班名称"}</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span> 培训班名称</label>
                     <div class="col-xs-7">
                                 <textarea required class="form-control noEnter" rows="2"
                                           name="trainName">${cetUpperTrain.trainName}</textarea>

@@ -110,7 +110,7 @@
             {label: '参训人姓名', name: 'user.realname', frozen:true},
             <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(!rowObject.isGraduate) return '--'
+                if(!rowObject.isGraduate ||rowObject.type=='${CET_TYPE_UPPER}') return '--'
                 return $.button.modal({
                             style:"btn-success",
                             url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
@@ -139,7 +139,7 @@
             {label: '完成<br/>学时总数', name: 'period', width: 80},
             {label: '线上完成<br/>学时数', name: 'onlinePeriod', width: 80},
             {label: '是否<br/>结业', name: 'isGraduate', formatter: function (cellvalue, options, rowObject) {
-              if (cellvalue==undefined) {
+              if (cellvalue==undefined||rowObject.type=='${CET_TYPE_UPPER}') {
                 return '--'
               }
               return cellvalue?'是':'否'

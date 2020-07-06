@@ -57,11 +57,6 @@ public class CetUnitProjectController extends CetBaseController {
         if (partyId != null) {
             modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
         }
-        if (cls == null) {
-            cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
-        }
-
-        modelMap.put("cls", cls);
 
         boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
         List<Integer> adminPartyIdList = new ArrayList<>();
@@ -78,6 +73,16 @@ public class CetUnitProjectController extends CetBaseController {
             int num = ((Long) resultMap.get("num")).intValue();
             statusCountMap.put(status, num);
         }
+
+        if (cls == null) {
+            Integer unReportCount = statusCountMap.get(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);
+            if (unReportCount != null && unReportCount > 0 && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+                cls = 2;
+            } else {
+                cls = 1;
+            }
+        }
+        modelMap.put("cls", cls);
 
         modelMap.put("statusCountMap", statusCountMap);
 

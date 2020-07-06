@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.SpringProps;
@@ -102,8 +101,6 @@ public class CadreAdformService extends BaseMapper {
     protected AvatarService avatarService;
     @Autowired
     protected SysConfigService sysConfigService;
-    @Autowired
-    protected FreeMarkerConfigurer freeMarkerConfigurer;
 
     public void export(Integer[] cadreIds,
                        boolean isWord, // 否：中组部格式
@@ -122,7 +119,7 @@ public class CadreAdformService extends BaseMapper {
             if (isWord) {
                 //输出WORD任免审批表
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".doc";
+                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".docx";
 
                 response.setHeader("Content-Disposition",
                         "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
@@ -172,7 +169,7 @@ public class CadreAdformService extends BaseMapper {
                 String filepath = null;
                 if (isWord) {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " 干部任免审批表 " + cadre.getRealname() + ".doc";
+                            + " 干部任免审批表 " + cadre.getRealname() + ".docx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -181,7 +178,7 @@ public class CadreAdformService extends BaseMapper {
                     filenameSet.add(filename);
 
                     filepath = tmpdir + FILE_SEPARATOR + filename;
-                    FileOutputStream output = new FileOutputStream(new File(filepath));
+                    FileOutputStream fop = new FileOutputStream(new File(filepath));
                     CadreInfoForm adform = getCadreAdform(cadreId);
                     /*OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
                     process(adform, adFormType,osw);*/
@@ -198,8 +195,8 @@ public class CadreAdformService extends BaseMapper {
                     } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
                         fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
                     }
-                    String document = process(adform,adFormType);
-                    exportDocxUtils(fileClasspath,document,adform.getAvatar(),output);
+                    String document = process(adform, adFormType);
+                    exportDocxUtils(fileClasspath, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
                             + " 干部任免审批表 " + cadre.getRealname() + ".lrmx";
@@ -630,33 +627,20 @@ public class CadreAdformService extends BaseMapper {
             maxFamilyCount = 5;
             adFormFtl = "/adform_docx/adform_bj.ftl";
             titleEditorFtl = "/common/titleEditor.ftl";
-            rewardFtl = "/common/titleEditor.ftl";
+            rewardFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform_docx/family_bj.ftl";
-
-            /*adFormFtl = "/adform/adform.ftl";
-            titleEditorFtl = "/common/titleEditor.ftl";
-            rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family.ftl";*/
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
             maxFamilyCount = 7;
             adFormFtl = "/adform_docx/adform_zzb(gb_2312).ftl";
             titleEditorFtl = "/common/titleEditor_zzb(gb_2312).ftl";
-            rewardFtl = "/common/titleEditor.ftl";
+            rewardFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform_docx/family_zzb(gb_2312).ftl";
-            /*adFormFtl = "/adform/adform2.ftl";
-            titleEditorFtl = "/common/titleEditor2.ftl";
-            rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family2.ftl";*/
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
             adFormFtl = "/adform_docx/adform_zzb.ftl";
             titleEditorFtl = "/common/titleEditor3.ftl";
-            rewardFtl = "/common/titleEditor.ftl";
+            rewardFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform_docx/family_zzb.ftl";
-            /*adFormFtl = "/adform/adform3.ftl";
-            titleEditorFtl = "/common/titleEditor3.ftl";
-            rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family3.ftl";*/
         }
 
         dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(),
@@ -1393,7 +1377,7 @@ public class CadreAdformService extends BaseMapper {
         return freemarkerService.process(ftlPath, dataMap);
     }
 
-    public void exportDocxUtils(String fileClasspath,String document, String avatar,OutputStream outputStream) throws IOException {
+    public void exportDocxUtils(String fileClasspath, String document, String avatar, OutputStream outputStream) throws IOException {
 
         //zip输出流
         ZipOutputStream zipout = new ZipOutputStream(outputStream);
