@@ -1,14 +1,12 @@
 package service.verify;
 
 import domain.member.Member;
-import domain.sys.SysUserView;
 import domain.verify.VerifyGrowTime;
 import domain.verify.VerifyGrowTimeExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
 import sys.constants.VerifyConstants;
-import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
 import java.util.*;
@@ -27,8 +25,7 @@ public class VerifyGrowTimeService extends VerifyBaseMapper {
     @Transactional
     public void insertSelective(VerifyGrowTime record){
 
-        SysUserView uv = CmTag.getUserByCode(CmTag.getCadreById(record.getCadreId()).getCode());
-        Member member = memberMapper.selectByPrimaryKey(uv.getUserId());
+        Member member = memberMapper.selectByPrimaryKey(record.getCadre().getUserId());
         if (null != member && null == record.getOldGrowTime())
             record.setOldGrowTime(member.getGrowTime());
 
