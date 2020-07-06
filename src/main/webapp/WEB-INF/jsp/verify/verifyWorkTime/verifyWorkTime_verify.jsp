@@ -101,7 +101,9 @@
                 </form>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="submit">
+                        <button id="submitBtn" class="btn btn-info"
+                                data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+                                type="button">
                             <i class="ace-icon fa fa-check bigger-110"></i>
                             认定
                         </button>
@@ -135,14 +137,16 @@
     $.register.date($('.date-picker'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
-    $("#body-content-view button[type=submit]").click(function(){$("#modalFormVerify").submit(); return false;});
+    $("#body-content-view #submitBtn").click(function(){$("#modalFormVerify").submit(); return false;});
     $("#modalFormVerify").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView()
                     }
+                    $btn.button('reset');
                 }
             });
         }

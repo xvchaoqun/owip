@@ -27,22 +27,22 @@ public class VerifyGrowTime implements Serializable {
 
     private Integer cadreId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date oldGrowTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date verifyGrowTime;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date materialTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date materialGrowTime;
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date adTime;
 
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date adGrowTime;
 
     private String remark;

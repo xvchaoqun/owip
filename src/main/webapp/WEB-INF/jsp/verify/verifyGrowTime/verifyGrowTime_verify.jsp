@@ -27,8 +27,7 @@
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input class="form-control date-picker" name="materialGrowTime" type="text"
-                                               data-date-min-view-mode="1" placeholder="yyyy.mm"
-                                               data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.materialGrowTime,'yyyy.MM')}"/>
+                                               data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.materialGrowTime,'yyyy.MM.dd')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -51,8 +50,7 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="adGrowTime" type="text"
-                                           data-date-min-view-mode="1" placeholder="yyyy.mm"
-                                           data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.adGrowTime,'yyyy.MM')}"/>
+                                           data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.adGrowTime,'yyyy.MM.dd')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -64,8 +62,7 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <input class="form-control date-picker" name="oldGrowTime" type="text"
-                                       data-date-min-view-mode="1" data-date-format="yyyy.mm"
-                                       value="${cm:formatDate(verifyTime.oldGrowTime,'yyyy.MM')}"/>
+                                       data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.oldGrowTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
@@ -76,8 +73,7 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <input required class="form-control date-picker" name="verifyGrowTime" type="text"
-                                       data-date-min-view-mode="1" placeholder="yyyy.mm"
-                                       data-date-format="yyyy.mm" value="${cm:formatDate(verifyTime.verifyGrowTime,'yyyy.MM')}"/>
+                                       data-date-format="yyyy.mm.dd" value="${cm:formatDate(verifyTime.verifyGrowTime,'yyyy.MM.dd')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
@@ -93,7 +89,9 @@
                 </form>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="submit">
+                        <button id="submitBtn" class="btn btn-info"
+                                data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+                                type="button">
                             <i class="ace-icon fa fa-check bigger-110"></i>
                             认定
                         </button>
@@ -127,15 +125,18 @@
     $.register.date($('.date-picker'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
-    $("#body-content-view button[type=submit]").click(function(){$("#modalFormVerify").submit(); return false;});
+
+    $("#body-content-view #submitBtn").click(function(){$("#modalFormVerify").submit(); return false;});
     $("#modalFormVerify").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

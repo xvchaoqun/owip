@@ -21,20 +21,22 @@
 </div>
 <div class="modal-footer">
 	<a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-	<input type="button" id="submitBtn" class="btn btn-primary" value="认定"/>
+	<input type="button" id="selectBtn" class="btn btn-primary" value="认定"/>
 </div>
 <script>
 	$.register.user_select($('[data-rel="select2-ajax"]'));
 
-	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+	$("#selectBtn").click(function(){$("#modalForm").submit();return false;});
 	$("#modalForm").validate({
 		submitHandler: function (form) {
+			var $btn = $("#selectBtn").button('loading');
 			$(form).ajaxSubmit({
 				success:function(ret){
 					if(ret.success){
 						$("#modal").modal('hide');
 						$("#jqGrid").trigger("reloadGrid");
 					}
+					$btn.button('reset');
 				}
 			});
 		}

@@ -88,17 +88,18 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/verify/verifyGrowTime_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '工作证号',name: 'cadre.code'},
-                { label: '姓名',name: 'cadre.realname'},
+                {
+                label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                    return $.cadre(rowObject.cadre.id, cellvalue);
+                }, frozen: true
+                },
                 { label: '所在单位及职务',name: 'cadre.title', align: 'left', width: 350},
-                { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-                { label: '认定后入党时间',name: 'verifyGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
+                { label: '认定前入党时间',name: 'oldGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+                { label: '认定后入党时间',name: 'verifyGrowTime',width:180,formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
                 { label: '认定',name: '_verify',formatter: function (cellvalue, options, rowObject) {
-                        if ($.trim(rowObject.verifyGrowTime)=='')
-                            return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'
-                                .format(rowObject.id);
-                        else
-                            return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.id, cellvalue);
+                        var hasVerify = ($.trim(rowObject.verifyGrowTime)!='');
+                        return '<button class="openView btn {1} btn-xs" data-url="${ctx}/verify/verifyGrowTime_verify?id={0}"><i class="fa {2}"></i> {3}</button>'
+                                .format(rowObject.id, hasVerify?'btn-primary':'btn-success', hasVerify?'fa-search':'fa-check', hasVerify?'查看':'认定');
                     }},
                 { label: '备注',name: 'remark',width: 500}
         ]

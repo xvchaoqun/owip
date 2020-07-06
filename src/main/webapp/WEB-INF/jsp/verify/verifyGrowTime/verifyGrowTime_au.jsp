@@ -22,15 +22,15 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn"
+    <button id="selectBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
             class="btn btn-primary"><i class="fa fa-check"></i> ${not empty verifyGrowTime?'确定':'添加'}</button>
 </div>
 <script>
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#selectBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#selectBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){

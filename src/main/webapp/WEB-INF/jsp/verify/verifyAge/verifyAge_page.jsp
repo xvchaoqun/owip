@@ -104,7 +104,7 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
-            {label: '所在单位及职务', name: 'cadre.title', width: 350},
+            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
             {label: '认定类别', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '--';
                 return _cMap.VERIFY_AGE_TYPE_MAP[cellvalue]
@@ -112,12 +112,10 @@
             {label: '认定前日期', name: 'oldBirth',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m.d'}},
             {label: '认定后日期', name: 'verifyBirth',formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m.d'}},
             {label: '认定', name: '_verify', formatter: function (cellvalue, options, rowObject) {
-                if ($.trim(rowObject.oldBirth)=='')
-                    return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verifyAge_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'
-                            .format(rowObject.id);
-                else
-                    return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}/verifyAge_verify?id={0}"><i class="fa fa-search"></i> 查看</button>'
-                            .format(rowObject.id, cellvalue);
+
+                var hasVerify = ($.trim(rowObject.verifyBirth)!='');
+                return '<button class="openView btn {1} btn-xs" data-url="${ctx}/verifyAge_verify?id={0}"><i class="fa {2}"></i> {3}</button>'
+                        .format(rowObject.id, hasVerify?'btn-primary':'btn-success', hasVerify?'fa-search':'fa-check', hasVerify?'查看':'认定');
             }},
             {label: '备注', name: 'remark', width: 500}
         ]
