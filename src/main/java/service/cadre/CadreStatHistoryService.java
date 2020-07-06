@@ -51,7 +51,7 @@ public class CadreStatHistoryService extends BaseMapper {
                 CadreViewExample example = new CadreViewExample();
                 example.createCriteria().andStatusEqualTo(status);
                 example.setOrderByClause("sort_order desc");
-                wb = cadreExportService.export(status, example, 0, null);
+                wb = cadreExportService.export(status, example, 0, null, 0);
 
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE_CJ:

@@ -60,10 +60,13 @@ public class CadreEvaController extends BaseController {
     @RequestMapping("/cadreEva_data")
     @ResponseBody
     public void cadreEva_data(HttpServletResponse response,
-                                    Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
-                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                              Integer cadreId,
+                              @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                              Integer pageSize, Integer pageNo,
+                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              Integer reserveType // 年轻干部类别
+                                )  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -84,7 +87,7 @@ public class CadreEvaController extends BaseController {
         if (export == 1) {
             SecurityUtils.getSubject().checkPermission("cadre:export");
             int currentYear = DateUtils.getCurrentYear();
-            cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_CJ, response);
+            cadreEvaService.export(currentYear-4, currentYear, ids, CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
             return;
         }
 

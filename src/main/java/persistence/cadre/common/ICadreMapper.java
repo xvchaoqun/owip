@@ -132,17 +132,31 @@ public interface ICadreMapper {
     @Select("select cv.* from cadre_view cv, dispatch_cadre_view dcv where cv.id=dcv.cadre_id and cv.status=3 and cv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017")
     List<CadreView> leaveCadres(@Param("unitId")int unitId);*/
 
+    //查询干部五年内考核结果
     List<CadreEva> getCadreEvas(@Param("startYear") int startYear, @Param("endYear") int endYear,
                                 @Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+    //查询年轻干部五年内考核结果
+    List<CadreEva> getCadreReserveEvas(@Param("startYear") int startYear, @Param("endYear") int endYear,
+                                       @Param("reserveIds") Integer[] reserveIds, @Param("reserveType") Integer reserveType, @Param("status") Byte status);
 
     // 查询干部家庭成员
     List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+    //查询年轻干部家庭成员
+    List<CadreFamily> getCadreReserveFamilys(@Param("reserveIds") Integer[] reserveIds, @Param("reserveType") Integer reserveType, @Param("status") Byte status);
+
 
     // 查询干部培训情况
     List<CadreTrain> getCadreTrains(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+    // 查询年轻干部培训情况
+    List<CadreTrain> getCadreReserveTrains(@Param("reserveIds") Integer[] reserveIds, @Param("reserveType") Integer reserveType, @Param("status") Byte status);
 
     //查询干部社会或学术兼职
     List<CadreParttime> getCadreParttimes(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+    //查询年轻干部社会或学术兼职
+    List<CadreParttime> getCadreReserveParttimes(@Param("reserveIds") Integer[] reserveIds, @Param("status") Byte status, @Param("reserveType") Integer reserveType);
+
+    //查询年轻干部企业、社团兼职
+    List<CadreCompanyView> getCadreReserveCompany(@Param("reserveIds") Integer[] reserveIds, @Param("reserveType") Integer reserveType, @Param("status") Byte status);
 
     // 查询干部学习经历
     List<CadreEdu> getCadreEdus(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);

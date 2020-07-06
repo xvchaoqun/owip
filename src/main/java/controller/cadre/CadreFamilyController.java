@@ -71,9 +71,10 @@ public class CadreFamilyController extends BaseController {
                                  Integer cadreId,
                                  Integer pageSize, Integer pageNo,
                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids // 导出的记录（干部id)
-
-    ) throws IOException {
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                                 @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                 Integer reserveType // 年轻干部类别
+                                    ) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -95,7 +96,7 @@ public class CadreFamilyController extends BaseController {
             SecurityUtils.getSubject().checkPermission("cadre:exportFamily");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_CJ, response);
+            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
             return;
         }
 
@@ -258,9 +259,14 @@ public class CadreFamilyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreFamily_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
+    public void cadreFamily_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
-        List<CadreFamily> cadreFamilys = iCadreMapper.getCadreFamilys(cadreIds, status);
+        List<CadreFamily> cadreFamilys = new ArrayList<>();
+        if (exportType == 0){
+            cadreFamilys = iCadreMapper.getCadreFamilys(ids, status);
+        }else {
+            cadreFamilys = iCadreMapper.getCadreReserveFamilys(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
         int rownum = cadreFamilys.size();
         String[] titles = {"工号|100", "干部|80", "所在单位及职务|400|left", "称谓|100","姓名|80",
                 "政治面貌|100","工作单位及职务|500|left"};

@@ -303,24 +303,31 @@ public class CadreCompanyService extends BaseMapper {
 
 
     // 兼职情况汇总表
-    public void export(Byte cadreStatus, CadreCompanyViewExample example, HttpServletResponse response) throws IOException {
+    public void export(Integer[] ids, Byte cadreStatus, CadreCompanyViewExample example, int exportType, Integer reserveType, HttpServletResponse response) throws IOException {
 
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String cadreType = "";
-        if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
-            cadreType = "现任校领导";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
-            cadreType = "离任校领导";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
-            cadreType = "现任处级干部";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ_LEAVE) {
-            cadreType = "离任处级干部";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ) {
-            cadreType = "现任科级干部";
-        } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ_LEAVE) {
-            cadreType = "离任科级干部";
+        if (cadreStatus != null) {
+            if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER) {
+                cadreType = "现任校领导";
+            } else if (cadreStatus == CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
+                cadreType = "离任校领导";
+            } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ) {
+                cadreType = "现任处级干部";
+            } else if (cadreStatus == CadreConstants.CADRE_STATUS_CJ_LEAVE) {
+                cadreType = "离任处级干部";
+            } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ) {
+                cadreType = "现任科级干部";
+            } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ_LEAVE) {
+                cadreType = "离任科级干部";
+            }
         }
-        List<CadreCompanyView> records = cadreCompanyViewMapper.selectByExample(example);
+        List<CadreCompanyView> records = new ArrayList<>();
+        if (exportType == 0){
+            records = cadreCompanyViewMapper.selectByExample(example);
+        }else {
+            records = iCadreMapper.getCadreReserveCompany(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cadre/cadre_company_list.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);

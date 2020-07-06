@@ -6,12 +6,14 @@ import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +23,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.CadreReserveCount;
 import persistence.cadre.common.ICadreWorkMapper;
+import service.cadre.CadreAdformService;
+import service.cadre.CadreInfoFormService;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -53,7 +59,10 @@ import java.util.stream.Collectors;
 public class CadreReserveController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    @Autowired
+    private CadreAdformService cadreAdformService;
+    @Autowired
+    private CadreInfoFormService cadreInfoFormService;
     @Autowired
     private ICadreWorkMapper iCadreWorkMapper;
 
@@ -258,6 +267,18 @@ public class CadreReserveController extends BaseController {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             modelMap.put("cadre", cadre);
         }
+        // 导出的列名字
+        List<String> titles = cadreExportService.getTitles();
+        boolean useCadreState = CmTag.getBoolProperty("useCadreState");
+        boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+        if(!useCadreState){
+            titles.remove(2);
+        }
+        if(!hasPartyModule){
+            titles.remove(titles.size()-3); // 去掉所在党组织
+        }
+
+        modelMap.put("titles", titles);
 
         Map<Byte, Integer> statusCountMap = new HashMap<>();
         for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_RESERVE_STATUS_MAP.entrySet()) {
@@ -288,7 +309,7 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_data")
-    public void cadreReserve_data(HttpServletResponse response, Byte reserveStatus, Integer reserveType,
+    public void cadreReserve_data(HttpServletResponse response, HttpServletRequest request, Byte reserveStatus, Integer reserveType,
                                   Byte gender,
                                   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                                   @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
@@ -329,8 +350,10 @@ public class CadreReserveController extends BaseController {
                                   String staffStatus,
                                   String isTemp,
                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                  Integer pageSize, Integer pageNo) throws IOException {
+                                  @RequestParam(required = false) Integer[] cols, // 选择导出的列
+                                  Integer pageSize, Integer pageNo) throws IOException, TemplateException, DocumentException {
 
         Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
 
@@ -528,7 +551,29 @@ public class CadreReserveController extends BaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andReserveIdIn(Arrays.asList(ids));
-            cadreReserve_export(reserveType, example, response);
+            cadreReserve_export(format, reserveStatus, reserveType, cols, example, response);
+            return;
+        }else if (export == 2 || export == 3 || export == 6){
+            if (ids != null && ids.length > 0) {
+                criteria.andReserveIdIn(Arrays.asList(ids));
+            }
+            List<CadreReserveView> cadreReserves = cadreReserveViewMapper.selectByExample(example);
+            Integer[] cadreIds = new Integer[cadreReserves.size()];
+            int i = 0;
+            for (CadreReserveView cadreReserve : cadreReserves) {
+                cadreIds[i++] = cadreReserve.getId();
+            }
+
+            if (export == 2){
+                //干部任免审批表
+                cadreAdformService.export(cadreIds, format==1, request, response);
+            }else if (export == 3){
+                // 干部信息采集表
+                cadreInfoFormService.export(cadreIds, request, response);
+            }else if (export == 6){
+                // 干部信息表(简版)
+                cadreInfoFormService.export_simple(cadreIds,request,response);
+            }
             return;
         }
 
@@ -731,17 +776,36 @@ public class CadreReserveController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    private void cadreReserve_export(Integer reserveType, CadreReserveViewExample example, HttpServletResponse response) {
+    private void cadreReserve_export(int format, Byte reserveStatus, Integer reserveType, Integer[] cols, CadreReserveViewExample example, HttpServletResponse response) throws IOException {
 
-        SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
+        if (format == 1) {
+            //SXSSFWorkbook wb= cadreReserveExportService.export(reserveType, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols);//一览表
+            Byte _reserveType = (byte)reserveType.intValue();
+            List<CadreReserveView> cadreReserves = cadreReserveViewMapper.selectByExample(example);
+            List<Integer> cadreIds = new ArrayList<>();
+            for (CadreReserveView cadreReserve : cadreReserves) {
+                cadreIds.add(cadreReserve.getId());
+            }
+            CadreViewExample cadreExample = new CadreViewExample();
+            cadreExample.createCriteria().andIdIn(cadreIds);
+            SXSSFWorkbook wb = cadreExportService.export(_reserveType, cadreExample, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols, 1);
+            String suffix = null;
+            if (reserveType != null) {
+                suffix = metaTypeService.getName(reserveType);
+            }else {
+                suffix = CadreConstants.CADRE_RESERVE_STATUS_MAP.get(reserveStatus);
+            }
+            String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
 
-        String cadreReserveType = metaTypeService.getName(reserveType);
-        String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
+            if (StringUtils.isNotBlank(suffix))
+                fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + suffix + "）";
 
-        if (cadreReserveType != null)
-            fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + cadreReserveType + "）";
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+        }else {
+            cadreReserveExportService.export2(reserveStatus, reserveType, example, response);//名单
+        }
 
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+
     }
 
     @RequiresPermissions("cadreReserve:import")

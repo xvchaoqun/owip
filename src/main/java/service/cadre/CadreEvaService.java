@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.utils.ExportHelper;
 
@@ -96,9 +97,15 @@ public class CadreEvaService extends BaseMapper {
     }
 
     // 导出年度考核结果
-    public void export(int startYear, int endYear, Integer[] cadreIds, Byte status, HttpServletResponse response) {
+    public void export(int startYear, int endYear, Integer[] ids, Byte status, int exportType,
+                       Integer reserveType, HttpServletResponse response) {
 
-        List<CadreEva> cadreEvas = iCadreMapper.getCadreEvas(startYear, endYear, cadreIds, status);
+        List<CadreEva> cadreEvas = new ArrayList<>();
+        if (exportType == 0){
+            cadreEvas = iCadreMapper.getCadreEvas(startYear, endYear, ids, status);//现任干部
+        }else {
+            cadreEvas = iCadreMapper.getCadreReserveEvas(startYear, endYear, ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
 
         // <cadreId, <year, cadreEva>>
         Map<Integer, Map<Integer, CadreEva>> resultMap = new LinkedHashMap<>();

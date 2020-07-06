@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.cadre.common.ICadreWorkMapper;
-import persistence.dispatch.DispatchCadreMapper;
 import service.cadre.CadreAdformService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoFormService;
@@ -478,7 +477,7 @@ public class CadreController extends BaseController {
         }
 
         if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike(SqlUtils.like(title));
+            criteria.andTitleLike(SqlUtils.trimLike(title));
         }
 
         if (export == 1) {
@@ -551,7 +550,7 @@ public class CadreController extends BaseController {
         SXSSFWorkbook wb = null;
         if (format == 1) {
             // 一览表
-            wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols);
+            wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1, cols, 0);
             String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
             String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
             ExportHelper.output(wb, fileName + ".xlsx", response);

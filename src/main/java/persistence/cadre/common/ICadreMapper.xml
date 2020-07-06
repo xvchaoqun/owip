@@ -228,6 +228,22 @@
         </if>
         and ce.year between #{startYear} and #{endYear} order by c.sort_order desc, ce.year asc
     </select>
+    <select id="getCadreReserveEvas" resultMap="persistence.cadre.CadreEvaMapper.BaseResultMap" parameterType="map">
+        select ce.* from cadre_eva ce, cadre_reserve c where ce.cadre_id=c.cadre_id
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveId}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        and ce.year between #{startYear} and #{endYear} order by c.sort_order asc, ce.year asc
+    </select>
 
     <select id="getCadreFamilys" resultMap="persistence.cadre.CadreFamilyMapper.BaseResultMap" parameterType="map">
         select cf.* from cadre_family cf, cadre c where cf.cadre_id=c.id and cf.status=0
@@ -241,6 +257,22 @@
             and c.status = #{status}
         </if>
         order by c.sort_order desc
+    </select>
+    <select id="getCadreReserveFamilys" resultMap="persistence.cadre.CadreFamilyMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_family cf, cadre_reserve c where cf.cadre_id=c.cadre_id and cf.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveId}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc
     </select>
 
     <select id="getCadreTrains" resultMap="persistence.cadre.CadreTrainMapper.BaseResultMap" parameterType="map">
@@ -256,6 +288,22 @@
         </if>
         order by c.sort_order desc
     </select>
+    <select id="getCadreReserveTrains" resultMap="persistence.cadre.CadreTrainMapper.BaseResultMap" parameterType="map">
+        select ct.* from cadre_train ct, cadre_reserve c where ct.cadre_id=c.cadre_id and ct.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveId}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc
+    </select>
 
     <select id="getCadreParttimes" resultMap="persistence.cadre.CadreParttimeMapper.BaseResultMap" parameterType="map">
         select cp.* from cadre_parttime cp, cadre c where cp.cadre_id=c.id and cp.status=0
@@ -269,6 +317,39 @@
             and c.status = #{status}
         </if>
         order by c.sort_order desc
+    </select>
+    <select id="getCadreReserveParttimes" resultMap="persistence.cadre.CadreParttimeMapper.BaseResultMap" parameterType="map">
+        select cp.* from cadre_parttime cp, cadre_reserve c where cp.cadre_id=c.cadre_id and cp.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveIds}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc
+    </select>
+
+    <select id="getCadreReserveCompany" resultMap="persistence.cadre.CadreCompanyViewMapper.BaseResultMap" parameterType="map">
+        select ccv.* from cadre_company_view ccv, cadre_reserve c where ccv.cadre_id=c.cadre_id and ccv.status=0
+        <if test="reserveIds != null and reserveIds.length>0">
+            and c.id IN
+            <foreach collection="reserveIds" item="reserveId" separator="," open="(" close=")">
+                #{reserveIds}
+            </foreach>
+        </if>
+        <if test="reserveType != null">
+            and c.type = #{reserveType}
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order asc
     </select>
 
     <select id="getCadreEdus" resultMap="persistence.cadre.CadreEduMapper.BaseResultMap" parameterType="map">

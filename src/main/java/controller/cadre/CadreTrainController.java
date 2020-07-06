@@ -151,6 +151,8 @@ public class CadreTrainController extends BaseController {
                                 Integer cadreId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                                @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                Integer reserveType, // 年轻干部类别
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -172,7 +174,7 @@ public class CadreTrainController extends BaseController {
         if (export == 1) {
             if (ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreTrain_export(ids,CadreConstants.CADRE_STATUS_CJ, response);
+            cadreTrain_export(ids,CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
             return;
         }
 
@@ -329,9 +331,14 @@ public class CadreTrainController extends BaseController {
     }
 
 
-    public void cadreTrain_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
+    public void cadreTrain_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
-        List<CadreTrain> cadreTrains = iCadreMapper.getCadreTrains(cadreIds,status);
+        List<CadreTrain> cadreTrains = new ArrayList<>();
+        if (exportType == 0){
+            cadreTrains = iCadreMapper.getCadreTrains(ids,status);
+        }else {
+            cadreTrains = iCadreMapper.getCadreReserveTrains(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        }
         int rownum = cadreTrains.size();
 
         List<String[]> valuesList = new ArrayList<>();

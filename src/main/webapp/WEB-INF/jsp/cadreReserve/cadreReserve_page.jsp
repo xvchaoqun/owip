@@ -138,19 +138,58 @@
                             <%--<a class="jqExportBtn btn btn-success btn-sm"
                                data-rel="tooltip" data-placement="bottom"
                                title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>--%>
-                            <div class="btn-group">
+                            <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL}">
+                                <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
                                         title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
-                                        class="btn btn-success btn-sm dropdown-toggle tooltip-success">
+                                        class="btn btn-success btn-sm dropdown-toggle tooltip-success"
+                                        data-querystr="format=1">
                                     <i class="fa fa-download"></i> 导出  <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-success" role="menu" style="z-index: 1031">
-                                    <li>
-                                        <a href="javascript:;" class="jqExportBtn" data-need-id="false">
-                                            <i class="fa fa-file-excel-o"></i> 导出一览表（全部字段）</a>
-                                    </li>
                                     <shiro:hasPermission name="cadre:list">
+                                        <li class="dropdown-hover" data-stopPropagation="true">
+                                            <a href="javascript:;" data-need-id="false">
+                                                <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）
+                                                <i class="ace-icon fa fa-caret-right pull-right"></i>
+                                            </a>
+                                            <div class="dropdown-menu" style="width: 675px;top:-220px;">
+                                                <form class="form-horizontal" id="exportForm">
+                                                    <div style="padding: 7px 0 10px 10px">
+                                                        <c:forEach items="${titles}" var="title" varStatus="vs">
+                                                            <div style="padding-left:5px;float: left;width:220px">
+                                                                <input class="big" type="checkbox"
+                                                                       value="${vs.index}">
+                                                                    ${fn:split(title, "|")[0]}</div>
+                                                        </c:forEach>
+                                                        <div style="clear: both"/>
+                                                    </div>
+                                                    <div class="form-actions center">
+                                                        <div style="position: absolute; float:left; left:10px;padding-top: 3px">
+                                                            <input type="button" id="btnSelectAll"
+                                                                   class="btn btn-success btn-xs" value="全选"/>
+                                                            <input type="button" id="btnDeselectAll"
+                                                                   class="btn btn-danger btn-xs" value="全不选"/>
+                                                        </div>
+                                                        <button type="button"
+                                                                class="jqExportBtn btn btn-success"
+                                                                data-need-id="false"
+                                                                data-url="${ctx}/cadreReserve_data"
+                                                                data-querystr="format=1">
+                                                            <i class="fa fa-file-excel-o"></i> 导出
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreReserve_data?reserveType=${reserveType}"
+                                               data-querystr="format=2">
+                                                <i class="fa fa-file-excel-o"></i> 导出名单（部分字段，可单页打印）</a>
+                                        </li>
                                         <li role="separator" class="divider"></li>
                                         <li>
                                             <a href="javascript:;" class="jqExportBtn"
@@ -163,9 +202,73 @@
                                                data-need-id="false" data-url="${ctx}/cadreWork_data?exportType=1&reserveType=${reserveType}">
                                                 <i class="fa fa-file-excel-o"></i> 导出工作经历（批量）</a>
                                         </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreEva_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出近五年考核结果（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreFamily_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出家庭成员（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreParttime_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出社会或学术兼职（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreCompany_data?exportType=1&reserveType=${reserveType}"
+                                               data-querystr="cadreStatus=${status}">
+                                                <i class="fa fa-file-excel-o"></i> 导出企业、社团兼职（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreTrain_data?exportType=1&reserveType=${reserveType}">
+                                                <i class="fa fa-file-excel-o"></i> 导出培训情况（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false"
+                                               data-export="2"
+                                               data-url="${ctx}/cadreReserve_data?format=1">
+                                                <i class="fa fa-file-excel-o"></i> 导出Word版任免审批表（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false"
+                                               data-export="2"
+                                               data-url="${ctx}/cadreReserve_data?format=2">
+                                                <i class="fa fa-file-excel-o"></i> 导出中组部版任免审批表（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false"
+                                               data-export="3"
+                                               data-url="${ctx}/cadreReserve_data">
+                                                <i class="fa fa-file-excel-o"></i> 导出信息采集表（批量）</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false"
+                                               data-export="6"
+                                               data-url="${ctx}/cadreReserve_data">
+                                                <i class="fa fa-file-excel-o"></i> 导出干部信息表（简版）（批量）</a>
+                                        </li>
                                     </shiro:hasPermission>
                                 </ul>
                             </div>
+                            </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -180,6 +283,7 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
+                                        <input type="hidden" name="cols">
                                         <input name="reserveType" type="hidden" value="${reserveType}">
                                         <input name="reserveStatus" type="hidden" value="${reserveStatus}">
                                         <div class="columns">
@@ -264,6 +368,31 @@
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    $("ul.dropdown-menu").on("click", "[data-stopPropagation]", function (e) {
+        //console.log($(e.target).hasClass("jqExportBtn"))
+        if (!$(e.target).hasClass("jqExportBtn")) {
+            e.stopPropagation();
+        }
+    });
+    $("#btnSelectAll").click(function () {
+        $("#exportForm :checkbox").prop("checked", true);
+        _updateCols()
+    });
+    $("#btnDeselectAll").click(function () {
+        $("#exportForm :checkbox").prop("checked", false);
+        _updateCols()
+    });
+    $("#exportForm :checkbox").click(function () {
+        _updateCols()
+    });
+
+    function _updateCols() {
+        var cols = $.map($("#exportForm :checkbox:checked"), function (chk) {
+            return $(chk).val();
+        });
+        $("#searchForm input[name=cols]").val(cols.join(','));
+    }
+
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,

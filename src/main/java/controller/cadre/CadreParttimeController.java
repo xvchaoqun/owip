@@ -149,6 +149,8 @@ public class CadreParttimeController extends BaseController {
                                    Integer cadreId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录（干部id)
+                                   @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                   Integer reserveType, // 年轻干部类别
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -171,7 +173,7 @@ public class CadreParttimeController extends BaseController {
             if (ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
 
-            cadreParttime_export(ids,CadreConstants.CADRE_STATUS_CJ, response);
+            cadreParttime_export(ids,CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
             return;
         }
 
@@ -295,9 +297,14 @@ public class CadreParttimeController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreParttime_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
+    public void cadreParttime_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
-        List<CadreParttime> cadreParttimes = iCadreMapper.getCadreParttimes(cadreIds,status);
+        List<CadreParttime> cadreParttimes = new ArrayList<>();
+        if (exportType == 0){
+            cadreParttimes = iCadreMapper.getCadreParttimes(ids,status);
+        }else {
+            cadreParttimes = iCadreMapper.getCadreReserveParttimes(ids, status, reserveType);
+        }
         int rownum = cadreParttimes.size();
 
         String[] titles = {"工号|100","姓名|80","起始时间|100", "结束时间|100", "兼职单位|400",

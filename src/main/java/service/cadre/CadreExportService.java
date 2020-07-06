@@ -81,9 +81,13 @@ public class CadreExportService extends BaseMapper {
     }
 
     // 导出一览表
-    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, Integer[] cols) {
-
-        String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
+    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType, Integer[] cols, int isReserve) {
+        String cadretype = "";
+        if (isReserve == 0) {
+            cadretype = CadreConstants.CADRE_STATUS_MAP.get(status);
+        }else {
+            cadretype = metaTypeService.getName(Integer.valueOf(status));
+        }
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
@@ -111,7 +115,14 @@ public class CadreExportService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadreType + "一览表");
+            if (isReserve == 0) {
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + cadretype + "一览表");
+            }else {
+                if(StringUtils.trimToNull(cadretype) != null)
+                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部（" + cadretype +"）一览表");
+                else
+                    headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"优秀年轻干部一览表");
+            }
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }
