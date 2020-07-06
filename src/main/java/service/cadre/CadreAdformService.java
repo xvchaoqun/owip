@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.SpringProps;
@@ -36,6 +37,7 @@ import service.party.MemberService;
 import service.sys.AvatarService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
+import sun.misc.BASE64Decoder;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -50,6 +52,9 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by fafa on 2016/10/28.
@@ -97,6 +102,8 @@ public class CadreAdformService extends BaseMapper {
     protected AvatarService avatarService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected FreeMarkerConfigurer freeMarkerConfigurer;
 
     public void export(Integer[] cadreIds,
                        boolean isWord, // 否：中组部格式
@@ -122,7 +129,24 @@ public class CadreAdformService extends BaseMapper {
                 response.setContentType("application/msword;charset=UTF-8");
 
                 CadreInfoForm adform = getCadreAdform(cadreId);
-                process(adform, adFormType, response.getWriter());
+                /*process(adform, adFormType,response.getWriter());*/
+
+                String fileClasspath = null;
+                if (adFormType == null) {
+                    adFormType = CmTag.getByteProperty("adFormType",
+                            CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
+                }
+                if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
+                    fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
+                } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
+                    fileClasspath = "classpath:ftl/adform_docx/adform_zzb(gb_2312).docx";
+                } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
+                    fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
+                }
+
+                String document = process(adform,adFormType);
+                exportDocxUtils(fileClasspath,document,adform.getAvatar(),response.getOutputStream());
+
             } else {
                 // 输出中组部任免审批表
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
@@ -158,10 +182,24 @@ public class CadreAdformService extends BaseMapper {
 
                     filepath = tmpdir + FILE_SEPARATOR + filename;
                     FileOutputStream output = new FileOutputStream(new File(filepath));
-                    OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
-
                     CadreInfoForm adform = getCadreAdform(cadreId);
-                    process(adform, adFormType, osw);
+                    /*OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+                    process(adform, adFormType,osw);*/
+
+                    String fileClasspath = null;
+                    if (adFormType == null) {
+                        adFormType = CmTag.getByteProperty("adFormType",
+                                CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
+                    }
+                    if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
+                        fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
+                    } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
+                        fileClasspath = "classpath:ftl/adform_docx/adform_zzb(gb_2312).docx";
+                    } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
+                        fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
+                    }
+                    String document = process(adform,adFormType);
+                    exportDocxUtils(fileClasspath,document,adform.getAvatar(),output);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
                             + " 干部任免审批表 " + cadre.getRealname() + ".lrmx";
@@ -519,8 +557,8 @@ public class CadreAdformService extends BaseMapper {
         return bean;
     }
 
-    // 输出任免审批表
-    public void process(CadreInfoForm bean, Byte adFormType, Writer out) throws IOException, TemplateException {
+    // 任免审批表模板输出为字符串
+    public String process(CadreInfoForm bean, Byte adFormType/*, Writer out*/) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", bean.getRealname());
@@ -573,7 +611,7 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("inSchoolDepMajor1", bean.getInSchoolDepMajor1());
         dataMap.put("inSchoolDepMajor2", bean.getInSchoolDepMajor2());
 
-
+        
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
@@ -590,22 +628,35 @@ public class CadreAdformService extends BaseMapper {
         if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
 
             maxFamilyCount = 5;
-            adFormFtl = "/adform/adform.ftl";
+            adFormFtl = "/adform_docx/adform_bj.ftl";
             titleEditorFtl = "/common/titleEditor.ftl";
             rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family.ftl";
+            familyFtl = "/adform_docx/family_bj.ftl";
+
+            /*adFormFtl = "/adform/adform.ftl";
+            titleEditorFtl = "/common/titleEditor.ftl";
+            rewardFtl = "/common/titleEditor.ftl";
+            familyFtl = "/adform/family.ftl";*/
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
             maxFamilyCount = 7;
-            adFormFtl = "/adform/adform2.ftl";
+            adFormFtl = "/adform_docx/adform_zzb(gb_2312).ftl";
+            titleEditorFtl = "/common/titleEditor_zzb(gb_2312).ftl";
+            rewardFtl = "/common/titleEditor.ftl";
+            familyFtl = "/adform_docx/family_zzb(gb_2312).ftl";
+            /*adFormFtl = "/adform/adform2.ftl";
             titleEditorFtl = "/common/titleEditor2.ftl";
             rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family2.ftl";
+            familyFtl = "/adform/family2.ftl";*/
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
-            adFormFtl = "/adform/adform3.ftl";
+            adFormFtl = "/adform_docx/adform_zzb.ftl";
             titleEditorFtl = "/common/titleEditor3.ftl";
             rewardFtl = "/common/titleEditor.ftl";
-            familyFtl = "/adform/family3.ftl";
+            familyFtl = "/adform_docx/family_zzb.ftl";
+            /*adFormFtl = "/adform/adform3.ftl";
+            titleEditorFtl = "/common/titleEditor3.ftl";
+            rewardFtl = "/common/titleEditor.ftl";
+            familyFtl = "/adform/family3.ftl";*/
         }
 
         dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(),
@@ -646,12 +697,17 @@ public class CadreAdformService extends BaseMapper {
             dataMap.put("d1", DateUtils.getDay(reportDate));
         }
 
-        freemarkerService.process(adFormFtl, dataMap, out);
+        return freemarkerService.process(adFormFtl,dataMap);
+        //freemarkerService.process(adFormFtl, dataMap, out);
     }
 
-    public void process(CadreInfoForm bean, Writer out) throws IOException, TemplateException {
+    //输出任免审批表(系统默认格式)
+    public void process(CadreInfoForm bean, OutputStream out) throws IOException, TemplateException {
 
-        process(bean, null, out);
+        Byte adFormType = null;
+        String fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
+        String content = process(bean, adFormType);
+        exportDocxUtils(fileClasspath,content,bean.getAvatar(),out);
     }
 
     private Document getZZBTemplate() throws FileNotFoundException, DocumentException {
@@ -1335,5 +1391,59 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("fpost", cf == null ? "" : StringUtils.trimToEmpty(cf.getUnit()));
 
         return freemarkerService.process(ftlPath, dataMap);
+    }
+
+    public void exportDocxUtils(String fileClasspath,String document, String avatar,OutputStream outputStream) throws IOException {
+
+        //zip输出流
+        ZipOutputStream zipout = new ZipOutputStream(outputStream);
+        //填充后的模板内容
+        ByteArrayInputStream documentInput = new ByteArrayInputStream(document.getBytes("utf-8"));
+        //头像内容
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] bytes = decoder.decodeBuffer(avatar);
+        ByteArrayInputStream imageInput = new ByteArrayInputStream(bytes);
+        //获取docx模板文件
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+        Enumeration<? extends ZipEntry> zipEntrys = zipFile.entries();
+
+        int len = -1;
+        byte[] buffer = new byte[1024];
+
+        //遍历zip文件结构
+        while (zipEntrys.hasMoreElements()) {
+
+            ZipEntry next = zipEntrys.nextElement();
+            InputStream is = zipFile.getInputStream(next);
+
+            zipout.putNextEntry(new ZipEntry(next.getName()));
+            if ("word/document.xml".equals(next.getName())) {//如果是word/document.xml则替换为模板输出
+                if (documentInput != null) {
+                    while ((len = documentInput.read(buffer)) != -1) {
+                        zipout.write(buffer, 0, len);
+                    }
+                    documentInput.close();
+                }
+            }else if ("word/media/image1.png".equals(next.getName())){//如果是word/media/image1.png则替换为图片输出
+                if (imageInput != null){
+                    while ((len = imageInput.read(buffer)) != -1) {
+                        zipout.write(buffer,0,len);
+                    }
+                }
+                imageInput.close();
+            }else {
+                if (is != null){
+                    while ((len = is.read(buffer)) != -1) {
+                        zipout.write(buffer, 0, len);
+                    }
+                }
+                is.close();
+            }
+        }
+        //关闭zip输出流
+        if(zipout!=null){
+            zipout.close();
+        }
     }
 }

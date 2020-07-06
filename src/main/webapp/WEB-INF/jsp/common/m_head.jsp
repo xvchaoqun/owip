@@ -23,4 +23,5 @@
 <t:script src="/js/prototype.js"/>
 <t:script src="/js/metadata.js"/>
 <t:script src="/js/jquery.extend.js"/>
+<t:script src="/extend/js/jquery.fileDownload.js"></t:script>
 <t:script src="/mobile/js/setup.js"/>

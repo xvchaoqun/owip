@@ -100,3 +100,13 @@ $.register.m_click("#body-content-view .hideView", function () {
 $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
     $.adjustLeftFloatDivHeight($(".profile-info-name.td"))
 });
+
+// 下载
+$(document).on("tap", ".downloadBtn", function () {
+
+    var $this = $(this);
+
+    window.open($this.data("url"));
+    //$this.download($this.data("url"), $this.data("type")||'export');
+    //return false;
+});

@@ -181,7 +181,7 @@ public class ScAdUseController extends ScBaseController {
         response.setContentType("application/msword;charset=UTF-8");
 
         CadreInfoForm bean = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
-        cadreAdformService.process(bean, response.getWriter());
+        cadreAdformService.process(bean, response.getOutputStream());
     }
 
     @RequiresPermissions("scAdUse:edit")

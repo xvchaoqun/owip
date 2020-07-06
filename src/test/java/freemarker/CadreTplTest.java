@@ -69,8 +69,7 @@ public class CadreTplTest {
         OutputStreamWriter oWriter = new OutputStreamWriter(fos, "UTF-8");
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
-        cadreAdformService.process(adform, oWriter);
-
+        cadreAdformService.process(adform, fos);
 
     }
 

@@ -4,6 +4,11 @@
 <c:set value="<%=CadreConstants.CADRE_ADFORMTYPE_BJ%>" var="CADRE_ADFORMTYPE_BJ"/>
 <c:set value="<%=CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312%>" var="CADRE_ADFORMTYPE_ZZB_GB2312"/>
 <c:set value="<%=CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG%>" var="CADRE_ADFORMTYPE_ZZB_SONG"/>
+<c:if test="${param.mobile=='1'}">
+    <a href="javascript:;" class="downloadBtn btn btn-info btn-xs"
+       data-url="/m/cadreAdform_download?isWord=1&cadreId=${param.cadreId}"
+       style="position: absolute;left: 10px;top: 5px;z-index: 2222">下载</a>
+</c:if>
 <c:if test="${_p_adFormType==CADRE_ADFORMTYPE_BJ}">
   <jsp:include page="adForm1.jsp"/>
 </c:if>
