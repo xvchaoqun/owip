@@ -30,7 +30,7 @@
             <w:sz w:val="24"/>
             <w:sz-cs w:val="24"/>
         </w:rPr>
-        <w:t>${col}<#if col_has_next>  </#if></w:t>
+        <w:t xml:space="preserve">${col}<#if col_has_next>  </#if></w:t>
     </w:r>
     </#if>
     </#list>

@@ -92,14 +92,14 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息采集表 " + cadre.getUser().getRealname()  + ".doc";
+                    + " 干部信息采集表 " + cadre.getUser().getRealname()  + ".docx";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
             response.setContentType("application/msword;charset=UTF-8");
 
-            process(cadreId, response.getWriter());
+            process(cadreId, response.getOutputStream());
         }else {
 
             Map<String, File> fileMap = new LinkedHashMap<>();
@@ -111,7 +111,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息采集表 " + cadre.getRealname() + ".doc";
+                        + " 干部信息采集表 " + cadre.getRealname() + ".docx";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -123,7 +123,7 @@ public class CadreInfoFormService extends BaseMapper {
                 FileOutputStream output = new FileOutputStream(new File(filepath));
                 OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
 
-                process(cadreId, osw);
+                process(cadreId, output);
 
                 fileMap.put(filename, new File(filepath));
             }
@@ -147,14 +147,14 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息表 " + cadre.getUser().getRealname()  + ".doc";
+                    + " 干部信息表 " + cadre.getUser().getRealname()  + ".docx";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
             response.setContentType("application/msword;charset=UTF-8");
 
-            process2(cadreId, response.getWriter());
+            process2(cadreId, response.getOutputStream());
         }else {
 
             Map<String, File> fileMap = new LinkedHashMap<>();
@@ -166,7 +166,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息表 " + cadre.getRealname() + ".doc";
+                        + " 干部信息表 " + cadre.getRealname() + ".docx";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -178,7 +178,7 @@ public class CadreInfoFormService extends BaseMapper {
                 FileOutputStream output = new FileOutputStream(new File(filepath));
                 OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
 
-                process2(cadreId, osw);
+                process2(cadreId, output);
 
                 fileMap.put(filename, new File(filepath));
             }
@@ -202,14 +202,14 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息表(简版) " + cadre.getUser().getRealname()  + ".doc";
+                    + " 干部信息表(简版) " + cadre.getUser().getRealname()  + ".docx";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
             response.setContentType("application/msword;charset=UTF-8");
 
-            processSimple(cadreId, response.getWriter());
+            processSimple(cadreId, response.getOutputStream());
         }else {
 
             Map<String, File> fileMap = new LinkedHashMap<>();
@@ -221,7 +221,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息表(简版) " + cadre.getRealname() + ".doc";
+                        + " 干部信息表(简版) " + cadre.getRealname() + ".docx";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -231,9 +231,9 @@ public class CadreInfoFormService extends BaseMapper {
 
                 String filepath = tmpdir + FILE_SEPARATOR + filename;
                 FileOutputStream output = new FileOutputStream(new File(filepath));
-                OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
+                //OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
 
-                processSimple(cadreId, osw);
+                processSimple(cadreId, output);
 
                 fileMap.put(filename, new File(filepath));
             }
@@ -610,9 +610,9 @@ public class CadreInfoFormService extends BaseMapper {
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
 
         String resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历",
-                bean.getLearnDesc(), true, 440, "/common/oldTitleEditor.ftl"))
+                bean.getLearnDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"))
                 + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历",
-                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor.ftl"));
+                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor_docx.ftl"));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
@@ -632,9 +632,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreCompanies.size();
             for (int i = 0; i < 3; i++) {
                 if (size <= i)
-                    companies += getCompanySeg(null, "/infoform/company.ftl");
+                    companies += getCompanySeg(null, "/infoform/company_docx.ftl");
                 else
-                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company.ftl");
+                    companies += getCompanySeg(cadreCompanies.get(i), "/infoform/company_docx.ftl");
             }
             dataMap.put("companies", companies);
         }
@@ -645,9 +645,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreFamilys.size();
             for (int i = 0; i < 6; i++) {
                 if (size <= i)
-                    familys += getFamilySeg(null, "/infoform/family.ftl");
+                    familys += getFamilySeg(null, "/infoform/family_docx.ftl");
                 else
-                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family.ftl");
+                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family_docx.ftl");
             }
             dataMap.put("familys", familys);
         }
@@ -658,9 +658,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreFamilyAbroads.size();
             for (int i = 0; i < 2; i++) {
                 if (size <= i)
-                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad.ftl");
+                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad_docx.ftl");
                 else {
-                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad.ftl");
+                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad_docx.ftl");
                 }
             }
             dataMap.put("familyAbroads", familyAbroads);
@@ -783,10 +783,10 @@ public class CadreInfoFormService extends BaseMapper {
             List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
             int size = cadreFamilys.size();
             for (int i = 0; i < size; i++) {
-                familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family2.ftl");
+                familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family2_docx.ftl");
             }
             for (int i = 1; i < (4-size); i++) { // 保证至少有4行
-               familys += getFamilySeg(null, "/infoform/family2.ftl");
+               familys += getFamilySeg(null, "/infoform/family2_docx.ftl");
             }
 
             dataMap.put("familys", familys);
@@ -854,9 +854,9 @@ public class CadreInfoFormService extends BaseMapper {
             int size = cadreFamilys.size();
             for (int i = 0; i < 7; i++) {
                 if (size <= i)
-                    familys += getFamilySeg(null, "/infoform/familySimple.ftl");
+                    familys += getFamilySeg(null, "/infoform/familySimple_docx.ftl");
                 else
-                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/familySimple.ftl");
+                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/familySimple_docx.ftl");
             }
             dataMap.put("familys", familys);
         }
@@ -946,30 +946,46 @@ public class CadreInfoFormService extends BaseMapper {
     }
 
     // 输出干部信息采集表
-    public void process(int cadreId, Writer out) throws IOException, TemplateException {
+    public void process(int cadreId, OutputStream outputStream/* Writer out*/) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = getDataMap(cadreId);
         dataMap.put("fillDate", DateUtils.formatDate(new Date(), "yyyy年MM月dd日"));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         dataMap.put("schoolEmail", CmTag.getStringProperty("zzb_email"));
-        freemarkerService.process("/infoform/infoform.ftl", dataMap, out);
+
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
+        String content = freemarkerService.process("/infoform/infoform_docx.ftl",dataMap);
+        cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoform.docx",content,adform.getAvatar(),outputStream);
+
+        //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
+        //freemarkerService.process("/infoform/infoform.ftl", dataMap,osw);
     }
 
     // 输出干部信息表
-    public void process2(int cadreId, Writer out) throws IOException, TemplateException {
+    public void process2(int cadreId, OutputStream outputStream/*Writer out*/) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = getDataMap2(cadreId);
 
-        freemarkerService.process("/infoform/infoform2.ftl", dataMap, out);
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
+        String content = freemarkerService.process("/infoform/infoform2_docx.ftl",dataMap);
+       cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoform2.docx",content,adform.getAvatar(),outputStream);
+
+        //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
+        //freemarkerService.process("/infoform/infoform2.ftl", dataMap, osw);
     }
 
     //输出干部信息表(简版)
-    public void processSimple(int cadreId, Writer out) throws IOException, TemplateException {
+    public void processSimple(int cadreId, OutputStream outputStream) throws IOException, TemplateException {
 
         Map<String,Object> dataMap = getDataMapSimple(cadreId);
 
-        freemarkerService.process("/infoform/infoformSimple.ftl",dataMap,out);
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
+        String content = freemarkerService.process("/infoform/infoformSimple_docx.ftl",dataMap);
+        cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoformSimple.docx",content,adform.getAvatar(),outputStream);
+
+        //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
+        //freemarkerService.process("/infoform/infoformSimple.ftl",dataMap,osw);
 
     }
 
