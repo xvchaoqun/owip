@@ -313,4 +313,18 @@ public class MemberConstants {
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "审核通过");
         MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_ARCHIVE, "已归档");
     }
+
+    // 组织关系介绍信状态
+    public final static byte MEMBER_CERTIFY_STATUS_BACK = -1;
+    public final static byte MEMBER_CERTIFY_STATUS_APPLY = 0;
+    public final static byte MEMBER_CERTIFY_STATUS_PARTY_VERIFY = 1;
+    public final static byte MEMBER_CERTIFY_STATUS_OW_VERIFY = 2;
+    public final static Map<Byte, String> MEMBER_CERTIFY_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        MEMBER_CERTIFY_STATUS_MAP.put(MEMBER_CERTIFY_STATUS_BACK, "已撤销");
+        MEMBER_CERTIFY_STATUS_MAP.put(MEMBER_CERTIFY_STATUS_APPLY, "申请");
+        MEMBER_CERTIFY_STATUS_MAP.put(MEMBER_CERTIFY_STATUS_PARTY_VERIFY, "分党委审核通过");
+        MEMBER_CERTIFY_STATUS_MAP.put(MEMBER_CERTIFY_STATUS_OW_VERIFY, "组织部审核通过");
+    }
 }

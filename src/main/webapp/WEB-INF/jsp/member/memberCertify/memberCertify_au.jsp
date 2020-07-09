@@ -8,15 +8,19 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/member/memberCertify_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberCertify.id}">
-        <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 姓名</label>
-            <div class="col-xs-6">
-                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
-                        name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="252">
-                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-                </select>
+        <input type="hidden" name="apply" value="${param.apply}">
+        <input type="hidden" name="reapply" value="${param.reapply}">
+        <c:if test="${param.apply != 1}">
+            <div class="form-group">
+                <label class="col-xs-4 control-label"><span class="star">*</span> 姓名</label>
+                <div class="col-xs-6">
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects"
+                            name="userId" data-placeholder="请输入账号或姓名或学工号"  data-width="252">
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                    </select>
+                </div>
             </div>
-        </div>
+        </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span> 年份</label>
             <div class="col-xs-6">

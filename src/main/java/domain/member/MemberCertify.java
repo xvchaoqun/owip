@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,6 +31,18 @@ public class MemberCertify implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date certifyDate;
+
+    private Integer partyId;
+
+    private Integer branchId;
+
+    private Byte status;
+
+    private Boolean isBack;
+
+    private String reason;
+
+    private Date applyTime;
 
     private Date createTime;
 
@@ -107,6 +118,54 @@ public class MemberCertify implements Serializable {
 
     public void setCertifyDate(Date certifyDate) {
         this.certifyDate = certifyDate;
+    }
+
+    public Integer getPartyId() {
+        return partyId;
+    }
+
+    public void setPartyId(Integer partyId) {
+        this.partyId = partyId;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Boolean getIsBack() {
+        return isBack;
+    }
+
+    public void setIsBack(Boolean isBack) {
+        this.isBack = isBack;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 
     public Date getCreateTime() {

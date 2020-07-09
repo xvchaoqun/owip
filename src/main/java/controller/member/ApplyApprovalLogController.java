@@ -72,6 +72,10 @@ public class ApplyApprovalLogController extends MemberBaseController {
                     MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
                     userId = memberTransfer.getUserId();
                     break;
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CERTIFY:
+                    MemberCertify memberCertify = memberCertifyMapper.selectByPrimaryKey(id);
+                    userId = memberCertify.getUserId();
+                    break;
                 /* sos! case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY:
                     MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
                     userId = memberStay.getUserId();

@@ -209,6 +209,7 @@ public class OwConstants {
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT = 12;
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 13;
     public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CHECK = 14;
+    public final static byte OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CERTIFY = 15;
     public final static Map<Byte, String> OW_APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -225,6 +226,7 @@ public class OwConstants {
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, "流入党员转出");
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, "党员出国（境）申请组织关系暂留");
         OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CHECK, "党员信息修改申请");
+        OW_APPLY_APPROVAL_LOG_TYPE_MAP.put(OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CERTIFY, "临时组织关系介绍信");
     }
 
     // 党员各类申请的操作人类别

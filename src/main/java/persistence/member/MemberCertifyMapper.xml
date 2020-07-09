@@ -11,6 +11,12 @@
     <result column="to_title" jdbcType="VARCHAR" property="toTitle" />
     <result column="to_unit" jdbcType="VARCHAR" property="toUnit" />
     <result column="certify_date" jdbcType="DATE" property="certifyDate" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_back" jdbcType="BIT" property="isBack" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, year, sn, political_status, from_unit, to_title, to_unit, certify_date, 
-    create_time
+    party_id, branch_id, status, is_back, reason, apply_time, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberCertifyExample" resultMap="BaseResultMap">
     select
@@ -106,21 +112,28 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.member.MemberCertify">
-    insert into ow_member_certify (id, user_id, year, 
-      sn, political_status, from_unit, 
-      to_title, to_unit, certify_date, 
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
-      #{sn,jdbcType=INTEGER}, #{politicalStatus,jdbcType=TINYINT}, #{fromUnit,jdbcType=VARCHAR}, 
-      #{toTitle,jdbcType=VARCHAR}, #{toUnit,jdbcType=VARCHAR}, #{certifyDate,jdbcType=DATE}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ow_member_certify (user_id, year, sn, 
+      political_status, from_unit, to_title, 
+      to_unit, certify_date, party_id, 
+      branch_id, status, is_back, 
+      reason, apply_time, create_time
+      )
+    values (#{userId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{sn,jdbcType=INTEGER}, 
+      #{politicalStatus,jdbcType=TINYINT}, #{fromUnit,jdbcType=VARCHAR}, #{toTitle,jdbcType=VARCHAR}, 
+      #{toUnit,jdbcType=VARCHAR}, #{certifyDate,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
+      #{reason,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberCertify">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ow_member_certify
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -145,14 +158,29 @@
       <if test="certifyDate != null">
         certify_date,
       </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isBack != null">
+        is_back,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -176,6 +204,24 @@
       </if>
       <if test="certifyDate != null">
         #{certifyDate,jdbcType=DATE},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null">
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -218,6 +264,24 @@
       <if test="record.certifyDate != null">
         certify_date = #{record.certifyDate,jdbcType=DATE},
       </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.isBack != null">
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -237,6 +301,12 @@
       to_title = #{record.toTitle,jdbcType=VARCHAR},
       to_unit = #{record.toUnit,jdbcType=VARCHAR},
       certify_date = #{record.certifyDate,jdbcType=DATE},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      is_back = #{record.isBack,jdbcType=BIT},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -269,6 +339,24 @@
       <if test="certifyDate != null">
         certify_date = #{certifyDate,jdbcType=DATE},
       </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="isBack != null">
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -285,6 +373,12 @@
       to_title = #{toTitle,jdbcType=VARCHAR},
       to_unit = #{toUnit,jdbcType=VARCHAR},
       certify_date = #{certifyDate,jdbcType=DATE},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      is_back = #{isBack,jdbcType=BIT},
+      reason = #{reason,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
