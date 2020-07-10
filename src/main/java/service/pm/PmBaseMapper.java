@@ -14,6 +14,8 @@ public class PmBaseMapper extends CoreBaseMapper {
     @Autowired
     protected PmMeetingMapper pmMeetingMapper;
     @Autowired
+    protected PmMeeting2Mapper pmMeeting2Mapper;
+    @Autowired
     protected PmQuarterMapper pmQuarterMapper;
     @Autowired
     protected PmQuarterPartyMapper pmQuarterPartyMapper;

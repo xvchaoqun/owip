@@ -21,6 +21,8 @@ public class PmBaseController extends PmBaseMapper implements HttpResponseMethod
     @Autowired
     protected PmMeetingService pmMeetingService;
     @Autowired
+    protected PmMeeting2Service pmMeeting2Service;
+    @Autowired
     protected PmQuarterBranchService pmQuarterBranchService;
     @Autowired
     protected PmQuarterService pmQuarterService;

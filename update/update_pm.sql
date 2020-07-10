@@ -1,3 +1,47 @@
+2020-7-10
+CREATE TABLE `pm_meeting2` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+	`party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '分党委id',
+	`branch_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '支部id',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年份',
+	`quarter` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '季度',
+	`month` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '月份',
+	`date` DATETIME NULL DEFAULT NULL COMMENT '实际召开会议时间',
+	`address` VARCHAR(100) NULL DEFAULT NULL COMMENT '地点',
+	`type1` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '活动类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5主题党日活动',
+	`type2` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '活动类型 5主题党日活动',
+	`number1` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '次数（当前第几次会议）',
+	`number2` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '次数（当前第几次会议）',
+	`time1` VARCHAR(200) NULL DEFAULT NULL COMMENT '时长',
+	`time2` VARCHAR(200) NULL DEFAULT NULL COMMENT '时长',
+	`short_content` VARCHAR(200) NULL DEFAULT NULL COMMENT '主要内容',
+	`content` TEXT NULL COMMENT '详细内容',
+	`due_num` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '应到人数',
+	`attend_num` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '实到人数',
+	`absents` VARCHAR(200) NULL DEFAULT NULL COMMENT '缺席名单及原因，输入文本',
+	`presenter` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '主持人',
+	`recorder` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '记录人',
+	`file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '附件名称',
+	`file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '附件地址',
+	`remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注',
+	`status` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '状态， 0 未审核 1 审核通过 2 审核未通过',
+	`is_back` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否退回',
+	`reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '退回原因',
+	`is_delete` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否删除',
+	PRIMARY KEY (`id`)
+)
+COMMENT='三会一课2(支部会议)'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=17
+;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2783, 0, '三会一课管理2', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pmMeeting2:menu', NULL, NULL, NULL, 1, 4470);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2784, 0, '党支部活动记录', '', 'url', '', '/pmMeeting2', 2783, '0/1/2783/', 1, 'pmMeeting2:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2785, 0, '数据统计', '', 'url', '', '/pmMeetingStat', 2783, '0/1/2783/', 1, 'pmMeetingStat:list', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2786, 0, '三会一课2:更新', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:edit', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2787, 0, '三会一课2:审批', '', 'function', '', NULL, 2783, '0/1/2783/', 1, 'pmMeeting2:approve', NULL, NULL, NULL, 1, NULL);
+
+
 2019-11-28
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2781, 0, '主题党日活动', '', 'url', '', '/pmMeeting?type=5', 2772, '0/1/2772/', 1, 'pmMeeting:list:5', NULL, NULL, NULL, 1, 75);
 

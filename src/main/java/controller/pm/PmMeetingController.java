@@ -281,6 +281,10 @@ public class PmMeetingController extends PmBaseController {
                 record.setStatus(PM_MEETING_STATUS_INIT);
                 record.setIsBack(false);
             }
+            if(record.getDate()!=null){
+                record.setYear(pmMeetingService.getYear(record.getDate()));
+                record.setQuarter(pmMeetingService.getQuarter(record.getDate()));
+            }
             record.setAttends(attendIds);
             record.setAbsents(absentIds);
             pmMeetingService.updateByPrimaryKeySelective(record,pmMeetingFiles);

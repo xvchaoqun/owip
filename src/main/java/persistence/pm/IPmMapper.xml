@@ -42,4 +42,55 @@
         where m.type=#{type} and m.is_delete=0
         <include refid="member_selects_permits"/>
     </select>
+
+    <select id="selectPmMeetingStat" parameterType="map" resultType="persistence.pm.common.PmMeetingStat">
+        select pm2.id,pm2.year,pm2.quarter,pm2.month,pm2.party_id partyId,pm2.branch_id branchId,
+        count(case when pm2.type1='1' then 1 end) count1,count(case when pm2.type1='2' then 1 end) count2,count(case when pm2.type1='3' then 1 end) count3,
+        count(case when pm2.type1='4' then 1 end) count4,count(case when pm2.type1='5' or pm2.type2='5' then 1 end) count5 from pm_meeting2 pm2
+        where status = #{status}
+            <if test="year!=null">
+                and year =#{year}
+            </if>
+            <if test="quarter!=null">
+                and quarter =#{quarter}
+            </if>
+            <if test="month!=null">
+                and month =#{month}
+            </if>
+            <if test="partyId!=null">
+                and party_id =#{partyId}
+            </if>
+            <if test="branchId!=null">
+                and branch_id =#{branchId}
+            </if>
+            <include refid="member_selects_permits"/>
+
+         group by year,quarter,<if test="display==2">month,</if>party_id,branch_id;
+
+    </select>
+
+    <select id="countPmMeetingStat" parameterType="map" resultType="java.lang.Integer" >
+        select count(*) from(
+        select count(*) from pm_meeting2 pm2
+        where status = #{status}
+            <if test="year!=null">
+                and year =#{year}
+            </if>
+            <if test="quarter!=null">
+                and quarter =#{quarter}
+            </if>
+            <if test="month!=null">
+                and month =#{month}
+            </if>
+            <if test="partyId!=null">
+                and party_id =#{partyId}
+            </if>
+            <if test="branchId!=null">
+                and branch_id =#{branchId}
+            </if>
+            <include refid="member_selects_permits"/>
+
+        group by year,quarter,<if test="display==2">month,</if>party_id,branch_id
+        ) pm;
+    </select>
 </mapper>
