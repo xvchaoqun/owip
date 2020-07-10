@@ -12,7 +12,7 @@ tar -cf diff.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . 
 
 
 -- 打包commit文件
-# 打包更新文件（不含删除文件）
+# 打包更新文件（不含删除文件）set
 cd /cygdrive/d/IdeaProjects/owip
 git diff-tree --diff-filter=d -r --no-commit-id --name-only c8799d86  -- . ':(exclude)doc/*' | xargs tar -cf /cygdrive/d/tmp/update.zip
 

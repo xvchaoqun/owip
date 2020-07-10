@@ -36,7 +36,6 @@ import service.party.MemberService;
 import service.sys.AvatarService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
-import sun.misc.BASE64Decoder;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -1385,9 +1384,7 @@ public class CadreAdformService extends BaseMapper {
         //填充后的模板内容
         ByteArrayInputStream documentInput = new ByteArrayInputStream(document.getBytes("utf-8"));
         //头像内容
-        BASE64Decoder decoder = new BASE64Decoder();
-        byte[] bytes = decoder.decodeBuffer(avatar);
-        ByteArrayInputStream imageInput = new ByteArrayInputStream(bytes);
+        InputStream imageInput = ImageUtils.decodeBase64ToInputStream(avatar);
         //获取docx模板文件
         File docxFile = ResourceUtils.getFile(fileClasspath);
         ZipFile zipFile = new ZipFile(docxFile);
