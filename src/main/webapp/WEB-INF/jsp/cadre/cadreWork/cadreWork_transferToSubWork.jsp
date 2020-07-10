@@ -11,8 +11,8 @@
     <div class="form-group">
       <label class="col-xs-4 control-label">工作经历</label>
       <div class="col-xs-8 label-text">
-        ${cm:formatDate(cadreWork.startTime, "yyyy-MM-dd")} ~
-        ${cm:formatDate(cadreWork.endTime, "yyyy-MM-dd")}  ${cadreWork.detail}
+        ${cm:formatDate(cadreWork.startTime, "yyyy.MM")} ~
+        ${cm:formatDate(cadreWork.endTime, "yyyy.MM")}  ${cadreWork.detail}
       </div>
     </div>
     <div class="form-group">
@@ -21,8 +21,8 @@
         <select required data-rel="select2" name="fid" data-placeholder="请选择" data-width="320">
           <option></option>
           <c:forEach items="${topCadreWorks}" var="topCadreWork">
-            <option value="${topCadreWork.id}">${cm:formatDate(topCadreWork.startTime, "yyyy-MM-dd")} ~
-            ${cm:formatDate(topCadreWork.endTime, "yyyy-MM-dd")}  ${topCadreWork.detail}</option>
+            <option value="${topCadreWork.id}">${cm:formatDate(topCadreWork.startTime, "yyyy.MM")} ~
+            ${cm:formatDate(topCadreWork.endTime, "yyyy.MM")}  ${topCadreWork.detail}</option>
           </c:forEach>
         </select>
       </div>
