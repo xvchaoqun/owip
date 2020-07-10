@@ -302,81 +302,84 @@
                     </w:p>
                 </w:tc>
                 <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="92.15pt" w:type="dxa"/>
-                        <w:vMerge w:val="restart"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                        <w:vAlign w:val="center"/>
-                    </w:tcPr>
-                    <w:p w14:paraId="16C70E47" w14:textId="217377DE" w:rsidR="00563A30" w:rsidRPr="009B666C"
-                         w:rsidRDefault="003E10AF" w:rsidP="009B666C">
-                        <w:pPr>
-                            <w:jc w:val="center"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-                                <w:spacing w:val="100"/>
-                                <w:sz w:val="32"/>
-                                <w:szCs w:val="32"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:bookmarkStart w:id="0" w:name="P0192A_12"/>
-                        <w:bookmarkEnd w:id="0"/>
-                        <w:r w:rsidRPr="00C5539E">
-                            <w:rPr>
-                                <w:noProof/>
-                                <w:sz w:val="24"/>
-                            </w:rPr>
+					<w:tcPr>
+						<w:tcW w:w="92.15pt" w:type="dxa"/>
+						<w:vMerge w:val="restart"/>
+						<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+						<w:tcMar>
+							<w:start w:w="0pt" w:type="dxa"/>
+							<w:end w:w="0pt" w:type="dxa"/>
+						</w:tcMar>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w14:paraId="16C70E47" w14:textId="4F6EC907" w:rsidR="00563A30" w:rsidRPr="009B666C" w:rsidRDefault="006F6395" w:rsidP="006F6395">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
+								<w:spacing w:val="100"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+						</w:pPr>
+						<w:bookmarkStart w:id="0" w:name="P0192A_12"/>
+						<w:bookmarkEnd w:id="0"/>
+						<w:r w:rsidRPr="006F6395">
+							<w:rPr>
+								<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
+								<w:noProof/>
+								<w:spacing w:val="100"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
                             <w:drawing>
-                                <wp:inline distT="0" distB="0" distL="0" distR="0" wp14:anchorId="1B5D7992"
-                                           wp14:editId="665BD518">
-                                    <wp:extent cx="981075" cy="981075"/>
-                                    <wp:effectExtent l="0" t="0" r="0" b="0"/>
-                                    <wp:docPr id="1" name="图片 1"/>
-                                    <wp:cNvGraphicFramePr>
-                                        <a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main"
-                                                             noChangeAspect="1"/>
-                                    </wp:cNvGraphicFramePr>
-                                    <a:graphic xmlns:a="http://purl.oclc.org/ooxml/drawingml/main">
-                                        <a:graphicData uri="http://purl.oclc.org/ooxml/drawingml/picture">
-                                            <pic:pic xmlns:pic="http://purl.oclc.org/ooxml/drawingml/picture">
-                                                <pic:nvPicPr>
-                                                    <pic:cNvPr id="0" name="Picture 1"/>
-                                                    <pic:cNvPicPr>
-                                                        <a:picLocks noChangeAspect="1" noChangeArrowheads="1"/>
-                                                    </pic:cNvPicPr>
-                                                </pic:nvPicPr>
-                                                <pic:blipFill>
-                                                    <a:blip r:embed="rId6">
-                                                        <a:extLst>
-                                                            <a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">
-                                                                <a14:useLocalDpi
-                                                                        xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main"
-                                                                        val="0"/>
-                                                            </a:ext>
-                                                        </a:extLst>
-                                                    </a:blip>
-                                                    <a:stretch>
-                                                        <a:fillRect/>
-                                                    </a:stretch>
-                                                </pic:blipFill>
-                                                <pic:spPr bwMode="auto">
-                                                    <a:xfrm>
-                                                        <a:off x="0" y="0"/>
-                                                        <a:ext cx="981075" cy="981075"/>
-                                                    </a:xfrm>
-                                                    <a:prstGeom prst="rect">
-                                                        <a:avLst/>
-                                                    </a:prstGeom>
-                                                    <a:noFill/>
-                                                    <a:ln>
-                                                        <a:noFill/>
-                                                    </a:ln>
-                                                </pic:spPr>
-                                            </pic:pic>
-                                        </a:graphicData>
-                                    </a:graphic>
-                                </wp:inline>
-                            </w:drawing>
+								<wp:inline distT="0" distB="0" distL="0" distR="0" wp14:anchorId="1E8FB943" wp14:editId="2748E6C3">
+									<wp:extent cx="1113009" cy="1362075"/>
+									<wp:effectExtent l="0" t="0" r="0" b="0"/>
+									<wp:docPr id="1" name="图片 1"/>
+									<wp:cNvGraphicFramePr>
+										<a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main" noChangeAspect="1"/>
+									</wp:cNvGraphicFramePr>
+									<a:graphic xmlns:a="http://purl.oclc.org/ooxml/drawingml/main">
+										<a:graphicData uri="http://purl.oclc.org/ooxml/drawingml/picture">
+											<pic:pic xmlns:pic="http://purl.oclc.org/ooxml/drawingml/picture">
+												<pic:nvPicPr>
+													<pic:cNvPr id="0" name="Picture 1"/>
+													<pic:cNvPicPr>
+														<a:picLocks noChangeAspect="1" noChangeArrowheads="1"/>
+													</pic:cNvPicPr>
+												</pic:nvPicPr>
+												<pic:blipFill>
+													<a:blip r:embed="rId6">
+														<a:extLst>
+															<a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">
+																<a14:useLocalDpi xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main" val="0"/>
+															</a:ext>
+														</a:extLst>
+													</a:blip>
+													<a:srcRect/>
+													<a:stretch>
+														<a:fillRect/>
+													</a:stretch>
+												</pic:blipFill>
+												<pic:spPr bwMode="auto">
+													<a:xfrm>
+														<a:off x="0" y="0"/>
+														<a:ext cx="1126780" cy="1378928"/>
+													</a:xfrm>
+													<a:prstGeom prst="rect">
+														<a:avLst/>
+													</a:prstGeom>
+													<a:noFill/>
+													<a:ln>
+														<a:noFill/>
+													</a:ln>
+												</pic:spPr>
+											</pic:pic>
+										</a:graphicData>
+									</a:graphic>
+								</wp:inline>
+							</w:drawing>
                         </w:r>
                     </w:p>
                 </w:tc>

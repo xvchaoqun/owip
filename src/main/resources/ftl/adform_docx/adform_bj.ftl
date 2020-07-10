@@ -272,73 +272,73 @@
                     </w:p>
                 </w:tc>
                 <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="90pt" w:type="dxa"/>
-                        <w:vMerge w:val="restart"/>
-                        <w:vAlign w:val="center"/>
-                    </w:tcPr>
-                    <w:p w14:paraId="4CF66C58" w14:textId="6E72BC3F" w:rsidR="0060451C" w:rsidRPr="00514A13"
-                         w:rsidRDefault="003339D8">
-                        <w:pPr>
-                            <w:jc w:val="center"/>
-                        </w:pPr>
-                        <w:bookmarkStart w:id="3" w:name="P0192A_12"/>
-                        <w:bookmarkEnd w:id="3"/>
-                        <w:r>
-                            <w:rPr>
-                                <w:noProof/>
-                            </w:rPr>
+					<w:tcPr>
+						<w:tcW w:w="90pt" w:type="dxa"/>
+						<w:vMerge w:val="restart"/>
+						<w:tcMar>
+							<w:start w:w="0pt" w:type="dxa"/>
+							<w:end w:w="0pt" w:type="dxa"/>
+						</w:tcMar>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w14:paraId="4CF66C58" w14:textId="408D1358" w:rsidR="0060451C" w:rsidRPr="00514A13" w:rsidRDefault="002B074E">
+						<w:pPr>
+							<w:jc w:val="center"/>
+						</w:pPr>
+						<w:bookmarkStart w:id="3" w:name="P0192A_12"/>
+						<w:bookmarkEnd w:id="3"/>
+						<w:r w:rsidRPr="002B074E">
+							<w:rPr>
+								<w:noProof/>
+							</w:rPr>
                             <w:drawing>
-                                <wp:inline distT="0" distB="0" distL="0" distR="0" wp14:anchorId="4F743FED"
-                                           wp14:editId="612FCE69">
-                                    <wp:extent cx="981075" cy="981075"/>
-                                    <wp:effectExtent l="0" t="0" r="0" b="0"/>
-                                    <wp:docPr id="1" name="图片 1"/>
-                                    <wp:cNvGraphicFramePr>
-                                        <a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main"
-                                                             noChangeAspect="1"/>
-                                    </wp:cNvGraphicFramePr>
-                                    <a:graphic xmlns:a="http://purl.oclc.org/ooxml/drawingml/main">
-                                        <a:graphicData uri="http://purl.oclc.org/ooxml/drawingml/picture">
-                                            <pic:pic xmlns:pic="http://purl.oclc.org/ooxml/drawingml/picture">
-                                                <pic:nvPicPr>
-                                                    <pic:cNvPr id="0" name="Picture 1"/>
-                                                    <pic:cNvPicPr>
-                                                        <a:picLocks noChangeAspect="1" noChangeArrowheads="1"/>
-                                                    </pic:cNvPicPr>
-                                                </pic:nvPicPr>
-                                                <pic:blipFill>
-                                                    <a:blip r:embed="rId7">
-                                                        <a:extLst>
-                                                            <a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">
-                                                                <a14:useLocalDpi
-                                                                        xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main"
-                                                                        val="0"/>
-                                                            </a:ext>
-                                                        </a:extLst>
-                                                    </a:blip>
-                                                    <a:stretch>
-                                                        <a:fillRect/>
-                                                    </a:stretch>
-                                                </pic:blipFill>
-                                                <pic:spPr bwMode="auto">
-                                                    <a:xfrm>
-                                                        <a:off x="0" y="0"/>
-                                                        <a:ext cx="981075" cy="981075"/>
-                                                    </a:xfrm>
-                                                    <a:prstGeom prst="rect">
-                                                        <a:avLst/>
-                                                    </a:prstGeom>
-                                                    <a:noFill/>
-                                                    <a:ln>
-                                                        <a:noFill/>
-                                                    </a:ln>
-                                                </pic:spPr>
-                                            </pic:pic>
-                                        </a:graphicData>
-                                    </a:graphic>
-                                </wp:inline>
-                            </w:drawing>
+								<wp:inline distT="0" distB="0" distL="0" distR="0" wp14:anchorId="1F23E8A0" wp14:editId="76F704EB">
+									<wp:extent cx="1089660" cy="1333500"/>
+									<wp:effectExtent l="0" t="0" r="0" b="0"/>
+									<wp:docPr id="1" name="图片 1"/>
+									<wp:cNvGraphicFramePr>
+										<a:graphicFrameLocks xmlns:a="http://purl.oclc.org/ooxml/drawingml/main" noChangeAspect="1"/>
+									</wp:cNvGraphicFramePr>
+									<a:graphic xmlns:a="http://purl.oclc.org/ooxml/drawingml/main">
+										<a:graphicData uri="http://purl.oclc.org/ooxml/drawingml/picture">
+											<pic:pic xmlns:pic="http://purl.oclc.org/ooxml/drawingml/picture">
+												<pic:nvPicPr>
+													<pic:cNvPr id="0" name="Picture 1"/>
+													<pic:cNvPicPr>
+														<a:picLocks noChangeAspect="1" noChangeArrowheads="1"/>
+													</pic:cNvPicPr>
+												</pic:nvPicPr>
+												<pic:blipFill>
+													<a:blip r:embed="rId7">
+														<a:extLst>
+															<a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}">
+																<a14:useLocalDpi xmlns:a14="http://schemas.microsoft.com/office/drawing/2010/main" val="0"/>
+															</a:ext>
+														</a:extLst>
+													</a:blip>
+													<a:srcRect/>
+													<a:stretch>
+														<a:fillRect/>
+													</a:stretch>
+												</pic:blipFill>
+												<pic:spPr bwMode="auto">
+													<a:xfrm>
+														<a:off x="0" y="0"/>
+														<a:ext cx="1103958" cy="1350997"/>
+													</a:xfrm>
+													<a:prstGeom prst="rect">
+														<a:avLst/>
+													</a:prstGeom>
+													<a:noFill/>
+													<a:ln>
+														<a:noFill/>
+													</a:ln>
+												</pic:spPr>
+											</pic:pic>
+										</a:graphicData>
+									</a:graphic>
+								</wp:inline>
+							</w:drawing>
                         </w:r>
                     </w:p>
                 </w:tc>
