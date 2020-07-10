@@ -41,7 +41,7 @@ public class CadreUtils {
 
             if(StringUtils.isBlank(lines[i]))continue;
 
-            if(i>0 && !PatternUtils.match(".*[0-9]{4}\\.[0-9]{2}[\\-—～－]{1,2}([0-9]{4}\\.[0-9]{2})?([\\u4e00-\\u9fa5]{2})?\\s+.*", lines[i])){
+            if(i>0 && !PatternUtils.match("[\\s]*[0-9]{4}\\.[0-9]{2}[\\-—～－]{1,2}([0-9]{4}\\.[0-9]{2})?([\\u4e00-\\u9fa5]{2})?\\s+.*", lines[i])){
                 int lastIdx = lineList.size()-1;
                 lineList.set(lastIdx, StringUtils.trimToEmpty(lineList.get(lastIdx))+StringUtils.trimToEmpty(lines[i]));
             }else{
