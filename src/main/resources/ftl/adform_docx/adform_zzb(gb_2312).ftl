@@ -1876,11 +1876,11 @@
                 </w:tc>
                 <w:tc>
                     <w:tcPr>
-                        <w:tcW w:w="429.20pt" w:type="dxa"/>
-                        <w:gridSpan w:val="11"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                        <w:vAlign w:val="center"/>
-                    </w:tcPr>
+						<w:tcW w:w="429.20pt" w:type="dxa"/>
+						<w:gridSpan w:val="11"/>
+						<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
                     ${reward?default('<w:p/>')}
                 </w:tc>
             </w:tr>
@@ -1963,18 +1963,6 @@
                                 <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
                             </w:rPr>
                         </w:pPr>
-                        <w:r w:rsidRPr="009B666C">
-                            <w:rPr>
-                                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-                            </w:rPr>
-                            <w:t>2017</w:t>
-                        </w:r>
-                        <w:r w:rsidRPr="009B666C">
-                            <w:rPr>
-                                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-                            </w:rPr>
-                            <w:t>、</w:t>
-                        </w:r>
                         <w:r w:rsidRPr="009B666C">
                             <w:rPr>
                                 <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
@@ -2063,31 +2051,30 @@
                 </w:tc>
                 <w:tc>
                     <w:tcPr>
-                        <w:tcW w:w="429.20pt" w:type="dxa"/>
-                        <w:gridSpan w:val="11"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                        <w:vAlign w:val="center"/>
-                    </w:tcPr>
-                    <w:p w14:paraId="3833F41D" w14:textId="41687E08" w:rsidR="00563A30" w:rsidRPr="009B666C"
-                         w:rsidRDefault="003F6C9C" w:rsidP="003F6C9C">
-                        <w:pPr>
-                            <w:spacing w:line="20pt" w:lineRule="exact"/>
-                            <w:jc w:val="start"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-                                <w:spacing w:val="100"/>
-                                <w:sz w:val="32"/>
-                                <w:szCs w:val="32"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:hint="eastAsia"/>
-                                <w:spacing w:val="100"/>
-                                <w:sz w:val="32"/>
-                                <w:szCs w:val="32"/>
-                            </w:rPr>
-                            <w:t>${reason!}</w:t>
+						<w:tcW w:w="429.20pt" w:type="dxa"/>
+						<w:gridSpan w:val="11"/>
+						<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00563A30" w:rsidRPr="009B666C" w:rsidRDefault="003F6C9C" w:rsidP="00BE0576">
+						<w:pPr>
+							<w:spacing w:line="20pt" w:lineRule="exact"/>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
+								<w:spacing w:val="100"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:hint="eastAsia"/>
+								<w:spacing w:val="100"/>
+								<w:sz w:val="32"/>
+								<w:szCs w:val="32"/>
+							</w:rPr>
+							<w:t>${reason!}</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>

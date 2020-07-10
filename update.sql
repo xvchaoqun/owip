@@ -1,4 +1,7 @@
 
+2020.7.10
+西工大  -- 北师大
+
 ALTER TABLE `ow_member_certify`
 	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '原单位' AFTER `political_status`,
 	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL DEFAULT NULL COMMENT '介绍信抬头' AFTER `from_unit`,

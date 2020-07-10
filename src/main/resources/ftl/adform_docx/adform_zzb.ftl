@@ -2286,6 +2286,7 @@
                          w:rsidRDefault="000A0434" w:rsidP="00176812">
                         <w:pPr>
                             <w:spacing w:line="16pt" w:lineRule="exact"/>
+                            <w:jc w:val="center"/>
                             <w:rPr>
                                 <w:szCs w:val="28"/>
                             </w:rPr>

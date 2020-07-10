@@ -658,7 +658,7 @@ public class CadreAdformService extends BaseMapper {
                     + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
         }*/
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, titleEditorFtl));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, rewardFtl));
 
         String family = "";
         List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
