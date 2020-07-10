@@ -977,16 +977,16 @@ public class MemberController extends MemberBaseController {
         MemberViewExample example = new MemberViewExample();
         MemberViewExample.Criteria criteria = example.createCriteria();
 
+        String orderStr = "type,is_retire,";
         if (StringUtils.equalsIgnoreCase(sort, "party")) {
-            example.setOrderByClause(String.format("party_sort_order , branch_sort_order %s, grow_time desc", order));
+            example.setOrderByClause(String.format("party_sort_order , branch_sort_order %s," + orderStr + " grow_time desc", order));
         } else if (StringUtils.equalsIgnoreCase(sort, "growTime")) {
             example.setOrderByClause(String.format("grow_time %s", order));
         }else if (StringUtils.equalsIgnoreCase(sort,"integrity")){
             example.setOrderByClause(String.format("integrity %s", order));
         }else{
-            example.setOrderByClause(String.format("party_sort_order desc, branch_sort_order desc, user_id asc", order));
+            example.setOrderByClause(String.format("party_sort_order desc, branch_sort_order desc," + orderStr + "user_id", order));
         }
-        example.setOrderByClause("type,is_retire");
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
