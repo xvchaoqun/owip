@@ -915,6 +915,9 @@ public class MemberController extends MemberBaseController {
             //modelMap.put("nations", iPropertyMapper.studentNations());
             modelMap.put("nativePlaces", iPropertyMapper.studentNativePlaces());
         } else if (cls == 10) {
+
+            titles = getCommonExportTitles();
+
             modelMap.put("nations", iPropertyMapper.nations());
             modelMap.put("nativePlaces", iPropertyMapper.nativePlaces());
         }
@@ -983,6 +986,7 @@ public class MemberController extends MemberBaseController {
         }else{
             example.setOrderByClause(String.format("party_sort_order desc, branch_sort_order desc, user_id asc", order));
         }
+        example.setOrderByClause("type,is_retire");
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -1148,6 +1152,8 @@ public class MemberController extends MemberBaseController {
                 student_export(cls, example, cols, response);
             } else if (cls == 2 || cls == 3 || cls == 7) {
                 teacher_export(cls, example, cols, response);
+            }else if (cls == 10){
+                commcon_export(cls, example, cols, response);
             }
             return;
         }
@@ -1416,6 +1422,80 @@ public class MemberController extends MemberBaseController {
         }
 
         String fileName = (cls == 6 ? "已转出" : "") + "学生党员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.export(exportTitles, valuesList, fileName, response);
+    }
+
+    private List<String> getCommonExportTitles() {
+
+        return new ArrayList<>(Arrays.asList(new String[]{"学工号|100", "姓名|80", "性别|50", "出生日期|100", "年龄|50", "身份证号|150",
+                "民族|100", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
+                "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
+                "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
+                "手机号码|100"}));
+    }
+
+    //导出全部党员
+    public void commcon_export(int cls, MemberViewExample example, Integer[] cols, HttpServletResponse response) {
+
+        //Map<Integer, Unit> unitMap = unitService.findAll();
+        List<MemberView> records = memberViewMapper.selectByExample(example);
+        int rownum = records.size();
+
+        List<String> exportTitles = getCommonExportTitles();
+        if (cols != null && cols.length > 0) {
+            // 选择导出列
+            List<String> _titles = new ArrayList<>();
+            for (int col : cols) {
+                _titles.add(exportTitles.get(col));
+            }
+            exportTitles.clear();
+            exportTitles.addAll(_titles);
+        }
+
+        List<List<String>> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            MemberView record = records.get(i);
+            Byte gender = record.getGender();
+            Integer partyId = record.getPartyId();
+            Integer branchId = record.getBranchId();
+
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
+                    record.getCode(),//学工号
+                    record.getRealname(),//姓名
+                    gender == null ? "" : SystemConstants.GENDER_MAP.get(gender),//性别
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),//出生日期
+                    record.getBirth() != null ? DateUtils.intervalYearsUntilNow(record.getBirth()) + "" : "",//年龄
+                    record.getIdcard(),//身份证号
+                    record.getNation(),//身份证号
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),//所属分党委
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),//所属党支部
+                    MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
+                    DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYYMMDD_DOT),
+                    record.getGrowBranch(),
+                    record.getSponsor(),//入党介绍人
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYYMMDD_DOT),
+                    record.getPositiveBranch(),//转正时所在党支部
+                    record.getPartyPost(),
+                    record.getPartyReward(),
+                    record.getOtherReward(),
+                    metaTypeService.getName(record.getAddType()),
+                    record.getMobile(),
+            }));
+
+            if (cols != null && cols.length > 0) {
+                // 选择导出列
+                List<String> _values = new ArrayList<>();
+                for (int col : cols) {
+                    _values.add(values.get(col));
+                }
+                values.clear();
+                values.addAll(_values);
+            }
+
+            valuesList.add(values);
+        }
+
+        String fileName = "全部党员信息(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(exportTitles, valuesList, fileName, response);
     }
 

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=MemberConstants.MEMBER_TYPE_TEACHER%>" var="MEMBER_TYPE_TEACHER"/>
+<c:set value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>" var="MEMBER_TYPE_STUDENT"/>
+<c:set value="<%=MemberConstants.MEMBER_TYPE_MAP%>" var="MEMBER_TYPE_MAP"/>
+<c:set value="<%=MemberConstants.MEMBER_STATUS_NORMAL%>" var="MEMBER_STATUS_NORMAL"/>
+
 <c:set value="${_pMap['owCheckIntegrity']=='true'}" var="_p_owCheckIntegrity"/>
 <div class="row">
     <div class="col-xs-12">
@@ -25,38 +30,39 @@
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <shiro:hasPermission name="member:changeCode">
-                                <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
-                                   data-url="${ctx}/member_changeCode"
-                                   data-id-name="userId">
-                                    <i class="fa fa-refresh"></i> 更换学工号</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="member:modifyStatus">
-                                <a href="javascript:;" class="jqEditBtn btn btn-info btn-sm"
-                                   data-url="${ctx}/member_modify_status"
-                                   data-id-name="userId">
-                                    <i class="fa fa-star-o"></i> 修改党籍状态</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="member:edit">
-                                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
-                                   data-open-by="page" data-id-name="userId">
-                                    <i class="fa fa-star"></i> 修改党籍信息</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="memberBaseInfo:edit">
-                                <button class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
-                                        data-url="${ctx}/memberBaseInfo_au"
-                                        data-open-by="page" data-id-name="userId"
-                                        data-rel="tooltip" data-placement="top" title="修改账号基本信息">
-                                    <i class="fa fa-info-circle"></i> 修改基础信息
-                                </button>
-                            </shiro:hasPermission>
+                            <c:if test="${cls!=6&&cls!=7}">
+                                <shiro:hasPermission name="member:changeCode">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-warning btn-sm"
+                                       data-url="${ctx}/member_changeCode"
+                                       data-id-name="userId">
+                                        <i class="fa fa-refresh"></i> 更换学工号</a>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="member:modifyStatus">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-info btn-sm"
+                                       data-url="${ctx}/member_modify_status"
+                                       data-id-name="userId">
+                                        <i class="fa fa-star-o"></i> 修改党籍状态</a>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="member:edit">
+                                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                                       data-open-by="page" data-id-name="userId">
+                                        <i class="fa fa-star"></i> 修改党籍信息</a>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="memberBaseInfo:edit">
+                                    <button class="jqOpenViewBtn btn btn-success btn-sm tooltip-success"
+                                            data-url="${ctx}/memberBaseInfo_au"
+                                            data-open-by="page" data-id-name="userId"
+                                            data-rel="tooltip" data-placement="top" title="修改账号基本信息">
+                                        <i class="fa fa-info-circle"></i> 修改基础信息
+                                    </button>
+                                </shiro:hasPermission>
+                            </c:if>
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/memberModify"
                                     data-id-name="userId"
                                     data-open-by="page">
                                 <i class="fa fa-history"></i> 修改记录
                             </button>
-                            <c:if test="${cls!=10}">
                             <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"
@@ -99,12 +105,13 @@
                                     </li>
                                 </ul>
                             </div>
+                            <c:if test="${cls!=6&&cls!=7}">
+                                <shiro:hasPermission name="member:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/member_batchDel" data-title="删除"
+                                       data-msg="确定删除这{0}位党员吗？<br/>（相关党员数据将全部删除，请谨慎操作！）"><i class="fa fa-trash"></i> 删除</a>
+                                </shiro:hasPermission>
                             </c:if>
-                            <shiro:hasPermission name="member:del">
-                                <a class="jqBatchBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/member_batchDel" data-title="删除"
-                                   data-msg="确定删除这{0}位党员吗？<br/>（相关党员数据将全部删除，请谨慎操作！）"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed<%--${_query?'':'collapsed'}--%> hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -308,27 +315,29 @@
                                                        type="text" name="_positiveTime" value="${param._positiveTime}"/>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>所在${_p_partyName}</label>
-                                            <select class="form-control" data-width="350" data-rel="select2-ajax"
-                                                    data-ajax-url="${ctx}/party_selects?auth=1"
-                                                    name="partyId" data-placeholder="请选择">
-                                                <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group" style="${(empty branch)?'display: none':''}"
-                                             id="branchDiv">
-                                            <label>所在党支部</label>
-                                            <select class="form-control" data-rel="select2-ajax"
-                                                    data-ajax-url="${ctx}/branch_selects?auth=1"
-                                                    name="branchId" data-placeholder="请选择党支部">
-                                                <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
-                                            </select>
-                                        </div>
-                                        <script>
-                                            $.register.party_branch_select($("#searchForm"), "branchDiv",
-                                                '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
-                                        </script>
+                                        <c:if test="${cls!=6&&cls!=7}">
+                                            <div class="form-group">
+                                                <label>所在${_p_partyName}</label>
+                                                <select class="form-control" data-width="350" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/party_selects?auth=1"
+                                                        name="partyId" data-placeholder="请选择">
+                                                    <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" style="${(empty branch)?'display: none':''}"
+                                                 id="branchDiv">
+                                                <label>所在党支部</label>
+                                                <select class="form-control" data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/branch_selects?auth=1"
+                                                        name="branchId" data-placeholder="请选择党支部">
+                                                    <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
+                                                </select>
+                                            </div>
+                                            <script>
+                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
+                                                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
+                                            </script>
+                                        </c:if>
                                         <div class="form-group">
                                             <label>党籍状态</label>
                                             <select required data-rel="select2" name="politicalStatus"
@@ -460,6 +469,18 @@
                 }, frozen: true
             },
             {label: '学工号', name: 'code', width: 120, frozen: true},
+            <c:if test="${cls==10}">
+                {label: '人员类别', name: 'userType', formatter : function (cellvalue, options, rowObject) {
+                        if (rowObject.type == ${MEMBER_TYPE_STUDENT}) {
+                            return '学生';
+                        }else if (rowObject.type == ${MEMBER_TYPE_TEACHER}) {
+                            if (rowObject.isRetire){
+                                return '离退休';
+                            }
+                            return '教职工';
+                        }
+                    }},
+            </c:if>
             <c:if test="${_p_owCheckIntegrity}">
             {label: '信息完整度', name: 'integrity',frozen: true,width: 120,formatter: function (cellvalue, options, rowObject) {
 
@@ -476,11 +497,13 @@
             {label: '民族', name: 'nation'},
             {label: '籍贯', name: 'nativePlace', width: 120},
             {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
-            {
-                label: '所在党组织', name: 'party', width: 550, formatter: function (cellvalue, options, rowObject) {
-                    return $.party(rowObject.partyId, rowObject.branchId);
-                }, sortable: true, align: 'left'
-            },
+            <c:if test="${cls!=6&&cls!=7}">
+                {
+                    label: '所在党组织', name: 'party', width: 550, formatter: function (cellvalue, options, rowObject) {
+                        return $.party(rowObject.partyId, rowObject.branchId);
+                    }, sortable: true, align: 'left'
+                },
+            </c:if>
             {
                 label: '党籍状态', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue)
