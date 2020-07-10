@@ -109,6 +109,9 @@ public class PmMeeting2Controller extends PmBaseController {
         if (quarter!=null) {
             criteria.andQuarterEqualTo(quarter);
         }
+        if (month!=null) {
+            criteria.andMonthEqualTo(month);
+        }
         switch (cls) {
             case 1:
                 criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_PASS);

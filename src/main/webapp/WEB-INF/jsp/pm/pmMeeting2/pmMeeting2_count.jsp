@@ -18,7 +18,7 @@
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
-        url: "${ctx}/pmMeeting2_data?callback=?&year=${param.year}&quarter=${param.quarter}&month=${param.month}&partyId=${param.partyId}&branchId=${param.branchId}&cls=3&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/pmMeeting2_data?callback=?&year=${param.year}&quarter=${param.quarter}&month=${param.month}&partyId=${param.partyId}&branchId=${param.branchId}&cls=1&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             { label: '年份', name: 'year', width:80},
             { label: '季度', name: 'quarter',width:80, formatter: function (cellvalue, options, rowObject) {
