@@ -25,15 +25,17 @@
         </javaClientGenerator>
 
         <!--三会一课-->
-        <table tableName="pm_meeting" domainObjectName="pm.PmMeeting" mapperName="pm.PmMeetingMapper">
+       <!-- <table tableName="pm_meeting" domainObjectName="pm.PmMeeting" mapperName="pm.PmMeetingMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="attends" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="absents" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="resolution" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="decision" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <table tableName="pm_meeting2" domainObjectName="pm.PmMeeting2" mapperName="pm.PmMeeting2Mapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>
-
         <!--<table tableName="pm_meeting_file" domainObjectName="pm.PmMeetingFile" mapperName="pm.PmMeetingFileMapper">-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->
