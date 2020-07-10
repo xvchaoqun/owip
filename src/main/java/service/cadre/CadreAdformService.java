@@ -247,6 +247,7 @@ public class CadreAdformService extends BaseMapper {
         SysUserView uv = cadre.getUser();
 
         CadreInfoForm bean = new CadreInfoForm();
+        bean.setReason(CmTag.getStringProperty("label_adform_reason"));
         bean.setCadreId(cadreId);
         bean.setRealname(CmTag.realnameWithEmpty(uv.getRealname()));
         bean.setGender(uv.getGender());

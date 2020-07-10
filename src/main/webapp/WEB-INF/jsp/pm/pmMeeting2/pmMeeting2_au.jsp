@@ -41,23 +41,18 @@
                             </c:if>
 
                             <c:if test="${edit}">
-                                <div class="col-xs-5">
                                     <select required class="form-control" data-rel="select2-ajax"
                                                 data-ajax-url="${ctx}/party_selects?auth=1"
                                                 name="partyId" data-placeholder="请选择${_p_partyName}" data-width="250">
                                         <option value="${pmMeeting2.partyId}">${pmMeeting2.party.name}</option>
                                     </select>
-                                </div>
-                                <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                    <%--<label class="col-xs-3 control-label">选择党支部</label>--%>
-                                    <div class="col-xs-5" style="padding-left: 25px;">
+                                    <span style="${(empty branch)?'display: none':''}" id="branchDiv" style="padding-left: 25px;">
                                         <select class="form-control"  data-rel="select2-ajax"
                                                 data-ajax-url="${ctx}/branch_selects?del=0&auth=1"
                                                 name="branchId" data-placeholder="请选择党支部" data-width="250">
                                             <option value="${pmMeeting2.branchId}">${pmMeeting2.branch.name}</option>
                                         </select>
-                                    </div>
-                                </div>
+                                    </span>
                             </c:if>
                         </td>
                     </div>
@@ -99,8 +94,9 @@
                 </tr>
                 <tr>
                     <td><span class="star">*</span>活动名称</td>
-                    <td  colspan="3">
-                           <table class="table table-bordered" name="typeTable">
+                    <td colspan="3">
+                        <div class="input-group" style="width: 100%">
+                           <table class="table table-bordered table-unhover2" name="typeTable">
                                <c:forEach items="${PARTY_MEETING_MAP}" var="entity">
                                   <tr>
                                       <td>
@@ -123,6 +119,7 @@
                                   </tr>
                                </c:forEach>
                            </table>
+                            </div>
                         <script>
                                $('#modalForm input[name="type"][value="'+${pmMeeting2.type1} +'"]').prop("checked", true);
                                $(".input${pmMeeting2.type1}:first").val(${pmMeeting2.number1});
@@ -388,14 +385,14 @@
         submitHandler: function (form) {
             var number=new Array();
             var time=new Array();
-            console.log($("input[name=type]:checked").length);
+            //console.log($("input[name=type]:checked").length);
             $("input[name=type]:checked").each(function (i) {
                 var type=$(this).val();
 
                 number[i]= $(".input"+type+":first").val();
                 time[i]= $(".input"+type+":last").val();
-                console.log(i+number[i]);
-                console.log(i+time[i]);
+                //console.log(i+number[i]);
+                //console.log(i+time[i]);
             })
 
             $(form).ajaxSubmit({

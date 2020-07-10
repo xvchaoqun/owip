@@ -37,6 +37,8 @@ public class CetRecord implements Serializable {
 
     private Byte sourceType;
 
+    private Integer cetPartyId;
+
     private String organizer;
 
     private BigDecimal period;
@@ -159,6 +161,14 @@ public class CetRecord implements Serializable {
 
     public void setSourceType(Byte sourceType) {
         this.sourceType = sourceType;
+    }
+
+    public Integer getCetPartyId() {
+        return cetPartyId;
+    }
+
+    public void setCetPartyId(Integer cetPartyId) {
+        this.cetPartyId = cetPartyId;
     }
 
     public String getOrganizer() {

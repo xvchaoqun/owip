@@ -63,6 +63,7 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,
+        <c:if test="${cls==1}">multiselect:false,</c:if>
         url: '${ctx}/user/cet/cetUpperTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModel
     }).jqGrid("setFrozenColumns");

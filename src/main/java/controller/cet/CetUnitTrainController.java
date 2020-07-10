@@ -50,16 +50,6 @@ public class CetUnitTrainController extends CetBaseController {
     @RequiresPermissions("cetUnitProject:list")
     @RequestMapping("/cetUnitTrain")
     public String cetUnitTrain(Integer projectId,
-                               ModelMap modelMap) {
-
-        modelMap.put("cetUnitProject", cetUnitProjectMapper.selectByPrimaryKey(projectId));
-
-        return "cet/cetUnitTrain/cetUnitTrain_view";
-    }
-
-    @RequiresPermissions("cetUnitProject:list")
-    @RequestMapping("/cetUnitTrain_page")
-    public String cetUnitTrain_page(Integer projectId,
                                     Integer reRecord,
                                     Integer userId,
                                     @RequestParam(required = false, value = "identities") Integer[] identities,

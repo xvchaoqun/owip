@@ -70,6 +70,8 @@ public class CadreWorkService extends BaseMapper {
         List<CadreWork> cadreWorks = list(cadreId);
         for (CadreWork cadreWork : cadreWorks) {
 
+            if(cadreWork.getStartTime()==null) continue; // 忽略起始时间为空的记录
+
             CadreResume resume = new CadreResume();
             resume.setIsWork(true);
             resume.setStartDate(cadreWork.getStartTime());

@@ -1,21 +1,18 @@
 package service.pm;
 
-import domain.member.Member;
 import domain.pm.PmQuarter;
 import domain.pm.PmQuarterExample;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import service.BaseMapper;
 import service.party.MemberService;
 import service.party.PartyMemberService;
-import shiro.ShiroHelper;
 import sys.constants.PmConstants;
+import sys.utils.DateUtils;
 
 import java.util.*;
 
@@ -44,8 +41,8 @@ public class PmQuarterService extends PmBaseMapper {
     public void insertSelective(Integer partyId,Byte type){
         Date date=new Date();
         PmQuarter record=new PmQuarter();
-        record.setYear(pmMeetingService.getYear(date));
-        record.setQuarter(pmMeetingService.getQuarter(date));
+        record.setYear(DateUtils.getYear(date));
+        record.setQuarter(DateUtils.getQuarter(date));
         record.setPartyId(partyId);
         if(type==1){
             record.setType(PmConstants.PARTY_QUARTER_PARTY);

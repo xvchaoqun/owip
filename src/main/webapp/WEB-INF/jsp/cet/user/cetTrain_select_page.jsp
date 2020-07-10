@@ -50,11 +50,7 @@
             {label: '年度', name: 'year', width:'60', frozen: true},
             {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '培训班名称', name: 'name', formatter: function (cellvalue, options, rowObject) {
-                return ('<a href="javascript:;" class="openView" ' +
-                'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&trainId={0}">{1}</a>')
-                        .format(rowObject.id, rowObject.name)
-            }, width:350, align:'left'},
+            {label: '培训班名称', name: 'name', width:350, align:'left'},
             {label: '内容简介', name: '_summary', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasSummary==false) return'-'
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +

@@ -552,7 +552,7 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:69.55pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt'><span
-  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>&nbsp;</span></p>
+  style='font-size:14.0pt;font-family:仿宋_GB2312;color:windowtext'>${bean.reason}</span></p>
   </td>
  </tr>
  <tr>

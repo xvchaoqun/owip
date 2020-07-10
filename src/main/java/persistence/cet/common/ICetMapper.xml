@@ -109,26 +109,29 @@
     </select>
 
     <sql id="searchTrains">
-        where o.is_quit=0 and o.user_id=#{userId} and ct.is_deleted=0
+        where o.is_quit=0 and ct.is_deleted=0 and (ct.enroll_status=1 or (ct.enroll_status=0 and now() between start_time and end_time))
         <if test="isFinished!=null">
             and ct.is_finished = #{isFinished}
         </if>
     </sql>
-    <!-- 查询参训人的培训班列表 -->
+    <!-- 查询参训人的可选课的培训班列表 -->
     <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
-        select ct.*, o.user_id, count(o.id) as course_count
+        select ct.*, cto.user_id, count(cto.id) as course_count
         from cet_train_view ct
-          left join cet_train_obj o on ct.id=o.train_id
-         group by o.user_id
+          left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
+          left join cet_project_obj o on ct.project_id= o.project_id and o.user_id=#{userId}
         <include refid="searchTrains"/>
+        group by cto.user_id
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id) from cet_train_view ct left join cet_train_obj o on ct.id=o.train_id
+        select count(ct.id) from cet_train_view ct
+          left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
+          left join cet_project_obj o on ct.project_id= o.project_id and o.user_id=#{userId}
         <include refid="searchTrains"/>
     </select>
 
-    <!--学员的培训列表 -->
+    <!--学员的培训项目列表 -->
     <sql id="searchUserCetProject">
         <where>
             cpo.is_quit=0 and cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType}

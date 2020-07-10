@@ -150,15 +150,21 @@
                     </div>
                 </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休</label>
+                <label class="col-xs-3 control-label"><span class="star">*</span> 是否退休
+                    <c:if test="${!teacherInfo.isRetire}">
+                <span class="prompt" data-title="退休状态说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>如果该账号在“在职教职工党员库”中，修改为已退休状态后，该账号将自动归入“离退休党员库”</li>
+							  <li>如果该账号在“离退休党员库”中，修改为未退休状态后，该账号将自动归入“在职教职工党员库”</li>
+							  <li class='red'>如果该账号在人事系统中的状态变更为退休状态，则此处会自动同步变更为退休状态</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
+                        </c:if>
+                </label>
                 <div class="col-xs-6">
                     <label>
                         <input name="isRetire" ${teacherInfo.isRetire?"checked":""} type="checkbox"/>
                         <span class="lbl"></span>
                     </label>
-                    <c:if test="${!teacherInfo.isRetire}">
-                    <span class="help-block">注：如果学校人事信息变更为退休状态，此处会自动变更为退休状态</span>
-                    </c:if>
                 </div>
             </div>
              </c:if>

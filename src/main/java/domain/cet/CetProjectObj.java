@@ -4,7 +4,9 @@ import domain.sys.SysUserView;
 import persistence.cet.CetDiscussGroupMapper;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetPlanCourseObjService;
+import service.cet.CetRecordService;
 import service.cet.CetTrainObjService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -17,6 +19,17 @@ import java.util.List;
 import java.util.Map;
 
 public class CetProjectObj implements Serializable {
+
+    public Short getNo(){
+
+        if(id==null) return null;
+
+        CetRecordService cetRecordService = CmTag.getBean(CetRecordService.class);
+        CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_PROJECT, id);
+        if(cetRecord==null) return null;
+
+        return cetRecord.getNo();
+    }
 
     public SysUserView getUser(){
 

@@ -14,13 +14,66 @@ import sys.tags.CmTag;
 import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetRecordService extends CetBaseMapper {
 
     @Autowired
     private CetProjectObjService cetProjectObjService;
+    @Autowired
+    private CetProjectTypeService cetProjectTypeService;
+
+    // 获取或更新证书编码
+    public String selectOrUpdateNo(int recordId){
+
+        CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(recordId);
+        return selectOrUpdateNo(cetRecord);
+    }
+
+    public String selectOrUpdateNo(CetRecord cetRecord){
+
+        Integer recordId = cetRecord.getId();
+        if(recordId==null) return null;
+        int year = cetRecord.getYear();
+        byte userType = cetRecord.getUserType();
+        Byte specialType = cetRecord.getSpecialType();
+        Integer projectType = cetRecord.getProjectType();
+        Short no = cetRecord.getNo();
+
+        if(specialType==null || projectType==null) return null;
+
+        String projectTypeCode = null;
+        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll(specialType);
+        CetProjectType cetProjectType = projectTypeMap.get(projectType);
+        if(cetProjectType!=null){
+            projectTypeCode = cetProjectType.getCode();
+        }
+
+        if(projectTypeCode==null) return null;
+
+        if(no==null){
+
+            no = iCetMapper.getNextCertNo(year, userType, specialType, projectType);
+            no = (no==null)?1:no;
+
+            if(no>9999) return null; // 证书编号最多四位数
+
+            int update = iCetMapper.updateCertNo(recordId, no, year, userType, specialType, projectType);
+
+            if(update==0) return null; // 更新证书编号失败
+        }
+
+        return String.format("%s%s%s%s%04d",
+                specialType==CetConstants.CET_PROJECT_TYPE_SPECIAL?"Z":"R",
+                userType==SystemConstants.USER_TYPE_JZG?"T":"S",
+                year,
+                projectTypeCode,
+                no);
+    }
 
     // 增量同步上级调训（含党校其他培训）
     public void syncAllUpperTrain(){
@@ -75,6 +128,7 @@ public class CetRecordService extends CetBaseMapper {
     }
 
     // 将一条上级调训（含党校其他培训）记录归档至培训记录
+    @Transactional
     public void syncUpperTrain(int upperTrainId){
 
         CetUpperTrain t = cetUpperTrainMapper.selectByPrimaryKey(upperTrainId);
@@ -137,9 +191,12 @@ public class CetRecordService extends CetBaseMapper {
         }else{
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
+
+        selectOrUpdateNo(r);
     }
 
     // 将一条二级党委培训记录同步至培训记录
+    @Transactional
     public void syncUnitTrain(int unitTrainId){
 
         CetUnitTrain t = cetUnitTrainMapper.selectByPrimaryKey(unitTrainId);
@@ -179,6 +236,7 @@ public class CetRecordService extends CetBaseMapper {
         r.setType(type);
         r.setSourceType(sourceType);
         r.setSourceId(unitTrainId);
+        r.setCetPartyId((cetParty==null)?null:cetParty.getId());
         r.setOrganizer(organizer);
         r.setPeriod(t.getPeriod());
         if(BooleanUtils.isTrue(p.getIsOnline())) {
@@ -202,9 +260,12 @@ public class CetRecordService extends CetBaseMapper {
         }else{
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
+
+        selectOrUpdateNo(r);
     }
 
     // 同步党校培训记录至培训记录
+    @Transactional
     public void sysProjectObj(int projectObjId){
 
         CetProjectObj o = cetProjectObjMapper.selectByPrimaryKey(projectObjId);
@@ -284,6 +345,8 @@ public class CetRecordService extends CetBaseMapper {
         }else{
             cetRecordMapper.updateByPrimaryKeySelective(r);
         }
+
+        selectOrUpdateNo(r);
     }
 
     // 根据类型 和 类型的主键 查找培训记录
@@ -323,29 +386,5 @@ public class CetRecordService extends CetBaseMapper {
         example.setOrderByClause("start_date asc, type asc");
 
         return cetRecordMapper.selectByExample(example);
-    }
-
-    @Transactional
-    public void insertSelective(CetRecord record){
-        cetRecordMapper.insertSelective(record);
-    }
-
-
-    @Transactional
-    public void batchDel(Integer[] ids){
-
-        if(ids==null || ids.length==0) return;
-
-        CetRecordExample example = new CetRecordExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
-        CetRecord record = new CetRecord();
-        record.setIsDeleted(true);
-        cetRecordMapper.updateByExampleSelective(record, example);
-    }
-
-    @Transactional
-    public void updateByPrimaryKeySelective(CetRecord record){
-        cetRecordMapper.updateByPrimaryKeySelective(record);
     }
 }

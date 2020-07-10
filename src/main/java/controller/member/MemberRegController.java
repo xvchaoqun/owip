@@ -327,6 +327,9 @@ public class MemberRegController extends MemberBaseController {
         if (memberRegService.idcardDuplicate(id, record.getIdcard())) {
             return failed("身份证已被注册。");
         }
+        if (!IdcardValidator.valid(record.getIdcard())) {
+            return failed("身份证号码有误。");
+        }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
 

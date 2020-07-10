@@ -89,9 +89,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label"><span class="star">*</span>转出单位传真（${_sysConfig.schoolShortName}）</label>
+							<label class="col-xs-8 control-label">转出单位传真（${_sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
-								<input required class="form-control" maxlength="20" type="text" name="fromFax" value="${memberOut.fromFax}">
+								<input class="form-control" maxlength="20" type="text" name="fromFax" value="${memberOut.fromFax}">
 							</div>
 						</div>
 						<div class="form-group">

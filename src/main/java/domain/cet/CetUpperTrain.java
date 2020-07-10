@@ -3,6 +3,8 @@ package domain.cet;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
+import service.cet.CetRecordService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -12,12 +14,21 @@ import java.util.Date;
 
 public class CetUpperTrain implements Serializable {
 
+    public Short getNo(){
+
+        if(id==null || type!=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL) return null;
+
+        CetRecordService cetRecordService = CmTag.getBean(CetRecordService.class);
+        CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_UPPER, id);
+        if(cetRecord==null) return null;
+
+        return cetRecord.getNo();
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public SysUserView getAddUser(){
-        return CmTag.getUserById(addUserId);
-    }
+
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }

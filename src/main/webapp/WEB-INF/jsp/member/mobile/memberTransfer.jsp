@@ -56,9 +56,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-6 control-label"><span class="star">*</span>转出单位传真</label>
+        <label class="col-xs-6 control-label">转出单位传真</label>
         <div class="col-xs-6" >
-            <input required class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
+            <input class="form-control" type="text" name="fromFax" value="${memberTransfer.fromFax}">
         </div>
     </div>
     <div class="form-group">

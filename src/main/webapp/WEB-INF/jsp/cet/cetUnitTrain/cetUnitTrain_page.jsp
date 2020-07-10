@@ -2,6 +2,30 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+
+        </h4>
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+            ${cetUnitProject.projectName}
+        </span>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" id="detail-ul" data-target="#body-content-view">
+                <li class="${reRecord!=1?'active':''}">
+                    <a href="javascript:;" data-url="${ctx}/cet/cetUnitTrain?projectId=${cetUnitProject.id}"> 培训记录</a>
+                </li>
+                <li class="${reRecord==1?'active':''}">
+                    <a href="javascript:;" data-url="${ctx}/cet/cetUnitTrain?reRecord=1&projectId=${cetUnitProject.id}"> 本人补录申请</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
 <div class="widget-box transparent">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="tab-content padding-4 multi-row-head-table" id="detail-content">
@@ -133,13 +157,13 @@
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"
-                                       data-url="${ctx}/cet/cetUnitTrain_page?projectId=${param.projectId}&reRecord=${reRecord}"
-                                       data-target="#train-content"
+                                       data-url="${ctx}/cet/cetUnitTrain?projectId=${param.projectId}&reRecord=${reRecord}"
+                                       data-target="#body-content-view"
                                        data-form="#trianSearchForm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
                                         <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/cet/cetUnitTrain_page?projectId=${param.projectId}&reRecord=${reRecord}"
-                                                data-target="#train-content">
+                                                data-url="${ctx}/cet/cetUnitTrain?projectId=${param.projectId}&reRecord=${reRecord}"
+                                                data-target="#body-content-view">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -152,6 +176,8 @@
                 <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="5"></table>
                 <div id="jqGridPager2"></div>
             </div>
+        </div>
+</div>
         </div>
 </div>
 <script>
@@ -216,12 +242,16 @@
             }},
             {label: '培训成绩', name: 'score'},
             {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
-            <c:if test="${_p_cetSupportCert}">
+
+            <c:if test="${reRecord!=1 && cetUnitProject.status==CET_UNIT_PROJECT_STATUS_PASS && _p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
-                if(!rowObject.isGraduate) return '--'
+
+                if(rowObject.no==undefined) return '--'
+
+                if(!rowObject.isGraduate || rowObject.status!='${CET_UNITTRAIN_RERECORD_PASS}') return '--'
                 return $.button.modal({
                             style:"btn-success",
-                            url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                            url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_UNIT%>&ids[]="+rowObject.id,
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},

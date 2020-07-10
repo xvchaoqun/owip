@@ -20,6 +20,7 @@ import service.sys.LogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.helper.PartyHelper;
+import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 
 import java.io.Writer;
@@ -47,8 +48,8 @@ public class PmMeetingService extends PmBaseMapper {
         }
 
          if(record.getDate()!=null){
-                record.setYear(getYear(record.getDate()));
-                  record.setQuarter(getQuarter(record.getDate()));
+                record.setYear(DateUtils.getYear(record.getDate()));
+                  record.setQuarter(DateUtils.getQuarter(record.getDate()));
          }
         record.setIsBack(false);
         record.setIsDelete(false);
@@ -154,47 +155,6 @@ public class PmMeetingService extends PmBaseMapper {
         }
         return addCount;
     }
-
-    public  int getYear(Date date){
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int year = c.get(Calendar.YEAR);
-        return year;
-    }
-    public  byte getQuarter(Date date){
-        byte season = 0;
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        switch (month) {
-            case Calendar.JANUARY:
-            case Calendar.FEBRUARY:
-            case Calendar.MARCH:
-                season = 1;
-                break;
-            case Calendar.APRIL:
-            case Calendar.MAY:
-            case Calendar.JUNE:
-                season = 2;
-                break;
-            case Calendar.JULY:
-            case Calendar.AUGUST:
-            case Calendar.SEPTEMBER:
-                season = 3;
-                break;
-            case Calendar.OCTOBER:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-                season = 4;
-                break;
-            default:
-                break;
-        }
-        return season;
-    }
-
 
     //导出word
     @Transactional

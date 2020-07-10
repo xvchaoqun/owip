@@ -46,7 +46,7 @@ public class UserCetProjectPlanController extends CetBaseController {
             case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
 
-                List<Integer> trainIds = iCetMapper.selectTrainIds(userId, planId);
+                List<Integer> trainIds = iCetMapper.selectUserTrainIds(userId, planId);
                 long trainCount = trainIds.size();
                 if(trainCount==0){
                     throw new OpException("暂无培训班。");

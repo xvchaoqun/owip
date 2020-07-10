@@ -96,6 +96,11 @@
         url: '${ctx}/user/cet/cetProjectPlan_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '详情',name: '_detail', width: 110, formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.objTrainIds.length==0){
+                    return "未选课"
+                }
+
                 if(rowObject.type=='<%=CetConstants.CET_PROJECT_PLAN_TYPE_WRITE%>'){
                     return ('<button class="popupBtn btn btn-primary btn-xs" '
                             + 'data-url="${ctx}/user/cet/cetProjectObj_uploadWrite?id={0}&planId={1}&projectId=${param.projectId}">'
@@ -121,7 +126,7 @@
             {label: '学时', name: 'period'},
             {label: '完成学时数', name: 'finishPeriod'},
             { label: '学习进度',name: '_finish', width: 120,formatter: function (cellvalue, options, rowObject) {
-                if(Math.trimToZero(rowObject.period)==0) return '--'
+                if(rowObject.objTrainIds.length==0 || Math.trimToZero(rowObject.period)==0) return '--'
                 var progress = Math.formatFloat(Math.trimToZero(rowObject.finishPeriod>rowObject.period?rowObject.period:rowObject.finishPeriod)*100/rowObject.period, 1) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)

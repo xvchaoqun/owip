@@ -5,7 +5,7 @@
 <script>
   var traineeTypeMap = ${cm:toJSONObject(traineeTypeMap)};
   var specialProjectTypeMap = ${cm:toJSONObject(specialProjectTypeMap)};
-    var dailyProjectTypeMap = ${cm:toJSONObject(dailyProjectTypeMap)};
+  var dailyProjectTypeMap = ${cm:toJSONObject(dailyProjectTypeMap)};
   var colModel = [
    <c:if test="${cls==3}">
     {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
@@ -119,10 +119,12 @@
     {label: '是否<br/>结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 50},
     <c:if test="${_p_cetSupportCert}">
     {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+
+        if(rowObject.no==undefined) return '--'
         if(!rowObject.isGraduate) return '--'
         return $.button.modal({
                     style:"btn-success",
-                    url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                    url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_UPPER%>&ids[]="+rowObject.id,
                     icon:"fa-search",
                     label:"查看", attr:"data-width='850'"})
     }},

@@ -14,6 +14,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="source_id" jdbcType="INTEGER" property="sourceId" />
     <result column="source_type" jdbcType="TINYINT" property="sourceType" />
+    <result column="cet_party_id" jdbcType="INTEGER" property="cetPartyId" />
     <result column="organizer" jdbcType="VARCHAR" property="organizer" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="online_period" jdbcType="DECIMAL" property="onlinePeriod" />
@@ -88,9 +89,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, user_id, trainee_type_id, other_trainee_type, title, start_date, end_date, 
-    name, type, source_id, source_type, organizer, period, online_period, should_finish_period, 
-    is_graduate, is_valid, remark, archive_time, is_deleted, special_type, project_type, 
-    user_type, no
+    name, type, source_id, source_type, cet_party_id, organizer, period, online_period, 
+    should_finish_period, is_graduate, is_valid, remark, archive_time, is_deleted, special_type, 
+    project_type, user_type, no
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetRecordExample" resultMap="BaseResultMap">
     select
@@ -129,19 +130,21 @@
     insert into cet_record (year, user_id, trainee_type_id, 
       other_trainee_type, title, start_date, 
       end_date, name, type, source_id, 
-      source_type, organizer, period, 
-      online_period, should_finish_period, is_graduate, 
-      is_valid, remark, archive_time, 
-      is_deleted, special_type, project_type, 
-      user_type, no)
+      source_type, cet_party_id, organizer, 
+      period, online_period, should_finish_period, 
+      is_graduate, is_valid, remark, 
+      archive_time, is_deleted, special_type, 
+      project_type, user_type, no
+      )
     values (#{year,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{otherTraineeType,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{sourceId,jdbcType=INTEGER}, 
-      #{sourceType,jdbcType=TINYINT}, #{organizer,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
-      #{onlinePeriod,jdbcType=DECIMAL}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
-      #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{archiveTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=BIT}, #{specialType,jdbcType=TINYINT}, #{projectType,jdbcType=INTEGER}, 
-      #{userType,jdbcType=TINYINT}, #{no,jdbcType=SMALLINT})
+      #{sourceType,jdbcType=TINYINT}, #{cetPartyId,jdbcType=INTEGER}, #{organizer,jdbcType=VARCHAR}, 
+      #{period,jdbcType=DECIMAL}, #{onlinePeriod,jdbcType=DECIMAL}, #{shouldFinishPeriod,jdbcType=DECIMAL}, 
+      #{isGraduate,jdbcType=BIT}, #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{archiveTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, #{specialType,jdbcType=TINYINT}, 
+      #{projectType,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT}, #{no,jdbcType=SMALLINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -181,6 +184,9 @@
       </if>
       <if test="sourceType != null">
         source_type,
+      </if>
+      <if test="cetPartyId != null">
+        cet_party_id,
       </if>
       <if test="organizer != null">
         organizer,
@@ -255,6 +261,9 @@
       </if>
       <if test="sourceType != null">
         #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="cetPartyId != null">
+        #{cetPartyId,jdbcType=INTEGER},
       </if>
       <if test="organizer != null">
         #{organizer,jdbcType=VARCHAR},
@@ -342,6 +351,9 @@
       <if test="record.sourceType != null">
         source_type = #{record.sourceType,jdbcType=TINYINT},
       </if>
+      <if test="record.cetPartyId != null">
+        cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
+      </if>
       <if test="record.organizer != null">
         organizer = #{record.organizer,jdbcType=VARCHAR},
       </if>
@@ -400,6 +412,7 @@
       type = #{record.type,jdbcType=TINYINT},
       source_id = #{record.sourceId,jdbcType=INTEGER},
       source_type = #{record.sourceType,jdbcType=TINYINT},
+      cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
       organizer = #{record.organizer,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       online_period = #{record.onlinePeriod,jdbcType=DECIMAL},
@@ -452,6 +465,9 @@
       </if>
       <if test="sourceType != null">
         source_type = #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="cetPartyId != null">
+        cet_party_id = #{cetPartyId,jdbcType=INTEGER},
       </if>
       <if test="organizer != null">
         organizer = #{organizer,jdbcType=VARCHAR},
@@ -508,6 +524,7 @@
       type = #{type,jdbcType=TINYINT},
       source_id = #{sourceId,jdbcType=INTEGER},
       source_type = #{sourceType,jdbcType=TINYINT},
+      cet_party_id = #{cetPartyId,jdbcType=INTEGER},
       organizer = #{organizer,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       online_period = #{onlinePeriod,jdbcType=DECIMAL},

@@ -1,8 +1,7 @@
 package controller.cet;
 
 import bean.UserBean;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
+import domain.cet.CetRecord;
 import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -37,34 +37,55 @@ public class CetReportController extends CetBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 培训证书打印
-    @RequestMapping(value = "/cet_graduate", method = RequestMethod.GET)
-    public String cet_graduate(@CurrentUser SysUserView loginUser,
+    // 结业证书
+    @RequestMapping(value = "/cet_cert", method = RequestMethod.GET)
+    public String cet_cert(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
+                               Byte sourceType,
                                @RequestParam(value = "ids[]") Integer[] ids,
                                @RequestParam(required = false, defaultValue = "0") Boolean print,
                                @RequestParam(defaultValue = "pdf") String format,
+                               @RequestParam(required = false, defaultValue = "0") Boolean download,
+                               String filename,
                                Model model) throws IOException {
 
-        // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_ADMIN)) {
-            throw new UnauthorizedException();
-        }
+        int currentUserId = ShiroHelper.getCurrentUserId();
+        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_ADMIN);
+        boolean isPartyAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_PARTY);
 
-        String fileName = "cet_graduate";
+        String fileName = "cet_cert";
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
 
-            CetProjectObj obj = cetProjectObjMapper.selectByPrimaryKey(id);
+            CetRecord record = null;
+            if(sourceType==null){
+                record = cetRecordMapper.selectByPrimaryKey(id);
+            }else{
+                record = cetRecordService.get(sourceType, id);
+            }
 
-            Map<String, Object> map = getCetGraduateInfoMap(obj);
+            if(currentUserId!=record.getUserId() && !isAdmin){
+
+                if(!isPartyAdmin
+                        || record.getSourceType() != CetConstants.CET_SOURCE_TYPE_UNIT
+                        || record.getCetPartyId()==null
+                        || cetPartyAdminService.get(record.getCetPartyId(), currentUserId)==null){
+
+                    throw new UnauthorizedException();
+                }
+            }
+
+            Map<String, Object> map = getCetGraduateInfoMap(record);
             map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + fileName + ".jpg");
             data.add(map);
         }
 
-        /*if(format.equals("image")){
-            model.addAttribute("image.zoom", 0.25f);
-        }*/
+        if(format.equals("pdf") && download){
+
+            model.addAttribute("download", true);
+            model.addAttribute("filename", filename);
+            model.addAttribute("request", request);
+        }
 
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
@@ -75,7 +96,7 @@ public class CetReportController extends CetBaseController {
 
         if (print) {
 
-            logger.info("培训结业证书打印 {}, {}, {}, {}, {}, {}",
+            logger.info("党校培训结业证书打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),
@@ -87,39 +108,40 @@ public class CetReportController extends CetBaseController {
 
 
     // 获取组织关系转出相关信息
-    public Map<String, Object> getCetGraduateInfoMap(CetProjectObj obj) {
+    public Map<String, Object> getCetGraduateInfoMap(CetRecord record) {
 
-        UserBean userBean = userBeanService.get(obj.getUserId());
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(obj.getProjectId());
+        UserBean userBean = userBeanService.get(record.getUserId());
 
         String gender = userBean.getGender()==null?"":SystemConstants.GENDER_MAP.get(userBean.getGender());
 
         String birthYear = "";
-        String birthMonth = "";
+        Integer birthMonth = null;
         if(userBean.getBirth()!=null) {
             birthYear = DateUtils.getYear(userBean.getBirth())+"";
-            birthMonth = DateUtils.getMonth(userBean.getBirth())+"";
+            birthMonth = DateUtils.getMonth(userBean.getBirth());
         }
-        String startDate = DateUtils.formatDate(cetProject.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
-        String endDate = DateUtils.formatDate(cetProject.getEndDate(), DateUtils.YYYY_MM_DD_CHINA);
+        String startDate = DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+        String endDate = DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD_CHINA);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("realname", userBean.getRealname());
         map.put("gender", gender);
         map.put("birth_year", birthYear);
-        map.put("birth_month", birthMonth);
+        if(birthMonth!=null) {
+            map.put("birth_month", String.format("%02d", birthMonth));
+        }
         map.put("start_date", startDate);
         map.put("end_date", endDate);
-        map.put("organizer", "党委组织部");
-        map.put("train_name", cetProject.getName());
+        map.put("organizer", record.getOrganizer());
+        map.put("train_name", record.getName());
 
-        map.put("sn", "S0009999999001TEST");
+        map.put("sn", cetRecordService.selectOrUpdateNo(record));
         map.put("idcard", userBean.getIdcard());
 
-        if(cetProject.getEndDate()!=null) {
-            map.put("year", DateUtils.getYear(cetProject.getEndDate()));
-            map.put("month", DateUtils.getMonth(cetProject.getEndDate()));
-            map.put("day", DateUtils.getDay(cetProject.getEndDate()));
+        if(record.getEndDate()!=null) {
+            map.put("year", DateUtils.getYear(record.getEndDate()));
+            map.put("month", DateUtils.getMonth(record.getEndDate()));
+            map.put("day", DateUtils.getDay(record.getEndDate()));
         }
 
         return map;

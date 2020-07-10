@@ -16,16 +16,13 @@ pageEncoding="UTF-8" %>
                 <shiro:hasPermission name="pmMeeting2:list">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=1"}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=1"}><i class="fa fa-list"></i> 活动列表</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=2"}><i class="fa fa-reply"></i> 退回</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=2"}><i class="fa fa-circle-o"></i> 待审核</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=3"}><i class="fa fa-check"></i> 已通过</a>
-                        </li>
-                        <li class="${cls==4?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=4"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2?cls=3"}><i class="fa fa-times"></i> 审批未通过</a>
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                             <shiro:hasPermission name="pmMeeting2:edit">
@@ -49,44 +46,29 @@ pageEncoding="UTF-8" %>
                     <c:set var="_query" value="${not empty param.year||not empty param.quarter||not empty param.partyId||not empty param.branchId}"/>
                     <div class="jqgrid-vertical-offset buttons">
                         <shiro:hasPermission name="pmMeeting2:approve">
-                            <c:if test="${cls==1}">
+                            <c:if test="${cls==2}">
                                 <button id="checkBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                         data-url="${ctx}/pmMeeting2_check?check=true"
                                         data-grid-id="#jqGrid">
                                     <i class="fa fa-check"></i> 审核</button>
-                                <button id="backBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                                        data-url="${ctx}/pmMeeting2_check"
-                                        data-grid-id="#jqGrid">
-                                    <i class="fa fa-reply"></i> 退回</button>
                             </c:if>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmMeeting2:edit">
-                            <c:if test="${cls==2||cls==4}">
+                            <c:if test="${cls==3}">
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/pmMeeting2_au?edit=true&reedit=1"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"><i class="fa fa-edit"></i>
                                     重新提交</a>
                             </c:if>
-                            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-                                <c:if test="${cls==1||cls==3}">
-                                    <%-- <c:if test="${cls==1||addPermits==false&&cls==3}">--%>
-                                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                       data-url="${ctx}/pmMeeting2_au?edit=true&type=${type}"
-                                       data-grid-id="#jqGrid"
-                                       data-open-by="page"><i class="fa fa-edit"></i>
-                                        修改</a>
-                                </c:if>
-                            </shiro:hasAnyRoles>
-                            <shiro:lacksPermission name="pmMeeting2:approve">
-                                <c:if test="${cls==1}">
-                                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                       data-url="${ctx}/pmMeeting2_au?edit=true"
-                                       data-grid-id="#jqGrid"
-                                       data-open-by="page"><i class="fa fa-edit"></i>
-                                        修改</a>
-                                </c:if>
-                            </shiro:lacksPermission>
+
+                            <c:if test="${(cls==1 && cm:isPermitted('pmMeeting2:approve'))||cls==2}">
+                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                   data-url="${ctx}/pmMeeting2_au?edit=true"
+                                   data-grid-id="#jqGrid"
+                                   data-open-by="page"><i class="fa fa-edit"></i>
+                                    修改</a>
+                            </c:if>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top"
                                title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
@@ -248,14 +230,14 @@ pageEncoding="UTF-8" %>
                     var number2=rowObject.number2;
                     if(number1==undefined)
                         return '--'
-                    return number2==undefined?'第'+number1+'次':'第'+number1+'次'+','+'第'+number2+'次';
+                    return number2==undefined?'第'+number1+'次':'第'+number1+'/'+number2+'次';
                 }},
             { label: '时长',name: 'time',width:120, formatter: function (cellvalue, options, rowObject) {
                     var time1=rowObject.time1;
                     var time2=rowObject.time2;
                     if(time1==undefined)
                         return '--'
-                    return time2==undefined?time1+'分钟':time1+'分钟'+','+time2+'分钟';
+                    return time2==undefined?time1+'分钟':time1+'/'+time2+'分钟';
                 }},
             { label: '主要内容',name: 'shortContent',width:200},
             { label: '应到人数',name: 'dueNum'},
@@ -278,16 +260,8 @@ pageEncoding="UTF-8" %>
                    }
                 }
             },
-            { label: '审核情况', name: 'status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                    var adminParty=$.inArray(rowObject.partyId,${cm:toJSONArray(adminPartyIdList)});
-
-                    if(rowObject.isBack) return '已退回'
-
-                    return _cMap.PM_MEETING_STATUS_MAP[cellvalue];
-                },frozen:true },
-
-            <c:if test="${cls==2||cls==4}">
-            {label: '原因', name: 'reason', align:'left'},
+            <c:if test="${cls==3}">
+            {label: '未通过原因', name: 'reason',width:200, align:'left'},
             </c:if>
             {hidden: true, name: 'partyId'}
         ]
@@ -295,6 +269,4 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
-
-    //$('[data-rel="tooltip"]').tooltip();
 </script>

@@ -1,6 +1,7 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import persistence.cet.common.ICetMapper;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class CetProjectPlan implements Serializable {
 
@@ -23,6 +25,19 @@ public class CetProjectPlan implements Serializable {
 
         CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
         return cetProjectObjService.getPlanFinishPeriod(id, objId);
+    }
+
+
+    public List<Integer> getObjTrainIds(){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if (request == null) return null;
+
+        Integer objId = (Integer) request.getAttribute("objId");
+        if(objId==null) return null;
+
+        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
+        return iCetMapper.selectObjTrainIds(objId, id);
     }
 
     private Integer id;

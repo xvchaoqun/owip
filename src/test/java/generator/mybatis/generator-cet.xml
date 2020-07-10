@@ -46,9 +46,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
+        <table tableName="cet_record" domainObjectName="cet.CetRecord" mapperName="cet.CetRecordMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
        <!-- <table tableName="cet_unit_project" domainObjectName="cet.CetUnitProject" mapperName="cet.CetUnitProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -99,10 +99,10 @@
         </table>-->
         <!--<table tableName="cet_project_obj_plan" domainObjectName="cet.CetProjectObjPlan" mapperName="cet.CetProjectObjPlanMapper">
         </table>-->
-        <table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
+        <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
        <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
         </table>-->
         <!--<table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
@@ -130,9 +130,9 @@
         <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
         </table>-->
 
-        <table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
+        <!--<table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
         <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
         </table>-->
         <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">

@@ -137,7 +137,7 @@
 
                 //console.log($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"))
                 if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
-                    return "-"
+                    return "--"
                 }
                 <c:if test="${cetTrain.switchStatus != CET_TRAIN_ENROLL_STATUS_OPEN}">
                 return '--'

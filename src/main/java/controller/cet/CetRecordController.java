@@ -1,5 +1,6 @@
 package controller.cet;
 
+import domain.cet.CetProjectType;
 import domain.cet.CetRecord;
 import domain.cet.CetRecordExample;
 import domain.cet.CetRecordExample.Criteria;
@@ -15,18 +16,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
-import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
@@ -37,6 +38,13 @@ public class CetRecordController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 查看结业证书
+    @RequestMapping("/cert")
+    public String cert() {
+
+        return "cet/cetRecord/cet_cert";
+    }
+
     @RequiresPermissions("cetRecord:list")
     @RequestMapping("/cetRecord")
     public String cetRecord(Integer userId, ModelMap modelMap) {
@@ -44,6 +52,12 @@ public class CetRecordController extends CetBaseController {
         if(userId!=null){
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
+
+        Map<Integer, CetProjectType> specialProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_SPECIAL);
+        modelMap.put("specialProjectTypeMap", specialProjectTypeMap);
+        Map<Integer, CetProjectType>  dailyProjectTypeMap = cetProjectTypeService.findAll(CetConstants.CET_PROJECT_TYPE_DAILY);
+        modelMap.put("dailyProjectTypeMap", dailyProjectTypeMap);
+
         return "cet/cetRecord/cetRecord_page";
     }
 
@@ -116,51 +130,6 @@ public class CetRecordController extends CetBaseController {
         //baseMixins.put(cetRecord.class, cetRecordMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("cetRecord:edit")
-    @RequestMapping(value = "/cetRecord_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetRecord_au(CetRecord record, HttpServletRequest request) {
-
-        Integer id = record.getId();
-
-        if (id == null) {
-
-            cetRecordService.insertSelective(record);
-            logger.info(log(LogConstants.LOG_CET, "添加培训记录明细汇总表：{0}", record.getId()));
-        } else {
-
-            cetRecordService.updateByPrimaryKeySelective(record);
-            logger.info(log(LogConstants.LOG_CET, "更新培训记录明细汇总表：{0}", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetRecord:edit")
-    @RequestMapping("/cetRecord_au")
-    public String cetRecord_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            CetRecord cetRecord = cetRecordMapper.selectByPrimaryKey(id);
-            modelMap.put("cetRecord", cetRecord);
-        }
-        return "cet/cetRecord/cetRecord_au";
-    }
-
-    @RequiresPermissions("cetRecord:del")
-    @RequestMapping(value = "/cetRecord_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map cetRecord_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            cetRecordService.batchDel(ids);
-            logger.info(log(LogConstants.LOG_CET, "批量删除培训记录明细汇总表：{0}", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 
     public void cetRecord_export(CetRecordExample example, HttpServletResponse response) {

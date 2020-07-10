@@ -491,14 +491,6 @@ public class CetProjectObjController extends CetBaseController {
         return "cet/cetProjectObj/cetProjectObj_au";
     }
 
-    // 查看结业证书
-    @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping("/cetProjectObj_graduate")
-    public String cetProjectObj_graduate(@RequestParam(value = "ids[]", required = false) Integer[] ids,ModelMap modelMap) {
-
-        return "cet/cetProjectObj/cetProjectObj_graduate";
-    }
-
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_uploadWrite", method = RequestMethod.POST)
     @ResponseBody

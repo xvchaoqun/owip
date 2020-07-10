@@ -27,7 +27,6 @@
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
   </resultMap>
@@ -92,7 +91,7 @@
   <sql id="Base_Column_List">
     id, party_id, branch_id, year, quarter, month, date, address, type1, type2, number1, 
     number2, time1, time2, short_content, content, due_num, attend_num, absents, presenter, 
-    recorder, file_name, file_path, remark, status, is_back, reason, is_delete
+    recorder, file_name, file_path, remark, status, reason, is_delete
   </sql>
   <select id="selectByExample" parameterType="domain.pm.PmMeeting2Example" resultMap="BaseResultMap">
     select
@@ -133,8 +132,8 @@
       content, due_num, attend_num, 
       absents, presenter, recorder, 
       file_name, file_path, remark, 
-      status, is_back, reason, 
-      is_delete)
+      status, reason, is_delete
+      )
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{year,jdbcType=INTEGER}, #{quarter,jdbcType=TINYINT}, #{month,jdbcType=INTEGER}, 
       #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{type1,jdbcType=TINYINT}, 
@@ -143,8 +142,8 @@
       #{content,jdbcType=VARCHAR}, #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, 
       #{absents,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
       #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=BIT})
+      #{status,jdbcType=TINYINT}, #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pm.PmMeeting2">
     insert into pm_meeting2
@@ -223,9 +222,6 @@
       </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="isBack != null">
-        is_back,
       </if>
       <if test="reason != null">
         reason,
@@ -309,9 +305,6 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
-      </if>
-      <if test="isBack != null">
-        #{isBack,jdbcType=BIT},
       </if>
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
@@ -405,9 +398,6 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.isBack != null">
-        is_back = #{record.isBack,jdbcType=BIT},
-      </if>
       <if test="record.reason != null">
         reason = #{record.reason,jdbcType=VARCHAR},
       </if>
@@ -446,7 +436,6 @@
       file_path = #{record.filePath,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
-      is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=BIT}
     <if test="_parameter != null">
@@ -528,9 +517,6 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="isBack != null">
-        is_back = #{isBack,jdbcType=BIT},
-      </if>
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
       </if>
@@ -566,7 +552,6 @@
       file_path = #{filePath,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

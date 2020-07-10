@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
                         </div>
                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                             <input required type="radio" name="status" id="status2" value="${CADRE_STATUS_KJ}">
-                            <label for="status1">
+                            <label for="status2">
                                     科级干部
                             </label>
                         </div>

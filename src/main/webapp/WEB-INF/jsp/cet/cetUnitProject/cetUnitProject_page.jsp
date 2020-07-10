@@ -279,7 +279,7 @@ pageEncoding="UTF-8" %>
 
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/cet/cetUnitProject_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetUnitProject_data?callback=?&cls=${cls}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 <c:if test="${cls==2}">
                 { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {

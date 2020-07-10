@@ -2,6 +2,8 @@ package domain.cet;
 
 import domain.sys.SysUserView;
 import persistence.cet.CetUnitProjectMapper;
+import service.cet.CetRecordService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,12 +12,21 @@ import java.util.Date;
 
 public class CetUnitTrain implements Serializable {
 
+    public Short getNo(){
+
+        if(id==null) return null;
+
+        CetRecordService cetRecordService = CmTag.getBean(CetRecordService.class);
+        CetRecord cetRecord = cetRecordService.get(CetConstants.CET_SOURCE_TYPE_UNIT, id);
+        if(cetRecord==null) return null;
+
+        return cetRecord.getNo();
+    }
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    public SysUserView getAddUser(){
-        return CmTag.getUserById(addUserId);
-    }
+
     public CetUnitProject getProject(){
         return CmTag.getBean(CetUnitProjectMapper.class).selectByPrimaryKey(projectId);
     }

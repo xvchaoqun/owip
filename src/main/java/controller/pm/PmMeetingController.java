@@ -282,8 +282,8 @@ public class PmMeetingController extends PmBaseController {
                 record.setIsBack(false);
             }
             if(record.getDate()!=null){
-                record.setYear(pmMeetingService.getYear(record.getDate()));
-                record.setQuarter(pmMeetingService.getQuarter(record.getDate()));
+                record.setYear(DateUtils.getYear(record.getDate()));
+                record.setQuarter(DateUtils.getQuarter(record.getDate()));
             }
             record.setAttends(attendIds);
             record.setAbsents(absentIds);

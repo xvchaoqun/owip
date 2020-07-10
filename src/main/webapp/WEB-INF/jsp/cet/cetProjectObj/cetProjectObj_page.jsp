@@ -791,10 +791,11 @@
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
             <c:if test="${_p_cetSupportCert}">
             {label: '结业证书', name: 'isGraduate', width: 70, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.no==undefined) return '--'
                 if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
                             style:"btn-success",
-                            url:"${ctx}/cet/cetProjectObj_graduate?ids[]="+rowObject.id,
+                            url:"${ctx}/report/cet_cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&ids[]="+rowObject.id,
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},

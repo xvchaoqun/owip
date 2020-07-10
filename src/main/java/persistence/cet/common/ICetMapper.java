@@ -78,6 +78,24 @@ public interface ICetMapper {
             "where po.is_quit=0 and (po.update_time > r.archive_time or r.id is null)")
     public List<Integer> unArchiveProjectObjIds();
 
+    // 获取最大编码（为了获取不重复编码，此处包含已删除的记录）
+    @Select("select max(no)+1 from cet_record " +
+            "where year=#{year} and user_type=#{userType} " +
+            "and special_type=#{specialType} and project_type=#{projectType}")
+    public Short getNextCertNo(@Param("year") int year,
+                         @Param("userType") byte userType,
+                         @Param("specialType") byte specialType,
+                         @Param("projectType") int projectType);
+
+    @Update("update cet_record set no=#{no} where id=#{recordId} and not exists" +
+            "(select * from (select no from cet_record where year=#{year} and user_type=#{userType} " +
+            "and special_type=#{specialType} and project_type=#{projectType} and no=#{no}) tmp)")
+    public int updateCertNo(@Param("recordId") int recordId, @Param("no") int no,
+                         @Param("year") int year,
+                         @Param("userType") byte userType,
+                         @Param("specialType") byte specialType,
+                         @Param("projectType") int projectType);
+
     // 按类型读取完成学时数
     public BigDecimal totalFinishPeriod(@Param("year") int year,
                                         @Param("userId") int userId,
@@ -122,7 +140,7 @@ public interface ICetMapper {
                                        @Param("year") Integer year,
                                        @Param("name") String name);
 
-    // 学员的培训班列表
+    // 学员的可选课的培训班列表
     public List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId,
                                                   @Param("hasSelected") Boolean hasSelected,
                                                   @Param("isFinished") Boolean isFinished,
@@ -155,7 +173,9 @@ public interface ICetMapper {
 
     // 某培训方案中学员已选的培训班
     @Select("select distinct train_id from cet_train_obj_view where user_id=#{userId} and plan_id=#{planId}")
-    public List<Integer> selectTrainIds(@Param("userId") Integer userId, @Param("planId") Integer planId);
+    public List<Integer> selectUserTrainIds(@Param("userId") Integer userId, @Param("planId") Integer planId);
+    @Select("select distinct train_id from cet_train_obj_view where obj_id=#{objId} and plan_id=#{planId}")
+    public List<Integer> selectObjTrainIds(@Param("objId") Integer objId, @Param("planId") Integer planId);
 
     // 已分组学员
     public List<Integer> groupUserIds(@Param("discussGroupId") int discussGroupId,

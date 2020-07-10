@@ -68,9 +68,10 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>手机号码</label>
+				<label class="col-xs-4 control-label">手机号码</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="phone" value="${memberReg.phone}">
+                        <input class="form-control" type="text" name="phone" value="${memberReg.phone}">
+						<span class="help-block">手机号码用于账号本人进行密码找回操作，请正确填写</span>
 				</div>
 			</div>
     </form>

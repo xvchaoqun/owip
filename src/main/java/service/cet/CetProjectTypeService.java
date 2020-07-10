@@ -42,11 +42,11 @@ public class CetProjectTypeService extends CetBaseMapper {
         return cetProjectTypeMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="CetProjectType", key = "#type")
-    public Map<Integer, CetProjectType> findAll(Byte type) {
+    @Cacheable(value="CetProjectType", key = "#specialType")
+    public Map<Integer, CetProjectType> findAll(Byte specialType) {
 
         CetProjectTypeExample example = new CetProjectTypeExample();
-        example.createCriteria().andTypeEqualTo(type);
+        example.createCriteria().andTypeEqualTo(specialType);
         example.setOrderByClause("sort_order asc");
         List<CetProjectType> records = cetProjectTypeMapper.selectByExample(example);
         Map<Integer, CetProjectType> map = new LinkedHashMap<>();

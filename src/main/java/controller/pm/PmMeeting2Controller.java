@@ -73,7 +73,7 @@ public class PmMeeting2Controller extends PmBaseController {
     @RequestMapping("/pmMeeting2_data")
     @ResponseBody
     public void pmMeeting2_data(HttpServletResponse response,
-                                Integer cls,
+                                @RequestParam(defaultValue = "1") int cls,
                                 Integer partyId,
                                 Integer branchId,
                                 Integer year,
@@ -109,23 +109,18 @@ public class PmMeeting2Controller extends PmBaseController {
         if (quarter!=null) {
             criteria.andQuarterEqualTo(quarter);
         }
-        if (cls!=null) {
-            switch (cls) {
-                case 1:
-                    criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_INIT).andIsBackNotEqualTo(true);
-                    break;
-                case 2:
-                    criteria.andIsBackEqualTo(true);
-                    break;
-                case 3:
-                    criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_PASS);
-                    break;
-                case 4:
-                    criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_DENY);
-                    break;
-                default:
-                    break;
-            }
+        switch (cls) {
+            case 1:
+                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_PASS);
+                break;
+            case 2:
+                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_INIT);
+                break;
+            case 3:
+                criteria.andStatusEqualTo(PmConstants.PM_MEETING_STATUS_DENY);
+                break;
+            default:
+                break;
         }
         if (export == 1) {
             if(ids!=null && ids.length>0)
@@ -196,12 +191,11 @@ public class PmMeeting2Controller extends PmBaseController {
         } else {
             if (reedit == 1) {
                 record.setStatus(PM_MEETING_STATUS_INIT);
-                record.setIsBack(false);
             }
             if(record.getDate()!=null){
-                record.setYear(pmMeeting2Service.getYear(record.getDate()));
-                record.setQuarter(pmMeeting2Service.getQuarter(record.getDate()));
-                record.setMonth(pmMeeting2Service.getMonth(record.getDate()));
+                record.setYear(DateUtils.getYear(record.getDate()));
+                record.setQuarter(DateUtils.getQuarter(record.getDate()));
+                record.setMonth(DateUtils.getMonth(record.getDate()));
             }
             pmMeeting2Service.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_PM, "更新三会一课2(支部会议)：{0}", record.getId()));
@@ -279,7 +273,7 @@ public class PmMeeting2Controller extends PmBaseController {
 
         pmMeeting2Service.check(ids,status,isBack,reason);
 
-        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", ids));
+        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", StringUtils.join(ids)));
 
         return success(FormUtils.SUCCESS);
     }

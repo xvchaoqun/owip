@@ -31,11 +31,11 @@ public class CetPartyAdminService extends CetBaseMapper {
         return cetPartyAdminMapper.selectByExample(example);
     }
 
-    public CetPartyAdmin get(Integer partyId, Integer userId) {
+    public CetPartyAdmin get(Integer cetPartyId, Integer userId) {
 
         CetPartyAdminExample example = new CetPartyAdminExample();
         CetPartyAdminExample.Criteria criteria =
-                example.createCriteria().andCetPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
+                example.createCriteria().andCetPartyIdEqualTo(cetPartyId).andUserIdEqualTo(userId);
 
         List<CetPartyAdmin> cetPartyAdmins = cetPartyAdminMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         return cetPartyAdmins.size() > 0 ? cetPartyAdmins.get(0) : null;

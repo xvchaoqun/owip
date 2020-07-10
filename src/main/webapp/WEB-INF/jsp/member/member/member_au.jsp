@@ -10,7 +10,14 @@
     <div class="row">
         <div class="col-xs-7">
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span>账号</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span>账号
+                <span class="prompt" data-title="账号说明" data-width="400"
+							  data-prompt="<ul>
+							  <li>此处显示的是还未加入党员库中的账号，如果账号已经加入了党员库中则无须在此重复添加</li>
+							  <li>教职工账号将自动归入“在职教职工党员库”，学生账号将自动归入“学生党员库”</li>
+							  <li>如需添加离退休党员，请先添加教职工账号，然后在“在职教职工党员库”中，使用“修改基础信息”功能，将其修改为已退休状态后，该账号自动归入“离退休党员库”</li>
+							  </ul>"><i class="fa fa-question-circle-o"></i></span>
+                </label>
                 <div class="col-xs-6">
                     <c:if test="${not empty member}">
                         <input type="hidden" value="${member.userId}" name="userId">

@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
+import sys.utils.DateUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static sys.constants.PmConstants.*;
 
@@ -35,11 +39,10 @@ public class PmMeeting2Service extends PmBaseMapper {
         }
 
         if(record.getDate()!=null){
-            record.setYear(getYear(record.getDate()));
-            record.setQuarter(getQuarter(record.getDate()));
-            record.setMonth(getMonth(record.getDate()));
+            record.setYear(DateUtils.getYear(record.getDate()));
+            record.setQuarter(DateUtils.getQuarter(record.getDate()));
+            record.setMonth(DateUtils.getMonth(record.getDate()));
         }
-        record.setIsBack(false);
         record.setIsDelete(false);
 
         if (PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),record.getPartyId())) {
@@ -75,7 +78,8 @@ public class PmMeeting2Service extends PmBaseMapper {
 
         PmMeeting2 pmMeeting2=pmMeeting2Mapper.selectByPrimaryKey(record.getId());
 
-        if(pmMeeting2.getStatus()==PM_MEETING_STATUS_PASS&&!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId())){
+        if(pmMeeting2.getStatus()==PM_MEETING_STATUS_PASS
+                &&!PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId())){
             throw new OpException("该记录已审核通过，不能再次修改");
         }
         pmMeeting2Mapper.updateByPrimaryKeySelective(record);
@@ -99,7 +103,6 @@ public class PmMeeting2Service extends PmBaseMapper {
             }
 
             pmMeeting2.setStatus(status);
-            pmMeeting2.setIsBack(isBack);
             if(status==PM_MEETING_STATUS_DENY||isBack==true){
                 pmMeeting2.setReason(reason);
             }
@@ -118,51 +121,5 @@ public class PmMeeting2Service extends PmBaseMapper {
         }
 
         return map;
-    }
-    public  int getYear(Date date){
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int year = c.get(Calendar.YEAR);
-        return year;
-    }
-    public  int getMonth(Date date){
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        return month;
-    }
-    public  byte getQuarter(Date date){
-        byte season = 0;
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int month = c.get(Calendar.MONTH);
-        switch (month) {
-            case Calendar.JANUARY:
-            case Calendar.FEBRUARY:
-            case Calendar.MARCH:
-                season = 1;
-                break;
-            case Calendar.APRIL:
-            case Calendar.MAY:
-            case Calendar.JUNE:
-                season = 2;
-                break;
-            case Calendar.JULY:
-            case Calendar.AUGUST:
-            case Calendar.SEPTEMBER:
-                season = 3;
-                break;
-            case Calendar.OCTOBER:
-            case Calendar.NOVEMBER:
-            case Calendar.DECEMBER:
-                season = 4;
-                break;
-            default:
-                break;
-        }
-        return season;
     }
 }

@@ -306,7 +306,7 @@ $.ajaxSetup({
 
 //select/deselect all rows according to table header checkbox
 var active_class = 'active';
-$(document).on('click', '.table > thead > tr > th input[type=checkbox]', function () {
+$(document).on('click', '.table-checkbox > thead > tr > th input[type=checkbox]', function () {
 
     $(this).closest('.sticky-wrap').find('table.sticky-enabled').find('thead > tr > th input[type=checkbox]').click();
     var th_checked = this.checked;//checkbox inside "TH" table header
@@ -317,7 +317,7 @@ $(document).on('click', '.table > thead > tr > th input[type=checkbox]', functio
     });
 });
 //select/deselect a row when the checkbox is checked/unchecked
-$(document).on('click', '.table td input[type=checkbox]', function () {
+$(document).on('click', '.table-checkbox td input[type=checkbox]', function () {
     var $row = $(this).closest('tr');
     if (this.checked) $row.addClass(active_class);
     else $row.removeClass(active_class);

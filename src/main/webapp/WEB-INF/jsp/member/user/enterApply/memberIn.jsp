@@ -112,9 +112,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-xs-5 control-label"><span class="star">*</span>转出单位传真</label>
+          <label class="col-xs-5 control-label">转出单位传真</label>
           <div class="col-xs-6">
-            <input required class="form-control left-input" byteMaxLength="20" maxlength="20" type="text" name="fromFax" value="${memberIn.fromFax}">
+            <input class="form-control left-input" byteMaxLength="20" maxlength="20" type="text" name="fromFax" value="${memberIn.fromFax}">
           </div>
         </div>
       <div class="form-group">

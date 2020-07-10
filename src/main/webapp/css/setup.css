@@ -406,6 +406,10 @@ body {
     /*top: 48px !important;*/
 }
 
+.multi-row-head-table .table>thead:first-child>tr:first-child>th:first-child{
+    padding: 20px 0!important;
+}
+
 .ui-pg-table tbody tr:hover td {
     background-color: inherit;
 }
