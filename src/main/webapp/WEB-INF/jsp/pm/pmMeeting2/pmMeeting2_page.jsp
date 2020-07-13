@@ -217,6 +217,13 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
             },
+            { label: '活动名称',name: 'type', width:180,align:'left', formatter:function(cellvalue, options, rowObject){
+                    var type1=rowObject.type1;
+                    var type2=rowObject.type2;
+                    if(type1==undefined) return '--';
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting2_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]);
+                  }
+             },
             { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--';
                     var fileName = rowObject.fileName;
@@ -233,29 +240,23 @@ pageEncoding="UTF-8" %>
                     }
                 }
             },
-            { label: '地点',name: 'address'},
-            { label: '活动名称',name: 'type', width:180,align:'left', formatter:function(cellvalue, options, rowObject){
-                    var type1=rowObject.type1;
-                    var type2=rowObject.type2;
-                    if(type1==undefined) return '--';
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting2_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]);
-                  }
-             },
-            { label: '次数',name: 'number', formatter: function (cellvalue, options, rowObject) {
+            { label: '地点',name: 'address',width:180, align:'left'},
+
+            { label: '次数',name: 'number', align:'left', formatter: function (cellvalue, options, rowObject) {
                     var number1=rowObject.number1;
                     var number2=rowObject.number2;
                     if(number1==undefined)
                         return '--'
                     return number2==undefined?'第'+number1+'次':'第'+number1+'/'+number2+'次';
                 }},
-            { label: '时长',name: 'time',width:120, formatter: function (cellvalue, options, rowObject) {
+            { label: '时长',name: 'time', formatter: function (cellvalue, options, rowObject) {
                     var time1=rowObject.time1;
                     var time2=rowObject.time2;
                     if(time1==undefined)
                         return '--'
                     return time2==undefined?time1+'分钟':time1+'/'+time2+'分钟';
                 }},
-            { label: '主要内容',name: 'shortContent',width:200},
+            { label: '主要内容',name: 'shortContent',width:200, align:'left'},
             { label: '应到人数',name: 'dueNum'},
             { label: '实到人数',name: 'attendNum'},
             { label: '主持人', name: 'presenterName.realname', align:'left'},

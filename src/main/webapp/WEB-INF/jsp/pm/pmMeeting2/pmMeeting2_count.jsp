@@ -32,7 +32,23 @@
                     var type1=rowObject.type1;
                     var type2=rowObject.type2;
                     if(type1==undefined) return '--';
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting2_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]);
+                    return type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]
+                }
+            },
+            { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    var fileName = rowObject.fileName;
+                    if(fileName.toLowerCase().endWith(".pdf")){
+                        return ' <a href="${ctx}/pdf?path={0}" target="_blank"> 预览</a>'
+                                .format(encodeURI(cellvalue))
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
+                    }else {
+                        return ' <a href="${ctx}/pic?path={0}" target="_blank"> 预览</a>'
+                                .format(encodeURI(cellvalue))
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
+                    }
                 }
             },
             { label: '次数',name: 'number', formatter: function (cellvalue, options, rowObject) {
