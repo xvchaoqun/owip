@@ -79,6 +79,7 @@ public class PmMeeting2Controller extends PmBaseController {
                                 Integer year,
                                 Byte quarter,
                                 Integer month,
+                                Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -111,6 +112,9 @@ public class PmMeeting2Controller extends PmBaseController {
         }
         if (month!=null) {
             criteria.andMonthEqualTo(month);
+        }
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
         }
         switch (cls) {
             case 1:
@@ -286,7 +290,7 @@ public class PmMeeting2Controller extends PmBaseController {
         List<PmMeeting2> records = pmMeeting2Mapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"年度","季度","所属"+ CmTag.getStringProperty("partyName")+"|250|left","所属党支部|250|left","实际时间|150","地点|150","活动名称|150|left","次数|100|left","时长|100|left",
-                "主要内容|250", "应到人数","实到人数","主持人","记录人","审核情况|100"};
+                "主要内容|250", "应到人数","实到人数","主持人","记录人"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PmMeeting2 record = records.get(i);
@@ -305,8 +309,7 @@ public class PmMeeting2Controller extends PmBaseController {
                     record.getDueNum()==null?"": String.valueOf(record.getDueNum()),
                     record.getAttendNum()==null?"": String.valueOf(record.getAttendNum()),
                     record.getPresenter()==null?"": CmTag.getUserById(record.getPresenter()).getRealname(),
-                    record.getRecorder()==null?"": CmTag.getUserById(record.getRecorder()).getRealname(),
-                    PM_MEETING_STATUS_MAP.get(record.getStatus())
+                    record.getRecorder()==null?"": CmTag.getUserById(record.getRecorder()).getRealname()
             };
             valuesList.add(values);
         }
@@ -320,7 +323,8 @@ public class PmMeeting2Controller extends PmBaseController {
                                    Byte quarter,
                                    Integer month,
                                    Integer partyId,
-                                   Integer branchId,ModelMap modelMap) {
+                                   Integer branchId,
+                                   Byte type,ModelMap modelMap) {
 
         return "pm/pmMeeting2/pmMeeting2_count";
     }

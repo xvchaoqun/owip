@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="PARTY_MEETING_BRANCH" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH%>"/>
+<c:set var="PARTY_MEETING_BRANCH_COMMITTEE" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_COMMITTEE%>"/>
+<c:set var="PARTY_MEETING_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_GROUP%>"/>
+<c:set var="PARTY_MEETING_BRANCH_CLASS" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_CLASS%>"/>
+<c:set var="PARTY_MEETING_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_ACTIVITY%>"/>
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -160,11 +166,71 @@
                 }
                 }
             },
-            { label: '支部党员大会',name: 'count1'},
-            { label: '支部委员会',name: 'count2'},
-            { label: '党小组会',name: 'count3'},
-            { label: '党课',name: 'count4'},
-            { label: '主题党日活动',name: 'count5'},
+            { label: '支部党员大会',name: 'count1',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+                    if(${cls==1}){
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&partyId={2}&branchId={3}&type={4}"><u>{5}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH},cellvalue);
+                    }else{
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}"><u>{6}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH},cellvalue);
+                    }
+                }
+            },
+            { label: '支部委员会',name: 'count2',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+                    if(${cls==1}){
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&partyId={2}&branchId={3}&type={4}"><u>{5}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_COMMITTEE},cellvalue);
+                    }else{
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}"><u>{6}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_COMMITTEE},cellvalue);
+                    }
+                }
+            },
+            { label: '党小组会',name: 'count3',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+                    if(${cls==1}){
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&partyId={2}&branchId={3}&type={4}"><u>{5}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_GROUP},cellvalue);
+                    }else{
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}"><u>{6}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_GROUP},cellvalue);
+                    }
+                }
+            },
+            { label: '党课',name: 'count4',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+                    if(${cls==1}){
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&partyId={2}&branchId={3}&type={4}"><u>{5}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_CLASS},cellvalue);
+                    }else{
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}"><u>{6}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_CLASS},cellvalue);
+                    }
+                }
+            },
+            { label: '主题党日活动',name: 'count5',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+                    if(${cls==1}){
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&partyId={2}&branchId={3}&type={4}"><u>{5}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_ACTIVITY},cellvalue);
+                    }else{
+                        return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}"><u>{6}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_ACTIVITY},cellvalue);
+                    }
+                }
+            },
     ]
 }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
