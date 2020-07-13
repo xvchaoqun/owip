@@ -707,7 +707,7 @@ public class CadreAdformService extends BaseMapper {
         node.setText(StringUtils.trimToEmpty(value));
     }
 
-    public String html2Paragraphs(String content) {
+    public String html2Paragraphs(String content, String seg) {
 
         if (StringUtils.isBlank(content)) return null;
 
@@ -723,7 +723,7 @@ public class CadreAdformService extends BaseMapper {
             String text = StringUtils.trimToEmpty(pElement.text());
             //System.out.println(rowStr);
 
-            str += process(text) + "\r\n";
+            str += process(text) + seg;
             //System.out.println(rowStr);
         }
 
@@ -1300,8 +1300,8 @@ public class CadreAdformService extends BaseMapper {
             }
         }
 
-        setNodeText(doc, "JianLi", html2Paragraphs(jianli));
-        setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(bean.getReward()));
+        setNodeText(doc, "JianLi", html2Paragraphs(jianli, "\r\n"));
+        setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(bean.getReward(), "\r\n"));
         setNodeText(doc, "NianDuKaoHeJieGuo", bean.getCes());
         setNodeText(doc, "RenMianLiYou", bean.getReason());
 
