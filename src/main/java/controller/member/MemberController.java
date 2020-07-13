@@ -947,6 +947,7 @@ public class MemberController extends MemberBaseController {
                             @RequestDateRange DateRange _positiveTime,
                             @RequestDateRange DateRange _outHandleTime,
                             Byte userSource, // 账号来源
+                            String idcard,
 
                             /**学生党员**/
                             String grade,
@@ -1044,10 +1045,10 @@ public class MemberController extends MemberBaseController {
         }
 
         if (StringUtils.isNotBlank(grade)) {
-            criteria.andGradeEqualTo(grade);
+            criteria.andGradeLike(SqlUtils.trimLike(grade));
         }
         if (StringUtils.isNotBlank(studentType)) {
-            criteria.andStudentTypeEqualTo(studentType);
+            criteria.andStudentTypeLike(SqlUtils.trimLike(studentType));
         }
         if (StringUtils.isNotBlank(eduLevel)) {
             criteria.andEduLevelLike(SqlUtils.like(eduLevel));
@@ -1142,6 +1143,9 @@ public class MemberController extends MemberBaseController {
             }else {
                 criteria.andIntegrityNotEqualTo(new BigDecimal(1));
             }
+        }
+        if (StringUtils.isNotBlank(idcard)){
+            criteria.andIdcardEqualTo(idcard.trim());
         }
 
         if (export == 1) {

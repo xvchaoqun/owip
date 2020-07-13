@@ -23,7 +23,7 @@
              ||not empty param.politicalStatus||not empty param.userSource
                 ||not empty param._growTime ||not empty param._positiveTime
                 ||not empty param._outHandleTime || not empty param.partyId
-                ||not empty param._integrity}"/>
+                ||not empty param._integrity||not empty param.studentType||not empty param.grade}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -151,6 +151,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label>身份证号码</label>
+                                            <input class="form-control search-query" name="idcard" type="text"
+                                                   value="${param.idcard}"
+                                                   placeholder="请输入身份证号码">
+                                        </div>
+                                        <div class="form-group">
                                             <label>${_p_partyName}所在单位</label>
                                             <select name="unitId" data-rel="select2" data-placeholder="请选择">
                                                 <option></option>
@@ -211,6 +217,20 @@
 
                                             </div>
                                         </div>
+                                        <c:if test="${cls==1||cls==6}">
+                                            <div class="form-group">
+                                                <label>学生类别</label>
+                                                <input class="form-control search-query" name="studentType" type="text"
+                                                       value="${param.studentType}"
+                                                       placeholder="请输入学生类别">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>年级</label>
+                                                <input class="form-control search-query" name="grade" type="text" style="width: 100px!important;"
+                                                       value="${param.grade}"
+                                                       placeholder="请输入年级">
+                                            </div>
+                                        </c:if>
                                         <c:if test="${cls==1 || cls==6}">
                                             <div class="form-group">
                                                 <label>培养层次</label>

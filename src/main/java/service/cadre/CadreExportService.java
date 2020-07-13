@@ -1,5 +1,6 @@
 package service.cadre;
 
+import bean.CadreInfoForm;
 import domain.base.MetaType;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadrePost;
@@ -61,6 +62,9 @@ public class CadreExportService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
 
+    @Autowired
+    protected CadreAdformService cadreAdformService;
+
     public List<String> getTitles(){
 
         String cadreStateName = HtmlEscapeUtils.getTextFromHTML(CmTag.getStringProperty("cadreStateName"));
@@ -77,7 +81,7 @@ public class CadreExportService extends BaseMapper {
                 /*37*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
                 /*42*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
                 /*47*/"联系方式|100", "办公电话|100", /*"党委委员|100", "纪委委员|120",*/ "电子信箱|200", "所在党组织|500",
-                 /*51*/"是否有挂职经历|100", "备注|500"}));
+                 /*51*/"是否有挂职经历|100", "备注|500","学习经历|500|left","工作经历|500|left","简历|500|left","年度考核结果|300|left"}));
     }
 
     // 导出一览表
@@ -171,6 +175,7 @@ public class CadreExportService extends BaseMapper {
         Row firstRow = sheet.createRow(rowNum++);
         firstRow.setHeight((short) (35.7 * 18));
 
+        String[] aligns = new String[titles.size()];
         int width;
         for (int i = 0; i < columnCount; i++) {
 
@@ -189,11 +194,22 @@ public class CadreExportService extends BaseMapper {
                     logger.error("异常", e);
                 }
             }
+            if (split.length > 2) {
+                aligns[i] = split[2];
+            } else {
+                aligns[i] = null;
+            }
         }
 
         for (int i = 0; i < count; i++) {
             CadreView record = records.get(i);
             SysUserView sysUser = record.getUser();
+            CadreInfoForm bean = cadreAdformService.getCadreAdform(record.getId());
+
+            String learnDesc = cadreAdformService.html2Paragraphs(bean.getLearnDesc(), "\r");
+            String workDesc = cadreAdformService.html2Paragraphs(bean.getWorkDesc(), "\r");
+            String resumeDesc = cadreAdformService.html2Paragraphs(bean.getResumeDesc(), "\r");
+            String ces = bean.getCes();
 
             String isPositive = BooleanUtils.isTrue(record.getIsPrincipal())?"是":"否"; // 是否正职
 
@@ -425,7 +441,11 @@ public class CadreExportService extends BaseMapper {
                     partyFullName,
 
                     BooleanUtils.isTrue(record.getHasCrp()) ? "是" : "否",
-                    record.getRemark()
+                    record.getRemark(),
+                    learnDesc,
+                    workDesc,
+                    resumeDesc,
+                    ces
             }));
 
             if (exportType == 1) {
@@ -465,6 +485,11 @@ public class CadreExportService extends BaseMapper {
                 if (StringUtils.isBlank(value)) value = "-";
                 cell.setCellValue(value);
                 cell.setCellStyle(ExportHelper.getBodyStyle(wb));
+
+                if (StringUtils.equalsIgnoreCase(aligns[j], "left")) {
+                    cell.setCellStyle(ExportHelper.createLeftCellStyle(wb));
+                }
+
             }
         }
 
