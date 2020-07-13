@@ -217,6 +217,22 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
             },
+            { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    var fileName = rowObject.fileName;
+                    if(fileName.toLowerCase().endWith(".pdf")){
+                        return ' <a href="${ctx}/pdf?path={0}" target="_blank"> 预览</a>'
+                                .format(encodeURI(cellvalue))
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
+                    }else {
+                        return ' <a href="${ctx}/pic?path={0}" target="_blank"> 预览</a>'
+                                .format(encodeURI(cellvalue))
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
+                    }
+                }
+            },
             { label: '地点',name: 'address'},
             { label: '活动名称',name: 'type', width:180,align:'left', formatter:function(cellvalue, options, rowObject){
                     var type1=rowObject.type1;
@@ -244,22 +260,6 @@ pageEncoding="UTF-8" %>
             { label: '实到人数',name: 'attendNum'},
             { label: '主持人', name: 'presenterName.realname', align:'left'},
             { label: '记录人', name: 'recorderName.realname', align:'left'},
-            { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '--';
-                    var fileName = rowObject.fileName;
-                   if(fileName.endsWith(".pdf")){
-                       return ' <a href="${ctx}/pdf?path={0}" target="_blank"> 预览</a>'
-                               .format(encodeURI(cellvalue))
-                           + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
-                               .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
-                   }else {
-                       return ' <a href="${ctx}/pic?path={0}" target="_blank"> 预览</a>'
-                           .format(encodeURI(cellvalue))
-                           + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
-                               .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
-                   }
-                }
-            },
             <c:if test="${cls==3}">
             {label: '未通过原因', name: 'reason',width:200, align:'left'},
             </c:if>

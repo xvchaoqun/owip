@@ -122,10 +122,12 @@
                             </div>
                         <script>
                                $('#modalForm input[name="type"][value="'+${pmMeeting2.type1} +'"]').prop("checked", true);
+                               $(".input${pmMeeting2.type1}").attr("required","required")
                                $(".input${pmMeeting2.type1}:first").val(${pmMeeting2.number1});
                                $(".input${pmMeeting2.type1}:last").val(${pmMeeting2.time1});
 
-                                $('#modalForm input[name="type"][value="'+${pmMeeting2.type2} +'"]').prop("checked", true);
+                               $('#modalForm input[name="type"][value="'+${pmMeeting2.type2} +'"]').prop("checked", true);
+                               $(".input${pmMeeting2.type2}").attr("required","required")
                                $(".input${pmMeeting2.type2}:first").val(${pmMeeting2.number2});
                                $(".input${pmMeeting2.type2}:last").val(${pmMeeting2.time2});
                                 if(${edit}){
@@ -238,13 +240,23 @@
                 </tr>
 
                 <tr>
-                    <td><span class="star">*</span>附件</td>
-                    <td colspan="3">
-                        <c:if test="${!edit}">
-                            <a href="javascript:;" data-type="download"
+                    <td><span class="star">*</span>附件
+                        <c:if test="${not empty pmMeeting2.filePath}">
+
+                            <c:if test="${fn:endsWith(fn:toLowerCase(pmMeeting2.filePath), '.pdf')}">
+                                <a href="${ctx}/pdf?path=${cm:encodeURI(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
+                            </c:if>
+
+                            <c:if test="${!fn:endsWith(fn:toLowerCase(pmMeeting2.filePath), '.pdf')}">
+                                <a href="${ctx}/pic?path=${cm:encodeURI(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
+                            </c:if>
+
+                            <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"
                                data-url="${ctx}/attach_download?path=${cm:encodeURI(pmMeeting2.filePath)}&filename=${pmMeeting2.fileName}"
-                               class="downloadBtn">下载</a>
-                        </c:if>
+                               class="downloadBtn">下载)</a>
+                       </c:if>
+                    </td>
+                    <td colspan="3">
                         <c:if test="${edit}">
                             <div class="col-xs-6">
                                 <input ${empty pmMeeting2.filePath?'required':''} class="form-control" type="file" name="_file" />
@@ -317,10 +329,6 @@
     $.register.user_select(presenterSelect);
     $.register.user_select(recorderSelect);
 
-   /* if(${adminOnePartyOrBranch==true}){
-        $("#modalForm input[name=dueNum]").val(${memberCount});
-    }*/
-
     var partySelect = $('#modalForm select[name="partyId"]');
     partySelect.on('change',function(){
         var partyId=partySelect.val();
@@ -343,8 +351,6 @@
             presenterSelect.removeAttr("disabled");
             recorderSelect.removeAttr("disabled");
 
-           /* var data = partySelect.select2("data")[0];
-            $("#modalForm input[name=dueNum]").val(data['party'].memberCount);*/
         }
 
      });
@@ -371,13 +377,6 @@
         presenterSelect.removeAttr("disabled");
         recorderSelect.removeAttr("disabled");
 
-        /*var data = branchSelect.select2("data")[0];
-        if(data['branch']) {
-            console.log('--------')
-            $("#modalForm input[name=dueNum]").val(data['branch'].memberCount);
-        }else{
-            console.log(data)
-        }*/
        });
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
@@ -385,14 +384,11 @@
         submitHandler: function (form) {
             var number=new Array();
             var time=new Array();
-            //console.log($("input[name=type]:checked").length);
             $("input[name=type]:checked").each(function (i) {
                 var type=$(this).val();
 
                 number[i]= $(".input"+type+":first").val();
                 time[i]= $(".input"+type+":last").val();
-                //console.log(i+number[i]);
-                //console.log(i+time[i]);
             })
 
             $(form).ajaxSubmit({

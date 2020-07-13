@@ -40,7 +40,7 @@
                     var number2=rowObject.number2;
                     if(number1==undefined)
                         return '--'
-                    return number2==undefined?'第'+number1+'次':'第'+number1+'次'+','+'第'+number2+'次';
+                    return number2==undefined?'第'+number1+'次':'第'+number1+'/'+number2+'次';
                 }},
             {label: '实际时间', name: 'date', width:150,
                 formatter: $.jgrid.formatter.date,
