@@ -1,6 +1,6 @@
 
 2020.7.15
-南航
+南航，北航
 
 2020.7.10
 西工大  -- 北师大
@@ -86,16 +86,6 @@ AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_i
 2020.7.3
 
 西工大
-
-ALTER TABLE `cet_upper_train`
-	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `pdf_note`;
-update cet_upper_train set is_graduate=1;
-
-ALTER TABLE `cet_unit_train`
-	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `score`;
-update cet_unit_train set is_graduate=1;
-
-2020.7.2
 
 ALTER TABLE `cet_project`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训' AFTER `id`;
@@ -209,6 +199,16 @@ ALTER TABLE `cet_upper_train`
 
 update cet_project set project_type_id=414 where type=1 and (project_type_id is null or project_type_id<414);
 update cet_project set project_type_id=514 where type=2 and (project_type_id is null or project_type_id<414);
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `pdf_note`;
+update cet_upper_train set is_graduate=1;
+
+ALTER TABLE `cet_unit_train`
+	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `score`;
+update cet_unit_train set is_graduate=1;
+
+
 2020.6.30
  西工大
 

@@ -159,7 +159,7 @@ public class CadreExportService extends BaseMapper {
                 titles.remove(2);
             }
             if(!hasPartyModule){
-                titles.remove(titles.size()-3); // 去掉所在党组织
+                titles.remove(titles.size()-7); // 去掉所在党组织
             }
 
             if(cols!=null && cols.length>0){
@@ -464,7 +464,7 @@ public class CadreExportService extends BaseMapper {
                     values.remove(2);
                 }
                 if(!hasPartyModule){
-                    values.remove(values.size()-3); // 去掉所在党组织
+                    values.remove(values.size()-7); // 去掉所在党组织
                 }
 
                 if(cols!=null && cols.length>0){

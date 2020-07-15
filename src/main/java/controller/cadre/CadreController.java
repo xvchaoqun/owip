@@ -191,7 +191,7 @@ public class CadreController extends BaseController {
             titles.remove(2);
         }
         if(!hasPartyModule){
-            titles.remove(titles.size()-3); // 去掉所在党组织
+            titles.remove(titles.size()-7); // 去掉所在党组织
         }
 
         modelMap.put("titles", titles);

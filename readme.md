@@ -32,6 +32,8 @@ git update-index --assume-unchanged pom.xml
 -- 撤销commit 
 git reset --soft HEAD~1
 (如果进行了2次commit，想都撤回，可以使用HEAD~2)
+-- 撤销本地所有的修改
+git reset --hard "HEAD^"
 
 select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
 
