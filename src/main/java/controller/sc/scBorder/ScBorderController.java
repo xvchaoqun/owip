@@ -122,7 +122,7 @@ public class ScBorderController extends ScBaseController {
         if (id == null) {
             
             scBorderService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_BORDER, "添加出入境备案：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_SC_BORDER, "添加出入境备案"));
         } else {
 
             scBorderService.updateByPrimaryKeySelective(record);

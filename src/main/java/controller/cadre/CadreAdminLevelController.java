@@ -60,7 +60,7 @@ public class CadreAdminLevelController extends BaseController {
 
         if (id == null) {
             cadreAdminLevelMapper.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加任职级经历：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加任职级经历：%s", record.getCadreId()));
         } else {
             cadreAdminLevelMapper.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新任职级经历：%s", record.getId()));

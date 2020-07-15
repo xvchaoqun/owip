@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.party.BranchViewMapper;
 import persistence.party.PartyViewMapper;
+import persistence.pm.common.PmMeetingStat;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmConstants;
@@ -284,6 +285,7 @@ public class PmMeetingController extends PmBaseController {
             if(record.getDate()!=null){
                 record.setYear(DateUtils.getYear(record.getDate()));
                 record.setQuarter(DateUtils.getQuarter(record.getDate()));
+                record.setMonth(DateUtils.getMonth(record.getDate()));
             }
             record.setAttends(attendIds);
             record.setAbsents(absentIds);
@@ -714,5 +716,80 @@ public class PmMeetingController extends PmBaseController {
 
         pmMeetingService.getExportWord(id,response.getWriter());
 
+    }
+
+    @RequiresPermissions("pmMeetingStat:list")
+    @RequestMapping("/pmMeetingStat")
+    public String pmMeeting2Stat(@RequestParam(defaultValue = "1") Integer cls, Integer partyId,
+                                 Integer branchId,ModelMap modelMap) {
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        if (partyId != null)
+            modelMap.put("party", partyMap.get(partyId));
+        if (branchId != null)
+            modelMap.put("branch", branchMap.get(branchId));
+        modelMap.put("cls", cls);
+        return "pm/pmMeeting/pmMeeting_stat";
+    }
+
+    @RequiresPermissions("pmMeetingStat:list")
+    @RequestMapping("/pmMeeting_stat")
+    @ResponseBody
+    public void pmMeeting2_stat(HttpServletResponse response,
+                                Byte cls,
+                                Integer year,
+                                Byte quarter,
+                                Integer month,
+                                Integer partyId,
+                                Integer branchId,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer pageSize, Integer pageNo)  throws IOException{
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        boolean addPermits = !ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL);
+        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+
+        int count = iPmMapper.countPmMeetingStat(cls,year,quarter,month,partyId,branchId,PM_MEETING_STATUS_PASS, addPermits, adminPartyIdList, adminBranchIdList);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        /* List<PmMeeting2View> records= pmMeeting2ViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));*/
+        List<PmMeetingStat> records= iPmMapper.selectPmMeetingStat(cls,year,quarter,month,partyId,branchId,PM_MEETING_STATUS_PASS,addPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(pmMeeting2.class, pmMeeting2Mixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
+
+    @RequiresPermissions("pmMeeting:list")
+    @RequestMapping("/pmMeeting_count")
+    public String pmMeeting2_count(Integer cls,
+                                   Integer year,
+                                   Byte quarter,
+                                   Integer month,
+                                   Integer partyId,
+                                   Integer branchId,
+                                   Byte type,ModelMap modelMap) {
+
+        return "pm/pmMeeting/pmMeeting_count";
     }
 }

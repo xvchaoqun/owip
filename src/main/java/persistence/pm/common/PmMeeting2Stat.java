@@ -1,6 +1,6 @@
 package persistence.pm.common;
 
-public class PmMeetingStat {
+public class PmMeeting2Stat {
 
     private Integer id;
     private Integer partyId;
@@ -13,8 +13,6 @@ public class PmMeetingStat {
     private Integer count3;
     private Integer count4;
     private Integer count5;
-    private Integer count6;
-    private Integer count7;
 
     public Integer getId() {
         return id;
@@ -104,21 +102,6 @@ public class PmMeetingStat {
         this.count5 = count5;
     }
 
-    public Integer getCount6() {
-        return count6;
-    }
-
-    public void setCount6(Integer count6) {
-        this.count6 = count6;
-    }
-
-    public Integer getCount7() {
-        return count7;
-    }
-
-    public void setCount7(Integer count7) {
-        this.count7 = count7;
-    }
 
 
 }

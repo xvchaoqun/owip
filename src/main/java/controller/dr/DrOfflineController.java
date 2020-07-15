@@ -275,7 +275,7 @@ public class DrOfflineController extends DrBaseController {
             record.setOfflineId(offlineId);
             record.setUserId(userId);
             drOfflineCandidateMapper.insert(record);
-            logger.info(addLog(LogConstants.LOG_DR, "添加候选人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_DR, "添加候选人：%s", record.getUserId()));
         } else {
             record.setId(id);
             drOfflineCandidateMapper.updateByPrimaryKeySelective(record);
@@ -411,7 +411,7 @@ public class DrOfflineController extends DrBaseController {
         if (id == null) {
 
             drOfflineService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_DR, "添加线下民主推荐：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_DR, "添加线下民主推荐"));
         } else {
 
             drOfflineService.updateByPrimaryKeySelective(record);

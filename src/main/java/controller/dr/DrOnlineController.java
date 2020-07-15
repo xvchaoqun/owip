@@ -193,7 +193,7 @@ public class DrOnlineController extends DrBaseController {
 
         if (id == null) {
             drOnlineService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_DR, "添加按批次管理线上民主推荐：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_DR, "添加按批次管理线上民主推荐"));
         } else {
 
             drOnlineService.updateByPrimaryKeySelective(record);

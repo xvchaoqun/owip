@@ -93,7 +93,7 @@ public class CrsApplyUserController extends CrsBaseController {
         Integer id = record.getId();
         if (id == null) {
             crsApplyUserService.insertSelective(record, userIds);
-            logger.info(addLog( LogConstants.LOG_CRS, "添加补报人员：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CRS, "添加补报人员：%s", record.getUserId()));
         } else {
 
             CrsApplyUser crsApplyUser = crsApplyUserMapper.selectByPrimaryKey(id);

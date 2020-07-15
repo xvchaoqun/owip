@@ -119,7 +119,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
         if (id == null) {
             
             cetUpperTrainAdminService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "添加培训单位管理员：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CET, "添加培训单位管理员：%s", record.getUserId()));
         } else {
 
             cetUpperTrainAdminService.updateByPrimaryKeySelective(record);

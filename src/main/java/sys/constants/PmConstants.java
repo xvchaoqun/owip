@@ -14,6 +14,8 @@ public class PmConstants {
     public final static byte PARTY_MEETING_BRANCH_GROUP = 3;
     public final static byte PARTY_MEETING_BRANCH_CLASS = 4;
     public final static byte PARTY_MEETING_BRANCH_ACTIVITY = 5;
+    public final static byte PARTY_MEETING_BRANCH_ORGANIZE = 6;
+    public final static byte PARTY_MEETING_BRANCH_DEMOCRACY = 7;
     public final static Map<Byte, String> PARTY_MEETING_MAP = new LinkedHashMap<>();
 
     static {
@@ -22,8 +24,25 @@ public class PmConstants {
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_GROUP, "党小组会");
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_CLASS, "党课");
         PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_ACTIVITY, "主题党日活动");
+        PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_ORGANIZE, "组织生活会");
+        PARTY_MEETING_MAP.put(PARTY_MEETING_BRANCH_DEMOCRACY, "民主生活会");
     }
 
+    // 三会一课2类型
+    public final static byte PARTY_MEETING2_BRANCH = 1;
+    public final static byte PARTY_MEETING2_BRANCH_COMMITTEE = 2;
+    public final static byte PARTY_MEETING2_BRANCH_GROUP = 3;
+    public final static byte PARTY_MEETING2_BRANCH_CLASS = 4;
+    public final static byte PARTY_MEETING2_BRANCH_ACTIVITY = 5;
+    public final static Map<Byte, String> PARTY_MEETING2_MAP = new LinkedHashMap<>();
+
+    static {
+        PARTY_MEETING2_MAP.put(PARTY_MEETING2_BRANCH, "支部党员大会");
+        PARTY_MEETING2_MAP.put(PARTY_MEETING2_BRANCH_COMMITTEE, "支部委员会");
+        PARTY_MEETING2_MAP.put(PARTY_MEETING2_BRANCH_GROUP, "党小组会");
+        PARTY_MEETING2_MAP.put(PARTY_MEETING2_BRANCH_CLASS, "党课");
+        PARTY_MEETING2_MAP.put(PARTY_MEETING2_BRANCH_ACTIVITY, "主题党日活动");
+    }
     //季度汇总类型
     public final static byte PARTY_QUARTER_PARTY = 1;
     public final static byte PARTY_QUARTER_BRANCH = 2;

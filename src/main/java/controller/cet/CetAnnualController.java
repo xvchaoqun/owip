@@ -115,7 +115,7 @@ public class CetAnnualController extends CetBaseController {
         if (id == null) {
             
             cetAnnualService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CET, "添加年度学习档案：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CET, "添加年度学习档案"));
         } else {
 
             cetAnnualService.updateByPrimaryKeySelective(record);

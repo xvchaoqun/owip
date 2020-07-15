@@ -121,7 +121,7 @@ public class ScBorderItemController extends ScBaseController {
         }
 
         scBorderItemService.insertSelective(record);
-        logger.info(addLog( LogConstants.LOG_SC_BORDER, "添加报备干部：%s", record.getId()));
+        logger.info(addLog( LogConstants.LOG_SC_BORDER, "添加报备干部：%s", record.getCadreId()));
 
         return success(FormUtils.SUCCESS);
     }

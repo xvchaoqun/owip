@@ -125,7 +125,7 @@ public class ScPassportController extends ScBaseController {
         if (id == null) {
             
             scPassportService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "添加上交证件信息：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "添加上交证件信息"));
         } else {
 
             scPassportService.updateByPrimaryKeySelective(record);

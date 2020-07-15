@@ -222,7 +222,7 @@ public class MemberCertifyController extends MemberBaseController {
             record.setPoliticalStatus(member.getPoliticalStatus());
             
             memberCertifyService.insertSelective(record, apply);
-            logger.info(log( LogConstants.LOG_MEMBER, "添加临时组织关系介绍信：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_MEMBER, "添加临时组织关系介绍信：用户{0}", record.getUserId()));
         } else {
 
             memberCertifyService.updateByPrimaryKeySelective(record, reapply, apply);

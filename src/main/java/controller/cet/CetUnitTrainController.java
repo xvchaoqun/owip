@@ -294,7 +294,7 @@ public class CetUnitTrainController extends CetBaseController {
             record.setAddTime(new Date());
             record.setAddUserId(ShiroHelper.getCurrentUserId());
             cetUnitTrainService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加二级单位培训班培训记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加二级单位培训班培训记录：参训人%s", record.getUserId()));
         } else {
             
             cetUnitTrainService.updateByPrimaryKeySelective(record);

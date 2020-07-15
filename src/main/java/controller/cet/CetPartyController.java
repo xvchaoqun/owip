@@ -130,7 +130,7 @@ public class CetPartyController extends CetBaseController {
                 logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", StringUtils.join(partyIds, ",")));
             }else {
                 cetPartyService.insertSelective(record);
-                logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CET, "添加院系级党委：%s", record.getPartyId()));
             }
         } else {
 

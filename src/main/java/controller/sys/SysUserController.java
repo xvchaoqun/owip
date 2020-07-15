@@ -577,7 +577,7 @@ public class SysUserController extends BaseController {
 
         sysUserService.updateUserRoles(userId, "," + StringUtils.join(roleIds, ",") + ",");
 
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", record.getUsername(), StringUtils.join(rIds, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", userId, StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
     }
 

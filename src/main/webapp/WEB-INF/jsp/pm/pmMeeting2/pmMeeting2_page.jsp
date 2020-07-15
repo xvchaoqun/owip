@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="PARTY_MEETING_MAP" value="<%=sys.constants.PmConstants.PARTY_MEETING_MAP%>"/>
-<c:set var="PARTY_MEETING_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_GROUP%>"/>
-<c:set var="PARTY_MEETING_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_ACTIVITY%>"/>
+<c:set var="PARTY_MEETING2_MAP" value="<%=sys.constants.PmConstants.PARTY_MEETING2_MAP%>"/>
+<c:set var="PARTY_MEETING2_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_GROUP%>"/>
+<c:set var="PARTY_MEETING2_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_ACTIVITY%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
@@ -31,13 +31,13 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-plus"></i> 添加
                                 </button>
                             </shiro:hasPermission>
-                           <%-- <shiro:hasPermission name="pmMeeting2:approve">
+                            <shiro:hasPermission name="pmMeeting2:approve">
                                 <button class="popupBtn btn btn-success btn-sm tooltip-info"
                                         data-url="${ctx}/pmMeeting2_import"
                                         data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
                                     批量导入
                                 </button>
-                            </shiro:hasPermission>--%>
+                            </shiro:hasPermission>
                         </div>
                     </ul>
                 </shiro:hasPermission>
@@ -173,7 +173,7 @@ pageEncoding="UTF-8" %>
                                                 data-width="150"
                                                 data-placeholder="请选择">
                                             <option></option>
-                                            <c:forEach items="${PARTY_MEETING_MAP}" var="_type">
+                                            <c:forEach items="${PARTY_MEETING2_MAP}" var="_type">
                                                 <option value="${_type.key}">${_type.value}</option>
                                             </c:forEach>
                                         </select>
@@ -232,23 +232,23 @@ pageEncoding="UTF-8" %>
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
             },
-            { label: '活动名称',name: 'type', width:180,align:'left', formatter:function(cellvalue, options, rowObject){
+            { label: '活动名称',name: 'type', width:160,align:'left', formatter:function(cellvalue, options, rowObject){
                     var type1=rowObject.type1;
                     var type2=rowObject.type2;
                     if(type1==undefined) return '--';
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting2_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]);
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/pmMeeting2_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,type2==null?_cMap.PARTY_MEETING2_MAP[type1]:_cMap.PARTY_MEETING2_MAP[type1]+","+_cMap.PARTY_MEETING2_MAP[type2]);
                   }
              },
             { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--';
                     var fileName = rowObject.fileName;
                     if(fileName.toLowerCase().endWith(".pdf")){
-                        return ' <a href="${ctx}/pdf?path={0}" target="_blank"> 预览</a>'
+                        return '<a href="${ctx}/pdf?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
                             + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
                                 .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
                     }else {
-                        return ' <a href="${ctx}/pic?path={0}" target="_blank"> 预览</a>'
+                        return '<a href="${ctx}/pic?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
                             + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
                                 .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
@@ -264,7 +264,7 @@ pageEncoding="UTF-8" %>
                         return '--'
                     return number2==undefined?'第'+number1+'次':'第'+number1+'/'+number2+'次';
                 }},
-            { label: '时长',name: 'time', formatter: function (cellvalue, options, rowObject) {
+            { label: '时长',name: 'time',  align:'left',formatter: function (cellvalue, options, rowObject) {
                     var time1=rowObject.time1;
                     var time2=rowObject.time2;
                     if(time1==undefined)

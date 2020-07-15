@@ -90,9 +90,9 @@
                 return $.user(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
             { label: '操作人学工号',  name: 'user.code', width: 120,frozen:true },
+            { label: '内容',  name: 'content', width: 300, formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
             { label: '请求',  name: 'api', width: 250},
             { label: '客户端',  name: 'agent', width: 350},
-            { label: '内容',  name: 'content', width: 300, formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
             { label: '时间',  name: 'createTime', width: 150},
             { label: 'IP',  name: 'ip', width: 150}
         ]

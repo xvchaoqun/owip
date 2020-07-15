@@ -65,6 +65,8 @@ public class PmMeeting implements Serializable {
 
     private Byte quarter;
 
+    private Integer month;
+
     private String name;
 
     private String issue;
@@ -91,6 +93,8 @@ public class PmMeeting implements Serializable {
 
     private String content;
 
+    private String decision;
+
     private Boolean isPublic;
 
     private String remark;
@@ -102,8 +106,6 @@ public class PmMeeting implements Serializable {
     private String reason;
 
     private Boolean isDelete;
-
-    private String decision;
 
     private static final long serialVersionUID = 1L;
 
@@ -169,6 +171,14 @@ public class PmMeeting implements Serializable {
 
     public void setQuarter(Byte quarter) {
         this.quarter = quarter;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
     }
 
     public String getName() {
@@ -275,6 +285,14 @@ public class PmMeeting implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
+    public String getDecision() {
+        return decision;
+    }
+
+    public void setDecision(String decision) {
+        this.decision = decision == null ? null : decision.trim();
+    }
+
     public Boolean getIsPublic() {
         return isPublic;
     }
@@ -321,13 +339,5 @@ public class PmMeeting implements Serializable {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
-    }
-
-    public String getDecision() {
-        return decision;
-    }
-
-    public void setDecision(String decision) {
-        this.decision = decision == null ? null : decision.trim();
     }
 }

@@ -131,7 +131,7 @@ public class SysPropertyController extends BaseController {
         if (id == null) {
             
             sysPropertyService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "添加系统属性：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_ADMIN, "添加系统属性：%s", record.getName()));
         } else {
 
             sysPropertyService.updateByPrimaryKeySelective(record);

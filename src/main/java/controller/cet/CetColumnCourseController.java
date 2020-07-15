@@ -101,7 +101,7 @@ public class CetColumnCourseController extends CetBaseController {
         }
 
         cetColumnCourseService.insertSelective(record);
-        logger.info(addLog(LogConstants.LOG_CET, "添加课程栏目包含课程：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "添加课程栏目包含课程：%s-%s", record.getColumnId(), record.getCourseId()));
 
         return success(FormUtils.SUCCESS);
     }

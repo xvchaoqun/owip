@@ -110,7 +110,7 @@ public class ScMatterTransferController extends ScBaseController {
 
         if (id == null) {
             scMatterTransferService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-移交记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-移交记录0：移交对象%s", record.getUserId()));
         } else {
 
             scMatterTransferService.updateByPrimaryKeySelective(record);

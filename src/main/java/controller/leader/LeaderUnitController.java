@@ -125,7 +125,7 @@ public class LeaderUnitController extends BaseController {
 
         if (id == null) {
             leaderUnitService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加校级领导单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加校级领导单位"));
         } else {
 
             leaderUnitService.updateByPrimaryKeySelective(record);

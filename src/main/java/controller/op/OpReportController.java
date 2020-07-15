@@ -147,7 +147,7 @@ public class OpReportController extends OpBaseController {
         if (id == null) {
             
             opReportService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_OP, "添加报送上级部门：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_OP, "添加报送上级部门：{0}", record.getUnit()));
         } else {
 
             opReportService.updateByPrimaryKeySelective(record);

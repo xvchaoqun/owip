@@ -4,8 +4,10 @@ import controller.global.OpException;
 import domain.pm.PmMeeting2;
 import domain.pm.PmMeeting2Example;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
@@ -19,6 +21,9 @@ import static sys.constants.PmConstants.*;
 
 @Service
 public class PmMeeting2Service extends PmBaseMapper {
+
+    @Autowired
+    PartyService partyService;
 
     public boolean idDuplicate(Integer id){
 
@@ -121,5 +126,18 @@ public class PmMeeting2Service extends PmBaseMapper {
         }
 
         return map;
+    }
+
+    // 批量导入
+    @Transactional
+    public int pmMeeting2Import(List<PmMeeting2> records) throws InterruptedException {
+
+        int addCount = 0;
+
+        for (PmMeeting2 record : records) {
+            insertSelective(record);
+            addCount++;
+        }
+        return addCount;
     }
 }

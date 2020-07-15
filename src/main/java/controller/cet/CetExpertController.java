@@ -137,7 +137,7 @@ public class CetExpertController extends CetBaseController {
 
         if (id == null) {
             cetExpertService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加专家信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加专家信息：%s", record.getRealname()));
         } else {
             cetExpertService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "更新专家信息：%s", record.getId()));

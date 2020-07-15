@@ -96,7 +96,7 @@ public class CrsRequireRuleController extends CrsBaseController {
 
         if (id == null) {
             crsRequireRuleService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CRS, "添加招聘岗位规则：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CRS, "添加招聘岗位规则：%s", record.getName()));
         } else {
 
             crsRequireRuleService.updateByPrimaryKeySelective(record);

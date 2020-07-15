@@ -185,7 +185,7 @@ public class OpRecordController extends OpBaseController {
                 record.setAdminLevel(cadreView.getAdminLevel());
             }
             opRecordService.insertSelective(record);
-            logger.info(log( LogConstants.LOG_OP, "添加组织处理：{0}", record.getId()));
+            logger.info(log( LogConstants.LOG_OP, "添加组织处理：处理对象{0}", record.getUserId()));
         } else {
 
             opRecordService.updateByPrimaryKeySelective(record);

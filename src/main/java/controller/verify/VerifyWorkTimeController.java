@@ -155,7 +155,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
                                    HttpServletRequest request) {
 
         verifyWorkTimeService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getCadreId()));
 
         return success(FormUtils.SUCCESS);
     }

@@ -162,7 +162,7 @@ public class ScCommitteeVoteController extends ScBaseController {
         Integer id = record.getId();
         if (id == null) {
             scCommitteeVoteService.insertSelective(record, originalPost, originalPostTime);
-            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加干部选拔任用表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加干部选拔任用表决：%s", record.getCadreId()));
         } else {
 
             scCommitteeVoteService.updateByPrimaryKeySelective(record, originalPost, originalPostTime);

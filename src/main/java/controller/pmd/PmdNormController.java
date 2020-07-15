@@ -96,7 +96,7 @@ public class PmdNormController extends PmdBaseController {
         if (id == null) {
             record.setStatus(PmdConstants.PMD_NORM_STATUS_INIT);
             pmdNormService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "添加收费标准：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加收费标准：%s", record.getName()));
         } else {
             pmdNormService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_PMD, "更新收费标准：%s", record.getId()));
