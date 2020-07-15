@@ -43,7 +43,7 @@ pageEncoding="UTF-8" %>
                 </shiro:hasPermission>
                 <div class="tab-content">
                     <div class="tab-pane in active">
-                    <c:set var="_query" value="${not empty param.year||not empty param.quarter||not empty param.partyId||not empty param.branchId}"/>
+                    <c:set var="_query" value="${not empty param.year||not empty param.quarter||not empty param.partyId||not empty param.branchId||not empty param.type}"/>
                     <div class="jqgrid-vertical-offset buttons">
                         <shiro:hasPermission name="pmMeeting2:approve">
                             <c:if test="${cls==2}">
@@ -166,6 +166,21 @@ pageEncoding="UTF-8" %>
                                         $.register.party_branch_select($("#searchForm"), "branchDiv",
                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                     </script>
+                                    <div class="form-group">
+                                        <label>活动名称</label>
+                                        <select class="form-control" name="type"
+                                                data-rel="select2"
+                                                data-width="150"
+                                                data-placeholder="请选择">
+                                            <option></option>
+                                            <c:forEach items="${PARTY_MEETING_MAP}" var="_type">
+                                                <option value="${_type.key}">${_type.value}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=type]").val('${param.type}');
+                                        </script>
+                                    </div>
                                     <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm"
                                            data-url="${ctx}/pmMeeting2?cls=${cls}"

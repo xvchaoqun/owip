@@ -613,6 +613,10 @@ public class PmMeeting2Example {
             addCriterion("type1 =", value, "type1");
             return (Criteria) this;
         }
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("(type1 ='" + value + "' or type2 ='" + value + "')");
+            return (Criteria) this;
+        }
 
         public Criteria andType1NotEqualTo(Byte value) {
             addCriterion("type1 <>", value, "type1");
