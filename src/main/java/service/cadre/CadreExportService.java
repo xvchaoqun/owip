@@ -64,6 +64,8 @@ public class CadreExportService extends BaseMapper {
 
     @Autowired
     protected CadreAdformService cadreAdformService;
+    @Autowired
+    protected CadreInfoFormService cadreInfoFormService;
 
     public List<String> getTitles(){
 
@@ -204,7 +206,7 @@ public class CadreExportService extends BaseMapper {
         for (int i = 0; i < count; i++) {
             CadreView record = records.get(i);
             SysUserView sysUser = record.getUser();
-            CadreInfoForm bean = cadreAdformService.getCadreAdform(record.getId());
+            CadreInfoForm bean = cadreInfoFormService.getCadreInfoForm(record.getId());
 
             String learnDesc = cadreAdformService.html2Paragraphs(bean.getLearnDesc(), "\r");
             String workDesc = cadreAdformService.html2Paragraphs(bean.getWorkDesc(), "\r");

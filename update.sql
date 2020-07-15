@@ -1,4 +1,7 @@
 
+2020.7.15
+南航
+
 2020.7.10
 西工大  -- 北师大
 
@@ -245,7 +248,7 @@ insert into cet_train_obj select ctc.id, ct.train_id, ct.obj_id, o.user_id, ctc.
 ctc.sign_time, ctc.sign_out_time, ctc.sign_type, ctc.choose_time, ctc.choose_user_id, ctc.ip, ctc.remark
 from cet_trainee_course ctc, cet_trainee ct, cet_project_obj o where ctc.trainee_id=ct.id and ct.obj_id=o.id;
 
--- 更新 cet_train_obj_view
+-- 更新 cet_train_obj_view（注意顺序—）
 
 update sys_approval_log l, cet_trainee tee, cet_train t  set l.record_id=tee.obj_id,
 stage=concat(stage, '(',  t.name, ')')  where l.type=4 and l.record_id=tee.id and tee.train_id=t.id;
@@ -291,7 +294,7 @@ insert cet_project_type(name, type, code, sort_order, remark, is_deleted) select
 -- update cet_project set project_type_id = project_type_id+14 where type=2;
 
 
--- 更新SyncService：状态已经变更为退休状态的，不再同步人事库  teacherInfo!=null &&
+-- 更新SyncService：状态已经变更为退休状态的，不再同步人事库 ； teacherInfo!=null && ；
 --
 
 ALTER TABLE `cet_upper_train`
@@ -340,6 +343,9 @@ where m.party_id is null and m.status=1 and o.user_id=m.user_id and o.`status`<2
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
 VALUES ('cet_support_cert', '显示干部培训结业证书', 'false', 3, 61, '培训综合管理');
 
+2020.6.19
+南航
+
 2020.6.18
 西工大
 
@@ -366,7 +372,7 @@ ALTER TABLE `cet_unit_project`
 	CHANGE COLUMN `party_id` `cet_party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方，从二级党委中选择' AFTER `year`;
 ALTER TABLE `cet_party`
 	CHANGE COLUMN `party_name` `name` VARCHAR(100) NOT NULL COMMENT '分党委名称' AFTER `party_id`;
--- 更新视图 cet_party_view
+
 DROP VIEW IF EXISTS `cet_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
 select cp.*,COUNT(cpa.user_id) AS admin_count
@@ -665,7 +671,7 @@ update sys_resource set sort_order=450 where permission='userCetProject:list2';
 ALTER TABLE `cet_upper_train`
 	CHANGE COLUMN `organizer` `organizer` INT(10) UNSIGNED NULL COMMENT '培训班主办方，有一个“其他”选项（值为0），其他培训（党校）时默认为空' AFTER `post_id`;
 
--- 更新SyncService proPost、proPostLevel
+-- 更新SyncService proPost、proPostLevel  (teacherInfo!=null && )
 
 
 ALTER TABLE `cet_upper_train`
@@ -742,9 +748,9 @@ INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `re
 
 UPDATE sys_scheduler_job SET need_log='0' WHERE  id = 28;
 
-INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
+/*INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('drLoginBg', '线上民主推荐登录页北京图片', '\\sysProperty\\20200522\\fdfdefeb-b7a3-4950-bb7c-d114fc979a0e.png', 5, 52, '大小820*363，PNG格式');
 
-/*ALTER TABLE `dr_online`
+ALTER TABLE `dr_online`
 	CHANGE COLUMN `notice` `notice` TEXT NULL COMMENT 'pc端手机端线上民主推荐说明' AFTER `members`,
 	ADD COLUMN `mobile_notice` TEXT NULL COMMENT '手机端线上民主推荐说明' AFTER `notice`,
 	ADD COLUMN `inspector_notice` TEXT NULL COMMENT '账号分发说明' AFTER `mobile_notice`;

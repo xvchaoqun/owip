@@ -680,8 +680,8 @@ public class SyncService extends BaseMapper {
             if(teacherInfo!=null && BooleanUtils.isTrue(teacherInfo.getIsRetire())) {
                 record.setIsRetire(true);
             }else{
-                record.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
-                        || StringUtils.equals(extJzg.getRyzt(), "离世"));
+                record.setIsRetire(StringUtils.containsAny(extJzg.getRyzt(),
+                        "离退", "内退", "退休", "离世"));
             }
 
             //teacher.setRetireTime(); 退休时间

@@ -1,19 +1,9 @@
 package service.ext;
 
-import bean.ColumnBean;
-import ext.service.Source;
-import org.junit.Test;
-import sys.utils.JSONUtils;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by lm on 2018/6/22.
  */
-public class SourceTest extends Source {
+/*public class SourceTest extends Source {
 
     @Test
     public void getTableColumns() throws Exception {
@@ -44,4 +34,4 @@ public class SourceTest extends Source {
         excute("ICDC_VIEW", "V_JZG_RS_JZG_JBXX_NEW", "order by zgh", syncId);
         long endTime=System.currentTimeMillis();
     }
-}
+}*/

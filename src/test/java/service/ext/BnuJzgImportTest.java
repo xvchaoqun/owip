@@ -1,9 +1,6 @@
 package service.ext;
 
-import ext.service.ExtJzgImport;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -11,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class BnuJzgImportTest {
 
+/*
     @Autowired
     public ExtJzgImport extJzgImport;
     @Test
@@ -23,5 +21,6 @@ public class BnuJzgImportTest {
 
         extJzgImport.byCode("11132018004");
     }
+*/
 
 }
