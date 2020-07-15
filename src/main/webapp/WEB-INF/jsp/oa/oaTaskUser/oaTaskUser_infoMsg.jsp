@@ -6,7 +6,7 @@
 	<h3>下发任务通知</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/oa/oaTaskUser_infoMsg" autocomplete="off" disableautocomplete id="modalForm" method="post">
+	<form class="form-horizontal" action="${ctx}/oa/oaTaskUser_infoMsg" autocomplete="off" disableautocomplete id="msgForm" method="post">
 		<input type="hidden" name="taskId" value="${oaTask.id}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">任务名称</label>
@@ -34,25 +34,25 @@
 </div>
 <div class="modal-footer">
 	<a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-	<button type="button" id="submitBtn" class="btn btn-primary"
+	<button type="button" id="msgSubmitBtn" class="btn btn-primary"
 			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请稍后"
 			data-success-text="发送成功" autocomplete="off">
 		确定发送
 	</button>
 </div>
 <script>
-	$.register.ajax_select($('#modalForm select[name=relateId]'));
-	$('#modalForm select[name=relateId]').change(function(){
+	$.register.ajax_select($('#msgForm select[name=relateId]'));
+	$('#msgForm select[name=relateId]').change(function(){
 		if($(this).val()>0){
 		var content = $(this).select2("data")[0]['content'] || '';
-		$("#modalForm textarea[name=msg]").val(content);
+		$("#msgForm textarea[name=msg]").val(content);
 		}
 	});
-	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-	$("#modalForm").validate({
+	$("#msgSubmitBtn").click(function(){$("#msgForm").submit();return false;});
+	$("#msgForm").validate({
 		submitHandler: function (form) {
 
-			var $btn = $("#submitBtn").button('loading');
+			var $btn = $("#msgSubmitBtn").button('loading');
 			$(form).ajaxSubmit({
 				success: function (ret) {
 					if (ret.success) {
