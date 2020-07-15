@@ -136,7 +136,7 @@ public class VerifyAgeController extends VerifyBaseController {
         }
 
         verifyAgeService.insertSelective(record);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "添加出生时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加出生时间认定：%s", record.getCadreId()));
 
         return success(FormUtils.SUCCESS);
     }

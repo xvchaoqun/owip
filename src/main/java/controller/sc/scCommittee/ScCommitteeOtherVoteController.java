@@ -104,7 +104,7 @@ public class ScCommitteeOtherVoteController extends ScBaseController {
         record.setMemo(HtmlUtils.htmlUnescape(record.getMemo()));
         if (id == null) {
             scCommitteeOtherVoteService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加其他事项表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加其他事项表决"));
         } else {
 
             scCommitteeOtherVoteService.updateByPrimaryKeySelective(record);

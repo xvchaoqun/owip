@@ -106,7 +106,7 @@ public class DrMemberController extends DrBaseController {
         if (id == null) {
             record.setStatus(DrConstants.DR_MEMBER_STATUS_NOW);
             drMemberService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加推荐组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加推荐组成员：%s", record.getUserId()));
         } else {
 
             drMemberService.updateByPrimaryKeySelective(record);

@@ -100,7 +100,7 @@ public class CetUnitController extends CetBaseController {
 
         if (id == null) {
             cetUnitService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加内设机构：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加内设机构：%s", record.getUnitId()));
         } else {
 
             cetUnitService.updateByPrimaryKeySelective(record);

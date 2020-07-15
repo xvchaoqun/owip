@@ -108,7 +108,7 @@ public class PcsVoteGroupController extends PcsBaseController {
             int configId = currentPcsConfig.getId();
             record.setConfigId(configId);
             pcsVoteGroupService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PCS, "添加小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加小组：%s", record.getName()));
         } else {
 
             pcsVoteGroupService.updateByPrimaryKeySelective(record);

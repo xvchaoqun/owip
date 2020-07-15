@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="PARTY_MEETING2_BRANCH" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH%>"/>
-<c:set var="PARTY_MEETING2_BRANCH_COMMITTEE" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_COMMITTEE%>"/>
-<c:set var="PARTY_MEETING2_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_GROUP%>"/>
-<c:set var="PARTY_MEETING2_BRANCH_CLASS" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_CLASS%>"/>
-<c:set var="PARTY_MEETING2_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_ACTIVITY%>"/>
+<c:set var="PARTY_MEETING_BRANCH" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH%>"/>
+<c:set var="PARTY_MEETING_BRANCH_COMMITTEE" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_COMMITTEE%>"/>
+<c:set var="PARTY_MEETING_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_GROUP%>"/>
+<c:set var="PARTY_MEETING_BRANCH_CLASS" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_CLASS%>"/>
+<c:set var="PARTY_MEETING_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_ACTIVITY%>"/>
+<c:set var="PARTY_MEETING_BRANCH_ORGANIZE" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_ORGANIZE%>"/>
+<c:set var="PARTY_MEETING_BRANCH_DEMOCRACY" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_DEMOCRACY%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -13,10 +15,13 @@
 
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="${cls==1?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2Stat?cls=1"}><i class="fa fa-circle-o"></i> 按季度统计</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeetingStat?cls=1"}><i class="fa fa-calendar-o "></i> 按年度统计</a>
                 </li>
                 <li class="${cls==2?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeeting2Stat?cls=2"}><i class="fa fa-calendar"></i> 按月份统计</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeetingStat?cls=2"}><i class="fa fa-circle-o"></i> 按季度统计</a>
+                </li>
+                <li class="${cls==3?'active':''}">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/pmMeetingStat?cls=3"}><i class="fa fa-calendar"></i> 按月份统计</a>
                 </li>
             </ul>
             <div class="space-4"></div>
@@ -40,19 +45,21 @@
                                     <option></option>
                                 </select>
                             </div>
-                            <div class="form-group"id="quarterDiv" style="${(empty param.year)?'display: none':''}">
-                                <label>季度</label>
-                                <select class="form-control"
-                                        data-width="110" data-rel="select2"
-                                        id="quarter"  name="quarter" data-placeholder="请选择">
-                                    <option></option>
-                                    <option value="1">第1季度</option>
-                                    <option value="2">第2季度</option>
-                                    <option value="3">第3季度</option>
-                                    <option value="4">第4季度</option>
+                            <c:if test="${cls!=1}">
+                                <div class="form-group"id="quarterDiv" style="${(empty param.year)?'display: none':''}">
+                                    <label>季度</label>
+                                    <select class="form-control"
+                                            data-width="110" data-rel="select2"
+                                            id="quarter"  name="quarter" data-placeholder="请选择">
+                                        <option></option>
+                                        <option value="1">第1季度</option>
+                                        <option value="2">第2季度</option>
+                                        <option value="3">第3季度</option>
+                                        <option value="4">第4季度</option>
 
-                                </select>
-                            </div>
+                                    </select>
+                                </div>
+                            </c:if>
                             <script>
                                 var myDate= new Date();
                                 var startYear=myDate.getFullYear();
@@ -99,12 +106,12 @@
                             </script>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/pmMeeting2Stat?cls=${cls}"
+                                   data-url="${ctx}/pmMeetingStat?cls=${cls}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/pmMeeting2Stat?cls=${cls}"
+                                            data-url="${ctx}/pmMeetingStat?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -124,18 +131,19 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
-        url: '${ctx}/pmMeeting2_stat?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pmMeeting_stat?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
 
             { label: '年份', name: 'year', width:80, frozen:true},
+            <c:if test="${cls!=1}">
             { label: '季度', name: 'quarter',width:80,frozen:true, formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined)
                         return '--'
                     return '第'+cellvalue+'季度'
                 }
             },
-
-            <c:if test="${cls==2}">
+            </c:if>
+            <c:if test="${cls==3}">
             { label: '月份', name: 'month', width:80, frozen:true, formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined)
                         return '--'
@@ -153,51 +161,67 @@
                 }, frozen:true
             },
             { label: '合计数量',name: 'count',formatter: function (cellvalue, options, rowObject) {
-                    var count=rowObject.count1+rowObject.count2+rowObject.count3+rowObject.count4+rowObject.count5;
+                    var count=rowObject.count1+rowObject.count2+rowObject.count3+rowObject.count4+rowObject.count5+rowObject.count6+rowObject.count7;
                     if(count==0) return '--'
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&cls={5}"><u>{6}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${cls},count);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&cls={5}"><u>{6}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${cls},count);
                 }
             },
             { label: '支部党员大会',name: 'count1',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH},${cls},cellvalue);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH},${cls},cellvalue);
                 }
             },
             { label: '支部委员会',name: 'count2',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_COMMITTEE},${cls},cellvalue);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_COMMITTEE},${cls},cellvalue);
                 }
             },
             { label: '党小组会',name: 'count3',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_GROUP},${cls},cellvalue);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_GROUP},${cls},cellvalue);
                 }
             },
             { label: '党课',name: 'count4',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_CLASS},${cls},cellvalue);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_CLASS},${cls},cellvalue);
                 }
             },
             { label: '主题党日活动',name: 'count5',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined||cellvalue==0) return '0'
 
                     return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
-                            'data-url="${ctx}/pmMeeting2_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
-                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING2_BRANCH_ACTIVITY},${cls},cellvalue);
+                        'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                        .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_ACTIVITY},${cls},cellvalue);
+                }
+            },
+            { label: '组织生活会',name: 'count6',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0'
+
+                    return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_ORGANIZE},${cls},cellvalue);
+
+                }
+            }, { label: '民主生活会',name: 'count7',formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined||cellvalue==0) return '0';
+
+                    return ('<a href="javascript:;" class="popupBtn bolder" data-width="1000"' +
+                            'data-url="${ctx}/pmMeeting_count?year={0}&quarter={1}&month={2}&partyId={3}&branchId={4}&type={5}&cls={6}"><u>{7}</u></a>')
+                            .format(rowObject.year, rowObject.quarter, rowObject.month, rowObject.partyId, rowObject.branchId,${PARTY_MEETING_BRANCH_DEMOCRACY},${cls},cellvalue);
                 }
             },
     ]

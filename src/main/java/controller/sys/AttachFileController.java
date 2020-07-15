@@ -142,7 +142,7 @@ public class AttachFileController extends BaseController {
             record.setCreateTime(new Date());
 
             attachFileService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加系统附件%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加系统附件%s", record.getFilename()));
         } else {
 
             attachFileService.updateByPrimaryKeySelective(record);

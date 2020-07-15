@@ -366,8 +366,7 @@ public class PartyMemberController extends BaseController {
 
         partyMemberService.dissmiss(id, dismiss, dismissDate, assignDate);
 
-        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s,%s", id,
-                DateUtils.formatDate(dismissDate, DateUtils.YYYYMM)));
+        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织成员离任：%s", id));
         return success(FormUtils.SUCCESS);
     }
 

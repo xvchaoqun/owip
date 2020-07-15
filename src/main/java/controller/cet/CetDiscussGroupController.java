@@ -107,7 +107,7 @@ public class CetDiscussGroupController extends CetBaseController {
 
         if (id == null) {
             cetDiscussGroupService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加研讨小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加研讨小组：%s", record.getSubject()));
         } else {
 
             cetDiscussGroupService.updateByPrimaryKeySelective(record);

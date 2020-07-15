@@ -10,7 +10,10 @@
            <div id="jqGridPager_popup"> </div>
 </div>
 <script>
-
+   var url = "${ctx}/pmMeeting2_data?callback=?&year=${param.year}&quarter=${param.quarter}&partyId=${param.partyId}&branchId=${param.branchId}&type=${param.type}&cls=1";
+   if (${param.cls==2}) {
+        url = "${ctx}/pmMeeting2_data?callback=?&year=${param.year}&quarter=${param.quarter}&month=${param.month}&partyId=${param.partyId}&branchId=${param.branchId}&type=${param.type}&cls=1";
+    }
     $("#jqGrid_popup").jqGrid({
         multiselect:false,
         height:390,
@@ -18,7 +21,7 @@
         rowNum:10,
         ondblClickRow:function(){},
         pager:"jqGridPager_popup",
-        url: "${ctx}/pmMeeting2_data?callback=?&year=${param.year}&quarter=${param.quarter}&month=${param.month}&partyId=${param.partyId}&branchId=${param.branchId}&type=${param.type}&cls=1&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url:url ,
         colModel: [
             { label: '年份', name: 'year', width:80},
             { label: '季度', name: 'quarter',width:80, formatter: function (cellvalue, options, rowObject) {
@@ -28,30 +31,30 @@
                 }
             },
             { label: '所属党支部',  name: 'branch.name',align:'left', width: 250},
-            { label: '活动名称',name: 'type', width:180,align:'left', formatter:function(cellvalue, options, rowObject){
+            { label: '活动名称',name: 'type', width:160,align:'left', formatter:function(cellvalue, options, rowObject){
                     var type1=rowObject.type1;
                     var type2=rowObject.type2;
                     if(type1==undefined) return '--';
-                    return type2==null?_cMap.PARTY_MEETING_MAP[type1]:_cMap.PARTY_MEETING_MAP[type1]+","+_cMap.PARTY_MEETING_MAP[type2]
+                    return type2==null?_cMap.PARTY_MEETING2_MAP[type1]:_cMap.PARTY_MEETING2_MAP[type1]+","+_cMap.PARTY_MEETING2_MAP[type2]
                 }
             },
             { label: '附件', name: 'filePath',formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==undefined) return '--';
                     var fileName = rowObject.fileName;
                     if(fileName.toLowerCase().endWith(".pdf")){
-                        return ' <a href="${ctx}/pdf?path={0}" target="_blank"> 预览</a>'
+                        return '<a href="${ctx}/pdf?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
                             + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
                                 .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
                     }else {
-                        return ' <a href="${ctx}/pic?path={0}" target="_blank"> 预览</a>'
+                        return '<a href="${ctx}/pic?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
                             + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
                                 .format(encodeURI(cellvalue), encodeURI(rowObject.fileName));
                     }
                 }
             },
-            { label: '次数',name: 'number', formatter: function (cellvalue, options, rowObject) {
+            { label: '次数',name: 'number',align:'left', formatter: function (cellvalue, options, rowObject) {
                     var number1=rowObject.number1;
                     var number2=rowObject.number2;
                     if(number1==undefined)

@@ -61,30 +61,19 @@
                             <shiro:hasPermission name="pmMeeting:edit">
                                 <c:if test="${cls==2||cls==4}">
                                     <a class="jqOpenViewBtn btn btn-info btn-sm"
-                                       data-url="${ctx}/pmMeeting_au?edit=true&reedit=1?type=${type}"
+                                       data-url="${ctx}/pmMeeting_au?edit=true&reedit=1&type=${type}"
                                        data-grid-id="#jqGrid"
                                        data-open-by="page"><i class="fa fa-edit"></i>
                                         重新提交</a>
                                 </c:if>
-                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-                                  <c:if test="${cls==1||cls==3}">
-                                   <%-- <c:if test="${cls==1||addPermits==false&&cls==3}">--%>
+                                <c:if test="${cls==1||(cls==3 && cm:isPermitted('pmMeeting:approve'))}">
                                       <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                                    data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
                                                    data-grid-id="#jqGrid"
                                                    data-open-by="page"><i class="fa fa-edit"></i>
                                             修改</a>
-                                  </c:if>
-                                </shiro:hasAnyRoles>
-                                <shiro:lacksPermission name="pmMeeting:approve">
-                                    <c:if test="${cls==1}">
-                                        <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                           data-url="${ctx}/pmMeeting_au?edit=true&type=${type}"
-                                           data-grid-id="#jqGrid"
-                                           data-open-by="page"><i class="fa fa-edit"></i>
-                                            修改</a>
-                                    </c:if>
-                                </shiro:lacksPermission>
+                                </c:if>
+
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
@@ -104,6 +93,12 @@
                                 </button>
                                 </shiro:hasAnyRoles>
                             </shiro:hasPermission>
+                            <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                    data-url="${ctx}/sysApprovalLog"
+                                    data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_PM%>"
+                                    data-open-by="page">
+                                <i class="fa fa-search"></i> 操作记录
+                            </button>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

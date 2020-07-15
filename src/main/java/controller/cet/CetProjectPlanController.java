@@ -108,7 +108,7 @@ public class CetProjectPlanController extends CetBaseController {
 
         if (id == null) {
             cetProjectPlanService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加培训方案：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训方案"));
         } else {
 
             cetProjectPlanService.updateByPrimaryKeySelective(record);

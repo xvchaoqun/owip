@@ -108,7 +108,7 @@ public class ScGroupMemberController extends ScBaseController {
 
         if (id == null) {
             scGroupMemberService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部工作小组会组成名单：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部工作小组会组成名单：%s", record.getUserId()));
         } else {
 
             scGroupMemberService.updateByPrimaryKeySelective(record);

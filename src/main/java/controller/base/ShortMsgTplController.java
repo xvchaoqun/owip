@@ -199,7 +199,7 @@ public class ShortMsgTplController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             shortMsgTplService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加定向消息模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加定向消息模板：%s", record.getName()));
         } else {
 
             shortMsgTplService.updateByPrimaryKeySelective(record);

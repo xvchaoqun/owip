@@ -73,7 +73,7 @@ public class CetCourseItemController extends CetBaseController {
 
         if (id == null) {
             cetCourseItemService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加课程专题班：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加课程专题班：%s", record.getName()));
         } else {
 
             cetCourseItemService.updateByPrimaryKeySelective(record);

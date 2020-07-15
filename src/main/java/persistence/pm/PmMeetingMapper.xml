@@ -10,6 +10,7 @@
     <result column="date" jdbcType="TIMESTAMP" property="date" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="quarter" jdbcType="TINYINT" property="quarter" />
+    <result column="month" jdbcType="INTEGER" property="month" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="issue" jdbcType="VARCHAR" property="issue" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -23,15 +24,13 @@
     <result column="absent_num" jdbcType="INTEGER" property="absentNum" />
     <result column="absent_reason" jdbcType="VARCHAR" property="absentReason" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="decision" jdbcType="VARCHAR" property="decision" />
     <result column="is_public" jdbcType="BIT" property="isPublic" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.pm.PmMeeting">
-    <result column="decision" jdbcType="LONGVARCHAR" property="decision" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,29 +91,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, branch_id, type, plan_date, date, year, quarter, name, issue, address, 
-    presenter, recorder, attends, absents, Invitee, due_num, attend_num, absent_num, 
-    absent_reason, content, is_public, remark, status, is_back, reason, is_delete
+    id, party_id, branch_id, type, plan_date, date, year, quarter, month, name, issue, 
+    address, presenter, recorder, attends, absents, Invitee, due_num, attend_num, absent_num, 
+    absent_reason, content, decision, is_public, remark, status, is_back, reason, is_delete
   </sql>
-  <sql id="Blob_Column_List">
-    decision
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.pm.PmMeetingExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from pm_meeting
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.pm.PmMeetingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -129,11 +109,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from pm_meeting
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -153,24 +131,24 @@
     </selectKey>
     insert into pm_meeting (party_id, branch_id, type, 
       plan_date, date, year, 
-      quarter, name, issue, 
-      address, presenter, recorder, 
-      attends, absents, Invitee, 
-      due_num, attend_num, absent_num, 
-      absent_reason, content, is_public, 
-      remark, status, is_back, 
-      reason, is_delete, decision
-      )
+      quarter, month, name, 
+      issue, address, presenter, 
+      recorder, attends, absents, 
+      Invitee, due_num, attend_num, 
+      absent_num, absent_reason, content, 
+      decision, is_public, remark, 
+      status, is_back, reason, 
+      is_delete)
     values (#{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{planDate,jdbcType=TIMESTAMP}, #{date,jdbcType=TIMESTAMP}, #{year,jdbcType=INTEGER}, 
-      #{quarter,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, #{issue,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, #{recorder,jdbcType=INTEGER}, 
-      #{attends,jdbcType=VARCHAR}, #{absents,jdbcType=VARCHAR}, #{invitee,jdbcType=VARCHAR}, 
-      #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, #{absentNum,jdbcType=INTEGER}, 
-      #{absentReason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, 
-      #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{decision,jdbcType=LONGVARCHAR}
-      )
+      #{quarter,jdbcType=TINYINT}, #{month,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{issue,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{presenter,jdbcType=INTEGER}, 
+      #{recorder,jdbcType=INTEGER}, #{attends,jdbcType=VARCHAR}, #{absents,jdbcType=VARCHAR}, 
+      #{invitee,jdbcType=VARCHAR}, #{dueNum,jdbcType=INTEGER}, #{attendNum,jdbcType=INTEGER}, 
+      #{absentNum,jdbcType=INTEGER}, #{absentReason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{decision,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pm.PmMeeting">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -198,6 +176,9 @@
       </if>
       <if test="quarter != null">
         quarter,
+      </if>
+      <if test="month != null">
+        month,
       </if>
       <if test="name != null">
         name,
@@ -238,6 +219,9 @@
       <if test="content != null">
         content,
       </if>
+      <if test="decision != null">
+        decision,
+      </if>
       <if test="isPublic != null">
         is_public,
       </if>
@@ -255,9 +239,6 @@
       </if>
       <if test="isDelete != null">
         is_delete,
-      </if>
-      <if test="decision != null">
-        decision,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -281,6 +262,9 @@
       </if>
       <if test="quarter != null">
         #{quarter,jdbcType=TINYINT},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -321,6 +305,9 @@
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
+      <if test="decision != null">
+        #{decision,jdbcType=VARCHAR},
+      </if>
       <if test="isPublic != null">
         #{isPublic,jdbcType=BIT},
       </if>
@@ -338,9 +325,6 @@
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=BIT},
-      </if>
-      <if test="decision != null">
-        #{decision,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -376,6 +360,9 @@
       </if>
       <if test="record.quarter != null">
         quarter = #{record.quarter,jdbcType=TINYINT},
+      </if>
+      <if test="record.month != null">
+        month = #{record.month,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -416,6 +403,9 @@
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
+      <if test="record.decision != null">
+        decision = #{record.decision,jdbcType=VARCHAR},
+      </if>
       <if test="record.isPublic != null">
         is_public = #{record.isPublic,jdbcType=BIT},
       </if>
@@ -434,44 +424,7 @@
       <if test="record.isDelete != null">
         is_delete = #{record.isDelete,jdbcType=BIT},
       </if>
-      <if test="record.decision != null">
-        decision = #{record.decision,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update pm_meeting
-    set id = #{record.id,jdbcType=INTEGER},
-      party_id = #{record.partyId,jdbcType=INTEGER},
-      branch_id = #{record.branchId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
-      plan_date = #{record.planDate,jdbcType=TIMESTAMP},
-      date = #{record.date,jdbcType=TIMESTAMP},
-      year = #{record.year,jdbcType=INTEGER},
-      quarter = #{record.quarter,jdbcType=TINYINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      issue = #{record.issue,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      presenter = #{record.presenter,jdbcType=INTEGER},
-      recorder = #{record.recorder,jdbcType=INTEGER},
-      attends = #{record.attends,jdbcType=VARCHAR},
-      absents = #{record.absents,jdbcType=VARCHAR},
-      Invitee = #{record.invitee,jdbcType=VARCHAR},
-      due_num = #{record.dueNum,jdbcType=INTEGER},
-      attend_num = #{record.attendNum,jdbcType=INTEGER},
-      absent_num = #{record.absentNum,jdbcType=INTEGER},
-      absent_reason = #{record.absentReason,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      is_public = #{record.isPublic,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=TINYINT},
-      is_back = #{record.isBack,jdbcType=BIT},
-      reason = #{record.reason,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=BIT},
-      decision = #{record.decision,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -486,6 +439,7 @@
       date = #{record.date,jdbcType=TIMESTAMP},
       year = #{record.year,jdbcType=INTEGER},
       quarter = #{record.quarter,jdbcType=TINYINT},
+      month = #{record.month,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       issue = #{record.issue,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
@@ -499,6 +453,7 @@
       absent_num = #{record.absentNum,jdbcType=INTEGER},
       absent_reason = #{record.absentReason,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
+      decision = #{record.decision,jdbcType=VARCHAR},
       is_public = #{record.isPublic,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -532,6 +487,9 @@
       </if>
       <if test="quarter != null">
         quarter = #{quarter,jdbcType=TINYINT},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -572,6 +530,9 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="decision != null">
+        decision = #{decision,jdbcType=VARCHAR},
+      </if>
       <if test="isPublic != null">
         is_public = #{isPublic,jdbcType=BIT},
       </if>
@@ -590,41 +551,7 @@
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=BIT},
       </if>
-      <if test="decision != null">
-        decision = #{decision,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.pm.PmMeeting">
-    update pm_meeting
-    set party_id = #{partyId,jdbcType=INTEGER},
-      branch_id = #{branchId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
-      plan_date = #{planDate,jdbcType=TIMESTAMP},
-      date = #{date,jdbcType=TIMESTAMP},
-      year = #{year,jdbcType=INTEGER},
-      quarter = #{quarter,jdbcType=TINYINT},
-      name = #{name,jdbcType=VARCHAR},
-      issue = #{issue,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      presenter = #{presenter,jdbcType=INTEGER},
-      recorder = #{recorder,jdbcType=INTEGER},
-      attends = #{attends,jdbcType=VARCHAR},
-      absents = #{absents,jdbcType=VARCHAR},
-      Invitee = #{invitee,jdbcType=VARCHAR},
-      due_num = #{dueNum,jdbcType=INTEGER},
-      attend_num = #{attendNum,jdbcType=INTEGER},
-      absent_num = #{absentNum,jdbcType=INTEGER},
-      absent_reason = #{absentReason,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      is_public = #{isPublic,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      is_back = #{isBack,jdbcType=BIT},
-      reason = #{reason,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=BIT},
-      decision = #{decision,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pm.PmMeeting">
@@ -636,6 +563,7 @@
       date = #{date,jdbcType=TIMESTAMP},
       year = #{year,jdbcType=INTEGER},
       quarter = #{quarter,jdbcType=TINYINT},
+      month = #{month,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       issue = #{issue,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
@@ -649,6 +577,7 @@
       absent_num = #{absentNum,jdbcType=INTEGER},
       absent_reason = #{absentReason,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      decision = #{decision,jdbcType=VARCHAR},
       is_public = #{isPublic,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
@@ -657,22 +586,6 @@
       is_delete = #{isDelete,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.pm.PmMeetingExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from pm_meeting
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.pm.PmMeetingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

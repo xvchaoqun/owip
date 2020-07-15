@@ -128,7 +128,7 @@ public class CadreReserveOriginController extends BaseController {
 
         if (id == null) {
             cadreReserveOriginService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "添加优秀年轻干部的产生：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_CADRERESERVE, "添加优秀年轻干部的产生：%s", record.getUserId()));
         } else {
 
             cadreReserveOriginService.updateByPrimaryKeySelective(record);

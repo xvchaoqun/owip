@@ -106,7 +106,7 @@ public class PcsConfigController extends PcsBaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             pcsConfigService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PCS, "添加党代会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加党代会：%s", record.getName()));
         } else {
 
             pcsConfigService.updateByPrimaryKeySelective(record);

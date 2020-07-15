@@ -94,7 +94,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
         if (id == null) {
             record.setIsDeleted(false);
             pmdConfigMemberTypeService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_PMD, "添加党员计费类别：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加党员计费类别：%s", record.getName()));
         } else {
 
             pmdConfigMemberTypeService.updateByPrimaryKeySelective(record);

@@ -132,7 +132,7 @@ public class MetaClassController extends BaseController {
         if (id == null) {
             record.setAvailable(true);
             metaClassService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加元数据：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加元数据：%s", record.getName()));
         } else {
 
             metaClassService.updateByPrimaryKeySelective(record);

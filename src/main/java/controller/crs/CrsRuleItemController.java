@@ -89,7 +89,7 @@ public class CrsRuleItemController extends CrsBaseController {
 
         if (id == null) {
             crsRuleItemService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CRS, "添加招聘岗位规则条例：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CRS, "添加招聘岗位规则条例"));
         } else {
 
             crsRuleItemService.updateByPrimaryKeySelective(record);

@@ -110,7 +110,7 @@ public class AbroadAdditionalPostController extends AbroadBaseController {
 
         if (id == null) {
             abroadAdditionalPostService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "添加干部因私兼审单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加干部因私兼审单位"));
         } else {
 
             abroadAdditionalPostService.updateByPrimaryKeySelective(record);

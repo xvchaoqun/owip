@@ -589,6 +589,66 @@ public class PmMeetingExample {
             return (Criteria) this;
         }
 
+        public Criteria andMonthIsNull() {
+            addCriterion("month is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthIsNotNull() {
+            addCriterion("month is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthEqualTo(Integer value) {
+            addCriterion("month =", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthNotEqualTo(Integer value) {
+            addCriterion("month <>", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthGreaterThan(Integer value) {
+            addCriterion("month >", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthGreaterThanOrEqualTo(Integer value) {
+            addCriterion("month >=", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthLessThan(Integer value) {
+            addCriterion("month <", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthLessThanOrEqualTo(Integer value) {
+            addCriterion("month <=", value, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthIn(List<Integer> values) {
+            addCriterion("month in", values, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthNotIn(List<Integer> values) {
+            addCriterion("month not in", values, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthBetween(Integer value1, Integer value2) {
+            addCriterion("month between", value1, value2, "month");
+            return (Criteria) this;
+        }
+
+        public Criteria andMonthNotBetween(Integer value1, Integer value2) {
+            addCriterion("month not between", value1, value2, "month");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -1446,6 +1506,76 @@ public class PmMeetingExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionIsNull() {
+            addCriterion("decision is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionIsNotNull() {
+            addCriterion("decision is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionEqualTo(String value) {
+            addCriterion("decision =", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionNotEqualTo(String value) {
+            addCriterion("decision <>", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionGreaterThan(String value) {
+            addCriterion("decision >", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionGreaterThanOrEqualTo(String value) {
+            addCriterion("decision >=", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionLessThan(String value) {
+            addCriterion("decision <", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionLessThanOrEqualTo(String value) {
+            addCriterion("decision <=", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionLike(String value) {
+            addCriterion("decision like", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionNotLike(String value) {
+            addCriterion("decision not like", value, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionIn(List<String> values) {
+            addCriterion("decision in", values, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionNotIn(List<String> values) {
+            addCriterion("decision not in", values, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionBetween(String value1, String value2) {
+            addCriterion("decision between", value1, value2, "decision");
+            return (Criteria) this;
+        }
+
+        public Criteria andDecisionNotBetween(String value1, String value2) {
+            addCriterion("decision not between", value1, value2, "decision");
             return (Criteria) this;
         }
 

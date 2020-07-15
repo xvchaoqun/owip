@@ -133,7 +133,7 @@ public class ScRecordController extends ScBaseController {
         }*/
         if (id == null) {
             scRecordService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_RECORD, "添加纪实：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_SC_RECORD, "添加纪实"));
         } else {
 
             scRecordService.updateByPrimaryKeySelective(record);

@@ -120,7 +120,7 @@ public class CisEvaluateController extends CisBaseController {
         }
         if (id == null) {
             cisEvaluateService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加现实表现材料和评价：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加现实表现材料和评价"));
         } else {
 
             cisEvaluateService.updateByPrimaryKeySelective(record);

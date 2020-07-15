@@ -3,6 +3,7 @@ package persistence.pm;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
+import persistence.pm.common.PmMeeting2Stat;
 import persistence.pm.common.PmMeetingStat;
 
 import java.util.List;
@@ -27,17 +28,40 @@ public interface IPmMapper {
                           @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     List<PmMeetingStat> selectPmMeetingStat(@Param("display") Byte display,
-                           @Param("year") Integer year,
-                           @Param("quarter") Byte quarter,
-                           @Param("month") Integer month,
-                           @Param("partyId") Integer partyId,
-                           @Param("branchId") Integer branchId,
-                           @Param("status") Byte status,
-                           @Param("addPermits") Boolean addPermits,
-                           @Param("adminPartyIdList") List<Integer> adminPartyIdList,
-                           @Param("adminBranchIdList") List<Integer> adminBranchIdList,
-                            RowBounds rowBounds);
+                                            @Param("year") Integer year,
+                                            @Param("quarter") Byte quarter,
+                                            @Param("month") Integer month,
+                                            @Param("partyId") Integer partyId,
+                                            @Param("branchId") Integer branchId,
+                                            @Param("status") Byte status,
+                                            @Param("addPermits") Boolean addPermits,
+                                            @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                                            @Param("adminBranchIdList") List<Integer> adminBranchIdList,
+                                            RowBounds rowBounds);
+
     int countPmMeetingStat(@Param("display") Byte display,
+                            @Param("year") Integer year,
+                            @Param("quarter") Byte quarter,
+                            @Param("month") Integer month,
+                            @Param("partyId") Integer partyId,
+                            @Param("branchId") Integer branchId,
+                            @Param("status") Byte status,
+                            @Param("addPermits") Boolean addPermits,
+                            @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                            @Param("adminBranchIdList") List<Integer> adminBranchIdList);
+
+    List<PmMeeting2Stat> selectPmMeeting2Stat(@Param("display") Byte display,
+                                             @Param("year") Integer year,
+                                             @Param("quarter") Byte quarter,
+                                             @Param("month") Integer month,
+                                             @Param("partyId") Integer partyId,
+                                             @Param("branchId") Integer branchId,
+                                             @Param("status") Byte status,
+                                             @Param("addPermits") Boolean addPermits,
+                                             @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                                             @Param("adminBranchIdList") List<Integer> adminBranchIdList,
+                                             RowBounds rowBounds);
+    int countPmMeeting2Stat(@Param("display") Byte display,
                            @Param("year") Integer year,
                            @Param("quarter") Byte quarter,
                            @Param("month") Integer month,

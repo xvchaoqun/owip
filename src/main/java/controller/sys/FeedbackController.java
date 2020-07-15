@@ -159,7 +159,7 @@ public class FeedbackController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             feedbackService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_USER, "添加意见回复：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_USER, "添加意见回复：用户%s", record.getUserId()));
         } else {
 
             feedbackService.updateByPrimaryKeySelective(record);

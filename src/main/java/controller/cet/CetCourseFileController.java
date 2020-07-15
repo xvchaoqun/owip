@@ -99,7 +99,7 @@ public class CetCourseFileController extends CetBaseController {
 
         cetCourseFileService.insertSelective(record);
 
-        logger.info(addLog(LogConstants.LOG_CET, "添加学习内容：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "添加学习内容：%s", record.getFileName()));
 
         return success(FormUtils.SUCCESS);
     }

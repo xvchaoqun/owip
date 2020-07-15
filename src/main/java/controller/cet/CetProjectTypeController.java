@@ -106,7 +106,7 @@ public class CetProjectTypeController extends CetBaseController {
 
         if (id == null) {
             cetProjectTypeService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加培训类别：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训类别：%s", record.getName()));
         } else {
 
             cetProjectTypeService.updateByPrimaryKeySelective(record);

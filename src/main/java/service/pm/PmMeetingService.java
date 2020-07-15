@@ -17,8 +17,10 @@ import service.common.FreemarkerService;
 import service.party.BranchMemberService;
 import service.party.MemberService;
 import service.sys.LogService;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
@@ -39,7 +41,8 @@ public class PmMeetingService extends PmBaseMapper {
     FreemarkerService freemarkerService;
     @Autowired
     private LogService logService;
-
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
     @Transactional
     public void insertSelective(PmMeeting record, List<PmMeetingFile> pmMeetingFiles) throws InterruptedException {
 
@@ -49,7 +52,8 @@ public class PmMeetingService extends PmBaseMapper {
 
          if(record.getDate()!=null){
                 record.setYear(DateUtils.getYear(record.getDate()));
-                  record.setQuarter(DateUtils.getQuarter(record.getDate()));
+                record.setQuarter(DateUtils.getQuarter(record.getDate()));
+                record.setMonth(DateUtils.getMonth(record.getDate()));
          }
         record.setIsBack(false);
         record.setIsDelete(false);
@@ -61,6 +65,12 @@ public class PmMeetingService extends PmBaseMapper {
         }
 
         pmMeetingMapper.insertSelective(record);
+
+        sysApprovalLogService.add(record.getId(), ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_PM,
+                "添加三会一课", record.getStatus(),
+                "新建");
 
         if(pmMeetingFiles==null) return;
 
@@ -124,6 +134,11 @@ public class PmMeetingService extends PmBaseMapper {
                 pmMeeting.setReason(reason);
             }
             pmMeetingMapper.updateByPrimaryKeySelective(pmMeeting);
+            sysApprovalLogService.add(pmMeeting.getId(), ShiroHelper.getCurrentUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_PM,
+                    "审批三会一课", pmMeeting.getStatus(),
+                    "审批");
         }
 
     }

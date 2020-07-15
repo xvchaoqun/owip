@@ -105,7 +105,7 @@ public class UnitPostGroupController extends BaseController {
         if (id == null) {
 
             unitPostGroupService.insertSelective(record);
-            logger.info(log(LogConstants.LOG_ADMIN, "添加岗位分组：{0}", record.getId()));
+            logger.info(log(LogConstants.LOG_ADMIN, "添加岗位分组：{0}", record.getName()));
         } else {
 
             unitPostGroupService.updateByPrimaryKeySelective(record);

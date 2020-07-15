@@ -102,7 +102,7 @@ public class CetPartySchoolController extends CetBaseController {
 
         if (id == null) {
             cetPartySchoolService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_CET, "添加二级党校：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加二级党校：%s", record.getPartySchoolId()));
         } else {
 
             cetPartySchoolService.updateByPrimaryKeySelective(record);

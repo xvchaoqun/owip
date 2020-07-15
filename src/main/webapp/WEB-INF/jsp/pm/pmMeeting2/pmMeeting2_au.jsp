@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="PARTY_MEETING_MAP" value="<%=sys.constants.PmConstants.PARTY_MEETING_MAP%>"/>
-<c:set var="PARTY_MEETING_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_GROUP%>"/>
-<c:set var="PARTY_MEETING_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING_BRANCH_ACTIVITY%>"/>
+<c:set var="PARTY_MEETING2_MAP" value="<%=sys.constants.PmConstants.PARTY_MEETING2_MAP%>"/>
+<c:set var="PARTY_MEETING2_BRANCH_GROUP" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_GROUP%>"/>
+<c:set var="PARTY_MEETING2_BRANCH_ACTIVITY" value="<%=sys.constants.PmConstants.PARTY_MEETING2_BRANCH_ACTIVITY%>"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -97,7 +97,7 @@
                     <td colspan="3">
                         <div class="input-group" style="width: 100%">
                            <table class="table table-bordered table-unhover2" name="typeTable">
-                               <c:forEach items="${PARTY_MEETING_MAP}" var="entity">
+                               <c:forEach items="${PARTY_MEETING2_MAP}" var="entity">
                                   <tr>
                                       <td>
                                        <div class="checkbox checkbox-inline checkbox-sm">
@@ -414,8 +414,8 @@
     $("input[type=checkbox]").click(function(){
 
         var type =$(this).val();
-        var branchActivity=${PARTY_MEETING_BRANCH_ACTIVITY};//主题党日活动
-        var branchGroup=${PARTY_MEETING_BRANCH_GROUP};//党小组会
+        var branchActivity=${PARTY_MEETING2_BRANCH_ACTIVITY};//主题党日活动
+        var branchGroup=${PARTY_MEETING2_BRANCH_GROUP};//党小组会
 
         $("table[name=typeTable] input[type=text]").prop("disabled" ,true);
 

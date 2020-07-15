@@ -139,7 +139,7 @@ public class ScMotionController extends ScBaseController {
         if (id == null) {
             record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scMotionService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_MOTION, "添加动议：%s", record.getId()));
+            logger.info(addLog( LogConstants.LOG_SC_MOTION, "添加动议：%s", record.getSeq()));
         } else {
 
             scMotionService.updateByPrimaryKeySelective(record);
