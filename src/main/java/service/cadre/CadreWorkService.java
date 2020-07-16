@@ -628,9 +628,11 @@ public class CadreWorkService extends BaseMapper {
     public void cadreWork_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreWork> cadreWorks = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0) { // 现任干部
             cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
+            preStr = metaTypeService.getName(reserveType);
             cadreWorks = iCadreMapper.getCadreReserveWorks(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
 
@@ -668,7 +670,7 @@ public class CadreWorkService extends BaseMapper {
             valuesList.add(values);
         }
 
-        String fileName = "工作经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = preStr + "工作经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

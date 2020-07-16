@@ -102,11 +102,16 @@ public class CadreAdformService extends BaseMapper {
     protected SysConfigService sysConfigService;
 
     public void export(Integer[] cadreIds,
+                       Integer reserveType, //区分文件名
                        boolean isWord, // 否：中组部格式
                        Byte adFormType,
                        HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
         if (cadreIds == null) return;
+        String preStr = "";
+        if (reserveType != null){
+            preStr = metaTypeService.getName(reserveType);
+        }
 
         if (cadreIds.length == 1) {
 
@@ -118,7 +123,7 @@ public class CadreAdformService extends BaseMapper {
             if (isWord) {
                 //输出WORD任免审批表
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部任免审批表 " + cadre.getUser().getRealname() + ".docx";
+                        + " "  + preStr + "干部任免审批表 " + cadre.getUser().getRealname() + ".docx";
 
                 response.setHeader("Content-Disposition",
                         "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
@@ -145,7 +150,7 @@ public class CadreAdformService extends BaseMapper {
 
             } else {
                 // 输出中组部任免审批表
-                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getRealname();
+                String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " " + preStr + "干部任免审批表 " + cadre.getRealname();
 
                 response.setHeader("Content-Disposition",
                         "attachment;filename=" + DownloadUtils.encodeFilename(request, filename + ".lrmx"));
@@ -168,7 +173,7 @@ public class CadreAdformService extends BaseMapper {
                 String filepath = null;
                 if (isWord) {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " 干部任免审批表 " + cadre.getRealname() + ".docx";
+                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".docx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -198,7 +203,7 @@ public class CadreAdformService extends BaseMapper {
                     exportDocxUtils(fileClasspath, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                            + " 干部任免审批表 " + cadre.getRealname() + ".lrmx";
+                            + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".lrmx";
 
                     // 保证文件名不重复
                     if (filenameSet.contains(filename)) {
@@ -218,18 +223,20 @@ public class CadreAdformService extends BaseMapper {
             }
 
             String filename = String.format("%s干部任免审批表",
-                    CmTag.getSysConfig().getSchoolName());
+                    CmTag.getSysConfig().getSchoolName() + preStr);
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);
             FileUtils.deleteDir(new File(tmpdir));
         }
     }
 
+    //导出干部任免审批表
     public void export(Integer[] cadreIds,
+                       Integer reserveType, //区分文件名
                        boolean isWord, // 否：中组部格式
                        HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
 
-        export(cadreIds, isWord, null, request, response);
+        export(cadreIds, reserveType, isWord, null, request, response);
     }
 
     // 判断是否是进修学习，进修学习不能进入任免审批表
@@ -770,7 +777,7 @@ public class CadreAdformService extends BaseMapper {
 
         // 姓名去掉所有的空格
         String realname = StringUtil.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/XingMing"));
-        String idcard = XmlUtils.getNodeText(doc, "//Person/ShenFenZheng");
+        String idcard = StringUtil.removeAllBlank(XmlUtils.getNodeText(doc, "//Person/ShenFenZheng"));
         String birth = XmlUtils.getNodeText(doc,"//Person/ChuShengNianYue");
 
         CadreView cv = null;
@@ -812,7 +819,7 @@ public class CadreAdformService extends BaseMapper {
             }
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
             if (uvs.size() == 0) {
-                throw new OpException("{0}不存在系统账号，无法导入。", realname);
+                throw new OpException("{0}不存在系统账号，无法导入，请核对文件中姓名和身份证号与系统中是否不一致。", realname);
             } else if (uvs.size() > 1) {
                 throw new OpException("{0}存在多个系统账号，无法导入。", realname);
             }

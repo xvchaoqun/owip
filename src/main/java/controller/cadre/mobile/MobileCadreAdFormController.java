@@ -45,6 +45,6 @@ public class MobileCadreAdFormController extends BaseController {
 		if(cadreId == null) return;
 		Integer cadreIds[] = {cadreId};
 
-		cadreAdformService.export(cadreIds, BooleanUtils.isTrue(isWord), adFormType, request, response);
+		cadreAdformService.export(cadreIds, null, BooleanUtils.isTrue(isWord), adFormType, request, response);
 	}
 }

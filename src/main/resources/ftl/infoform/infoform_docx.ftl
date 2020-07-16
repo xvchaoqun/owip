@@ -55,7 +55,7 @@
                     <w:sz w:val="36"/>
                     <w:szCs w:val="30"/>
                 </w:rPr>
-                <w:t>干部信息采集表</w:t>
+                <w:t>${preStr!}干部信息采集表</w:t>
             </w:r>
         </w:p>
         <w:p w14:paraId="5189B176" w14:textId="77777777" w:rsidR="00196B91" w:rsidRPr="00196B91"

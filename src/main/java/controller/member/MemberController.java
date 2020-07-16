@@ -165,9 +165,11 @@ public class MemberController extends MemberBaseController {
 
     @RequiresPermissions("member:import")
     @RequestMapping("/member_import")
-    public String member_import(boolean inSchool,
+    public String member_import(boolean update,//党建信息一键导入
+                                boolean inSchool,
                                 ModelMap modelMap) {
 
+        modelMap.put("update", update);
         modelMap.put("inSchool", inSchool);
         return "member/member/member_import";
     }
@@ -176,7 +178,10 @@ public class MemberController extends MemberBaseController {
     @RequiresPermissions("member:import")
     @RequestMapping(value = "/member_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_member_import(boolean inSchool, HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_member_import(String startCode,//分党委起始编号
+                                boolean update,
+                                boolean inSchool,
+                                HttpServletRequest request) throws InvalidFormatException, IOException {
 
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<String, Party> runPartyMap = new HashMap<>();
@@ -212,16 +217,31 @@ public class MemberController extends MemberBaseController {
 
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
-        } else {
+        } else if (update) {
+            resultMap = memberService.importMemberUpdate(sheet, xlsRows, politicalStatusMap, startCode);
+        }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
 
+        //用于查看不确定学工号党员信息
+        if (update) {
+
+            String savePath = FILE_SEPARATOR + "_filterExport"
+                    + FILE_SEPARATOR + xlsx.getOriginalFilename() + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss") + ".xlsx";
+            FileUtils.mkdirs(springProps.uploadPath + savePath, true);
+
+            ExportHelper.save(workbook, springProps.uploadPath + savePath);
+            resultMap.put("file", savePath);
+            resultMap.put("filename", xlsx.getOriginalFilename());
+        }
+        int partyAdd = (int) resultMap.get("partyAdd");
+        int branchAdd = (int) resultMap.get("branchAdd");
         int successCount = (int) resultMap.get("successCount");
         int totalCount = (int) resultMap.get("total");
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入党员成功，总共{0}条记录，其中成功导入{1}条记录",
-                totalCount, successCount));
+                "导入党员成功，分党委{2}条记录，党支部{3}条记录，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount, partyAdd, branchAdd));
 
         return resultMap;
     }

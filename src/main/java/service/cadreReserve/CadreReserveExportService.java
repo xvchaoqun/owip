@@ -348,7 +348,7 @@ public class CadreReserveExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String str = cell.getStringCellValue()
-                .replace("school", schoolName);
+                .replace("school", schoolName).replace("type", metaTypeService.getName(reserveType));
         cell.setCellValue(str);
 
         boolean birthToDay = CmTag.getBoolProperty("birthToDay");
@@ -481,7 +481,7 @@ public class CadreReserveExportService extends BaseMapper {
         }
         String fileName = String.format("%s中层干部名单", schoolName);
         if (StringUtils.isNotBlank(suffix)){
-            fileName = String.format("%s中层干部名单（" + suffix + "）", schoolName);
+            fileName = String.format("%s中层干部（" + suffix + "）名单", schoolName);
         }
         ExportHelper.output(wb, fileName + ".xlsx", response);
 

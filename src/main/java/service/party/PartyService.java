@@ -377,4 +377,24 @@ public class PartyService extends BaseMapper {
 
         return new ArrayList<>();
     }
+
+    //生成分党委的code
+    public String genCode(String startCode) {
+
+        int num;
+        PartyExample example = new PartyExample();
+        example.createCriteria().andCodeStartLike(startCode);
+        //example.setOrderByClause("code desc");
+        example.setOrderByClause("right(code,2) desc");
+        List<Party> partyList = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if (partyList.size() > 0) {
+            String code = partyList.get(0).getCode();
+            String _code = code.substring(code.length() - 2);
+            num = Integer.parseInt(_code) + 1;
+        } else {
+            num = 1;
+        }
+        return startCode + String.format("%02d", num);
+    }
+
 }

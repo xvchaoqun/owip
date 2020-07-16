@@ -300,9 +300,11 @@ public class CadreParttimeController extends BaseController {
     public void cadreParttime_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreParttime> cadreParttimes = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0){
             cadreParttimes = iCadreMapper.getCadreParttimes(ids,status);
         }else {
+            preStr = metaTypeService.getName(reserveType);
             cadreParttimes = iCadreMapper.getCadreReserveParttimes(ids, status, reserveType);
         }
         int rownum = cadreParttimes.size();
@@ -331,7 +333,7 @@ public class CadreParttimeController extends BaseController {
             valuesList.add(values);
         }
 
-        String fileName = "社会或学术兼职";
+        String fileName = preStr + "社会或学术兼职";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

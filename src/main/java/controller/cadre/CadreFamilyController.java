@@ -262,9 +262,11 @@ public class CadreFamilyController extends BaseController {
     public void cadreFamily_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreFamily> cadreFamilys = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0){
             cadreFamilys = iCadreMapper.getCadreFamilys(ids, status);
         }else {
+            preStr = metaTypeService.getName(reserveType);
             cadreFamilys = iCadreMapper.getCadreReserveFamilys(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
         int rownum = cadreFamilys.size();
@@ -286,7 +288,7 @@ public class CadreFamilyController extends BaseController {
             };
             valuesList.add(values);
         }
-        String fileName = "家庭成员信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = preStr + "家庭成员信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

@@ -81,10 +81,14 @@ public class CadreInfoFormService extends BaseMapper {
     @Autowired
     protected PartyPunishService partyPunishService;
 
-    public void export(Integer[] cadreIds, HttpServletRequest request,
+    public void export(Integer[] cadreIds, Integer reserveType, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, TemplateException {
 
         if (cadreIds == null) return;
+        String preStr = "";
+        if (reserveType != null){
+            preStr = metaTypeService.getName(reserveType);
+        }
 
         if (cadreIds.length == 1) {
 
@@ -92,14 +96,14 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息采集表 " + cadre.getUser().getRealname()  + ".docx";
+                    + " " + preStr + "干部信息采集表 " + cadre.getUser().getRealname()  + ".docx";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
                     "attachment;filename=" + DownloadUtils.encodeFilename(request, filename));
             response.setContentType("application/msword;charset=UTF-8");
 
-            process(cadreId, response.getOutputStream());
+            process(cadreId, preStr, response.getOutputStream());
         }else {
 
             Map<String, File> fileMap = new LinkedHashMap<>();
@@ -111,7 +115,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息采集表 " + cadre.getRealname() + ".docx";
+                        + " " + preStr + "干部信息采集表 " + cadre.getRealname() + ".docx";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -123,13 +127,13 @@ public class CadreInfoFormService extends BaseMapper {
                 FileOutputStream output = new FileOutputStream(new File(filepath));
                 OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
 
-                process(cadreId, output);
+                process(cadreId, preStr, output);
 
                 fileMap.put(filename, new File(filepath));
             }
 
             String filename = String.format("%s干部信息采集表",
-                    CmTag.getSysConfig().getSchoolName());
+                    CmTag.getSysConfig().getSchoolName() + preStr);
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);
             FileUtils.deleteDir(new File(tmpdir));
@@ -191,10 +195,16 @@ public class CadreInfoFormService extends BaseMapper {
         }
     }
 
-    public void export_simple(Integer[] cadreIds, HttpServletRequest request,
-                        HttpServletResponse response) throws IOException, TemplateException {
+    public void export_simple(Integer[] cadreIds,
+                              Integer reserveType, //区分文件名
+                              HttpServletRequest request,
+                              HttpServletResponse response) throws IOException, TemplateException {
 
         if (cadreIds == null) return;
+        String preStr = "";
+        if (reserveType != null){
+            preStr = metaTypeService.getName(reserveType);
+        }
 
         if (cadreIds.length == 1) {
 
@@ -202,7 +212,7 @@ public class CadreInfoFormService extends BaseMapper {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             //输出文件
             String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                    + " 干部信息表(简版) " + cadre.getUser().getRealname()  + ".docx";
+                    + " " + preStr + "干部信息表(简版) " + cadre.getUser().getRealname()  + ".docx";
             response.reset();
             DownloadUtils.addFileDownloadCookieHeader(response);
             response.setHeader("Content-Disposition",
@@ -221,7 +231,7 @@ public class CadreInfoFormService extends BaseMapper {
             for (int cadreId : cadreIds) {
                 CadreView cadre = iCadreMapper.getCadre(cadreId);
                 String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
-                        + " 干部信息表(简版) " + cadre.getRealname() + ".docx";
+                        + " " + preStr + "干部信息表(简版) " + cadre.getRealname() + ".docx";
 
                 // 保证文件名不重复
                 if(filenameSet.contains(filename)){
@@ -239,7 +249,7 @@ public class CadreInfoFormService extends BaseMapper {
             }
 
             String filename = String.format("%s干部信息表(简版)",
-                    CmTag.getSysConfig().getSchoolName());
+                    CmTag.getSysConfig().getSchoolName() + preStr);
             DownloadUtils.addFileDownloadCookieHeader(response);
             DownloadUtils.zip(fileMap, filename, request, response);
             FileUtils.deleteDir(new File(tmpdir));
@@ -946,13 +956,14 @@ public class CadreInfoFormService extends BaseMapper {
     }
 
     // 输出干部信息采集表
-    public void process(int cadreId, OutputStream outputStream/* Writer out*/) throws IOException, TemplateException {
+    public void process(int cadreId, String preStr, OutputStream outputStream/* Writer out*/) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = getDataMap(cadreId);
         dataMap.put("fillDate", DateUtils.formatDate(new Date(), "yyyy年MM月dd日"));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         dataMap.put("schoolEmail", CmTag.getStringProperty("zzb_email"));
+        dataMap.put("preStr", preStr);
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         String content = freemarkerService.process("/infoform/infoform_docx.ftl",dataMap);

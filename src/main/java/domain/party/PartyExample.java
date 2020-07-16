@@ -233,6 +233,11 @@ public class PartyExample {
             return (Criteria) this;
         }
 
+        public Criteria andCodeStartLike(String value) {
+            addCriterion("code like", value + "%", "code");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeLike(String value) {
             addCriterion("code like", value, "code");
             return (Criteria) this;

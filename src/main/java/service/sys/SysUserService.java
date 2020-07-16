@@ -2,6 +2,7 @@ package service.sys;
 
 import controller.global.OpException;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
 import net.coobird.thumbnailator.Thumbnails;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
@@ -28,6 +30,7 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
 import java.io.IOException;
@@ -753,5 +756,106 @@ public class SysUserService extends BaseMapper {
         }
 
         cacheHelper.clearCadreCache();
+    }
+
+    //根据身份证号或姓名找到对应的学工号
+    public Map<String, List<String>> getCodes(Byte roleType, //0：混合 1：干部
+                                              Byte colType, //0：身份证 1：姓名
+                                              String searchKey, //colType=0:idcard colType=1：realname
+                                              @RequestParam(required = false, defaultValue = "0")Byte type, //类别 教职工、本科生、研究生  0： 混合
+                                              String birthKey) {
+
+        String code = null;
+        List<String> codeList = new ArrayList<>();
+        Map<String, List<String>> codeMap = new HashMap<>();
+        if (roleType == 1) {
+
+            CadreViewExample example = new CadreViewExample();
+            CadreViewExample.Criteria criteria = example.createCriteria();
+            if (colType == 0) {
+                // 身份证
+                criteria.andIdcardEqualTo(searchKey);
+            } else {
+                // 姓名
+                criteria.andRealnameEqualTo(searchKey);
+            }
+            example.setOrderByClause("code desc");
+            List<CadreView> cvs = cadreViewMapper.selectByExample(example);
+            if (cvs.size() != 0) {
+                code = cvs.get(0).getCode();
+            } else if (cvs.size() > 1) {
+                for (CadreView cv : cvs) {
+                    if (null != birthKey) {
+                        if (birthKey.equals(DateUtils.formatDate(cv.getBirth(), "yyyyMM"))) {
+                            codeList.add(cv.getCode());
+                        }
+                    }else {
+                        codeList.add(cv.getCode());
+                    }
+                }
+            }
+        } else {
+            SysUserViewExample example = new SysUserViewExample();
+            SysUserViewExample.Criteria criteria = example.createCriteria();
+            if (colType == 0) {
+                // 身份证
+                criteria.andIdcardEqualTo(searchKey);
+            } else {
+                // 姓名
+                criteria.andRealnameEqualTo(searchKey);
+            }
+            if (type != 0) {
+                criteria.andTypeEqualTo(type);
+            }
+
+            // 按账号类别 教职工、研究生、本科生的排序
+            example.setOrderByClause("field(type, 1,3,2) asc");
+
+            List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
+
+            if (uvs.size() == 1) {
+                code = uvs.get(0).getCode();
+            } else if (uvs.size() > 1) {
+
+                SysUserView firstUv = uvs.get(0);
+                byte _type = firstUv.getType();
+                if (_type == SystemConstants.USER_TYPE_YJS) {
+                    boolean flag = false;
+                    for (SysUserView uv : uvs) {
+                        String _stuType = studentInfoMapper.selectByPrimaryKey(uv.getId()).getType();
+                        if (StringUtils.isNotBlank(_stuType) && _stuType.contains("硕士")) {
+                            if (!flag) {
+                                code = uv.getCode();
+                            }
+                        }else if (StringUtils.isNotBlank(_stuType) && _stuType.contains("博士")) {
+                            flag = true;
+                            code = uv.getCode();
+                        }
+                        codeList.add(uv.getCode());
+                    }
+                }else {
+                    int _typeNum = 0; // 第一个账号类别对应的账号数量
+                    for (SysUserView uv : uvs) {
+                        if (_type == uv.getType()) _typeNum++;
+                        if (null != birthKey) {
+                            if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
+                                codeList.add(uv.getCode());
+                                continue;
+                            }
+                        } else {
+                            codeList.add(uv.getCode());
+                        }
+                    }
+
+                    if (colType == 0 && _typeNum == 1) {
+                        // 按身份证查找时，如果排第一的账号类型对应的账号数量只有一个，则认为是他当前使用的账号
+                        code = firstUv.getCode();
+                    }
+                }
+            }
+        }
+        codeMap.put(code, codeList);
+
+        return codeMap;
     }
 }

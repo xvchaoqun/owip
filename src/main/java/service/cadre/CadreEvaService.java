@@ -5,10 +5,12 @@ import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.utils.ExportHelper;
@@ -18,6 +20,9 @@ import java.util.*;
 
 @Service
 public class CadreEvaService extends BaseMapper {
+
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     public boolean idDuplicate(Integer id, int cadreId, int year){
 
@@ -101,9 +106,11 @@ public class CadreEvaService extends BaseMapper {
                        Integer reserveType, HttpServletResponse response) {
 
         List<CadreEva> cadreEvas = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0){
             cadreEvas = iCadreMapper.getCadreEvas(startYear, endYear, ids, status);//现任干部
         }else {
+            preStr = metaTypeService.getName(reserveType);
             cadreEvas = iCadreMapper.getCadreReserveEvas(startYear, endYear, ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
 
@@ -150,7 +157,7 @@ public class CadreEvaService extends BaseMapper {
             valuesList.add(values);
         }
 
-        String fileName = "年度考核结果(" + startYear +"-" + endYear + ")";
+        String fileName = preStr + "年度考核结果(" + startYear +"-" + endYear + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

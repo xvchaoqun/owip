@@ -360,10 +360,10 @@ public class BranchController extends BaseController {
             if (branchType == null) throw new OpException("第{0}行党支部类别[{1}]不存在", row, _branchType);
             record.setTypes(branchType.getId()+"");
 
-            String _partyUnitType = StringUtils.trimToNull(xlsRow.get(startRow++));
-            MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", _partyUnitType);
-            if (partyUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _partyUnitType);
-            record.setUnitTypeId(partyUnitType.getId());
+            String _branchUnitType = StringUtils.trimToNull(xlsRow.get(startRow++));
+            MetaType branchUnitType = CmTag.getMetaTypeByName("mc_branch_unit_type", _branchUnitType);
+            if (branchUnitType == null) throw new OpException("第{0}行所在单位属性[{1}]不存在", row, _branchUnitType);
+            record.setUnitTypeId(branchUnitType.getId());
 
             record.setIsStaff(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));
             record.setIsPrefessional(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(startRow++)), "是"));

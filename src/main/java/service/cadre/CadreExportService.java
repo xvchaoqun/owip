@@ -92,7 +92,11 @@ public class CadreExportService extends BaseMapper {
         if (isReserve == 0) {
             cadretype = CadreConstants.CADRE_STATUS_MAP.get(status);
         }else {
-            cadretype = metaTypeService.getName(Integer.valueOf(status));
+            Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
+            for (Integer id : metaTypeMap.keySet()){
+                if (status == (byte)id.intValue())
+                    cadretype = metaTypeService.getName(id);
+            }
         }
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
@@ -508,7 +512,7 @@ public class CadreExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String str = cell.getStringCellValue()
-                .replace("school", schoolName);
+                .replace("school", schoolName).replace("（type）", "");
         cell.setCellValue(str);
 
         boolean birthToDay = CmTag.getBoolProperty("birthToDay");

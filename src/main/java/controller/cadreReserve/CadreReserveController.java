@@ -564,15 +564,16 @@ public class CadreReserveController extends BaseController {
                 cadreIds[i++] = cadreReserve.getId();
             }
 
+            //reserveType字段用来区分文件名称
             if (export == 2){
                 //干部任免审批表
-                cadreAdformService.export(cadreIds, format==1, request, response);
+                cadreAdformService.export(cadreIds, reserveType, format==1, request, response);
             }else if (export == 3){
                 // 干部信息采集表
-                cadreInfoFormService.export(cadreIds, request, response);
+                cadreInfoFormService.export(cadreIds, reserveType, request, response);
             }else if (export == 6){
                 // 干部信息表(简版)
-                cadreInfoFormService.export_simple(cadreIds,request,response);
+                cadreInfoFormService.export_simple(cadreIds, reserveType, request,response);
             }
             return;
         }
@@ -795,14 +796,15 @@ public class CadreReserveController extends BaseController {
             }else {
                 suffix = CadreConstants.CADRE_RESERVE_STATUS_MAP.get(reserveStatus);
             }
-            String fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部";
+            String fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部";
 
             if (StringUtils.isNotBlank(suffix))
-                fileName = CmTag.getSysConfig().getSchoolName() + "年轻干部（" + suffix + "）";
+                fileName = CmTag.getSysConfig().getSchoolName() + "优秀年轻干部（" + suffix + "）";
 
             ExportHelper.output(wb, fileName + ".xlsx", response);
         }else {
-            cadreReserveExportService.export2(reserveStatus, reserveType, example, response);//名单
+            //名单
+            cadreReserveExportService.export2(reserveStatus, reserveType, example, response);
         }
 
 

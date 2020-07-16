@@ -4,8 +4,6 @@ import bean.ColumnBean;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
 import domain.member.MemberView;
 import domain.sys.*;
 import interceptor.OrderParam;
@@ -735,7 +733,7 @@ public class SysUserController extends BaseController {
             int col,
             byte roleType, // 1: 干部  0: 混合
             @RequestParam(required = false, defaultValue = "0") byte type, // 类别 教职工、本科生、研究生  0： 混合
-            Integer addCol,
+            Integer addCol, //工号插入列数
             @RequestParam(required = false, defaultValue = "1") int sheetNo,
             HttpServletRequest request, HttpServletResponse response)
             throws InvalidFormatException, IOException {
@@ -787,9 +785,15 @@ public class SysUserController extends BaseController {
                 }
             }
 
+            //提取学工号
             String code = null;
             List<String> codeList = new ArrayList<>();
-            if (roleType == 1) {
+            Map<String, List<String>> codeMap = sysUserService.getCodes(roleType, colType, key, type, birthKey);
+            code = codeMap.keySet().iterator().next();
+            if (StringUtils.isBlank(code))
+                continue;
+            codeList = codeMap.get(code);
+            /*if (roleType == 1) {
 
                 CadreViewExample example = new CadreViewExample();
                 CadreViewExample.Criteria criteria = example.createCriteria();
@@ -870,7 +874,7 @@ public class SysUserController extends BaseController {
                         }
                     }
                 }
-            }
+            }*/
             // 每一行插入的位置
             int rowAddCol = -1;
             if (addCol != null && addCol <= cellNum) {

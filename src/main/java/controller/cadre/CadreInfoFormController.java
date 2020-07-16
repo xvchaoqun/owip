@@ -36,7 +36,7 @@ public class CadreInfoFormController extends BaseController {
         if(cadreId == null) return;
         Integer cadreIds[] = {cadreId};
 
-        cadreInfoFormService.export(cadreIds, request, response);
+        cadreInfoFormService.export(cadreIds, null, request, response);
     }
 
     @RequiresPermissions("cadreInfoForm2:list")
@@ -74,6 +74,6 @@ public class CadreInfoFormController extends BaseController {
         if(cadreId == null) return;
         Integer cadreIds[] = {cadreId};
 
-        cadreInfoFormService.export_simple(cadreIds, request, response);
+        cadreInfoFormService.export_simple(cadreIds, null, request, response);
     }
 }

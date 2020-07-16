@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import persistence.cadre.common.CadreCompanyStatBean;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
@@ -321,6 +322,9 @@ public class CadreCompanyService extends BaseMapper {
             } else if (cadreStatus == CadreConstants.CADRE_STATUS_KJ_LEAVE) {
                 cadreType = "离任科级干部";
             }
+        }else {
+            MetaTypeService metaTypeService = CmTag.getBean(MetaTypeService.class);
+            cadreType = metaTypeService.getName(reserveType);
         }
         List<CadreCompanyView> records = new ArrayList<>();
         if (exportType == 0){

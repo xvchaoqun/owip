@@ -499,16 +499,16 @@ public class CadreController extends BaseController {
                     .collect(Collectors.toList()).stream().toArray(Integer[]::new);
             if (export == 2) {
                 // 干部任免审批表
-                cadreAdformService.export(cadreIds, format==1, request, response);
+                cadreAdformService.export(cadreIds, null, format==1, request, response);
             } else if(export == 3){
                 // 干部信息采集表
-                cadreInfoFormService.export(cadreIds, request, response);
+                cadreInfoFormService.export(cadreIds, null, request, response);
             } else if(export == 5){
 
                 perfectCadreInfoExport(cadreIds, response);
             }else if (export == 6){
                 // 干部信息表(简版)
-                cadreInfoFormService.export_simple(cadreIds,request,response);
+                cadreInfoFormService.export_simple(cadreIds, null, request,response);
             }
             return;
         } else if (export == 4) {

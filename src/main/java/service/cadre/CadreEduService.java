@@ -719,9 +719,11 @@ public class CadreEduService extends BaseMapper {
     public void cadreEdu_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreEdu> cadreEdus = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0) { // 现任干部
             cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
+            preStr = metaTypeService.getName(reserveType);
             cadreEdus = iCadreMapper.getCadreReserveEdus(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
         long rownum = cadreEdus.size();
@@ -771,7 +773,7 @@ public class CadreEduService extends BaseMapper {
             };
             valuesList.add(values);
         }
-        String fileName = "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = preStr + "学习经历(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

@@ -1,18 +1,24 @@
 package service.party;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.member.*;
-import domain.party.Branch;
-import domain.party.EnterApply;
+import domain.party.*;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import domain.unit.Unit;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -22,19 +28,14 @@ import service.member.MemberBaseMapper;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
+import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MemberService extends MemberBaseMapper {
@@ -52,6 +53,14 @@ public class MemberService extends MemberBaseMapper {
     private LogService logService;
     @Autowired
     private TeacherInfoService teacherInfoService;
+    @Autowired
+    private BranchMemberService branchMemberService;
+    @Autowired
+    private UnitService unitService;
+    @Autowired
+    private PartyMemberGroupService partyMemberGroupService;
+    @Autowired
+    private BranchMemberGroupService branchMemberGroupService;
 
     public Member get(int userId) {
 
@@ -561,6 +570,321 @@ public class MemberService extends MemberBaseMapper {
         }
         List<Member> records = memberMapper.selectByExample(example);
         return records.size() == 0 ? false : true;
+
+    }
+
+    //党员信息一键导入
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "Branch:ALL", allEntries = true),
+            @CacheEvict(value = "Party:ALL", allEntries = true),
+            @CacheEvict(value = "MemberApply", allEntries = true)
+    })
+    public Map<String, Object> importMemberUpdate(XSSFSheet sheet,
+                                                  List<Map<Integer, String>> xlsRows,
+                                                  Map<String, Byte> politicalStatusMap,
+                                                  String startCode) {
+
+        Date now = new Date();
+        List<Member> records = new ArrayList<>();
+        int row = 1;
+        Integer partyId = null;
+        Integer branchId = null;
+        int partyAdd = 0;
+        int branchAdd = 0;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            Member record = new Member();
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            String idcard = StringUtil.trimAll(xlsRow.get(2));
+            Map<String, List<String>> codeMap = new HashMap<>();
+            if (StringUtils.isBlank(userCode)) {
+                //通过身份证号得到userCode
+                Byte _type = 0;
+                //提取学工号
+                codeMap = sysUserService.getCodes(_type, _type, idcard, _type, null);
+                userCode = codeMap.keySet().iterator().next();
+                if (StringUtils.isBlank(userCode))
+                    continue;
+                XSSFRow _row = sheet.getRow(row - 1);
+                int cellNum = _row.getLastCellNum() - _row.getFirstCellNum();
+                XSSFCell cell = _row.getCell(0);
+                if(cell==null){
+                    cell = _row.createCell(0);
+                }
+                cell.setCellValue(StringUtils.trimToEmpty(userCode));
+                if (codeMap.get(userCode).size() > 0) {
+                    cell = _row.createCell(cellNum + 1);
+                    cell.setCellValue(StringUtils.join(codeMap.get(userCode), "、"));
+                }
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
+            }
+            record.setUserId(uv.getId());
+
+            Byte type = uv.getType();
+            if (type == SystemConstants.USER_TYPE_JZG) {
+                record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
+            } else if (type == SystemConstants.USER_TYPE_BKS) {
+                record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
+            } else if (type == SystemConstants.USER_TYPE_YJS) {
+                record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
+            } else {
+                throw new OpException("账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+            }
+
+            //分党委
+            String partyCode = StringUtils.trim(xlsRow.get(3));
+            String partyName = StringUtil.trimAll(xlsRow.get(4));
+            Party party = new Party();
+            if (StringUtils.isBlank(partyCode)) {
+                if (StringUtils.isBlank(partyName)){
+                    throw new OpException("第{0}行分党委编码和名称同时为空", row);
+                }else {
+                    PartyExample example = new PartyExample();
+                    example.createCriteria().andNameLike(partyName).andIsDeletedEqualTo(false);
+                    List<Party> parties = partyMapper.selectByExample(example);
+                    if (parties.size() >= 1){
+                        party = parties.get(0);
+                    }
+                }
+            }else {
+                PartyExample example = new PartyExample();
+                example.createCriteria().andCodeEqualTo(partyCode).andIsDeletedEqualTo(false);
+                List<Party> parties = partyMapper.selectByExample(example);
+                if (parties.size() >= 1){
+                    party = parties.get(0);
+                }
+            }
+
+            if (party.getId() == null) {
+                if (StringUtils.isBlank(startCode)){
+                    throw new OpException("第{0}行分党委起始编码为空", row);
+                }
+                String unitCode = StringUtil.trimAll(xlsRow.get(5));
+                if (StringUtils.isBlank(unitCode)){
+                    throw new OpException("第{0}行单位编码为空", row);
+                }
+                Unit unit = unitService.findRunUnitByCode(unitCode);
+                if (unit == null){
+                    throw new OpException("第{0}行单位不存在", row);
+                }
+                party.setName(partyName);
+                party.setShortName("");
+                party.setCode(partyService.genCode(StringUtil.trimAll(startCode)));
+                party.setFoundTime(now);
+                party.setUnitId(unit.getId());
+
+                MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
+                party.setUnitTypeId(partyUnitType.getId());
+                MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
+                party.setClassId(partyClass.getId());
+                MetaType partyType = CmTag.getMetaTypeByName("mc_party_type", "院系党组织");
+                party.setTypeId(partyType.getId());
+                party.setIsEnterpriseBig(false);
+                party.setIsEnterpriseNationalized(false);
+                party.setIsSeparate(false);
+                party.setCreateTime(now);
+                party.setIsPycj(false);
+                party.setIsBg(false);
+                partyService.insertSelective(party);
+                partyAdd++;
+
+            }
+            partyId = party.getId();
+            record.setPartyId(partyId);
+
+            //领导班子
+            PartyMemberGroup _pmg = partyMemberGroupService.getPresentGroup(partyId);
+            if (_pmg == null) {
+                PartyMemberGroup pmg = new PartyMemberGroup();
+                pmg.setPartyId(party.getId());
+                pmg.setName(partyName);
+                pmg.setIsPresent(true);
+                pmg.setIsDeleted(false);
+                pmg.setAppointTime(now);
+                partyMemberGroupMapper.insertSelective(pmg);
+            }
+
+            //党支部
+            if (!partyService.isDirectBranch(partyId)) {
+
+                String branchCode = StringUtils.trim(xlsRow.get(7));
+                String branchName = StringUtil.trimAll(xlsRow.get(8));
+                Branch branch = new Branch();
+                if (StringUtils.isBlank(branchCode)) {
+                    if (StringUtils.isBlank(branchName)){
+                        throw new OpException("第{0}行党支部编码和名称都为空", row);
+                    }
+                    BranchExample example = new BranchExample();
+                    example.createCriteria().andNameEqualTo(branchName).andIsDeletedEqualTo(false);
+                    List<Branch> branches = branchMapper.selectByExample(example);
+                    if (branches.size() >= 1){
+                        branch = branches.get(0);
+                    }
+                }else {
+                    BranchExample example = new BranchExample();
+                    example.createCriteria().andCodeEqualTo(branchCode).andIsDeletedEqualTo(false);
+                    List<Branch> branches = branchMapper.selectByExample(example);
+                    if (branches.size() >= 1){
+                        branch = branches.get(0);
+                    }
+                }
+
+                if (branch.getId() == null) {//添加没有的党支部
+                    branch = new Branch();
+                    branch.setPartyId(partyId);
+                    branch.setName(branchName.replaceAll("\\s*", ""));
+                    branch.setIsStaff(!StringUtils.containsAny(branchName, "博士", "硕士", "本科"));
+                    MetaType branchUnitType = CmTag.getMetaTypeByName("mc_branch_unit_type", "事业单位");
+                    branch.setUnitTypeId(branchUnitType.getId());
+
+                    branch.setIsPrefessional(false);
+                    branch.setIsBaseTeam(false);
+                    branch.setIsEnterpriseBig(false);
+                    branch.setIsEnterpriseNationalized(false);
+                    branch.setIsUnion(false);
+                    branch.setIsDeleted(false);
+                    branch.setCode(branchService.genCode(partyId));
+                    branch.setCreateTime(now);
+                    branch.setSortOrder(getNextSortOrder("ow_branch",
+                            "is_deleted=0 and party_id=" + partyId));
+                    branchMapper.insert(branch);
+                    branchAdd++;
+                }
+                branchId = branch.getId();
+                record.setBranchId(branchId);
+
+                //支部委员会
+                BranchMemberGroup _bmg = branchMemberGroupService.getPresentGroup(branchId);
+                if (_bmg == null){
+                    BranchMemberGroup bmg = new BranchMemberGroup();
+                    bmg.setBranchId(branch.getId());
+                    bmg.setName(branchName);
+                    bmg.setIsPresent(true);
+                    bmg.setIsDeleted(false);
+                    bmg.setAppointTime(now);
+                    branchMemberGroupMapper.insertSelective(bmg);
+                }
+            }
+            if (!branchMemberService.hasAdminAuth(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
+            }
+
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(9));
+            if (StringUtils.isBlank(_politicalStatus)) {
+                throw new OpException("第{0}行党籍状态为空", row);
+            }
+            Byte politicalStatus = politicalStatusMap.get(_politicalStatus);
+            if (politicalStatus == null) {
+                throw new OpException("第{0}行党籍状态[{1}]有误", row, _politicalStatus);
+            }
+            record.setPoliticalStatus(politicalStatus);
+
+            int col = 10;
+            record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setSponsor(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setGrowTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setGrowBranch(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPositiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
+            record.setPositiveBranch(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
+            record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
+
+            record.setCreateTime(now);
+
+            //record.setType();
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
+            // 默认为原有党员导入
+            record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());
+            record.setSource(MemberConstants.MEMBER_SOURCE_IMPORT);
+
+            records.add(record);
+        }
+
+        int successCount = batchImportUpdate(records);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", true);
+        resultMap.put("msg", StringUtils.defaultIfBlank("success", "success"));
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+        resultMap.put("partyAdd", partyAdd);
+        resultMap.put("branchAdd", branchAdd);
+
+        return resultMap;
+    }
+
+    private int batchImportUpdate(List<Member> records) {
+        int addCount = 0;
+        for (Member record : records) {
+            if (adjust(record)) {
+                addCount++;
+            }
+        }
+
+        return addCount;
+    }
+
+    private Boolean adjust(Member record) {
+        Integer userId = record.getUserId();
+        Integer partyId = record.getPartyId();
+        Integer branchId = record.getBranchId();
+        boolean isAdd = false;
+        Member _member = get(userId);
+        if (_member != null) {
+            Member _record = new Member();
+            _record.setUserId(userId);
+            _record.setPartyId(partyId);
+            _record.setBranchId(branchId);
+            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
+        } else if (_member == null) {
+            Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
+            isAdd = true;
+        }
+
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        Date now = new Date();
+        if (memberApply == null) {
+            memberApply = new MemberApply();
+            memberApply.setUserId(userId);
+            memberApply.setType((record.getType() == MemberConstants.MEMBER_TYPE_TEACHER ?
+                    OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
+            memberApply.setPartyId(record.getPartyId());
+            memberApply.setBranchId(record.getBranchId());
+            memberApply.setApplyTime(record.getApplyTime() == null ? now : record.getApplyTime());
+            memberApply.setActiveTime(record.getActiveTime());
+            memberApply.setCandidateTime(record.getCandidateTime());
+            memberApply.setGrowTime(record.getGrowTime());
+            memberApply.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+            memberApply.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+
+            memberApply.setRemark("预备党员信息添加后同步");
+            memberApply.setFillTime(now);
+            memberApply.setCreateTime(now);
+            memberApply.setIsRemove(false);
+            memberApply.setPartyId(partyId);
+            memberApply.setBranchId(branchId);
+
+            memberApplyMapper.insertSelective(memberApply);
+        }else {
+            memberApply.setPartyId(partyId);
+            memberApply.setBranchId(branchId);
+            memberApplyMapper.updateByPrimaryKeySelective(memberApply);
+        }
+
+        // 更新系统角色  访客->党员
+        sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
+
+        return isAdd;
 
     }
 }

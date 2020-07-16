@@ -1,4 +1,10 @@
 
+-- 2020.7.13 ly
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `phone` `phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '联系电话' AFTER `is_separate`;
+-- 更新`ow_party_view`
+
+
 -- 2020.7.3 ly
 ALTER TABLE `ow_member_certify`
 	ADD COLUMN `party_id` INT(10) UNSIGNED NOT NULL AFTER `certify_date`,

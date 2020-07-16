@@ -334,9 +334,11 @@ public class CadreTrainController extends BaseController {
     public void cadreTrain_export(Integer[] ids, Byte status, int exportType, Integer reserveType, HttpServletResponse response) {
 
         List<CadreTrain> cadreTrains = new ArrayList<>();
+        String preStr = "";
         if (exportType == 0){
             cadreTrains = iCadreMapper.getCadreTrains(ids,status);
         }else {
+            preStr = metaTypeService.getName(reserveType);
             cadreTrains = iCadreMapper.getCadreReserveTrains(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
         int rownum = cadreTrains.size();
@@ -364,7 +366,7 @@ public class CadreTrainController extends BaseController {
             valuesList.add(values);
         }
 
-        String fileName = "干部培训情况";
+        String fileName = preStr + "干部培训情况";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

@@ -8,9 +8,20 @@
   <div class="modal-body">
     <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm"
           enctype="multipart/form-data" action="${ctx}/member_import" method="post">
-        <input type="hidden" value="${inSchool?1:0}" name="inSchool">
+        <c:if test="${not empty inSchool}">
+            <input type="hidden" value="${inSchool?1:0}" name="inSchool">
+        </c:if>
+        <c:if test="${not empty update}">
+            <input type="hidden" value="${update?1:0}" name="update"/>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">分党委起始编码</label>
+                <div class="col-xs-6">
+                    <input class="form-control" style="width: 150px" type="text" name="startCode"/>
+                </div>
+            </div>
+        </c:if>
 		<div class="form-group">
-			<label class="col-xs-3 control-label"><span class="star">*</span>Excel文件</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span>Excel文件</label>
 			<div class="col-xs-6">
 				<input class="form-control" type="file" name="xlsx" required extension="xlsx"/>
 			</div>
@@ -18,8 +29,14 @@
         </form>
         <div class="well">
         <span class="help-inline">导入的文件请严格按照
-            <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}">
-                党员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
+            <c:if test="${not empty update && update}">
+                <a href="${ctx}/attach?code=sample_member_all_update">
+                    党员信息一键导入样表.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
+            <c:if test="${empty update}">
+                <a href="${ctx}/attach?code=sample_member_${inSchool?"inSchool":"outSchool"}">
+                    党员录入样表（${inSchool?"校园门户账号":"系统注册账号"}）.xlsx</a>（点击下载）的数据格式</span>
+            </c:if>
         </div>
   </div>
   <div class="modal-footer">
@@ -45,12 +62,25 @@
 					$(form).ajaxSubmit({
 						dataType:"json",
 						success:function(ret){
-							if(ret && ret.successCount>=0){
-								var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条覆盖</font>';
-								SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
-									page_reload();
-								});
-							}
+                            <c:if test="${isSchool}">
+                                if(ret && ret.successCount>=0){
+                                    var result = '操作成功，总共{0}条记录，其中成功导入{1}条记录，<font color="red">{2}条覆盖</font>';
+                                    SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount), '成功',function(){
+                                        page_reload();
+                                    });
+                                }
+                            </c:if>
+                            <c:if test="${update}">
+                                if(ret && ret.successCount>=0){
+                                    var result = '操作成功，导入{3}条分党委记录，导入{4}条党支部记录，总共{0}条党员记录，其中成功导入{1}条党员记录，<font color="red">{2}条党员记录覆盖</font>';
+                                    SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount, ret.partyAdd, ret.branchAdd), '成功',function(){
+                                        page_reload();
+                                    });
+                                }
+                                $.reloadMetaData(function(){
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            </c:if>
 							$btn.button('reset');
 						}
 					});
