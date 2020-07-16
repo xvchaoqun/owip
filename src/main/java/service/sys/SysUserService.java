@@ -462,7 +462,7 @@ public class SysUserService extends BaseMapper {
         String[] usersAdd = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_ADD); // 账号加权限Set
         String[] usersMinus = findUserResId(username, isMobile,SystemConstants.SYS_ROLE_TYPE_MINUS);// 账号减权限Set
 
-        List<Integer> resourceIds = new ArrayList<Integer>();
+        Set<Integer> resourceIds = new LinkedHashSet<>();
 
         for (SysRole roleAdd : rolesAdd) {
 
