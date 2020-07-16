@@ -1,8 +1,11 @@
-2020.7.15
+
+2020.7.16
+
 ALTER TABLE `pm_meeting`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '会议类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5 主题党日活动  6 组织生活会  7民主生活会' AFTER `branch_id`,
 	ADD COLUMN `month` INT UNSIGNED NULL DEFAULT NULL COMMENT '月份' AFTER `quarter`;
 
+-- INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2772, 0, '三会一课管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm:menu', NULL, NULL, NULL, 1, 4500);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2788, 0, '组织生活会', '', 'url', '', '/pmMeeting?type=6', 2772, '0/1/2772/', 1, 'pmMeeting:list:6', NULL, NULL, NULL, 1, 60);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2789, 0, '民主生活会', '', 'url', '', '/pmMeeting?type=7', 2772, '0/1/2772/', 1, 'pmMeeting:list:7', NULL, NULL, NULL, 1, 50);
 
@@ -10,6 +13,13 @@ UPDATE `db_owip`.`sys_resource` SET `url`='/pmMeeting2Stat', `permission`='pmMee
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2790, 0, '数据统计', '', 'url', '', '/pmMeetingStat', 2772, '0/1/2772/', 1, 'pmMeetingStat:list', NULL, NULL, NULL, 1, 40);
 
 update pm_meeting set month=month(date);
+
+-- 三会一课 更新 录入样表
+
+-- 修改web.xml（casConfig.xml）
+-- 修改tomcat 下配置 conf/context.xml： <Context> -> <Context xmlBlockExternal="false">
+
+-- 移动 /WEB-INF/jsp/ext 至根目录
 
 2020.7.15
 南航，北航

@@ -197,7 +197,7 @@
 
       </div>
     </div>
-    <jsp:include page="/WEB-INF/jsp/ext/mobile_cadre_info.jsp"/>
+    <jsp:include page="/ext/mobile_cadre_info.jsp"/>
     <div id="post" class="tab-pane">
       <div class="profile-user-info profile-user-info-striped">
 

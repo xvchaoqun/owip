@@ -16,7 +16,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <jsp:include page="/WEB-INF/jsp/ext/teacher_info_table.jsp"/>
+            <jsp:include page="/ext/teacher_info_table.jsp"/>
         </div>
     </div>
 </div>

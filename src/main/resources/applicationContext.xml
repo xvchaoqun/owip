@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-autowire="byName" default-lazy-init="true">
 
-    <context:property-placeholder location="classpath:spring.properties,classpath:spring-m.properties"
+    <context:property-placeholder location="classpath:spring.properties"
                                   ignore-unresolvable="true" order="-2"/>
 
      <bean id="sysDS" class="com.zaxxer.hikari.HikariDataSource"
