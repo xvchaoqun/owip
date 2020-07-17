@@ -102,6 +102,7 @@
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-callback="updateCache"
                            data-url="${ctx}/branch_batchDel" data-title="撤销党支部"
                            data-msg="确定撤销这{0}个党支部吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
@@ -110,6 +111,7 @@
                 <c:if test="${cls==2}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-callback="updateCache"
                            data-url="${ctx}/branch_batchDel"
                            data-querystr="isDeleted=0"
                            data-title="恢复已删除党支部"
@@ -346,4 +348,10 @@
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.del_select($('#searchForm select[name=partyId]'));
+
+    function updateCache(){
+        $.reloadMetaData(function(){
+            $("#jqGrid").trigger("reloadGrid");
+        });
+    }
 </script>

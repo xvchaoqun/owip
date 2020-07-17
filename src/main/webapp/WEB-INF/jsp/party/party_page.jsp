@@ -58,6 +58,7 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls==1}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-callback="updateCache"
                            data-url="${ctx}/party_batchDel" data-title="撤销${_p_partyName}"
                            data-msg="确定撤销这{0}个${_p_partyName}吗？"><i class="fa fa-history"></i> 撤销</a>
                         【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
@@ -66,6 +67,7 @@ pageEncoding="UTF-8" %>
                 <c:if test="${cls==2}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-success btn-sm"
+                           data-callback="updateCache"
                            data-url="${ctx}/party_batchDel"
                            data-querystr="isDeleted=0"
                            data-title="恢复已撤销${_p_partyName}"
@@ -344,4 +346,9 @@ pageEncoding="UTF-8" %>
 
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    function updateCache(){
+        $.reloadMetaData(function(){
+            $("#jqGrid").trigger("reloadGrid");
+        });
+    }
 </script>
