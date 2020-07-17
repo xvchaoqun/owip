@@ -12,7 +12,7 @@
         <div class="col-xs-6">
             <div class="profile-user-info profile-user-info-striped">
                 <div class="profile-info-row">
-                    <div class="profile-info-name"> 所在单位</div>
+                    <div class="profile-info-name"> 所在院系/专业</div>
 
                     <div class="profile-info-value">
                         <span class="editable">${unit}</span>

@@ -1,5 +1,6 @@
 
-
+2020.7.17
+西工大
 
 ALTER TABLE `pm_meeting`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '会议类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5 主题党日活动  6 组织生活会  7民主生活会' AFTER `branch_id`,
@@ -9,7 +10,7 @@ ALTER TABLE `pm_meeting`
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2788, 0, '组织生活会', '', 'url', '', '/pmMeeting?type=6', 2772, '0/1/2772/', 1, 'pmMeeting:list:6', NULL, NULL, NULL, 1, 60);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2789, 0, '民主生活会', '', 'url', '', '/pmMeeting?type=7', 2772, '0/1/2772/', 1, 'pmMeeting:list:7', NULL, NULL, NULL, 1, 50);
 
-UPDATE `db_owip`.`sys_resource` SET `url`='/pmMeeting2Stat', `permission`='pmMeeting2Stat:list' WHERE  `url`='/pmMeetingStat';
+UPDATE `sys_resource` SET `url`='/pmMeeting2Stat', `permission`='pmMeeting2Stat:list' WHERE  `url`='/pmMeetingStat';
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2790, 0, '数据统计', '', 'url', '', '/pmMeetingStat', 2772, '0/1/2772/', 1, 'pmMeetingStat:list', NULL, NULL, NULL, 1, 40);
 
 update pm_meeting set month=month(date);
@@ -21,10 +22,21 @@ update pm_meeting set month=month(date);
 
 -- 移动 /WEB-INF/jsp/ext 至根目录
 
+-- 删除spring-m.properties 在 spring.properties增加： m.page.pageSize=5
+
 --
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
                             `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
                             `available`, `sort_order`) VALUES (966, 0, '签到人员管理', '', 'function', '', NULL, 652, '0/1/384/652/', 1, 'cetTrainObj:*', 1, NULL, NULL, 1, NULL);
+
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '关联单位' AFTER `url`,
+	CHANGE COLUMN `unit_type_id` `unit_type_id` INT(10) UNSIGNED NOT NULL COMMENT '关联单位属性，关联元数据，企业，事业单位' AFTER `type_id`,
+	CHANGE COLUMN `is_separate` `is_separate` TINYINT(1) UNSIGNED NOT NULL COMMENT '所在单位是否独立法人' AFTER `is_enterprise_nationalized`;
+
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `phone` `phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '联系电话' AFTER `is_separate`;
+-- 更新`ow_party_view`
 
 
 2020.7.15
