@@ -86,7 +86,7 @@
                            value="${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy-MM-dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
-                <span class="help-block">注：实际换届时填写，即将现任班子改为历任班子时</span>
+                <span class="help-block">注：实际换届时填写，完成修改后请撤销该班子</span>
             </div>
         </div>
         <%--<div class="form-group">

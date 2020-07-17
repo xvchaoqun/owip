@@ -99,7 +99,7 @@
                            value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy-MM-dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
-                <span class="help-block">注：实际换届时填写，即将现任委员会改为历任委员会时</span>
+                <span class="help-block">注：实际换届时填写，完成修改后请撤销该支部委员会</span>
             </div>
         </div>
 
