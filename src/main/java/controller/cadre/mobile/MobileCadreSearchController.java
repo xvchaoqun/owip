@@ -140,20 +140,21 @@ public class MobileCadreSearchController extends BaseController {
 		return "cadre/mobile/unit_cadre_info";
 	}
 
-	@RequiresPermissions("m:cadreHistory:view")
-	@RequestMapping("/cadreHistory")
-	public String cadreHistory() {
+	@RequiresPermissions("m:cadreInfo:leader")
+	@RequestMapping("/cadreInfo")
+	public String cadreInfo() {
 
 		return "mobile/index";
 	}
 
-	@RequiresPermissions("m:cadreHistory:view")
-	@RequestMapping("/cadreHistory_page")
-	public String cadreHistory_page(HttpServletResponse response,String realnameOrCode,
-									Integer pageSize, Integer pageNo, ModelMap modelMap) {
+	@RequiresPermissions("m:cadreInfo:leader")
+	@RequestMapping("/cadreInfo_page")
+	public String cadreInfo_page(HttpServletResponse response,String realnameOrCode,
+								 @RequestParam(required = false, defaultValue = "2") Byte type,
+								 Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
 		if (null == pageSize) {
-			pageSize = 10;
+			pageSize = 11;
 		}
 		if (null == pageNo) {
 			pageNo = 1;
@@ -163,7 +164,12 @@ public class MobileCadreSearchController extends BaseController {
 		CadreViewExample example = new CadreViewExample();
 		example.setOrderByClause("sort_order desc");
 		CadreViewExample.Criteria criteria = example.createCriteria();
-		criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ_LEAVE);
+
+		if (type == 1){
+			criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_LEADER);
+		}else if (type == 2){
+			criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ_LEAVE);
+		}
 
 		if (StringUtils.isNotBlank(realnameOrCode)){
 			criteria.andRealnameOrCodeLike(realnameOrCode);

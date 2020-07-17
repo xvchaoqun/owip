@@ -2295,7 +2295,7 @@
             <w:tr w:rsidR="00E933BF" w:rsidRPr="00D22114" w14:paraId="2327737E" w14:textId="77777777"
                   w:rsidTr="00BC11D4">
                 <w:trPr>
-                    <w:trHeight w:hRule="exact" w:val="4888"/>
+                    <w:trHeight w:hRule="exact" w:val="4126"/>
                     <w:jc w:val="center"/>
                 </w:trPr>
                 <w:tc>

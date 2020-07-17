@@ -44,7 +44,7 @@
         </table>
       </div>
       <div class="message-footer clearfix">
-        <wo:page commonList="${commonList}" uri="${ctx}/m/cadreHistory_page?realnameOrCode=${param.realnameOrCode}"
+        <wo:page commonList="${commonList}" uri="${ctx}/m/cadreInfo_page?realnameOrCode=${param.realnameOrCode}"
                  target="#page-content" model="4"/>
       </div>
     </div>
@@ -84,6 +84,6 @@
     });
 
   function search(realnameOrCode) {
-    $("#page-content").load("${ctx}/m/cadreHistory_page?realnameOrCode="+realnameOrCode);
+    $("#page-content").load("${ctx}/m/cadreInfo_page?realnameOrCode="+realnameOrCode);
   }
 </script>
