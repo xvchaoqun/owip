@@ -1,5 +1,16 @@
 
 -- 2020.07.17 ly
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `appoint_time` `appoint_time` DATE NULL COMMENT '任命时间，本届班子任命时间' AFTER `actual_tran_time`;
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `appoint_time` `appoint_time` DATE NULL COMMENT '任命时间，本届班子任命时间' AFTER `actual_tran_time`;
+UPDATE ow_party SET found_time=NULL WHERE id IN (120,121,122);
+UPDATE ow_branch SET found_time=NULL WHERE party_id IN (120,121,122);
+UPDATE ow_party_member_group SET appoint_time=NULL WHERE party_id IN (120,121,122);
+UPDATE ow_branch_member_group obmg,ow_branch ob SET obmg.appoint_time=NULL WHERE ob.party_id IN (120,121,122) AND ob.id=obmg.branch_id;
+
+
+-- 2020.07.17 ly
 ALTER TABLE `ow_party`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '关联单位' AFTER `url`,
 	CHANGE COLUMN `unit_type_id` `unit_type_id` INT(10) UNSIGNED NOT NULL COMMENT '关联单位属性，关联元数据，企业，事业单位' AFTER `type_id`,

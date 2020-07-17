@@ -656,7 +656,6 @@ public class MemberService extends MemberBaseMapper {
                 party.setName(partyName);
                 party.setShortName("");
                 party.setCode(partyService.genCode(StringUtil.trimAll(startCode)));
-                party.setFoundTime(now);
                 MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
                 party.setUnitTypeId(partyUnitType.getId());
                 MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
@@ -684,7 +683,6 @@ public class MemberService extends MemberBaseMapper {
                 pmg.setName(partyName);
                 pmg.setIsPresent(true);
                 pmg.setIsDeleted(false);
-                pmg.setAppointTime(now);
                 partyMemberGroupMapper.insertSelective(pmg);
             }
 
@@ -709,7 +707,6 @@ public class MemberService extends MemberBaseMapper {
                     branch.setIsStaff(!StringUtils.containsAny(branchName, "博士", "硕士", "本科"));
                     MetaType branchUnitType = CmTag.getMetaTypeByName("mc_branch_unit_type", "事业单位");
                     branch.setUnitTypeId(branchUnitType.getId());
-
                     branch.setIsPrefessional(false);
                     branch.setIsBaseTeam(false);
                     branch.setIsEnterpriseBig(false);
@@ -718,7 +715,6 @@ public class MemberService extends MemberBaseMapper {
                     branch.setIsDeleted(false);
                     branch.setCode(branchService.genCode(partyId));
                     branch.setCreateTime(now);
-                    branch.setFoundTime(now);
                     branch.setSortOrder(getNextSortOrder("ow_branch",
                             "is_deleted=0 and party_id=" + partyId));
                     branchMapper.insert(branch);
@@ -736,7 +732,6 @@ public class MemberService extends MemberBaseMapper {
                     bmg.setName(branchName);
                     bmg.setIsPresent(true);
                     bmg.setIsDeleted(false);
-                    bmg.setAppointTime(now);
                     branchMemberGroupMapper.insertSelective(bmg);
                 }
             }
