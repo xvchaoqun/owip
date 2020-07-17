@@ -34,14 +34,16 @@
         <div class="widget-main">
             <table class="table table-bordered table-striped">
                 <tbody>
-                <tr>
-                    <td class="bg-right">
-                        所在党组织
-                    </td>
-                    <td class="bg-left" colspan="5">
-                        ${cm:displayParty(member.partyId, member.branchId)}
-                    </td>
-                </tr>
+                <c:if test="${member.status!=MEMBER_STATUS_TRANSFER}">
+                    <tr>
+                        <td class="bg-right">
+                            所在党组织
+                        </td>
+                        <td class="bg-left" colspan="5">
+                            ${cm:displayParty(member.partyId, member.branchId)}
+                        </td>
+                    </tr>
+                </c:if>
                 <tr>
                     <td class="bg-right">党籍状态</td>
                     <td class="bg-left" width="300">
