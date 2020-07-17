@@ -7,7 +7,6 @@ import domain.party.*;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
-import domain.unit.Unit;
 import ext.service.SyncService;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -637,23 +636,13 @@ public class MemberService extends MemberBaseMapper {
             }
 
             //分党委
-            String partyCode = StringUtils.trim(xlsRow.get(3));
-            String partyName = StringUtil.trimAll(xlsRow.get(4));
+            String partyName = StringUtil.trimAll(xlsRow.get(3));
             Party party = new Party();
-            if (StringUtils.isBlank(partyCode)) {
-                if (StringUtils.isBlank(partyName)){
-                    throw new OpException("第{0}行分党委编码和名称同时为空", row);
-                }else {
-                    PartyExample example = new PartyExample();
-                    example.createCriteria().andNameLike(partyName).andIsDeletedEqualTo(false);
-                    List<Party> parties = partyMapper.selectByExample(example);
-                    if (parties.size() >= 1){
-                        party = parties.get(0);
-                    }
-                }
+            if (StringUtils.isBlank(partyName)){
+                throw new OpException("第{0}行分党委名称为空", row);
             }else {
                 PartyExample example = new PartyExample();
-                example.createCriteria().andCodeEqualTo(partyCode).andIsDeletedEqualTo(false);
+                example.createCriteria().andNameLike(partyName).andIsDeletedEqualTo(false);
                 List<Party> parties = partyMapper.selectByExample(example);
                 if (parties.size() >= 1){
                     party = parties.get(0);
@@ -662,22 +651,12 @@ public class MemberService extends MemberBaseMapper {
 
             if (party.getId() == null) {
                 if (StringUtils.isBlank(startCode)){
-                    throw new OpException("第{0}行分党委起始编码为空", row);
-                }
-                String unitCode = StringUtil.trimAll(xlsRow.get(5));
-                if (StringUtils.isBlank(unitCode)){
-                    throw new OpException("第{0}行单位编码为空", row);
-                }
-                Unit unit = unitService.findRunUnitByCode(unitCode);
-                if (unit == null){
-                    throw new OpException("第{0}行单位不存在", row);
+                    throw new OpException("分党委起始编码为空", row);
                 }
                 party.setName(partyName);
                 party.setShortName("");
                 party.setCode(partyService.genCode(StringUtil.trimAll(startCode)));
                 party.setFoundTime(now);
-                party.setUnitId(unit.getId());
-
                 MetaType partyUnitType = CmTag.getMetaTypeByName("mc_party_unit_type", "事业单位");
                 party.setUnitTypeId(partyUnitType.getId());
                 MetaType partyClass = CmTag.getMetaTypeByName("mc_party_class", "分党委");
@@ -692,7 +671,6 @@ public class MemberService extends MemberBaseMapper {
                 party.setIsBg(false);
                 partyService.insertSelective(party);
                 partyAdd++;
-
             }
             partyId = party.getId();
             partyName = party.getName();
@@ -712,27 +690,16 @@ public class MemberService extends MemberBaseMapper {
 
             //党支部
             if (!partyService.isDirectBranch(partyId)) {
-
-                String branchCode = StringUtils.trim(xlsRow.get(7));
-                String branchName = StringUtil.trimAll(xlsRow.get(8));
+                String branchName = StringUtil.trimAll(xlsRow.get(4));
                 Branch branch = new Branch();
-                if (StringUtils.isBlank(branchCode)) {
-                    if (StringUtils.isBlank(branchName)){
-                        throw new OpException("第{0}行党支部编码和名称都为空", row);
-                    }
-                    BranchExample example = new BranchExample();
-                    example.createCriteria().andNameEqualTo(branchName).andIsDeletedEqualTo(false);
-                    List<Branch> branches = branchMapper.selectByExample(example);
-                    if (branches.size() >= 1){
-                        branch = branches.get(0);
-                    }
-                }else {
-                    BranchExample example = new BranchExample();
-                    example.createCriteria().andCodeEqualTo(branchCode).andIsDeletedEqualTo(false);
-                    List<Branch> branches = branchMapper.selectByExample(example);
-                    if (branches.size() >= 1){
-                        branch = branches.get(0);
-                    }
+                if (StringUtils.isBlank(branchName)){
+                    throw new OpException("第{0}行党支部名称为空", row);
+                }
+                BranchExample example = new BranchExample();
+                example.createCriteria().andPartyIdEqualTo(partyId).andNameEqualTo(branchName).andIsDeletedEqualTo(false);
+                List<Branch> branches = branchMapper.selectByExample(example);
+                if (branches.size() >= 1){
+                    branch = branches.get(0);
                 }
 
                 if (branch.getId() == null) {//添加没有的党支部
@@ -777,7 +744,7 @@ public class MemberService extends MemberBaseMapper {
                 throw new OpException("第{0}行没有权限导入（您不是该支部的管理员）", row);
             }
 
-            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(9));
+            String _politicalStatus = StringUtils.trimToNull(xlsRow.get(5));
             if (StringUtils.isBlank(_politicalStatus)) {
                 throw new OpException("第{0}行党籍状态为空", row);
             }
@@ -787,7 +754,7 @@ public class MemberService extends MemberBaseMapper {
             }
             record.setPoliticalStatus(politicalStatus);
 
-            int col = 10;
+            int col = 6;
             record.setTransferTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setApplyTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(col++))));
@@ -801,10 +768,7 @@ public class MemberService extends MemberBaseMapper {
             record.setPartyPost(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setPartyReward(StringUtils.trimToNull(xlsRow.get(col++)));
             record.setOtherReward(StringUtils.trimToNull(xlsRow.get(col++)));
-
             record.setCreateTime(now);
-
-            //record.setType();
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
             // 默认为原有党员导入
             record.setAddType(CmTag.getMetaTypeByCode("mt_member_add_type_old").getId());

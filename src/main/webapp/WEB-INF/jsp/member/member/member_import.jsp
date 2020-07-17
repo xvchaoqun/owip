@@ -14,14 +14,14 @@
         <c:if test="${param.all==1}">
             <input type="hidden" value="${param.all}" name="all"/>
             <div class="form-group">
-                <label class="col-xs-4 control-label">分党委起始编码</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span> 分党委起始编码</label>
                 <div class="col-xs-6">
-                    <input class="form-control" style="width: 150px" type="text" name="startCode"/>
+                    <input required class="form-control" style="width: 150px" type="text" name="startCode"/>
                 </div>
             </div>
         </c:if>
 		<div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span>Excel文件</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span> Excel文件</label>
 			<div class="col-xs-6">
 				<input class="form-control" type="file" name="xlsx" required extension="xlsx"/>
 			</div>
