@@ -108,10 +108,12 @@
                     </li>
                 </c:forEach>
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
+                    <shiro:hasPermission name="cadre:export">
                     <button class="downloadBtn pull-left btn btn-success btn-sm"
                             data-url="${ctx}/stat_cadre?export=1&${cm:encodeQueryString(pageContext.request.queryString)}"><i class="fa fa-download"></i>
                         导出
                     </button>
+                    </shiro:hasPermission>
                 </div>
                 <c:if test="${_p_hasKjCadre}">
                     <div class="input-group pull-left" style="left: 60px;padding-top: 6px">

@@ -372,7 +372,7 @@
 
                                 </shiro:hasPermission>
 
-                                <shiro:hasPermission name="cadre:archive">
+                                <shiro:hasPermission name="cadre:brief">
                                     <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                             data-need-id="false"
                                             data-ids-name="cadreIds"

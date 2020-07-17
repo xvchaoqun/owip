@@ -54,11 +54,13 @@
                  data-url="${ctx}/member_import?inSchool=0"><i class="fa fa-arrow-right"></i>
                   系统注册账号导入</a>
             </li>
+            <shiro:hasRole name="${ROLE_SUPER}">
             <li>
               <a href="javascript:;" class="popupBtn"
-                 data-url="${ctx}/member_import?update=1"><i class="fa fa-arrow-right"></i>
-                党员信息一键导入</a>
+                 data-url="${ctx}/member_import?all=1"><i class="fa fa-arrow-right"></i>
+                党员信息一张表导入</a>
             </li>
+            </shiro:hasRole>
         </ul>
     </div>
     </shiro:hasPermission>

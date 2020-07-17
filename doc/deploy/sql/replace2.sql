@@ -3,6 +3,11 @@
 
 set @keyowrd='师范';
 
+update sys_config set school_name = replace(school_name, @keyowrd, repeat('*', char_length(@keyowrd))) where school_name like concat('%',@keyowrd,'%');
+update sys_config set school_short_name = replace(school_short_name, @keyowrd, repeat('*', char_length(@keyowrd))) where school_short_name like concat('%',@keyowrd,'%');
+update sys_config set site_copyright = replace(site_copyright, @keyowrd, repeat('*', char_length(@keyowrd))) where site_copyright like concat('%',@keyowrd,'%');
+update sys_config set mobile_title = '组工系统';
+
 update cet_record set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
 
 update cet_record set organizer = replace(organizer, @keyowrd, repeat('*', char_length(@keyowrd))) where organizer like concat('%',@keyowrd,'%');

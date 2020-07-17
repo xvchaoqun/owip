@@ -46,11 +46,13 @@
                     </button>
                 </shiro:hasPermission>
                 </c:if>
+                <shiro:hasPermission name="unitPost:export">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/unitPost_data"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                    </shiro:hasPermission>
                 <shiro:hasPermission name="unitPost:edit">
                 <div class="btn-group">
                     <button data-toggle="dropdown"

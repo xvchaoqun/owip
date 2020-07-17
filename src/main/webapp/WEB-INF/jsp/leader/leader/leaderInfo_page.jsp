@@ -64,9 +64,11 @@
                                    data-url="${ctx}/cadre_import?status=${status}"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>--%>
                                 </shiro:hasPermission>
+                                <shiro:hasPermission name="cadre:export">
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"

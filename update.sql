@@ -1,5 +1,5 @@
 
-2020.7.16
+
 
 ALTER TABLE `pm_meeting`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '会议类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5 主题党日活动  6 组织生活会  7民主生活会' AFTER `branch_id`,
@@ -20,6 +20,12 @@ update pm_meeting set month=month(date);
 -- 修改tomcat 下配置 conf/context.xml： <Context> -> <Context xmlBlockExternal="false">
 
 -- 移动 /WEB-INF/jsp/ext 至根目录
+
+--
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`) VALUES (966, 0, '签到人员管理', '', 'function', '', NULL, 652, '0/1/384/652/', 1, 'cetTrainObj:*', 1, NULL, NULL, 1, NULL);
+
 
 2020.7.15
 南航，北航
@@ -806,7 +812,7 @@ ALTER TABLE `oa_task`
 	ADD COLUMN `user_file_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '须任务对象上传文件数量' AFTER `deadline`;
 -- 更新 oa_task_view  oa_task_user_view
 
-REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1003, 0, '查看单位档案页', '', 'function', '', NULL, 87, '0/1/85/87/', 1, 'unit:view', 3, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1003, 0, '查看单位档案页', '', 'function', '', NULL, 87, '0/1/85/87/', 0, 'unit:view', 3, NULL, NULL, 1, NULL);
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (53, 0, '基本信息', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:base', NULL, NULL, NULL, 1, NULL);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (54, 0, '行政班子', '', 'function', '', NULL, 1003, '0/1/85/87/1003/', 1, 'unit:unitTeam', NULL, NULL, NULL, 1, NULL);

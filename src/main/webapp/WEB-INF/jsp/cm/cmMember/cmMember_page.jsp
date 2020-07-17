@@ -57,11 +57,13 @@
                     </c:if>
                 </shiro:hasPermission>
                 <c:if test="${!isQuit}">
+                    <shiro:hasPermission name="cmMember:export">
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cmMember_data?type=${type}&isQuit=0"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出
                 </button>
+                    </shiro:hasPermission>
                     </c:if>
                 <shiro:hasPermission name="cmMember:del">
                     <button data-url="${ctx}/cmMember_batchDel"

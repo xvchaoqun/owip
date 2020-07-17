@@ -165,12 +165,8 @@ public class MemberController extends MemberBaseController {
 
     @RequiresPermissions("member:import")
     @RequestMapping("/member_import")
-    public String member_import(boolean update,//党建信息一键导入
-                                boolean inSchool,
-                                ModelMap modelMap) {
+    public String member_import(ModelMap modelMap) {
 
-        modelMap.put("update", update);
-        modelMap.put("inSchool", inSchool);
         return "member/member/member_import";
     }
 
@@ -179,7 +175,7 @@ public class MemberController extends MemberBaseController {
     @RequestMapping(value = "/member_import", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_import(String startCode,//分党委起始编号
-                                boolean update,
+                                boolean all, // 一张表导入
                                 boolean inSchool,
                                 HttpServletRequest request) throws InvalidFormatException, IOException {
 
@@ -217,14 +213,14 @@ public class MemberController extends MemberBaseController {
 
         if (inSchool) {
             resultMap = importInSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
-        } else if (update) {
+        } else if (all) {
             resultMap = memberService.importMemberUpdate(sheet, xlsRows, politicalStatusMap, startCode);
         }else {
             resultMap = importOutSchoolMember(xlsRows, runPartyMap, runBranchMap, politicalStatusMap);
         }
 
         //用于查看不确定学工号党员信息
-        if (update) {
+        if (all) {
 
             String savePath = FILE_SEPARATOR + "_filterExport"
                     + FILE_SEPARATOR + xlsx.getOriginalFilename() + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss") + ".xlsx";

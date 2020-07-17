@@ -36,12 +36,12 @@
                             <i class="fa fa-sitemap"></i> 编辑联系单位
                         </button>
                     </shiro:hasPermission>
-
+                    <shiro:hasPermission name="leader:export">
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-url="${ctx}/leader_data?export=1"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
-
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="leader:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/leader_batchDel" data-title="删除"
