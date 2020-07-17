@@ -695,6 +695,7 @@ public class MemberService extends MemberBaseMapper {
 
             }
             partyId = party.getId();
+            partyName = party.getName();
             record.setPartyId(partyId);
 
             //领导班子
@@ -750,12 +751,14 @@ public class MemberService extends MemberBaseMapper {
                     branch.setIsDeleted(false);
                     branch.setCode(branchService.genCode(partyId));
                     branch.setCreateTime(now);
+                    branch.setFoundTime(now);
                     branch.setSortOrder(getNextSortOrder("ow_branch",
                             "is_deleted=0 and party_id=" + partyId));
                     branchMapper.insert(branch);
                     branchAdd++;
                 }
                 branchId = branch.getId();
+                branchName = branch.getName();
                 record.setBranchId(branchId);
 
                 //支部委员会
