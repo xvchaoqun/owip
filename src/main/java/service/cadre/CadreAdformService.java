@@ -113,6 +113,23 @@ public class CadreAdformService extends BaseMapper {
             preStr = metaTypeService.getName(reserveType);
         }
 
+        String fileClasspath = null;
+
+        if (adFormType == null) {
+            adFormType = CmTag.getByteProperty("adFormType",
+                    CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
+        }
+        if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
+            fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
+        } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
+            fileClasspath = "classpath:ftl/adform_docx/adform_zzb(gb_2312).docx";
+        } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
+            fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
+        }
+        //模板文件
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+
         if (cadreIds.length == 1) {
 
             int cadreId = cadreIds[0];
@@ -132,21 +149,13 @@ public class CadreAdformService extends BaseMapper {
                 CadreInfoForm adform = getCadreAdform(cadreId);
                 /*process(adform, adFormType,response.getWriter());*/
 
-                String fileClasspath = null;
                 if (adFormType == null) {
                     adFormType = CmTag.getByteProperty("adFormType",
                             CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
                 }
-                if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
-                    fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
-                } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
-                    fileClasspath = "classpath:ftl/adform_docx/adform_zzb(gb_2312).docx";
-                } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
-                    fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
-                }
 
                 String document = process(adform,adFormType);
-                exportDocxUtils(fileClasspath,document,adform.getAvatar(),response.getOutputStream());
+                exportDocxUtils(zipFile,document,adform.getAvatar(),response.getOutputStream());
 
             } else {
                 // 输出中组部任免审批表
@@ -187,20 +196,8 @@ public class CadreAdformService extends BaseMapper {
                     /*OutputStreamWriter osw = new OutputStreamWriter(output, "utf-8");
                     process(adform, adFormType,osw);*/
 
-                    String fileClasspath = null;
-                    if (adFormType == null) {
-                        adFormType = CmTag.getByteProperty("adFormType",
-                                CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG);
-                    }
-                    if (adFormType == CadreConstants.CADRE_ADFORMTYPE_BJ) {
-                        fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
-                    } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_GB2312) {
-                        fileClasspath = "classpath:ftl/adform_docx/adform_zzb(gb_2312).docx";
-                    } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
-                        fileClasspath = "classpath:ftl/adform_docx/adform_zzb.docx";
-                    }
                     String document = process(adform, adFormType);
-                    exportDocxUtils(fileClasspath, document, adform.getAvatar(), fop);
+                    exportDocxUtils(zipFile, document, adform.getAvatar(), fop);
                 } else {
                     filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd")
                             + " " + preStr + "干部任免审批表 " + cadre.getRealname() + ".lrmx";
@@ -697,8 +694,11 @@ public class CadreAdformService extends BaseMapper {
 
         Byte adFormType = null;
         String fileClasspath = "classpath:ftl/adform_docx/adform_bj.docx";
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+
         String content = process(bean, adFormType);
-        exportDocxUtils(fileClasspath,content,bean.getAvatar(),out);
+        exportDocxUtils(zipFile,content,bean.getAvatar(),out);
     }
 
     private Document getZZBTemplate() throws FileNotFoundException, DocumentException {
@@ -1384,7 +1384,7 @@ public class CadreAdformService extends BaseMapper {
         return freemarkerService.process(ftlPath, dataMap);
     }
 
-    public void exportDocxUtils(String fileClasspath, String document, String avatar, OutputStream outputStream) throws IOException {
+    public void exportDocxUtils(ZipFile zipFile, String document, String avatar, OutputStream outputStream) throws IOException {
 
         //zip输出流
         ZipOutputStream zipout = new ZipOutputStream(outputStream);
@@ -1392,9 +1392,8 @@ public class CadreAdformService extends BaseMapper {
         ByteArrayInputStream documentInput = new ByteArrayInputStream(document.getBytes("utf-8"));
         //头像内容
         InputStream imageInput = ImageUtils.decodeBase64ToInputStream(avatar);
+
         //获取docx模板文件
-        File docxFile = ResourceUtils.getFile(fileClasspath);
-        ZipFile zipFile = new ZipFile(docxFile);
         Enumeration<? extends ZipEntry> zipEntrys = zipFile.entries();
 
         int len = -1;

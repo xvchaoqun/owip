@@ -2,7 +2,7 @@
       w:rsidTr="00620654">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:val="1020"/>
+        <w:trHeight w:hRule="exact" w:val="1021"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>

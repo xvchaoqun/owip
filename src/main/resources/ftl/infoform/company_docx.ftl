@@ -1,8 +1,8 @@
-<w:tr w:rsidR="000D6C29" w:rsidRPr="00D22114" w14:paraId="7B959E3D" w14:textId="77777777"
-      w:rsidTr="00D27E90">
+<w:tr w:rsidR="00BC11D4" w:rsidRPr="00D22114" w14:paraId="7B959E3D" w14:textId="77777777"
+      w:rsidTr="00BC11D4">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:val="510"/>
+        <w:trHeight w:hRule="exact" w:val="510"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>
@@ -25,8 +25,8 @@
             <w:gridSpan w:val="6"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="05CE0DFB" w14:textId="7B4C4BE5" w:rsidR="000D6C29" w:rsidRPr="00D22114"
-             w:rsidRDefault="006D270A" w:rsidP="006D270A">
+        <w:p w14:paraId="05CE0DFB" w14:textId="322D3A4A" w:rsidR="000D6C29" w:rsidRPr="00D22114"
+             w:rsidRDefault="00F810B0" w:rsidP="006D270A">
             <w:pPr>
                 <w:spacing w:line="12pt" w:lineRule="exact"/>
                 <w:ind w:startChars="10" w:start="1.20pt"/>
@@ -36,10 +36,9 @@
                     <w:bCs/>
                 </w:rPr>
             </w:pPr>
-            <w:r>
+            <w:r w:rsidRPr="00C37FAC">
                 <w:rPr>
                     <w:rFonts w:hint="eastAsia"/>
-                    <w:bCs/>
                 </w:rPr>
                 <w:t>${a1!}</w:t>
             </w:r>

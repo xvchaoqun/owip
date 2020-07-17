@@ -1,16 +1,16 @@
-<w:tr w:rsidR="005E24FD" w14:paraId="45719B6A" w14:textId="77777777">
+<w:tr w:rsidR="005E24FD" w14:paraId="7918720A" w14:textId="77777777" w:rsidTr="00E30025">
     <w:trPr>
         <w:cantSplit/>
-        <w:trHeight w:val="891"/>
+        <w:trHeight w:hRule="exact" w:val="950"/>
         <w:jc w:val="center"/>
     </w:trPr>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="42.30pt" w:type="dxa"/>
+            <w:tcW w:w="41.15pt" w:type="dxa"/>
             <w:vMerge/>
             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
         </w:tcPr>
-        <w:p w14:paraId="556C5F76" w14:textId="77777777" w:rsidR="005E24FD" w:rsidRDefault="005E24FD">
+        <w:p w14:paraId="178BB1FF" w14:textId="77777777" w:rsidR="005E24FD" w:rsidRDefault="005E24FD">
             <w:pPr>
                 <w:rPr>
                     <w:sz w:val="24"/>
@@ -20,11 +20,11 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="52.55pt" w:type="dxa"/>
+            <w:tcW w:w="51.10pt" w:type="dxa"/>
             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
-        <w:p w14:paraId="39971227" w14:textId="77777777" w:rsidR="005E24FD" w:rsidRDefault="00B54DF7">
+        <w:p w14:paraId="653843C6" w14:textId="11EF9A89" w:rsidR="005E24FD" w:rsidRDefault="00D148C9">
             <w:pPr>
                 <w:jc w:val="center"/>
                 <w:rPr>
@@ -34,8 +34,9 @@
             </w:pPr>
             <w:r>
                 <w:rPr>
-                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia"/>
-                    <w:sz w:val="24"/>
+                    <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
+                    <w:sz w:val="22"/>
+                    <w:szCs w:val="22"/>
                 </w:rPr>
                 <w:t>${a2!}</w:t>
             </w:r>

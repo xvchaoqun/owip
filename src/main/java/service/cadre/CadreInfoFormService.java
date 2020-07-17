@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
+import java.util.zip.ZipFile;
 
 @Service
 public class CadreInfoFormService extends BaseMapper {
@@ -967,7 +969,11 @@ public class CadreInfoFormService extends BaseMapper {
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         String content = freemarkerService.process("/infoform/infoform_docx.ftl",dataMap);
-        cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoform.docx",content,adform.getAvatar(),outputStream);
+
+        String fileClasspath = "classpath:ftl/infoform/infoform.docx";
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+        cadreAdformService.exportDocxUtils(zipFile,content,adform.getAvatar(),outputStream);
 
         //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
         //freemarkerService.process("/infoform/infoform.ftl", dataMap,osw);
@@ -980,7 +986,11 @@ public class CadreInfoFormService extends BaseMapper {
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         String content = freemarkerService.process("/infoform/infoform2_docx.ftl",dataMap);
-       cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoform2.docx",content,adform.getAvatar(),outputStream);
+
+        String fileClasspath = "classpath:ftl/infoform/infoform2.docx";
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+       cadreAdformService.exportDocxUtils(zipFile,content,adform.getAvatar(),outputStream);
 
         //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
         //freemarkerService.process("/infoform/infoform2.ftl", dataMap, osw);
@@ -993,7 +1003,11 @@ public class CadreInfoFormService extends BaseMapper {
 
         CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         String content = freemarkerService.process("/infoform/infoformSimple_docx.ftl",dataMap);
-        cadreAdformService.exportDocxUtils("classpath:ftl/infoform/infoformSimple.docx",content,adform.getAvatar(),outputStream);
+
+        String fileClasspath = "classpath:ftl/infoform/infoformSimple.docx";
+        File docxFile = ResourceUtils.getFile(fileClasspath);
+        ZipFile zipFile = new ZipFile(docxFile);
+        cadreAdformService.exportDocxUtils(zipFile,content,adform.getAvatar(),outputStream);
 
         //OutputStreamWriter osw = new OutputStreamWriter(outputStream, "utf-8");
         //freemarkerService.process("/infoform/infoformSimple.ftl",dataMap,osw);
