@@ -109,17 +109,17 @@ public class BranchService extends BaseMapper {
         BranchExample example = new BranchExample();
         example.createCriteria().andPartyIdEqualTo(partyId);
         //example.setOrderByClause("code desc");
-        example.setOrderByClause("right(code,3) desc"); // 支部转移之后，party.code还是原来的
+        example.setOrderByClause("right(code,2) desc"); // 支部转移之后，party.code还是原来的
         List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if (branchs.size() > 0) {
             String code = branchs.get(0).getCode();
-            String _code = code.substring(code.length() - 3);
+            String _code = code.substring(code.length() - 2);
             num = Integer.parseInt(_code) + 1;
         } else {
             num = 1;
         }
         Party party = partyMapper.selectByPrimaryKey(partyId);
-        return party.getCode() + String.format("%03d", num);
+        return party.getCode() + String.format("%02d", num);
     }
 
     @Transactional
