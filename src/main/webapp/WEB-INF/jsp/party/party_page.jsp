@@ -97,7 +97,7 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="name" type="text" value="${param.name}"            placeholder="请输入名称">
                                     </div>
                                     <div class="form-group">
-                                        <label>所在单位</label>
+                                        <label>关联单位</label>
                                             <select name="unitId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
                                                   <c:forEach items="${unitMap}" var="unit"> 
@@ -306,6 +306,7 @@ pageEncoding="UTF-8" %>
             { label:'是否已设立<br/>现任委员会', name: 'presentGroupId', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue>0?"是":"否";
             }},
+            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
@@ -321,10 +322,10 @@ pageEncoding="UTF-8" %>
                 formatoptions: {newformat: 'Y.m.d'}
             },
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label:'所在单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
             { label: '${_p_partyName}类别', name: 'classId', width: 90, align:'left', formatter: $.jgrid.formatter.MetaType},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
-            { label: '所在单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},
+            { label:'关联单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
+            { label: '关联单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},
             { label: '是否<br/>大中型', name: 'isEnterpriseBig', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否<br/>国有独资', name: 'isEnterpriseNationalized', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否<br/>独立法人', name: 'isSeparate', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
@@ -335,8 +336,7 @@ pageEncoding="UTF-8" %>
             { label: '联系电话', name: 'phone' },
             { label: '传真', name: 'fax' },
             { label: '邮箱', name: 'email' },
-            { label: '信箱', name: 'mailbox' },
-            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}}
+            { label: '信箱', name: 'mailbox' }
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid');

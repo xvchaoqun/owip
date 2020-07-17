@@ -14,7 +14,7 @@
         <c:if test="${param.all==1}">
             <input type="hidden" value="${param.all}" name="all"/>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><span class="star">*</span> 分党委起始编码</label>
+                <label class="col-xs-4 control-label"><span class="star">*</span> ${_p_partyName}起始编码</label>
                 <div class="col-xs-6">
                     <input required class="form-control" style="width: 150px" type="text" name="startCode"/>
                 </div>
@@ -72,7 +72,7 @@
                             </c:if>
                             <c:if test="${param.all==1}">
                                 if(ret && ret.successCount>=0){
-                                    var result = '操作成功，导入{3}条分党委记录，导入{4}条党支部记录，总共{0}条党员记录，其中成功导入{1}条党员记录，<font color="red">{2}条党员记录覆盖</font>';
+                                    var result = '操作成功，导入{3}条${_p_partyName}记录，导入{4}条党支部记录，总共{0}条党员记录，其中成功导入{1}条党员记录，<font color="red">{2}条党员记录覆盖</font>';
                                     SysMsg.success(result.format(ret.total, ret.successCount, ret.total-ret.successCount, ret.partyAdd, ret.branchAdd), '成功',function(){
                                         page_reload();
                                     });

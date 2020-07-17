@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>导出带分党委党支部编号的表</h3>
+    <h3>导出带党支部编号的表</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" autocomplete="off"
@@ -36,7 +36,7 @@
     <div class="well" style="margin-bottom: 0">
         <ul>
             <li>仅处理第一个sheet</li>
-            <li>党支部编号默认将插入倒数第二列，对应的分党委的编码插入倒数第一列</li>
+            <li>党支部编号默认将插入倒数第二列，对应的${_p_partyName}的编码插入倒数第一列</li>
             <li>根据以上条件，系统如果仍不能确定，则对应的行的编号留空</li>
         </ul>
     </div>

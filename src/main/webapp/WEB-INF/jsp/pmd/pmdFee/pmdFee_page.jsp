@@ -48,9 +48,9 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入用户ID">
                         </div>
                         <div class="form-group">
-                            <label>所属分党委</label>
+                            <label>所属${_p_partyName}</label>
                             <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
-                                   placeholder="请输入所属分党委">
+                                   placeholder="请输入所属${_p_partyName}">
                         </div>
                         <div class="form-group">
                             <label>所在党支部</label>
@@ -107,7 +107,7 @@ pageEncoding="UTF-8" %>
                     }},
                 { label: '缴费月份',name: 'payMonth',width: 120,formatter: $.jgrid.formatter.date,formatoptions: {newformat: 'Y.m'}},
                 { label: '姓名',name: 'user.realname'},
-                { label: '所属分党委',name: 'partyId',width: 350,align: 'left',formatter: function (cellvalue, options, rowObject) {
+                { label: '所属${_p_partyName}',name: 'partyId',width: 350,align: 'left',formatter: function (cellvalue, options, rowObject) {
                     return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
                     }},
                 { label: '所在党支部',name: 'branchId',width: 250,align: 'left',formatter: function (cellvalue, options, rowObject) {

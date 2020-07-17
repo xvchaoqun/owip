@@ -18,7 +18,7 @@
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
 
-                <div class="tab-content">
+                <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
             <c:if test="${cls==1}">
@@ -84,7 +84,7 @@
                         <li>
                             <a class="popupBtn"
                                data-url="${ctx}/branchPbCodeExport"
-                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 抽取分党委党支部编号</a>
+                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 抽取党支部编号</a>
                         </li>
                     </ul>
                 </div>
@@ -286,18 +286,18 @@
             { label: '所属${_p_partyName}', name: 'partyId',align:'left', width: 350 ,  formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId);
             }},
-            { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
+            { label:'支部转移<br/>记录', name: 'transferCount', width: 80, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined||cellvalue==0) return '--';
                 return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
             }},
-            { label:'党员总数', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
+            { label:'党员<br/>总数', name: 'memberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'在职<br/>教职工', name: 'teacherMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 return '<a href="#${ctx}/member?cls=2&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
-            { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'离退休<br/>党员', name: 'retireMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 return '<a href="#${ctx}/member?cls=3&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
@@ -305,14 +305,15 @@
                 if(cellvalue==undefined || cellvalue==0) return 0;
                 return '<a href="#${ctx}/member?cls=1&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
-            { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'委员会<br/>总数', name: 'groupCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'是否已设立现任委员会', name: 'presentGroupId', width: 160, formatter:function(cellvalue, options, rowObject){
+            { label:'是否已设立<br/>现任委员会', name: 'presentGroupId',formatter:function(cellvalue, options, rowObject){
                 return cellvalue>0?"是":"否";
             }},
+            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} },
             {label: '任命时间', name: 'appointTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
-            {label: '应换届时间', name: 'tranTime', width: 130,
+            {label: '应换届<br/>时间', name: 'tranTime',
                 formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'},
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     if (rowObject.presentGroupId>0 &&
@@ -320,9 +321,8 @@
                         return "class='danger'";
                 }},
             {
-                label: '实际换届时间',
+                label: '实际换届<br/>时间',
                 name: 'actualTranTime',
-                width: 130,
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
@@ -332,14 +332,13 @@
                     return $.jgrid.formatter.MetaType(label);
                 })).join("，")
             }},
-            { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '是否一线教学科研党支部', name: 'isPrefessional' , width: 170,  formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label:'单位属性', name: 'unitTypeId', width: 150, formatter: $.jgrid.formatter.MetaType},
+            { label: '是否是<br/>教工党支部', name: 'isStaff', formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否一线教学<br/>科研党支部', name: 'isPrefessional',  formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否建立<br/>在团队', name: 'isBaseTeam', formatter:$.jgrid.formatter.TRUEFALSE},
+            { label:'单位属性', name: 'unitTypeId', width: 90, formatter: $.jgrid.formatter.MetaType},
             { label: '联系电话', name: 'phone', width: 130 },
             { label: '传真', name: 'fax' },
-            { label: '邮箱', name: 'email' },
-            { label: '成立时间', name: 'foundTime',formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'} }
+            { label: '邮箱', name: 'email' }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

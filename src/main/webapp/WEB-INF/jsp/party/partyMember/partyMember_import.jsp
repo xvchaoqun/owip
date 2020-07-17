@@ -20,7 +20,7 @@
         </div>
   </div>
   <div class="modal-footer">
-      <div class="note">注：此处仅导入已设定现任班子的分党委相关班子成员</div>
+      <div class="note">注：此处仅导入已设定现任班子的${_p_partyName}相关班子成员</div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>

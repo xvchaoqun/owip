@@ -121,7 +121,7 @@
                                 <c:set var="USER_REG_STATUS_PASS" value="<%=SystemConstants.USER_REG_STATUS_PASS%>"/>
                                 <li data-step="1"  class="${memberReg.status==USER_REG_STATUS_PASS?'complete':''}">
                                     <span class="step">1</span>
-                                    <span class="title">分党委党总支直属党支部审核</span>
+                                    <span class="title">${_p_partyName}审核</span>
                                 </li>
                             </ul>
                         </div>

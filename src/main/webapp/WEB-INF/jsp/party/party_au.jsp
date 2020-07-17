@@ -30,11 +30,22 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
+                    <div class="col-xs-8" style="width: 160px">
+                        <div class="input-group date" data-date-format="yyyy.mm.dd">
+                            <input required class="form-control date-picker" name="foundTime" type="text"
+                                   placeholder="yyyy.mm.dd"
+                                   value="${cm:formatDate(party.foundTime,'yyyy.MM.dd')}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <%--<div class="form-group">
                     <label class="col-xs-3 control-label">网址</label>
                     <div class="col-xs-8">
                         <input class="form-control url" type="text" name="url" value="${party.url}">
                     </div>
-                </div>
+                </div>--%>
 
                 <div class="form-group">
                     <label class="col-xs-3 control-label">联系电话</label>
@@ -60,31 +71,34 @@
                         <input class="form-control" type="text" name="mailbox" value="${party.mailbox}">
                     </div>
                 </div>
+
+            </div>
+            <div class="col-xs-6">
+
                 <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>成立时间</label>
-                    <div class="col-xs-8" style="width: 180px">
-                        <div class="input-group date" data-date-format="yyyy.mm.dd">
-                            <input required class="form-control date-picker" name="foundTime" type="text"
-                                   placeholder="yyyy.mm.dd"
-                                   value="${cm:formatDate(party.foundTime,'yyyy.MM.dd')}"/>
-                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label"><span class="star">*</span>所在单位</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>关联单位</label>
                     <div class="col-xs-8">
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                                data-width="273"
+                                data-width="253"
                                 name="unitId" data-placeholder="请选择">
                             <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-6">
-
+                <div class="form-group">
+                    <label class="col-xs-4 control-label"><span class="star">*</span>关联单位属性</label>
+                    <div class="col-xs-8">
+                        <select required class="form-control" name="unitTypeId" data-rel="select2"
+                                data-placeholder="请选择">
+                            <option></option>
+                            <c:import url="/metaTypes?__code=mc_party_unit_type"/>
+                        </select>
+                        <script>
+                            $("#modalForm select[name=unitTypeId]").val('${party.unitTypeId}');
+                        </script>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>党总支类别</label>
                     <div class="col-xs-8">
@@ -111,19 +125,7 @@
                         </script>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>所在单位属性</label>
-                    <div class="col-xs-8">
-                        <select required class="form-control" name="unitTypeId" data-rel="select2"
-                                data-placeholder="请选择">
-                            <option></option>
-                            <c:import url="/metaTypes?__code=mc_party_unit_type"/>
-                        </select>
-                        <script>
-                            $("#modalForm select[name=unitTypeId]").val('${party.unitTypeId}');
-                        </script>
-                    </div>
-                </div>
+
 
                 <div class="form-group">
                     <label class="col-xs-6 control-label">所在单位是否独立法人</label>
@@ -153,7 +155,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-xs-6 control-label">评选培育创建单位时间</label>
-                    <div class="col-xs-6" style="width: 180px">
+                    <div class="col-xs-6" style="width: 160px">
                         <div class="input-group date" data-date-format="yyyy.mm.dd">
                             <input class="form-control date-picker" name="pycjDate" type="text"
                                    placeholder="yyyy.mm.dd"
@@ -171,7 +173,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-xs-6 control-label">评选标杆院系时间</label>
-                    <div class="col-xs-6" style="width: 180px">
+                    <div class="col-xs-6" style="width: 160px">
                         <div class="input-group date" data-date-format="yyyy.mm.dd">
                             <input class="form-control date-picker" name="bgDate" type="text"
                                    placeholder="yyyy.mm.dd"

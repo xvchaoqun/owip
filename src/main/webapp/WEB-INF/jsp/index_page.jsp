@@ -28,7 +28,7 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="stat:party">
                     <li>
-                        <a href="javascript:;" data-url="${ctx}/stat_party_page">分党委信息统计</a>
+                        <a href="javascript:;" data-url="${ctx}/stat_party_page">${_p_partyName}信息统计</a>
                     </li>
                 </shiro:hasPermission>
             </ul>

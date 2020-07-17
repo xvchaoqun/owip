@@ -48,9 +48,9 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入用户ID">
                         </div>
                         <div class="form-group">
-                            <label>所属分党委</label>
+                            <label>所属${_p_partyName}</label>
                             <input class="form-control search-query" name="partyId" type="text" value="${param.partyId}"
-                                   placeholder="请输入所属分党委">
+                                   placeholder="请输入所属${_p_partyName}">
                         </div>
                         <div class="form-group">
                             <label>所在党支部</label>
@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/pmd/pmdPartyDonate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '用户ID',name: 'userId'},
-                { label: '所属分党委',name: 'partyId'},
+                { label: '所属${_p_partyName}',name: 'partyId'},
                 { label: '所在党支部',name: 'branchId'},
                 { label: '缴费日期',name: 'donateDate'},
                 { label: '金额',name: 'money'},

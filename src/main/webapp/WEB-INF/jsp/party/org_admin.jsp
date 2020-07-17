@@ -30,7 +30,7 @@
                         </div>
                         <div class="clearfix form-actions">
                             <c:if test="${not empty party}">
-                            <div class="note">注：此处设定的是普通管理员（非班子成员），如果是班子成员，请在【分党委领导班子-查看委员】中进行管理</div>
+                            <div class="note">注：此处设定的是普通管理员（非班子成员），如果是班子成员，请在【${_p_partyName}领导班子-查看委员】中进行管理</div>
                                 </c:if>
                             <c:if test="${not empty branch}">
                             <div class="note">注：此处设定的是普通管理员（非支部委员），如果是支部委员，请在【支部委员会-查看委员】中进行管理</div>

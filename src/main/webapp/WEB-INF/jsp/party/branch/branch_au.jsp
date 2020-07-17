@@ -79,20 +79,7 @@ pageEncoding="UTF-8"%>
 						</label>
 					</div>
 				</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>所在单位属性</label>
-				<div class="col-xs-8">
-					<select required class="form-control" name="unitTypeId"
-							data-width="150"
-							data-rel="select2" data-placeholder="请选择单位属性">
-						<option></option>
-						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
-					</select>
-					<script>
-						$("#modalForm select[name=unitTypeId]").val('${branch.unitTypeId}');
-					</script>
-				</div>
-			</div>
+
 				</div>
 			<div class="col-xs-4">
 				<div class="form-group">
@@ -120,6 +107,20 @@ pageEncoding="UTF-8"%>
 								   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />
 					</div>
 				</div>
+				<div class="form-group">
+				<label class="col-xs-5 control-label"><span class="star">*</span>单位属性</label>
+				<div class="col-xs-6">
+					<select required class="form-control" name="unitTypeId"
+							data-width="120"
+							data-rel="select2" data-placeholder="请选择单位属性">
+						<option></option>
+						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
+					</select>
+					<script>
+						$("#modalForm select[name=unitTypeId]").val('${branch.unitTypeId}');
+					</script>
+				</div>
+			</div>
 
 			<div class="form-group enterprise">
 				<label class="col-xs-5 control-label">是否为大中型</label>
@@ -155,7 +156,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
 	<c:if test="${empty branch}">
-	<div class="note">注：添加新支部时，编号由系统自动生成（规则：所属分党委编号 + 3位自增数字）</div>
+	<div class="note">注：添加新支部时，编号由系统自动生成（规则：所属${_p_partyName}编号 + 3位自增数字）</div>
 	</c:if>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
 	<button id="submitBtn" type="button" class="btn btn-primary"
