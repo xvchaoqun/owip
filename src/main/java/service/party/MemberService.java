@@ -401,12 +401,7 @@ public class MemberService extends MemberBaseMapper {
         Member member = memberMapper.selectByPrimaryKey(userId);
         if (member == null) return;
         MemberModify modify = new MemberModify();
-        /*try {
-            ConvertUtils.register(new DateConverter(null), java.util.Date.class);
-            BeanUtils.copyProperties(modify, member);
-        } catch (Exception e) {
-            logger.error("异常", e);
-        }*/
+
         try {
             PropertyUtils.copyProperties(modify, member);
         } catch (Exception e) {

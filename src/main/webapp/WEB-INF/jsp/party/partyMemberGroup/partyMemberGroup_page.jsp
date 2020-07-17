@@ -227,6 +227,7 @@
                         return "class='danger'";
                 }
             },
+            <c:if test="${status==-1}">
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
@@ -234,6 +235,7 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             }
+            </c:if>
         ]/*,
         rowattr: function(rowData, currentObj, rowId)
         {

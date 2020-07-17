@@ -205,6 +205,7 @@
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
+            <c:if test="${cls==-1}">
             {
                 label: '实际换届时间',
                 name: 'actualTranTime',
@@ -212,7 +213,7 @@
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-
+            </c:if>
             /*{label: '发文号', name: 'dispatchCode', width: 180},*/
             {
                 hidden: true, name: 'isPresent', formatter: function (cellvalue, options, rowObject) {

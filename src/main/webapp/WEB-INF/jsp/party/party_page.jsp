@@ -317,12 +317,12 @@ pageEncoding="UTF-8" %>
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
-            {
+            /*{
                 label: '实际换届<br/>时间',
                 name: 'actualTranTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
-            },
+            },*/
             { label:'简称', name: 'shortName', align:'left', width: 180},
             { label: '${_p_partyName}类别', name: 'classId', width: 90, align:'left', formatter: $.jgrid.formatter.MetaType},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},

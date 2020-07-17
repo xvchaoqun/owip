@@ -322,12 +322,14 @@
                         rowObject.tranTime <= $.date(new Date(), 'yyyy-MM-dd'))
                         return "class='danger'";
                 }},
+            <c:if test="${cls==2}">
             {
                 label: '实际换届<br/>时间',
                 name: 'actualTranTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
+            </c:if>
             {label: '支部类型', name: 'types', align:'left', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '--'
                 return ($.map(cellvalue.split(","), function(label){

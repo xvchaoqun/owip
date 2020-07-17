@@ -38,6 +38,10 @@ ALTER TABLE `ow_party`
 	CHANGE COLUMN `phone` `phone` VARCHAR(20) NULL DEFAULT NULL COMMENT '联系电话' AFTER `is_separate`;
 -- 更新`ow_party_view`
 
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `appoint_time` `appoint_time` DATE NULL COMMENT '任命时间，本届班子任命时间' AFTER `actual_tran_time`;
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `appoint_time` `appoint_time` DATE NULL COMMENT '任命时间，本届班子任命时间' AFTER `actual_tran_time`;
 
 2020.7.15
 南航，北航
