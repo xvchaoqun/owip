@@ -21,6 +21,7 @@
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="real_end_date" jdbcType="DATE" property="realEndDate" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_add_form" jdbcType="BIT" property="isAddForm" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -85,7 +86,7 @@
   <sql id="Base_Column_List">
     id, user_id, realname, is_present_cadre, present_post, phone, to_unit_type, to_unit, 
     temp_post_type, temp_post, project, unit_id, unit, post, start_date, end_date, is_finished, 
-    real_end_date, type, is_deleted, remark
+    real_end_date, type, is_add_form, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.crp.CrpRecordExample" resultMap="BaseResultMap">
     select
@@ -124,16 +125,16 @@
       temp_post, project, unit_id, 
       unit, post, start_date, 
       end_date, is_finished, real_end_date, 
-      type, is_deleted, remark
-      )
+      type, is_add_form, is_deleted, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
       #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{toUnitType,jdbcType=INTEGER}, #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, 
       #{tempPost,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
       #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, 
-      #{type,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
-      )
+      #{type,jdbcType=TINYINT}, #{isAddForm,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.crp.CrpRecord">
     insert into crp_record
@@ -194,6 +195,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="isAddForm != null">
+        is_add_form,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -259,6 +263,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isAddForm != null">
+        #{isAddForm,jdbcType=BIT},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -334,6 +341,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.isAddForm != null">
+        is_add_form = #{record.isAddForm,jdbcType=BIT},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -366,6 +376,7 @@
       is_finished = #{record.isFinished,jdbcType=BIT},
       real_end_date = #{record.realEndDate,jdbcType=DATE},
       type = #{record.type,jdbcType=TINYINT},
+      is_add_form = #{record.isAddForm,jdbcType=BIT},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -429,6 +440,9 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="isAddForm != null">
+        is_add_form = #{isAddForm,jdbcType=BIT},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -458,6 +472,7 @@
       is_finished = #{isFinished,jdbcType=BIT},
       real_end_date = #{realEndDate,jdbcType=DATE},
       type = #{type,jdbcType=TINYINT},
+      is_add_form = #{isAddForm,jdbcType=BIT},
       is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

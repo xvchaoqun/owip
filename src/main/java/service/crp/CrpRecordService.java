@@ -19,7 +19,7 @@ public class CrpRecordService extends BaseMapper {
     public List<CrpRecord> findRecords(int userId){
 
         CrpRecordExample example = new CrpRecordExample();
-        example.createCriteria().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
+        example.createCriteria().andUserIdEqualTo(userId).andIsAddFormEqualTo(true).andIsDeletedEqualTo(false);
         example.setOrderByClause("start_date asc");
 
         return crpRecordMapper.selectByExample(example);

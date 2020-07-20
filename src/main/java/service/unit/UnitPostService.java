@@ -249,19 +249,36 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void syncCadrePost(UnitPost record) {
+    public void syncCadrePost(UnitPost unitPost,Integer cadreId) {
+        if(cadreId==null) return;
+        CadrePost cadrePost=cadrePostService.getByUnitPostId(unitPost.getId());
 
-        CadrePost cadrePost=cadrePostService.getByUnitPostId(record.getId());
+        CadrePost record=new CadrePost();
+        record.setUnitPostId(unitPost.getId());
+        record.setAdminLevel(unitPost.getAdminLevel());
 
-        cadrePost.setPostName(record.getName());
-        cadrePost.setIsPrincipal(record.getIsPrincipal());
-        cadrePost.setPostType(record.getPostType());
-        cadrePost.setAdminLevel(record.getAdminLevel());
-        cadrePost.setPostClassId(record.getPostClass());
-        cadrePost.setUnitId(record.getUnitId());
+        if(cadreId.equals(cadrePost.getCadreId())){ //关联岗位的干部不变
+            record.setId(cadrePost.getId());
+            cadrePostService.updateByPrimaryKeySelective(record);
+        }else{
+            commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + cadrePost.getId());
+            CadrePost mainCadrePost=cadrePostService.getFirstMainCadrePost(cadreId);
 
-        cadrePostService.updateByPrimaryKeySelective(cadrePost);
+            record.setPost(unitPost.getName());
 
+            if(mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
+                record.setId(mainCadrePost.getId());
+                cadrePostService.updateByPrimaryKeySelective(record);
+                commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +
+                        "lp_dispatch_id=null, np_work_time=null, lp_work_time=null where id=" + mainCadrePost.getId());
+
+            }else{  //关联岗位更换干部，无第一主职，插入第一主职
+                record.setCadreId(cadreId);
+                record.setIsFirstMainPost(true);
+                record.setIsMainPost(true);
+                cadrePostService.insertSelective(record);
+            }
+        }
     }
 
     public List<UnitPostView> findAll() {

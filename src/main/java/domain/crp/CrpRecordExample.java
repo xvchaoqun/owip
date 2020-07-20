@@ -1355,6 +1355,66 @@ public class CrpRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsAddFormIsNull() {
+            addCriterion("is_add_form is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormIsNotNull() {
+            addCriterion("is_add_form is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormEqualTo(Boolean value) {
+            addCriterion("is_add_form =", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormNotEqualTo(Boolean value) {
+            addCriterion("is_add_form <>", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormGreaterThan(Boolean value) {
+            addCriterion("is_add_form >", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_add_form >=", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormLessThan(Boolean value) {
+            addCriterion("is_add_form <", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_add_form <=", value, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormIn(List<Boolean> values) {
+            addCriterion("is_add_form in", values, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormNotIn(List<Boolean> values) {
+            addCriterion("is_add_form not in", values, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_add_form between", value1, value2, "isAddForm");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAddFormNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_add_form not between", value1, value2, "isAddForm");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDeletedIsNull() {
             addCriterion("is_deleted is null");
             return (Criteria) this;

@@ -170,7 +170,18 @@ pageEncoding="UTF-8"%>
 							</label>
 						</div>
 					</div>
-					<span class="help-block blue">注：当前该岗位关联的干部是【${cadrePost.cadre.realname}】，如果选择“是”，则对应的任职信息也将更新。</span>
+					<span class="help-block blue">注：<%--当前该岗位关联的干部是【${cadrePost.cadre.realname}】，--%>如果选择“是”，则选择干部对应的任职信息也将更新。</span>
+				</div>
+			</div>
+
+			<div class="form-group" id="cadreDiv" style="display: none">
+				<label class="col-xs-4 control-label"><span class="star">*</span>关联干部</label>
+				<div class="col-xs-6">
+					<select disabled required data-rel="select2-ajax"
+								data-ajax-url="${ctx}/cadre_selects"
+								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
+					</select>
 				</div>
 			</div>
 		</c:if>
@@ -204,9 +215,19 @@ pageEncoding="UTF-8"%>
     });
     $("#modalForm :checkbox").bootstrapSwitch();
     $.register.ajax_select($("#modalForm select[name=unitId]"))
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($("#modalForm select[name=cadreId]"));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
     //$.register.date($('.date-picker'));
+	$("input[type=radio][name=isSync]").click(function(){
+		if($(this).val()=='1') {
+			$("#cadreDiv").show();
+			$("#modalForm select[name=cadreId]").removeAttr("disabled");
+			$("#modalForm select[name=cadreId]").attr("required","required");
+		}else {
+			$("#cadreDiv").hide();
+			$("#modalForm select[name=cadreId]").prop("disabled", true).removeAttr("required");
+		}
+	});
 </script>

@@ -60,6 +60,8 @@ public class CrpRecord implements Serializable {
 
     private Byte type;
 
+    private Boolean isAddForm;
+
     private Boolean isDeleted;
 
     private String remark;
@@ -216,6 +218,14 @@ public class CrpRecord implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Boolean getIsAddForm() {
+        return isAddForm;
+    }
+
+    public void setIsAddForm(Boolean isAddForm) {
+        this.isAddForm = isAddForm;
     }
 
     public Boolean getIsDeleted() {

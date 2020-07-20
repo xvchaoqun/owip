@@ -217,7 +217,14 @@
                         </div>
                     </div>
                 </c:if>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">是否存入干部简历</label>
 
+                    <div class="col-xs-6">
+                        <input type="checkbox" class="big"
+                               name="isAddForm" ${(crpRecord==null ||crpRecord.isAddForm)?"checked":""}/>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-xs-4 control-label">备注</label>
 

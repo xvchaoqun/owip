@@ -455,7 +455,7 @@ public class UnitPostController extends BaseController {
     @RequiresPermissions("unitPost:edit")
     @RequestMapping(value = "/unitPost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_au(UnitPost record, Boolean isSync, HttpServletRequest request) {
+    public Map do_unitPost_au(UnitPost record, Boolean isSync, Integer cadreId, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -487,7 +487,7 @@ public class UnitPostController extends BaseController {
             unitPostService.updateByPrimaryKeySelective(record);
             logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s", record.getId()));
             if(BooleanUtils.isTrue(isSync)){
-                  unitPostService.syncCadrePost(record);
+                  unitPostService.syncCadrePost(record,cadreId);
                 logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部任职情况：%s", record.getId()));
             }
         }
