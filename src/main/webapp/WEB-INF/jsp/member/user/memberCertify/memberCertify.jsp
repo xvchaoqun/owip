@@ -2,9 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/member/memberCertify/colModels.jsp"/>
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
+<c:set var="MEMBER_CERTIFY_STATUS_APPLY" value="<%=MemberConstants.MEMBER_CERTIFY_STATUS_APPLY%>"/>
 <c:set var="JASPER_PRINT_TYPE_MEMBER_CERTIFY" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_CERTIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
@@ -18,11 +16,11 @@ pageEncoding="UTF-8" %>
                         <button class="popupBtn btn btn-info btn-sm"
                                 data-url="${ctx}/member/memberCertify_au?apply=1">
                             <i class="fa fa-plus"></i> 申请</button>
-                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                        <button id="modifyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                            data-url="${ctx}/member/memberCertify_au?apply=1"
                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             修改</button>
-                        <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        <button id="reapplyBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                 data-url="${ctx}/member/memberCertify_au?apply=1&reapply=1"
                                 data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                             重新申请</button>
@@ -108,10 +106,28 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/member/memberCertify_data?cls=0&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.colModel
+        colModel: colModels.colModel,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+        if (ids.length > 1) {
+            $("#modifyBtn,#reapplyBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            //console.log("rowData.status="+(parseInt(rowData.status)>${MEMBER_CERTIFY_STATUS_APPLY}))
+            $("#modifyBtn,#reapplyBtn").prop("disabled", parseInt(rowData.status)>${MEMBER_CERTIFY_STATUS_APPLY});
+        }
+    }
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();

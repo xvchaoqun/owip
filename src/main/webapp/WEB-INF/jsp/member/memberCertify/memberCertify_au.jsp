@@ -43,14 +43,14 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 介绍信抬头</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span> 介绍信抬头<br/>（接收单位）</label>
             <div class="col-xs-6">
                 <textarea required class="form-control noEnter" rows="2" maxlength="25" style="width: 252px;"
                           name="toTitle">${memberCertify.toTitle}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label"><span class="star">*</span> 拟去往的工作学习单位</label>
+            <label class="col-xs-4 control-label"><span class="star">*</span> 拟去往的工作学习<br/>单位/部门</label>
             <div class="col-xs-6">
                 <textarea required class="form-control noEnter" rows="2" maxlength="25" style="width: 252px;"
                           name="toUnit">${memberCertify.toUnit}</textarea>

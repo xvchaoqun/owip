@@ -67,13 +67,13 @@ pageEncoding="UTF-8" %>
                                             <i class="fa fa-plus"></i> 添加</button>
                                     </c:if>
                                     <c:if test="${cls!=3&&cls!=6}">
-                                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                        <button id="modifyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                            data-url="${ctx}/member/memberCertify_au"
                                            data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                             修改</button>
                                     </c:if>
                                     <c:if test="${cls==6}">
-                                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                                        <button id="reapplyBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/member/memberCertify_au?reapply=1"
                                                 data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                             重新申请</button>

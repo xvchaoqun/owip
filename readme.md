@@ -3,14 +3,14 @@
 -- powershell
 
 # 打包某版本变更文件
-tar -cf D:\tmp\owip\update.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 98423295  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\one.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-filter=d -r --no-commit-id --name-only 2d64caec  -- . ':(exclude)doc/*')
 
-tar -cf update.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 98423295  -- . ':(exclude)doc/*')
+tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 98423295  -- . ':(exclude)doc/*')
 
 # 打包某版本（不含此版本更新的内容）到最新版本的所有变更文件
-tar -cf D:\tmp\owip\diff.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d db4ee390 HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d 2d64caec HEAD --name-only  -- . ':(exclude)doc/*')
 
-tar -cf diff.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
+tar -cf all.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
 
 
 -- 打包commit文件
@@ -48,6 +48,28 @@ select owner, column_name, data_type,data_length from all_tab_columns  where Tab
 2、在干部库中使用功能【更换工号】
 3、在账号库里更新个人基本信息和头像
 4、检查干部档案页的各项信息，如果有交叉需要变更cadre_id
+(
+
+set @oldCadreId = 2054;
+set @newCadreId = 1932;
+
+update cadre_work set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_parttime set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_course set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_reward set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_research set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_book set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+update cadre_paper set cadre_id=@newCadreId where cadre_id=@oldCadreId and status=0;
+
+delete from cadre where id=@oldCadreId;
+
+)
 
 
 ### 查询某个党委的离退休费

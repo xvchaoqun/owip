@@ -183,7 +183,7 @@ public class MemberCertifyController extends MemberBaseController {
             if (record.getId() != null) {
                 MemberCertify before = memberCertifyMapper.selectByPrimaryKey(record.getId());
                 if (before.getStatus() > MemberConstants.MEMBER_CERTIFY_STATUS_APPLY) {
-                    return failed("该申请已经在审核，不可以进行修改。");
+                    return failed("该申请已进入审核流程，无法修改。");
                 }
             }
             member = memberMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId());
@@ -206,7 +206,7 @@ public class MemberCertifyController extends MemberBaseController {
                         // 分党委只能修改还未提交组织部审核的记录
                         MemberCertify before = memberCertifyMapper.selectByPrimaryKey(record.getId());
                         if (before.getStatus() == MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY) {
-                            return failed("该申请已经提交组织部审核，不可以进行修改。");
+                            return failed("该申请已经提交组织部审核，不可修改。");
                         }
                     }
                     record.setStatus(MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY);

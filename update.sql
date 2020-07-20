@@ -1,4 +1,8 @@
 
+
+ALTER TABLE `oa_task_user_file`
+	CHANGE COLUMN `file_name` `file_name` VARCHAR(300) NULL DEFAULT NULL AFTER `user_id`;
+
 2020.7.17
 西工大
 

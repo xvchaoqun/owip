@@ -140,16 +140,16 @@ public class MobileCadreSearchController extends BaseController {
 		return "cadre/mobile/unit_cadre_info";
 	}
 
-	@RequiresPermissions("m:cadreInfo:leader")
-	@RequestMapping("/cadreInfo")
-	public String cadreInfo() {
+	@RequiresPermissions("m:cadreList")
+	@RequestMapping("/cadreList")
+	public String cadreList() {
 
 		return "mobile/index";
 	}
 
-	@RequiresPermissions("m:cadreInfo:leader")
-	@RequestMapping("/cadreInfo_page")
-	public String cadreInfo_page(HttpServletResponse response,String realnameOrCode,
+	@RequiresPermissions("m:cadreList")
+	@RequestMapping("/cadreList_page")
+	public String cadreList_page(HttpServletResponse response,String realnameOrCode,
 								 @RequestParam(required = false, defaultValue = "2") Byte type,
 								 Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -188,6 +188,6 @@ public class MobileCadreSearchController extends BaseController {
 		modelMap.put("commonList",commonList);
 		modelMap.put("realnameOrCode",realnameOrCode);
 
-		return "cadre/mobile/cadre_history";
+		return "cadre/mobile/cadreList_page";
 	}
 }

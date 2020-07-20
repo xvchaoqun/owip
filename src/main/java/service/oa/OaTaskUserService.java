@@ -191,7 +191,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
                 OaTaskUserFile record = new OaTaskUserFile();
                 record.setTaskId(taskId);
                 record.setUserId(userId);
-                record.setFileName(file.getOriginalFilename());
+                record.setFileName(StringUtils.substring(file.getOriginalFilename(), 0, 100));
                 String filePath = upload(file, "oa_task_file");
                 if(StringUtils.isBlank(filePath)){
                     throw new OpException("文件{0}上传失败，请刷新页面重试。", record.getFileName());
