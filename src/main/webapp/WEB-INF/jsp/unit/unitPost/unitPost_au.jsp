@@ -170,18 +170,19 @@ pageEncoding="UTF-8"%>
 							</label>
 						</div>
 					</div>
-					<span class="help-block blue">注：<%--当前该岗位关联的干部是【${cadrePost.cadre.realname}】，--%>如果选择“是”，则选择干部对应的任职信息也将更新。</span>
+					<span class="help-block blue">注：当前该岗位关联的干部是【${cadrePost.cadre.realname}】，如果选择“是”，则选择干部对应的任职信息也将更新。</span>
 				</div>
 			</div>
 
 			<div class="form-group" id="cadreDiv" style="display: none">
-				<label class="col-xs-4 control-label"><span class="star">*</span>关联干部</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label"><span class="star">*</span>变更关联干部</label>
+				<div class="col-xs-8">
 					<select disabled required data-rel="select2-ajax"
 								data-ajax-url="${ctx}/cadre_selects"
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
 					</select>
+					<span class="help-block blue">注：变更前后两个干部的任职信息也将更新。</span>
 				</div>
 			</div>
 		</c:if>

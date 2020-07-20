@@ -18,13 +18,6 @@
 	</rule>
 
 	<rule>
-		<note>sysLogin_switch_status</note>
-		<condition type="method">GET</condition>
-		<from>^/m/sysLogin_switch_status</from>
-		<to>/sysLogin_switch_status</to>
-	</rule>
-
-	<rule>
 		<note>login_switch</note>
 		<condition type="method">GET</condition>
 		<from>^/m/login_switch</from>
