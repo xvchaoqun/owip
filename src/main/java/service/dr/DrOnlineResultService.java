@@ -78,13 +78,15 @@ public class DrOnlineResultService extends DrBaseMapper {
                 }
 
                 //推荐人数是否超额
-                for (String data : datas) {
-                    String[] results =StringUtils.split(data, "_");
-                    if (postId != Integer.valueOf(results[0])){
-                        continue;
-                    }
-                    if (Integer.valueOf(results[2]) == 1){
-                        count++;
+                if (datas != null) {
+                    for (String data : datas) {
+                        String[] results = StringUtils.split(data, "_");
+                        if (postId != Integer.valueOf(results[0])) {
+                            continue;
+                        }
+                        if (Integer.valueOf(results[2]) == 1) {
+                            count++;
+                        }
                     }
                 }
                 count += arr.length;
@@ -108,23 +110,25 @@ public class DrOnlineResultService extends DrBaseMapper {
         Integer onlineId = inspector.getOnlineId();
 
         List<DrOnlineResult> resultList = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : tempResult.getRawOptionMap().entrySet()){
-            String[] postUserId = entry.getKey().split("_");
-            DrOnlineResult result = new DrOnlineResult();
-            result.setOnlineId(onlineId);
-            result.setPostId(Integer.valueOf(postUserId[0]));
-            result.setUserId(Integer.valueOf(postUserId[1]));
-            result.setCandidate(drOnlineCandidateService.getId(Integer.valueOf(postUserId[1]), Integer.valueOf(postUserId[0])).getCandidate());
-            result.setInspectorId(inspector.getId());
-            result.setInspectorTypeId(inspector.getTypeId());
-            result.setIsAgree(entry.getValue() == 1 ? true : false);
+        if (tempResult.getRawOptionMap() != null) {
+            for (Map.Entry<String, Integer> entry : tempResult.getRawOptionMap().entrySet()) {
+                String[] postUserId = entry.getKey().split("_");
+                DrOnlineResult result = new DrOnlineResult();
+                result.setOnlineId(onlineId);
+                result.setPostId(Integer.valueOf(postUserId[0]));
+                result.setUserId(Integer.valueOf(postUserId[1]));
+                result.setCandidate(drOnlineCandidateService.getId(Integer.valueOf(postUserId[1]), Integer.valueOf(postUserId[0])).getCandidate());
+                result.setInspectorId(inspector.getId());
+                result.setInspectorTypeId(inspector.getTypeId());
+                result.setIsAgree(entry.getValue() == 1 ? true : false);
 
-            resultList.add(result);
+                resultList.add(result);
+            }
         }
 
         //另选的候选人
         Map<Integer, String> otherResultMap = tempResult.getOtherResultMap();
-        if (null == otherResultMap || otherResultMap.size() > 0){
+        if (null != otherResultMap || otherResultMap.size() > 0){
 
             for (Map.Entry<Integer, String> entry2 : otherResultMap.entrySet()) {
                 String[] candidates = entry2.getValue().split(",");
