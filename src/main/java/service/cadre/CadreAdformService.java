@@ -764,12 +764,12 @@ public class CadreAdformService extends BaseMapper {
      * 导入中组部任免审批表
      *
      * @param path
-     * @param importResume 是否解析并导入简历（学习经历和工作经历）
+     * @param parseResume 是否解析并导入简历（学习经历和工作经历）
      * @throws IOException
      * @throws DocumentException
      */
     @Transactional
-    public void importRm(String path, boolean importResume) throws IOException, DocumentException {
+    public void importRm(String path, boolean parseResume) throws IOException, DocumentException {
 
         SAXReader reader = new SAXReader();
         InputStream is = new FileInputStream(path);
@@ -819,7 +819,7 @@ public class CadreAdformService extends BaseMapper {
             }
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
             if (uvs.size() == 0) {
-                throw new OpException("{0}不存在系统账号，无法导入，请核对文件中姓名和身份证号与系统中是否不一致。", realname);
+                throw new OpException("{0}不存在系统账号，请核对姓名和身份证号是否与系统内的一致。", realname);
             } else if (uvs.size() > 1) {
                 throw new OpException("{0}存在多个系统账号，无法导入。", realname);
             }
@@ -875,7 +875,7 @@ public class CadreAdformService extends BaseMapper {
         }
         ui.setSpecialty(specialty);
         ui.setResume(resume);
-        if (importResume) {
+        if (parseResume) {
             // 导入简历部分
             importResume(cadreId, resume, realname);
             cadreEduService.checkHighEdu(cadreId, true);

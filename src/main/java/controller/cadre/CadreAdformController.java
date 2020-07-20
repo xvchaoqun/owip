@@ -64,7 +64,7 @@ public class CadreAdformController extends BaseController {
     @RequiresPermissions("cadreAdform:import")
     @RequestMapping(value = "/cadreAdform_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreAdform_import(Boolean importResume, HttpServletRequest request) throws IOException, DocumentException {
+    public Map do_cadreAdform_import(boolean parseResume, HttpServletRequest request) throws IOException, DocumentException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
@@ -102,13 +102,11 @@ public class CadreAdformController extends BaseController {
             FileUtils.listFiles(fileList, destDir, "^.*\\.lrmx$");
         }
 
-        importResume = BooleanUtils.isTrue(importResume);
-
         List<String> fails = new ArrayList<>();
         for (File file : fileList) {
 
             try {
-                cadreAdformService.importRm(file.getAbsolutePath(), importResume);
+                cadreAdformService.importRm(file.getAbsolutePath(), parseResume);
             }catch (Exception e){
                 logger.error(file.getName(), e);
                 fails.add(e.getMessage());

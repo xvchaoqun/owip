@@ -23,7 +23,7 @@
 		<div class="form-group">
 			<label class="col-xs-4 text-right red">是否解析并导入简历</label>
 			<div class="col-xs-6">
-                <input type="checkbox" name="importResume" checked/>
+                <input type="checkbox" name="parseResume" checked/>
                 <span class="help-block">解析导入后请务必手动调整学习经历和工作经历。</span>
 			</div>
 		</div>
