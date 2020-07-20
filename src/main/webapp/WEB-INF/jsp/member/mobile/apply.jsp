@@ -9,8 +9,8 @@
             <div class="col-xs-12">
                 <c:if test="${empty member}">
                     <blockquote>
-                        <div class="green bolder">申请入党</div>
-                        学生或教职工申请入党入口。
+                        <div class="green bolder">党员发展申请</div>
+                        学生或教职工党员发展申请入口。
                         <button data-url="${ctx}/m/memberApply?isMobile=1" class="openView btn btn-sm btn-success" data-open-by="page"
                                 type="button">
                             <i class="ace-icon fa fa-forward bigger-110"></i>
