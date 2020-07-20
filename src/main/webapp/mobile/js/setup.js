@@ -70,6 +70,18 @@ $.register.m_click(".popupBtn", function () {
     var url = $(this).data("url");
     $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
+$.register.m_click(".linkBtn", function () {
+    //e.stopPropagation();
+    var $this = $(this);
+    var url = $this.data("url");
+    var target = $this.data("target") || '_self';
+    if(target=='_self') {
+        $this.data("loading-text", $this.data("loading-text") || '<i class="fa fa-spinner fa-spin"></i> 操作中')
+        $this.button("loading");
+    }
+
+    window.open(url, target, '');
+})
 $.register.m_click(".popPdfView", function () {
     $.loadPdfModal($(this).data("path"), $(this).data("pages"),
         $(this).data("width"), $(this).data("direction"));

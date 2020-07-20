@@ -56,6 +56,25 @@
 										账号信息
 									</a>
 								</li>
+
+								<c:if test="${cm:isPermitted('sysLogin:switch') || cm:isPermitted('sysLogin:switchParty')}">
+									<li class="divider"></li>
+									<li>
+										<a href="javascript:;"
+										   data-url="${ctx}/m/sysLogin_switch?mobile=1"
+										   class="popupBtn">
+											<i class="fa fa-refresh"></i> 切换账号
+										</a>
+									</li>
+								</c:if>
+								<c:if test="${not empty sessionScope._switchUser}">
+									<li class="divider"></li>
+									<li>
+										<a href="${ctx}/m/sysLogin_switch_back">
+											<i class="fa fa-reply"></i> 返回主账号
+										</a>
+									</li>
+								</c:if>
 								<c:if test="${sessionScope._loginType!=LOGIN_TYPE_WX}">
 								<li class="divider"></li>
 								<li>

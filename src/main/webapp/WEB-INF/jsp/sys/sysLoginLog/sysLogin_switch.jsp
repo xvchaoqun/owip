@@ -9,8 +9,8 @@
 <div class="modal-body">
     <form  class="form-horizontal">
     <div class="form-group">
-        <label class="col-xs-3 control-label">登录账号</label>
-        <div class="col-xs-6">
+        <label class="col-xs-4 control-label">登录账号</label>
+        <div class="col-xs-7">
             <c:choose>
                 <c:when test="${cm:isPermitted('sysLogin:switch')}">
                     <c:set var="select_url" value="sysUser_selects"/>
@@ -23,16 +23,16 @@
                 </c:otherwise>
             </c:choose>
             <select data-rel="select2-ajax"
-                    data-ajax-url="${ctx}/${select_url}"
-                    data-width="350"
+                    data-ajax-url="${ctx}${param.mobile==1?'/m':''}/${select_url}"
+                    data-width="100%"
                     name="userId" data-placeholder="请选择">
                 <option></option>
             </select>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-xs-3 control-label">当前登录状态</label>
-        <div class="col-xs-6 label-text" id="loginStatus">
+        <label class="col-xs-4 control-label">当前登录状态</label>
+        <div class="col-xs-7 label-text" id="loginStatus">
 
         </div>
     </div>
@@ -40,7 +40,8 @@
 </div>
 <div class="modal-footer">
 
-    <button id="_submitBtn" data-loading-text='<i class="fa fa-spinner fa-spin"></i> 切换中' type="button" disabled class="linkBtn btn btn-primary">确定</button>
+    <button id="_submitBtn" data-loading-text='<i class="fa fa-spinner fa-spin"></i> 切换中'
+            type="button" disabled class="linkBtn btn btn-primary">确定</button>
 
     <div style="text-align: left;margin-bottom: 10px;padding-top: 10px;">注：
         <br/>
@@ -60,7 +61,7 @@
             return;
         }
         $("#loginStatus").html("");
-        $.getJSON("${ctx}/sysLogin_switch_status",{username: user.username},function(ret){
+        $.getJSON("${ctx}${param.mobile==1?'/m':''}/sysLogin_switch_status",{username: user.username},function(ret){
             if(ret.success){
                 if(!ret.canSwitch){
                     $("#loginStatus").html("该账号无法切换");
@@ -77,7 +78,7 @@
                 }
 
                 if(ret.canSwitch && !user.locked && $.trim(user.username)!='' && $.trim(user.username)!='${_user.username}'){
-                    $("#_submitBtn").data("url", "${ctx}/login_switch?username="+ user.username)
+                    $("#_submitBtn").data("url", "${ctx}${param.mobile==1?'/m':''}/login_switch?username="+ user.username)
                             .prop("disabled", false);
                 }else{
                     $("#_submitBtn").prop("disabled", true);

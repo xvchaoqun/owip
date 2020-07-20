@@ -46,7 +46,7 @@
                             挂职结束</a>
                     </li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="crpRecord:edit">
@@ -226,6 +226,7 @@
             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
+            {label: '是否存入</br>干部简历', name: 'isAddForm',formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '时任职务', name: 'presentPost', width: 250, align: 'left'},
             {label: '联系电话', name: 'phone', width: 150},
 

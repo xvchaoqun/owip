@@ -4,6 +4,41 @@
 <urlrewrite>
 
 	<rule>
+		<note>sysUser_selects</note>
+		<condition type="method">GET</condition>
+		<from>^/m/sysUser_selects</from>
+		<to>/sysUser_selects</to>
+	</rule>
+
+	<rule>
+		<note>orgAdmin_selects</note>
+		<condition type="method">GET</condition>
+		<from>^/m/orgAdmin_selects</from>
+		<to>/orgAdmin_selects</to>
+	</rule>
+
+	<rule>
+		<note>sysLogin_switch_status</note>
+		<condition type="method">GET</condition>
+		<from>^/m/sysLogin_switch_status</from>
+		<to>/sysLogin_switch_status</to>
+	</rule>
+
+	<rule>
+		<note>login_switch</note>
+		<condition type="method">GET</condition>
+		<from>^/m/login_switch</from>
+		<to>/login_switch</to>
+	</rule>
+
+	<rule>
+		<note>sysLogin_switch</note>
+		<condition type="method">GET</condition>
+		<from>^/m/sysLogin_switch</from>
+		<to>/sysLogin_switch</to>
+	</rule>
+
+	<rule>
 		<note>cas</note>
 		<condition type="method">GET</condition>
 		<from>^/m/cas</from>

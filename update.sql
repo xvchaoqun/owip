@@ -1,3 +1,8 @@
+2020.7.20
+ALTER TABLE `crp_record`
+	ADD COLUMN `is_add_form` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否存入干部简历' AFTER `type`;
+
+UPDATE `crp_record` SET `is_add_form`=1;
 
 
 ALTER TABLE `oa_task_user_file`

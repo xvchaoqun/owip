@@ -268,9 +268,9 @@ form .star {
     left: auto;
     right: 12px;
 }
-.select2-dropdown{
+/*.select2-dropdown{
     z-index: 1029;
-}
+}*/
 
 .has-error .select2-selection {
     border-color: #a94442;
