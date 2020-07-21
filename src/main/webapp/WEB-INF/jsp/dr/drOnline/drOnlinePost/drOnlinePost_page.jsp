@@ -42,6 +42,8 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 250, frozen: true},
+                { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid2',url:'${ctx}/dr/drOnlinePost_changeOrder'},frozen:true },
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:70, frozen: true},
                 { label: '候选人',name: 'users', formatter: function (cellvalue, options, rowObject) {
                     var count = rowObject.cans.length;

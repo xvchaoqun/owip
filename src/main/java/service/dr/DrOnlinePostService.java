@@ -81,7 +81,8 @@ public class DrOnlinePostService extends DrBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("dr_online_post", null, ORDER_BY_DESC, id, addNum);
+        DrOnlinePost drOnlinePost = drOnlinePostMapper.selectByPrimaryKey(id);
+        changeOrder("dr_online_post", "online_id=" + drOnlinePost.getOnlineId(), ORDER_BY_DESC, id, addNum);
     }
 
     public DrOnlinePostView getPost(Integer id){
