@@ -439,7 +439,7 @@
         if(isSubmit == 1){
             if (_totalCount > totalCount) {
 
-                SysMsg.warning("还有未推荐人选的职务（" + postNames.join("，") + "）")
+                SysMsg.warning("还有未完成推荐的职务（" + postNames.join("，") + "）")
 
                 return;
             }else {
