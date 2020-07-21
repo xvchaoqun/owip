@@ -1,6 +1,5 @@
 package service.dr;
 
-import persistence.dr.common.DrTempResult;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.dr.common.DrFinalResult;
+import persistence.dr.common.DrTempResult;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
@@ -66,7 +66,7 @@ public class DrCommonService extends DrBaseMapper{
     public void exportOnlineResult(List<Integer> typeIds, Integer onlineId, HttpServletResponse response) throws IOException {
 
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
-        List<Integer> postIds = drOnlineResultService.getPostId(onlineId);
+        List<Integer> postIds = drOnlineResultService.getPostId(typeIds, onlineId);
         //Map<Integer ,List<DrOnlineCandidate>> candidateMap = drOnlineResultService.findCandidate(onlineId);
         Map<Integer, List<String>> candidateMap = drOnlineResultService.findCandidate(typeIds, onlineId);
 

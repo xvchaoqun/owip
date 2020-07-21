@@ -43,9 +43,9 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
-            return "dr/drOnlineInspectorType/drOnlineInspectorType_page";
+            return "dr/drOnline/drOnlineInspectorType/drOnlineInspectorType_page";
         }
-        return "dr/drOnlineNotice/drOnlineNotice_page";
+        return "dr/drOnline/drOnlineNotice/drOnlineNotice_page";
     }
 
     @RequiresPermissions("drOnlineInspectorType:list")
@@ -54,7 +54,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
                                 @RequestParam(required = false, defaultValue = "1") Byte cls) {
 
         modelMap.put("cls", cls);
-        return "dr/drOnlineInspectorType/drOnlineInspectorType_page";
+        return "dr/drOnline/drOnlineInspectorType/drOnlineInspectorType_page";
     }
 
     @RequiresPermissions("drOnlineInspectorType:list")
@@ -138,7 +138,7 @@ public class DrOnlineInspectorTypeController extends DrBaseController {
             DrOnlineInspectorType drOnlineInspectorType = drOnlineInspectorTypeMapper.selectByPrimaryKey(id);
             modelMap.put("drOnlineInspectorType", drOnlineInspectorType);
         }
-        return "dr/drOnlineInspectorType/drOnlineInspectorType_au";
+        return "dr/drOnline/drOnlineInspectorType/drOnlineInspectorType_au";
     }
 
     @RequiresPermissions("drOnlineInspectorType:edit")

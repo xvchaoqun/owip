@@ -66,7 +66,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             modelMap.put("commonList", commonList);
         }
 
-        return "/dr/drOnlineCandidate/drOnlineCandidate_page";
+        return "/dr/drOnline/drOnlineCandidate/drOnlineCandidate_page";
     }
 
     @RequiresPermissions("drOnlinePost:edit")
@@ -78,7 +78,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             modelMap.put("drOnlineCandidate", drOnlineCandidate);
         }
 
-        return "/dr/drOnlineCandidate/drOnlineCandidate_au";
+        return "/dr/drOnline/drOnlineCandidate/drOnlineCandidate_au";
     }
 
     @RequiresPermissions("drOnlinePost:edit")

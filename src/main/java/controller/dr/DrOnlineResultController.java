@@ -58,7 +58,7 @@ public class DrOnlineResultController extends DrBaseController {
         modelMap.put("candidate", candidate);
         modelMap.put("scoreRate", scoreRate);
 
-        return "dr/drOnlineResult/drOnlineResult_page";
+        return "dr/drOnline/drOnlineResult/drOnlineResult_page";
     }
 
     @RequiresPermissions("drOnlineResult:list")
@@ -69,8 +69,8 @@ public class DrOnlineResultController extends DrBaseController {
                                     String _typeIds,
                                     Integer unitPostId,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
-                                    String candidate,
-                                    Integer scoreRate,
+                                    String candidate,//推荐人选
+                                    Integer scoreRate,//得票比率
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
@@ -138,7 +138,7 @@ public class DrOnlineResultController extends DrBaseController {
 
         modelMap.put("onlineId", onlineId);
 
-        return "/dr/drOnlineResult/drOnlineResult_filter";
+        return "/dr/drOnline/drOnlineResult/drOnlineResult_filter";
     }
 
     @RequestMapping(value = "/agree", method = RequestMethod.POST)

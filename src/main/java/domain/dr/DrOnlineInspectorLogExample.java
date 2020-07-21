@@ -285,6 +285,76 @@ public class DrOnlineInspectorLogExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostIdsIsNull() {
+            addCriterion("post_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsIsNotNull() {
+            addCriterion("post_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsEqualTo(String value) {
+            addCriterion("post_ids =", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsNotEqualTo(String value) {
+            addCriterion("post_ids <>", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsGreaterThan(String value) {
+            addCriterion("post_ids >", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("post_ids >=", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsLessThan(String value) {
+            addCriterion("post_ids <", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsLessThanOrEqualTo(String value) {
+            addCriterion("post_ids <=", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsLike(String value) {
+            addCriterion("post_ids like", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsNotLike(String value) {
+            addCriterion("post_ids not like", value, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsIn(List<String> values) {
+            addCriterion("post_ids in", values, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsNotIn(List<String> values) {
+            addCriterion("post_ids not in", values, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsBetween(String value1, String value2) {
+            addCriterion("post_ids between", value1, value2, "postIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostIdsNotBetween(String value1, String value2) {
+            addCriterion("post_ids not between", value1, value2, "postIds");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;

@@ -13,7 +13,7 @@
 						<div class="login-container" style="margin-top: 50px">
 							<div class="center">
 								<div style="padding-top: 20px">
-									<t:img src="/img/aa.png"/>
+									<t:img src="/img/logo_white.png"/>
 								</div>
 								<h1 class="white">
 									<div style="font-size:smaller">线上民主推荐投票</div>
