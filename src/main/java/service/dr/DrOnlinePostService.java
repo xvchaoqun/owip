@@ -118,6 +118,26 @@ public class DrOnlinePostService extends DrBaseMapper {
         return postViews;
     }
 
+    public List<DrOnlinePostView> getNeedRecommend(DrOnlineInspector inspector){
+
+        DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(inspector.getLogId());
+        String[] postIds = StringUtils.split(inspectorLog.getPostIds(), ",");
+
+        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostViewExample.Criteria criteria = example.createCriteria().andOnlineIdEqualTo(inspector.getOnlineId());
+        if (postIds != null && postIds.length > 0){
+            List<Integer> _postIds = new ArrayList<>();
+            for (String postId : postIds) {
+                _postIds.add(Integer.parseInt(postId));
+            }
+            criteria.andUnitPostIdIn(_postIds);
+        }
+        example.setOrderByClause("id desc");
+        List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
+
+        return postViews;
+    }
+
     //判断推荐职务是否超额推荐
     public Boolean checkCandidateNum(Integer postId){
 

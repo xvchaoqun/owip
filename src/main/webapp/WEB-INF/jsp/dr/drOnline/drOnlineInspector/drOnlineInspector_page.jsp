@@ -162,7 +162,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '登陆账号',name: 'username'},
                 { label: '登陆密码',name: 'passwd'},
-                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 250},
                 { label: '所属单位',name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250},
                 { label: '测评状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
                         var isMobile = rowObject.isMobile;

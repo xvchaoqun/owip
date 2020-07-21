@@ -32,8 +32,8 @@ public class DrOnlineLoginController extends DrBaseController {
 
     /*
         登录地址
-        pc 端：localhost:8080/dr/drOnline/login
-        手机端：localhost:8080/dr/drOnline/iLogin
+        pc 端：localhost:8080/dr/login
+        手机端：localhost:8080/dr/iLogin
     * */
     //手机端登录
     @RequestMapping("/iLogin")
@@ -94,14 +94,14 @@ public class DrOnlineLoginController extends DrBaseController {
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐已完成！"));
                     return failed("该账号对应的民主推荐已完成！");
-                }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号还未发布！"));
-                    return failed("该账号未发布！");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已作废！"));
                     return failed("该账号已作废！");
+                }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE) {
+                    logger.info(sysLoginLogService.log(null, username,
+                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号还未发布！"));
+                    return failed("该账号未发布！");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已完成民主推荐！"));
@@ -148,7 +148,7 @@ public class DrOnlineLoginController extends DrBaseController {
             Integer onlineId = inspector.getOnlineId();
             modelMap.put("inspector", inspector);
             modelMap.put("drOnline", inspector.getDrOnline());
-            List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
+            List<DrOnlinePostView> postViews = drOnlinePostService.getNeedRecommend(inspector);
             modelMap.put("postViews", postViews);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(onlineId);
             modelMap.put("candidateMap", candidateMap);

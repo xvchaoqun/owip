@@ -38,7 +38,7 @@ public class DrOnlineNoticeController extends DrBaseController {
 
         modelMap.put("cls", cls);
 
-        return "dr/drOnlineNotice/drOnlineNotice_page";
+        return "dr/drOnline/drOnlineNotice/drOnlineNotice_page";
     }
 
     @RequiresPermissions("drOnlineNotice:list")
@@ -122,7 +122,7 @@ public class DrOnlineNoticeController extends DrBaseController {
             DrOnlineNotice drOnlineNotice = drOnlineNoticeMapper.selectByPrimaryKey(id);
             modelMap.put("drOnlineNotice", drOnlineNotice);
         }
-        return "dr/drOnlineNotice/drOnlineNotice_au";
+        return "dr/drOnline/drOnlineNotice/drOnlineNotice_au";
     }
 
     @RequiresPermissions("drOnlineNotice:del")
