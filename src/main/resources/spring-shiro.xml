@@ -143,8 +143,7 @@
                 /m/login = anon
                 /m/logout = anon
 
-                /dr/login = anon
-                /dr/iLogin = anon
+                /user/dr/** = anon
 
                 /pmd/pay/** = anon,currentUser
 

@@ -82,7 +82,7 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入登陆账号">
                         </div>
                         <div class="form-group">
-                            <label>参评人身份类型</label>
+                            <label>类别</label>
                             <div class="input-group">
                                 <select  data-width="230" data-rel="select2-ajax"
                                          data-ajax-url="${ctx}/dr/drOnlineInspectorType_selects"

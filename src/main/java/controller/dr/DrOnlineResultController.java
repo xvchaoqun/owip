@@ -1,7 +1,6 @@
 package controller.dr;
 
 import domain.dr.DrOnline;
-import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostView;
@@ -15,19 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.dr.common.DrFinalResult;
-import persistence.dr.common.DrTempResult;
-import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
-import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,100 +132,6 @@ public class DrOnlineResultController extends DrBaseController {
         modelMap.put("onlineId", onlineId);
 
         return "/dr/drOnline/drOnlineResult/drOnlineResult_filter";
-    }
-
-    @RequestMapping(value = "/agree", method = RequestMethod.POST)
-    @ResponseBody
-    public Map agree(@RequestParam(defaultValue = "false") Boolean agree,
-                     Byte isMobile,
-                     HttpServletRequest request){
-
-        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
-
-        DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
-
-        tempResult.setInspectorId(inspector.getId());
-        tempResult.setAgree(agree);
-        tempResult.setMobileAgree((isMobile != null && isMobile == 1) ? agree : false);
-
-        DrOnlineInspector record = new DrOnlineInspector();
-        String tempData = drCommonService.getStringTemp(tempResult);
-
-        record.setId(inspector.getId());
-        record.setTempdata(tempData);
-        record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
-        record.setIsMobile((isMobile != null && isMobile == 1) ? agree : false);
-
-        drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(record);
-
-        logger.info(String.format("%s已阅读说明", inspector.getUsername()));
-        return success(FormUtils.SUCCESS);
-    }
-
-    //处理-保存/提交推荐数据
-    @RequestMapping(value = "/doTempSave", method = RequestMethod.POST)
-    @ResponseBody
-    public Map tempSaveSurvey(@RequestParam(required = false, value = "datas[]") String[] datas,
-                              @RequestParam(required = false, value = "others[]") String[] others,
-                              Boolean isMoblie,
-                              Integer inspectorId,
-                              Integer isSubmit,
-                              Integer onlineId, HttpServletRequest request) throws Exception {
-
-        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
-        inspectorId = inspector.getId();
-
-        //投票时，防止管理员操作，实时读取批次的状态
-        if (!drOnlineInspectorService.checkStatus(inspector))
-            return failed("线上民主推荐内容更新，请重新登录！");
-
-        //临时数据
-        DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
-
-        //得到票数
-        Integer postId = null;
-        Integer userId = null;
-        Integer option = null;
-        Map<String, Integer> optionMap = new HashMap<>();
-        if (datas != null && datas.length > 0) {
-            for (String data : datas) {
-                String[] results = StringUtils.split(data, "_");
-                postId = Integer.valueOf(results[0]);
-                userId = Integer.valueOf(results[1]);
-                option = Integer.valueOf(results[2]);
-
-                optionMap.put(postId + "_" + userId, option);
-            }
-            tempResult.setRawOptionMap(optionMap);
-        }
-
-        if (others != null && others.length > 0) {
-            Map<Integer, String> otherResultMap = drOnlineResultService.consoleOthers(others, datas);
-            tempResult.setOtherResultMap(otherResultMap);
-        }else{
-            if(null != tempResult.getOtherResultMap() && tempResult.getOtherResultMap().size() > 0)
-                tempResult.getOtherResultMap().clear();
-        }
-
-        //格式转化
-        DrOnlineInspector record = new DrOnlineInspector();
-        String tempData = drCommonService.getStringTemp(tempResult);
-
-        record.setId(inspectorId);
-        record.setTempdata(tempData);
-        record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
-        record.setIsMobile(isMoblie);
-
-        if (isSubmit == 1) {
-            logger.info(String.format("%s保存并提交批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
-        }else {
-            logger.info(String.format("%s保存批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
-        }
-
-        return drOnlineResultService.saveOrSubmit(isMoblie, isSubmit, inspectorId, record, request) ? success(FormUtils.SUCCESS) : failed(FormUtils.FAILED);
     }
 
     @RequestMapping("/unitPost_selects")

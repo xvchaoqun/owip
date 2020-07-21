@@ -6,7 +6,7 @@
 <html lang="zh-cn">
 <head>
     <jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
-    <title>线上民主推荐投票</title>
+    <title>线上民主推荐</title>
     <link rel="stylesheet" href="${ctx}/css/main.css" />
     <link rel="stylesheet" href="${ctx}/extend/css/navbar.css?t=20180411" />
 
@@ -29,81 +29,45 @@
         body #navbar{
             text-align: center;
         }
+
+        .navbar-header .nav{
+            top: 40px;
+            position: relative;
+            margin-left: 45px;
+        }
+        .navbar-header .nav a{
+            color: white;
+        }
+        .navbar-header .nav>li>a:hover{
+            background-color: inherit;
+        }
     </style>
 </head>
 <body>
-<div id="navbar" class="navbar navbar-default navbar-fixed-top" style="width: 70%;border-radius:10px;margin-top: 10px;margin-left: 15%;margin-right: 15%;padding-left: 10%;">
-    <div class="navbar-container" id="navbar-container">
-        <div class="navbar-header pull-left hidden-xs hidden-sm">
+<div id="navbar" class="navbar navbar-default navbar-fixed-top" style="">
+    <div class="container" id="navbar-container">
+        <div class="navbar-header">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                 <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
-            <div class="txt" style="cursor: pointer;">线上民主推荐投票</div>
-        </div>
-        <div class="navbar-header pull-left hidden-md hidden-lg ">
-            <a href="${ctx}/" class="navbar-brand">
-                <small style="cursor: pointer;">
-                    线上民主推荐投票
-                </small>
-            </a>
-        </div>
-    </div>
-    <div class="navbar-buttons navbar-header pull-right" role="navigation">
-        <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
+            <div class="txt" style="cursor: pointer;">线上民主推荐系统</div>
+
+            <ul class="nav nav-pills pull-right">
             <li class="">
-                <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i> 测评</a>
+                <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-home"></i> 首页</a>
             </li>
             <li>
-                <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i> 测评说明</a>
+                <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
             </li>
             <li>
 
-                <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
+                <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-key"></i> 修改密码</a>
             </li>
             <li>
-                <a href="${ctx}/dr/drOnline/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+                <a href="javascript:;" onclick="_logout()"><i class="ace-icon fa fa-power-off"></i> 退出</a>
             </li>
         </ul>
-        <ul class="nav nav-pills hidden-lg" style="margin-left: 0px">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> 功能操作</span>
-                    <i class="fa fa-caret-down"> </i></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i> 测评</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i> 测评说明</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
-                    </li>
-                    <li>
-                        <a href="${ctx}/dr/drOnline/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <%--<ul class="nav nav-pills" hidden>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> 功能操作</span>
-                    <i class="fa fa-caret-down"> </i></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-check"></i>测评</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_notice()"><i class="ace-icon fa fa-file-powerpoint-o"></i>测评说明</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-question-circle"></i> 修改密码</a>
-                    </li>
-                    <li>
-                        <a href="${ctx}/dr/drOnline/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>--%>
+        </div>
     </div>
 </div>
 <div class="main-container" id="main-container" style="padding-top: 100px;margin-left: 15%;margin-right: 15%">
@@ -112,8 +76,7 @@
             <div class="span12 header" style="padding-left: 20px;">
                 <h4 style="padding-left: 20px" align="center">
                     <strong>当前账号：</strong><a href="#" class="tag">${inspector.username}</a>&nbsp;
-                    <strong>所属单位：</strong><a href="#" class="tag">${unitMap.get(inspector.unitId).name==null?"无单位":unitMap.get(inspector.unitId).name}</a>&nbsp;
-                    <strong>参评人身份类型：</strong><a href="#" class="tag">${inspector.inspectorType.type}</a>&nbsp;
+                    <strong>类别：</strong><a href="#" class="tag">${inspector.inspectorType.type}</a>&nbsp;
                 </h4>
             </div>
         </c:if>
@@ -126,34 +89,31 @@
                 <form id="evaluateForm"  method="post">
                     <c:if test="${!tempResult.agree}">
                         <div style="width:70%; margin:0 auto;">
-                            <div class="modal-header" style="padding-top: 20px!important;" align="center">
-                                <h2>测评说明</h2>
-                            </div>
+
                             <div class="modal-body" style="text-align: left;word-wrap:break-word">
                                     ${drOnline.notice}
                             </div>
                         </div>
                         <div class="span12" style="margin-top: 30px;font:bold 25px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
-                                <input type="checkbox" id="agree" name="agree" style="width: 25px; height: 25px; margin: 0px;vertical-align: text-bottom;"> 我确认已阅读测评说明
+                                <input type="checkbox" id="agree" name="agree" style="width: 25px; height: 25px; margin: 0px;vertical-align: text-bottom;"> 我确认已阅读推荐说明
                             </center>
                         </div>
                         <div class="span12" style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
-                                <button class="btn btn-large" id="enterBtn" onclick="_confirm()" type="button">进入测评页面</button>
+                                <button class="btn btn-large" id="enterBtn" onclick="_confirm()" type="button">进入推荐页面</button>
                             </center>
                         </div>
                     </c:if>
                 </form>
                 <form id="survey" method="post" display>
                     <c:if test="${tempResult.agree}">
-                    <table class="table-bordered" style="width: 80%;margin: 0 auto;" >
+                    <table class="table table-center table-bordered" style="width:800px;" >
                         <thead>
                         <tr style="height: 70px">
                             <th colspan="3" style="font-size: 30px!important;">
-                                干部民主推荐表&nbsp;<a href="#"><font size="2">${drOnline.code}</font></a>
+                                <font size="2">${drOnline.code}</font>
                             </th>
-
                         </tr>
                         <tr>
                             <th style="font-size: 15px!important;">推荐职务（最大推荐人数）</th>
@@ -168,13 +128,11 @@
                                     <tr>
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
+                                            另选他人
                                         </td>
                                         <td>
-                                            <div>
-                                                <label>--</label>
-                                            </div>
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="请输入姓名后按回车键" />
                                         </td>
                                     </tr>
                                 </c:if>
@@ -201,13 +159,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
+                                           另选他人
                                         </td>
                                         <td>
-                                            <div>
-                                                <label>--</label>
-                                            </div>
+                                             <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="请输入姓名后按回车键" />
                                         </td>
                                     </tr>
                                 </c:if>
@@ -255,13 +211,11 @@
                                     </c:forEach>
                                     <tr>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
+                                            另选他人
                                         </td>
                                         <td>
-                                            <div>
-                                                <label>--</label>
-                                            </div>
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="请输入姓名后按回车键" />
                                         </td>
                                     </tr>
                                 </c:if>
@@ -269,13 +223,11 @@
                                     <tr>
                                         <td>${postView.name}（${postView.competitiveNum}人）</td>
                                         <td>
-                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
-                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="输入后请按回车" />
+                                            另选他人
                                         </td>
                                         <td>
-                                            <div>
-                                                <label>--</label>
-                                            </div>
+                                            <input type="text" value="<c:forEach items="${tempResult.otherResultMap}" var="to"><c:if test="${to.key==postView.id}">${to.value}</c:if></c:forEach>"
+                                                   postId="${postView.id}" style="width: 100%;height: 100%;" name="candidateCode" class="form-field-tags"  placeholder="请输入姓名后按回车键" />
                                         </td>
                                     </tr>
                                 </c:if>
@@ -285,12 +237,11 @@
                         <tfoot>
                         <tr>
                             <td colspan="3">
-                                <button class="btn btn-sm btn-success"
-                                        style="font-weight: bolder; font-size: medium;background-color: #419641!important;border-color: #3e8f3e!important;" type="button"
+                                <button class="btn btn-sm btn-success" type="button"
                                         onclick="doTempSave()"><i class="fa fa-save"></i> 保存</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button class="btn btn-sm btn-primary" id="tempSubmit"
-                                        style="font-weight: bolder; font-size: medium;background-color: #2aabd2!important;border-color: #28a4c9!important;" type="button"
+                                        type="button"
                                         onclick="doTempSubmit()"><i class="fa fa-check"></i> 提交</button>
                             </td>
                         </tr>
@@ -305,9 +256,7 @@
     <div class="main-content notice" disabled hidden>
         <div class="col-xs-11" style="padding-left: 12%">
             <div class="col-sm-offset-1 col-sm-10">
-                    <div class="modal-header" style="text-align: center">
-                        <h2>干部民主推荐说明</h2>
-                    </div>
+
                     <div class="modal-body">
                         ${drOnline.notice}
                     </div>
@@ -318,9 +267,8 @@
         <div class="col-xs-11" style="padding-left: 12%">
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="space"></div>
-                        <form class="form-horizontal" id="form" action="${ctx}/dr/drOnline/user/changePasswd"  method="post">
-                            <div class="tabbable"><%--
-            <jsp:include page="../sys/profile/menu.jsp"/>--%>
+                        <form class="form-horizontal" id="form" action="${ctx}/user/dr/changePasswd"  method="post">
+                            <div class="tabbable">
 
                             <div class="tab-content profile-edit-tab-content">
                                 <div>
@@ -359,13 +307,13 @@
 
                         <div class="clearfix" style="background-color: white;margin-top: 20px;">
                             <div class="col-md-offset-3 col-md-9" style="padding-left:15%;">
-                                <button class="btn btn-info" type="submit" style="background-color: #419641!important;border-color: #3e8f3e!important;">
+                                <button class="btn btn-info" type="submit">
                                     <i class="fa fa-save"></i>
                                     保存
                                 </button>
 
                                 &nbsp; &nbsp;
-                                <button class="btn" type="reset" style="color: grey!important;background-color: #F0F0F0!important;">
+                                <button class="btn" type="reset">
                                     <i class="fa fa-undo"></i>
                                     重置
                                 </button>
@@ -383,11 +331,11 @@
 
     function _confirm() {
         if ($('#agree').is(':checked') == false){
-            $('#agree').qtip({content: '请您确认您已阅读测评说明！', show: true});
+            $('#agree').qtip({content: '请您确认您已阅读说明。', show: true});
             return false;
         }
         $("#evaluateForm").ajaxSubmit({
-            url: "${ctx}/dr/drOnline/agree",
+            url: "${ctx}/user/dr/agree",
             success: function (data) {
                 if (data.success) {
                     //console.log(data)
@@ -451,7 +399,7 @@
                         $.tip({
                             $target: $("#survey input[name=candidateCode][postId=" + postId + "]").parent(),
                             at: 'center right', my: 'center left', type: 'info',
-                            msg: '候选人姓名重复，请加以区别！'
+                            msg: '候选人姓名重复'
                         });
                         flag = 0;
                         return false;
@@ -465,7 +413,7 @@
                 $.tip({
                     $target: $("#survey input[name=candidateCode][postId=" + postId + "]").parent(),
                     at: 'center right', my: 'center left', type: 'info',
-                    msg: item.name + '中投同意票的总数，超过了最大推荐人数' + item.competitiveNum + ',请重选！'
+                    msg: '该职务只允许推荐' + item.competitiveNum + '人'
                 });
                 flag = 0;//放在提示信息中，falg赋不上值
                 return false;
@@ -490,18 +438,16 @@
         if (flag == 0)return;
         if(isSubmit == 1){
             if (_totalCount > totalCount) {
-                $.tip({
-                    $target: $("#tempSubmit"),
-                    at: 'center right', my: 'center left', type: 'info',
-                    msg: "您还没有完成此次民主推荐，请继续完成此次民主推荐（" + postNames.join("，") + "）。"
-                });
+
+                SysMsg.warning("还有未推荐人选的职务（" + postNames.join("，") + "）")
+
                 return;
             }else {
                 bootbox.confirm('<div style="font-size: 16pt;font-weight: bolder;color:red;margin:10px;">\
-					<div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认测评结果无需再做修改。</div>\
+					<div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认推荐结果无需再做修改。</div>\
 					<div style="text-indent:2em;padding:10px;">为保证您评价信息的安全，在点击确定提交后您的对应账号、密码即失效。<div></div>', function (result) {
                     if (result) {
-                        $.post("${ctx}/dr/drOnline/doTempSave?&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+                        $.post("${ctx}/user/dr/doTempSave?&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
                             if (ret.success) {
                                 bootbox.alert({
                                     closeButton: false,
@@ -513,7 +459,7 @@
                                     },
                                     message: '<span style="font-size: 16pt;font-weight: bolder;padding:10px">您已完成此次民主推荐，感谢您对工作的大力支持！<span>',
                                     callback: function () {
-                                        location.href ="${ctx}/dr/drOnline/logout"
+                                        _logout();
                                     }
                                 });
                             }
@@ -524,14 +470,12 @@
                 })
             }
         }else{
-            SysMsg.confirm("确认保存投票信息。", "保存", function () {
-                $.post("${ctx}/dr/drOnline/doTempSave?&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
-                    if (ret.success) {
-                        SysMsg.success('保存成功。', '成功', function () {
-                            location.reload();
-                        })
-                    }
-                })
+            $.post("${ctx}/user/dr/doTempSave?&isSubmit=0",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+                if (ret.success) {
+                    SysMsg.success('保存成功。', '成功', function () {
+                        location.reload();
+                    })
+                }
             })
         }
     }
@@ -596,13 +540,17 @@
                     //console.log(data)
                     if(data.success){
                         SysMsg.success('修改密码成功，请重新登录。', '成功', function(){
-                            location.href ="${ctx}/dr/drOnline/logout"
+                            _logout();
                         });
                     }
                 }
             });
         }
     });
+
+    function _logout(){
+        location.href = "${ctx}/user/dr/logout";
+    }
 
 </script>
 </body>

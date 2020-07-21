@@ -1,4 +1,8 @@
 
+ALTER TABLE `dr_online_inspector_log`
+	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
+
+
 2020.7.20
 
 ALTER TABLE `crp_record`

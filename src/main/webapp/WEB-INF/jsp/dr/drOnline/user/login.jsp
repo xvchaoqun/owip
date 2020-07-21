@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
 </head>
 <body class="login_body">
-    <form id="login-form" method="post" action="${ctx}/dr/drOnline/login" autocomplete="off" disableautocomplete>
+    <form id="login-form" method="post" action="${ctx}/user/dr/login" autocomplete="off" disableautocomplete>
     <table class="dr_login_bg" border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
         <tbody>
             <tr>
@@ -18,7 +18,7 @@
                     <div class="login_logo">
                         <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                             <t:img src="/img/logo_white.png"/></div>
-                        <div class="txt">线&nbsp;上&nbsp;民&nbsp;主&nbsp;推&nbsp;荐&nbsp;投&nbsp;票</div>
+                        <div class="txt">线上民主推荐系统</div>
                     </div>
                 </td>
             </tr>

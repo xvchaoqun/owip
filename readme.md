@@ -8,7 +8,7 @@ tar -cf D:\tmp\owip\one.zip $(cd D:\IdeaProjects\owip | git diff-tree --diff-fil
 tar -cf one.zip $(git diff-tree --diff-filter=d -r --no-commit-id --name-only 98423295  -- . ':(exclude)doc/*')
 
 # 打包某版本（不含此版本更新的内容）到最新版本的所有变更文件
-tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d 7bd875c6 HEAD --name-only  -- . ':(exclude)doc/*')
+tar -cf D:\tmp\owip\all.zip $(cd D:\IdeaProjects\owip | git diff --diff-filter=d a8b2f2f9 HEAD --name-only  -- . ':(exclude)doc/*')
 
 tar -cf all.zip $(git diff --diff-filter=d 15a93ef0 a1c41bcb --name-only  -- . ':(exclude)doc/*')
 
@@ -30,6 +30,7 @@ git diff --diff-filter=d c8799d86 b0cedcb0 --name-only -- . ':(exclude)doc/*' | 
 
 -- 忽略文件
 git update-index --assume-unchanged pom.xml
+git update-index --assume-unchanged src\main\resources\bean-filters.xml
 
 -- 撤销commit 
 git reset --soft HEAD~1

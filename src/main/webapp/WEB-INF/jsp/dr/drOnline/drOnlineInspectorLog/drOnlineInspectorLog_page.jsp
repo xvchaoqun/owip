@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid2"
                             data-width="1000"
                             class="jqOpenViewBtn btn btn-warning btn-sm">
-                        <i class="fa fa-edit"></i> 岗位筛选
+                        <i class="fa fa-edit"></i> 设置推荐岗位
                     </button>
                     <button data-url="${ctx}/dr/inspectorLog_changeStatus"
                             data-title="发布"
@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.onlineId, cellvalue, rowObject.id);
                         return  str;
                     }},
-                { label: '岗位筛选',name: 'unitPosts', width: 550, formatter: function (cellvalue, options, object) {
+                { label: '推荐岗位',name: 'unitPosts', width: 550, formatter: function (cellvalue, options, object) {
                         //console.log(object)
                         var names = []
                         if (cellvalue == undefined || cellvalue.length == 0)
