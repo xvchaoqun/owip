@@ -84,7 +84,7 @@ public class DrOnlinePostController extends DrBaseController {
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         DrOnlinePostViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(" id desc");
+        example.setOrderByClause("sort_order desc");
 
 
         if (cls != 2) {
