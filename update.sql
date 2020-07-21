@@ -10,6 +10,11 @@ UPDATE `crp_record` SET `is_add_form`=1;
 ALTER TABLE `oa_task_user_file`
 	CHANGE COLUMN `file_name` `file_name` VARCHAR(300) NULL DEFAULT NULL AFTER `user_id`;
 
+update sys_resource set url='/m/cadreList?type=1', permission='m:cadreList' where permission='m:cadreHistory:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+ `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (967, 1, '校领导信息', '', 'url', 'fa fa-street-view', '/m/cadreList?type=2', 692, '0/692/', 1, 'm:cadreList:leader', 4, NULL, NULL, 1, 1851);
+
 
 2020.7.17
 西工大
@@ -59,7 +64,7 @@ ALTER TABLE `ow_party_member_group`
 南航，北航
 
 2020.7.10
-西工大  -- 北师大
+西工大
 
 ALTER TABLE `ow_member_certify`
 	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '原单位' AFTER `political_status`,

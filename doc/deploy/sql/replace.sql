@@ -90,7 +90,7 @@ update pcs_proposal set name=concat(left(name, 2), repeat('*', char_length(name)
 update dispatch_work_file set file_name=concat(left(file_name, 2), repeat('*', char_length(file_name)-4), right(file_name, 2)) where char_length(file_name)>4;
 
 
-update cadre set title=concat(left(title, 3), repeat('*', char_length(title)-6), right(title, 3)) where char_length(title)>6;
+-- update cadre set title=concat(left(title, 3), repeat('*', char_length(title)-6), right(title, 3)) where char_length(title)>6;
 update cadre_post set post=concat(left(post, 3), repeat('*', char_length(post)-6), right(post, 3)) where char_length(post)>6;
 
 update dispatch_cadre set post=concat(left(post, 3), repeat('*', char_length(post)-6), right(post, 3)) where char_length(post)>6;
@@ -175,6 +175,8 @@ update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz
 update base_content_tpl set content = replace(content, '主楼A306', '主楼XXX');
 update base_content_tpl set content = replace(content, 'zzgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
 update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
+update base_content_tpl set content = replace(content, '龙海明', '张三');
+update base_content_tpl set content = replace(content, '杨学玉', '李四');
 
 update base_short_msg_tpl set content = replace(content, '18612987573', '13800000000');
 update base_short_msg_tpl set content = replace(content, '58808302，58806879', '88888888');
@@ -195,10 +197,14 @@ update base_short_msg_tpl set content = replace(content, '88888888、88888888', 
 update base_short_msg_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
 update base_short_msg_tpl set content = replace(content, 'zzgz.bnu.edu.cn', 'zzgz.xxx.edu.cn');
 update base_short_msg_tpl set content = replace(content, '主楼A306', '主楼XXX');
+update base_short_msg_tpl set content = replace(content, '龙海明', '张三');
+update base_short_msg_tpl set content = replace(content, '杨学玉', '李四');
 
 update sys_html_fragment set content = replace(content, '18612987573', '13800000000');
 update sys_html_fragment set content = replace(content, '58808302，58806879', '88888888');
 update sys_html_fragment set content = replace(content, '58806879', '88888888');
+update sys_html_fragment set content = replace(content, '龙海明', '张三');
+update sys_html_fragment set content = replace(content, '杨学玉', '李四');
 update sys_html_fragment set content = replace(content, '58808302', '88888888');
 update sys_html_fragment set content = replace(content, '64434910、64434910', '88888888');
 update sys_html_fragment set content = replace(content, '88888888、88888888', '88888888');
