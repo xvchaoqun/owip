@@ -45,7 +45,7 @@ public class DrOnlinePostController extends DrBaseController {
 
         modelMap.put("onlineId", onlineId);
 
-        return "dr/drOnlinePost/menu";
+        return "dr/drOnline/drOnlinePost/menu";
     }
 
     @RequiresPermissions("drOnlinePost:list")
@@ -55,7 +55,7 @@ public class DrOnlinePostController extends DrBaseController {
                                 ModelMap modelMap) throws IOException {
 
         modelMap.put("onlineId", onlineId);
-        return "dr/drOnlinePost/drOnlinePost_page";
+        return "dr/drOnline/drOnlinePost/drOnlinePost_page";
     }
 
     @RequiresPermissions("drOnlinePost:list")
@@ -84,7 +84,7 @@ public class DrOnlinePostController extends DrBaseController {
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         DrOnlinePostViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(" id desc");
+        example.setOrderByClause("sort_order desc");
 
 
         if (cls != 2) {
@@ -199,7 +199,7 @@ public class DrOnlinePostController extends DrBaseController {
         }
         modelMap.put("onlineId", onlineId);
 
-        return "dr/drOnlinePost/drOnlinePost_au";
+        return "dr/drOnline/drOnlinePost/drOnlinePost_au";
     }
 
     @RequiresPermissions("drOnlinePost:del")

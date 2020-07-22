@@ -66,7 +66,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             modelMap.put("commonList", commonList);
         }
 
-        return "/dr/drOnlineCandidate/drOnlineCandidate_page";
+        return "/dr/drOnline/drOnlineCandidate/drOnlineCandidate_page";
     }
 
     @RequiresPermissions("drOnlinePost:edit")
@@ -78,7 +78,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             modelMap.put("drOnlineCandidate", drOnlineCandidate);
         }
 
-        return "/dr/drOnlineCandidate/drOnlineCandidate_au";
+        return "/dr/drOnline/drOnlineCandidate/drOnlineCandidate_au";
     }
 
     @RequiresPermissions("drOnlinePost:edit")
@@ -92,9 +92,9 @@ public class DrOnlineCandidateController extends DrBaseController {
         if (id == null){
 
             if (!drOnlinePostService.checkCandidateNum(postId))
-                throw new OpException("候选人超额推荐！");
+                throw new OpException("最多推荐人数已达上限");
             if (drOnlineCandidateService.checkDuplicate(record.getUserId(), record.getPostId()))
-                throw new OpException("重复添加！");
+                throw new OpException("添加重复");
 
             drOnlineCandidateService.insert(postId, record.getUserId());
             logger.info(addLog(LogConstants.LOG_DR, "管理员添加候选人：%s"));
@@ -117,7 +117,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             DrOnlineCandidate record = drOnlineCandidateMapper.selectByPrimaryKey(id);
             DrOnline drOnline = drOnlinePostService.getPost(record.getPostId()).getDrOnline();
             if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_RELEASE)
-                throw new OpException("民主推荐进行中或已完成，不能修改数据！");
+                throw new OpException("民主推荐进行中或已完成，不可修改数据");
 
             drOnlineCandidateService.del(id);
         }

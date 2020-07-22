@@ -2,6 +2,7 @@ package service.dr;
 
 import domain.dr.*;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,5 +186,18 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
         record.setTotalCount(record.getTotalCount() + totalCount);
 
         drOnlineInspectorLogMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void updatePostIds(Integer id, Integer[] postIds) {
+
+        DrOnlineInspectorLog record = new DrOnlineInspectorLog();
+        record.setId(id);
+        if (postIds != null && postIds.length > 0) {
+            record.setPostIds(StringUtils.join(postIds, ","));
+            drOnlineInspectorLogMapper.updateByPrimaryKeySelective(record);
+        }else {
+            commonMapper.excuteSql("update dr_online_inspector_log set post_ids=null where id="+id);
+        }
     }
 }

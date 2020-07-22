@@ -1,4 +1,10 @@
+
+ALTER TABLE `dr_online_inspector_log`
+	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
+
+
 2020.7.20
+
 ALTER TABLE `crp_record`
 	ADD COLUMN `is_add_form` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否存入干部简历' AFTER `type`;
 
@@ -8,6 +14,12 @@ UPDATE `crp_record` SET `is_add_form`=1;
 ALTER TABLE `oa_task_user_file`
 	CHANGE COLUMN `file_name` `file_name` VARCHAR(300) NULL DEFAULT NULL AFTER `user_id`;
 
+update sys_resource set url='/m/cadreList?type=1', permission='m:cadreList' where permission='m:cadreHistory:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+ `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (967, 1, '校领导信息', '', 'url', 'fa fa-street-view', '/m/cadreList?type=2', 692, '0/692/', 1, 'm:cadreList:leader', 4, NULL, NULL, 1, 1851);
+
+
 2020.7.17
 西工大
 
@@ -15,7 +27,7 @@ ALTER TABLE `pm_meeting`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '会议类型 1 支部党员大会 2 支部委员会 3 党小组会  4 党课  5 主题党日活动  6 组织生活会  7民主生活会' AFTER `branch_id`,
 	ADD COLUMN `month` INT UNSIGNED NULL DEFAULT NULL COMMENT '月份' AFTER `quarter`;
 
--- INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2772, 0, '三会一课管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm:menu', NULL, NULL, NULL, 1, 4500);
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2772, 0, '三会一课管理', '', 'menu', 'fa fa-pencil-square-o', NULL, 1, '0/1/', 0, 'pm:menu', NULL, NULL, NULL, 1, 4500);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2788, 0, '组织生活会', '', 'url', '', '/pmMeeting?type=6', 2772, '0/1/2772/', 1, 'pmMeeting:list:6', NULL, NULL, NULL, 1, 60);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2789, 0, '民主生活会', '', 'url', '', '/pmMeeting?type=7', 2772, '0/1/2772/', 1, 'pmMeeting:list:7', NULL, NULL, NULL, 1, 50);
 
@@ -34,7 +46,7 @@ update pm_meeting set month=month(date);
 -- 删除spring-m.properties 在 spring.properties增加： m.page.pageSize=5
 
 --
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+replace INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
                             `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
                             `available`, `sort_order`) VALUES (966, 0, '签到人员管理', '', 'function', '', NULL, 652, '0/1/384/652/', 1, 'cetTrainObj:*', 1, NULL, NULL, 1, NULL);
 
@@ -56,7 +68,7 @@ ALTER TABLE `ow_party_member_group`
 南航，北航
 
 2020.7.10
-西工大  -- 北师大
+西工大
 
 ALTER TABLE `ow_member_certify`
 	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '原单位' AFTER `political_status`,

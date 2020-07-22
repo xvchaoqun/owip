@@ -1,21 +1,38 @@
 package domain.dr;
 
+import domain.unit.UnitPost;
+import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrOnlineInspectorTypeMapper;
+import persistence.unit.UnitPostMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DrOnlineInspectorLog implements Serializable {
     public DrOnlineInspectorType getInspectorType(){
         DrOnlineInspectorTypeMapper inspectorTypeMapper = CmTag.getBean(DrOnlineInspectorTypeMapper.class);
         return inspectorTypeMapper.selectByPrimaryKey(typeId);
     }
+    UnitPostMapper unitPostMapper = CmTag.getBean(UnitPostMapper.class);
+    public List<UnitPost> getUnitPosts(){
+        List<UnitPost> unitPosts = new ArrayList<>();
+        if (StringUtils.isNotBlank(postIds)){
+            for (String postId : postIds.split(",")){
+                unitPosts.add(unitPostMapper.selectByPrimaryKey(Integer.valueOf(postId)));
+            }
+        }
+        return unitPosts;
+    }
     private Integer id;
 
     private Integer onlineId;
 
     private Integer typeId;
+
+    private String postIds;
 
     private Integer unitId;
 
@@ -55,6 +72,14 @@ public class DrOnlineInspectorLog implements Serializable {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public String getPostIds() {
+        return postIds;
+    }
+
+    public void setPostIds(String postIds) {
+        this.postIds = postIds == null ? null : postIds.trim();
     }
 
     public Integer getUnitId() {

@@ -22,42 +22,42 @@
 				<reportElement x="0" y="0" width="2480" height="3508" uuid="1cd5f05b-6eb8-4f96-8795-3e7a0c9a0396"/>
 				<imageExpression><![CDATA[$F{bg}]]></imageExpression>
 			</image>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="1124" y="409" width="591" height="114" uuid="d04bfd85-2afc-4e39-bd98-8098b213bc7c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="90" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="414" y="787" width="658" height="76" uuid="5b7afc3c-bbb9-4d9d-bc2c-a2b199fab39d"/>
 				<textElement>
 					<font fontName="宋体" size="60" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{locate}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="556" y="902" width="348" height="80" uuid="a09565e1-5a1d-494d-bd65-2af0e0e4d0b3"/>
 				<textElement>
 					<font fontName="宋体" size="60"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="372" y="1017" width="955" height="81" uuid="54ccf53d-f5fe-4071-b03a-e03d9f0a8b38"/>
 				<textElement>
 					<font fontName="宋体" size="60"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{idcard}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="387" y="1142" width="1219" height="73" uuid="e7e65539-a47d-432a-9c02-855d589ac3b2"/>
 				<textElement>
 					<font fontName="宋体" size="60" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="449" y="1256" width="776" height="76" uuid="b3cad391-ad58-4886-b7d8-1d1f1ec8baec"/>
 				<textElement>
 					<font fontName="宋体" size="60" isBold="true"/>

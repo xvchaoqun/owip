@@ -5,6 +5,7 @@ import domain.dr.*;
 import domain.dr.DrOnlineInspectorLogExample.Criteria;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
+import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -45,7 +46,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                                        ModelMap modelMap) {
 
         modelMap.put("onlineId", onlineId);
-        return "dr/drOnlineInspectorLog/menu";
+        return "dr/drOnline/drOnlineInspectorLog/menu";
     }
 
     @RequiresPermissions("drOnlineInspectorLog:list")
@@ -66,7 +67,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         modelMap.put("onlineId", onlineId);
 
-        return "dr/drOnlineInspectorLog/drOnlineInspectorLog_page";
+        return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_page";
     }
 
     @RequiresPermissions("drOnlineInspectorLog:list")
@@ -159,7 +160,52 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         Map<Integer, Unit> unitMap = unitService.getRunAll();
         modelMap.put("unitMap", unitMap);
 
-        return "dr/drOnlineInspectorLog/drOnlineInspectorLog_au";
+        return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_au";
+    }
+
+    @RequiresPermissions("drOnlineInspectorLog:edit")
+    @RequestMapping(value = "/drOnlineInspectorLog_selectPost", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_drOnlineInspectorLog_selectPost(HttpServletRequest request,
+                                                  Integer id,
+                                                  @RequestParam(required = false, value = "postIds[]") Integer[] postIds, ModelMap modelMap) {
+
+        drOnlineInspectorLogService.updatePostIds(id, postIds);
+        logger.info(log( LogConstants.LOG_DR, "%s岗位筛选", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("drOnlineInspectorLog:edit")
+    @RequestMapping("/drOnlineInspectorLog_selectPost")
+    public String drOnlineInspectorLog_selectPost(@RequestParam(required = false, defaultValue = "0") Integer edit,
+                                                  Integer onlineId,
+                                                  Integer id,
+                                                  ModelMap modelMap) {
+
+        modelMap.put("edit", edit);
+        modelMap.put("onlineId", onlineId);
+
+        List<UnitPost> selectPosts = new ArrayList<>();
+        if (id != null){
+            DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(id);
+            modelMap.put("inspectorLog", inspectorLog);
+            selectPosts = inspectorLog.getUnitPosts();
+            modelMap.put("selectPosts", selectPosts);
+        }
+
+        DrOnlinePostExample example = new DrOnlinePostExample();
+        example.createCriteria().andOnlineIdEqualTo(onlineId);
+        List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
+        List<UnitPost> unitPosts = new ArrayList<>();
+        if (drOnlinePosts != null && drOnlinePosts.size() >0) {
+            for (DrOnlinePost drOnlinePost : drOnlinePosts) {
+                unitPosts.add(unitPostMapper.selectByPrimaryKey(drOnlinePost.getUnitPostId()));
+            }
+        }
+        modelMap.put("unitPosts", unitPosts);
+
+        return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_selectPost";
     }
 
     @RequiresPermissions("drOnlineInspectorLog:del")
@@ -182,7 +228,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         modelMap.put("onlineId", onlineId);
 
-        return "/dr/drOnlineInspectorLog/selectUnitIdsAndInspectorTypeIds";
+        return "/dr/drOnline/drOnlineInspectorLog/selectUnitIdsAndInspectorTypeIds";
     }
 
     //生成单位树
@@ -251,7 +297,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         modelMap.put("onlineId", onlineId);
 
-        return "/dr/drOnlineInspectorLog/inspector_gen";
+        return "/dr/drOnline/drOnlineInspectorLog/inspector_gen";
     }
 
     @RequiresPermissions("drOnlineInspectorLog:edit")

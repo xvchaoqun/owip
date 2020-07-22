@@ -81,7 +81,8 @@ public class DrOnlinePostService extends DrBaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        changeOrder("dr_online_post", null, ORDER_BY_DESC, id, addNum);
+        DrOnlinePost drOnlinePost = drOnlinePostMapper.selectByPrimaryKey(id);
+        changeOrder("dr_online_post", "online_id=" + drOnlinePost.getOnlineId(), ORDER_BY_DESC, id, addNum);
     }
 
     public DrOnlinePostView getPost(Integer id){
@@ -113,6 +114,26 @@ public class DrOnlinePostService extends DrBaseMapper {
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
         example.setOrderByClause("id desc");
+        List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
+
+        return postViews;
+    }
+
+    public List<DrOnlinePostView> getNeedRecommend(DrOnlineInspector inspector){
+
+        DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(inspector.getLogId());
+        String[] postIds = StringUtils.split(inspectorLog.getPostIds(), ",");
+
+        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostViewExample.Criteria criteria = example.createCriteria().andOnlineIdEqualTo(inspector.getOnlineId());
+        if (postIds != null && postIds.length > 0){
+            List<Integer> _postIds = new ArrayList<>();
+            for (String postId : postIds) {
+                _postIds.add(Integer.parseInt(postId));
+            }
+            criteria.andUnitPostIdIn(_postIds);
+        }
+        example.setOrderByClause("sort_order desc");
         List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
 
         return postViews;

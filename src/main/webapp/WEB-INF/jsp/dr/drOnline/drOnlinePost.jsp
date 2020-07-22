@@ -126,7 +126,7 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '批次编号',name: 'drOnline.code', frozen: true, width: 210},
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
-                { label: '推荐职务',name: 'name', width: 200, frozen: true},
+                { label: '推荐职务',name: 'name', width: 252, frozen: true},
                 { label: '干部民主推荐说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                         //console.log(rowObject.drOnline.id)
                         var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=0"><i class="fa fa-edit"></i> 编辑</button>'

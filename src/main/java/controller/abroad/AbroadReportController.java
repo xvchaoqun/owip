@@ -7,6 +7,7 @@ import domain.abroad.PassportDraw;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
@@ -203,7 +204,8 @@ public class AbroadReportController extends AbroadBaseController {
 
         SysUserView user = sysUserService.findById(userId);
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        String unit = CmTag.getUnit(cadre.getUnitId()).getName();
+        Unit unit = unitMapper.selectByPrimaryKey(cadre.getUnitId());
+        String unitName = (unit==null)?"":unit.getName();
         String post = cadre.getPost();
 
         String to = "self";
@@ -218,7 +220,7 @@ public class AbroadReportController extends AbroadBaseController {
         map.put("locate", CmTag.getSysConfig().getCity());
         map.put("idcard", user.getIdcard());
         String schoolName = CmTag.getSysConfig().getSchoolName();
-        map.put("unit", unit.startsWith(schoolName) ? unit : (schoolName + unit));
+        map.put("unit", unitName.startsWith(schoolName) ? unitName : (schoolName + unitName));
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR
                 + "abroadApply" + FILE_SEPARATOR + to + ".jpg");

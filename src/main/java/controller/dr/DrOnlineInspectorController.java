@@ -48,7 +48,7 @@ public class DrOnlineInspectorController extends DrBaseController {
         modelMap.put("onlineId", onlineId);
         modelMap.put("logId", logId);
 
-        return "dr/drOnlineInspector/drOnlineInspector_page";
+        return "dr/drOnline/drOnlineInspector/drOnlineInspector_page";
     }
 
     @RequiresPermissions("drOnlineInspector:list")
@@ -142,7 +142,7 @@ public class DrOnlineInspectorController extends DrBaseController {
             DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
             modelMap.put("inspector", inspector);
         }
-        return "dr/drOnlineInspector/drOnlineInspector_au";
+        return "dr/drOnline/drOnlineInspector/drOnlineInspector_au";
     }
 
     @RequiresPermissions("drOnlineInspector:edit")
@@ -256,7 +256,7 @@ public class DrOnlineInspectorController extends DrBaseController {
         List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(example);
         modelMap.put("inspectors", inspectors);
 
-        return "dr/drOnlineInspectorLog/drOnlineInspector_print";
+        return "dr/drOnline/drOnlineInspectorLog/drOnlineInspector_print";
     }
 
     @RequestMapping("/drOnlineInspector_selects")

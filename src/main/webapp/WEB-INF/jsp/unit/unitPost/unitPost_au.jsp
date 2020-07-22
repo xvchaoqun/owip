@@ -170,7 +170,7 @@ pageEncoding="UTF-8"%>
 							</label>
 						</div>
 					</div>
-					<span class="help-block blue">注：<%--当前该岗位关联的干部是【${cadrePost.cadre.realname}】，--%>如果选择“是”，则选择干部对应的任职信息也将更新。</span>
+					<span class="help-block blue">注：当前该岗位关联的干部是【${cadrePost.cadre.realname}】，如果选择“是”，则选择干部对应的任职信息也将更新。</span>
 				</div>
 			</div>
             </c:if>
@@ -182,10 +182,10 @@ pageEncoding="UTF-8"%>
 								name="cadreId" data-placeholder="请输入账号或姓名或学工号">
 							<option value="${cadrePost.cadre.id}">${cadrePost.cadre.realname}-${cadrePost.cadre.code}</option>
 					</select>
-					<span class="help-block blue">${cadrePost==null?'注：默认更新该干部的“第一主职”。':'注：变更为其他干部时，默认更新该干部的“第一主职”。'}</span>
+					<span class="help-block blue">注：变更前后两个干部的任职信息也将更新。</span>
 				</div>
 			</div>
-
+		</c:if>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-7">

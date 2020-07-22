@@ -12,6 +12,12 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/dr/drOnlineInspectorLog_au?onlineId=${onlineId}"
                        data-grid-id="#jqGrid2"><i class="fa fa-plus"></i>
                         个别生成</button>
+                    <button data-url="${ctx}/dr/drOnlineInspectorLog_selectPost?onlineId=${onlineId}"
+                            data-grid-id="#jqGrid2"
+                            data-width="1000"
+                            class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-edit"></i> 设置推荐岗位
+                    </button>
                     <button data-url="${ctx}/dr/inspectorLog_changeStatus"
                             data-title="发布"
                             data-msg="确定发布这{0}条数据（除已作废的账号）？"
@@ -116,13 +122,25 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnlineInspectorLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 250},
                 { label: '所属单位',name: 'unitId', width: 250, formatter: $.jgrid.formatter.unit},
                 {
                     label: '已生成', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {
                         var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspector?onlineId={0}&logId={2}"><i class="fa fa-search"></i> 查看({1})</button>'
                             .format(rowObject.onlineId, cellvalue, rowObject.id);
                         return  str;
+                    }},
+                { label: '推荐岗位',name: 'unitPosts', width: 550, formatter: function (cellvalue, options, object) {
+                        //console.log(object)
+                        var names = []
+                        if (cellvalue == undefined || cellvalue.length == 0)
+                            return "--";
+                        else{
+                            cellvalue.forEach(function(unitPost, i){
+                                names.push(unitPost.name);
+                            })
+                            return names.join("，");
+                        }
                     }},
                 { label: '已发布/已完成',name: '_pubFinishCount', formatter: function (cellvalue, options, object) {
                     //console.log(object)

@@ -84,6 +84,7 @@ update cadre_info set content = replace(content, @keyowrd,  repeat('*', char_len
 update unit set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
 
 update cadre set title = replace(title, @keyowrd, repeat('*', char_length(@keyowrd))) where title like concat('%',@keyowrd,'%');
+update cadre set title=concat(left(title, 3), repeat('*', char_length(title)-6), right(title, 3)) where char_length(title)>6;
 
 update ow_party set name = replace(name, @keyowrd, repeat('*', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');
 
@@ -96,3 +97,5 @@ update ow_branch set short_name = replace(short_name, @keyowrd, repeat('*', char
 
 update sys_attach_file set filename = replace(filename, @keyowrd, repeat('*', char_length(@keyowrd))) where filename like concat('%',@keyowrd,'%');
 
+set @keyowrd='师';
+update dispatch_type set name = replace(name, @keyowrd, repeat('', char_length(@keyowrd))) where name like concat('%',@keyowrd,'%');

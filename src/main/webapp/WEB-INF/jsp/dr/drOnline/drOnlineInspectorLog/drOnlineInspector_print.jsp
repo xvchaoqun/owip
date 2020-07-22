@@ -22,7 +22,7 @@
                 <td style="height: 60px"></td>
             </tr>
             <tr>
-                <td align="center"><span style='font-size:22.0pt;font-family:方正小标宋简体'>干部民主推荐说明</span></td>
+                <td align="center"><span style='font-size:22.0pt;font-family:方正小标宋简体'>民主推荐票说明</span></td>
             </tr>
             <tr>
                 <td style="height: 30px"></td>
@@ -37,24 +37,25 @@
                     <table style="border: 1px solid;width: 100%; margin: 10px 30px;padding: 10px;">
                         <tr>
                             <td align="right">
-                                <span style='font-size:14.0pt;font-family:黑体;'>考核系统网址：</span>
+                                <span style='font-size:14.0pt;font-family:黑体;'>系统网址：</span>
                             </td>
                             <td align="left">${url}</td>
+                            <td rowspan="4" align="center" width="150">
+                                    <div class="qrcode"
+                                     data-url="${drOnlineUrl}/user/dr/login"
+                                     style="width:120px; height:120px;"></div>
+                            </td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td align="right" width="150">
                                 <span style='font-size:14.0pt;font-family:黑体;'>年度：</span>
                             </td>
                             <td align="left">${drOnline.year}</td>
-                            <td rowspan="4" align="center" width="150">
-                                    <div class="qrcode"
-                                     data-url="${drOnlineUrl}/dr/iLogin"
-                                     style="width:120px; height:120px;"></div>
-                            </td>
-                        </tr>
+
+                        </tr>--%>
                         <tr>
                             <td align="right">
-                                <span style='font-size:14.0pt;font-family:黑体;'>参评人类型：</span>
+                                <span style='font-size:14.0pt;font-family:黑体;'>账号类别：</span>
                             </td>
                             <td align="left">${inspector.inspectorType.type}</td>
                         </tr>
@@ -82,20 +83,20 @@
                                     </c:if>
                             </td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td align="right">
                                 <span style='font-size:14.0pt;font-family:黑体;'>手机端登录：</span>
                             </td>
                             <td align="left">
                                 扫描右侧二维码。
                             </td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td align="left">
-                    <span style='font-size:15.0pt;font-family:黑体'>二、测评说明</span>
+                    <span style='font-size:15.0pt;font-family:黑体'>二、使用说明</span>
                 </td>
             </tr>
             <tr>
