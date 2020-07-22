@@ -246,20 +246,23 @@ public class UserDrOnlineController extends DrBaseController {
                 if(isSubmit && radioValue==null){
                     return failed("存在未完成推荐的职务（{0}）。", post.getName());
                 }
-                if(!DrConstants.RESULT_STATUS_MAP.containsKey(radioValue)
-                        || radioValue==DrConstants.RESULT_STATUS_OTHER){
-                    return failed("数据有误，请重试。");
-                }
+
                 if(radioValue!=null) {
+
+                    if(!DrConstants.RESULT_STATUS_MAP.containsKey(radioValue)
+                        || radioValue==DrConstants.RESULT_STATUS_OTHER){
+                        return failed("数据有误，请重试。");
+                    }
+
                     candidateMap.put(radioName, radioValue);
 
-                    if(radioValue!=1){
-                        String otherRealname = request.getParameter(radioName+"_realname");
-                        if(isSubmit && StringUtils.isBlank(otherRealname)){
-                            return failed("存在未完成推荐的职务（{0}）。", post.getName());
-                        }
+                    if(radioValue!=DrConstants.RESULT_STATUS_AGREE){
 
-                        if(otherRealname!=null) {
+                        String otherRealname = request.getParameter(radioName+"_realname");
+                        /*if(isSubmit && StringUtils.isBlank(otherRealname)){
+                            return failed("存在未完成推荐的职务（{0}）。", post.getName());
+                        }*/
+                        if(otherRealname!=null) { // 不同意或弃权时，可另选推荐人，也可不选
                             otherMap.put(radioName, otherRealname);
                         }
                     }

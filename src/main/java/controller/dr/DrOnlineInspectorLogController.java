@@ -378,7 +378,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         List<DrOnlineInspectorLog> records = drOnlineInspectorLogMapper.selectByExample(example);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(records.get(0).getOnlineId());
         int rownum = records.size();
-        String[] titles = {"登录账号|150","登录密码|150","推荐人身份类型|100","所属单位|130","测评状态|100","分发状态|100"};
+        String[] titles = {"登录账号|150","登录密码|150","推荐人身份类型|100","所属单位|130","测评状态|100","发布状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DrOnlineInspectorLog record = records.get(i);
@@ -391,7 +391,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
                         inspector.getUsername(),
                         inspector.getPasswd(),
                         inspector.getInspectorType().getType(),
-                        unit.getName(),
+                        unit==null?"--":unit.getName(),
                         DrConstants.INSPECTOR_STATUS_MAP.get(inspector.getStatus()),
                         DrConstants.INSPECTOR_PUB_STATUS_MAP.get(inspector.getPubStatus())
                 };

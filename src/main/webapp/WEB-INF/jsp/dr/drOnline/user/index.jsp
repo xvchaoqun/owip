@@ -7,25 +7,21 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
-    <title>线上民主推荐</title>
-    <link rel="stylesheet" href="${ctx}/css/main.css"/>
-    <link rel="stylesheet" href="${ctx}/extend/css/navbar.css?t=20180411"/>
+    <title>线上民主推荐系统</title>
+    <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
 
     <style>
         h1[id], h2[id] {
             padding-top: 95px;
             margin-top: -95px;
         }
-
-        body #navbar {
-            text-align: center;
+        body{
+            background-color: inherit;
         }
 
         .navbar-header .nav {
-            top: 40px;
+            top: 35px;
             position: relative;
-            margin-left: 45px;
         }
 
         .navbar-header .nav a {
@@ -33,7 +29,7 @@
         }
 
         .navbar-header .nav > li > a:hover {
-            background-color: inherit;
+            color: #0d43fa;
         }
 
         #candidateForm .table td, #candidateForm .table th {
@@ -62,16 +58,13 @@
 <body>
 <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container" id="navbar-container">
-        <div class="navbar-header">
+        <div class="navbar-header" style="width: 100%">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                 <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
             <div class="txt" style="cursor: pointer;">线上民主推荐系统</div>
 
             <ul class="nav nav-pills pull-right">
-                <li>
-                    <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-home"></i> 首页</a>
-                </li>
                 <li>
                     <a href="javascript:void(0)" onclick="drOnline_notice()"><i
                             class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
@@ -146,7 +139,7 @@
                             <c:set var="status" value="${tempResult.candidateMap.get(key)}"/>
                             <c:set var="realname" value="${tempResult.otherMap.get(key)}"/>
                             <tr class="candidate">
-                                <td class="realname">${candidate.realname}</td>
+                                <td class="realname"><span class="star">*</span> ${candidate.realname}</td>
                                 <td>
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input postId="${post.id}" type="radio" name="${key}"
@@ -174,7 +167,7 @@
                         </c:forEach>
                         <c:forEach begin="${candidateNum+1}" end="${post.competitiveNum}" var="idx">
                             <tr>
-                                <td class="realname">推荐人${idx}</td>
+                                <td class="realname"><span class="star">*</span> 推荐人${idx}</td>
                                 <td>
                                     <input name="${post.id}_realname_${idx}" type="text"
                                            value="${cm:getSetValue(realnameSet, idx-candidateNum-1)}">
@@ -185,11 +178,11 @@
                     </tbody>
                     <tr>
                         <td colspan="2" style="text-align: center">
-                            <button class="btn btn-sm btn-success" type="button"
-                                    onclick="doTempSave()"><i class="fa fa-save"></i> 保存
+                            <button class="btn btn-success" type="button"
+                                    onclick="doTempSave()"><i class="fa fa-save"></i> 暂存
                             </button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="btn btn-sm btn-primary" id="tempSubmit"
+                            <button class="btn btn-primary" id="tempSubmit"
                                     type="button"
                                     onclick="doTempSubmit()"><i class="fa fa-check"></i> 提交
                             </button>
@@ -200,18 +193,16 @@
         </c:if>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script>
 
     $("input[type=radio]").click(function () {
         var $otherTr = $("tr[data-candidate='" + $(this).attr("name") + "']");
         if ($(this).val() == ${RESULT_STATUS_AGREE}) {
             $otherTr.hide();
-            $("input", $otherTr).removeAttr("required");
         } else {
             $otherTr.show();
-            $("input", $otherTr).attr("required", "required");
         }
-
     })
 
     function _confirm() {

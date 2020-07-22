@@ -17,6 +17,9 @@ ALTER TABLE `dr_online_result`
 
 -- 更新utils
 
+ALTER TABLE `dr_online_result`
+	CHANGE COLUMN `realname` `realname` VARCHAR(200) NULL COMMENT '候选人姓名' AFTER `user_id`;
+
 
 2020.7.20
 

@@ -36,6 +36,7 @@
     </insert>
 
     <sql id="selectResultList_where">
+        and r.realname is not null
         <if test="onlineId != null">
             and r.online_id = #{onlineId}
         </if>

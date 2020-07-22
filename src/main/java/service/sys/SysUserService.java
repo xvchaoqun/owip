@@ -582,6 +582,8 @@ public class SysUserService extends BaseMapper {
     @Cacheable(value = "UserPermissions", key = "#username + ':' + (#isMobile?1:0)")
     public Set<String> findPermissions(String username, boolean isMobile) {
 
+        if(StringUtils.isBlank(username)) return null;
+
         SysUserView sysUser = findByUsername(username);
         List<SysResource> resources = findResources(username, isMobile);
 

@@ -131,7 +131,7 @@ public class DrOnlineResultService extends DrBaseMapper {
                 result.setRealname(candidate.getRealname());
             }else{
                 String realname = otherMap.get(key);
-                result.setRealname(realname); // 另选推荐人
+                result.setRealname(realname); // 另选推荐人（可以为空）
             }
 
             result.setInspectorId(inspectorId);

@@ -105,7 +105,7 @@ pageEncoding="UTF-8" %>
                             </script>
                         </div>--%>
                     <div class="form-group">
-                        <label>分发状态</label>
+                        <label>发布状态</label>
                         <select name="pubStatus" data-width="100" data-rel="select2"
                                 data-placeholder="请选择">
                             <option></option>
@@ -180,7 +180,7 @@ pageEncoding="UTF-8" %>
                             return str == null ? "" : str += '<font color="green">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_SAVE)}</font>';
                         }
                     }},
-                { label: '分发状态',name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
+                { label: '发布状态',name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == ${INSPECTOR_PUB_STATUS_NOT_RELEASE})
                             return '${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_NOT_RELEASE)}';
                         else
