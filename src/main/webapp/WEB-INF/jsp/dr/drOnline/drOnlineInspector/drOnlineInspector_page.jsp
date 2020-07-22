@@ -2,13 +2,6 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="<%=DrConstants.INSPECTOR_STATUS_MAP%>" var="INSPECTOR_STATUS_MAP"/>
-<c:set value="<%=DrConstants.INSPECTOR_STATUS_INIT%>" var="INSPECTOR_STATUS_INIT"/>
-<c:set value="<%=DrConstants.INSPECTOR_STATUS_ABOLISH%>" var="INSPECTOR_STATUS_ABOLISH"/>
-<c:set value="<%=DrConstants.INSPECTOR_STATUS_FINISH%>" var="INSPECTOR_STATUS_FINISH"/>
-<c:set value="<%=DrConstants.INSPECTOR_STATUS_SAVE%>" var="INSPECTOR_STATUS_SAVE"/>
-<c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_MAP%>" var="INSPECTOR_PUB_STATUS_MAP"/>
-<c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_RELEASE%>" var="INSPECTOR_PUB_STATUS_RELEASE"/>
-<c:set value="<%=DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE%>" var="INSPECTOR_PUB_STATUS_NOT_RELEASE"/>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -24,10 +17,10 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.unitId || not empty param.typeId || not empty param.id || not empty param.pubStatus ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspector:edit">
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                    <%--<button class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/dr/drOnlineInspector_au"
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
-                        重置密码</button>
+                        重置密码</button>--%>
                     <button data-url="${ctx}/dr/inspector_changeStatus"
                             data-title="发布"
                             data-msg="确定发布这{0}条数据（除已作废的账号）？"
@@ -162,30 +155,19 @@ pageEncoding="UTF-8" %>
         colModel: [
                 { label: '登陆账号',name: 'username'},
                 { label: '登陆密码',name: 'passwd'},
-                { label: '参评人身份类型',name: 'inspectorType.type', width: 250},
-                { label: '所属单位',name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250},
-                { label: '测评状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
-                        var isMobile = rowObject.isMobile;
-                        var str = "";
-                        if (isMobile){
-                            str = "<i class='fa fa-mobile-phone'></i>";
-                        }
-                        if (cellvalue == ${INSPECTOR_STATUS_INIT}) {
-                            return '${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_INIT)}';
-                        }else if (cellvalue == ${INSPECTOR_STATUS_ABOLISH}) {
-                            return '<font color="orange">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_ABOLISH)}</font>';
-                        }else if (cellvalue == ${INSPECTOR_STATUS_FINISH}) {
-                            return str == null ? "" : str += '<font color="green">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_FINISH)}</font>';
-                        }else if (cellvalue == ${INSPECTOR_STATUS_SAVE}) {
-                            return str == null ? "" : str += '<font color="green">${INSPECTOR_STATUS_MAP.get(INSPECTOR_STATUS_SAVE)}</font>';
-                        }
-                    }},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
+                { label: '所属单位', name: 'unitId', align:'left', formatter: $.jgrid.formatter.unit, width: 200},
                 { label: '发布状态',name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == ${INSPECTOR_PUB_STATUS_NOT_RELEASE})
-                            return '${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_NOT_RELEASE)}';
-                        else
-                            return '<font color="green">${INSPECTOR_PUB_STATUS_MAP.get(INSPECTOR_PUB_STATUS_RELEASE)}</font>';
-                    }},
+                        return _cMap.INSPECTOR_PUB_STATUS_MAP[cellvalue];
+                }},
+                { label: '使用状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
+
+                        return (rowObject.isMobile?"<i class='fa fa-mobile-phone'></i> ":"")
+                            + _cMap.INSPECTOR_STATUS_MAP[cellvalue];
+                }},
+                { label: '提交时间',name: 'submitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
+                { label: 'IP',name: 'submitIp', width:120},
+                { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
                 { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -238,11 +238,6 @@ public class DrOnlineInspectorController extends DrBaseController {
                                           HttpServletResponse response,
                                           HttpServletRequest request) throws IOException, TemplateException {
 
-
-        String url = DrConstants.DR_ONLINE_URL;
-        String content = sysPropertyService.findAll().get("siteHome");
-        modelMap.put("url",content + url);
-
         DrOnlineInspectorExample example = new DrOnlineInspectorExample();
         DrOnlineInspectorExample.Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH).andPubStatusEqualTo(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
 

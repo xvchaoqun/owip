@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=DrConstants.DR_ONLINE_MAP%>" var="DR_ONLINE_MAP"/>
-<c:set value="<%=DrConstants.DR_ONLINE_NOT_RELEASE%>" var="DR_ONLINE_NOT_RELEASE"/>
-<c:set value="<%=DrConstants.DR_ONLINE_RELEASE%>" var="DR_ONLINE_RELEASE"/>
-<c:set value="<%=DrConstants.DR_ONLINE_WITHDRAW%>" var="DR_ONLINE_WITHDRAW"/>
-<c:set value="<%=DrConstants.DR_ONLINE_FINISH%>" var="DR_ONLINE_FINISH"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -215,20 +210,10 @@ pageEncoding="UTF-8" %>
                 { label: '推荐日期',name: 'recommendDate',width:100, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}, frozen:true},
                 { label: '编号',name: 'code', width:210,frozen: true},
                 { label: '状态',name: 'status',formatter: function (cellvalue, options, rowObject) {
-                        if (cellvalue == ${DR_ONLINE_NOT_RELEASE}) {
-                            return '<font color="red">${DR_ONLINE_MAP.get(DR_ONLINE_NOT_RELEASE)}</font>';
-                        } else if (cellvalue == ${DR_ONLINE_RELEASE}) {
-                            return '<font color="green">${DR_ONLINE_MAP.get(DR_ONLINE_RELEASE)}</font>';
-                        } else if (cellvalue == ${DR_ONLINE_WITHDRAW}) {
-                            return '<font color="orange">${DR_ONLINE_MAP.get(DR_ONLINE_WITHDRAW)}</font>';
-                        } else if (cellvalue == ${DR_ONLINE_FINISH}) {
-                            return '<font color="green">${DR_ONLINE_MAP.get(DR_ONLINE_FINISH)}</font>';
-                        }
-                    }, frozen:true, width:80},
-                { label: '推荐类型',name: 'type', width: 105, formatter: $.jgrid.formatter.MetaType},
-                { label: '推荐开始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
-                { label: '推荐截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
-                { label: '干部民主推荐说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
+
+                    return _cMap.DR_ONLINE_MAP[cellvalue];
+                }, frozen:true, width:80},
+                { label: '参评人说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
                     var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=0"><i class="fa fa-desktop"></i> PC端</button>'
                         .format(rowObject.id)
                         + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
@@ -242,23 +227,37 @@ pageEncoding="UTF-8" %>
                 }},
                 {
                     label: '推荐职务', name: '_post', width:85, formatter: function (cellvalue, options, rowObject) {
-                            var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlinePost_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.id);
-                            return  str;
+
+                       return $.button.openView({
+                            style:"btn-success",
+                            url:"${ctx}/dr/drOnlinePost_menu?onlineId="+rowObject.id,
+                            icon:"fa-list",
+                            label:"查看"});
+                }},
+                {
+                    label: '参评人<br/>账号管理', name: '_account', width:80, formatter: function (cellvalue, options, rowObject) {
+
+                        return $.button.openView({
+                            style:"btn-warning",
+                            url:"${ctx}/dr/drOnlineInspectorLog_menu?onlineId="+rowObject.id,
+                            icon:"fa-key",
+                            label:"查看"});
                 }},
                 {
                     label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
-                            var str ='<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.id);
-                        return str;
+
+                        return $.button.openView({
+                            style:"btn-info",
+                            url:"${ctx}/dr/drOnline/drOnlineResult?onlineId="+rowObject.id,
+                            icon:"fa-bar-chart",
+                            label:"查看"});
                     }, width: 80
                 },
-                {
-                    label: '参评人<br/>账号管理', name: '_account', width:80, formatter: function (cellvalue, options, rowObject) {
-                        var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId={0}"><i class="fa fa-search"></i> 查看</button>'
-                            .format(rowObject.id);
-                        return  str;
-                }},
+                { label: '推荐类型',name: 'type', width: 105, formatter: $.jgrid.formatter.MetaType},
+                { label: '推荐开始时间',name: 'startTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
+                { label: '推荐截止时间',name: 'endTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'},cellattr:addColor},
+
+
                 {label: '推荐组负责人', name: 'chiefMember.user.realname', width: 100, formatter: function (cellvalue, options, rowObject) {
 
                         var val = $.trim(cellvalue);
@@ -280,7 +279,7 @@ pageEncoding="UTF-8" %>
                         return names.join("，")
                     }, width: 250
                 },
-                { label: '备注', name: 'remark', width: 350}
+                { label: '备注', name: 'remark', width: 350, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

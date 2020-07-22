@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class DrConstants {
 
-    public final static String DR_ONLINE_URL = "/dr/login";
-
     //参评人
     public final static Byte ROLE_INSPECTOR = 4;
 

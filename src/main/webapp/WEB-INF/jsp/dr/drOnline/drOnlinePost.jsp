@@ -10,23 +10,6 @@ pageEncoding="UTF-8" %>
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content multi-row-head-table">
                     <div class="tab-pane in active">
-        <div>
-            <shiro:hasPermission name="drOnlinePost:edit">
-                <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                   data-url="${ctx}/dr/drOnlinePost_au?onlineId=${onlineId}"
-                   data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                    修改</button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="drOnlinePost:del">
-                <button data-url="${ctx}/dr/drOnlinePost_batchDel"
-                        data-title="删除"
-                        data-msg="确定删除这{0}条数据？"
-                        data-grid-id="#jqGrid"
-                        class="jqBatchBtn btn btn-danger btn-sm">
-                    <i class="fa fa-trash"></i> 删除
-                </button>
-            </shiro:hasPermission>
-        </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -124,37 +107,10 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager",
         url: '${ctx}/dr/drOnlinePost_data?callback=?&cls=2&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '批次编号',name: 'drOnline.code', frozen: true, width: 210},
+                { label: '推荐编号',name: 'drOnline.code', frozen: true, width: 210},
                 { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 252, frozen: true},
-                { label: '干部民主推荐说明', name: '_notice',  width:150, formatter: function (cellvalue, options, rowObject) {
-                        //console.log(rowObject.drOnline.id)
-                        var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=0"><i class="fa fa-edit"></i> 编辑</button>'
-                            .format(rowObject.drOnline.id)
-                            + '&nbsp;&nbsp;<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_noticeEdit?id={0}&isMobile=1"><i class="glyphicon glyphicon-phone"></i> 手机端</button>'
-                                .format(rowObject.drOnline.id);
-                        return  str;
-                    }},
-                { label: '其他说明', name: '_otherNotice',  width:85, formatter: function (cellvalue, options, rowObject) {
-                        var str = '<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnline_inspectorNotice?id={0}"><i class="glyphicon glyphicon-modal-window"></i> 纸质票</button>'
-                            .format(rowObject.drOnline.id);
-                        return  str;
-                    }},
-                {
-                    label: '推荐结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
-                        var str ='<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnline/drOnlineResult?onlineId={0}&id={1}"><i class="fa fa-search"></i> 查看</button>'
-                            .format(rowObject.drOnline.id,rowObject.id);
-                        return str;
-                    }, width: 80
-                },
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
-                { label: '候选人',name: 'users',formatter: function (cellvalue, options, rowObject) {
-                        var count = rowObject.cans.length;
-                        //console.log(count.length)
-                        var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-search"></i>编辑({1})</button>'
-                            .format(rowObject.id, count);
-                        return str;
-                    }, width: 90,frozen: true},
                 { label: '分管工作',name: 'job', width: 180},
                 { label: '岗位级别',name: 'adminLevel', width: 100, formatter: $.jgrid.formatter.MetaType},
                 { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},

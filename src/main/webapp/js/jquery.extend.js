@@ -1323,6 +1323,18 @@ var _modal_width;
                 return ('<button class="popupBtn btn {0} btn-xs" ' +
                     'data-url="{1}" {4}><i class="fa {2}"></i> {3}</button>')
                     .format(params.style, params.url, params.icon, params.label, params.attr)
+            },
+            openView: function (params) {
+                params = $.extend({
+                    style: 'btn-default',
+                    url: '',
+                    icon: '',
+                    label: '',
+                    attr:''
+                }, params);
+                return ('<button class="openView btn {0} btn-xs" ' +
+                    'data-url="{1}" {4}><i class="fa {2}"></i> {3}</button>')
+                    .format(params.style, params.url, params.icon, params.label, params.attr)
             }
         }
     });

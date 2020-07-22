@@ -7,7 +7,6 @@
     <title>线上民主推荐</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/main.css" />
     <script src="${ctx}/assets/js/jquery.js"></script>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
 </head>
 <body class="login_body">
     <form id="login-form" method="post" action="${ctx}/user/dr/login" autocomplete="off" disableautocomplete>

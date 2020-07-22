@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid2"
                             data-width="1000"
                             class="jqOpenViewBtn btn btn-warning btn-sm">
-                        <i class="fa fa-edit"></i> 设置推荐岗位
+                        <i class="fa fa-edit"></i> 限定推荐岗位
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -115,15 +115,15 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnlineInspectorLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '参评人身份类型',name: 'inspectorType.type', width: 250},
-                { label: '所属单位',name: 'unitId', width: 250, formatter: $.jgrid.formatter.unit},
+                { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
+                { label: '所属单位',name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
                 {
                     label: '已生成', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {
                         var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspector?onlineId={0}&logId={2}"><i class="fa fa-search"></i> 查看({1})</button>'
                             .format(rowObject.onlineId, cellvalue, rowObject.id);
                         return  str;
                     }},
-                { label: '推荐岗位',name: 'unitPosts', width: 550, formatter: function (cellvalue, options, object) {
+                { label: '限定推荐岗位',name: 'unitPosts', width: 550, align:'left', formatter: function (cellvalue, options, object) {
                         //console.log(object)
                         var names = []
                         if (cellvalue == undefined || cellvalue.length == 0)

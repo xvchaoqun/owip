@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="drOnlineUrl"/>
+<c:set value="<%=RequestUtils.getHomeURL(request)%>" var="homeURL"/>
 <c:set value="<%=DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_SELF%>" var="INSPECTOR_PASSWD_CHANGE_TYPE_SELF"/>
 <c:set value="<%=DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN%>" var="INSPECTOR_PASSWD_CHANGE_TYPE_ADMIN"/>
 
@@ -39,20 +39,15 @@
                             <td align="right">
                                 <span style='font-size:14.0pt;font-family:黑体;'>系统网址：</span>
                             </td>
-                            <td align="left">${url}</td>
+                            <td align="left">${homeURL}/user/dr/login</td>
                             <td rowspan="4" align="center" width="150">
-                                    <div class="qrcode"
-                                     data-url="${drOnlineUrl}/user/dr/login"
+                                <c:set var="loginUrl" value="${homeURL}/user/dr/login?u=${inspector.username}&p=${inspector.passwd}"/>
+                                <span style="display: none">${loginUrl}</span>
+                                <div class="qrcode"
+                                     data-url="${loginUrl}"
                                      style="width:120px; height:120px;"></div>
                             </td>
                         </tr>
-                        <%--<tr>
-                            <td align="right" width="150">
-                                <span style='font-size:14.0pt;font-family:黑体;'>年度：</span>
-                            </td>
-                            <td align="left">${drOnline.year}</td>
-
-                        </tr>--%>
                         <tr>
                             <td align="right">
                                 <span style='font-size:14.0pt;font-family:黑体;'>账号类别：</span>

@@ -49,7 +49,6 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css" />
 <script>
 $(function(){
 

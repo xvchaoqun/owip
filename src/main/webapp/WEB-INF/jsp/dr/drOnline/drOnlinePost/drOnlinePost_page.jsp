@@ -20,11 +20,6 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-trash"></i> 删除
                 </button>
             </shiro:hasPermission>
-           <%-- <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-               data-url="${ctx}/dr/drOnlinePost_data?onlineId=${onlineId}"
-               data-grid-id="#jqGrid2"
-               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                <i class="fa fa-download"></i> 导出</button>--%>
         </div>
         <div class="space-4"></div>
         <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="90"></table>

@@ -36,14 +36,11 @@
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left">
             <a href="javascript:;" class="navbar-brand">
-						<span style="font-size: 16px; font-weight: bold"><i class="ace-icon fa fa-signal"></i> 线上民主推荐系统
-						</span>
+                <span style="font-size: 16px; font-weight: bold"><i class="ace-icon fa fa-signal"></i> 线上民主推荐系统</span>
             </a>
         </div>
-        <!-- #section:basics/navbar.dropdown -->
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
-                <!-- #section:basics/navbar.user_menu -->
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
                         <img class="nav-user-photo" src="${ctx}/extend/img/default.png" width="90" alt="头像"/>

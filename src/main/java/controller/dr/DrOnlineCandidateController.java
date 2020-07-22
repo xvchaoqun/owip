@@ -90,7 +90,7 @@ public class DrOnlineCandidateController extends DrBaseController {
         if (id == null){
 
             if (!drOnlinePostService.checkCandidateNum(postId))
-                throw new OpException("最多推荐人数已达上限");
+                throw new OpException("已达最多推荐人数");
             if (drOnlineCandidateService.checkDuplicate(record.getUserId(), record.getPostId()))
                 throw new OpException("添加重复");
 

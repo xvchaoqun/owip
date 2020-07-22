@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-offset-1 col-xs-3 control-label">是否补发</label>
 			<div class="col-xs-8">
 				<input type="checkbox" name="isAppended" data-on-label="是" data-off-label="否">
-				<span class="help-block">如果选择了"是"，管理员看到的账号状态为"补发"</span>
+				<span class="help-block">如果选择了"是"，账号备注为"补发"</span>
 			</div>
 		</div>
     </form>

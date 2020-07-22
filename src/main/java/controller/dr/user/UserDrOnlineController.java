@@ -34,22 +34,29 @@ public class UserDrOnlineController extends DrBaseController {
 
     //登录地址
     @RequestMapping("/login")
-    public String login(String username, String passwd,
+    public String login(String u, String p,
                               HttpServletRequest request, ModelMap modelMap){
 
         if(HttpRequestDeviceUtils.isMobileDevice(request)) {
 
-            if (StringUtils.isNotBlank(username)) {
-                DrOnlineInspector inspector = drOnlineInspectorService.tryLogin(StringUtils.trimToNull(username), StringUtils.trimToNull(passwd));
+            if (StringUtils.isNotBlank(u)) {
+                DrOnlineInspector inspector = drOnlineInspectorService.tryLogin(StringUtils.trimToNull(u),
+                        StringUtils.trimToNull(p));
                 if (inspector == null) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，账号或密码错误！"));
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_DR, false, "扫码登录失败，账号或密码错误！"));
                     modelMap.put("error", "账号或密码错误");
-                }
-                if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，用户已完成测评！"));
+                }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
+                    logger.info(sysLoginLogService.log(null, u,
+                            SystemConstants.LOGIN_TYPE_DR, false, "扫码登录失败，用户已完成测评！"));
                     modelMap.put("error", "该账号已完成推荐");
+                }else {
+
+                    logger.info(sysLoginLogService.log(null, u,
+                        SystemConstants.LOGIN_TYPE_DR, false, "扫码登录成功！"));
+                    DrHelper.setDrInspector(request, inspector);
+
+                    return "redirect:/user/dr/index?isMobile=1";
                 }
             }
 
@@ -70,41 +77,41 @@ public class UserDrOnlineController extends DrBaseController {
             DrOnlineInspector inspector = drOnlineInspectorService.tryLogin(StringUtils.trimToNull(username), StringUtils.trimToNull(passwd));
             if (inspector == null){
                 logger.info(sysLoginLogService.log(null, username,
-                        SystemConstants.LOGIN_TYPE_NET, false, "登录失败，账号或密码错误！"));
+                        SystemConstants.LOGIN_TYPE_DR, false, "登录失败，账号或密码错误！"));
                 return failed("账号或密码错误");
             }else {
                 if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_NOT_RELEASE){
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐未发布！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐未发布！"));
                     return failed("民主推荐未发布");
                 }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_WITHDRAW) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐暂时撤回！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐暂时撤回！"));
                     return failed("民主推荐未开始");
                 }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_FINISH) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号对应的民主推荐已完成！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐已完成！"));
                     return failed("民主推荐已结束");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已作废！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号已作废！"));
                     return failed("该账号已作废");
                 }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号还未发布！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号还未发布！"));
                     return failed("该账号未发布");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，该账号已完成民主推荐！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号已完成民主推荐！"));
                     return failed("该账号已完成推荐");
                 }else if (inspector.getDrOnline().getEndTime().before(new Date())) {
                     logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_NET, false, "登录失败，民主推荐已截止！"));
+                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，民主推荐已截止！"));
                     return failed("民主推荐已结束");
                 }
             }
             logger.info(sysLoginLogService.log(null, username,
-                    SystemConstants.LOGIN_TYPE_NET, false, "登录成功！"));
+                    SystemConstants.LOGIN_TYPE_DR, false, "登录成功！"));
             DrHelper.setDrInspector(request, inspector);
         }
 

@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
-                    <jsp:include page="/WEB-INF/jsp/dr/drOnlineInspectorType/menu.jsp"/>
+                    <jsp:include page="/WEB-INF/jsp/dr/drOnline/drOnlineInspectorType/menu.jsp"/>
                     <div class="tab-content multi-row-head-table">
                         <div class="tab-pane in active multi-row-head-table">
             <div class="jqgrid-vertical-offset buttons">

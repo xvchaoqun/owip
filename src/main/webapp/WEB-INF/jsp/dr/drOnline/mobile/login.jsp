@@ -27,20 +27,21 @@
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i> 请使用参评人账号密码登录
 											</h4>
-											<div class="space-6"></div>
-											<div class="login-error" style="display: none">
+											<div class="login-error" style="color:red; display: ${empty error?'none':''}">
 												<i class="fa fa-times"></i>${error}</div>
 											<form method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" name="username" class="form-control" placeholder="账号" />
+															<input type="text" name="username"
+																   class="form-control" placeholder="账号" value="${param.u}" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" name="passwd" class="form-control" placeholder="密码" />
+															<input type="password" name="passwd" class="form-control"
+																   placeholder="密码"  value="${param.p}" />
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -67,9 +68,6 @@
 		</div><!-- /.main-container -->
 		<script src="${ctx}/assets/js/jquery.js"></script>
 		<script type="text/javascript">
-			<c:if test="${not empty error}">
-			alert('${error}');
-			</c:if>
 			$("#login_btn").click(function(){
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");
