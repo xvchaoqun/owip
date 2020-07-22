@@ -1,4 +1,9 @@
 
+2020.7.22
+北化工 -- 北师大
+
+-- 更新utils
+
 ALTER TABLE `dr_online_inspector_log`
 	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
 
@@ -15,7 +20,7 @@ ALTER TABLE `dr_online_result`
 ALTER TABLE `dr_online_result`
 	CHANGE COLUMN `is_agree` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '推荐结果 1 同意 2 不同意 3 弃权 4 另选他人' AFTER `inspector_type_id`;
 
--- 更新utils
+
 
 ALTER TABLE `dr_online_result`
 	CHANGE COLUMN `realname` `realname` VARCHAR(200) NULL COMMENT '候选人姓名' AFTER `user_id`;
