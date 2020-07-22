@@ -53,7 +53,7 @@
             <div class="txt" style="cursor: pointer;">线上民主推荐系统</div>
 
             <ul class="nav nav-pills pull-right">
-            <li class="">
+            <li>
                 <a href="javascript:void(0)" onclick="drOnline_eva()"><i class="ace-icon fa fa-home"></i> 首页</a>
             </li>
             <li>
@@ -144,12 +144,12 @@
                                             <c:forEach items="${candidateMap.value}" var="candidates">
                                                 <td>${candidates.candidate}</td>
                                                 <td>
-                                                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                        <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+                                                    <div class="checkbox checkbox-sm checkbox-circle">
+                                                        <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
                                                         <label for="${postView.id}_${candidates.userId}_1">同&nbsp;&nbsp;&nbsp;意</label>
                                                     </div>
-                                                    <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                        <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+                                                    <div class="checkbox checkbox-sm checkbox-circle">
+                                                        <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
                                                         <label for="${postView.id}_${candidates.userId}_0">不同意</label>
                                                     </div>
                                                 </td>
@@ -178,11 +178,11 @@
                                                     <td>${candidates.candidate}</td>
                                                     <td>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                            <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+                                                            <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
                                                             <label for="${postView.id}_${candidates.userId}_1">同意</label>
                                                         </div>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                            <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+                                                            <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
                                                             <label for="${postView.id}_${candidates.userId}_0">不同意</label>
                                                         </div>
                                                     </td>
@@ -197,11 +197,11 @@
                                                     <td>${candidates.candidate}</td>
                                                     <td>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                            <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
+                                                            <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
                                                             <label for="${postView.id}_${candidates.userId}_1">同意</label>
                                                         </div>
                                                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                                                            <input postId="${postView.id}" type="radio" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
+                                                            <input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_0" value="0">
                                                             <label for="${postView.id}_${candidates.userId}_0">不同意</label>
                                                         </div>
                                                     </td>
@@ -328,6 +328,16 @@
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script src="${ctx}/js/dr.js"></script>
 <script>
+
+    $("#survey input[type=checkbox]").click(function(){
+
+        var name = $(this).attr("name");
+        console.log(name)
+        $(this)
+        if($(this).prop("checked")){
+            $("input[type=checkbox][name=" + name + "]").not(this).prop("checked", false);
+        }
+    });
 
     function _confirm() {
         if ($('#agree').is(':checked') == false){
