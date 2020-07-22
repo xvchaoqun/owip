@@ -66,12 +66,12 @@
 
             <ul class="nav nav-pills pull-right">
                 <li>
-                    <a href="javascript:void(0)" onclick="drOnline_notice()"><i
+                    <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?notice=${drOnline.notice}"><i
                             class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                 </li>
                 <li>
 
-                    <a href="javascript:void(0)" onclick="drOnline_changePasswd()"><i class="ace-icon fa fa-key"></i>
+                    <a class="popupBtn" type="button" href="javascript:;" data-width="250" data-url="${ctx}/user/dr/inspector_changePasswd"><i class="ace-icon fa fa-key"></i>
                         修改密码</a>
                 </li>
                 <li>
@@ -193,6 +193,13 @@
         </c:if>
     </div>
 </div>
+<div id="modal" class="modal fade">
+    <div class="modal-dialog" role="document" <%--style="min-width: 650px;"--%>>
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script>
 

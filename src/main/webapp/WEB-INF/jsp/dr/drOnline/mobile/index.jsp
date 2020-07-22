@@ -52,7 +52,7 @@
                                 推荐页面</a>
                         </li>
                         <li style="margin-bottom: 5px">
-                            <a href="javascript:void(0)" onclick="drOnline_notice()"><i
+                            <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?cls=0&mobileNotice=${drOnline.mobileNotice}"><i
                                     class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                         </li>
 

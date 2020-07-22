@@ -43,6 +43,9 @@
         <if test="realname != null">
             and r.realname like #{realname}
         </if>
+        <if test="postId != null">
+            and r.post_id = #{postId}
+        </if>
     </sql>
 
     <!--所有的统计结果/参评人过滤-->

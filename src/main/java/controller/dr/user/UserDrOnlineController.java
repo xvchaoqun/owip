@@ -159,26 +159,13 @@ public class UserDrOnlineController extends DrBaseController {
         return (isMobile)?"dr/drOnline/mobile/login":"dr/drOnline/user/login";
     }
 
-    @RequestMapping("/changePasswd")
-    @ResponseBody
-    public Map drOnline_changePasswd(String oldPasswd,
-                                     String passwd,
-                                     HttpServletRequest request){
+    @RequestMapping("/inspector_changePasswd")
+    public String inspector_changePasswd(@RequestParam(required = true, defaultValue = "0") Byte cls,
+                                         ModelMap modelMap){
 
-        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+        modelMap.put("cls", cls);
 
-        if (inspector == null){
-            return failed(FormUtils.ILLEGAL);
-        }
-        if (!drOnlineInspectorService.checkStatus(inspector))
-            return failed("修改密码失败，请重新登录");
-        if (!StringUtils.equalsIgnoreCase(inspector.getPasswd(), oldPasswd)){
-            return failed(FormUtils.WRONG);
-        }
-
-        drOnlineInspectorService.changePasswd(inspector.getId(), passwd, DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_SELF);
-
-        return success(FormUtils.SUCCESS);
+        return "/dr/drOnline/drOnlineInspector/drOnlineInspector_au";
     }
 
       @RequestMapping(value = "/agree", method = RequestMethod.POST)
@@ -326,5 +313,13 @@ public class UserDrOnlineController extends DrBaseController {
                 isSubmit?"提交":"保存", inspector.getDrOnline().getCode()));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping("/inspector_notice")
+    public String inspector_notice(@RequestParam(required = true, defaultValue = "0") Byte cls,
+                                   ModelMap modelMap){
+        modelMap.put("cls", cls);
+
+        return "/dr/drOnline/user/inspector_notice";
     }
 }

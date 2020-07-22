@@ -70,8 +70,7 @@ public class MemberCertifyService extends MemberBaseMapper {
         for (Integer id : ids){
             MemberCertify record = memberCertifyMapper.selectByPrimaryKey(id);
             if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)){
-                if (record.getStatus() == MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY
-                        && !PartyHelper.hasPartyAuth(ShiroHelper.getCurrentUserId(), record.getPartyId()))
+                if (record.getStatus() >= MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY)
                     throw new OpException("不能删除已通过审核的介绍信");
             }
             memberCertifyMapper.deleteByPrimaryKey(id);

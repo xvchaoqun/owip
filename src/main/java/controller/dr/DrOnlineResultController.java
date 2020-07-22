@@ -2,7 +2,7 @@ package controller.dr;
 
 import domain.dr.DrOnline;
 import domain.dr.DrOnlinePostView;
-import domain.unit.UnitPost;
+import domain.dr.DrOnlinePostViewExample;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -37,12 +37,13 @@ public class DrOnlineResultController extends DrBaseController {
     @RequiresPermissions("drOnlineResult:list")
     @RequestMapping("/drOnlineResult")
     public String drOnlineResult(Integer onlineId,
-                                 Integer unitPostId,
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
 
-        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
-        modelMap.put("unitPost", unitPost);
+        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        example.createCriteria().andOnlineIdEqualTo(onlineId);
+        List<DrOnlinePostView>  drOnlinePosts = drOnlinePostViewMapper.selectByExample(example);
+        modelMap.put("drOnlinePosts", drOnlinePosts);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         modelMap.put("drOnline", drOnline);
         modelMap.put("typeIds", typeIds);
@@ -56,7 +57,7 @@ public class DrOnlineResultController extends DrBaseController {
     public void drOnlineResult_data(HttpServletResponse response,
                                     Integer onlineId,
                                     String _typeIds,
-                                    Integer unitPostId,
+                                    Integer postId,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                     String realname,//推荐人选
                                     Integer scoreRate,//得票比率
@@ -71,9 +72,8 @@ public class DrOnlineResultController extends DrBaseController {
             }
             modelMap.put("typeIds", typeIdlist);
         }
-        List<Integer> postIds = new ArrayList<>();
-        if (null != unitPostId){
-            postIds = drOnlinePostService.getByUnitPostId(onlineId, unitPostId);
+        if (StringUtils.isBlank(realname)){
+            realname = null;
         }
 
         if (null == pageSize) {
@@ -99,12 +99,12 @@ public class DrOnlineResultController extends DrBaseController {
 
             return;
         }
-        long count = iDrMapper.countResult(typeIdlist, postIds, onlineId, realname, scoreRate);
+        long count = iDrMapper.countResult(typeIdlist, postId, onlineId, realname, scoreRate);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postIds, onlineId, realname, scoreRate,
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postId, onlineId, realname, scoreRate,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

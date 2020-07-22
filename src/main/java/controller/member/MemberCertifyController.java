@@ -316,9 +316,6 @@ public class MemberCertifyController extends MemberBaseController {
     @ResponseBody
     public Map memberCertify_batchDel(HttpServletRequest request, Boolean apply, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        //权限
-        SecurityUtils.getSubject().checkPermission(BooleanUtils.isNotTrue(apply) ? "userMemberCertify:del" : "memberCertify:del");
-
         if (null != ids && ids.length>0){
             memberCertifyService.batchDel(ids);
             logger.info(log( LogConstants.LOG_MEMBER, "批量删除临时组织关系介绍信：{0}", StringUtils.join(ids, ",")));

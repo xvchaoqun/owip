@@ -111,7 +111,7 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-reply-all"></i> 批量打回
                                     </button>
                                 </c:if>
-                                <c:if test="${cls!=3||(cls==7&&cm:isPermitted(PERMISSION_PARTYVIEWALL))}">
+                                <c:if test="${cls!=3&&cls!=7||(cls==7&&cm:hasRole(ROLE_ODADMIN))}">
                                     <shiro:hasPermission name="memberCertify:del">
                                         <button data-url="${ctx}/member/memberCertify_batchDel"
                                                 data-title="删除"

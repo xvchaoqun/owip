@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.DrConstants;
 import sys.constants.LogConstants;
+import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -116,7 +117,6 @@ public class DrOnlineInspectorController extends DrBaseController {
         return;
     }
 
-    @RequiresPermissions("drOnlineInspector:edit")
     @RequestMapping(value = "/drOnlineInspector_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_drOnlineInspector_au(DrOnlineInspector record,
@@ -124,12 +124,15 @@ public class DrOnlineInspectorController extends DrBaseController {
                                        HttpServletRequest request) {
 
         Integer id = record.getId();
-
+        record.setPasswdChangeType(passwdChangeType);
         if (id != null) {
-            record.setPasswdChangeType(passwdChangeType);
-            drOnlineInspectorService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_DR, "修改参评人密码：{0}", record.getId()));
+        }else{
+            DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+            record.setId(inspector.getId());
+            logger.info(log( LogConstants.LOG_DR, "修改密码：{0}", inspector.getId()));
         }
+        drOnlineInspectorService.updateByPrimaryKeySelective(record);
 
         return success(FormUtils.SUCCESS);
     }

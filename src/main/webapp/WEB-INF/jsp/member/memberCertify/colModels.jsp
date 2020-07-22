@@ -22,7 +22,7 @@
             }},
         </c:if>
         <c:if test="${cls==0}">
-        { label: '申请状态',name: '_status', width: 140, formatter: function (cellvalue, options, rowObject) {
+        { label: '申请状态',name: 'status', width: 140, formatter: function (cellvalue, options, rowObject) {
 
                 return ('<font color="{0}">{1}</font>').format(cellvalue == ${MEMBER_CERTIFY_STATUS_BACK}?"orange":"green",
                     _cMap.MEMBER_CERTIFY_STATUS_MAP[rowObject.status])

@@ -3,13 +3,15 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>重置参评人密码</h3>
+    <h3>${cls==0?"修改密码":"重置参评人密码"}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dr/drOnlineInspector_au?passwdChangeType=2" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <input type="hidden" name="id" value="${inspector.id}">
+    <form class="form-horizontal" action="${ctx}/dr/drOnlineInspector_au?passwdChangeType=${cls==0?"1":"2"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <c:if test="${cls!=0}">
+            <input type="hidden" name="id" value="${inspector.id}">
+        </c:if>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 新密码</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span> 新密码</label>
 				<div class="col-xs-6">
                     <input required class="form-control" type="password" name="passwd" id="pw1" placeholder="请输入新密码">
 				</div>
@@ -33,6 +35,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid2").trigger("reloadGrid");
+                        SysMsg.success('修改密码成功。', '成功');
                     }
                     $btn.button('reset');
                 }

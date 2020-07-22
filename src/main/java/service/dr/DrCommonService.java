@@ -103,7 +103,7 @@ public class DrCommonService extends DrBaseMapper{
         int startRow = 4;
         int rowInsert = iDrMapper.countResult(typeIds, null, onlineId, null, null) + (postIds.size() - 1) * 4;
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert - 1);
-        String[] tableHead = {"序号", "推荐人选", "票数", "得票比率"};
+        String[] tableHead = {"序号", "推荐人选", "票数","备注"};
         //获得单元格样式
         XSSFCellStyle cellStyle = null;
         XSSFRow _row = sheet.getRow(3);
@@ -153,10 +153,10 @@ public class DrCommonService extends DrBaseMapper{
                 DrFinalResult _view = drOnlineResultService.findCount(onlineId, postId, null, typeIds);
                 row = sheet.getRow(rowCount++);//2
                 cell = row.getCell(0);
-                if (rowCount == 3) {
+                /*if (rowCount == 3) {
                     str = cell.getStringCellValue()
-                            /*.replace("pubcount", _view.getPubCounts() + "")
-                            .replace("finishcount", _view.getFinishCounts() + "")*/;
+                            *//*.replace("pubcount", _view.getPubCounts() + "")
+                            .replace("finishcount", _view.getFinishCounts() + "")*//*;
                 }else {
                     CellRangeAddress cra = new CellRangeAddress(rowCount - 1,rowCount - 1,0,3);
                     sheet.addMergedRegion(cra);
@@ -166,7 +166,7 @@ public class DrCommonService extends DrBaseMapper{
                     }
                     //str = "共发出推荐票" +  _view.getPubCounts() + "张，参加推荐共" + _view.getFinishCounts() + "人";
                 }
-                cell.setCellValue(str);
+                cell.setCellValue(str);*/
 
                 row = sheet.getRow(rowCount++);
                 for(int i = 0; i < tableHead.length; i++){
@@ -196,10 +196,10 @@ public class DrCommonService extends DrBaseMapper{
 
                     // 票数
                     cell = row.getCell(column++);
-                    //cell.setCellValue(_result.getOptions());
+                    cell.setCellValue(_result.getBallot());
 
                     //得票比率
-                    cell = row.getCell(column);
+                    //cell = row.getCell(column);
                     //cell.setCellValue(rate);
                 }
             }

@@ -14,11 +14,11 @@ pageEncoding="UTF-8" %>
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <c:set var="_query" value="${not empty param.unitName || not empty param.unitPostId || not empty param.realname
+                <c:set var="_query" value="${not empty param.unitName || not empty param.postId || not empty param.realname
                  || not empty param.scoreRate}"/>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="drOnlineResult:edit">
-                        <button id="exportResult" class="btn btn-success btn-sm tooltip-success"
+                        <button id="exportResult" class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                 data-url="${ctx}/dr/drOnline/drOnlineResult_data?onlineId=${param.onlineId}"
                                 data-rel="tooltip" data-placement="top" title="导出统计结果">
                             <i class="fa fa-download"></i> 导出</button>
@@ -41,13 +41,14 @@ pageEncoding="UTF-8" %>
                                 <div class="form-group">
                                     <label>推荐职务</label>
                                     <div class="input-group">
-                                        <select  data-width="230" data-rel="select2-ajax"
-                                                 data-ajax-url="${ctx}/dr/drOnline/unitPost_selects?onlineId=${param.onlineId}"
-                                                 name="unitPostId" data-placeholder="请选择推荐职务">
-                                            <option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
+                                        <select data-width="230" name="postId" data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                           <c:forEach items="${drOnlinePosts}" var="drOnlinePost">
+                                               <option value="${drOnlinePost.id}">${drOnlinePost.name}</option>
+                                           </c:forEach>
                                         </select>
+                                        <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
                                     </div>
-                                    <script>         $("#searchForm select[name=unitPostId]").val('${unitPost.id}');     </script>
                                 </div>
                                 <div class="form-group">
                                     <label>推荐人选</label>
