@@ -41,13 +41,13 @@ pageEncoding="UTF-8" %>
                                 <div class="form-group">
                                     <label>推荐职务</label>
                                     <div class="input-group">
-                                        <select data-width="230" name="postId" data-rel="select2" data-placeholder="请选择">
+                                        <select data-width="230" name="postId" data-rel="select2" data data-placeholder="请选择">
                                             <option></option>
                                            <c:forEach items="${drOnlinePosts}" var="drOnlinePost">
                                                <option value="${drOnlinePost.id}">${drOnlinePost.name}</option>
                                            </c:forEach>
                                         </select>
-                                        <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
+                                        <script>         $("#searchForm2 select[name=postId]").val('${param.postId}');     </script>
                                     </div>
                                 </div>
                                 <div class="form-group">
