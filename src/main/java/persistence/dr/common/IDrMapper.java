@@ -25,16 +25,16 @@ public interface IDrMapper {
     int batchInsert_result(@Param("records") List<DrOnlineResult> resultList);
 
     //统计所有的结果
-    List<DrFinalResult>  resultOne(@Param("typeIds") List<Integer> typeIds,
+    List<DrFinalResult>  selectResultList(@Param("typeIds") List<Integer> typeIds,
                                    @Param("postIds") List<Integer> postIds,
                                    @Param("onlineId")Integer onlineId,
-                                   @Param("candidate")String candidate,
+                                   @Param("realname")String realname,
                                    @Param("scoreRate")Integer scoreRate,
                                    RowBounds rowBounds);
     int countResult(@Param("typeIds") List<Integer> typeIds,
                     @Param("postIds") List<Integer> postIds,
                     @Param("onlineId")Integer onlineId,
-                    @Param("candidate")String candidate,
+                    @Param("realname")String realname,
                     @Param("scoreRate")Integer scoreRate);
 
 }

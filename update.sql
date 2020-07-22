@@ -2,6 +2,21 @@
 ALTER TABLE `dr_online_inspector_log`
 	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
 
+ALTER TABLE `dr_online_candidate`
+	CHANGE COLUMN `candidate` `realname` VARCHAR(50) NOT NULL COMMENT '更改后的候选人姓名' AFTER `user_id`,
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL COMMENT '排序' AFTER `realname`;
+
+ALTER TABLE `dr_online_post`
+	CHANGE COLUMN `candidates` `candidates` VARCHAR(500) NULL DEFAULT NULL COMMENT '候选人id，逗号分割' AFTER `has_candidate`;
+
+ALTER TABLE `dr_online_result`
+	CHANGE COLUMN `candidate` `realname` VARCHAR(200) NOT NULL COMMENT '候选人姓名' AFTER `user_id`;
+
+ALTER TABLE `dr_online_result`
+	CHANGE COLUMN `is_agree` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '推荐结果 1 同意 2 不同意 3 弃权 4 另选他人' AFTER `inspector_type_id`;
+
+-- 更新utils
+
 
 2020.7.20
 

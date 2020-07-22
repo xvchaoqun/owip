@@ -18,13 +18,6 @@ pageEncoding="UTF-8" %>
                             class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-edit"></i> 设置推荐岗位
                     </button>
-                    <button data-url="${ctx}/dr/inspectorLog_changeStatus"
-                            data-title="发布"
-                            data-msg="确定发布这{0}条数据（除已作废的账号）？"
-                            data-grid-id="#jqGrid2"
-                            class="jqBatchBtn btn btn-success btn-sm">
-                        <i class="fa fa-share"></i> 发布
-                    </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${onlineId}"

@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
                 <c:forEach items="${candidates}" var="_candidate" varStatus="st">
                     <tr>
                         <td>${_candidate.user.code}</td>
-                        <td nowrap>${_candidate.candidate}</td>
+                        <td nowrap>${_candidate.realname}</td>
                         <c:if test="${commonList.recNum>1}">
                             <td nowrap>
                                 <a href="javascript:;"

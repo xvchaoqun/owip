@@ -32,8 +32,6 @@ public class DrCommonService extends DrBaseMapper{
     private DrOnlineResultService drOnlineResultService;
     @Autowired
     private DrOnlinePostService drOnlinePostService;
-    @Autowired
-    private DrOnlineCandidateService drOnlineCandidateService;
 
     //转换暂存票数
     public DrTempResult getTempResult(String tempData){
@@ -157,8 +155,8 @@ public class DrCommonService extends DrBaseMapper{
                 cell = row.getCell(0);
                 if (rowCount == 3) {
                     str = cell.getStringCellValue()
-                            .replace("pubcount", _view.getPubCounts() + "")
-                            .replace("finishcount", _view.getFinishCounts() + "");
+                            /*.replace("pubcount", _view.getPubCounts() + "")
+                            .replace("finishcount", _view.getFinishCounts() + "")*/;
                 }else {
                     CellRangeAddress cra = new CellRangeAddress(rowCount - 1,rowCount - 1,0,3);
                     sheet.addMergedRegion(cra);
@@ -166,7 +164,7 @@ public class DrCommonService extends DrBaseMapper{
                         cell = row.getCell(i);
                         cell.setCellStyle(cellStyle);
                     }
-                    str = "共发出推荐票" +  _view.getPubCounts() + "张，参加推荐共" + _view.getFinishCounts() + "人";
+                    //str = "共发出推荐票" +  _view.getPubCounts() + "张，参加推荐共" + _view.getFinishCounts() + "人";
                 }
                 cell.setCellValue(str);
 
@@ -182,9 +180,9 @@ public class DrCommonService extends DrBaseMapper{
                 for (String record : candidates) {
                     DrFinalResult _result = drOnlineResultService.findCount(onlineId, postId, record, typeIds);
                     DecimalFormat df = new DecimalFormat("0.00");
-                    Double options = Double.valueOf(_result.getOptions());
+                    /*Double options = Double.valueOf(_result.getOptions());
                     Double finishCounts = Double.valueOf(_result.getFinishCounts());
-                    String rate = df.format(options/finishCounts*100) + "%";
+                    String rate = df.format(options/finishCounts*100) + "%";*/
 
                     row = sheet.getRow(rowCount++);
                     int column = 0;
@@ -198,11 +196,11 @@ public class DrCommonService extends DrBaseMapper{
 
                     // 票数
                     cell = row.getCell(column++);
-                    cell.setCellValue(_result.getOptions());
+                    //cell.setCellValue(_result.getOptions());
 
                     //得票比率
                     cell = row.getCell(column);
-                    cell.setCellValue(rate);
+                    //cell.setCellValue(rate);
                 }
             }
             rowCount++;

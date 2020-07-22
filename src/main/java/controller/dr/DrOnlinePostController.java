@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -163,9 +162,9 @@ public class DrOnlinePostController extends DrBaseController {
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));
         } else {
             //防止中途修改数据
-            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(record.getOnlineId());
+            /*DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(record.getOnlineId());
             if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_RELEASE)
-                throw new OpException("民主推荐进行中或已完成，不能修改数据！");
+                throw new OpException("民主推荐进行中或已完成，不能修改数据！");*/
 
             List<DrOnlineCandidate> candidates = drOnlineCandidateService.getByPostId(record.getId());
 

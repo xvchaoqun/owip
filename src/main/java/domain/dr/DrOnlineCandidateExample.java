@@ -284,73 +284,73 @@ public class DrOnlineCandidateExample {
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIsNull() {
-            addCriterion("candidate is null");
+        public Criteria andRealnameIsNull() {
+            addCriterion("realname is null");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIsNotNull() {
-            addCriterion("candidate is not null");
+        public Criteria andRealnameIsNotNull() {
+            addCriterion("realname is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateEqualTo(String value) {
-            addCriterion("candidate =", value, "candidate");
+        public Criteria andRealnameEqualTo(String value) {
+            addCriterion("realname =", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateNotEqualTo(String value) {
-            addCriterion("candidate <>", value, "candidate");
+        public Criteria andRealnameNotEqualTo(String value) {
+            addCriterion("realname <>", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateGreaterThan(String value) {
-            addCriterion("candidate >", value, "candidate");
+        public Criteria andRealnameGreaterThan(String value) {
+            addCriterion("realname >", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateGreaterThanOrEqualTo(String value) {
-            addCriterion("candidate >=", value, "candidate");
+        public Criteria andRealnameGreaterThanOrEqualTo(String value) {
+            addCriterion("realname >=", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateLessThan(String value) {
-            addCriterion("candidate <", value, "candidate");
+        public Criteria andRealnameLessThan(String value) {
+            addCriterion("realname <", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateLessThanOrEqualTo(String value) {
-            addCriterion("candidate <=", value, "candidate");
+        public Criteria andRealnameLessThanOrEqualTo(String value) {
+            addCriterion("realname <=", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateLike(String value) {
-            addCriterion("candidate like", value, "candidate");
+        public Criteria andRealnameLike(String value) {
+            addCriterion("realname like", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateNotLike(String value) {
-            addCriterion("candidate not like", value, "candidate");
+        public Criteria andRealnameNotLike(String value) {
+            addCriterion("realname not like", value, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateIn(List<String> values) {
-            addCriterion("candidate in", values, "candidate");
+        public Criteria andRealnameIn(List<String> values) {
+            addCriterion("realname in", values, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateNotIn(List<String> values) {
-            addCriterion("candidate not in", values, "candidate");
+        public Criteria andRealnameNotIn(List<String> values) {
+            addCriterion("realname not in", values, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateBetween(String value1, String value2) {
-            addCriterion("candidate between", value1, value2, "candidate");
+        public Criteria andRealnameBetween(String value1, String value2) {
+            addCriterion("realname between", value1, value2, "realname");
             return (Criteria) this;
         }
 
-        public Criteria andCandidateNotBetween(String value1, String value2) {
-            addCriterion("candidate not between", value1, value2, "candidate");
+        public Criteria andRealnameNotBetween(String value1, String value2) {
+            addCriterion("realname not between", value1, value2, "realname");
             return (Criteria) this;
         }
 

@@ -47,7 +47,7 @@ public class DrOnlineCandidateService extends DrBaseMapper {
         drOnlineCandidateMapper.deleteByExample(example);
     }
 
-    //<postId,List<DrOnlineCandidate>> --参评人
+    //<postId,List<DrOnlineCandidate>> --候选人
     public Map<Integer, List<DrOnlineCandidate>> findAll(Integer onlineId){
 
         Map<Integer, List<DrOnlineCandidate>> candidateMap = new HashMap<>();
@@ -90,7 +90,7 @@ public class DrOnlineCandidateService extends DrBaseMapper {
         DrOnlineCandidate record = new DrOnlineCandidate();
         record.setPostId(postId);
         record.setUserId(userId);
-        record.setCandidate(CmTag.getUserById(userId).getRealname());
+        record.setRealname(CmTag.getUserById(userId).getRealname());
         record.setSortOrder(getNextSortOrder("dr_online_candidate", null));
         drOnlineCandidateMapper.insert(record);
 
@@ -109,7 +109,7 @@ public class DrOnlineCandidateService extends DrBaseMapper {
         example.createCriteria().andPostIdEqualTo(candidate.getPostId()).andUserIdEqualTo(candidate.getUserId());
 
         DrOnlineResult result = new DrOnlineResult();
-        result.setCandidate(candidate.getCandidate());
+        result.setRealname(candidate.getRealname());
         drOnlineResultMapper.updateByExampleSelective(result, example);
 
     }

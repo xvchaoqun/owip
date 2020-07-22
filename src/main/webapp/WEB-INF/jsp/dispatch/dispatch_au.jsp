@@ -57,6 +57,7 @@
                                     name="dispatchTypeId" data-placeholder="请选择发文类型" data-width="240">
                                 <option value="${dispatchType.id}">${dispatchType.name}</option>
                             </select>
+                            <span class="help-block">注：请在[元数据管理-发文类型]中维护发文类型</span>
                         </div>
                     </div>
                     <div class="form-group">

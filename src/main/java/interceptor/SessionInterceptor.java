@@ -113,7 +113,7 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
             }*/
             //System.out.println(servletPath + "----------------" + request.getDispatcherType());
             //if(!PatternUtils.match(_commonUrls, servletPath)) {
-            //if (HttpUtils.isMoblie(request)) {
+            //if (HttpUtils.isMobile(request)) {
             if (HttpRequestDeviceUtils.isMobileDevice(request)) {
 
                 if(response.getStatus()== HttpStatus.SC_OK) { //  防止 response sendRedirect报错

@@ -6,10 +6,10 @@
     <result column="online_id" jdbcType="INTEGER" property="onlineId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="candidate" jdbcType="VARCHAR" property="candidate" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="inspector_id" jdbcType="INTEGER" property="inspectorId" />
     <result column="inspector_type_id" jdbcType="INTEGER" property="inspectorTypeId" />
-    <result column="is_agree" jdbcType="BIT" property="isAgree" />
+    <result column="status" jdbcType="TINYINT" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, online_id, post_id, user_id, candidate, inspector_id, inspector_type_id, is_agree, 
+    id, online_id, post_id, user_id, realname, inspector_id, inspector_type_id, status, 
     remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineResultExample" resultMap="BaseResultMap">
@@ -106,12 +106,12 @@
   </delete>
   <insert id="insert" parameterType="domain.dr.DrOnlineResult">
     insert into dr_online_result (id, online_id, post_id, 
-      user_id, candidate, inspector_id, 
-      inspector_type_id, is_agree, remark
+      user_id, realname, inspector_id, 
+      inspector_type_id, status, remark
       )
     values (#{id,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{candidate,jdbcType=VARCHAR}, #{inspectorId,jdbcType=INTEGER}, 
-      #{inspectorTypeId,jdbcType=INTEGER}, #{isAgree,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{inspectorId,jdbcType=INTEGER}, 
+      #{inspectorTypeId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlineResult">
@@ -129,8 +129,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="candidate != null">
-        candidate,
+      <if test="realname != null">
+        realname,
       </if>
       <if test="inspectorId != null">
         inspector_id,
@@ -138,8 +138,8 @@
       <if test="inspectorTypeId != null">
         inspector_type_id,
       </if>
-      <if test="isAgree != null">
-        is_agree,
+      <if test="status != null">
+        status,
       </if>
       <if test="remark != null">
         remark,
@@ -158,8 +158,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="candidate != null">
-        #{candidate,jdbcType=VARCHAR},
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
       </if>
       <if test="inspectorId != null">
         #{inspectorId,jdbcType=INTEGER},
@@ -167,8 +167,8 @@
       <if test="inspectorTypeId != null">
         #{inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="isAgree != null">
-        #{isAgree,jdbcType=BIT},
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -196,8 +196,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.candidate != null">
-        candidate = #{record.candidate,jdbcType=VARCHAR},
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
       </if>
       <if test="record.inspectorId != null">
         inspector_id = #{record.inspectorId,jdbcType=INTEGER},
@@ -205,8 +205,8 @@
       <if test="record.inspectorTypeId != null">
         inspector_type_id = #{record.inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.isAgree != null">
-        is_agree = #{record.isAgree,jdbcType=BIT},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -222,10 +222,10 @@
       online_id = #{record.onlineId,jdbcType=INTEGER},
       post_id = #{record.postId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      candidate = #{record.candidate,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
       inspector_id = #{record.inspectorId,jdbcType=INTEGER},
       inspector_type_id = #{record.inspectorTypeId,jdbcType=INTEGER},
-      is_agree = #{record.isAgree,jdbcType=BIT},
+      status = #{record.status,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -243,8 +243,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="candidate != null">
-        candidate = #{candidate,jdbcType=VARCHAR},
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
       </if>
       <if test="inspectorId != null">
         inspector_id = #{inspectorId,jdbcType=INTEGER},
@@ -252,8 +252,8 @@
       <if test="inspectorTypeId != null">
         inspector_type_id = #{inspectorTypeId,jdbcType=INTEGER},
       </if>
-      <if test="isAgree != null">
-        is_agree = #{isAgree,jdbcType=BIT},
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -266,10 +266,10 @@
     set online_id = #{onlineId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      candidate = #{candidate,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
       inspector_id = #{inspectorId,jdbcType=INTEGER},
       inspector_type_id = #{inspectorTypeId,jdbcType=INTEGER},
-      is_agree = #{isAgree,jdbcType=BIT},
+      status = #{status,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

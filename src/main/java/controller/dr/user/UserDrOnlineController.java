@@ -19,14 +19,12 @@ import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
 import sys.utils.FormUtils;
 import sys.utils.HttpRequestDeviceUtils;
+import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/user/dr")
 @Controller
@@ -128,32 +126,30 @@ public class UserDrOnlineController extends DrBaseController {
     }
 
     @RequestMapping("/index")
-    public String index(Byte isMobile, ModelMap modelMap, HttpServletRequest request){
+    public String index(boolean isMobile, ModelMap modelMap, HttpServletRequest request){
 
         DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
         //获取最新数据
         DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
 
         if (inspector != null) {
+
             Integer onlineId = inspector.getOnlineId();
             modelMap.put("inspector", inspector);
             modelMap.put("drOnline", inspector.getDrOnline());
+
             List<DrOnlinePostView> postViews = drOnlinePostService.getNeedRecommend(inspector);
             modelMap.put("postViews", postViews);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(onlineId);
             modelMap.put("candidateMap", candidateMap);
+
             DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
             modelMap.put("tempResult", tempResult);
-            if (isMobile != null && isMobile == 1){
-                return "dr/drOnline/mobile/index";
-            }
-        }else {
-            if (isMobile != null && isMobile == 1)
-                return "dr/drOnline/mobile/login";
 
-            return "dr/drOnline/user/login";
+            return (isMobile)?"dr/drOnline/mobile/index":"dr/drOnline/user/index";
         }
-        return "dr/drOnline/user/index";
+
+        return (isMobile)?"dr/drOnline/mobile/login":"dr/drOnline/user/login";
     }
 
     @RequestMapping("/changePasswd")
@@ -208,67 +204,117 @@ public class UserDrOnlineController extends DrBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    //处理-保存/提交推荐数据
+    // 处理-保存/提交推荐数据
     @RequestMapping(value = "/doTempSave", method = RequestMethod.POST)
     @ResponseBody
-    public Map tempSaveSurvey(@RequestParam(required = false, value = "datas[]") String[] datas,
-                              @RequestParam(required = false, value = "others[]") String[] others,
-                              Boolean isMoblie,
-                              Integer inspectorId,
-                              Integer isSubmit,
-                              Integer onlineId, HttpServletRequest request) throws Exception {
+    public Map tempSaveSurvey(boolean isMobile, boolean isSubmit, HttpServletRequest request) throws Exception {
 
         DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
-        inspectorId = inspector.getId();
-
-        //投票时，防止管理员操作，实时读取批次的状态
+        int inspectorId = _inspector.getId();
+        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(inspectorId);
+        int onlineId = inspector.getOnlineId();
+        // 投票时，防止管理员操作，实时读取批次的状态
         if (!drOnlineInspectorService.checkStatus(inspector))
             return failed("操作失败，请重新登录");
 
-        //临时数据
+        // 临时数据
         DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
 
-        //得到票数
-        Integer postId = null;
-        Integer userId = null;
-        Integer option = null;
-        Map<String, Integer> optionMap = new HashMap<>();
-        if (datas != null && datas.length > 0) {
-            for (String data : datas) {
-                String[] results = StringUtils.split(data, "_");
-                postId = Integer.valueOf(results[0]);
-                userId = Integer.valueOf(results[1]);
-                option = Integer.valueOf(results[2]);
+        Map<String, Byte> candidateMap = tempResult.getCandidateMap();
+        candidateMap.clear();
+        Map<String, String> otherMap = tempResult.getOtherMap();
+        otherMap.clear();
+        Map<Integer, Set<String>> realnameSetMap = tempResult.getRealnameSetMap();
+        realnameSetMap.clear();
 
-                optionMap.put(postId + "_" + userId, option);
+        // 推荐结果数据
+        List<DrOnlinePostView> postViews = drOnlinePostService.getNeedRecommend(inspector);
+        Map<Integer, List<DrOnlineCandidate>> candidateListMap =  drOnlineCandidateService.findAll(onlineId);
+
+        for (DrOnlinePostView post : postViews) {
+
+            int postId = post.getId();
+            List<DrOnlineCandidate> candidateList = candidateListMap.get(postId);
+
+            // 有候选人的推荐结果
+            for (DrOnlineCandidate candidate : candidateList) {
+
+                int userId = candidate.getUserId();
+                String radioName = postId + "_" + userId;
+                String value = request.getParameter(radioName);
+                Byte radioValue = (value==null)?null:Byte.valueOf(value);
+                if(isSubmit && radioValue==null){
+                    return failed("存在未完成推荐的职务（{0}）。", post.getName());
+                }
+                if(!DrConstants.RESULT_STATUS_MAP.containsKey(radioValue)
+                        || radioValue==DrConstants.RESULT_STATUS_OTHER){
+                    return failed("数据有误，请重试。");
+                }
+                if(radioValue!=null) {
+                    candidateMap.put(radioName, radioValue);
+
+                    if(radioValue!=1){
+                        String otherRealname = request.getParameter(radioName+"_realname");
+                        if(isSubmit && StringUtils.isBlank(otherRealname)){
+                            return failed("存在未完成推荐的职务（{0}）。", post.getName());
+                        }
+
+                        if(otherRealname!=null) {
+                            otherMap.put(radioName, otherRealname);
+                        }
+                    }
+                }
             }
-            tempResult.setRawOptionMap(optionMap);
+
+            // 无候选人的推荐结果
+            for (int i = candidateList.size()+1; i <= post.getCompetitiveNum(); i++) {
+
+                String radioName = postId + "_realname_" + i;
+                String realname = request.getParameter(radioName);
+                if(isSubmit && StringUtils.isBlank(realname)){
+                    return failed("存在未完成推荐的职务（{0}）。", post.getName());
+                }
+
+                if(StringUtils.isNotBlank(realname)) {
+                    Set<String> realnameSet = realnameSetMap.get(postId);
+                    if(realnameSet==null){
+                        realnameSet= new LinkedHashSet<>();
+                        realnameSetMap.put(postId, realnameSet);
+                    }
+
+                    if (realnameSet.contains(realname)) {
+                        return failed("推荐人姓名不能相同（{0}）。", post.getName());
+                    }
+                    realnameSet.add(realname);
+                }
+            }
         }
 
-        if (others != null && others.length > 0) {
-            Map<Integer, String> otherResultMap = drOnlineResultService.consoleOthers(others, datas);
-            tempResult.setOtherResultMap(otherResultMap);
-        }else{
-            if(null != tempResult.getOtherResultMap() && tempResult.getOtherResultMap().size() > 0)
-                tempResult.getOtherResultMap().clear();
-        }
-
-        //格式转化
-        DrOnlineInspector record = new DrOnlineInspector();
+        // 格式转化
         String tempData = drCommonService.getStringTemp(tempResult);
 
-        record.setId(inspectorId);
-        record.setTempdata(tempData);
-        record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
-        record.setIsMobile(isMoblie);
+        if(isSubmit){
 
-        if (isSubmit == 1) {
-            logger.info(String.format("%s保存并提交批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
-        }else {
-            logger.info(String.format("%s保存批次为%s的测评结果", inspector.getUsername(), inspector.getDrOnline().getCode()));
+            inspector.setTempdata(tempData);
+            inspector.setIsMobile(isMobile);
+            inspector.setSubmitIp(IpUtils.getRealIp(request));
+
+            drOnlineResultService.submitResult(inspector);
+        }else{
+
+            DrOnlineInspector record = new DrOnlineInspector();
+            record.setId(inspectorId);
+            record.setStatus(DrConstants.INSPECTOR_STATUS_SAVE);
+            record.setTempdata(tempData);
+            record.setIsMobile(isMobile);
+            record.setSubmitIp(IpUtils.getRealIp(request));
+
+            drOnlineInspectorMapper.updateByPrimaryKeySelective(record);
         }
 
-        return drOnlineResultService.saveOrSubmit(isMoblie, isSubmit, inspectorId, record, request) ? success(FormUtils.SUCCESS) : failed(FormUtils.FAILED);
+        logger.info(String.format("%s%s批次为%s的测评结果", inspector.getUsername(),
+                isSubmit?"提交":"保存", inspector.getDrOnline().getCode()));
+
+        return success(FormUtils.SUCCESS);
     }
 }

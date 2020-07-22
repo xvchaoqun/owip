@@ -26,7 +26,7 @@ public class DrOnlinePostView implements Serializable {
             example.createCriteria().andPostIdEqualTo(id);
             List<DrOnlineCandidate> candidateList = drOnlineCandidateMapper.selectByExample(example);
             for (DrOnlineCandidate can : candidateList){
-                _candidates.add(can.getCandidate());
+                _candidates.add(can.getRealname());
             }
         }
 

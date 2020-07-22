@@ -7,14 +7,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import persistence.dr.common.DrFinalResult;
 import persistence.dr.common.DrTempResult;
 import sys.constants.DrConstants;
-import sys.utils.IpUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -104,113 +100,81 @@ public class DrOnlineResultService extends DrBaseMapper {
 
     //提交推荐结果
     @Transactional
-    public Boolean submitResult(Boolean isMoblie, Integer inspectorId, HttpServletRequest request){
+    public void submitResult(DrOnlineInspector inspector){
 
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(inspectorId);
         DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
-        Integer onlineId = inspector.getOnlineId();
+        int onlineId = inspector.getOnlineId();
+        int inspectorId = inspector.getId();
+        Integer inspectorTypeId = inspector.getTypeId();
 
         List<DrOnlineResult> resultList = new ArrayList<>();
-        if (tempResult.getRawOptionMap() != null) {
-            for (Map.Entry<String, Integer> entry : tempResult.getRawOptionMap().entrySet()) {
-                String[] postUserId = entry.getKey().split("_");
+
+        Map<String, Byte> candidateMap = tempResult.getCandidateMap();
+        Map<String, String> otherMap = tempResult.getOtherMap();
+        Map<Integer, Set<String>> realnameSetMap = tempResult.getRealnameSetMap();
+
+        // 有候选人的推荐人
+        for (Map.Entry<String, Byte> entry : candidateMap.entrySet()) {
+
+            String key = entry.getKey();
+            byte status = entry.getValue();
+
+            int postId = Integer.valueOf(key.split("_")[0]);
+            int userId = Integer.valueOf(key.split("_")[1]);
+
+            DrOnlineResult result = new DrOnlineResult();
+            result.setOnlineId(onlineId);
+            result.setPostId(postId);
+            result.setUserId(userId);
+            if(status==DrConstants.RESULT_STATUS_AGREE) { // 同意
+                DrOnlineCandidate candidate = drOnlineCandidateService.getId(userId, postId);
+                result.setRealname(candidate.getRealname());
+            }else{
+                String realname = otherMap.get(key);
+                result.setRealname(realname); // 另选推荐人
+            }
+
+            result.setInspectorId(inspectorId);
+            result.setInspectorTypeId(inspectorTypeId);
+            result.setStatus(status);
+
+            resultList.add(result);
+        }
+
+        //无候选人的推荐人
+        for (Map.Entry<Integer, Set<String>> entry : realnameSetMap.entrySet()) {
+            int postId = entry.getKey();
+            Set<String> realnameSet = entry.getValue();
+
+            for (String realname : realnameSet) {
+
                 DrOnlineResult result = new DrOnlineResult();
                 result.setOnlineId(onlineId);
-                result.setPostId(Integer.valueOf(postUserId[0]));
-                result.setUserId(Integer.valueOf(postUserId[1]));
-                result.setCandidate(drOnlineCandidateService.getId(Integer.valueOf(postUserId[1]), Integer.valueOf(postUserId[0])).getCandidate());
-                result.setInspectorId(inspector.getId());
-                result.setInspectorTypeId(inspector.getTypeId());
-                result.setIsAgree(entry.getValue() == 1 ? true : false);
+                result.setPostId(postId);
+                result.setRealname(realname);
+                result.setInspectorId(inspectorId);
+                result.setInspectorTypeId(inspectorTypeId);
+                result.setStatus(DrConstants.RESULT_STATUS_OTHER);
 
                 resultList.add(result);
             }
         }
 
-        //另选的候选人
-        Map<Integer, String> otherResultMap = new HashMap<>();
-        otherResultMap = tempResult.getOtherResultMap();
-        if (otherResultMap != null && otherResultMap.size() > 0){
-
-            for (Map.Entry<Integer, String> entry2 : otherResultMap.entrySet()) {
-                String[] candidates = entry2.getValue().split(",");
-                List<String> cans = drOnlinePostService.getPost(entry2.getKey()).getCans();
-                if (null != entry2 && candidates.length > 0) {
-                    for (String candidate: candidates) {
-                        if (cans.contains(candidate))
-                            throw new OpException("候选人" + candidate + "重名，请加以区别！");
-                        DrOnlineResult result = new DrOnlineResult();
-                        result.setOnlineId(onlineId);
-                        result.setPostId(entry2.getKey());
-                        result.setCandidate(candidate);
-                        result.setInspectorId(inspector.getId());
-                        result.setInspectorTypeId(inspector.getTypeId());
-                        result.setIsAgree(true);
-
-                        resultList.add(result);
-                    }
-                }
-
-            }
-        }
-
-        if (resultList == null || resultList.size() == 0){
-            throw new OpException("请先完成投票，再提交！");
-        }
-
-        submit(isMoblie, inspectorId, resultList);
-
-        return true;
-    }
-
-    @Transactional
-    public void submit(Boolean isMobile, Integer inspectorId, List<DrOnlineResult> resultList){
-
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(inspectorId);
         //批量插入推荐结果
         iDrMapper.batchInsert_result(resultList);
 
-        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+        inspector.setSubmitTime(new Date());
+        inspector.setStatus(DrConstants.INSPECTOR_STATUS_FINISH);
 
-        DrOnlineInspector record = new DrOnlineInspector();
-        record.setSubmitTime(new Date());
-        record.setSubmitIp(IpUtils.getRealIp(request));
-        record.setStatus(DrConstants.INSPECTOR_STATUS_FINISH);
-        record.setIsMobile(isMobile);
+        drOnlineInspectorMapper.updateByPrimaryKey(inspector);
 
-        List<Byte> statusList = new ArrayList<>();
-
-        statusList.add(DrConstants.INSPECTOR_STATUS_SAVE);
-        statusList.add(DrConstants.INSPECTOR_STATUS_INIT);
-        DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-        example.createCriteria().andIdEqualTo(inspectorId).andStatusIn(statusList);
-        drOnlineInspectorMapper.updateByExampleSelective(record, example);
-
-        /*if (drOnlineInspectorMapper.updateByExampleSelective(record, example) == 1){
-            throw new OpException("该账号已经投过票, inspector's name:" + inspector.getUsername());
-        }*/
         drOnlineInspectorLogService.updateCount(inspector.getLogId(), 0, 1, 0);
-        //throw new OpException("事务回滚！");
-        /*if(drOnlineInspectorLogMapper.incrFinishCount(inspector.getLogId()) == 0){
-            throw new OpException("update finish_count error, inspector's name:" + inspector.getUsername());
-        }*/
-    }
-
-    @Transactional
-    public Boolean saveOrSubmit(Boolean isMoblie, Integer isSubmit, Integer inspectorId, DrOnlineInspector record, HttpServletRequest request) {
-
-        drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(record);
-
-        if (isSubmit == 1){
-            return submitResult(isMoblie, inspectorId, request);
-        }
-        return true;
     }
 
     //结果中包含几个岗位
     public List<Integer> getPostId(List<Integer> typeIds, Integer onlineId){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId, null, null, new RowBounds((1 - 1) * 20, 20));
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null, null, new RowBounds((1 - 1) * 20, 20));
         List<Integer> postIds = new ArrayList<>();
         for (DrFinalResult record : drFinalResults){
             if (!postIds.contains(record.getPostId()))
@@ -219,13 +183,13 @@ public class DrOnlineResultService extends DrBaseMapper {
         return postIds;
     }
 
-    public DrFinalResult findCount(Integer onlineId, Integer postId, String candidate, List<Integer> typeIds){
+    public DrFinalResult findCount(Integer onlineId, Integer postId, String realname, List<Integer> typeIds){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
         for (DrFinalResult drFinalResult : drFinalResults){
             if (postId == drFinalResult.getPostId()){
-                if (null != candidate) {
-                    if (drFinalResult.getCandidate().equals(candidate))
+                if (null != realname) {
+                    if (drFinalResult.getRealname().equals(realname))
                         return drFinalResult;
                     else
                         continue;
@@ -240,7 +204,7 @@ public class DrOnlineResultService extends DrBaseMapper {
     //<postId, candidateStr>
     public Map<Integer ,List<String>> findCandidate(List<Integer> typeIds, Integer onlineId){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
         DrOnlinePostViewExample postExample = new DrOnlinePostViewExample();
         postExample.createCriteria().andOnlineIdEqualTo(onlineId);
         List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(postExample);
@@ -251,7 +215,7 @@ public class DrOnlineResultService extends DrBaseMapper {
             List<String> candidates = new ArrayList<>();
             for (DrFinalResult result : drFinalResults){
                 if (result.getPostId().equals(post.getId())){
-                    candidates.add(result.getCandidate());
+                    candidates.add(result.getRealname());
                 }
             }
             record.put(post.getId(), candidates);

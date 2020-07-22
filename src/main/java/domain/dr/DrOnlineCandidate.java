@@ -17,7 +17,7 @@ public class DrOnlineCandidate implements Serializable {
 
     private Integer userId;
 
-    private String candidate;
+    private String realname;
 
     private Integer sortOrder;
 
@@ -49,12 +49,12 @@ public class DrOnlineCandidate implements Serializable {
         this.userId = userId;
     }
 
-    public String getCandidate() {
-        return candidate;
+    public String getRealname() {
+        return realname;
     }
 
-    public void setCandidate(String candidate) {
-        this.candidate = candidate == null ? null : candidate.trim();
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 
     public Integer getSortOrder() {

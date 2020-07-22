@@ -66,6 +66,21 @@ public class DrConstants {
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_SAVE, "暂存");
     }
 
+    // 推荐结果状态
+    public final static byte RESULT_STATUS_AGREE = 1;
+    public final static byte RESULT_STATUS_DISAGREE = 2;
+    public final static byte RESULT_STATUS_ABSTAIN = 3;
+    public final static byte RESULT_STATUS_OTHER = 4;
+    public final static Map<Byte, String> RESULT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        RESULT_STATUS_MAP.put(RESULT_STATUS_AGREE, "同意");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_DISAGREE, "不同意");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_ABSTAIN, "弃权");
+        RESULT_STATUS_MAP.put(RESULT_STATUS_OTHER, "另选他人");
+    }
+
     // 参评人账号状态
     public final static byte INSPECTOR_PUB_STATUS_NOT_RELEASE = 0;
     public final static byte INSPECTOR_PUB_STATUS_RELEASE = 1;
@@ -98,4 +113,6 @@ public class DrConstants {
         DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_SIXTY, "大于60%");
         DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_FIFTY, "大于50%");
     }
+
+
 }

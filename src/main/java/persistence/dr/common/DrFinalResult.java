@@ -1,98 +1,55 @@
 package persistence.dr.common;
 
-import domain.dr.DrOnlinePostView;
-import domain.dr.DrOnlinePostViewExample;
-import persistence.dr.DrOnlinePostViewMapper;
-import sys.tags.CmTag;
-
-import java.util.List;
-
 public class DrFinalResult {
-
-    public DrOnlinePostView getPost(){
-
-        DrOnlinePostViewMapper drOnlinePostViewMapper = CmTag.getBean(DrOnlinePostViewMapper.class);
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
-        example.createCriteria().andIdEqualTo(postId);
-        List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(example);
-
-        return posts.get(0);
-    }
 
     public Integer onlineId;//批次
     public Integer postId;//推荐职务
-    public String candidate;//推荐人姓名
-    public Integer options;//票数
-    public Integer pubCounts;//发布数量
-    public Integer finishCounts;//完成数量
-    public String scoreRate;//得票比率
+    public String postName;//推荐职务
+    public String realname;//推荐人姓名
+    public Integer ballot;//票数
 
     public Integer getOnlineId() {
         return onlineId;
     }
 
-    public void setOnlineId(Integer onlineId) {
+    public DrFinalResult setOnlineId(Integer onlineId) {
         this.onlineId = onlineId;
+        return this;
     }
 
     public Integer getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public DrFinalResult setPostId(Integer postId) {
         this.postId = postId;
+        return this;
     }
 
-    public String getCandidate() {
-        return candidate;
+    public String getPostName() {
+        return postName;
     }
 
-    public void setCandidate(String candidate) {
-        this.candidate = candidate;
+    public DrFinalResult setPostName(String postName) {
+        this.postName = postName;
+        return this;
     }
 
-    public Integer getOptions() {
-        return options;
+    public String getRealname() {
+        return realname;
     }
 
-    public void setOptions(Integer options) {
-        this.options = options;
+    public DrFinalResult setRealname(String realname) {
+        this.realname = realname;
+        return this;
     }
 
-    public Integer getPubCounts() {
-        return pubCounts;
+    public Integer getBallot() {
+        return ballot;
     }
 
-    public void setPubCounts(Integer pubCounts) {
-        this.pubCounts = pubCounts;
-    }
-
-    public Integer getFinishCounts() {
-        return finishCounts;
-    }
-
-    public void setFinishCounts(Integer finishCounts) {
-        this.finishCounts = finishCounts;
-    }
-
-    public String getScoreRate() {
-        return scoreRate;
-    }
-
-    public void setScoreRate(String scoreRate) {
-        this.scoreRate = scoreRate;
-    }
-
-    @Override
-    public String toString() {
-        return "DrFinalResult{" +
-                "onlineId=" + onlineId +
-                ", postId=" + postId +
-                ", candidate='" + candidate + '\'' +
-                ", options=" + options +
-                ", pubCounts=" + pubCounts +
-                ", finishCounts=" + finishCounts +
-                ", scoreRate='" + scoreRate + '\'' +
-                '}';
+    public DrFinalResult setBallot(Integer ballot) {
+        this.ballot = ballot;
+        return this;
     }
 }

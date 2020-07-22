@@ -11,13 +11,13 @@ public class DrOnlineResult implements Serializable {
 
     private Integer userId;
 
-    private String candidate;
+    private String realname;
 
     private Integer inspectorId;
 
     private Integer inspectorTypeId;
 
-    private Boolean isAgree;
+    private Byte status;
 
     private String remark;
 
@@ -55,12 +55,12 @@ public class DrOnlineResult implements Serializable {
         this.userId = userId;
     }
 
-    public String getCandidate() {
-        return candidate;
+    public String getRealname() {
+        return realname;
     }
 
-    public void setCandidate(String candidate) {
-        this.candidate = candidate == null ? null : candidate.trim();
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 
     public Integer getInspectorId() {
@@ -79,12 +79,12 @@ public class DrOnlineResult implements Serializable {
         this.inspectorTypeId = inspectorTypeId;
     }
 
-    public Boolean getIsAgree() {
-        return isAgree;
+    public Byte getStatus() {
+        return status;
     }
 
-    public void setIsAgree(Boolean isAgree) {
-        this.isAgree = isAgree;
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public String getRemark() {

@@ -38,18 +38,14 @@ public class DrOnlineResultController extends DrBaseController {
     @RequestMapping("/drOnlineResult")
     public String drOnlineResult(Integer onlineId,
                                  Integer unitPostId,
-                                 String candidate,
-                                 Integer scoreRate,
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
+
         UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
         modelMap.put("unitPost", unitPost);
-        modelMap.put("onlineId", onlineId);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         modelMap.put("drOnline", drOnline);
         modelMap.put("typeIds", typeIds);
-        modelMap.put("candidate", candidate);
-        modelMap.put("scoreRate", scoreRate);
 
         return "dr/drOnline/drOnlineResult/drOnlineResult_page";
     }
@@ -62,7 +58,7 @@ public class DrOnlineResultController extends DrBaseController {
                                     String _typeIds,
                                     Integer unitPostId,
                                     @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
-                                    String candidate,//推荐人选
+                                    String realname,//推荐人选
                                     Integer scoreRate,//得票比率
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
@@ -103,12 +99,13 @@ public class DrOnlineResultController extends DrBaseController {
 
             return;
         }
-        long count = iDrMapper.countResult(typeIdlist, postIds, onlineId, candidate, scoreRate);
+        long count = iDrMapper.countResult(typeIdlist, postIds, onlineId, realname, scoreRate);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrFinalResult> drFinalResults = iDrMapper.resultOne(typeIdlist, postIds, onlineId, candidate, scoreRate, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postIds, onlineId, realname, scoreRate,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -125,11 +122,8 @@ public class DrOnlineResultController extends DrBaseController {
 
     @RequiresPermissions("drOnlineResult:list")
     @RequestMapping("/drOnlineResult_filter")
-    public String drOnlineResult_filter(Integer onlineId,
-                                      ModelMap modelMap,
+    public String drOnlineResult_filter(ModelMap modelMap,
                                       HttpServletResponse response) throws IOException {
-
-        modelMap.put("onlineId", onlineId);
 
         return "/dr/drOnline/drOnlineResult/drOnlineResult_filter";
     }

@@ -76,11 +76,6 @@
         </table>-->
         <table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
         </table>
-        <!--<table tableName="dr_online_result_view" domainObjectName="dr.DrOnlineResultView" mapperName="dr.DrOnlineResultViewMapper">
-            <columnOverride column="option_sum" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="pub_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="finish_counts" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
 
     </context>
 </generatorConfiguration>

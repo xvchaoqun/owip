@@ -127,7 +127,7 @@
 																<c:if test="${candidateMap.key == postView.id}">
 																	<c:forEach items="${candidateMap.value}" var="candidates">
 																		<tr>
-																			<td>${candidates.candidate}</td>
+																			<td>${candidates.realname}</td>
 																			<td style="text-align: center;">
 																				<div class="checkboxRadio">
 																					<input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -161,7 +161,7 @@
 																<c:forEach items="${candidateMap.value}" var="candidates" begin="0" end="${postView.existNum}">
 																	<c:if test="${candidateMap.key == postView.id}">
 																		<tr>
-																			<td>${candidates.candidate}</td>
+																			<td>${candidates.realname}</td>
 																			<td style="text-align: center;">
 																				<div class="checkboxRadio">
 																					<input postId="${postView.id}" type="checkbox" name="${postView.id}_${candidates.userId}" id="${postView.id}_${candidates.userId}_1" value="1">
@@ -306,7 +306,6 @@
 		</div>
 	<script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 	<script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
-	<script src="${ctx}/js/dr.js"></script>
 	<script type="text/javascript">
 
 		$("#survey input[type=checkbox]").click(function(){
@@ -452,7 +451,7 @@
 					<div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认推荐结果无需再做修改。</div>\
 					<div style="text-indent:2em;padding:10px;">为保证您评价信息的安全，在点击确定提交后您的对应账号、密码即失效。<div></div>', function (result) {
 						if (result) {
-							$.post("${ctx}/user/dr/doTempSave?isMoblie=1&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
+							$.post("${ctx}/user/dr/doTempSave?isMobile=1&isSubmit=1",{"datas[]": datas, "others[]": others, "onlineId": onlineId},function(ret) {
 								if (ret.success) {
 									bootbox.alert({
 										closeButton: false,

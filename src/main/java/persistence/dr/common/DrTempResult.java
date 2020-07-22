@@ -1,6 +1,7 @@
 package persistence.dr.common;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,12 +12,20 @@ public class DrTempResult implements Serializable {
     //同意测评说明
     public boolean agree;
     public boolean mobileAgree;
-    // 可选单位
-    public Set<Integer> unitIds;
-    //<postId, names> 另选他人得票
-    public Map<Integer, String> otherResultMap;
-    //<postId_userId, option>   管理员设置的候选人得票
-    public Map<String, Integer> rawOptionMap;
+
+    //<postId_userId, status>   候选人推荐结果
+    public Map<String, Byte> candidateMap;
+    //<postId_userId, realname> 另选推荐人
+    public Map<String, String> otherMap;
+    //<postId, Set<realname>> 推荐人
+    public Map<Integer, Set<String>> realnameSetMap;
+
+    public DrTempResult() {
+
+		candidateMap = new LinkedHashMap<>();
+		otherMap = new LinkedHashMap<>();
+		realnameSetMap = new LinkedHashMap<>();
+	}
 
     public Integer getInspectorId() {
         return inspectorId;
@@ -42,39 +51,34 @@ public class DrTempResult implements Serializable {
         this.mobileAgree = mobileAgree;
     }
 
-    public Set<Integer> getUnitIds() {
-        return unitIds;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setUnitIds(Set<Integer> unitIds) {
-        this.unitIds = unitIds;
+    public Map<String, Byte> getCandidateMap() {
+        return candidateMap;
     }
 
-    public Map<Integer, String> getOtherResultMap() {
-        return otherResultMap;
+    public DrTempResult setCandidateMap(Map<String, Byte> candidateMap) {
+        this.candidateMap = candidateMap;
+        return this;
     }
 
-    public void setOtherResultMap(Map<Integer, String> otherResultMap) {
-        this.otherResultMap = otherResultMap;
+    public Map<String, String> getOtherMap() {
+        return otherMap;
     }
 
-    public Map<String, Integer> getRawOptionMap() {
-        return rawOptionMap;
+    public DrTempResult setOtherMap(Map<String, String> otherMap) {
+        this.otherMap = otherMap;
+        return this;
     }
 
-    public void setRawOptionMap(Map<String, Integer> rawOptionMap) {
-        this.rawOptionMap = rawOptionMap;
+    public Map<Integer, Set<String>> getRealnameSetMap() {
+        return realnameSetMap;
     }
 
-    @Override
-    public String toString() {
-        return "DrTempResult{" +
-                "inspectorId=" + inspectorId +
-                ", agree=" + agree +
-                ", mobileAgree=" + mobileAgree +
-                ", unitIds=" + unitIds +
-                ", otherResultMap=" + otherResultMap +
-                ", rawOptionMap=" + rawOptionMap +
-                '}';
+    public DrTempResult setRealnameSetMap(Map<Integer, Set<String>> realnameSetMap) {
+        this.realnameSetMap = realnameSetMap;
+        return this;
     }
 }

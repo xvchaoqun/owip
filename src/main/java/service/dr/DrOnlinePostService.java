@@ -113,7 +113,7 @@ public class DrOnlinePostService extends DrBaseMapper {
 
         DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("sort_order desc");
         List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
 
         return postViews;
