@@ -7,6 +7,8 @@ import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
+import domain.sys.SysUserView;
 import domain.unit.*;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -112,6 +114,7 @@ public class UnitPostController extends BaseController {
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             UnitPost record = new UnitPost();
+            CadrePost cadrePost = new CadrePost();
             row++;
             String code = StringUtils.trimToNull(xlsRow.get(0));
             String unitCode = StringUtils.trimToNull(xlsRow.get(2));
@@ -136,7 +139,7 @@ public class UnitPostController extends BaseController {
             record.setUnitId(unit.getId());
 
             record.setJob(StringUtils.trimToNull(xlsRow.get(3)));
-            record.setRemark(StringUtils.trimToNull(xlsRow.get(9)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(15)));
             record.setIsPrincipal(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(4)), "是"));
             record.setIsCpc(StringUtils.equalsIgnoreCase(StringUtils.trimToNull(xlsRow.get(8)), "是"));
 
@@ -155,8 +158,53 @@ public class UnitPostController extends BaseController {
             if (postClassType == null)throw new OpException("第{0}行职务类别[{1}]不存在", row, postClass);
             record.setPostClass(postClassType.getId());
 
+            String userCode = StringUtils.trim(xlsRow.get(9));
+            String userName = StringUtils.trim(xlsRow.get(10));
+            if(StringUtils.isNotBlank(userCode)){
+                SysUserView uv = sysUserService.findByCode(userCode);
+                CadreView cadre = cadreService.dbFindByUserId(uv.getId());
+                if (cadre != null) {
+                    int cadreId = cadre.getId();
+                    cadrePost.setCadreId(cadreId);
+                }
+            }else if(StringUtils.isNotBlank(userName)){
+                    CadreViewExample example = new CadreViewExample();
+                    CadreViewExample.Criteria criteria = example.createCriteria();
+                    criteria.andRealnameEqualTo(userName);
+                    List<CadreView> cvs = cadreViewMapper.selectByExample(example);
+                    if (cvs.size()==1){
+                        int cadreId = cvs.get(0).getId();
+                        cadrePost.setCadreId(cadreId);
+                    }
+            }
+            if (cadrePost.getCadreId() != null) {
+                String _adminLevel = StringUtils.trimToNull(xlsRow.get(11));
+                MetaType _adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", _adminLevel);
+                if (_adminLevelType == null) throw new OpException("第{0}行干部级别[{1}]不存在", row, _adminLevel);
+                cadrePost.setAdminLevel(_adminLevelType.getId());
+
+                String isMainPost = StringUtils.trim(xlsRow.get(12));
+                if(StringUtils.isBlank(isMainPost)){
+                    throw new OpException("第{0}行任职类型为空", row);
+                }
+                if(isMainPost.equals("第一主职")){
+                    cadrePost.setIsMainPost(true);
+                    cadrePost.setIsFirstMainPost(true);
+                }else if(isMainPost.equals("主职")){
+                    cadrePost.setIsMainPost(true);
+                    cadrePost.setIsFirstMainPost(false);
+                } else if(isMainPost.equals("兼职")){
+                    cadrePost.setIsMainPost(false);
+                    cadrePost.setIsFirstMainPost(false);
+                }
+
+                Date lpWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(13)));
+                cadrePost.setLpWorkTime(lpWorkTime);
+                Date npWorkTime = DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(14)));
+                cadrePost.setNpWorkTime(npWorkTime);
+            }
             record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-            addCount += unitPostService.singleImport(record);
+            addCount += unitPostService.singleImport(record,cadrePost);
             totalCount++;
         }
 
@@ -461,8 +509,10 @@ public class UnitPostController extends BaseController {
 
         record.setIsPrincipal(BooleanUtils.isTrue(record.getIsPrincipal()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
-
         record.setName(HtmlUtils.htmlUnescape(record.getName()));
+
+        CadrePost cadrePost=new CadrePost();
+        cadrePost.setCadreId(cadreId);
 
         if (unitPostService.idDuplicate(id, record.getCode())) {
 
@@ -480,16 +530,19 @@ public class UnitPostController extends BaseController {
 
         if (id == null) {
             //record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
-            unitPostService.insertSelective(record);
+            unitPostService.insertSelective(record,cadrePost);
             logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位：%s", record.getId()));
         } else {
+            Integer oldCadreId=null;
+            CadrePost cp=cadrePostService.getByUnitPostId(id);//原关联干部
+            if(cp!=null) oldCadreId=cp.getCadreId();
 
-            unitPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s", record.getId()));
-            if(BooleanUtils.isTrue(isSync)){
+            unitPostService.updateByPrimaryKeySelective(record,oldCadreId,cadrePost);
+            logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部岗位：%s-干部任职情况：%s", record.getId(), cadreId));
+           /* if(BooleanUtils.isTrue(isSync)){
                   unitPostService.syncCadrePost(record,cadreId);
                 logger.info(addLog( LogConstants.LOG_ADMIN, "更新干部任职情况：%s", record.getId()));
-            }
+            }*/
         }
 
         return success(FormUtils.SUCCESS);

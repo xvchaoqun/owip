@@ -122,13 +122,16 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(UnitPost record) {
+    public void insertSelective(UnitPost record,CadrePost cadrePost) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
         Assert.isTrue(!leaderTypeDuplicate(null, record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
         record.setSortOrder(getNextSortOrder("unit_post",
                 String.format("unit_id=%s and status=%s", record.getUnitId(), record.getStatus())));
         unitPostMapper.insertSelective(record);
+        if(cadrePost.getCadreId()!=null){
+            syncCadrePost(record,null,cadrePost);
+        }
     }
 
     //根据单位编码生成岗位编码
@@ -163,24 +166,36 @@ public class UnitPostService extends BaseMapper {
 
     //批量插入，读一条插入一条
     @Transactional
-    public int singleImport(UnitPost record) {
+    public int singleImport(UnitPost record,CadrePost cadrePost) {
 
-        String name = record.getName();
+       /* String name = record.getName();*/
         int addCount = 0;
-        Integer unitId = record.getUnitId();
+        Integer oldCadreId=null;
+       /* Integer unitId = record.getUnitId();*/
+        UnitPost unitPost=getByCode(record.getCode());
+        if(unitPost!=null){
+            record.setId(unitPost.getId());
+        }
         if (record.getId() != null) {
-            Byte status = 1;
+           /* Byte status = 1;
             UnitPostExample example = new UnitPostExample();
             example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andUnitIdEqualTo(record.getUnitId()).andStatusEqualTo(status);
             List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
             if (unitPosts.size() == 0) {
                 insertSelective(record);
                 addCount++;
-            } else {
-                updateByPrimaryKeySelective(record);
+            } else {*/
+            CadrePost cp=cadrePostService.getByUnitPostId(record.getId());//原关联干部
+            if(cp!=null){
+                oldCadreId=cp.getCadreId();
+                if(cadrePost.getCadreId()==null){
+                    cadrePost.setCadreId(cp.getCadreId());
+                }
             }
+            updateByPrimaryKeySelective(record,oldCadreId,cadrePost);
+           /* }*/
         } else {
-            insertSelective(record);
+            insertSelective(record,cadrePost);
             addCount++;
         }
         return addCount;
@@ -198,10 +213,10 @@ public class UnitPostService extends BaseMapper {
             example.createCriteria().andNameEqualTo(name).andUnitIdEqualTo(unitId).andStatusEqualTo(status);
             List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
             if (unitPosts.size() == 0) {
-                insertSelective(record);
+                /*insertSelective(record);*/
                 addCount++;
             } else {
-                updateByPrimaryKeySelective(record);
+                /*updateByPrimaryKeySelective(record);*/
             }
         }
 
@@ -217,11 +232,11 @@ public class UnitPostService extends BaseMapper {
             String code = record.getCode();
             UnitPost unitPost = getByCode(code);
             if (unitPost == null) {
-                insertSelective(record);
+                /*insertSelective(record);*/
                 addCount++;
             } else {
                 record.setId(unitPost.getId());
-                updateByPrimaryKeySelective(record);
+                /*updateByPrimaryKeySelective(record);*/
             }
         }
 
@@ -239,44 +254,60 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(UnitPost record) {
+    public void updateByPrimaryKeySelective(UnitPost record,Integer oldCadreId,CadrePost cadrePost) {
 
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         Assert.isTrue(!leaderTypeDuplicate(record.getId(), record.getUnitId(), record.getLeaderType()), "leaderType duplicate");
 
-        return unitPostMapper.updateByPrimaryKeySelective(record);
+         unitPostMapper.updateByPrimaryKeySelective(record);
+
+        if(cadrePost.getCadreId()!=null){
+            syncCadrePost(record,oldCadreId,cadrePost);
+        }
+
     }
 
+    //同步关联干部任职信息
     @Transactional
-    public void syncCadrePost(UnitPost unitPost,Integer cadreId) {
-        if(cadreId==null) return;
+    public void syncCadrePost(UnitPost unitPost,Integer oldCadreId,CadrePost record) {
+        Integer newCadreId=record.getCadreId();
+       // Boolean isMainPost=record.getIsMainPost();
+        Boolean isFirstMainPost=record.getIsFirstMainPost();
+
+        record.setUnitPostId(unitPost.getId());
+        record.setPost(unitPost.getName());
+        if(record.getAdminLevel()==null){
+            record.setAdminLevel(unitPost.getAdminLevel());
+        }
+
         CadrePost cadrePost=cadrePostService.getByUnitPostId(unitPost.getId());
 
-        CadrePost record=new CadrePost();
-        record.setUnitPostId(unitPost.getId());
-        record.setAdminLevel(unitPost.getAdminLevel());
-
-        if(cadreId.equals(cadrePost.getCadreId())){ //关联岗位的干部不变
+        if(newCadreId.equals(oldCadreId)){
             record.setId(cadrePost.getId());
             cadrePostService.updateByPrimaryKeySelective(record);
         }else{
-            commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + cadrePost.getId());
-            CadrePost mainCadrePost=cadrePostService.getFirstMainCadrePost(cadreId);
+            if(oldCadreId!=null){ //更换了关联干部,清空原干部关联
+                commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + cadrePost.getId());
+            }
 
-            record.setPost(unitPost.getName());
-
-            if(mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
+            CadrePost mainCadrePost=cadrePostService.getFirstMainCadrePost(newCadreId);
+            if((BooleanUtils.isTrue(isFirstMainPost)||isFirstMainPost==null)&&mainCadrePost!=null){  //关联岗位更换干部，更新第一主职
                 record.setId(mainCadrePost.getId());
                 cadrePostService.updateByPrimaryKeySelective(record);
-                commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +
-                        "lp_dispatch_id=null, np_work_time=null, lp_work_time=null where id=" + mainCadrePost.getId());
 
-            }else{  //关联岗位更换干部，无第一主职，插入第一主职
-                record.setCadreId(cadreId);
-                record.setIsFirstMainPost(true);
-                record.setIsMainPost(true);
-                cadrePostService.insertSelective(record);
+                /*if(record.getNpWorkTime()==null&&record.getLpWorkTime()==null){
+                    commonMapper.excuteSql("update cadre_post set np_dispatch_id=null, " +
+                        "lp_dispatch_id=null, np_work_time=null, lp_work_time=null where id=" + mainCadrePost.getId());
+                }*/
+            }else{
+                if(record.getIsMainPost()==null){
+                    record.setIsMainPost(true);
+                }
+                if(record.getIsFirstMainPost()==null){
+                    record.setIsFirstMainPost(true);
+                }
+                cadrePostService.insertSelective(record);//无岗位信息，插入
             }
         }
     }

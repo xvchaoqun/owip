@@ -128,7 +128,7 @@ public class CadrePostService extends BaseMapper {
             commonMapper.excuteSql("update cadre_post set unit_post_id=null where id=" + record.getId());
         }
 
-        record.setIsMainPost(null); // 不改变是否是主职字段
+       /* record.setIsMainPost(null); */   // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
 
         cacheHelper.clearCadreCache();
