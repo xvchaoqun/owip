@@ -855,66 +855,6 @@ public class DrOnlineInspectorExample {
             return (Criteria) this;
         }
 
-        public Criteria andPubStatusIsNull() {
-            addCriterion("pub_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusIsNotNull() {
-            addCriterion("pub_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusEqualTo(Byte value) {
-            addCriterion("pub_status =", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusNotEqualTo(Byte value) {
-            addCriterion("pub_status <>", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusGreaterThan(Byte value) {
-            addCriterion("pub_status >", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("pub_status >=", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusLessThan(Byte value) {
-            addCriterion("pub_status <", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("pub_status <=", value, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusIn(List<Byte> values) {
-            addCriterion("pub_status in", values, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusNotIn(List<Byte> values) {
-            addCriterion("pub_status not in", values, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusBetween(Byte value1, Byte value2) {
-            addCriterion("pub_status between", value1, value2, "pubStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("pub_status not between", value1, value2, "pubStatus");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

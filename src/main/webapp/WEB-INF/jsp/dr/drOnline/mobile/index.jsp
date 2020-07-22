@@ -96,17 +96,13 @@
                     </form>
                 </c:if>
                 <c:if test="${tempResult.agree}">
+                    <div class="alert alert-block alert-success" style="margin-bottom: 5px">
+                        <i class="ace-icon fa fa-hourglass-1 green"></i> ${drOnline.name}
+                    </div>
                     <form id="candidateForm" method="post" action="${ctx}/user/dr/doTempSave">
                         <input type="hidden" name="isMobile" value="1">
                         <input type="hidden" name="isSubmit" value="0">
                         <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th colspan="2" class="center">
-                                        ${drOnline.code}
-                                </th>
-                            </tr>
-                            </thead>
                             <tbody>
                             <c:forEach items="${postViews}" var="post">
                                 <c:set var="realnameSet" value="${tempResult.realnameSetMap.get(post.id)}"/>
@@ -155,6 +151,7 @@
                                         <td>
                                             <input name="${post.id}_realname_${idx}" type="text"
                                                    value="${cm:getSetValue(realnameSet, idx-candidateNum-1)}">
+                                            <%--<div style="font-size: smaller">注：请填写一人，多填无效，下同。</div>--%>
                                         </td>
                                     </tr>
                                 </c:forEach>

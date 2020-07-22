@@ -40,6 +40,8 @@ public class DrOnline implements Serializable {
 
     private Integer recordId;
 
+    private String name;
+
     private Short year;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -67,7 +69,7 @@ public class DrOnline implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
-    private Boolean isDeleteed;
+    private Boolean isDeleted;
 
     private String remark;
 
@@ -87,6 +89,14 @@ public class DrOnline implements Serializable {
 
     public void setRecordId(Integer recordId) {
         this.recordId = recordId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Short getYear() {
@@ -185,12 +195,12 @@ public class DrOnline implements Serializable {
         this.endTime = endTime;
     }
 
-    public Boolean getIsDeleteed() {
-        return isDeleteed;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setIsDeleteed(Boolean isDeleteed) {
-        this.isDeleteed = isDeleteed;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getRemark() {

@@ -58,7 +58,6 @@ public class DrOnlineInspectorController extends DrBaseController {
     public void drOnlineInspector_data(HttpServletResponse response,
                                     Integer typeId,
                                     Integer logId,
-                                    Byte pubStatus,
                                     Byte status,
                                     String username,
                                      @RequestParam(required = false, defaultValue = "0") int export,
@@ -79,9 +78,6 @@ public class DrOnlineInspectorController extends DrBaseController {
 
         if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
-        }
-        if (pubStatus != null) {
-            criteria.andPubStatusEqualTo(pubStatus);
         }
         if (status != null) {
             criteria.andStatusEqualTo(status);
@@ -117,9 +113,9 @@ public class DrOnlineInspectorController extends DrBaseController {
         return;
     }
 
-    @RequestMapping(value = "/drOnlineInspector_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/inspector_changePasswd", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_drOnlineInspector_au(DrOnlineInspector record,
+    public Map do_inspector_changePasswd(DrOnlineInspector record,
                                        Byte passwdChangeType,
                                        HttpServletRequest request) {
 
@@ -133,31 +129,6 @@ public class DrOnlineInspectorController extends DrBaseController {
             logger.info(log( LogConstants.LOG_DR, "修改密码：{0}", inspector.getId()));
         }
         drOnlineInspectorService.updateByPrimaryKeySelective(record);
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("drOnlineInspector:edit")
-    @RequestMapping("/drOnlineInspector_au")
-    public String drOnlineInspector_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
-            modelMap.put("inspector", inspector);
-        }
-        return "dr/drOnline/drOnlineInspector/drOnlineInspector_au";
-    }
-
-    @RequiresPermissions("drOnlineInspector:edit")
-    @RequestMapping(value = "/inspector_changeStatus", method = RequestMethod.POST)
-    @ResponseBody
-    public Map inspector_changeStatus(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length>0){
-            drOnlineInspectorService.release(ids);
-            logger.info(log( LogConstants.LOG_DR, "发布账号参评人：{0}", StringUtils.join(ids, ",")));
-        }
 
         return success(FormUtils.SUCCESS);
     }
@@ -207,7 +178,7 @@ public class DrOnlineInspectorController extends DrBaseController {
 
         List<DrOnlineInspector> records = drOnlineInspectorMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属导出记录|100","推荐批次|100","登陆账号|100","登陆密码|100","更改密码方式|100","推荐人身份类型|100","所属单位|100","临时数据|100","状态（0可用、1作废、2完成 、3暂存）|100","是否手机端完成测评|100","分发状态（0未分发 1已分发）|100","测评反馈意见|100","提交时间|100","创建时间|100"};
+        String[] titles = {"所属导出记录|100","推荐批次|100","登陆账号|100","登陆密码|100","更改密码方式|100","推荐人身份类型|100","所属单位|100","临时数据|100","状态（0可用、1作废、2完成 、3暂存）|100","是否手机端完成测评|100","测评反馈意见|100","提交时间|100","创建时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DrOnlineInspector record = records.get(i);
@@ -222,7 +193,6 @@ public class DrOnlineInspectorController extends DrBaseController {
                             record.getTempdata(),
                             record.getStatus()+"",
                             record.getIsMobile()+"",
-                            record.getPubStatus()+"",
                             record.getRemark(),
                             DateUtils.formatDate(record.getSubmitTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                             DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
@@ -242,7 +212,7 @@ public class DrOnlineInspectorController extends DrBaseController {
                                           HttpServletRequest request) throws IOException, TemplateException {
 
         DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-        DrOnlineInspectorExample.Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH).andPubStatusEqualTo(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
+        DrOnlineInspectorExample.Criteria criteria = example.createCriteria().andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH);
 
         if (logId != null){
             criteria.andLogIdEqualTo(logId);

@@ -605,66 +605,6 @@ public class DrOnlineInspectorLogExample {
             return (Criteria) this;
         }
 
-        public Criteria andPubCountIsNull() {
-            addCriterion("pub_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountIsNotNull() {
-            addCriterion("pub_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountEqualTo(Integer value) {
-            addCriterion("pub_count =", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountNotEqualTo(Integer value) {
-            addCriterion("pub_count <>", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountGreaterThan(Integer value) {
-            addCriterion("pub_count >", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pub_count >=", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountLessThan(Integer value) {
-            addCriterion("pub_count <", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountLessThanOrEqualTo(Integer value) {
-            addCriterion("pub_count <=", value, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountIn(List<Integer> values) {
-            addCriterion("pub_count in", values, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountNotIn(List<Integer> values) {
-            addCriterion("pub_count not in", values, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountBetween(Integer value1, Integer value2) {
-            addCriterion("pub_count between", value1, value2, "pubCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andPubCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("pub_count not between", value1, value2, "pubCount");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

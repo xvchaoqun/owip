@@ -116,16 +116,12 @@
             </form>
         </c:if>
         <c:if test="${tempResult.agree}">
+            <div class="alert alert-block alert-success" style="width:800px;margin: 0 auto; margin-bottom: 5px">
+                <i class="ace-icon fa fa-hourglass-1 green"></i> ${drOnline.name}
+            </div>
             <form id="candidateForm" method="post" action="${ctx}/user/dr/doTempSave">
                 <input type="hidden" name="isSubmit" value="0">
                 <table class="table table-bordered" style="width:800px;margin: 0 auto;">
-                    <thead>
-                    <tr>
-                        <th colspan="2" class="center">
-                                ${drOnline.code}
-                        </th>
-                    </tr>
-                    </thead>
                     <tbody>
                     <c:forEach items="${postViews}" var="post">
                         <c:set var="realnameSet" value="${tempResult.realnameSetMap.get(post.id)}"/>

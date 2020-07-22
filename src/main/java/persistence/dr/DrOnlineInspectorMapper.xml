@@ -14,7 +14,6 @@
     <result column="tempdata" jdbcType="VARCHAR" property="tempdata" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_mobile" jdbcType="BIT" property="isMobile" />
-    <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
     <result column="submit_ip" jdbcType="VARCHAR" property="submitIp" />
@@ -80,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, log_id, online_id, username, passwd, passwd_change_type, type_id, unit_id, type, 
-    tempdata, status, is_mobile, pub_status, remark, submit_time, submit_ip, create_time
+    tempdata, status, is_mobile, remark, submit_time, submit_ip, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineInspectorExample" resultMap="BaseResultMap">
     select
@@ -119,15 +118,15 @@
     insert into dr_online_inspector (log_id, online_id, username, 
       passwd, passwd_change_type, type_id, 
       unit_id, type, tempdata, 
-      status, is_mobile, pub_status, 
-      remark, submit_time, submit_ip, 
-      create_time)
+      status, is_mobile, remark, 
+      submit_time, submit_ip, create_time
+      )
     values (#{logId,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
       #{passwd,jdbcType=VARCHAR}, #{passwdChangeType,jdbcType=TINYINT}, #{typeId,jdbcType=INTEGER}, 
       #{unitId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{tempdata,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{isMobile,jdbcType=BIT}, #{pubStatus,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{submitIp,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=TINYINT}, #{isMobile,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{submitIp,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlineInspector">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -167,9 +166,6 @@
       </if>
       <if test="isMobile != null">
         is_mobile,
-      </if>
-      <if test="pubStatus != null">
-        pub_status,
       </if>
       <if test="remark != null">
         remark,
@@ -217,9 +213,6 @@
       </if>
       <if test="isMobile != null">
         #{isMobile,jdbcType=BIT},
-      </if>
-      <if test="pubStatus != null">
-        #{pubStatus,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -280,9 +273,6 @@
       <if test="record.isMobile != null">
         is_mobile = #{record.isMobile,jdbcType=BIT},
       </if>
-      <if test="record.pubStatus != null">
-        pub_status = #{record.pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -314,7 +304,6 @@
       tempdata = #{record.tempdata,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       is_mobile = #{record.isMobile,jdbcType=BIT},
-      pub_status = #{record.pubStatus,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
       submit_ip = #{record.submitIp,jdbcType=VARCHAR},
@@ -359,9 +348,6 @@
       <if test="isMobile != null">
         is_mobile = #{isMobile,jdbcType=BIT},
       </if>
-      <if test="pubStatus != null">
-        pub_status = #{pubStatus,jdbcType=TINYINT},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -390,7 +376,6 @@
       tempdata = #{tempdata,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       is_mobile = #{isMobile,jdbcType=BIT},
-      pub_status = #{pubStatus,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       submit_time = #{submitTime,jdbcType=TIMESTAMP},
       submit_ip = #{submitIp,jdbcType=VARCHAR},

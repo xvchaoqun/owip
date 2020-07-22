@@ -20,6 +20,39 @@ ALTER TABLE `dr_online_result`
 ALTER TABLE `dr_online_result`
 	CHANGE COLUMN `realname` `realname` VARCHAR(200) NULL COMMENT '候选人姓名' AFTER `user_id`;
 
+ALTER TABLE `dr_online`
+	ADD COLUMN `name` VARCHAR(100) NOT NULL COMMENT '推荐主题' AFTER `record_id`,
+	CHANGE COLUMN `is_deleteed` `is_deleted` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否被删除' AFTER `end_time`;
+
+
+ALTER TABLE `dr_online_result`
+	ADD CONSTRAINT `FK_dr_online_result_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
+ALTER TABLE `dr_online_post`
+	ADD CONSTRAINT `FK_dr_online_post_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `dr_online_inspector_log`
+	ADD CONSTRAINT `FK_dr_online_inspector_log_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `dr_online_inspector`
+	ADD CONSTRAINT `FK_dr_online_inspector_dr_online` FOREIGN KEY (`online_id`) REFERENCES `dr_online` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `dr_online_candidate`
+	ADD CONSTRAINT `FK_dr_online_candidate_dr_online_post` FOREIGN KEY (`post_id`) REFERENCES `dr_online_post` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `dr_online`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态 0未发布 1已发布 2 已完成' AFTER `seq`;
+
+ALTER TABLE `dr_online_inspector`
+	DROP COLUMN `pub_status`;
+
+ALTER TABLE `dr_online_inspector_log`
+	DROP COLUMN `pub_count`;
+
+ALTER TABLE `dr_online_result`
+	ADD CONSTRAINT `FK_dr_online_result_dr_online_inspector` FOREIGN KEY (`inspector_id`) REFERENCES `dr_online_inspector` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `dr_online_inspector`
+	ADD CONSTRAINT `FK_dr_online_inspector_dr_online_inspector_log` FOREIGN KEY (`log_id`) REFERENCES `dr_online_inspector_log` (`id`) ON DELETE CASCADE;
 
 2020.7.20
 

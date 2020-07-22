@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.dr.DrOnline">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="year" jdbcType="SMALLINT" property="year" />
     <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="seq" jdbcType="INTEGER" property="seq" />
@@ -16,7 +17,7 @@
     <result column="inspector_notice" jdbcType="VARCHAR" property="inspectorNotice" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="is_deleteed" jdbcType="BIT" property="isDeleteed" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, year, recommend_date, seq, status, type, chief_member_id, members, 
-    notice, mobile_notice, inspector_notice, start_time, end_time, is_deleteed, remark
+    id, record_id, name, year, recommend_date, seq, status, type, chief_member_id, members, 
+    notice, mobile_notice, inspector_notice, start_time, end_time, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineExample" resultMap="BaseResultMap">
     select
@@ -112,18 +113,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dr.DrOnline">
-    insert into dr_online (id, record_id, year, 
-      recommend_date, seq, status, 
-      type, chief_member_id, members, 
-      notice, mobile_notice, inspector_notice, 
-      start_time, end_time, is_deleteed, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{year,jdbcType=SMALLINT}, 
-      #{recommendDate,jdbcType=DATE}, #{seq,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{type,jdbcType=INTEGER}, #{chiefMemberId,jdbcType=INTEGER}, #{members,jdbcType=VARCHAR}, 
-      #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, #{inspectorNotice,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isDeleteed,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into dr_online (id, record_id, name, 
+      year, recommend_date, seq, 
+      status, type, chief_member_id, 
+      members, notice, mobile_notice, 
+      inspector_notice, start_time, end_time, 
+      is_deleted, remark)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{year,jdbcType=SMALLINT}, #{recommendDate,jdbcType=DATE}, #{seq,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, #{chiefMemberId,jdbcType=INTEGER}, 
+      #{members,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{mobileNotice,jdbcType=VARCHAR}, 
+      #{inspectorNotice,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnline">
     insert into dr_online
@@ -133,6 +134,9 @@
       </if>
       <if test="recordId != null">
         record_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="year != null">
         year,
@@ -170,8 +174,8 @@
       <if test="endTime != null">
         end_time,
       </if>
-      <if test="isDeleteed != null">
-        is_deleteed,
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
       <if test="remark != null">
         remark,
@@ -183,6 +187,9 @@
       </if>
       <if test="recordId != null">
         #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="year != null">
         #{year,jdbcType=SMALLINT},
@@ -220,8 +227,8 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isDeleteed != null">
-        #{isDeleteed,jdbcType=BIT},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -242,6 +249,9 @@
       </if>
       <if test="record.recordId != null">
         record_id = #{record.recordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.year != null">
         year = #{record.year,jdbcType=SMALLINT},
@@ -279,8 +289,8 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.isDeleteed != null">
-        is_deleteed = #{record.isDeleteed,jdbcType=BIT},
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -294,6 +304,7 @@
     update dr_online
     set id = #{record.id,jdbcType=INTEGER},
       record_id = #{record.recordId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
       year = #{record.year,jdbcType=SMALLINT},
       recommend_date = #{record.recommendDate,jdbcType=DATE},
       seq = #{record.seq,jdbcType=INTEGER},
@@ -306,7 +317,7 @@
       inspector_notice = #{record.inspectorNotice,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      is_deleteed = #{record.isDeleteed,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -317,6 +328,9 @@
     <set>
       <if test="recordId != null">
         record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="year != null">
         year = #{year,jdbcType=SMALLINT},
@@ -354,8 +368,8 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isDeleteed != null">
-        is_deleteed = #{isDeleteed,jdbcType=BIT},
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -366,6 +380,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.dr.DrOnline">
     update dr_online
     set record_id = #{recordId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       year = #{year,jdbcType=SMALLINT},
       recommend_date = #{recommendDate,jdbcType=DATE},
       seq = #{seq,jdbcType=INTEGER},
@@ -378,7 +393,7 @@
       inspector_notice = #{inspectorNotice,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      is_deleteed = #{isDeleteed,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

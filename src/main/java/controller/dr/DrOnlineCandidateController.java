@@ -114,7 +114,7 @@ public class DrOnlineCandidateController extends DrBaseController {
             //防止中途修改数据
             /*DrOnlineCandidate record = drOnlineCandidateMapper.selectByPrimaryKey(id);
             DrOnline drOnline = drOnlinePostService.getPost(record.getPostId()).getDrOnline();
-            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_RELEASE)
+            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_PUBLISH)
                 throw new OpException("民主推荐进行中或已完成，不可修改数据");*/
 
             drOnlineCandidateService.del(id);

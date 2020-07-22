@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>${cls==0?"修改密码":"重置参评人密码"}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dr/drOnlineInspector_au?passwdChangeType=${cls==0?"1":"2"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/dr/inspector_changePasswd?passwdChangeType=${cls==0?"1":"2"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <c:if test="${cls!=0}">
             <input type="hidden" name="id" value="${inspector.id}">
         </c:if>

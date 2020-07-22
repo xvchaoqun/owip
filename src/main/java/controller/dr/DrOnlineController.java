@@ -63,9 +63,8 @@ public class DrOnlineController extends DrBaseController {
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
         modelMap.put("drOnline", drOnline);
         modelMap.put("cls", cls);
-        if (cls == 1) {
-            return "dr/drOnline/drOnline_page";
-        }else if (cls == 2) {
+
+        if (cls == 2) {
             if (unitTypes != null) {
                 modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
             }
@@ -75,6 +74,7 @@ public class DrOnlineController extends DrBaseController {
             }
             return "dr/drOnline/drOnlinePost";
         }
+
         return  "dr/drOnline/drOnline_page";
     }
 
@@ -82,13 +82,12 @@ public class DrOnlineController extends DrBaseController {
     @RequestMapping("/drOnline_data")
     @ResponseBody
     public void drOnline_data(HttpServletResponse response,
+                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
                                     Integer recordId,
                                     Short year,
                                     @RequestDateRange DateRange _recommendDate,
                                     Integer seq,
-                                    Byte status,
                                     Integer type,
-                                    @RequestParam(required = false, defaultValue = "0") Byte isDeleted,
                                     @RequestDateRange DateRange _startTime,
                                     @RequestDateRange DateRange _endTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -107,22 +106,14 @@ public class DrOnlineController extends DrBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
-        if (null != isDeleted){
-            criteria.andIsDeleteedEqualTo(isDeleted == 1 ? true : false);
-            if (isDeleted == 0 && null != status){
-                criteria.andStatusEqualTo(status);
-            }else if (isDeleted == 0 && null == status){
-                criteria.andStatusNotEqualTo(DrConstants.DR_ONLINE_FINISH);
-            }else if (status != null){
-                criteria.andStatusEqualTo(status);
-            }
+        criteria.andIsDeletedEqualTo(cls==4);
+
+        if(cls==1){
+            criteria.andStatusIn(Arrays.asList(DrConstants.DR_ONLINE_INIT, DrConstants.DR_ONLINE_PUBLISH));
+        }else if(cls==3){
+            criteria.andStatusEqualTo(DrConstants.DR_ONLINE_FINISH);
         }
 
-        /*if (status != null){
-            criteria.andStatusEqualTo(status);
-        }else {
-            criteria.andStatusNotEqualTo(DrConstants.DR_ONLINE_FINISH);
-        }*/
         if (year != null) {
             criteria.andYearEqualTo(year);
         }
@@ -189,7 +180,7 @@ public class DrOnlineController extends DrBaseController {
         Integer id = record.getId();
         record.setRecommendDate(DateUtils.parseDate(_recommendDate, DateUtils.YYYYMMDD_DOT));
         record.setMembers(StringUtils.trimToEmpty(StringUtils.join(memberIds, ",")));
-        record.setIsDeleteed(false);
+        record.setIsDeleted(false);
 
         if (id == null) {
             drOnlineService.insertSelective(record);
@@ -307,15 +298,15 @@ public class DrOnlineController extends DrBaseController {
     }
 
     @RequiresPermissions("drOnline:del")
-    @RequestMapping(value = "/drOnline_missDel", method = RequestMethod.POST)
+    @RequestMapping(value = "/drOnline_fakeDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map drOnline_missDel(HttpServletRequest request,
+    public Map drOnline_fakeDel(HttpServletRequest request,
                                 @RequestParam(value = "ids[]") Integer[] ids,
-                                Integer isDeleted,
+                                boolean isDeleted,
                                 ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
-            drOnlineService.missDel(ids, isDeleted);
+            drOnlineService.fakeDel(ids, isDeleted);
             logger.info(log( LogConstants.LOG_DR, "假删除按批次管理线上民主推荐：{0}", StringUtils.join(ids, ",")));
         }
 
@@ -346,7 +337,7 @@ public class DrOnlineController extends DrBaseController {
         if (null != ids && ids.length>0){
 
             drOnlineService.changeStatus(ids, status);
-            logger.info(log( LogConstants.LOG_DR, "批量修改按批次管理线上民主推荐的状态：{0}", StringUtils.join(ids, ",")));
+            logger.info(log( LogConstants.LOG_DR, "批量修改线上民主推荐的状态：{0}", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

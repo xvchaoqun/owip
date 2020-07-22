@@ -2,7 +2,6 @@ package service.dr;
 
 import controller.global.OpException;
 import domain.dr.*;
-import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,18 +19,6 @@ public class DrOnlineResultService extends DrBaseMapper {
     private DrCommonService drCommonService;
     @Autowired
     private DrOnlineCandidateService drOnlineCandidateService;
-    @Autowired
-    private DrOnlineInspectorLogService drOnlineInspectorLogService;
-    @Autowired
-    private DrOnlinePostService drOnlinePostService;
-    @Autowired
-    private DrOnlineInspectorService drOnlineInspectorService;
-
-    @Transactional
-    public void del(Integer id){
-
-        drOnlineResultMapper.deleteByPrimaryKey(id);
-    }
 
     @Transactional
     public void batchDel(Integer[] ids){
@@ -55,47 +42,6 @@ public class DrOnlineResultService extends DrBaseMapper {
         }
 
         return map;
-    }
-
-    //处理参评人的另选候选人
-    public Map<Integer, String> consoleOthers(String[] others, String[] datas){
-
-        Map<Integer, String> otherMap = new HashMap<>();
-        for (String other : others){
-            int count = 0;
-            if (StringUtils.isNotBlank(other)) {
-                String[] _names = other.split("-");
-                Integer postId = Integer.valueOf(_names[0]);
-                DrOnlinePostView post = drOnlinePostService.getPost(postId);
-                String[] arr = new String[_names.length - 1];
-                for (int i = 1; i< _names.length; i++){
-                    if (post.getCans().contains(_names[i]))
-                        throw new OpException("候选人" + _names[i] + "重复，请加以区别！");
-                    arr[i-1] = _names[i];
-                }
-
-                //推荐人数是否超额
-                if (datas != null) {
-                    for (String data : datas) {
-                        String[] results = StringUtils.split(data, "_");
-                        if (postId != Integer.valueOf(results[0])) {
-                            continue;
-                        }
-                        if (Integer.valueOf(results[2]) == 1) {
-                            count++;
-                        }
-                    }
-                }
-                count += arr.length;
-                if (count > post.getCompetitiveNum()){
-                    throw new OpException(post.getName() + "的推荐人数超过最大推荐人数！");
-                }
-                String names = StringUtils.join(arr, ",");
-                otherMap.put(postId, names);
-            }
-        }
-
-        return otherMap;
     }
 
     //提交推荐结果
@@ -160,6 +106,11 @@ public class DrOnlineResultService extends DrBaseMapper {
             }
         }
 
+        if(resultList.size()==0) {
+
+            throw new OpException("无效数据");
+        }
+
         //批量插入推荐结果
         iDrMapper.batchInsert_result(resultList);
 
@@ -168,7 +119,7 @@ public class DrOnlineResultService extends DrBaseMapper {
 
         drOnlineInspectorMapper.updateByPrimaryKey(inspector);
 
-        drOnlineInspectorLogService.updateCount(inspector.getLogId(), 0, 1, 0);
+        iDrMapper.refreshInspectorLogCount(inspector.getLogId());
     }
 
     //结果中包含几个岗位

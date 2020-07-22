@@ -18,6 +18,7 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择">
 						<option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
 					</select>
+					<span class="help-block">注：从干部岗位库中选择</span>
 				</div>
 			</div>
 			<div class="form-group">

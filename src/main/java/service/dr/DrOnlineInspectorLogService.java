@@ -29,28 +29,10 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
         drOnlineInspectorLogMapper.deleteByPrimaryKey(id);
     }
 
-    /*ok
-        删除参评人
-        删除结果
-        删除参评人日志
-     */
     @Transactional
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
-
-        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
-        inspectorExample.createCriteria().andLogIdIn(Arrays.asList(ids));
-        List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(inspectorExample);
-        List<Integer> inspectorIds = new ArrayList<>();
-        for (DrOnlineInspector inspector : inspectors){
-            inspectorIds.add(inspector.getId());
-        }
-
-        DrOnlineResultExample resultExample = new DrOnlineResultExample();
-        resultExample.createCriteria().andInspectorIdIn(inspectorIds);
-        drOnlineResultMapper.deleteByExample(resultExample);
-        drOnlineInspectorMapper.deleteByExample(inspectorExample);
 
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -102,7 +84,6 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
                 inspectorLog.setExportCount(0);
                 inspectorLog.setOnlineId(onlineId);
                 inspectorLog.setFinishCount(0);
-                inspectorLog.setPubCount(0);
 
                 drOnlineInspectorLogMapper.insert(inspectorLog);
 
@@ -130,62 +111,15 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
                 inspector.setType(type);
                 inspector.setIsMobile(false);
                 inspector.setStatus(DrConstants.INSPECTOR_STATUS_INIT);
-                inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE);
                 inspector.setCreateTime(now);
                 inspector.setRemark(isAppended ? "补发" : null);
 
                 drOnlineInspectorMapper.insert(inspector);
             }
 
-            //生成账号后更新参评人日志总数
-            updateTotalCount(logId);
+            iDrMapper.refreshInspectorLogCount(logId);
         }
         return logId;
-    }
-
-    @Transactional
-    public void changeStatus(Integer[] ids) {
-
-        for (Integer id : ids){
-            DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-            example.createCriteria().andLogIdEqualTo(id).andPubStatusEqualTo(DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE)
-                    .andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH);
-            List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(example);
-
-            DrOnlineInspector inspector = new DrOnlineInspector();
-            inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
-            drOnlineInspectorMapper.updateByExampleSelective(inspector, example);
-
-            //更新pubCount
-            updateCount(id, inspectors.size(), 0, 0);
-        }
-
-    }
-
-    //生成账号时更新总数
-    @Transactional
-    public void updateTotalCount(Integer logId){
-
-        DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
-        inspectorExample.createCriteria().andLogIdEqualTo(logId).andStatusNotEqualTo(DrConstants.INSPECTOR_STATUS_ABOLISH);
-        List<DrOnlineInspector> inspectors = drOnlineInspectorMapper.selectByExample(inspectorExample);
-
-        DrOnlineInspectorLog record = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
-        record.setTotalCount(inspectors.size());
-        drOnlineInspectorLogMapper.updateByPrimaryKeySelective(record);
-
-    }
-
-    @Transactional
-    public void updateCount(Integer logId, Integer pubCount, Integer finishCount, Integer totalCount) {
-
-        DrOnlineInspectorLog record = drOnlineInspectorLogMapper.selectByPrimaryKey(logId);
-
-        record.setPubCount(record.getPubCount() + pubCount);
-        record.setFinishCount(record.getFinishCount() + finishCount);
-        record.setTotalCount(record.getTotalCount() + totalCount);
-
-        drOnlineInspectorLogMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional

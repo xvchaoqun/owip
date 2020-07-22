@@ -42,8 +42,6 @@ public class DrOnlineInspectorLog implements Serializable {
 
     private Integer finishCount;
 
-    private Integer pubCount;
-
     private Date createTime;
 
     private Integer exportCount;
@@ -112,14 +110,6 @@ public class DrOnlineInspectorLog implements Serializable {
 
     public void setFinishCount(Integer finishCount) {
         this.finishCount = finishCount;
-    }
-
-    public Integer getPubCount() {
-        return pubCount;
-    }
-
-    public void setPubCount(Integer pubCount) {
-        this.pubCount = pubCount;
     }
 
     public Date getCreateTime() {

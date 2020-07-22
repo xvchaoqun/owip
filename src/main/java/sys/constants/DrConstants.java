@@ -5,9 +5,6 @@ import java.util.Map;
 
 public class DrConstants {
 
-    //参评人
-    public final static Byte ROLE_INSPECTOR = 4;
-
     // 推荐组成员类别
     public final static byte DR_MEMBER_STATUS_NOW = 1;
     public final static byte DR_MEMBER_STATUS_HISTORY = 2;
@@ -21,18 +18,15 @@ public class DrConstants {
     }
 
     //线上民主推荐批次管理状态
-    public final static byte DR_ONLINE_NOT_RELEASE = 0;
-    public final static byte DR_ONLINE_RELEASE = 1;
-    public final static byte DR_ONLINE_WITHDRAW = 2;
-    public final static byte DR_ONLINE_FINISH = 3;
+    public final static byte DR_ONLINE_INIT = 0;
+    public final static byte DR_ONLINE_PUBLISH = 1;
+    public final static byte DR_ONLINE_FINISH = 2;
     public final static Map<Byte, String> DR_ONLINE_MAP = new LinkedHashMap<>();
 
     static {
-        DR_ONLINE_MAP.put(DR_ONLINE_NOT_RELEASE, "未发布");
-        DR_ONLINE_MAP.put(DR_ONLINE_RELEASE, "已发布");
-        DR_ONLINE_MAP.put(DR_ONLINE_WITHDRAW, "已撤回");
+        DR_ONLINE_MAP.put(DR_ONLINE_INIT, "未发布");
+        DR_ONLINE_MAP.put(DR_ONLINE_PUBLISH, "已发布");
         DR_ONLINE_MAP.put(DR_ONLINE_FINISH, "已完成");
-
     }
 
     //线上民主推荐参评人类型的状态
@@ -58,7 +52,7 @@ public class DrConstants {
 
     static {
 
-        INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_INIT, "待使用");
+        INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_INIT, "未使用");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_ABOLISH, "已作废");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_FINISH, "已完成");
         INSPECTOR_STATUS_MAP.put(INSPECTOR_STATUS_SAVE, "暂存");
@@ -77,16 +71,6 @@ public class DrConstants {
         RESULT_STATUS_MAP.put(RESULT_STATUS_DISAGREE, "不同意");
         RESULT_STATUS_MAP.put(RESULT_STATUS_ABSTAIN, "弃权");
         RESULT_STATUS_MAP.put(RESULT_STATUS_OTHER, "另选他人");
-    }
-
-    // 参评人账号状态
-    public final static byte INSPECTOR_PUB_STATUS_NOT_RELEASE = 0;
-    public final static byte INSPECTOR_PUB_STATUS_RELEASE = 1;
-    public final static Map<Byte, String> INSPECTOR_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-        INSPECTOR_PUB_STATUS_MAP.put(INSPECTOR_PUB_STATUS_NOT_RELEASE, "未发布");
-        INSPECTOR_PUB_STATUS_MAP.put(INSPECTOR_PUB_STATUS_RELEASE, "已发布");
     }
 
     //参评人密码修改类型行
@@ -111,6 +95,4 @@ public class DrConstants {
         DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_SIXTY, "大于60%");
         DR_ONLINE_RATE_MAP.put(DR_ONLINE_RATE_FIFTY, "大于50%");
     }
-
-
 }

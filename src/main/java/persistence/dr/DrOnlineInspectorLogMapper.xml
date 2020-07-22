@@ -10,7 +10,6 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="total_count" jdbcType="INTEGER" property="totalCount" />
     <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
-    <result column="pub_count" jdbcType="INTEGER" property="pubCount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="export_count" jdbcType="INTEGER" property="exportCount" />
   </resultMap>
@@ -73,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, online_id, type_id, post_ids, unit_id, remark, total_count, finish_count, pub_count, 
-    create_time, export_count
+    id, online_id, type_id, post_ids, unit_id, remark, total_count, finish_count, create_time, 
+    export_count
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlineInspectorLogExample" resultMap="BaseResultMap">
     select
@@ -112,12 +111,12 @@
     </selectKey>
     insert into dr_online_inspector_log (online_id, type_id, post_ids, 
       unit_id, remark, total_count, 
-      finish_count, pub_count, create_time, 
-      export_count)
+      finish_count, create_time, export_count
+      )
     values (#{onlineId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{postIds,jdbcType=VARCHAR}, 
       #{unitId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{totalCount,jdbcType=INTEGER}, 
-      #{finishCount,jdbcType=INTEGER}, #{pubCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{exportCount,jdbcType=INTEGER})
+      #{finishCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{exportCount,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlineInspectorLog">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,9 +144,6 @@
       </if>
       <if test="finishCount != null">
         finish_count,
-      </if>
-      <if test="pubCount != null">
-        pub_count,
       </if>
       <if test="createTime != null">
         create_time,
@@ -177,9 +173,6 @@
       </if>
       <if test="finishCount != null">
         #{finishCount,jdbcType=INTEGER},
-      </if>
-      <if test="pubCount != null">
-        #{pubCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -222,9 +215,6 @@
       <if test="record.finishCount != null">
         finish_count = #{record.finishCount,jdbcType=INTEGER},
       </if>
-      <if test="record.pubCount != null">
-        pub_count = #{record.pubCount,jdbcType=INTEGER},
-      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -246,7 +236,6 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       total_count = #{record.totalCount,jdbcType=INTEGER},
       finish_count = #{record.finishCount,jdbcType=INTEGER},
-      pub_count = #{record.pubCount,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       export_count = #{record.exportCount,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -277,9 +266,6 @@
       <if test="finishCount != null">
         finish_count = #{finishCount,jdbcType=INTEGER},
       </if>
-      <if test="pubCount != null">
-        pub_count = #{pubCount,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -298,7 +284,6 @@
       remark = #{remark,jdbcType=VARCHAR},
       total_count = #{totalCount,jdbcType=INTEGER},
       finish_count = #{finishCount,jdbcType=INTEGER},
-      pub_count = #{pubCount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       export_count = #{exportCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

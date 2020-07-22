@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div id="doilDiv">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-        <h3>限定推荐岗位</h3>
+        <h3>限定推荐职务</h3>
     </div>
     <div class="modal-body">
         <table class="table table-striped table-bordered table-hover">

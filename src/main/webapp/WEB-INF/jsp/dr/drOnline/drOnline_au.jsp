@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>年份</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input required style="width: 80px;" autocomplete="off" class="form-control date-picker"
+						<input required style="width: 100px;" autocomplete="off" class="form-control date-picker"
 							   placeholder="请选择年份"
 							   name="year" type="text"
 							   data-date-format="yyyy" data-date-min-view-mode="2"
@@ -34,6 +34,12 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>推荐主题</label>
+				<div class="col-xs-6">
+					<textarea class="form-control" type="text" maxlength="80" name="name">${drOnline.name}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>推荐类型</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" data-width="273"
@@ -47,9 +53,33 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span>推荐组负责人</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐开始时间</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/drMember_selects"
+					<div class="input-group" style="width: 150px;">
+						<input required class="form-control datetime-picker"
+							   name="startTime"
+							   type="text"
+							   value="${(cm:formatDate(drOnline.startTime,'yyyy-MM-dd HH:mm'))}"/>
+					</div>
+					<span id="tipSt" style="color: red;"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐截止时间</label>
+				<div class="col-xs-6">
+					<div class="input-group" style="width: 150px;">
+						<input required class="form-control datetime-picker"
+							   name="endTime"
+							   type="text"
+							   value="${(cm:formatDate(drOnline.endTime,'yyyy-MM-dd HH:mm'))}"/>
+					</div>
+					<span id="tipEt" style="color: red;"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">推荐组负责人</label>
+				<div class="col-xs-6">
+					<select data-rel="select2-ajax" data-ajax-url="${ctx}/drMember_selects"
 							name="chiefMemberId" data-placeholder="请输入账号或姓名或工作证号" data-width="270">
 						<option value="${chiefMember.id}" delete="${chiefMember.status!=DR_MEMBER_STATUS_NOW}">${chiefMember.user.realname}-${chiefMember.user.code}</option>
 					</select>
@@ -69,30 +99,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐开始时间</label>
-				<div class="col-xs-6">
-					<div class="input-group">
-						<input style="width: 272px;" required class="form-control datetime-picker"
-							   name="startTime"
-							   type="text"
-							   value="${(cm:formatDate(drOnline.startTime,'yyyy-MM-dd HH:mm'))}"/>
-					</div>
-					<span id="tipSt" style="color: red;"></span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐截止时间</label>
-				<div class="col-xs-6">
-					<div class="input-group">
-						<input style="width: 272px;" required class="form-control datetime-picker"
-							   name="endTime"
-							   type="text"
-							   value="${(cm:formatDate(drOnline.endTime,'yyyy-MM-dd HH:mm'))}"/>
-					</div>
-					<span id="tipEt" style="color: red;"></span>
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">

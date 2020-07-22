@@ -14,20 +14,9 @@ pageEncoding="UTF-8" %>
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
 
-            <c:set var="_query" value="${not empty param.unitId || not empty param.typeId || not empty param.id || not empty param.pubStatus ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.unitId || not empty param.typeId || not empty param.id ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspector:edit">
-                    <%--<button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/dr/drOnlineInspector_au"
-                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
-                        重置密码</button>--%>
-                    <button data-url="${ctx}/dr/inspector_changeStatus"
-                            data-title="发布"
-                            data-msg="确定发布这{0}条数据（除已作废的账号）？"
-                            data-grid-id="#jqGrid2"
-                            class="jqBatchBtn btn btn-success btn-sm">
-                        <i class="fa fa-share"></i> 发布
-                    </button>
                     <button data-url="${ctx}/dr/drOnlineInspector_cancel"
                             data-title="作废"
                             data-msg="确定作废这{0}条数据？"
@@ -98,19 +87,6 @@ pageEncoding="UTF-8" %>
                             </script>
                         </div>--%>
                     <div class="form-group">
-                        <label>发布状态</label>
-                        <select name="pubStatus" data-width="100" data-rel="select2"
-                                data-placeholder="请选择">
-                            <option></option>
-                            <c:forEach items="${INSPECTOR_PUB_STATUS_MAP}" var="entity">
-                                <option value="${entity.key}">${entity.value}</option>
-                            </c:forEach>
-                        </select>
-                        <script>
-                            $("#searchForm3 select[name=pubStatus]").val('${param.pubStatus}');
-                        </script>
-                    </div>
-                    <div class="form-group">
                         <label>状态</label>
                         <select name="status" data-width="100" data-rel="select2"
                                 data-placeholder="请选择">
@@ -157,17 +133,14 @@ pageEncoding="UTF-8" %>
                 { label: '登陆密码',name: 'passwd'},
                 { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
                 { label: '所属单位', name: 'unitId', align:'left', formatter: $.jgrid.formatter.unit, width: 200},
-                { label: '发布状态',name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                        return _cMap.INSPECTOR_PUB_STATUS_MAP[cellvalue];
-                }},
-                { label: '使用状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
+                { label: '状态',name: 'status', formatter: function(cellvalue, options, rowObject) {
 
                         return (rowObject.isMobile?"<i class='fa fa-mobile-phone'></i> ":"")
                             + _cMap.INSPECTOR_STATUS_MAP[cellvalue];
                 }},
                 { label: '提交时间',name: 'submitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
                 { label: 'IP',name: 'submitIp', width:120},
-                { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
+                { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
                 { label: '备注',name: 'remark'}
         ]
     }).jqGrid("setFrozenColumns");

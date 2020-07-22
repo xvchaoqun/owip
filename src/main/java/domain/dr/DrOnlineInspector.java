@@ -42,8 +42,6 @@ public class DrOnlineInspector implements Serializable {
 
     private Boolean isMobile;
 
-    private Byte pubStatus;
-
     private String remark;
 
     private Date submitTime;
@@ -148,14 +146,6 @@ public class DrOnlineInspector implements Serializable {
 
     public void setIsMobile(Boolean isMobile) {
         this.isMobile = isMobile;
-    }
-
-    public Byte getPubStatus() {
-        return pubStatus;
-    }
-
-    public void setPubStatus(Byte pubStatus) {
-        this.pubStatus = pubStatus;
     }
 
     public String getRemark() {

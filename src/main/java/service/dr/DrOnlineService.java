@@ -1,8 +1,8 @@
 package service.dr;
 
-import domain.dr.*;
+import domain.dr.DrOnline;
+import domain.dr.DrOnlineExample;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.DrConstants;
@@ -12,79 +12,33 @@ import java.util.*;
 @Service
 public class DrOnlineService extends DrBaseMapper {
 
-    @Autowired
-    private DrOnlinePostService drOnlinePostService;
-
     @Transactional
     public void insertSelective(DrOnline record){
 
-        record.setStatus(DrConstants.DR_ONLINE_NOT_RELEASE);
+        record.setStatus(DrConstants.DR_ONLINE_INIT);
         record.setSeq(getNextSeq(record.getRecommendDate()));
         drOnlineMapper.insertSelective(record);
     }
 
-    @Transactional
-    public void del(Integer id){
-
-        drOnlineMapper.deleteByPrimaryKey(id);
-    }
-
     //假删除
     @Transactional
-    public void missDel(Integer[] ids, Integer isDeleted){
+    public void fakeDel(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
 
-        //假删除
-        for (Integer id : ids){
-            DrOnline record = new DrOnline();
-            record.setId(id);
-            record.setIsDeleteed(isDeleted == 1 ? true : false);
-            drOnlineMapper.updateByPrimaryKeySelective(record);
-        }
+        DrOnline record = new DrOnline();
+        record.setIsDeleted(isDeleted);
+
+        DrOnlineExample example = new DrOnlineExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        drOnlineMapper.updateByExampleSelective(record, example);
     }
 
-    /*
-        删除候选人
-        删除结果
-        删除岗位
-        删除日志
-        删除参评人
-        删除批次
-    * */
+    // 批量删除岗位（相关信息全部级联删除）
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-
-        //删除后相关信息全部删除
-        for (Integer id : ids){
-            List<DrOnlinePostView> posts = drOnlinePostService.getAllByOnlineId(id);
-            if (null != posts && posts.size() > 0) {
-                for (DrOnlinePostView post : posts) {
-                    DrOnlineCandidateExample candidateExample = new DrOnlineCandidateExample();
-                    candidateExample.createCriteria().andPostIdEqualTo(post.getId());
-                    drOnlineCandidateMapper.deleteByExample(candidateExample);
-                }
-            }
-
-            DrOnlineResultExample resultExample = new DrOnlineResultExample();
-            resultExample.createCriteria().andOnlineIdEqualTo(id);
-            drOnlineResultMapper.deleteByExample(resultExample);
-
-            DrOnlinePostExample postExample = new DrOnlinePostExample();
-            postExample.createCriteria().andOnlineIdEqualTo(id);
-            drOnlinePostMapper.deleteByExample(postExample);
-
-            DrOnlineInspectorLogExample logExample = new DrOnlineInspectorLogExample();
-            logExample.createCriteria().andOnlineIdEqualTo(id);
-            drOnlineInspectorLogMapper.deleteByExample(logExample);
-
-            DrOnlineInspectorExample inspectorExample = new DrOnlineInspectorExample();
-            inspectorExample.createCriteria().andOnlineIdEqualTo(id);
-            drOnlineInspectorMapper.deleteByExample(inspectorExample);
-
-        }
 
         DrOnlineExample example = new DrOnlineExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -114,8 +68,7 @@ public class DrOnlineService extends DrBaseMapper {
     public int getNextSeq(Date recommendDate) {
 
         DrOnlineExample example = new DrOnlineExample();
-        DrOnlineExample.Criteria criteria = example.createCriteria()
-                .andRecommendDateEqualTo(recommendDate);
+        example.createCriteria().andRecommendDateEqualTo(recommendDate);
         example.setOrderByClause("seq desc");
 
         List<DrOnline> records = drOnlineMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
@@ -134,11 +87,12 @@ public class DrOnlineService extends DrBaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        DrOnline drOnline = new DrOnline();
-        drOnline.setStatus(status);
-        for (Integer id : ids){
-            drOnline.setId(id);
-            drOnlineMapper.updateByPrimaryKeySelective(drOnline);
-        }
+        DrOnline record = new DrOnline();
+        record.setStatus(status);
+        record.setIsDeleted(false);
+
+        DrOnlineExample example = new DrOnlineExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        drOnlineMapper.updateByExampleSelective(record, example);
     }
 }

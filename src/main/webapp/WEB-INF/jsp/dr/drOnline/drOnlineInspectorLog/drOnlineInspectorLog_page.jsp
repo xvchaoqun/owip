@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid2"
                             data-width="1000"
                             class="jqOpenViewBtn btn btn-warning btn-sm">
-                        <i class="fa fa-edit"></i> 限定推荐岗位
+                        <i class="fa fa-edit"></i> 限定推荐职务
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -118,16 +118,16 @@ pageEncoding="UTF-8" %>
                 { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
                 { label: '所属单位',name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
                 {
-                    label: '已生成', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {
+                    label: '账号列表', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {
                         var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspector?onlineId={0}&logId={2}"><i class="fa fa-search"></i> 查看({1})</button>'
                             .format(rowObject.onlineId, cellvalue, rowObject.id);
                         return  str;
                     }},
-                { label: '限定推荐岗位',name: 'unitPosts', width: 550, align:'left', formatter: function (cellvalue, options, object) {
+                { label: '限定推荐职务',name: 'unitPosts', width: 550, align:'left', formatter: function (cellvalue, options, object) {
                         //console.log(object)
                         var names = []
                         if (cellvalue == undefined || cellvalue.length == 0)
-                            return "--";
+                            return "推荐全部职务";
                         else{
                             cellvalue.forEach(function(unitPost, i){
                                 names.push(unitPost.name);
@@ -135,15 +135,11 @@ pageEncoding="UTF-8" %>
                             return names.join("，");
                         }
                     }},
-                { label: '已发布/已完成',name: '_pubFinishCount', formatter: function (cellvalue, options, object) {
-                    //console.log(object)
-                        var rate = object.pubCount + "/" + object.finishCount;
-                    if (rate == undefined ||rate == null)
-                        return "--";
-                    else
-                        return rate;
+                { label: '已完成/总数',name: '_finishCount', formatter: function (cellvalue, options, object) {
+
+                        return object.finishCount + "/" + object.totalCount
                     }, width: 110},
-                { label: '生成时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}}
+                { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

@@ -163,7 +163,7 @@ public class DrOnlinePostController extends DrBaseController {
         } else {
             //防止中途修改数据
             /*DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(record.getOnlineId());
-            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_RELEASE)
+            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_PUBLISH)
                 throw new OpException("民主推荐进行中或已完成，不能修改数据！");*/
 
             List<DrOnlineCandidate> candidates = drOnlineCandidateService.getByPostId(record.getId());

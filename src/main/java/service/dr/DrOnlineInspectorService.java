@@ -1,26 +1,18 @@
 package service.dr;
 
-import domain.dr.DrOnline;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlineInspectorExample;
 import domain.dr.DrOnlineResultExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.constants.DrConstants;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DrOnlineInspectorService extends DrBaseMapper {
-
-    @Autowired
-    private DrOnlineInspectorLogService drOnlineInspectorLogService;
 
     @Transactional
     public void insertSelective(DrOnlineInspector record){
@@ -34,46 +26,30 @@ public class DrOnlineInspectorService extends DrBaseMapper {
         drOnlineInspectorMapper.deleteByPrimaryKey(id);
     }
 
-    /*
-        删除参评人
-        删除结果
-        更新参评人log
-    * */
+    // 删除参评人
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-        Integer logId = 0;
-        Integer pubCount = 0;
-        Integer finishCount = 0;
-        Integer totalCount = 0;
-        for (int i = 0; i < ids.length; i++){
-            DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(ids[i]);
-            if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH){
-                DrOnlineResultExample example = new DrOnlineResultExample();
-                example.createCriteria().andInspectorIdEqualTo(inspector.getId());
-                drOnlineResultMapper.deleteByExample(example);
-                pubCount--;
-                finishCount--;
-                totalCount--;
-            }else if (inspector.getStatus() != DrConstants.INSPECTOR_STATUS_ABOLISH){
-                if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_RELEASE){
-                    pubCount--;
-                    totalCount--;
-                }else {
-                    totalCount--;
-                }
-            }
-            logId = inspector.getLogId();
-            drOnlineInspectorMapper.deleteByPrimaryKey(ids[i]);
+
+        Set<Integer> logIdSet = new HashSet<>();
+
+        for (int id:ids){
+
+            DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
+
+            drOnlineInspectorMapper.deleteByPrimaryKey(id);
+            logIdSet.add(inspector.getLogId());
         }
 
-        drOnlineInspectorLogService.updateCount(logId, pubCount, finishCount, totalCount);
-
+        for (int logId : logIdSet) {
+            iDrMapper.refreshInspectorLogCount(logId);
+        }
     }
 
     @Transactional
     public void updateByPrimaryKeySelective(DrOnlineInspector record){
+
         drOnlineInspectorMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -105,18 +81,11 @@ public class DrOnlineInspectorService extends DrBaseMapper {
 
     }
 
-    /*
-        作废参评人
-        删除结果
-        更新pubCount、finishCount、totalCount数量
-    * */
+    // 作废参评人
     @Transactional
     public void cancel(Integer[] ids){
 
-        int pubCount  = 0;
-        int finishCount = 0;
-        int totalCount = 0;
-        Integer logId = null;
+        Set<Integer> logIdSet = new HashSet<>();
         for (Integer id : ids){
             DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
             if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
@@ -125,38 +94,17 @@ public class DrOnlineInspectorService extends DrBaseMapper {
                 DrOnlineResultExample example = new DrOnlineResultExample();
                 example.createCriteria().andInspectorIdEqualTo(id);
                 drOnlineResultMapper.deleteByExample(example);
-                pubCount--;
-                finishCount--;
-                totalCount--;
-            }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_RELEASE){
-                pubCount--;
-                totalCount--;
-            }else if (inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE){
-                totalCount--;
             }
+
             inspector.setStatus(DrConstants.INSPECTOR_STATUS_ABOLISH);
-            logId = inspector.getLogId();
             drOnlineInspectorMapper.updateByPrimaryKey(inspector);
-        }
-        drOnlineInspectorLogService.updateCount(logId, pubCount, finishCount, totalCount);
-    }
 
-    //发布账号
-    @Transactional
-    public void release(Integer[] ids){
-
-        int pubCount = 0;
-        Integer logId = null;
-        for (Integer id : ids){
-            DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(id);
-            logId = inspector.getLogId();
-            if (inspector.getStatus() != DrConstants.INSPECTOR_STATUS_ABOLISH && inspector.getPubStatus() == DrConstants.INSPECTOR_PUB_STATUS_NOT_RELEASE)
-                pubCount++;
-            inspector.setPubStatus(DrConstants.INSPECTOR_PUB_STATUS_RELEASE);
-            drOnlineInspectorMapper.updateByPrimaryKeySelective(inspector);
-            //throw new OpException("事务回滚！");
+            logIdSet.add(inspector.getLogId());
         }
-        drOnlineInspectorLogService.updateCount(logId, pubCount, 0, 0);
+
+        for (int logId : logIdSet) {
+            iDrMapper.refreshInspectorLogCount(logId);
+        }
     }
 
     public DrOnlineInspector tryLogin(String username, String passwd){
@@ -203,16 +151,4 @@ public class DrOnlineInspectorService extends DrBaseMapper {
         return drOnlineInspectorMapper.selectByExample(example);
 
     }
-
-    //检查状态
-    public Boolean checkStatus(DrOnlineInspector record){
-
-        DrOnline drOnline = record.getDrOnline();
-        if (record.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH || null == drOnline
-                || drOnline.getStatus() == DrConstants.DR_ONLINE_WITHDRAW || drOnline.getIsDeleteed())
-            return false;
-
-        return true;
-    }
-
 }
