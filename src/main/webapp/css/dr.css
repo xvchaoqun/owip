@@ -97,7 +97,6 @@
 }
 
 .login_body .logo{
-	padding-right:25px;
 	height:70px;
 	line-height:70px;
 	margin: 0;
@@ -113,7 +112,6 @@
 	height:70px;
 	line-height:70px;
 	font-weight: normal ;
-	margin-left:25px;
 	font-size:35px;
     color:white;
 	text-align: center;
