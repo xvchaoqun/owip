@@ -159,11 +159,11 @@
                             </tbody>
                             <tr>
                                 <td colspan="2" style="text-align: center">
-                                    <button class="btn btn-success" type="button"
+                                    <button class="btn btn-primary" type="button"
                                             onclick="doTempSave()"><i class="fa fa-save"></i> 暂存
                                     </button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-primary" id="tempSubmit"
+                                    <button class="btn btn-success" id="tempSubmit"
                                             type="button"
                                             onclick="doTempSubmit()"><i class="fa fa-check"></i> 提交
                                     </button>
