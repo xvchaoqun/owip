@@ -185,7 +185,7 @@ pageEncoding="UTF-8"%>
 					<span class="help-block blue">注：变更前后两个干部的任职信息也将更新。</span>
 				</div>
 			</div>
-		</c:if>
+
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-7">
