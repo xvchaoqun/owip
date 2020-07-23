@@ -171,10 +171,7 @@ public class UserDrOnlineController extends DrBaseController {
     }
 
     @RequestMapping("/inspector_changePasswd")
-    public String inspector_changePasswd(@RequestParam(required = true, defaultValue = "0") Byte cls,
-                                         ModelMap modelMap){
-
-        modelMap.put("cls", cls);
+    public String inspector_changePasswd(){
 
         return "/dr/drOnline/drOnlineInspector/inspector_changePasswd";
     }

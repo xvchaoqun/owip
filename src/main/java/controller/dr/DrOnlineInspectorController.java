@@ -116,19 +116,16 @@ public class DrOnlineInspectorController extends DrBaseController {
     @RequestMapping(value = "/inspector_changePasswd", method = RequestMethod.POST)
     @ResponseBody
     public Map do_inspector_changePasswd(DrOnlineInspector record,
-                                       Byte passwdChangeType,
+                                       String oldPasswd,
                                        HttpServletRequest request) {
 
-        Integer id = record.getId();
-        record.setPasswdChangeType(passwdChangeType);
-        if (id != null) {
-            logger.info(log( LogConstants.LOG_DR, "修改参评人密码：{0}", record.getId()));
-        }else{
-            DrOnlineInspector inspector = DrHelper.getDrInspector(request);
-            record.setId(inspector.getId());
-            logger.info(log( LogConstants.LOG_DR, "修改密码：{0}", inspector.getId()));
+        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+        if (!inspector.getPasswd().equals(StringUtils.trimToNull(oldPasswd))){
+            return failed("原密码错误！");
         }
+        record.setId(inspector.getId());
         drOnlineInspectorService.updateByPrimaryKeySelective(record);
+        logger.info(log( LogConstants.LOG_DR, "参评人修改密码：{0}", inspector.getId()));
 
         return success(FormUtils.SUCCESS);
     }

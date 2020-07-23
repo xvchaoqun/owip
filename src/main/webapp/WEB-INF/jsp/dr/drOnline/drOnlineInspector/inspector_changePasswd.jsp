@@ -3,19 +3,29 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cls==0?"修改密码":"重置参评人密码"}</h3>
+    <h3>修改密码</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dr/inspector_changePasswd?passwdChangeType=${cls==0?"1":"2"}" autocomplete="off" disableautocomplete id="modalForm" method="post">
-        <c:if test="${cls!=0}">
-            <input type="hidden" name="id" value="${inspector.id}">
-        </c:if>
-			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span> 新密码</label>
-				<div class="col-xs-6">
-                    <input required class="form-control" type="password" name="passwd" id="pw1" placeholder="请输入新密码">
-				</div>
-			</div>
+    <form class="form-horizontal" action="${ctx}/dr/inspector_changePasswd" autocomplete="off" disableautocomplete id="modalForm" method="post">
+        <div class="form-group">
+            <label class="col-xs-4 control-label"><span class="star">*</span> 原密码</label>
+            <div class="col-xs-5">
+                <input required type="password" name="oldPasswd">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label"><span class="star">*</span> 新密码</label>
+            <div class="col-xs-5">
+                <input required type="password" name="passwd" id="passwd">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="star">*</span> 新密码确认</label>
+
+            <div class="col-sm-5">
+                <input required type="password" name="repasswd">
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -28,24 +38,24 @@ pageEncoding="UTF-8"%>
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
+            rules: {
+                repasswd:{
+                    equalTo:'#passwd'
+                }
+            },
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
-                        SysMsg.success('修改密码成功。', '成功');
+                        SysMsg.success('修改密码成功,请重新登录。', '成功',function () {
+                                _logout();
+                        });
                     }
                     $btn.button('reset');
                 }
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
-    //$('[data-rel="tooltip"]').tooltip();
-    //$('textarea.limited').inputlimiter();
-    //$.register.date($('.date-picker'));
 </script>
