@@ -47,12 +47,12 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, count);
                         return str;
                     }, width: 90,frozen: true},
-                { label: '关联岗位',name: 'postName', width: 180, align:'left'},
-                { label: '分管工作',name: 'job', width: 180},
-                { label: '岗位级别',name: 'adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
-                { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
-                { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
-                { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '关联岗位',name: 'unitPost.name', width: 180, align:'left'},
+                { label: '分管工作',name: 'unitPost.job', width: 180},
+                { label: '岗位级别',name: 'unitPost.adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
+                { label: '职务属性',name: 'unitPost.postType', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '所属单位',name: 'unitPost.unitId', width: 200, formatter: $.jgrid.formatter.unit},
+                { label: '单位类型',name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
                 { label: '备注', name: 'remark', width: 350},{hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){

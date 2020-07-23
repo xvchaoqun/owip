@@ -123,14 +123,14 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.onlineId, cellvalue, rowObject.id);
                         return  str;
                     }},
-                { label: '限定推荐职务',name: 'unitPosts', width: 550, align:'left', formatter: function (cellvalue, options, object) {
+                { label: '限定推荐职务',name: 'drOnlinePost', width: 550, align:'left', formatter: function (cellvalue, options, object) {
                         //console.log(object)
                         var names = []
                         if (cellvalue == undefined || cellvalue.length == 0)
                             return "推荐全部职务";
                         else{
-                            cellvalue.forEach(function(unitPost, i){
-                                names.push(unitPost.name);
+                            cellvalue.forEach(function(post, i){
+                                names.push(post.name);
                             })
                             return names.join("，");
                         }

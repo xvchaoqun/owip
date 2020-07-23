@@ -81,8 +81,8 @@ public class DrOnlinePostController extends DrBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
-        DrOnlinePostViewExample.Criteria criteria = example.createCriteria();
+        DrOnlinePostExample example = new DrOnlinePostExample();
+        DrOnlinePostExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
 
@@ -91,23 +91,8 @@ public class DrOnlinePostController extends DrBaseController {
                 criteria.andOnlineIdEqualTo(onlineId);
             }
         }
-        if (adminLevel != null){
-            criteria.andAdminLevelEqualTo(adminLevel);
-        }
-        if (postType != null){
-            criteria.andPostTypeEqualTo(postType);
-        }
-        if (unitId != null){
-            criteria.andUnitIdEqualTo(unitId);
-        }
-        if (null != unitTypes && unitTypes.length > 0){
-            criteria.andTypeIdIn(Arrays.asList(unitTypes));
-        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
-        }
-        if (onlineType != null){
-            criteria.andTypeIdEqualTo(onlineType);
         }
 
         if (export == 1) {
@@ -117,12 +102,12 @@ public class DrOnlinePostController extends DrBaseController {
             return;
         }
 
-        long count = drOnlinePostViewMapper.countByExample(example);
+        long count = drOnlinePostMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrOnlinePostView> records= drOnlinePostViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DrOnlinePost> records= drOnlinePostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -193,12 +178,12 @@ public class DrOnlinePostController extends DrBaseController {
         modelMap.put("sysUser", uv);
 
         if (id != null) {
-            DrOnlinePostView drOnlinePostView = drOnlinePostService.getPost(id);
-            modelMap.put("drOnlinePost", drOnlinePostView);
-            onlineId = drOnlinePostView.getOnlineId();
-            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(drOnlinePostView.getUnitPostId());
+            DrOnlinePost drOnlinePost = drOnlinePostService.getPost(id);
+            modelMap.put("drOnlinePost", drOnlinePost);
+            onlineId = drOnlinePost.getOnlineId();
+            UnitPost unitPost = unitPostMapper.selectByPrimaryKey(drOnlinePost.getUnitPostId());
             modelMap.put("unitPost", unitPost);
-            List<SysUserView> candidates = drOnlineCandidateService.getCandidates(drOnlinePostView.getId());
+            List<SysUserView> candidates = drOnlineCandidateService.getCandidates(drOnlinePost.getId());
             modelMap.put("candidates", candidates);
         }
         modelMap.put("onlineId", onlineId);
@@ -229,20 +214,20 @@ public class DrOnlinePostController extends DrBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void drOnlinePost_export(DrOnlinePostViewExample example, HttpServletResponse response) {
+    public void drOnlinePost_export(DrOnlinePostExample example, HttpServletResponse response) {
 
     }
 
-    /*public void drOnlinePost_export(DrOnlinePostViewExample example, HttpServletResponse response) {
+    /*public void drOnlinePost_export(DrOnlinePostExample example, HttpServletResponse response) {
 
-        List<DrOnlinePostView> records = drOnlinePostViewMapper.selectByExample(example);
+        List<DrOnlinePost> records = drOnlinePostMapper.selectByExample(example);
         int rownum = records.size();
         logger.info("共" + rownum + "条记录");
         String[] titles = {"所属批次|180","推荐类型|110","推荐职务|220","分管工作|150","岗位级别|80","职务属性|110","所属单位|220",
                 "单位类型|150","是否有候选人|50","候选人|220","是否差额|50","最多推荐人数|50"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            DrOnlinePostView record = records.get(i);
+            DrOnlinePost record = records.get(i);
             Integer onlineId = record.getOnlineId();
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
             Unit unit = unitMapper.selectByPrimaryKey(record.getUnitId());

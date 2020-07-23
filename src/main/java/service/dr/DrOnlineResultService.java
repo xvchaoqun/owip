@@ -156,13 +156,13 @@ public class DrOnlineResultService extends DrBaseMapper {
     public Map<Integer ,List<String>> findCandidate(List<Integer> typeIds, Integer onlineId){
 
         List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
-        DrOnlinePostViewExample postExample = new DrOnlinePostViewExample();
+        DrOnlinePostExample postExample = new DrOnlinePostExample();
         postExample.createCriteria().andOnlineIdEqualTo(onlineId);
-        List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(postExample);
+        List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(postExample);
 
         Map<Integer ,List<String>> record = new HashMap<>();
 
-        for (DrOnlinePostView post : posts){
+        for (DrOnlinePost post : posts){
             List<String> candidates = new ArrayList<>();
             for (DrFinalResult result : drFinalResults){
                 if (result.getPostId().equals(post.getId())){

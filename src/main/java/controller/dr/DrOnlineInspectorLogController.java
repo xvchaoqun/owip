@@ -5,7 +5,6 @@ import domain.dr.*;
 import domain.dr.DrOnlineInspectorLogExample.Criteria;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import domain.unit.UnitPost;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -186,18 +185,14 @@ public class DrOnlineInspectorLogController extends DrBaseController {
         modelMap.put("edit", edit);
         modelMap.put("onlineId", onlineId);
 
-        List<UnitPost> selectPosts = new ArrayList<>();
         if (id != null){
             DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(id);
             modelMap.put("inspectorLog", inspectorLog);
-            selectPosts = inspectorLog.getUnitPosts();
-            modelMap.put("selectPosts", selectPosts);
         }
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
-        List<DrOnlinePostView> drOnlinePosts = drOnlinePostViewMapper.selectByExample(example);
-
+        List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
         modelMap.put("drOnlinePosts", drOnlinePosts);
 
         return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_selectPost";

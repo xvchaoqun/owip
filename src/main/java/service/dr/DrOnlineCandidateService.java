@@ -52,9 +52,9 @@ public class DrOnlineCandidateService extends DrBaseMapper {
 
         Map<Integer, List<DrOnlineCandidate>> candidateMap = new HashMap<>();
 
-        List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
+        List<DrOnlinePost> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
 
-        for (DrOnlinePostView postView : postViews){
+        for (DrOnlinePost postView : postViews){
 
             Integer postId = postView.getId();
 

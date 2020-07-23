@@ -28,50 +28,6 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                    placeholder="请输入推荐职务">
                                         </div>
-                                        <div class="form-group">
-                                            <label>推荐类型</label>
-                                            <select data-width="230" name="onlineType" data-rel="select2" data-placeholder="请选择">
-                                                <option></option>
-                                                <c:import url="/metaTypes?__code=mc_dr_type"/>
-                                            </select>
-                                            <script>         $("#searchForm select[name=onlineType]").val('${param.onlineType}');     </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>岗位级别</label>
-                                            <select  data-rel="select2" name="adminLevel" data-width="120" data-placeholder="请选择">
-                                                <option></option>
-                                                <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                                            </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=adminLevel]").val('${param.adminLevel}');
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>职务属性</label>
-                                            <select name="postType" data-rel="select2" data-placeholder="请选择职务属性">
-                                                <option></option>
-                                                <c:import url="/metaTypes?__code=mc_post"/>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=postType]").val('${param.postType}');
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>所属单位</label>
-                                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                                                    data-placeholder="请选择所属单位">
-                                                <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
-                                            </select>
-                                            <script>
-                                                $.register.del_select($("#searchForm select[name=unitId]"), 250)
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>单位类型</label>
-                                            <select class="multiselect" multiple="" name="unitTypes">
-                                                <c:import url="/metaTypes?__code=mc_unit_type"/>
-                                            </select>
-                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"
                                                data-url="${ctx}/dr/drOnline?cls=2"
@@ -107,15 +63,15 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager",
         url: '${ctx}/dr/drOnlinePost_data?callback=?&cls=2&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '推荐编号',name: 'drOnline.code', frozen: true, width: 210},
-                { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
+                { label: '推荐编号',name: 'unitPost.code', frozen: true, width: 210},
+                { label: '推荐类型',name: 'drOnline.type', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '推荐职务',name: 'name', width: 252, frozen: true},
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
-                { label: '分管工作',name: 'job', width: 180},
-                { label: '岗位级别',name: 'adminLevel', width: 100, formatter: $.jgrid.formatter.MetaType},
-                { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},
-                { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
-                { label: '单位类型',name: 'typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '分管工作',name: 'unitPost.job', width: 180},
+                { label: '岗位级别',name: 'unitPost.adminLevel', width: 100, formatter: $.jgrid.formatter.MetaType},
+                { label: '职务属性',name: 'unitPost.postType', width: 120, formatter: $.jgrid.formatter.MetaType},
+                { label: '所属单位',name: 'unitPost.unitId', width: 200, formatter: $.jgrid.formatter.unit},
+                { label: '单位类型',name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
                 {hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -85,13 +85,13 @@ public class DrOnlinePostService extends DrBaseMapper {
         changeOrder("dr_online_post", "online_id=" + drOnlinePost.getOnlineId(), ORDER_BY_DESC, id, addNum);
     }
 
-    public DrOnlinePostView getPost(Integer id){
+    public DrOnlinePost getPost(Integer id){
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andIdEqualTo(id);
-        List<DrOnlinePostView> drOnlinePostViews = drOnlinePostViewMapper.selectByExample(example);
+        List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
 
-        return drOnlinePostViews.size() > 0 ? drOnlinePostViews.get(0) : null;
+        return drOnlinePosts.size() > 0 ? drOnlinePosts.get(0) : null;
 
     }
 
@@ -109,32 +109,32 @@ public class DrOnlinePostService extends DrBaseMapper {
         return ids;
     }
 
-    public List<DrOnlinePostView> getAllByOnlineId(Integer onlineId){
+    public List<DrOnlinePost> getAllByOnlineId(Integer onlineId){
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
         example.setOrderByClause("sort_order desc");
-        List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
+        List<DrOnlinePost> postViews = drOnlinePostMapper.selectByExample(example);
 
         return postViews;
     }
 
-    public List<DrOnlinePostView> getNeedRecommend(DrOnlineInspector inspector){
+    public List<DrOnlinePost> getNeedRecommend(DrOnlineInspector inspector){
 
         DrOnlineInspectorLog inspectorLog = drOnlineInspectorLogMapper.selectByPrimaryKey(inspector.getLogId());
         String[] postIds = StringUtils.split(inspectorLog.getPostIds(), ",");
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
-        DrOnlinePostViewExample.Criteria criteria = example.createCriteria().andOnlineIdEqualTo(inspector.getOnlineId());
+        DrOnlinePostExample example = new DrOnlinePostExample();
+        DrOnlinePostExample.Criteria criteria = example.createCriteria().andOnlineIdEqualTo(inspector.getOnlineId());
         if (postIds != null && postIds.length > 0){
             List<Integer> _postIds = new ArrayList<>();
             for (String postId : postIds) {
                 _postIds.add(Integer.parseInt(postId));
             }
-            criteria.andUnitPostIdIn(_postIds);
+            criteria.andIdIn(_postIds);
         }
-        example.setOrderByClause("sort_order desc");
-        List<DrOnlinePostView> postViews = drOnlinePostViewMapper.selectByExample(example);
+        example.setOrderByClause("sort_order desc");//排序和管理员页面显示一致
+        List<DrOnlinePost> postViews = drOnlinePostMapper.selectByExample(example);
 
         return postViews;
     }
@@ -142,13 +142,13 @@ public class DrOnlinePostService extends DrBaseMapper {
     //判断推荐职务是否超额推荐
     public Boolean checkCandidateNum(Integer postId){
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
+        DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andIdEqualTo(postId);
 
-        List<DrOnlinePostView> posts = drOnlinePostViewMapper.selectByExample(example);
+        List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(example);
         if (null != posts && posts.size() > 0){
-            DrOnlinePostView post = posts.get(0);
-            return post.getExistNum() < post.getCompetitiveNum();
+            DrOnlinePost post = posts.get(0);
+            return post.getCans().size() < post.getCompetitiveNum();
         }
 
         return false;

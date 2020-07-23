@@ -3,7 +3,7 @@ package controller.dr.user;
 import controller.dr.DrBaseController;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
-import domain.dr.DrOnlinePostView;
+import domain.dr.DrOnlinePost;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,7 +158,7 @@ public class UserDrOnlineController extends DrBaseController {
             modelMap.put("inspector", inspector);
             modelMap.put("drOnline", inspector.getDrOnline());
 
-            List<DrOnlinePostView> postViews = drOnlinePostService.getNeedRecommend(inspector);
+            List<DrOnlinePost> postViews = drOnlinePostService.getNeedRecommend(inspector);
             modelMap.put("postViews", postViews);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(onlineId);
             modelMap.put("candidateMap", candidateMap);
@@ -229,10 +229,10 @@ public class UserDrOnlineController extends DrBaseController {
         realnameSetMap.clear();
 
         // 推荐结果数据
-        List<DrOnlinePostView> postViews = drOnlinePostService.getNeedRecommend(inspector);
+        List<DrOnlinePost> postViews = drOnlinePostService.getNeedRecommend(inspector);
         Map<Integer, List<DrOnlineCandidate>> candidateListMap =  drOnlineCandidateService.findAll(onlineId);
 
-        for (DrOnlinePostView post : postViews) {
+        for (DrOnlinePost post : postViews) {
 
             int postId = post.getId();
             List<DrOnlineCandidate> candidateList = candidateListMap.get(postId);
@@ -313,7 +313,7 @@ public class UserDrOnlineController extends DrBaseController {
             record.setIsMobile(isMobile);
             record.setSubmitIp(IpUtils.getRealIp(request));
 
-            drOnlineInspectorMapper.updateByPrimaryKeySelective(record);
+            drOnlineInspectorService.updateByPrimaryKeySelective(record);
         }
 
         logger.info(String.format("%s%s批次为%s的测评结果", inspector.getUsername(),

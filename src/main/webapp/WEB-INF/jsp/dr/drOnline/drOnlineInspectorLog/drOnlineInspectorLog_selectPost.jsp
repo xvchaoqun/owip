@@ -18,33 +18,33 @@ pageEncoding="UTF-8" %>
                 <th nowrap>分管工作</th>
                 <th nowrap>所在单位</th>
                 <th nowrap>岗位级别</th>
-                <th nowrap>职务类别</th>
+                <th nowrap>职务属性</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${edit==0?inspectorLog.unitPosts:unitPosts}" var="unitPost" varStatus="st">
+            <c:forEach items="${edit==0?inspectorLog.drOnlinePost:drOnlinePosts}" var="post" varStatus="st">
                 <tr>
                     <c:if test="${edit==1}">
                         <td class="center">
                             <label class="pos-rel">
-                                <input type="checkbox" name="unitPostId"
-                                       value="${unitPost.id}"
+                                <input type="checkbox" name="postId"
+                                       value="${post.id}"
                                        class="ace"/>
                                 <span class="lbl"></span>
                             </label>
                         </td>
                     </c:if>
-                    <td nowrap>${unitPost.code}</td>
-                    <td nowrap>${unitPost.name}</td>
-                    <td nowrap>${unitPost.job}</td>
-                    <td nowrap>${cm:getUnitById(unitPost.unitId).name}</td>
-                    <td nowrap>${cm:getMetaType(unitPost.adminLevel).name}</td>
-                    <td nowrap>${cm:getMetaType(unitPost.postClass).name}</td>
+                    <td nowrap>${post.unitPost.code}</td>
+                    <td nowrap>${post.name}</td>
+                    <td nowrap>${post.unitPost.job}</td>
+                    <td nowrap>${cm:getUnitById(post.unitPost.unitId).name}</td>
+                    <td nowrap>${cm:getMetaType(post.unitPost.adminLevel).name}</td>
+                    <td nowrap>${cm:getMetaType(post.unitPost.postType).name}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <c:if test="${edit==0&&fn:length(inspectorLog.unitPosts)==0}">
+        <c:if test="${edit==0&&fn:length(inspectorLog.drOnlinePost)==0}">
             <div class="well well-lg center">
                 <h4 class="green lighter">无限制</h4>
             </div>
@@ -65,13 +65,13 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     var selectedPostIds = [];
-    <c:if test="${not empty inspectorLog.unitPosts}">
+    <c:if test="${not empty inspectorLog.drOnlinePost}">
         selectedPostIds = "${inspectorLog.postIds}".split(",");
     </c:if>
 
     initSelectedPosts();
     function initSelectedPosts() {
-        $("input[name='unitPostId']", "#doilDiv").each(function () {
+        $("input[name='postId']", "#doilDiv").each(function () {
             var postId = $(this).val();
             if ($.inArray(postId, selectedPostIds)>=0) {
                 this.checked = true;
@@ -79,9 +79,9 @@ pageEncoding="UTF-8" %>
         })
     }
 
-    $(document).on("change", "#doilDiv input[name='unitPostId']", function(){
+    $(document).on("change", "#doilDiv input[name='postId']", function(){
 
-        $("input[name='unitPostId']", "#doilDiv").each(function () {
+        $("input[name='postId']", "#doilDiv").each(function () {
             var postId = $(this).val();
             if (this.checked) { //被选中的复选框
                 if (selectedPostIds.toString() == "") {

@@ -50,7 +50,7 @@
 
     <!--所有的统计结果/参评人过滤-->
     <select id="selectResultList" parameterType="map" resultType="persistence.dr.common.DrFinalResult">
-        select r.online_id as onlineId, r.post_id as postId, up.name as postName,  r.realname, count(*) ballot
+        select r.online_id as onlineId, r.post_id as postId, p.name as postName,  r.realname, count(*) ballot
         from dr_online_result r, dr_online_post p, unit_post up
         <where>
             r.post_id=p.id and p.unit_post_id=up.id

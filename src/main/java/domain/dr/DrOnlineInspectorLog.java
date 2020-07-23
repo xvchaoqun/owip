@@ -1,9 +1,8 @@
 package domain.dr;
 
-import domain.unit.UnitPost;
 import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrOnlineInspectorTypeMapper;
-import persistence.unit.UnitPostMapper;
+import persistence.dr.DrOnlinePostMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -16,15 +15,19 @@ public class DrOnlineInspectorLog implements Serializable {
         DrOnlineInspectorTypeMapper inspectorTypeMapper = CmTag.getBean(DrOnlineInspectorTypeMapper.class);
         return inspectorTypeMapper.selectByPrimaryKey(typeId);
     }
-    UnitPostMapper unitPostMapper = CmTag.getBean(UnitPostMapper.class);
-    public List<UnitPost> getUnitPosts(){
-        List<UnitPost> unitPosts = new ArrayList<>();
+    DrOnlinePostMapper drOnlinePostMapper = CmTag.getBean(DrOnlinePostMapper.class);
+    public  List<DrOnlinePost> getdrOnlinePost(){
+        List<DrOnlinePost> posts = new ArrayList<>();
         if (StringUtils.isNotBlank(postIds)){
             for (String postId : postIds.split(",")){
-                unitPosts.add(unitPostMapper.selectByPrimaryKey(Integer.valueOf(postId)));
+                DrOnlinePostExample example = new DrOnlinePostExample();
+                example.createCriteria().andIdEqualTo(Integer.valueOf(postId));
+                List<DrOnlinePost> drOnlinePosts =drOnlinePostMapper.selectByExample(example);
+                if (drOnlinePosts != null && drOnlinePosts.size() > 0)
+                    posts.add(drOnlinePosts.get(0));
             }
         }
-        return unitPosts;
+        return posts;
     }
     private Integer id;
 

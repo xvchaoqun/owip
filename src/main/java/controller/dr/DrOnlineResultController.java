@@ -1,7 +1,7 @@
 package controller.dr;
 
 import domain.dr.DrOnline;
-import domain.dr.DrOnlinePostView;
+import domain.dr.DrOnlinePost;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -39,7 +39,7 @@ public class DrOnlineResultController extends DrBaseController {
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
 
-        List<DrOnlinePostView>  drOnlinePosts = drOnlinePostService.getAllByOnlineId(onlineId);
+        List<DrOnlinePost>  drOnlinePosts = drOnlinePostService.getAllByOnlineId(onlineId);
         modelMap.put("drOnlinePosts", drOnlinePosts);
 
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
@@ -142,9 +142,9 @@ public class DrOnlineResultController extends DrBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        List<DrOnlinePostView> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
+        List<DrOnlinePost> postViews = drOnlinePostService.getAllByOnlineId(onlineId);
         List<Integer> postIds = new ArrayList<>();
-        for (DrOnlinePostView postView : postViews){
+        for (DrOnlinePost postView : postViews){
             postIds.add(postView.getUnitPostId());
         }
 

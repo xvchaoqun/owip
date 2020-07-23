@@ -244,7 +244,7 @@ public class DrExportService extends DrBaseMapper {
         int rowCount = 1;//记录行数
         for (Integer postId : postIds){
             //设置模板中每一个职务的第一行
-            DrOnlinePostView postView = drOnlinePostService.getPost(postId);
+            DrOnlinePost postView = drOnlinePostService.getPost(postId);
             //List<DrOnlineCandidate> candidates = candidateMap.get(postId);
             List<String> candidates = candidateMap.get(postId);
             row = sheet.getRow(rowCount++);//1
