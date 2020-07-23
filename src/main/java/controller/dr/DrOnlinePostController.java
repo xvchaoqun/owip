@@ -156,7 +156,7 @@ public class DrOnlinePostController extends DrBaseController {
             example.createCriteria().andOnlineIdEqualTo(record.getOnlineId()).andUnitPostIdEqualTo(record.getUnitPostId());
             List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(example);
             if (null != posts && posts.size() > 0)
-                throw new OpException("该推荐岗位已存在！");
+                throw new OpException("岗位添加重复");
 
             drOnlinePostService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));

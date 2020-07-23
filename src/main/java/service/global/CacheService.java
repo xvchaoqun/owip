@@ -22,6 +22,7 @@ import mixin.PartyOptionMixin;
 import mixin.UnitOptionMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
@@ -61,11 +62,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by fafa on 2017/4/11.
  */
-@Service(value="cacheService")
+@Service(value = "cacheService")
 public class CacheService extends BaseMapper implements HttpResponseMethod {
 
     @Autowired
@@ -103,6 +105,30 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
 
     public final static String MENU_COUNT_CACHE_NAME = "menu_count_cache";
 
+    public final static String LIMIT_CACHE_KEY_NAME = "limit_cache";
+
+    private Cache<String, AtomicInteger> limitCache;
+
+    // 缓存数量限制
+    public void limitCache(String cacheKey, int maxCount) {
+
+        limitCache = cacheManager.getCache(LIMIT_CACHE_KEY_NAME);
+
+        AtomicInteger retryCount = limitCache.get(cacheKey);
+        if (retryCount == null) {
+            retryCount = new AtomicInteger(0);
+            limitCache.put(cacheKey, retryCount);
+        }
+        if (retryCount.incrementAndGet() > maxCount) {
+            throw new ExcessiveAttemptsException();
+        }
+    }
+    public void clearLimitCache(String cacheKey) {
+
+        limitCache = cacheManager.getCache(LIMIT_CACHE_KEY_NAME);
+        limitCache.remove(cacheKey);
+    }
+
     // 异步Pdf转图片
     @Async
     public void asyncPdf2jpg(String pdfFilePath, Integer pageNo) {
@@ -111,10 +137,10 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     }
 
     // 判断某个角色是否拥有某个权限
-    public boolean roleIsPermitted(String role, String permission){
+    public boolean roleIsPermitted(String role, String permission) {
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        if(sysRole==null) return false;
+        if (sysRole == null) return false;
 
         Set<String> rolePermissions = new HashSet<>();
         rolePermissions.addAll(sysRoleService.getRolePermissions(sysRole.getId(), false));
@@ -124,7 +150,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     }
 
     // 判断某个用户是否拥有某个权限
-    public boolean userIsPermitted(Integer userId, String permission){
+    public boolean userIsPermitted(Integer userId, String permission) {
 
         SysUserView uv = sysUserService.findById(userId);
 
@@ -136,40 +162,40 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
     }
 
     // 判断某个用户是否拥有某个角色
-    public boolean userHasRole(Integer userId, String role){
+    public boolean userHasRole(Integer userId, String role) {
 
         SysUserView uv = sysUserService.findById(userId);
         Set<String> roles = sysUserService.findRoles(uv.getUsername());
 
         return roles.contains(role);
     }
-    
-    // 菜单缓存数量
-    public Integer getCacheCount(String countCacheKeys){
 
-        if(StringUtils.isBlank(countCacheKeys)) return null;
+    // 菜单缓存数量
+    public Integer getCacheCount(String countCacheKeys) {
+
+        if (StringUtils.isBlank(countCacheKeys)) return null;
 
         Cache<Object, Object> countCache = cacheManager.getCache(MENU_COUNT_CACHE_NAME);
-        if(countCache==null || countCache.size()==0){
+        if (countCache == null || countCache.size() == 0) {
             refreshCacheCounts();
         }
 
-        if(countCache.size()==0) return null;
+        if (countCache.size() == 0) return null;
 
         int count = 0;
         String[] keys = countCacheKeys.split(",");
         for (String key : keys) {
-            if(!NumberUtils.isCreatable(key)) continue;
+            if (!NumberUtils.isCreatable(key)) continue;
 
-            Integer _count = (Integer)countCache.get(Byte.valueOf(key));
-            if(_count!=null && _count>0)
+            Integer _count = (Integer) countCache.get(Byte.valueOf(key));
+            if (_count != null && _count > 0)
                 count += _count;
         }
         return count;
     }
 
     // 刷新各类统计数量缓存
-    public void refreshCacheCounts(){
+    public void refreshCacheCounts() {
 
         Cache<Object, Object> countCache = cacheManager.getCache(MENU_COUNT_CACHE_NAME);
 
@@ -189,7 +215,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
             criteria.andOwIdIsNotNull().andMemberStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL,
                     MemberConstants.MEMBER_STATUS_TRANSFER));
 
-            countCache.put(CacheConstants.CACHE_KEY_CADRE_PARTY_TO_REMOVE, (int)cadreViewMapper.countByExample(example));
+            countCache.put(CacheConstants.CACHE_KEY_CADRE_PARTY_TO_REMOVE, (int) cadreViewMapper.countByExample(example));
         }
 
         List<Map> modifyTableApplyCounts = countMapper.modifyTableApply();
@@ -197,48 +223,66 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
             byte module = ((Integer) entity.get("module")).byteValue();
             int num = ((Long) entity.get("num")).intValue();
             Byte cacheKey = null;
-            switch (module){
+            switch (module) {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
+                    break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
+                    break;
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO;
+                    break;
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN;
+                    break;
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK;
+                    break;
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY;
+                    break;
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD;
+                    break;
             }
             countCache.put(cacheKey, num);
         }
@@ -248,17 +292,22 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
             byte type = ((Integer) entity.get("type")).byteValue();
             int num = ((Long) entity.get("num")).intValue();
             Byte cacheKey = null;
-            switch (type){
+            switch (type) {
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF:
-                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF;
+                    break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW:
-                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW;
+                    break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER:
-                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER;
+                    break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF:
-                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF;
+                    break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF:
-                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_PUB_SELF;
+                    break;
             }
             countCache.put(cacheKey, num);
         }
@@ -349,7 +398,7 @@ public class CacheService extends BaseMapper implements HttpResponseMethod {
         map.put("branchMap", branchService.findAll());
 
         DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
-        if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
+        if (dispatchTypeService != null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
 
         map.put("unitMap", unitService.findAll());
 

@@ -6,9 +6,9 @@ pageEncoding="UTF-8"%>
 </div>
 <div style="width:70%; margin:0 auto; padding-top: 10px">
     <div class="modal-body" style="text-align: left;word-wrap:break-word">
-        ${cls==0?param.mobileNotice:param.notice}
+        ${notice}
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true"><i class="fa fa-check"></i> 确认</button>
+    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> 关闭</button>
 </div>

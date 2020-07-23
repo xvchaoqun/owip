@@ -28,7 +28,7 @@
 												<i class="ace-icon fa fa-key green"></i> 请使用参评人账号密码登录
 											</h4>
 											<div class="login-error" style="color:red; display: ${empty error?'none':''}">
-												<i class="fa fa-times"></i>${error}</div>
+												<i class="fa fa-times"></i> <span class="txt">${error}</span></div>
 											<form method="post">
 												<fieldset>
 													<label class="block clearfix">
@@ -69,6 +69,7 @@
 		<script src="${ctx}/assets/js/jquery.js"></script>
 		<script type="text/javascript">
 			$("#login_btn").click(function(){
+
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");
 				if($.trim($username.val())==""){
@@ -80,12 +81,11 @@
 					return;
 				}
 				$.post("${ctx}/user/dr/login?isMobile=1", {"username": $username.val(), "passwd": $passwd.val()}, function(ret){
-				    console.log(ret)
 					if (ret.success) {
-						console.log(ret)
 						location.href = "${ctx}/user/dr/index?isMobile=1";
 					}else {
-						SysMsg.success(ret.msg, '登陆失败');
+						$(".login-error").show();
+						$(".login-error .txt").html(ret.msg);
 					}
 				})
 			})

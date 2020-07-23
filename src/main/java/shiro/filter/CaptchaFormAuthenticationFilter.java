@@ -45,7 +45,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter im
         try {
             if (BooleanUtils.isTrue(springProps.useCaptcha)) {
                 /*图形验证码验证*/
-                ShiroHelper.validateCaptcha((HttpServletRequest) request, token);
+                ShiroHelper.validateCaptcha((HttpServletRequest) request, token.getCaptcha());
             }
             Subject subject = getSubject(request, response);
             subject.login(token);//正常验证

@@ -7,6 +7,7 @@ import service.base.ContentTplService;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.dr.*;
+import service.global.CacheService;
 import service.sys.SysLoginLogService;
 import service.sys.SysPropertyService;
 import service.sys.SysUserService;
@@ -47,6 +48,9 @@ public class DrBaseController extends DrBaseMapper implements HttpResponseMethod
     protected ContentTplService contentTplService;
     @Autowired
     protected CadreService cadreService;
+    @Autowired
+    protected CacheService cacheService;
+
     @Autowired(required = false)
     protected ScRecordViewMapper scRecordViewMapper;
     @Autowired(required = false)

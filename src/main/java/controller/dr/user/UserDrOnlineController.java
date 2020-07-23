@@ -1,6 +1,7 @@
 package controller.dr.user;
 
 import controller.dr.DrBaseController;
+import domain.dr.DrOnline;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.dr.common.DrTempResult;
+import shiro.ShiroHelper;
 import sys.constants.DrConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
@@ -69,18 +71,34 @@ public class UserDrOnlineController extends DrBaseController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> do_login(String username, String passwd,
+    public Map<String, Object> do_login(String username, String passwd, String captcha,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) throws IOException {
+
+        try {
+            ShiroHelper.validateCaptcha(request, captcha);
+        }catch (Exception e){
+            return failed("验证码错误");
+        }
 
         if (StringUtils.isNotBlank(username)){
 
             DrOnlineInspector inspector = drOnlineInspectorService.tryLogin(StringUtils.trimToNull(username), StringUtils.trimToNull(passwd));
+            String limitCacheKey = "dr_"+username;
+
             if (inspector == null){
+
+                try {
+                    cacheService.limitCache(limitCacheKey, 10);
+                }catch (Exception e){
+                    return failed("登录过于频繁，请稍后再试");
+                }
                 logger.info(sysLoginLogService.log(null, username,
                         SystemConstants.LOGIN_TYPE_DR, false, "登录失败，账号或密码错误！"));
                 return failed("账号或密码错误");
             }else {
+                cacheService.clearLimitCache(limitCacheKey);
+
                 if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_INIT){
                     logger.info(sysLoginLogService.log(null, username,
                             SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐未发布！"));
@@ -306,9 +324,12 @@ public class UserDrOnlineController extends DrBaseController {
     }
 
     @RequestMapping("/inspector_notice")
-    public String inspector_notice(@RequestParam(required = true, defaultValue = "0") Byte cls,
+    public String inspector_notice(@RequestParam(required = true, defaultValue = "1") Byte type,
+                                   int id,
                                    ModelMap modelMap){
-        modelMap.put("cls", cls);
+
+        DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
+        modelMap.put("notice", type==1?drOnline.getNotice():drOnline.getMobileNotice());
 
         return "/dr/drOnline/user/inspector_notice";
     }

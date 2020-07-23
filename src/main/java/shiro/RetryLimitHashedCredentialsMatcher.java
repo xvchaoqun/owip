@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysLoginLogService;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
+import sys.utils.HttpRequestDeviceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,12 +51,10 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             //clear retry count
             passwordRetryCache.remove(username);
         }else{
-            byte logType = SystemConstants.LOGIN_TYPE_NET;
             HttpServletRequest request = ContextHelper.getRequest();
-            String servletPath = request.getServletPath();
-            if(servletPath.startsWith("/m/abroad/login")){
-                logType = SystemConstants.LOGIN_TYPE_MOBILE;
-            }
+            byte logType = HttpRequestDeviceUtils.isMobileDevice(request)
+                    ?SystemConstants.LOGIN_TYPE_MOBILE:SystemConstants.LOGIN_TYPE_NET;
+
             logger.info(sysLoginLogService.log(null, username,
                     logType, false, String.format( "登录失败，密码错误（第%s次登录）", retryCount.get())));
         }

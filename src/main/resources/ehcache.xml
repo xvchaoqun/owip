@@ -908,6 +908,15 @@
            overflowToDisk="false">
     </cache>
 
+    <!-- 缓存次数过多，锁定10分钟 -->
+    <cache name="limit_cache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           overflowToDisk="false">
+    </cache>
+
     <cache name="AuthorizationCache"
            maxElementsInMemory="2000"
            overflowToDisk="true"

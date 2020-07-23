@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
-import sys.shiro.AuthToken;
 import sys.shiro.BaseShiroHelper;
 import sys.shiro.IncorrectCaptchaException;
 
@@ -171,14 +170,13 @@ public class ShiroHelper extends BaseShiroHelper{
 	}
 
 	// 验证码校验
-    public static void validateCaptcha(HttpServletRequest request,
-									 AuthToken token) {
+    public static void validateCaptcha(HttpServletRequest request, String checkCaptcha) {
 
         //session中的图形码字符串
         String captcha = (String) request.getSession().getAttribute(
                 com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
         //比对
-        if (StringUtils.isBlank(captcha) || !StringUtils.equalsIgnoreCase(captcha, token.getCaptcha())) {
+        if (StringUtils.isBlank(captcha) || !StringUtils.equalsIgnoreCase(captcha, checkCaptcha)) {
             throw new IncorrectCaptchaException();
         }
     }

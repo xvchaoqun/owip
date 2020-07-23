@@ -39,7 +39,7 @@
         #candidateForm td.post-name {
             text-align: left !important;
             font-size: x-large;
-            background-color: #ddd;
+            background-color: #d9edf7;
         }
 
         #candidateForm td.realname {
@@ -66,7 +66,8 @@
 
             <ul class="nav nav-pills pull-right">
                 <li>
-                    <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?notice=${drOnline.notice}"><i
+                    <a class="popupBtn" type="button" href="javascript:;" data-width="700"
+                       data-url="${ctx}/user/dr/inspector_notice?id=${drOnline.id}&type=1"><i
                             class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                 </li>
                 <li>
@@ -110,18 +111,20 @@
                 </div>
                 <div class="span12" style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                     <center>
-                        <button class="btn btn-large" id="enterBtn" onclick="_confirm()" type="button">进入推荐页面</button>
+                        <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()" type="button">
+                            <i class="fa fa-hand-o-right"></i> 进入推荐页面</button>
                     </center>
                 </div>
             </form>
         </c:if>
         <c:if test="${tempResult.agree}">
-            <div class="alert alert-block alert-success" style="width:800px;margin: 0 auto; margin-bottom: 5px">
-                <i class="ace-icon fa fa-hourglass-1 green"></i> ${drOnline.name}
+            <div class="alert alert-block alert-success center bolder"
+                 style="width:800px;margin: 0 auto 5px;font-size: larger;">
+                ${drOnline.name}
             </div>
             <form id="candidateForm" method="post" action="${ctx}/user/dr/doTempSave">
                 <input type="hidden" name="isSubmit" value="0">
-                <table class="table table-bordered" style="width:800px;margin: 0 auto;">
+                <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                     <tbody>
                     <c:forEach items="${postViews}" var="post">
                         <c:set var="realnameSet" value="${tempResult.realnameSetMap.get(post.id)}"/>
@@ -157,7 +160,7 @@
                             <tr class="other" style="display: ${status>1?'':'none'}" data-candidate="${key}">
                                 <td class="realname">另选推荐人</td>
                                 <td>
-                                    <input name="${key}_realname" type="text" value="${realname}">
+                                    <input name="${key}_realname" type="text" value="${realname}" maxlength="10">
                                 </td>
                             </tr>
                         </c:forEach>
@@ -165,7 +168,7 @@
                             <tr>
                                 <td class="realname"><span class="star">*</span> 推荐人${idx}</td>
                                 <td>
-                                    <input name="${post.id}_realname_${idx}" type="text"
+                                    <input name="${post.id}_realname_${idx}" type="text" maxlength="10"
                                            value="${cm:getSetValue(realnameSet, idx-candidateNum-1)}">
                                 </td>
                             </tr>
@@ -230,9 +233,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功。', '成功', function () {
-                                location.reload();
-                            })
+                            SysMsg.success('保存成功。', '成功')
                         } else {
                             bootbox.alert({
                                 closeButton: false,

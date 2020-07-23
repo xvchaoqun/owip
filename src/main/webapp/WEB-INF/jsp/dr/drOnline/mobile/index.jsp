@@ -18,7 +18,7 @@
             text-align: left !important;
             font-weight: bolder;
             font-size: larger;
-            background-color: #ddd;
+            background-color: #d9edf7;
         }
         #candidateForm td.realname {
             text-align: center;
@@ -48,11 +48,7 @@
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li style="margin-bottom: 5px">
-                            <a href="${ctx}/user/dr/index?isMobile=1"><i class="ace-icon fa fa-home"></i>
-                                推荐页面</a>
-                        </li>
-                        <li style="margin-bottom: 5px">
-                            <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?cls=0&mobileNotice=${drOnline.mobileNotice}"><i
+                            <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?id=${drOnline.id}&type=2"><i
                                     class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                         </li>
 
@@ -88,16 +84,16 @@
                         <div class="span12"
                              style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
-                                <button class="btn btn-large" id="enterBtn" onclick="_confirm()"
-                                        type="button">进入推荐页面
+                                <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()"
+                                        type="button"><i class="fa fa-hand-o-right"></i> 进入推荐页面
                                 </button>
                             </center>
                         </div>
                     </form>
                 </c:if>
                 <c:if test="${tempResult.agree}">
-                    <div class="alert alert-block alert-success" style="margin-bottom: 5px">
-                        <i class="ace-icon fa fa-hourglass-1 green"></i> ${drOnline.name}
+                    <div class="alert alert-block alert-success bolder" style="margin-bottom: 5px;">
+                        ${drOnline.name}
                     </div>
                     <form id="candidateForm" method="post" action="${ctx}/user/dr/doTempSave">
                         <input type="hidden" name="isMobile" value="1">
@@ -141,7 +137,7 @@
                                     <tr class="other" style="display: ${status>1?'':'none'}" data-candidate="${key}">
                                         <td class="realname">另选推荐人</td>
                                         <td>
-                                            <input name="${key}_realname" type="text" value="${realname}">
+                                            <input name="${key}_realname" type="text" value="${realname}" maxlength="10">
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -149,7 +145,7 @@
                                     <tr>
                                         <td class="realname"><span class="star">*</span> 推荐人${idx}</td>
                                         <td>
-                                            <input name="${post.id}_realname_${idx}" type="text"
+                                            <input name="${post.id}_realname_${idx}" type="text"  maxlength="10"
                                                    value="${cm:getSetValue(realnameSet, idx-candidateNum-1)}">
                                             <%--<div style="font-size: smaller">注：请填写一人，多填无效，下同。</div>--%>
                                         </td>
@@ -221,9 +217,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         if ($("input[name=isSubmit]").val() == 0) {
-                            SysMsg.success('保存成功。', '成功', function () {
-                                location.reload();
-                            })
+                            SysMsg.success('保存成功。', '成功')
                         } else {
                             bootbox.alert({
                                 closeButton: false,

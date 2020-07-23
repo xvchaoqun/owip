@@ -2,7 +2,6 @@ package controller.dr;
 
 import domain.dr.DrOnline;
 import domain.dr.DrOnlinePostView;
-import domain.dr.DrOnlinePostViewExample;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -40,10 +39,9 @@ public class DrOnlineResultController extends DrBaseController {
                                  @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
                                  ModelMap modelMap) {
 
-        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
-        example.createCriteria().andOnlineIdEqualTo(onlineId);
-        List<DrOnlinePostView>  drOnlinePosts = drOnlinePostViewMapper.selectByExample(example);
+        List<DrOnlinePostView>  drOnlinePosts = drOnlinePostService.getAllByOnlineId(onlineId);
         modelMap.put("drOnlinePosts", drOnlinePosts);
+
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         modelMap.put("drOnline", drOnline);
         modelMap.put("typeIds", typeIds);
@@ -95,7 +93,7 @@ public class DrOnlineResultController extends DrBaseController {
             DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
             Byte status = drOnline.getStatus();
 
-            drCommonService.exportOnlineResult(typesFilter, onlineId, response);
+            drExportService.exportOnlineResult(typesFilter, onlineId, response);
 
             return;
         }

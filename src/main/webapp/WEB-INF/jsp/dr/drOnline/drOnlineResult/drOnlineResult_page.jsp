@@ -82,7 +82,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid2").jqGrid({
         multiselect:false,
-        rownumbers: false,
+        rownumbers: true,
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnline/drOnlineResult_data?&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
