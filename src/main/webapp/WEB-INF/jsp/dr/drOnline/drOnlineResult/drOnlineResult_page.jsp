@@ -86,8 +86,8 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnline/drOnlineResult_data?&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '推荐职务',name: 'postName', width: 250},
-                { label: '推荐人选',name: 'realname', width: 160},
+                { label: '推荐职务',name: 'postName', width: 350, align:'left'},
+                { label: '推荐人选',name: 'realname'},
                 { label: '得票',name: 'ballot'}
         ]
     }).jqGrid("setFrozenColumns");

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.utils.NumberUtils;
 
 import java.util.*;
 
@@ -148,7 +149,10 @@ public class DrOnlinePostService extends DrBaseMapper {
         List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(example);
         if (null != posts && posts.size() > 0){
             DrOnlinePost post = posts.get(0);
-            return post.getCans().size() < post.getCompetitiveNum();
+
+            Set<Integer> candidateIds = NumberUtils.toIntSet(post.getCandidates(), ",");
+
+            return candidateIds.size() < post.getCompetitiveNum();
         }
 
         return false;

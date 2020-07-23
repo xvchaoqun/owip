@@ -13,12 +13,10 @@ pageEncoding="UTF-8" %>
                 <c:if test="${edit==1}">
                     <th class="center"></th>
                 </c:if>
-                <th nowrap>岗位编号</th>
-                <th nowrap>岗位名称</th>
-                <th nowrap>分管工作</th>
-                <th nowrap>所在单位</th>
+                <th nowrap>职务名称</th>
+                <th nowrap>关联岗位</th>
+                <th nowrap>岗位编码</th>
                 <th nowrap>岗位级别</th>
-                <th nowrap>职务属性</th>
             </tr>
             </thead>
             <tbody>
@@ -34,12 +32,10 @@ pageEncoding="UTF-8" %>
                             </label>
                         </td>
                     </c:if>
-                    <td nowrap>${post.unitPost.code}</td>
                     <td nowrap>${post.name}</td>
-                    <td nowrap>${post.unitPost.job}</td>
-                    <td nowrap>${cm:getUnitById(post.unitPost.unitId).name}</td>
+                    <td nowrap>${post.unitPost.name}</td>
+                    <td nowrap>${post.unitPost.code}</td>
                     <td nowrap>${cm:getMetaType(post.unitPost.adminLevel).name}</td>
-                    <td nowrap>${cm:getMetaType(post.unitPost.postType).name}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -54,8 +50,7 @@ pageEncoding="UTF-8" %>
 
         <c:if test="${edit==1}">
                 <button class="popupBtn btn btn-default"
-                        data-url="/dr/drOnlineInspectorLog_selectPost?onlineId=${onlineId}&id=${param.id}"
-                        data-width="1000"><i class="fa fa-reply"></i> 返回</button>
+                        data-url="/dr/drOnlineInspectorLog_selectPost?onlineId=${onlineId}&id=${param.id}"><i class="fa fa-reply"></i> 返回</button>
             <button onclick="selectPosts()" class="btn btn-success"><i class="fa fa-save"></i> 保存</button>
         </c:if>
         <c:if test="${edit==0}">
@@ -102,7 +97,7 @@ pageEncoding="UTF-8" %>
     });
 
     function editPosts(){
-        $.loadModal("${ctx}/dr/drOnlineInspectorLog_selectPost?edit=1&onlineId=${onlineId}&id=${param.id}", 1000);
+        $.loadModal("${ctx}/dr/drOnlineInspectorLog_selectPost?edit=1&onlineId=${onlineId}&id=${param.id}");
     }
     function selectPosts(){
         //console.log(selectedPostIds)

@@ -14,7 +14,6 @@ pageEncoding="UTF-8" %>
                         个别生成</button>
                     <button data-url="${ctx}/dr/drOnlineInspectorLog_selectPost?onlineId=${onlineId}"
                             data-grid-id="#jqGrid2"
-                            data-width="1000"
                             class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-edit"></i> 限定推荐职务
                     </button>

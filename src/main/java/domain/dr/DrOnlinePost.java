@@ -1,48 +1,25 @@
 package domain.dr;
 
-import domain.unit.Unit;
 import domain.unit.UnitPost;
-import org.apache.commons.lang.StringUtils;
-import persistence.dr.DrOnlineCandidateMapper;
 import persistence.dr.DrOnlineMapper;
-import persistence.unit.UnitMapper;
 import persistence.unit.UnitPostMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DrOnlinePost implements Serializable {
+
     public DrOnline getDrOnline(){
         DrOnlineMapper drOnlineMapper = CmTag.getBean(DrOnlineMapper.class);
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         return drOnline;
     }
 
-    public List<String> getCans(){
-
-        List<String> _candidates = new ArrayList<>();
-        if(StringUtils.isNotBlank(candidates)) {
-            DrOnlineCandidateMapper drOnlineCandidateMapper = CmTag.getBean(DrOnlineCandidateMapper.class);
-            DrOnlineCandidateExample example = new DrOnlineCandidateExample();
-            example.createCriteria().andPostIdEqualTo(id);
-            List<DrOnlineCandidate> candidateList = drOnlineCandidateMapper.selectByExample(example);
-            for (DrOnlineCandidate can : candidateList){
-                _candidates.add(can.getRealname());
-            }
-        }
-
-        return _candidates;
-    }
     public UnitPost getUnitPost(){
         UnitPostMapper unitPostMapper = CmTag.getBean(UnitPostMapper.class);
         return unitPostMapper.selectByPrimaryKey(unitPostId);
     }
-    public Unit getUnit(){
-        UnitMapper unitMapper = CmTag.getBean(UnitMapper.class);
-        return unitMapper.selectByPrimaryKey(getUnitPost().getUnitId());
-    }
+
     private Integer id;
 
     private Integer unitPostId;

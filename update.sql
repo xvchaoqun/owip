@@ -104,7 +104,7 @@ REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_a
 ALTER TABLE `dr_online_post`
 	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
 	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
--- 更新 dr_online_post_view
+drop view if exists dr_online_post_view;
 
 2020.7.20
 
