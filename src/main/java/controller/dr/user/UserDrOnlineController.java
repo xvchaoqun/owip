@@ -57,7 +57,7 @@ public class UserDrOnlineController extends DrBaseController {
 
                     logger.info(sysLoginLogService.log(null, u,
                         SystemConstants.LOGIN_TYPE_DR, false, "扫码登录成功！"));
-                    DrHelper.setDrInspector(request, inspector);
+                    DrHelper.setSession(request, inspector.getId());
 
                     return "redirect:/user/dr/index?isMobile=1";
                 }
@@ -94,39 +94,27 @@ public class UserDrOnlineController extends DrBaseController {
                 try {
                     cacheService.limitCache(limitCacheKey, 10);
                 }catch (Exception e){
+
+                    logger.info(addNoLoginLog(null, username, LogConstants.LOG_DR,"登录过于频繁"));
                     return failed("登录过于频繁，请稍后再试");
                 }
-                logger.info(sysLoginLogService.log(null, username,
-                        SystemConstants.LOGIN_TYPE_DR, false, "登录失败，账号或密码错误！"));
                 return failed("账号或密码错误");
             }else {
                 cacheService.clearLimitCache(limitCacheKey);
-
                 if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_INIT){
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐未发布！"));
                     return failed("民主推荐未发布");
                 }else if (inspector.getDrOnline().getStatus() == DrConstants.DR_ONLINE_FINISH) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号对应的民主推荐已完成！"));
                     return failed("民主推荐已结束");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_ABOLISH){
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号已作废！"));
                     return failed("该账号已作废");
                 }else if (inspector.getStatus() == DrConstants.INSPECTOR_STATUS_FINISH) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，该账号已完成民主推荐！"));
                     return failed("该账号已完成推荐");
                 }else if (inspector.getDrOnline().getEndTime().before(new Date())) {
-                    logger.info(sysLoginLogService.log(null, username,
-                            SystemConstants.LOGIN_TYPE_DR, false, "登录失败，民主推荐已截止！"));
                     return failed("民主推荐已结束");
                 }
             }
-            logger.info(sysLoginLogService.log(null, username,
-                    SystemConstants.LOGIN_TYPE_DR, false, "登录成功！"));
-            DrHelper.setDrInspector(request, inspector);
+            logger.info(addNoLoginLog(null, username, LogConstants.LOG_DR,"登录成功"));
+            DrHelper.setSession(request, inspector.getId());
         }
 
         String successUrl=request.getContextPath() + "/user/dr/index";
@@ -137,11 +125,11 @@ public class UserDrOnlineController extends DrBaseController {
     }
 
     @RequestMapping("/logout")
-    public String logout(Byte isMobile, HttpServletRequest request) {
+    public String logout(HttpServletRequest request) {
 
-        DrOnlineInspector inspector =DrHelper.drInspector_logout(request);
+        DrOnlineInspector inspector =DrHelper.doLogout(request);
 
-        logger.debug("logout success. {}", (inspector != null) ? inspector.getUsername() : "");
+        logger.debug(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_DR,"退出系统"));
 
         return "redirect:/user/dr/login";
     }
@@ -149,9 +137,7 @@ public class UserDrOnlineController extends DrBaseController {
     @RequestMapping("/index")
     public String index(boolean isMobile, ModelMap modelMap, HttpServletRequest request){
 
-        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-        //获取最新数据
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
+        DrOnlineInspector inspector = DrHelper.getSessionInspector(request);
 
         if (inspector != null) {
 
@@ -187,7 +173,7 @@ public class UserDrOnlineController extends DrBaseController {
             return failed("密码不允许为空");
         }
 
-        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+        DrOnlineInspector inspector = DrHelper.getSessionInspector(request);
         if (!inspector.getPasswd().equals(oldPasswd)){
 
             return failed("原密码错误");
@@ -200,7 +186,7 @@ public class UserDrOnlineController extends DrBaseController {
 
         drOnlineInspectorService.updateByPrimaryKeySelective(record);
 
-        logger.info(log( LogConstants.LOG_DR, "参评人修改密码：{0}", inspector.getId()));
+        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_DR,"修改密码"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -211,9 +197,7 @@ public class UserDrOnlineController extends DrBaseController {
                      Byte isMobile,
                      HttpServletRequest request){
 
-        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(_inspector.getId());
+        DrOnlineInspector inspector = DrHelper.getSessionInspector(request);
 
         DrTempResult tempResult = drCommonService.getTempResult(inspector.getTempdata());
 
@@ -231,7 +215,7 @@ public class UserDrOnlineController extends DrBaseController {
 
         drOnlineInspectorService.updateByExampleSelectiveBeforeSubmit(record);
 
-        logger.info(String.format("%s已阅读说明", inspector.getUsername()));
+        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_DR,"已阅读说明"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -240,9 +224,8 @@ public class UserDrOnlineController extends DrBaseController {
     @ResponseBody
     public Map tempSaveSurvey(boolean isMobile, boolean isSubmit, HttpServletRequest request) throws Exception {
 
-        DrOnlineInspector _inspector = DrHelper.getDrInspector(request);
-        int inspectorId = _inspector.getId();
-        DrOnlineInspector inspector = drOnlineInspectorMapper.selectByPrimaryKey(inspectorId);
+        DrOnlineInspector inspector = DrHelper.getSessionInspector(request);
+        int inspectorId = inspector.getId();
         int onlineId = inspector.getOnlineId();
 
         // 临时数据
@@ -343,8 +326,8 @@ public class UserDrOnlineController extends DrBaseController {
             drOnlineInspectorService.updateByPrimaryKeySelective(record);
         }
 
-        logger.info(String.format("%s%s批次为%s的测评结果", inspector.getUsername(),
-                isSubmit?"提交":"保存", inspector.getDrOnline().getCode()));
+        logger.info(addNoLoginLog(null, inspector.getUsername(), LogConstants.LOG_DR, "{0}测评结果，{1}",
+                isSubmit?"提交":"保存", inspector.getDrOnline().getName()));
 
         return success(FormUtils.SUCCESS);
     }

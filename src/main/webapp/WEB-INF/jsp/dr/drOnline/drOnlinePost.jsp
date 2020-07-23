@@ -63,15 +63,12 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager",
         url: '${ctx}/dr/drOnlinePost_data?callback=?&cls=2&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '推荐编号',name: 'unitPost.code', frozen: true, width: 210},
-                { label: '推荐类型',name: 'drOnline.type', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
-                { label: '推荐职务',name: 'name', width: 252, frozen: true},
+                { label: '职务名称',name: 'name', width: 350, frozen: true, align:'left'},
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
-                { label: '分管工作',name: 'unitPost.job', width: 180},
+                { label: '推荐类型',name: 'drOnline.type', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
+                { label: '关联岗位',name: 'unitPost.name', width: 350, align:'left'},
+                { label: '岗位编码',name: 'unitPost.code', width: 120},
                 { label: '岗位级别',name: 'unitPost.adminLevel', width: 100, formatter: $.jgrid.formatter.MetaType},
-                { label: '职务属性',name: 'unitPost.postType', width: 120, formatter: $.jgrid.formatter.MetaType},
-                { label: '所属单位',name: 'unitPost.unitId', width: 200, formatter: $.jgrid.formatter.unit},
-                { label: '单位类型',name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
                 {hidden: true, key: true, name: 'id'}
         ]
     }).jqGrid("setFrozenColumns");
