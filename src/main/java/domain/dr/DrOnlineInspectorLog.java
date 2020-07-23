@@ -7,6 +7,7 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class DrOnlineInspectorLog implements Serializable {
                 if (drOnlinePosts != null && drOnlinePosts.size() > 0)
                     posts.add(drOnlinePosts.get(0));
             }
+            Collections.reverse(posts);
         }
         return posts;
     }

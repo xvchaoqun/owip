@@ -192,6 +192,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         DrOnlinePostExample example = new DrOnlinePostExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
+        example.setOrderByClause("sort_order desc");
         List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
         modelMap.put("drOnlinePosts", drOnlinePosts);
 
