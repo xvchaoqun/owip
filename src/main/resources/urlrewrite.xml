@@ -4,6 +4,13 @@
 <urlrewrite>
 
 	<rule>
+		<note>dr_login</note>
+		<condition type="method">GET</condition>
+		<from>^/dr/login</from>
+		<to>/user/dr/login</to>
+	</rule>
+
+	<rule>
 		<note>sysUser_selects</note>
 		<condition type="method">GET</condition>
 		<from>^/m/sysUser_selects</from>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>线上民主推荐</title>
+    <title>线上民主推荐系统</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css"/>
 </head>

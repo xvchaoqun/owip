@@ -121,7 +121,7 @@ public class DrOnlineInspectorController extends DrBaseController {
 
         DrOnlineInspector inspector = DrHelper.getDrInspector(request);
         if (!inspector.getPasswd().equals(StringUtils.trimToNull(oldPasswd))){
-            return failed("原密码错误！");
+            return failed("原密码错误");
         }
         record.setId(inspector.getId());
         drOnlineInspectorService.updateByPrimaryKeySelective(record);

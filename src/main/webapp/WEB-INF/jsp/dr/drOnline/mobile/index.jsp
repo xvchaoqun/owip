@@ -47,11 +47,12 @@
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <c:if test="${tempResult.agree}">
                         <li style="margin-bottom: 5px">
-                            <a class="popupBtn" type="button" href="javascript:;" data-width="700" data-url="${ctx}/user/dr/inspector_notice?id=${drOnline.id}&type=2"><i
+                            <a href="${ctx}/user/dr/index?isMobile=1&notice=1"><i
                                     class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                         </li>
-
+                        </c:if>
                         <li style="margin-bottom: 5px">
                             <a href="javascript:;" onclick="_logout()">
                                 <i class="ace-icon fa fa-power-off"></i> 安全退出
@@ -68,30 +69,34 @@
         <div class="main-content-inner">
 
             <div class="page-content" id="page-content">
-                <c:if test="${!tempResult.agree}">
+                <c:if test="${param.notice==1 || !tempResult.agree}">
                     <form id="agreeForm" method="post">
                         <div class="modal-body" style="align: left;word-wrap:break-word">
                                 ${drOnline.mobileNotice}
                         </div>
                         <div class="span12"
-                             style="margin-top: 30px;font: 20px Verdana, Arial, Helvetica, sans-serif;">
+                             style="margin-top: 10px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                             <center>
+                                <c:if test="${param.notice==1}">
+                                <a class="btn btn-primary btn-lg" id="enterBtn" href="${ctx}/user/dr/index?isMobile=1"
+                                        type="button"><i class="fa fa-hand-o-right"></i> 返回推荐页面
+                                </a>
+                                </c:if>
+                                <c:if test="${param.notice!=1}">
+                                    <div style="margin-bottom: 15px">
                                 <input type="checkbox" id="agree" name="agree"
                                        style="width: 17px; height: 17px;vertical-align: text-after-edge;">
                                 我确认已阅读推荐说明
-                            </center>
-                        </div>
-                        <div class="span12"
-                             style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
-                            <center>
+                                        </div>
                                 <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()"
                                         type="button"><i class="fa fa-hand-o-right"></i> 进入推荐页面
                                 </button>
+                                </c:if>
                             </center>
                         </div>
                     </form>
                 </c:if>
-                <c:if test="${tempResult.agree}">
+                <c:if test="${param.notice!=1 && tempResult.agree}">
                     <div class="alert alert-block alert-success bolder" style="margin-bottom: 5px;">
                         ${drOnline.name}
                     </div>

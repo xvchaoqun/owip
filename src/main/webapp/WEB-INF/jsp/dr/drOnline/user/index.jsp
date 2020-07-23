@@ -65,11 +65,12 @@
             <div class="txt" style="cursor: pointer;">线上民主推荐系统</div>
 
             <ul class="nav nav-pills pull-right">
+                 <c:if test="${tempResult.agree}">
                 <li>
-                    <a class="popupBtn" type="button" href="javascript:;" data-width="700"
-                       data-url="${ctx}/user/dr/inspector_notice?id=${drOnline.id}&type=1"><i
+                    <a href="${ctx}/user/dr/index?notice=1"><i
                             class="ace-icon fa fa-question-circle"></i> 推荐说明</a>
                 </li>
+                 </c:if>
                 <li>
 
                     <a class="popupBtn" type="button" href="javascript:;" data-width="250" data-url="${ctx}/user/dr/inspector_changePasswd"><i class="ace-icon fa fa-key"></i>
@@ -95,7 +96,7 @@
         </c:if>
     </div>
     <div class="main-content eva">
-        <c:if test="${!tempResult.agree}">
+        <c:if test="${param.notice==1 || !tempResult.agree}">
             <form id="agreeForm" method="post">
                 <div style="width:70%; margin:0 auto;">
 
@@ -103,21 +104,29 @@
                             ${drOnline.notice}
                     </div>
                 </div>
-                <div class="span12" style="margin-top: 30px;font:bold 25px Verdana, Arial, Helvetica, sans-serif;">
-                    <center>
-                        <input type="checkbox" id="agree" name="agree"
-                               style="width: 25px; height: 25px; margin: 0px;vertical-align: text-bottom;"> 我确认已阅读推荐说明
-                    </center>
-                </div>
+
                 <div class="span12" style="margin-top: 30px;font:bold 20px Verdana, Arial, Helvetica, sans-serif;">
                     <center>
-                        <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()" type="button">
-                            <i class="fa fa-hand-o-right"></i> 进入推荐页面</button>
+                         <c:if test="${param.notice==1}">
+                        <a class="btn btn-primary btn-lg" id="enterBtn" href="${ctx}/user/dr/index"
+                                type="button"><i class="fa fa-hand-o-right"></i> 返回推荐页面
+                        </a>
+                        </c:if>
+                        <c:if test="${param.notice!=1}">
+                            <div style="margin-bottom: 15px">
+                        <input type="checkbox" id="agree" name="agree"
+                               style="width: 17px; height: 17px;vertical-align: text-after-edge;">
+                        我确认已阅读推荐说明
+                                </div>
+                        <button class="btn btn-success btn-lg" id="enterBtn" onclick="_confirm()"
+                                type="button"><i class="fa fa-hand-o-right"></i> 进入推荐页面
+                        </button>
+                        </c:if>
                     </center>
                 </div>
             </form>
         </c:if>
-        <c:if test="${tempResult.agree}">
+        <c:if test="${param.notice!=1 && tempResult.agree}">
             <div class="alert alert-block alert-success center bolder"
                  style="width:800px;margin: 0 auto 5px;font-size: larger;">
                 ${drOnline.name}

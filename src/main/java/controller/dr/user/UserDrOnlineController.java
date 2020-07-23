@@ -1,7 +1,6 @@
 package controller.dr.user;
 
 import controller.dr.DrBaseController;
-import domain.dr.DrOnline;
 import domain.dr.DrOnlineCandidate;
 import domain.dr.DrOnlineInspector;
 import domain.dr.DrOnlinePostView;
@@ -72,13 +71,16 @@ public class UserDrOnlineController extends DrBaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> do_login(String username, String passwd, String captcha,
+                                                boolean isMobile,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) throws IOException {
 
-        try {
-            ShiroHelper.validateCaptcha(request, captcha);
-        }catch (Exception e){
-            return failed("验证码错误");
+        if(!isMobile) {
+            try {
+                ShiroHelper.validateCaptcha(request, captcha);
+            } catch (Exception e) {
+                return failed("验证码错误");
+            }
         }
 
         if (StringUtils.isNotBlank(username)){
@@ -318,16 +320,5 @@ public class UserDrOnlineController extends DrBaseController {
                 isSubmit?"提交":"保存", inspector.getDrOnline().getCode()));
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequestMapping("/inspector_notice")
-    public String inspector_notice(@RequestParam(required = true, defaultValue = "1") Byte type,
-                                   int id,
-                                   ModelMap modelMap){
-
-        DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(id);
-        modelMap.put("notice", type==1?drOnline.getNotice():drOnline.getMobileNotice());
-
-        return "/dr/drOnline/user/inspector_notice";
     }
 }
