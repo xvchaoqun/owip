@@ -74,7 +74,7 @@
                  </c:if>
                 <li>
 
-                    <a class="popupBtn" type="button" href="javascript:;" data-width="250" data-url="${ctx}/user/dr/inspector_changePasswd"><i class="ace-icon fa fa-key"></i>
+                    <a class="popupBtn" type="button" href="javascript:;" data-width="250" data-url="${ctx}/user/dr/changePasswd"><i class="ace-icon fa fa-key"></i>
                         修改密码</a>
                 </li>
                 <li>

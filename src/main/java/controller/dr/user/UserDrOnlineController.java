@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.dr.common.DrTempResult;
 import shiro.ShiroHelper;
 import sys.constants.DrConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.helper.DrHelper;
 import sys.utils.FormUtils;
@@ -172,10 +173,36 @@ public class UserDrOnlineController extends DrBaseController {
         return (isMobile)?"dr/drOnline/mobile/login":"dr/drOnline/user/login";
     }
 
-    @RequestMapping("/inspector_changePasswd")
-    public String inspector_changePasswd(){
+    @RequestMapping("/changePasswd")
+    public String changePasswd(){
 
-        return "/dr/drOnline/drOnlineInspector/inspector_changePasswd";
+        return "/dr/drOnline/user/changePasswd";
+    }
+
+    @RequestMapping(value = "/changePasswd", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_changePasswd(String passwd, String oldPasswd, HttpServletRequest request) {
+
+        if(StringUtils.isBlank(passwd)){
+            return failed("密码不允许为空");
+        }
+
+        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
+        if (!inspector.getPasswd().equals(oldPasswd)){
+
+            return failed("原密码错误");
+        }
+
+        DrOnlineInspector record = new DrOnlineInspector();
+        record.setId(inspector.getId());
+        record.setPasswd(passwd);
+        record.setPasswdChangeType(DrConstants.INSPECTOR_PASSWD_CHANGE_TYPE_SELF);
+
+        drOnlineInspectorService.updateByPrimaryKeySelective(record);
+
+        logger.info(log( LogConstants.LOG_DR, "参评人修改密码：{0}", inspector.getId()));
+
+        return success(FormUtils.SUCCESS);
     }
 
       @RequestMapping(value = "/agree", method = RequestMethod.POST)

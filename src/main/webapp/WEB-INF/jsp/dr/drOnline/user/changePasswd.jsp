@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>修改密码</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/dr/inspector_changePasswd" autocomplete="off" disableautocomplete id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/user/dr/changePasswd" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <div class="form-group">
             <label class="col-xs-4 control-label"><span class="star">*</span> 原密码</label>
             <div class="col-xs-5">
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal('hide');
                         SysMsg.success('修改密码成功,请重新登录。', '成功',function () {
-                                _logout();
+                            _logout();
                         });
                     }
                     $btn.button('reset');

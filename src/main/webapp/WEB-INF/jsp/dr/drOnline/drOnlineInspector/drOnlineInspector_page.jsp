@@ -16,19 +16,11 @@ pageEncoding="UTF-8" %>
 
             <c:set var="_query" value="${not empty param.unitId || not empty param.typeId || not empty param.id ||not empty param.status ||not empty param.username || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="drOnlineInspector:edit">
-                    <button data-url="${ctx}/dr/drOnlineInspector_cancel"
-                            data-title="作废"
-                            data-msg="确定作废这{0}条数据？"
-                            data-grid-id="#jqGrid2"
-                            class="jqBatchBtn btn btn-warning btn-sm">
-                        <i class="fa fa-history"></i> 作废
-                    </button>
-                </shiro:hasPermission>
+
                 <shiro:hasPermission name="drOnlineInspector:del">
                     <button data-url="${ctx}/dr/drOnlineInspector_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}个账号？（相关测评数据将全部删除，不可恢复！）"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除

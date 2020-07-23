@@ -1,6 +1,4 @@
-2020.7.23
--- 更新 ow_party_member_group_view
--- 更新 ow_party_member_view
+
 
 2020.7.22
 北化工 -- 北师大
@@ -105,6 +103,9 @@ ALTER TABLE `dr_online_post`
 	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
 	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
 drop view if exists dr_online_post_view;
+
+-- 更新 ow_party_member_group_view
+-- 更新 ow_party_member_view
 
 2020.7.20
 

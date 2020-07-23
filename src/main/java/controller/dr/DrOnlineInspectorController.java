@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.DrConstants;
 import sys.constants.LogConstants;
-import sys.helper.DrHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -111,23 +110,6 @@ public class DrOnlineInspectorController extends DrBaseController {
         //baseMixins.put(drOnlineInspector.class, drOnlineInspectorMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequestMapping(value = "/inspector_changePasswd", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_inspector_changePasswd(DrOnlineInspector record,
-                                       String oldPasswd,
-                                       HttpServletRequest request) {
-
-        DrOnlineInspector inspector = DrHelper.getDrInspector(request);
-        if (!inspector.getPasswd().equals(StringUtils.trimToNull(oldPasswd))){
-            return failed("原密码错误");
-        }
-        record.setId(inspector.getId());
-        drOnlineInspectorService.updateByPrimaryKeySelective(record);
-        logger.info(log( LogConstants.LOG_DR, "参评人修改密码：{0}", inspector.getId()));
-
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("drOnlineInspector:del")

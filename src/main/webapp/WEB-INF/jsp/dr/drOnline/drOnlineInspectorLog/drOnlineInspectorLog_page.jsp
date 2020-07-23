@@ -115,18 +115,19 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/dr/drOnlineInspectorLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '参评人身份类型',name: 'inspectorType.type', width: 150},
-                { label: '所属单位',name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
+                { label: '所属单位',name: 'unitId', width: 200, formatter: $.jgrid.formatter.unit},
                 {
-                    label: '账号列表', name: 'totalCount', width:110, formatter: function (cellvalue, options, rowObject) {
-                        var str = '<button class="openView btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineInspector?onlineId={0}&logId={2}"><i class="fa fa-search"></i> 查看({1})</button>'
-                            .format(rowObject.onlineId, cellvalue, rowObject.id);
+                    label: '账号列表(已完成/总数)', name: 'totalCount', width:180, formatter: function (cellvalue, options, rowObject) {
+                        var str = ('<button class="openView btn btn-info btn-xs" ' +
+                            'data-url="${ctx}/dr/drOnlineInspector?onlineId={0}&logId={3}"><i class="fa fa-search"></i> 查看({1}/{2})</button>')
+                            .format(rowObject.onlineId, rowObject.finishCount, rowObject.totalCount, rowObject.id);
                         return  str;
                     }},
                 { label: '限定推荐职务',name: 'drOnlinePost', width: 550, align:'left', formatter: function (cellvalue, options, object) {
                         //console.log(object)
                         var names = []
                         if (cellvalue == undefined || cellvalue.length == 0)
-                            return "推荐全部职务";
+                            return "不限定，推荐全部职务";
                         else{
                             cellvalue.forEach(function(post, i){
                                 names.push(post.name);
@@ -134,11 +135,7 @@ pageEncoding="UTF-8" %>
                             return names.join("，");
                         }
                     }},
-                { label: '已完成/总数',name: '_finishCount', formatter: function (cellvalue, options, object) {
-
-                        return object.finishCount + "/" + object.totalCount
-                    }, width: 110},
-                { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}}
+                { label: '创建时间',name: 'createTime', width: 160, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
