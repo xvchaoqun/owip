@@ -69,6 +69,8 @@ public class PartyMemberView implements Serializable {
 
     private Boolean isDeleted;
 
+    private Integer partyClassId;
+
     private Integer unitId;
 
     private Integer partySortOrder;
@@ -315,6 +317,14 @@ public class PartyMemberView implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getPartyClassId() {
+        return partyClassId;
+    }
+
+    public void setPartyClassId(Integer partyClassId) {
+        this.partyClassId = partyClassId;
     }
 
     public Integer getUnitId() {

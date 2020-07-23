@@ -85,6 +85,7 @@ public class PartyMemberController extends BaseController {
                                  @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
                                  Integer postId,
                                  Integer unitId,
+                                 Integer classId,
                                  Integer partyId,
                                  Boolean isAdmin,
                                  Boolean isDeleted,
@@ -132,6 +133,9 @@ public class PartyMemberController extends BaseController {
         if (typeIds != null) {
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
             criteria.andTypeIdsIn(selectedTypeIds);
+        }
+        if (classId != null) {
+            criteria.andPartyClassIdEqualTo(classId);
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);

@@ -668,7 +668,7 @@ on wms.user_id=om.user_id  ;
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_group_view`;
 CREATE ALGORITHM=UNDEFINED VIEW `ow_party_member_group_view` AS
-select opmg.*, op.sort_order as party_sort_order, count(opm.id) as member_count from ow_party_member_group opmg
+select opmg.*, op.class_id as party_class_id, op.sort_order as party_sort_order, count(opm.id) as member_count from ow_party_member_group opmg
 left join ow_party_member opm on opm.is_history=0 and opm.group_id=opmg.id
 left join  ow_party op on opmg.party_id=op.id group by opmg.id;
 
@@ -690,6 +690,7 @@ select opm.*,
 	,`om`.`branch_id` AS `branch_id`
 	,`om`.`status` AS `member_status`
 	, opmg.party_id as group_party_id, opmg.is_present, opmg.is_deleted
+	, op.class_id as party_class_id
 	, op.unit_id
 	, op.sort_order as party_sort_order
 	,`t`.`post_class` AS `post_class`

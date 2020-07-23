@@ -10,7 +10,7 @@
             <div class="myTableDiv"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query"
-                       value="${not empty param.userId||not empty param.partyId||not empty param.branchId}"/>
+                       value="${not empty param.userId||not empty param.classId||not empty param.partyId||not empty param.branchId}"/>
                 <div class="tabbable">
                     <c:if test="${type==OW_ORG_ADMIN_PARTY}">
                         <jsp:include page="/WEB-INF/jsp/party/menu.jsp"/>
@@ -42,6 +42,18 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <c:if test="${type==OW_ORG_ADMIN_PARTY}">
+                                                <div class="form-group">
+                                                    <label>${_p_partyName}类别</label>
+                                                    <select name="classId" data-rel="select2" data-placeholder="请选择">
+                                                        <option></option>
+                                                        <c:import url="/metaTypes?__code=mc_party_class"/>
+                                                    </select>
+                                                    <script>
+                                                        $("#searchForm select[name=classId]").val('${param.classId}');
+                                                    </script>
+                                                </div>
+                                            </c:if>
                                             <div class="form-group">
                                                 <label>所在${_p_partyName}</label>
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
@@ -133,4 +145,5 @@
     $.register.del_select($('#searchForm select[name=partyId]'));
     </c:if>
     $.register.user_select($('#searchForm select[name=userId]'));
+    $('[data-rel="select2"]').select2();
 </script>

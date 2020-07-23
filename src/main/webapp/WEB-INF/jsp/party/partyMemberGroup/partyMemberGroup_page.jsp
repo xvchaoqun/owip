@@ -11,7 +11,7 @@
                  data-url-export="${ctx}/partyMemberGroup_data"
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.partyId
+                <c:set var="_query" value="${not empty param.classId||not empty param.partyId
                 ||not empty param.isPresent||not empty param.name || not empty param._appointTime || not empty param._tranTime}"/>
 
                 <div class="tabbable">
@@ -98,6 +98,16 @@
                                                 <input class="form-control search-query" name="name" type="text"
                                                        value="${param.name}"
                                                        placeholder="请输入名称">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>${_p_partyName}类别</label>
+                                                <select name="classId" data-rel="select2" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <c:import url="/metaTypes?__code=mc_party_class"/>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=classId]").val('${param.classId}');
+                                                </script>
                                             </div>
                                             <div class="form-group">
                                                 <label>所属${_p_partyName}</label>
