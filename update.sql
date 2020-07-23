@@ -61,8 +61,47 @@ ALTER TABLE `dr_online_inspector`
 
 update  sys_property set code='dr_site_bg' where code='drLoginBg';
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
-VALUES ('dr_site_name', '民主推荐用户端名称', '北师大线上民主推荐系统', 1, 66, '');
+VALUES ('dr_site_name', '民主推荐用户端名称', '线上民主推荐系统', 1, 66, '');
 
+-- 更新录入样表
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (895, 0, '线上民主推荐', '', 'menu', '', NULL, 890, '0/1/339/890/', 0, 'drOnline:list', 2, NULL, NULL, 1, 700);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2527, 0, '单个岗位推荐', '', 'url', '', '/dr/drOnline', 895, '0/1/339/890/895/', 0, 'drOnline:*', NULL, NULL, NULL, 1, 500);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2528, 0, '推荐职务及资格条件', '', 'function', '', '/dr/drOnlinePost', 2527, '0/1/339/890/895/2527/', 1, 'drOnlinePost:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2529, 0, '推荐结果', '', 'function', '', '/dr/drOnlineResult', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineResult:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2530, 0, '线上推荐参数', '', 'url', '', '/dr/drOnlineParam', 896, '0/1/339/890/896/', 0, 'drOnlineParam:menu', NULL, NULL, NULL, 1, 300);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2531, 0, '推荐人身份类型', '', 'function', '', '/dr/drOnlineInspectorType', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineInspectorType:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2532, 0, '线上民主推荐情况模板', '', 'function', '', '/dr/drOnlineNotice', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineNotice:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
+UPDATE sys_resource set url='/metaClass_type_list?cls=mc_dr_type',permission='mc_dr_type:*' WHERE id=897;
+
+delete from sys_resource where permission='drOnline:*';
+
+update sys_resource set type='url', url='/dr/drOnline', is_leaf=1, permission='drOnline:*' where permission='drOnline:list';
+
+REPLACE INTO `sys_resource` (id, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (895, 0, '线上民主推荐', '', 'url', '', '/dr/drOnline', 890, '0/1/339/890/', 1, 'drOnline:*', 1, NULL, NULL, 1, 700);
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2530, 0, '线上民主推荐', '', 'url', '', '/dr/drOnlineParam', 896, '0/1/339/890/896/', 0, 'drOnlineParam:menu', NULL, NULL, NULL, 1, 300);
+
+
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2531, 0, '推荐人身份类型', '', 'function', '', '/dr/drOnlineInspectorType', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineInspectorType:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2532, 0, '线上民主推荐情况模板', '', 'function', '', '/dr/drOnlineNotice', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineNotice:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2528, 0, '推荐职务及资格条件', '', 'function', '', '/dr/drOnlinePost', 895, '0/1/339/890/895/', 1, 'drOnlinePost:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2529, 0, '推荐结果', '', 'function', '', '/dr/drOnlineResult', 895, '0/1/339/890/895/', 1, 'drOnlineResult:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 895, '0/1/339/890/895/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
+REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 895, '0/1/339/890/895/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
+/*
+REPLACE INTO `base_meta_class` (`role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `extra_options`, `sort_order`, `available`) VALUES (NULL, '推荐类型', '干部选拔任用', '民主推荐', 'mc_dr_type', '', '', '', 82, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '谈话推荐', 'mt_f639fe', NULL, NULL, '', 1, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '会议推荐', 'mt_dr_type_meeting', NULL, NULL, '', 2, 1);
+REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '二次会议推荐', 'mt_qnuxk8', NULL, NULL, '', 3, 1);
+*/
+
+ALTER TABLE `dr_online_post`
+	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
+	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
+-- 更新 dr_online_post_view
 
 2020.7.20
 
@@ -131,6 +170,19 @@ ALTER TABLE `ow_party_member_group`
 2020.7.10
 西工大
 
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `user_status` VARCHAR(100) NULL DEFAULT NULL COMMENT '人员状态，人事状态/在岗情况/学籍状态' AFTER `realname`;
+
+DROP VIEW IF EXISTS `sys_user_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+-- 更新 SyncService 增加 ui.setUserStatus
+
+-- INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('label_adform_reason', '任免审批表-任免理由', '工 作 需 要', 1, 65, '默认');
+
+
 ALTER TABLE `ow_member_certify`
 	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '原单位' AFTER `political_status`,
 	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL DEFAULT NULL COMMENT '介绍信抬头' AFTER `from_unit`,
@@ -195,19 +247,6 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 ALTER TABLE `pm_meeting2`
 	CHANGE COLUMN `reason` `reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '审批未通过原因' AFTER `status`,
 	DROP COLUMN `is_back`;
-
-2020.7.3
-
-ALTER TABLE `sys_user_info`
-	ADD COLUMN `user_status` VARCHAR(100) NULL DEFAULT NULL COMMENT '人员状态，人事状态/在岗情况/学籍状态' AFTER `realname`;
-
-DROP VIEW IF EXISTS `sys_user_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
-AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
-
--- 更新 SyncService 增加 ui.setUserStatus
-
--- INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES ('label_adform_reason', '任免审批表-任免理由', '工 作 需 要', 1, 65, '默认');
 
 2020.7.3
 
@@ -679,10 +718,6 @@ delete from sys_resource where id in(681,718,721,722);
 2020.6.5
 西工大，北航
 
--- 更新 base_meta_type_view
-
--- 更新录入样表
-
 2020.6.3
 
 drop view if exists crs_candidate_view;
@@ -819,6 +854,9 @@ update sys_resource  set permission='mc_dwf_work_type_gb:*', url='/metaClass_typ
 update sys_resource  set permission='mc_dwf_work_type_dj:*', url='/metaClass_type_list?cls=mc_dwf_work_type_dj' where permission='mc_dwf_work_type_ow:*';
 
 -- 修复文件综合管理bug
+-- 更新 base_meta_type_view
+
+-- 更新录入样表
 
 2020.5.28
 北航

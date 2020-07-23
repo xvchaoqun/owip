@@ -7,6 +7,8 @@ public class DrOnlinePost implements Serializable {
 
     private Integer unitPostId;
 
+    private String name;
+
     private Integer onlineId;
 
     private Boolean hasCandidate;
@@ -37,6 +39,14 @@ public class DrOnlinePost implements Serializable {
 
     public void setUnitPostId(Integer unitPostId) {
         this.unitPostId = unitPostId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getOnlineId() {

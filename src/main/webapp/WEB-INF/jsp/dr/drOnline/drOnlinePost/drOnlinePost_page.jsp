@@ -35,8 +35,8 @@ pageEncoding="UTF-8" %>
         pager: "jqGridPager2",
         url: '${ctx}/dr/drOnlinePost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
-                { label: '推荐职务',name: 'name', width: 250, frozen: true},
+                /*{ label: '推荐类型',name: 'onlineType', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},*/
+                { label: '推荐职务',name: 'name', width: 250, align:'left', frozen: true},
                 { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/dr/drOnlinePost_changeOrder'},frozen:true },
                 { label: '最多推荐<br/>人数',name: 'competitiveNum',width:70, frozen: true},
@@ -47,6 +47,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, count);
                         return str;
                     }, width: 90,frozen: true},
+                { label: '关联岗位',name: 'postName', width: 180, align:'left'},
                 { label: '分管工作',name: 'job', width: 180},
                 { label: '岗位级别',name: 'adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},
                 { label: '职务属性',name: 'postType', width: 120, formatter: $.jgrid.formatter.MetaType},

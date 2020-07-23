@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.dr.DrOnlinePost">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="online_id" jdbcType="INTEGER" property="onlineId" />
     <result column="has_candidate" jdbcType="BIT" property="hasCandidate" />
     <result column="candidates" jdbcType="VARCHAR" property="candidates" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_post_id, online_id, has_candidate, candidates, has_competitive, competitive_num, 
+    id, unit_post_id, name, online_id, has_candidate, candidates, has_competitive, competitive_num, 
     sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlinePostExample" resultMap="BaseResultMap">
@@ -108,12 +109,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dr_online_post (unit_post_id, online_id, has_candidate, 
-      candidates, has_competitive, competitive_num, 
-      sort_order, remark)
-    values (#{unitPostId,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, #{hasCandidate,jdbcType=BIT}, 
-      #{candidates,jdbcType=VARCHAR}, #{hasCompetitive,jdbcType=BIT}, #{competitiveNum,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+    insert into dr_online_post (unit_post_id, name, online_id, 
+      has_candidate, candidates, has_competitive, 
+      competitive_num, sort_order, remark
+      )
+    values (#{unitPostId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{onlineId,jdbcType=INTEGER}, 
+      #{hasCandidate,jdbcType=BIT}, #{candidates,jdbcType=VARCHAR}, #{hasCompetitive,jdbcType=BIT}, 
+      #{competitiveNum,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlinePost">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -123,6 +126,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="unitPostId != null">
         unit_post_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="onlineId != null">
         online_id,
@@ -149,6 +155,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unitPostId != null">
         #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="onlineId != null">
         #{onlineId,jdbcType=INTEGER},
@@ -188,6 +197,9 @@
       <if test="record.unitPostId != null">
         unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.onlineId != null">
         online_id = #{record.onlineId,jdbcType=INTEGER},
       </if>
@@ -218,6 +230,7 @@
     update dr_online_post
     set id = #{record.id,jdbcType=INTEGER},
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
       online_id = #{record.onlineId,jdbcType=INTEGER},
       has_candidate = #{record.hasCandidate,jdbcType=BIT},
       candidates = #{record.candidates,jdbcType=VARCHAR},
@@ -234,6 +247,9 @@
     <set>
       <if test="unitPostId != null">
         unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="onlineId != null">
         online_id = #{onlineId,jdbcType=INTEGER},
@@ -262,6 +278,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.dr.DrOnlinePost">
     update dr_online_post
     set unit_post_id = #{unitPostId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       online_id = #{onlineId,jdbcType=INTEGER},
       has_candidate = #{hasCandidate,jdbcType=BIT},
       candidates = #{candidates,jdbcType=VARCHAR},

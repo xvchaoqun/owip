@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.dr.DrOnlinePostView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="online_id" jdbcType="INTEGER" property="onlineId" />
     <result column="has_candidate" jdbcType="BIT" property="hasCandidate" />
     <result column="candidates" jdbcType="VARCHAR" property="candidates" />
@@ -13,7 +14,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="online_type" jdbcType="INTEGER" property="onlineType" />
     <result column="exist_num" jdbcType="INTEGER" property="existNum" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="post_name" jdbcType="VARCHAR" property="postName" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="post_type" jdbcType="INTEGER" property="postType" />
@@ -79,9 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_post_id, online_id, has_candidate, candidates, has_competitive, competitive_num, 
-    sort_order, remark, online_type, exist_num, name, job, admin_level, post_type, unit_id, 
-    type_id
+    id, unit_post_id, name, online_id, has_candidate, candidates, has_competitive, competitive_num, 
+    sort_order, remark, online_type, exist_num, post_name, job, admin_level, post_type, 
+    unit_id, type_id
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlinePostViewExample" resultMap="BaseResultMap">
     select
@@ -104,18 +105,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.dr.DrOnlinePostView">
-    insert into dr_online_post_view (id, unit_post_id, online_id, 
-      has_candidate, candidates, has_competitive, 
-      competitive_num, sort_order, remark, 
-      online_type, exist_num, name, 
-      job, admin_level, post_type, 
-      unit_id, type_id)
-    values (#{id,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{onlineId,jdbcType=INTEGER}, 
-      #{hasCandidate,jdbcType=BIT}, #{candidates,jdbcType=VARCHAR}, #{hasCompetitive,jdbcType=BIT}, 
-      #{competitiveNum,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{onlineType,jdbcType=INTEGER}, #{existNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER})
+    insert into dr_online_post_view (id, unit_post_id, name, 
+      online_id, has_candidate, candidates, 
+      has_competitive, competitive_num, sort_order, 
+      remark, online_type, exist_num, 
+      post_name, job, admin_level, 
+      post_type, unit_id, type_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{unitPostId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{onlineId,jdbcType=INTEGER}, #{hasCandidate,jdbcType=BIT}, #{candidates,jdbcType=VARCHAR}, 
+      #{hasCompetitive,jdbcType=BIT}, #{competitiveNum,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{onlineType,jdbcType=INTEGER}, #{existNum,jdbcType=INTEGER}, 
+      #{postName,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
+      #{postType,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlinePostView">
     insert into dr_online_post_view
@@ -125,6 +128,9 @@
       </if>
       <if test="unitPostId != null">
         unit_post_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="onlineId != null">
         online_id,
@@ -153,8 +159,8 @@
       <if test="existNum != null">
         exist_num,
       </if>
-      <if test="name != null">
-        name,
+      <if test="postName != null">
+        post_name,
       </if>
       <if test="job != null">
         job,
@@ -178,6 +184,9 @@
       </if>
       <if test="unitPostId != null">
         #{unitPostId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="onlineId != null">
         #{onlineId,jdbcType=INTEGER},
@@ -206,8 +215,8 @@
       <if test="existNum != null">
         #{existNum,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="postName != null">
+        #{postName,jdbcType=VARCHAR},
       </if>
       <if test="job != null">
         #{job,jdbcType=VARCHAR},
@@ -241,6 +250,9 @@
       <if test="record.unitPostId != null">
         unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.onlineId != null">
         online_id = #{record.onlineId,jdbcType=INTEGER},
       </if>
@@ -268,8 +280,8 @@
       <if test="record.existNum != null">
         exist_num = #{record.existNum,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.postName != null">
+        post_name = #{record.postName,jdbcType=VARCHAR},
       </if>
       <if test="record.job != null">
         job = #{record.job,jdbcType=VARCHAR},
@@ -295,6 +307,7 @@
     update dr_online_post_view
     set id = #{record.id,jdbcType=INTEGER},
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
       online_id = #{record.onlineId,jdbcType=INTEGER},
       has_candidate = #{record.hasCandidate,jdbcType=BIT},
       candidates = #{record.candidates,jdbcType=VARCHAR},
@@ -304,7 +317,7 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       online_type = #{record.onlineType,jdbcType=INTEGER},
       exist_num = #{record.existNum,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      post_name = #{record.postName,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
       admin_level = #{record.adminLevel,jdbcType=INTEGER},
       post_type = #{record.postType,jdbcType=INTEGER},

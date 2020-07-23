@@ -121,10 +121,6 @@
         colModel: [
             {label: '推荐组成员', name: 'user.realname'},
             {label: '工作证号', name: 'user.code'},
-            {label: '民主推荐', name: '_cadres', formatter: function (cellvalue, options, rowObject) {
-                    return '<a href="#${ctx}/drOfflineRecommend?cls=1&memberId={0}" target="_blank">查看</a>'
-                        .format(encodeURI(rowObject.id));
-                }},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/drMember_changeOrder"}, frozen: true

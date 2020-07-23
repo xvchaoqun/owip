@@ -150,21 +150,26 @@ public class DrOnlinePostController extends DrBaseController {
         if (record.getHasCompetitive() == null){
             record.setHasCompetitive(false);
         }
-        if (id == null) {
+
+        if(record.getUnitPostId()!=null) {
 
             DrOnlinePostExample example = new DrOnlinePostExample();
-            example.createCriteria().andOnlineIdEqualTo(record.getOnlineId()).andUnitPostIdEqualTo(record.getUnitPostId());
+            DrOnlinePostExample.Criteria criteria =
+                    example.createCriteria().andOnlineIdEqualTo(record.getOnlineId())
+                            .andUnitPostIdEqualTo(record.getUnitPostId());
+            if(id!=null){
+                criteria.andIdNotEqualTo(id);
+            }
             List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(example);
             if (null != posts && posts.size() > 0)
-                throw new OpException("岗位添加重复");
+                throw new OpException("关联岗位重复");
+        }
+
+        if (id == null) {
 
             drOnlinePostService.insertSelective(record);
             logger.info(log( LogConstants.LOG_DR, "添加推荐职务：{0}", record.getId()));
         } else {
-            //防止中途修改数据
-            /*DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(record.getOnlineId());
-            if (drOnline.getStatus() == DrConstants.DR_ONLINE_FINISH ||drOnline.getStatus() == DrConstants.DR_ONLINE_PUBLISH)
-                throw new OpException("民主推荐进行中或已完成，不能修改数据！");*/
 
             List<DrOnlineCandidate> candidates = drOnlineCandidateService.getByPostId(record.getId());
 

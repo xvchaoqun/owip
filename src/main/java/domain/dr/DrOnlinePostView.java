@@ -37,6 +37,8 @@ public class DrOnlinePostView implements Serializable {
 
     private Integer unitPostId;
 
+    private String name;
+
     private Integer onlineId;
 
     private Boolean hasCandidate;
@@ -55,7 +57,7 @@ public class DrOnlinePostView implements Serializable {
 
     private Integer existNum;
 
-    private String name;
+    private String postName;
 
     private String job;
 
@@ -83,6 +85,14 @@ public class DrOnlinePostView implements Serializable {
 
     public void setUnitPostId(Integer unitPostId) {
         this.unitPostId = unitPostId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getOnlineId() {
@@ -157,12 +167,12 @@ public class DrOnlinePostView implements Serializable {
         this.existNum = existNum;
     }
 
-    public String getName() {
-        return name;
+    public String getPostName() {
+        return postName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setPostName(String postName) {
+        this.postName = postName == null ? null : postName.trim();
     }
 
     public String getJob() {

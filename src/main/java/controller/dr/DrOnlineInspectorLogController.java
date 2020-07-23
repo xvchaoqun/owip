@@ -194,16 +194,11 @@ public class DrOnlineInspectorLogController extends DrBaseController {
             modelMap.put("selectPosts", selectPosts);
         }
 
-        DrOnlinePostExample example = new DrOnlinePostExample();
+        DrOnlinePostViewExample example = new DrOnlinePostViewExample();
         example.createCriteria().andOnlineIdEqualTo(onlineId);
-        List<DrOnlinePost> drOnlinePosts = drOnlinePostMapper.selectByExample(example);
-        List<UnitPost> unitPosts = new ArrayList<>();
-        if (drOnlinePosts != null && drOnlinePosts.size() >0) {
-            for (DrOnlinePost drOnlinePost : drOnlinePosts) {
-                unitPosts.add(unitPostMapper.selectByPrimaryKey(drOnlinePost.getUnitPostId()));
-            }
-        }
-        modelMap.put("unitPosts", unitPosts);
+        List<DrOnlinePostView> drOnlinePosts = drOnlinePostViewMapper.selectByExample(example);
+
+        modelMap.put("drOnlinePosts", drOnlinePosts);
 
         return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_selectPost";
     }

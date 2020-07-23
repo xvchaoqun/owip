@@ -62,20 +62,20 @@
            <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
        </table>-->
-        <table tableName="dr_online_inspector_log" domainObjectName="dr.DrOnlineInspectorLog" mapperName="dr.DrOnlineInspectorLogMapper">
+       <!-- <table tableName="dr_online_inspector_log" domainObjectName="dr.DrOnlineInspectorLog" mapperName="dr.DrOnlineInspectorLogMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="dr_online_inspector_type" domainObjectName="dr.DrOnlineInspectorType" mapperName="dr.DrOnlineInspectorTypeMapper">
         </table>-->
         <!--<table tableName="dr_online_notice" domainObjectName="dr.DrOnlineNotice" mapperName="dr.DrOnlineNoticeMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="dr_online_post" domainObjectName="dr.DrOnlinePost" mapperName="dr.DrOnlinePostMapper">
+        <table tableName="dr_online_post" domainObjectName="dr.DrOnlinePost" mapperName="dr.DrOnlinePostMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="dr_online_post_view" domainObjectName="dr.DrOnlinePostView" mapperName="dr.DrOnlinePostViewMapper">
             <columnOverride column="exist_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
         </table>-->
 

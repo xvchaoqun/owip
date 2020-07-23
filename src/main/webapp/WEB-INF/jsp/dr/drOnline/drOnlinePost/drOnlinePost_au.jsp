@@ -10,10 +10,16 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/dr/drOnlinePost_au?onlineId=${onlineId}" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${drOnlinePost.id}">
 		<input type="hidden" name="onlineId" value="${onlineId}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label"><span class="star">*</span> 推荐职务</label>
+		<div class="form-group">
+				<label class="col-xs-3 control-label"><span class="star">*</span>职务名称</label>
 				<div class="col-xs-6">
-					<select required name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
+					<textarea class="form-control" type="text" maxlength="80" name="name">${drOnlinePost.name}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">关联岗位</label>
+				<div class="col-xs-6">
+					<select name="unitPostId" data-rel="select2-ajax" data-ajax-url="${ctx}/unitPost_selects"
 							data-width="273"
 							data-placeholder="请选择">
 						<option value="${unitPost.id}" delete="${unitPost.status!=UNIT_POST_STATUS_NORMAL}">${unitPost.code}-${unitPost.name}</option>
