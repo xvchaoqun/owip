@@ -70,6 +70,7 @@
         <result column="id" property="id" jdbcType="INTEGER"/>
         <result column="group_id" property="groupId" jdbcType="INTEGER"/>
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="party_class_id" property="partyClassId" jdbcType="INTEGER"/>
         <result column="party_id" property="partyId" jdbcType="INTEGER"/>
         <result column="branch_id" property="branchId" jdbcType="INTEGER"/>
         <result column="post_id" property="postId" jdbcType="INTEGER"/>
@@ -81,6 +82,9 @@
         <where>
             <include refid="_selects_permits"/>
             and p.is_deleted=0
+            <if test="oa.partyClassId!=null">
+                and p.class_id = #{oa.partyClassId}
+            </if>
             <if test="oa.partyId!=null">
                 and p.id = #{oa.partyId}
             </if>
@@ -99,7 +103,7 @@
     </sql>
     <!-- 所有分党委管理员（当前有效管理员） -->
     <select id="selectPartyAdminList" resultMap="OwAdminMap" parameterType="map">
-        select tmp.*, uv.username, uv.realname, uv.code from (
+        select tmp.*, p.class_id as party_class_id, uv.username, uv.realname, uv.code from (
             select * from (
             <if test="oa.normal==null || oa.normal==false">
                 select m.id as id, mg.id as group_id, m.user_id, mg.party_id, m.post_id, 0 as normal,

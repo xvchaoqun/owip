@@ -13,6 +13,7 @@
     <result column="dispatch_unit_id" jdbcType="INTEGER" property="dispatchUnitId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="party_class_id" jdbcType="INTEGER" property="partyClassId" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="member_count" jdbcType="BIGINT" property="memberCount" />
   </resultMap>
@@ -47,7 +48,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, fid, party_id, name, is_present, tran_time, actual_tran_time, appoint_time, dispatch_unit_id, 
-    sort_order, is_deleted, party_sort_order, member_count
+    sort_order, is_deleted, party_class_id, party_sort_order, member_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyMemberGroupViewExample" resultMap="BaseResultMap">
     select

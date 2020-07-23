@@ -1,3 +1,6 @@
+2020.7.23
+-- 更新 ow_party_member_group_view
+-- 更新 ow_party_member_view
 
 2020.7.22
 北化工 -- 北师大

@@ -6,7 +6,6 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
 import domain.party.*;
 import domain.party.PartyMemberGroupExample.Criteria;
-import domain.sys.SysConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,6 +89,7 @@ public class PartyMemberGroupController extends BaseController {
     public void partyMemberGroup_data(HttpServletResponse response,
                                       @RequestParam(required = false, defaultValue = "1") Byte status,
                                       String name,
+                                      Integer classId,
                                       Integer partyId,
                                       Boolean isPresent,
                                       @RequestDateRange DateRange _appointTime,
@@ -132,6 +131,9 @@ public class PartyMemberGroupController extends BaseController {
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
+        }
+        if (classId != null) {
+            criteria.andPartyClassIdEqualTo(classId);
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);

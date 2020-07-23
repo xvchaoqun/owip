@@ -1795,6 +1795,66 @@ public class PartyMemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPartyClassIdIsNull() {
+            addCriterion("party_class_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdIsNotNull() {
+            addCriterion("party_class_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdEqualTo(Integer value) {
+            addCriterion("party_class_id =", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdNotEqualTo(Integer value) {
+            addCriterion("party_class_id <>", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdGreaterThan(Integer value) {
+            addCriterion("party_class_id >", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("party_class_id >=", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdLessThan(Integer value) {
+            addCriterion("party_class_id <", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdLessThanOrEqualTo(Integer value) {
+            addCriterion("party_class_id <=", value, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdIn(List<Integer> values) {
+            addCriterion("party_class_id in", values, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdNotIn(List<Integer> values) {
+            addCriterion("party_class_id not in", values, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdBetween(Integer value1, Integer value2) {
+            addCriterion("party_class_id between", value1, value2, "partyClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyClassIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("party_class_id not between", value1, value2, "partyClassId");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;

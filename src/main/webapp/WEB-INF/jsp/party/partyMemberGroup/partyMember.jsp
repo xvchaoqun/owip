@@ -8,7 +8,7 @@
              data-url-page="${ctx}/partyMemberGroup?status=${status}"
              data-url-export="${ctx}/partyMember_data?isDeleted=0&isPresent=1"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
+                <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.classId||not empty param.partyId
                 ||not empty param.postId || not empty param.typeIds}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
@@ -71,8 +71,21 @@
                                         <option></option>
                                           <c:forEach items="${unitMap}" var="unit"> 
                                             <option value="${unit.key}">${unit.value.name}</option>
-                                              </c:forEach>  </select> 
-                                    <script>         $("#searchForm select[name=unitId]").val('${param.unitId}');     </script>
+                                              </c:forEach> 
+                                    </select> 
+                                    <script>
+                                        $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                    </script>
+                                </div>
+                                <div class="form-group">
+                                    <label>${_p_partyName}类别</label>
+                                    <select name="classId" data-rel="select2" data-placeholder="请选择">
+                                        <option></option>
+                                        <c:import url="/metaTypes?__code=mc_party_class"/>
+                                    </select>
+                                    <script>
+                                        $("#searchForm select[name=classId]").val('${param.classId}');
+                                    </script>
                                 </div>
                                     <div class="form-group">
                                         <label>所属${_p_partyName}</label>
@@ -90,8 +103,9 @@
                                         <option></option>
                                          <c:import url="/metaTypes?__code=mc_party_member_post"/>
                                     </select> 
-                                    <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
-                                     
+                                    <script>
+                                        $("#searchForm select[name=postId]").val('${param.postId}');
+                                    </script> 
                                 </div>
                                 <div class="form-group">
                                     <label>分工</label>

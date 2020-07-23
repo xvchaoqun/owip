@@ -8,6 +8,7 @@ public class OwAdmin {
     private Integer id; // 普通管理员是org_admin表的id，班子成员是party_member/branch_member表的id
     private Integer groupId; // 班子成员所属班子ID，普通管理员为空
     private Integer userId;
+    private Integer partyClassId;
     private Integer partyId;
     private Integer branchId;  // 分党委管理员为空
     private Integer postId;
@@ -48,7 +49,13 @@ public class OwAdmin {
         this.userId = userId;
         return this;
     }
+    public Integer getPartyClassId() {
+        return partyClassId;
+    }
 
+    public void setPartyClassId(Integer partyClassId) {
+        this.partyClassId = partyClassId;
+    }
     public Integer getPartyId() {
         return partyId;
     }

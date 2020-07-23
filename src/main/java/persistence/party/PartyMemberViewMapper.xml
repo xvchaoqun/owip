@@ -28,6 +28,7 @@
     <result column="group_party_id" jdbcType="INTEGER" property="groupPartyId" />
     <result column="is_present" jdbcType="BOOLEAN" property="isPresent" />
     <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="party_class_id" jdbcType="INTEGER" property="partyClassId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
     <result column="post_class" jdbcType="VARCHAR" property="postClass" />
@@ -81,10 +82,10 @@
     id, group_id, user_id, type_ids, post_id, assign_date, dismiss_date, office_phone, 
     mobile, is_admin, is_history, sort_order, msg_title, email, realname, gender, nation, 
     native_place, idcard, birth, party_id, branch_id, member_status, group_party_id, 
-    is_present, is_deleted, unit_id, party_sort_order, post_class, sub_post_class, main_post_level, 
-    pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, 
-    arrive_time, ow_id, is_ow, ow_grow_time, ow_positive_time, ow_remark, dp_grow_time, 
-    dp_type_id
+    is_present, is_deleted, party_class_id, unit_id, party_sort_order, post_class, sub_post_class, 
+    main_post_level, pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, 
+    manage_level_time, arrive_time, ow_id, is_ow, ow_grow_time, ow_positive_time, ow_remark, 
+    dp_grow_time, dp_type_id
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyMemberViewExample" resultMap="BaseResultMap">
     select

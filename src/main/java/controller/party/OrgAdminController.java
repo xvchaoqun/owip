@@ -134,6 +134,7 @@ public class OrgAdminController extends BaseController {
     public void orgAdmin_data(HttpServletResponse response,
                               byte type,
                               Integer userId,
+                              Integer classId,
                               Integer partyId,
                               Integer branchId,
                               @RequestParam(required = false, defaultValue = "1") Byte cls,
@@ -165,6 +166,7 @@ public class OrgAdminController extends BaseController {
         List records = null;
         long count = 0;
         if (type == OwConstants.OW_ORG_ADMIN_PARTY) {
+            search.setPartyClassId(classId);
             records = iPartyMapper.selectPartyAdminList(search, new RowBounds((pageNo - 1) * pageSize, pageSize));
             count = iPartyMapper.countPartyAdminList(search);
         } else {
