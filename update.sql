@@ -59,6 +59,11 @@ ALTER TABLE `dr_online_result`
 ALTER TABLE `dr_online_inspector`
 	ADD CONSTRAINT `FK_dr_online_inspector_dr_online_inspector_log` FOREIGN KEY (`log_id`) REFERENCES `dr_online_inspector_log` (`id`) ON DELETE CASCADE;
 
+update  sys_property set code='dr_site_bg' where code='drLoginBg';
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('dr_site_name', '民主推荐用户端名称', '北师大线上民主推荐系统', 1, 66, '');
+
+
 2020.7.20
 
 ALTER TABLE `crp_record`

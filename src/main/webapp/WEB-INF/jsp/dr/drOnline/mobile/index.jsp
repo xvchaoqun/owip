@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['dr_site_name']}" var="_p_drSiteName"/>
 <c:set var="RESULT_STATUS_AGREE" value="<%=DrConstants.RESULT_STATUS_AGREE%>"/>
 <c:set var="RESULT_STATUS_DISAGREE" value="<%=DrConstants.RESULT_STATUS_DISAGREE%>"/>
 <c:set var="RESULT_STATUS_ABSTAIN" value="<%=DrConstants.RESULT_STATUS_ABSTAIN%>"/>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>线上民主推荐系统</title>
+    <title>${_p_drSiteName}</title>
     <jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
         <style>
 
@@ -36,7 +37,7 @@
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left">
             <a href="javascript:;" class="navbar-brand">
-                <span style="font-size: 16px; font-weight: bold"><i class="ace-icon fa fa-signal"></i> 线上民主推荐系统</span>
+                <span style="font-size: 16px; font-weight: bold"><i class="ace-icon fa fa-signal"></i> ${_p_drSiteName}</span>
             </a>
         </div>
         <div class="navbar-buttons navbar-header pull-right" role="navigation">

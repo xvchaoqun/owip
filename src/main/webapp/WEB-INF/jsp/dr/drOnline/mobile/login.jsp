@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${_pMap['dr_site_name']}" var="_p_drSiteName"/>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>线上民主推荐系统</title>
+		<title>${_p_drSiteName}</title>
 	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
 	</head>
 	<body class="login-layout blue-login">
@@ -17,7 +18,7 @@
 									<t:img src="/img/logo_white.png"/>
 								</div>
 								<h1 class="white">
-									<div style="font-size:smaller">线上民主推荐系统</div>
+									<div style="font-size:smaller">${_p_drSiteName}</div>
 								</h1>
 							</div>
 							<div class="space-10"></div>

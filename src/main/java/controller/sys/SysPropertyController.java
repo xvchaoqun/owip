@@ -122,7 +122,7 @@ public class SysPropertyController extends BaseController {
         }else if(record.getType()==SystemConstants.SYS_PROPERTY_TYPE_PIC){
             record.setContent(upload(_file, "sysProperty"));
 
-            if(StringUtils.equals(record.getCode(), "drLoginBg")) {
+            if(StringUtils.equals(record.getCode(), "dr_site_bg")) {
                 FileUtils.copyFile(springProps.uploadPath + record.getContent(),
                         CmTag.getImgFolder() + "dr_login_bg.png");
             }

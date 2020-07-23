@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['dr_site_name']}" var="_p_drSiteName"/>
 <c:set var="RESULT_STATUS_AGREE" value="<%=DrConstants.RESULT_STATUS_AGREE%>"/>
 <c:set var="RESULT_STATUS_DISAGREE" value="<%=DrConstants.RESULT_STATUS_DISAGREE%>"/>
 <c:set var="RESULT_STATUS_ABSTAIN" value="<%=DrConstants.RESULT_STATUS_ABSTAIN%>"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>线上民主推荐系统</title>
+    <title>${_p_drSiteName}</title>
     <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
 
     <style>
@@ -62,7 +63,7 @@
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                 <t:img src="/img/logo_white.png"/></div>
             <div class="separator"></div>
-            <div class="txt" style="cursor: pointer;">线上民主推荐系统</div>
+            <div class="txt" style="cursor: pointer;">${_p_drSiteName}</div>
 
             <ul class="nav nav-pills pull-right">
                  <c:if test="${tempResult.agree}">

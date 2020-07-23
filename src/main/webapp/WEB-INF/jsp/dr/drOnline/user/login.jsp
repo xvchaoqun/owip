@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['dr_site_name']}" var="_p_drSiteName"/>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>线上民主推荐系统</title>
+    <title>${_p_drSiteName}</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css"/>
 </head>
@@ -17,7 +18,7 @@
                 <div class="login_logo">
                     <div class="logo" style="cursor: pointer;" onclick="location.href='#'">
                         <t:img src="/img/logo_white.png"/></div>
-                    <div class="txt">线上民主推荐系统</div>
+                    <div class="txt">${_p_drSiteName}</div>
                 </div>
             </td>
         </tr>
@@ -89,6 +90,11 @@
 <script src="${ctx}/assets/js/jquery.js"></script>
 <script src="${ctx}/extend/js/jquery.form.js"></script>
 <script>
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            $(".submit_btn").trigger("click");
+        }
+    });
     $('img.captcha').click(function () {
         $("input[name=captcha]").val('').focus();
         $(this).attr('src', '/captcha?' + Math.floor(Math.random() * 100));
