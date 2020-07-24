@@ -450,7 +450,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <jsp:include page="/WEB-INF/jsp/cadreReserve/cadre_searchPage.jsp"/>
+                                                <jsp:include page="/WEB-INF/jsp/cadre/cadre_searchColumns.jsp"/>
                                             </div>
                                             <div class="clearfix"></div>
 

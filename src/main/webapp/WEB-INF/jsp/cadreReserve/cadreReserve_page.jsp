@@ -297,7 +297,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <jsp:include page="cadre_searchPage.jsp"/>
+                                            <jsp:include page="/WEB-INF/jsp/cadre/cadre_searchColumns.jsp"/>
                                             <div class="column">
                                                 <label>是否在职</label>
                                                 <div class="input">

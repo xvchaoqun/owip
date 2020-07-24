@@ -248,10 +248,10 @@
     <label>专业技术职务</label>
     <div class="input">
         <select class="multiselect" multiple="" name="proPosts">
+            <option value="0">无（没有职称）</option>
             <c:forEach items="${proPosts}" var="proPost">
                 <option value="${proPost}">${proPost}</option>
             </c:forEach>
-            <option value="0">无</option>
         </select>
     </div>
 </div>

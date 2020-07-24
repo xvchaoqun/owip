@@ -56,7 +56,7 @@ public class UserDrOnlineController extends DrBaseController {
                 }else {
 
                     logger.info(sysLoginLogService.log(null, u,
-                        SystemConstants.LOGIN_TYPE_DR, false, "扫码登录成功！"));
+                        SystemConstants.LOGIN_TYPE_DR, true, "扫码登录成功！"));
                     DrHelper.setSession(request, inspector.getId());
 
                     return "redirect:/user/dr/index?isMobile=1";
