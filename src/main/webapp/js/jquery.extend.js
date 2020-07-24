@@ -1506,8 +1506,10 @@ if ($.jgrid) {
                 //console.log(options.colModel.hidden)
                 //console.log(cellvalue.length)
                 // if(options.colModel.hidden) console.log(cellvalue==undefined)
+                //console.log($.jgrid.htmlDecode($.trim(cellvalue)))
+                // 此处htmldecode()会引起xss
                 return (!options.colModel.hidden && (cellvalue == undefined || cellvalue.length == 0))
-                    ? '--' : $.trim(cellvalue).htmldecode().NoMultiSpace()
+                    ? '--' : $.trim(cellvalue).NoMultiSpace()
             }
         },
         sortorder: "desc",
