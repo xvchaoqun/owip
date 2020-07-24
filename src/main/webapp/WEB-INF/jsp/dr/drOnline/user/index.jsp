@@ -10,7 +10,7 @@
 <head>
     <title>${_p_drSiteName}</title>
     <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css"/>
+    <t:link href="/css/dr.css"/>
 </head>
 <body style="background-color: inherit;">
 <div id="navbar" class="navbar navbar-default navbar-fixed-top">

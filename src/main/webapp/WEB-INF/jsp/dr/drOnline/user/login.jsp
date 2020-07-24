@@ -6,8 +6,8 @@
 <html>
 <head>
     <title>${_p_drSiteName}</title>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css"/>
+    <t:link href="/css/main.css"/>
+    <t:link href="/css/dr.css"/>
 </head>
 <body class="login_body">
 <form id="login-form" method="post" action="${ctx}/user/dr/login" autocomplete="off" disableautocomplete>
