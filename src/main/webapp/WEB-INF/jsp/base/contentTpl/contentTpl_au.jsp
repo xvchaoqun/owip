@@ -30,6 +30,7 @@
                     <span class="help-block">*留空自动生成</span>
                 </div>
             </div>
+            <c:if test="${!_p_wx_support}"><input type="hidden" name="type" value="<%=ContentTplConstants.CONTENT_TPL_TYPE_MSG%>"></c:if>
             <c:if test="${_p_wx_support}">
             <div class="form-group">
                 <label class="col-xs-3 control-label"><span class="star">*</span>类型</label>

@@ -9,5 +9,5 @@
     <c:if test="${empty htmlFragment}">
         <c:redirect url="/"/>
     </c:if>
-    ${htmlFragment.content}
+    ${cm:htmlUnescape(htmlFragment.content)}
 </div>

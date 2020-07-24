@@ -6,7 +6,7 @@
     <h3>${htmlFragment.title}</h3>
   </div>
   <div class="modal-body">
-    ${htmlFragment.content}
+    ${cm:htmlUnescape(htmlFragment.content)}
   </div>
   <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-info">关闭</a></div>

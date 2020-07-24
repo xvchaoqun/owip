@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -130,7 +129,7 @@ public class HtmlFragmentController extends BaseController {
     @ResponseBody
     public Map do_htmlFragment_note_au(HtmlFragment record, ModelMap modelMap) {
 
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
 
         if (record.getId() == null) {
             if (StringUtils.isBlank(record.getCode()))
