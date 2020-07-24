@@ -463,7 +463,13 @@ public class CadreReserveController extends BaseController {
             criteria.andMajorLike(SqlUtils.like(major));
         }
         if (proPosts != null) {
-            criteria.andProPostIn(Arrays.asList(proPosts));
+            List<String> _proPosts = new ArrayList<String>(Arrays.asList(proPosts));
+            if (_proPosts.contains("0")) {
+                _proPosts.remove("0");
+                criteria.andProPostIsNullOrIn(_proPosts);
+            }else {
+                criteria.andProPostIn(_proPosts);
+            }
         }
         if (maxEdus != null) {
             if(new HashSet<>(Arrays.asList(maxEdus)).contains(-1)){
