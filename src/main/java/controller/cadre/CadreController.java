@@ -420,7 +420,13 @@ public class CadreController extends BaseController {
             criteria.andPostTypeIn(Arrays.asList(postTypes));
         }
         if (proPosts != null) {
-            criteria.andProPostIn(Arrays.asList(proPosts));
+            List<String> _proPosts = new ArrayList<String>(Arrays.asList(proPosts));
+            if (_proPosts.contains("0")) {
+                _proPosts.remove("0");
+                criteria.andProPostIsNullOrIn(_proPosts);
+            }else {
+                criteria.andProPostIn(_proPosts);
+            }
         }
         if (proPostLevels != null) {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));

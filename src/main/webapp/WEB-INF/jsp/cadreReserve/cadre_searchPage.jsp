@@ -227,16 +227,6 @@
     </div>
 </div>
 <div class="column">
-    <label>专业技术职务</label>
-    <div class="input">
-        <select class="multiselect" multiple="" name="proPosts">
-            <c:forEach items="${proPosts}" var="proPost">
-                <option value="${proPost}">${proPost}</option>
-            </c:forEach>
-        </select>
-    </div>
-</div>
-<div class="column">
     <label>职务属性</label>
     <div class="input">
         <select class="multiselect" multiple="" name="postTypes">
@@ -252,6 +242,17 @@
                                                           type="text"
                                                           name="endNowPostAge"
                                                           value="${param.endNowPostAge}">
+    </div>
+</div>
+<div class="column">
+    <label>专业技术职务</label>
+    <div class="input">
+        <select class="multiselect" multiple="" name="proPosts">
+            <c:forEach items="${proPosts}" var="proPost">
+                <option value="${proPost}">${proPost}</option>
+            </c:forEach>
+            <option value="0">无</option>
+        </select>
     </div>
 </div>
 <div class="column">

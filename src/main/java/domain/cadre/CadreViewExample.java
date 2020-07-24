@@ -4373,6 +4373,16 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andProPostIsNullOrIn(List<String> values) {
+
+            if (values.size() == 0) {
+                addCriterion("pro_post is null");
+            }else {
+                addCriterion("(pro_post is null or pro_post in('" + StringUtils.join(values, "','") + "'))");
+            }
+            return (Criteria) this;
+        }
+
         public Criteria andProPostIsNull() {
             addCriterion("pro_post is null");
             return (Criteria) this;
