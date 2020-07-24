@@ -4831,6 +4831,16 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andProPostIsNullOrIn(List<String> values) {
+
+            if (values.size() == 0) {
+                addCriterion("pro_post is null");
+            }else {
+                addCriterion("(pro_post is null or pro_post in('" + StringUtils.join(values, "','") + "'))");
+            }
+            return (Criteria) this;
+        }
+
         public Criteria andProPostIn(List<String> values) {
             addCriterion("pro_post in", values, "proPost");
             return (Criteria) this;
