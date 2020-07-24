@@ -438,4 +438,21 @@
         SET c.has_crp=1
         WHERE c.id = ct.id;
     </update>
+
+    <insert id="batchSortByAdminLevel" parameterType="map">
+        insert into tmp_sort_cadre(user_id, code, realname) select c.user_id, c.code, c.realname
+        from cadre_view c left join unit u on c.unit_id=u.id where c.status=#{status} order by u.sort_order asc,c.admin_level asc;
+    </insert>
+
+    <insert id="batchSortByUnit" parameterType="map">
+        insert into tmp_sort_cadre(user_id, code, realname) select c.user_id, c.code, c.realname from cadre_view c
+        left join unit u on c.unit_id=u.id
+        left join unit_post up on c.unit_post_id=up.id
+        where c.status=#{status} order by u.sort_order asc, up.sort_order asc;
+    </insert>
+
+    <update id="updateCadreByTem" parameterType="map">
+        update tmp_sort_cadre set sort_order = (#{count}+1)-id;
+        update cadre c, tmp_sort_cadre t set c.sort_order=t.sort_order where c.user_id=t.user_id;
+    </update>
 </mapper>

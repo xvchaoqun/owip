@@ -2,8 +2,6 @@ package service.oa;
 
 import controller.global.OpException;
 import domain.oa.OaTask;
-import domain.oa.OaTaskAdmin;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.oa.*;
 import service.CoreBaseMapper;
@@ -21,8 +19,6 @@ public class OaBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected OaTaskMapper oaTaskMapper;
     @Autowired(required = false)
-    protected OaTaskAdminMapper oaTaskAdminMapper;
-    @Autowired(required = false)
     protected OaTaskViewMapper oaTaskViewMapper;
     @Autowired(required = false)
     protected OaTaskFileMapper oaTaskFileMapper;
@@ -38,21 +34,12 @@ public class OaBaseMapper extends CoreBaseMapper {
     protected OaTaskUserFileMapper oaTaskUserFileMapper;
 
     // 检查操作权限
-    public void checkAuth(Integer taskId, Integer type) {
+    public void checkAuth(Integer taskId) {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
+
         // 拥有全部权限
-        if (BooleanUtils.isTrue(oaTaskAdmin.getShowAll())) return;
-
-        if (type != null) {
-
-            Set<Integer> adminTypeSet = NumberUtils.toIntSet(oaTaskAdmin.getTypes(), ",");
-
-            if (!adminTypeSet.contains(type)) {
-                throw new OpException("没有权限添加该工作类型。");
-            }
-        }
+        if (ShiroHelper.isPermitted("oaTaskShowAll:*")) return;
 
         if (taskId != null) {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);

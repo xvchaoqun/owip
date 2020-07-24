@@ -141,7 +141,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     @Transactional
     public void check(int taskId, Integer[] taskUserIds, byte status, String remark) {
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         if (!OaConstants.OA_TASK_USER_STATUS_MAP.containsKey(status)) {
             return;
@@ -280,7 +280,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     @Transactional
     public Map<String, Integer> sendInfoMsg(int taskId, String msg) {
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         int sendUserId = ShiroHelper.getCurrentUserId();
 
@@ -335,7 +335,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     @Transactional
     public Map<String, Object> sendUnReportMsg(int taskId, String msg) {
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         int sendUserId = ShiroHelper.getCurrentUserId();
 
@@ -401,7 +401,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
         int taskId = oaTaskUser.getTaskId();
         int userId = oaTaskUser.getUserId();
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         int sendUserId = ShiroHelper.getCurrentUserId();
         SysUserView uv = sysUserService.findById(userId);

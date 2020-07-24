@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${oaTaskAdmin!=null?'编辑':'添加'}年度任务发布范围</h3>
+    <h3>${psTask!=null?'编辑':'添加'}年度任务发布范围</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/ps/psTaskScope_au"
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中"
-            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty oaTaskAdmin?'确定':'添加'}</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> ${not empty psTask?'确定':'添加'}</button>
 </div>
 <link href="${ctx}/extend/js/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet"/>
 <script src="${ctx}/extend/js/fancytree/jquery.fancytree-all.min.js"></script>

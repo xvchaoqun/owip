@@ -31,14 +31,14 @@
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=4&showAll=${showAll?1:0}"><i
                                 class="fa fa-trash-o"></i> 任务对象列表</a>
                     </li>
-                    <c:if test="${oaTaskAdmin.showAll}">
-                    <div class="type-select">
+                    <shiro:hasPermission name="	oaTaskShowAll:*">
+                        <div class="type-select">
                             <span class="typeCheckbox ${showAll?"checked":""}">
                             <input class="big" ${showAll?"checked":""} type="checkbox"
-                                                                         value="1"> 显示全部任务
+                                   value="1"> 显示全部任务
                             </span>
-                    </div>
-                    </c:if>
+                        </div>
+                    </shiro:hasPermission>
                 </ul>
 
                 <div class="tab-content">
@@ -58,11 +58,13 @@
                                    data-url="${ctx}/oa/oaTask_abolish"
                                    data-grid-id="#jqGrid"><i class="fa fa-times"></i>
                                     作废</a>
-                                <a class="jqOpenViewBtn btn btn-info btn-sm"
-                                   data-url="${ctx}/oa/oaTaskUser_infoMsg"
-                                   data-grid-id="#jqGrid" data-width="800"
-                                   data-id-name="taskId"><i class="fa fa-send"></i>
-                                    下发任务通知</a>
+                                <shiro:hasPermission name="	oaTaskShowAll:*">
+                                    <a class="jqOpenViewBtn btn btn-info btn-sm"
+                                       data-url="${ctx}/oa/oaTaskUser_infoMsg"
+                                       data-grid-id="#jqGrid" data-width="800"
+                                       data-id-name="taskId"><i class="fa fa-send"></i>
+                                        下发任务通知</a>
+                                </shiro:hasPermission>
                             </shiro:hasPermission>
                             </c:if>
                             <c:if test="${cls!=4}">

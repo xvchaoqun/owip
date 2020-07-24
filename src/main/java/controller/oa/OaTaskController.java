@@ -55,11 +55,8 @@ public class OaTaskController extends OaBaseController {
         modelMap.put("cls", cls);
         modelMap.put("showAll", showAll);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(currentUserId);
-        modelMap.put("oaTaskTypes", oaTaskTypes);
-
-        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(currentUserId);
-        modelMap.put("oaTaskAdmin", oaTaskAdmin);
+        //List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(currentUserId);
+        //modelMap.put("oaTaskTypes", oaTaskTypes);
 
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
@@ -102,10 +99,8 @@ public class OaTaskController extends OaBaseController {
                 break;
         }
 
-        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId());
-
         showAll = BooleanUtils.isTrue(showAll)
-                && BooleanUtils.isTrue(oaTaskAdmin!=null && oaTaskAdmin.getShowAll());
+                && ShiroHelper.isPermitted("oaTaskShowAll:*");
 
         if(!showAll){
             criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
@@ -166,8 +161,8 @@ public class OaTaskController extends OaBaseController {
             OaTask oaTask = oaTaskMapper.selectByPrimaryKey(id);
             modelMap.put("oaTask", oaTask);
         }
-        List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(ShiroHelper.getCurrentUserId());
-        modelMap.put("oaTaskTypes", oaTaskTypes);
+        //List<Integer> oaTaskTypes = oaTaskAdminService.adminTypes(ShiroHelper.getCurrentUserId());
+        //modelMap.put("oaTaskTypes", oaTaskTypes);
 
         return "oa/oaTask/oaTask_au";
     }
@@ -223,7 +218,7 @@ public class OaTaskController extends OaBaseController {
             return failed("附件不能为空。");
         }
 
-        oaTaskService.checkAuth(taskId, null);
+        oaTaskService.checkAuth(taskId);
 
         for (MultipartFile file : files) {
 
@@ -259,7 +254,7 @@ public class OaTaskController extends OaBaseController {
         OaTaskFile oaTaskFile = oaTaskFileMapper.selectByPrimaryKey(id);
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(oaTaskFile.getTaskId());
-        oaTaskService.checkAuth(oaTask.getId(), null);
+        oaTaskService.checkAuth(oaTask.getId());
 
         oaTaskFileMapper.deleteByPrimaryKey(id);
         logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));

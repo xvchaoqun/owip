@@ -74,7 +74,7 @@ public class OaTaskUserController extends OaBaseController {
                                 Integer pageSize,
                                 Integer pageNo) throws IOException {
 
-        oaTaskService.checkAuth(taskId, null);
+        oaTaskService.checkAuth(taskId);
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -89,8 +89,7 @@ public class OaTaskUserController extends OaBaseController {
                 example.createCriteria().andIsDeleteEqualTo(false);
         example.setOrderByClause("sort_order asc");
 
-        OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(ShiroHelper.getCurrentUserId());
-        Boolean showAll = BooleanUtils.isTrue(oaTaskAdmin!=null && oaTaskAdmin.getShowAll());
+        Boolean showAll = ShiroHelper.isPermitted("oaTaskShowAll:*");
 
         if (!showAll) {
             criteria.andTaskUserIdEqualTo(ShiroHelper.getCurrentUserId());
@@ -186,7 +185,7 @@ public class OaTaskUserController extends OaBaseController {
     public Map do_oaTaskUser_back(int id) {
 
         OaTaskUser oaTaskUser = oaTaskUserMapper.selectByPrimaryKey(id);
-        oaTaskService.checkAuth(oaTaskUser.getTaskId(), null);
+        oaTaskService.checkAuth(oaTaskUser.getTaskId());
 
         oaTaskUserService.back(id);
 
@@ -203,7 +202,7 @@ public class OaTaskUserController extends OaBaseController {
         int taskId = oaTaskUser.getTaskId();
         int userId = oaTaskUser.getUserId();
 
-        oaTaskService.checkAuth(taskId, null);
+        oaTaskService.checkAuth(taskId);
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         modelMap.put("oaTask", oaTask);

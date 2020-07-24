@@ -7,13 +7,13 @@
         <!-- #section:pages/inbox -->
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
-                <li class="<c:if test="${status==0}">active</c:if>">
-                    <a href="?status=0"><i
+                <li class="<c:if test="${status==0}">active</c:if> applySelfLi" data-status="0">
+                    <a<%-- href="?status=0"--%>><i
                             class="green ace-icon fa fa-clock-o bigger-120"></i>未完成审批</a>
                 </li>
 
-                <li class="<c:if test="${status==1}">active</c:if>">
-                    <a href="?status=1"><i
+                <li class="<c:if test="${status==1}">active</c:if> applySelfLi" data-status="1">
+                    <a<%-- href="?status=1"--%>><i
                             class="orange ace-icon fa fa-check-square-o bigger-120"></i>已完成审批</a>
                 </li>
             </ul>
@@ -98,3 +98,11 @@
 </div>
 <!-- /.row -->
 <!-- PAGE CONTENT ENDS -->
+<script>
+
+    $("#myTab4 .applySelfLi").click(function () {
+
+        $("#page-content").load("${ctx}/m/abroad/applySelf_page?status="+$(this).data("status"));
+    });
+
+</script>

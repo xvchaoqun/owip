@@ -1139,4 +1139,24 @@ public class CadreController extends BaseController {
 
         return resultMap;
     }
+
+    // 根据单位、行政级别批量排序
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/batchSortByAdminLevel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchSortByAdminLevel(byte status, HttpServletRequest request) {
+
+        cadreService.batchSortByAdminLevel(status);
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 根据单位、行政级别批量排序
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/batchSortByUnit", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchSortByUnit(byte status, HttpServletRequest request) {
+
+        cadreService.batchSortByUnit(status);
+        return success(FormUtils.SUCCESS);
+    }
 }

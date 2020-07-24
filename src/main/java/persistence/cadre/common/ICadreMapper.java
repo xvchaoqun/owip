@@ -233,6 +233,19 @@ public interface ICadreMapper {
     @Update("delete cp.* from cadre_party cp, base_meta_type bmt " +
             "where cp.user_id=#{userId} and cp.class_id=bmt.id and bmt.bool_attr=#{isCrowd}")
     int deleteCadreParty(@Param("userId")Integer userId, @Param("isCrowd")boolean isCrowd);
+
+    //清空临时表
+    @Update("truncate table tmp_sort_cadre")
+    public void empetTem();
+
+    //根据单位顺序、行政级别顺序，插入临时数据库
+    public int batchSortByAdminLevel(@Param("status")int status);
+
+    // 根据单位顺序、岗位顺序，插入临时数据库
+    public int batchSortByUnit(@Param("status")int status);
+
+    //更新临时表的排序字段,并根据临时表的排序更新干部库的排序
+    public void updateCadreByTem(@Param("count")int count);
 }
 
 

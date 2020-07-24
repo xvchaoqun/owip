@@ -7,8 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
+import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 import sys.utils.NumberUtils;
 
@@ -23,7 +25,7 @@ public class OaTaskService extends OaBaseMapper {
     @Autowired
     private OaTaskUserService oaTaskUserService;
     @Autowired
-    private OaTaskAdminService oaTaskAdminService;
+    private SysUserService sysUserService;
 
     // 任务附件
     public List<OaTaskFile> getTaskFiles(int taskId) {
@@ -39,7 +41,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void insertSelective(OaTask record) {
 
-        checkAuth(null, record.getType());
+        checkAuth(null);
 
         record.setUserId(ShiroHelper.getCurrentUserId());
         record.setStatus(OaConstants.OA_TASK_STATUS_INIT);
@@ -54,7 +56,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void del(Integer id) {
 
-        checkAuth(id, null);
+        checkAuth(id);
         oaTaskMapper.deleteByPrimaryKey(id);
     }
 
@@ -65,7 +67,7 @@ public class OaTaskService extends OaBaseMapper {
 
         for (Integer id : ids) {
 
-            checkAuth(id, null);
+            checkAuth(id);
 
             OaTask record = new OaTask();
             record.setId(id);
@@ -87,7 +89,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void updateTaskUsers(int taskId, List<TaskUser> taskUsers) {
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         // 先删除未选择的任务对象（假删除），如果存在的话
         {
@@ -167,7 +169,7 @@ public class OaTaskService extends OaBaseMapper {
 
         for (Integer id : ids) {
 
-            checkAuth(id, null);
+            checkAuth(id);
 
             OaTask record = new OaTask();
             record.setId(id);
@@ -189,7 +191,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(OaTask record) {
 
-        checkAuth(record.getId(), record.getType());
+        checkAuth(record.getId());
 
         record.setType(null);
         oaTaskMapper.updateByPrimaryKeySelective(record);
@@ -208,7 +210,7 @@ public class OaTaskService extends OaBaseMapper {
     @Transactional
     public void finish(int taskId, boolean isFinish) {
 
-        checkAuth(taskId, null);
+        checkAuth(taskId);
 
         /*OaTaskUserExample example = new OaTaskUserExample();
         example.createCriteria().andTaskIdEqualTo(taskId)
@@ -244,18 +246,8 @@ public class OaTaskService extends OaBaseMapper {
         updateByPrimaryKeySelective(record);
 
         if (share) {
-            OaTaskAdmin oaTaskAdmin = oaTaskAdminMapper.selectByPrimaryKey(userId);
-            if (oaTaskAdmin == null) {
-                oaTaskAdmin = new OaTaskAdmin();
-                oaTaskAdmin.setUserId(userId);
-                oaTaskAdmin.setTypes(oaTask.getType() + "");
-                oaTaskAdminService.insertSelective(oaTaskAdmin);
-            } else {
-                Set<Integer> typeSet = NumberUtils.toIntSet(oaTaskAdmin.getTypes(), ",");
-                typeSet.add(oaTask.getType());
-                oaTaskAdmin.setTypes(StringUtils.join(typeSet, ","));
-                oaTaskAdminService.updateByPrimaryKeySelective(oaTaskAdmin);
-            }
+
+            sysUserService.addRole(userId, RoleConstants.ROLE_OA_ADMIN);
         }
     }
 }

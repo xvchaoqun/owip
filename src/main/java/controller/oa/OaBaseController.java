@@ -25,8 +25,6 @@ public class OaBaseController extends OaBaseMapper implements HttpResponseMethod
     @Autowired
     protected OaTaskService oaTaskService;
     @Autowired
-    protected OaTaskAdminService oaTaskAdminService;
-    @Autowired
     protected OaTaskUserService oaTaskUserService;
     @Autowired
     protected OaTaskRemindService oaTaskRemindService;

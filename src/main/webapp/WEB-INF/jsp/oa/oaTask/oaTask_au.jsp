@@ -20,38 +20,15 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><c:if test="${fn:length(oaTaskTypes)>1}"><span
                             class="star">*</span></c:if>工作类型</label>
-                    <c:if test="${fn:length(oaTaskTypes)==1}">
-                        <div class="col-xs-6 label-text">
-                                ${cm:getMetaType(oaTaskTypes[0]).name}
-                            <input type="hidden" name="type" value="${oaTaskTypes[0]}">
-                        </div>
-                    </c:if>
-                    <c:if test="${fn:length(oaTaskTypes)>1}">
-                        <c:if test="${empty oaTask}">
-                            <div class="col-xs-6">
-                                <select required class="form-control" name="type"
-                                        data-rel="select2"
-                                        data-width="150"
-                                        data-placeholder="请选择">
-                                    <option></option>
-                                    <c:forEach items="${oaTaskTypes}" var="oaTaskType">
-                                        <c:set var="_type" value="${cm:getMetaType(oaTaskType)}"/>
-                                        <option value="${_type.id}">${_type.name}</option>
-                                    </c:forEach>
-                                </select>
-                                <script>
-                                    $("#modalForm select[name=type]").val('${oaTask.type}');
-                                </script>
-                            </div>
-                        </c:if>
-                        <c:if test="${not empty oaTask}">
-                            <div class="col-xs-6 label-text">
-                                    ${cm:getMetaType(oaTask.type).name}
-                                <input type="hidden" name="type" value="${oaTask.type}">
-                            </div>
-                        </c:if>
-                    </c:if>
+                    <select class="col-xs-6" required name="type" data-width="270"
+                            data-rel="select2" data-placeholder="请选择">
+                        <option></option>
+                        <c:import url="/metaTypes?__code=mc_oa_task_type"/>
+                    </select>
                 </div>
+                <script>
+                    $("#modalForm select[name=type]").val('${oaTask.type}');
+                </script>
                 <div class="form-group">
                     <label class="col-xs-2 control-label"><span class="star">*</span>标题</label>
 

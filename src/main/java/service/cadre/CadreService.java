@@ -618,4 +618,22 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         cadreAdLogService.addLog(cadreId, "更换工号" + oldCode + "->" + newCode + "，" + remark,
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
     }
+
+    @Transactional
+    public void batchSortByAdminLevel(byte status){
+
+        //清空临时表
+        iCadreMapper.empetTem();
+        int count = iCadreMapper.batchSortByAdminLevel(status);
+        iCadreMapper.updateCadreByTem(count);
+    }
+
+    @Transactional
+    public void batchSortByUnit(byte status){
+
+        //清空临时表
+        iCadreMapper.empetTem();
+        int count = iCadreMapper.batchSortByUnit(status);
+        iCadreMapper.updateCadreByTem(count);
+    }
 }
