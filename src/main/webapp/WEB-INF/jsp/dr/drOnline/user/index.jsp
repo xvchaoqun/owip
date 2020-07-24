@@ -10,53 +10,9 @@
 <head>
     <title>${_p_drSiteName}</title>
     <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
-
-    <style>
-        h1[id], h2[id] {
-            padding-top: 95px;
-            margin-top: -95px;
-        }
-        body{
-            background-color: inherit;
-        }
-
-        .navbar-header .nav {
-            top: 35px;
-            position: relative;
-        }
-
-        .navbar-header .nav a {
-            color: white;
-        }
-
-        .navbar-header .nav > li > a:hover {
-            color: #0d43fa;
-        }
-
-        #candidateForm .table td, #candidateForm .table th {
-            vertical-align: middle;
-        }
-
-        #candidateForm td.post-name {
-            text-align: left !important;
-            font-size: x-large;
-            background-color: #d9edf7;
-        }
-
-        #candidateForm td.realname {
-            text-align: center;
-            font-weight: bolder;
-            font-size: larger;
-            width: 250px;
-        }
-
-        #candidateForm tr.other .realname {
-            font-weight: inherit;
-
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/dr.css"/>
 </head>
-<body>
+<body style="background-color: inherit;">
 <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container" id="navbar-container">
         <div class="navbar-header" style="width: 100%">
@@ -132,14 +88,16 @@
                  style="width:800px;margin: 0 auto 5px;font-size: larger;">
                 ${drOnline.name}
             </div>
-            <form id="candidateForm" method="post" action="${ctx}/user/dr/doTempSave">
+            <form id="candidateForm" method="post" action="${ctx}/user/dr/submit">
                 <input type="hidden" name="isSubmit" value="0">
                 <table class="table table-bordered table-unhover2" style="width:800px;margin: 0 auto;">
                     <tbody>
-                    <c:forEach items="${postViews}" var="post">
+                    <c:forEach items="${posts}" var="post">
                         <c:set var="realnameSet" value="${tempResult.realnameSetMap.get(post.id)}"/>
                         <tr>
-                            <td colspan="2" class="post-name">${post.name}</td>
+                            <td colspan="2" class="post-name">
+                             ${post.name}<c:if test="${post.minCount>0}"><span style="font-size: smaller">（最少推荐人数：${post.minCount}人）</span></c:if>
+                            </td>
                         </tr>
                         <c:set var="candidates" value="${candidateMap.get(post.id)}"/>
                         <c:set var="candidateNum" value="${fn:length(candidates)}"/>
@@ -148,7 +106,7 @@
                             <c:set var="status" value="${tempResult.candidateMap.get(key)}"/>
                             <c:set var="realname" value="${tempResult.otherMap.get(key)}"/>
                             <tr class="candidate">
-                                <td class="realname"><span class="star">*</span> ${candidate.realname}</td>
+                                <td class="realname">${candidate.realname}</td>
                                 <td>
                                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                                         <input postId="${post.id}" type="radio" name="${key}"
@@ -174,9 +132,9 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <c:forEach begin="${candidateNum+1}" end="${post.competitiveNum}" var="idx">
+                        <c:forEach begin="${candidateNum+1}" end="${post.headCount}" var="idx">
                             <tr>
-                                <td class="realname"><span class="star">*</span> 推荐人${idx}</td>
+                                <td class="realname">推荐人${idx}</td>
                                 <td>
                                     <input name="${post.id}_realname_${idx}" type="text" maxlength="10"
                                            value="${cm:getSetValue(realnameSet, idx-candidateNum-1)}">
@@ -187,12 +145,12 @@
                     <tr>
                         <td colspan="2" style="text-align: center">
                             <button class="btn btn-primary" type="button"
-                                    onclick="doTempSave()"><i class="fa fa-save"></i> 暂存
+                                    onclick="_save()"><i class="fa fa-save"></i> 暂存
                             </button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button class="btn btn-success" id="tempSubmit"
                                     type="button"
-                                    onclick="doTempSubmit()"><i class="fa fa-check"></i> 提交
+                                    onclick="_submit()"><i class="fa fa-check"></i> 提交
                             </button>
                         </td>
                     </tr>
@@ -266,14 +224,14 @@
     });
 
     //保存
-    function doTempSave() {
+    function _save() {
         $("input[name=isSubmit]").val(0);
         $("#candidateForm").submit();
         return false;
     }
 
     //提交推荐数据
-    function doTempSubmit() {
+    function _submit() {
 
         bootbox.confirm('<div style="font-size: 16pt;font-weight: bolder;color:red;margin:10px;">\
             <div style="text-indent:2em;margin:50px 10px 10px 10px;">提交之前，请您确认推荐结果无需再做修改。</div>\

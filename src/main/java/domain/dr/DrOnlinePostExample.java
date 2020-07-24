@@ -354,66 +354,6 @@ public class DrOnlinePostExample {
             return (Criteria) this;
         }
 
-        public Criteria andHasCandidateIsNull() {
-            addCriterion("has_candidate is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateIsNotNull() {
-            addCriterion("has_candidate is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateEqualTo(Boolean value) {
-            addCriterion("has_candidate =", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateNotEqualTo(Boolean value) {
-            addCriterion("has_candidate <>", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateGreaterThan(Boolean value) {
-            addCriterion("has_candidate >", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("has_candidate >=", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateLessThan(Boolean value) {
-            addCriterion("has_candidate <", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateLessThanOrEqualTo(Boolean value) {
-            addCriterion("has_candidate <=", value, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateIn(List<Boolean> values) {
-            addCriterion("has_candidate in", values, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateNotIn(List<Boolean> values) {
-            addCriterion("has_candidate not in", values, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_candidate between", value1, value2, "hasCandidate");
-            return (Criteria) this;
-        }
-
-        public Criteria andHasCandidateNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_candidate not between", value1, value2, "hasCandidate");
-            return (Criteria) this;
-        }
-
         public Criteria andCandidatesIsNull() {
             addCriterion("candidates is null");
             return (Criteria) this;
@@ -484,123 +424,123 @@ public class DrOnlinePostExample {
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveIsNull() {
-            addCriterion("has_competitive is null");
+        public Criteria andHeadCountIsNull() {
+            addCriterion("head_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveIsNotNull() {
-            addCriterion("has_competitive is not null");
+        public Criteria andHeadCountIsNotNull() {
+            addCriterion("head_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveEqualTo(Boolean value) {
-            addCriterion("has_competitive =", value, "hasCompetitive");
+        public Criteria andHeadCountEqualTo(Integer value) {
+            addCriterion("head_count =", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveNotEqualTo(Boolean value) {
-            addCriterion("has_competitive <>", value, "hasCompetitive");
+        public Criteria andHeadCountNotEqualTo(Integer value) {
+            addCriterion("head_count <>", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveGreaterThan(Boolean value) {
-            addCriterion("has_competitive >", value, "hasCompetitive");
+        public Criteria andHeadCountGreaterThan(Integer value) {
+            addCriterion("head_count >", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("has_competitive >=", value, "hasCompetitive");
+        public Criteria andHeadCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("head_count >=", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveLessThan(Boolean value) {
-            addCriterion("has_competitive <", value, "hasCompetitive");
+        public Criteria andHeadCountLessThan(Integer value) {
+            addCriterion("head_count <", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveLessThanOrEqualTo(Boolean value) {
-            addCriterion("has_competitive <=", value, "hasCompetitive");
+        public Criteria andHeadCountLessThanOrEqualTo(Integer value) {
+            addCriterion("head_count <=", value, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveIn(List<Boolean> values) {
-            addCriterion("has_competitive in", values, "hasCompetitive");
+        public Criteria andHeadCountIn(List<Integer> values) {
+            addCriterion("head_count in", values, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveNotIn(List<Boolean> values) {
-            addCriterion("has_competitive not in", values, "hasCompetitive");
+        public Criteria andHeadCountNotIn(List<Integer> values) {
+            addCriterion("head_count not in", values, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_competitive between", value1, value2, "hasCompetitive");
+        public Criteria andHeadCountBetween(Integer value1, Integer value2) {
+            addCriterion("head_count between", value1, value2, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andHasCompetitiveNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("has_competitive not between", value1, value2, "hasCompetitive");
+        public Criteria andHeadCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("head_count not between", value1, value2, "headCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumIsNull() {
-            addCriterion("competitive_num is null");
+        public Criteria andMinCountIsNull() {
+            addCriterion("min_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumIsNotNull() {
-            addCriterion("competitive_num is not null");
+        public Criteria andMinCountIsNotNull() {
+            addCriterion("min_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumEqualTo(Integer value) {
-            addCriterion("competitive_num =", value, "competitiveNum");
+        public Criteria andMinCountEqualTo(Integer value) {
+            addCriterion("min_count =", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumNotEqualTo(Integer value) {
-            addCriterion("competitive_num <>", value, "competitiveNum");
+        public Criteria andMinCountNotEqualTo(Integer value) {
+            addCriterion("min_count <>", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumGreaterThan(Integer value) {
-            addCriterion("competitive_num >", value, "competitiveNum");
+        public Criteria andMinCountGreaterThan(Integer value) {
+            addCriterion("min_count >", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("competitive_num >=", value, "competitiveNum");
+        public Criteria andMinCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("min_count >=", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumLessThan(Integer value) {
-            addCriterion("competitive_num <", value, "competitiveNum");
+        public Criteria andMinCountLessThan(Integer value) {
+            addCriterion("min_count <", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumLessThanOrEqualTo(Integer value) {
-            addCriterion("competitive_num <=", value, "competitiveNum");
+        public Criteria andMinCountLessThanOrEqualTo(Integer value) {
+            addCriterion("min_count <=", value, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumIn(List<Integer> values) {
-            addCriterion("competitive_num in", values, "competitiveNum");
+        public Criteria andMinCountIn(List<Integer> values) {
+            addCriterion("min_count in", values, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumNotIn(List<Integer> values) {
-            addCriterion("competitive_num not in", values, "competitiveNum");
+        public Criteria andMinCountNotIn(List<Integer> values) {
+            addCriterion("min_count not in", values, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumBetween(Integer value1, Integer value2) {
-            addCriterion("competitive_num between", value1, value2, "competitiveNum");
+        public Criteria andMinCountBetween(Integer value1, Integer value2) {
+            addCriterion("min_count between", value1, value2, "minCount");
             return (Criteria) this;
         }
 
-        public Criteria andCompetitiveNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("competitive_num not between", value1, value2, "competitiveNum");
+        public Criteria andMinCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("min_count not between", value1, value2, "minCount");
             return (Criteria) this;
         }
 

@@ -129,13 +129,6 @@ public class DrOnlinePostController extends DrBaseController {
 
         Integer id = record.getId();
 
-        if (record.getHasCandidate() == null){
-            record.setHasCandidate(false);
-        }
-        if (record.getHasCompetitive() == null){
-            record.setHasCompetitive(false);
-        }
-
         if(record.getUnitPostId()!=null) {
 
             DrOnlinePostExample example = new DrOnlinePostExample();
@@ -150,6 +143,10 @@ public class DrOnlinePostController extends DrBaseController {
                 throw new OpException("关联岗位重复");
         }
 
+        if (record.getMinCount() > record.getHeadCount()) {
+            return failed("最少推荐人数不能大于最多推荐人数");
+        }
+
         if (id == null) {
 
             drOnlinePostService.insertSelective(record);
@@ -158,8 +155,9 @@ public class DrOnlinePostController extends DrBaseController {
 
             List<DrOnlineCandidate> candidates = drOnlineCandidateService.getByPostId(record.getId());
 
-            if (null != candidates && candidates.size() > record.getCompetitiveNum())
-                throw new OpException("最大推荐人数不能少于已有候选人数" + candidates.size() + "！");
+            if (null != candidates && candidates.size() > record.getHeadCount()) {
+                return failed("最多推荐人数不能少于已有候选人数，请先删除候选人");
+            }
 
             drOnlinePostService.updateByPrimaryKeySelective(record);
             logger.info(log( LogConstants.LOG_DR, "更新推荐职务：{0}", record.getId()));

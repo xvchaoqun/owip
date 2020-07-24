@@ -1,5 +1,12 @@
 
 
+ALTER TABLE `dr_online_post`
+	CHANGE COLUMN `competitive_num` `head_count` INT(10) UNSIGNED NOT NULL COMMENT '候选人数量或推荐人数' AFTER `candidates`,
+	ADD COLUMN `min_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最少推荐人数' AFTER `max_count`,
+	DROP COLUMN `has_candidate`,
+	DROP COLUMN `has_competitive`;
+
+
 2020.7.22
 北化工 -- 北师大
 

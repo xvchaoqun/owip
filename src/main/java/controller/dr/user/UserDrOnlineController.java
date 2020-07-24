@@ -145,8 +145,8 @@ public class UserDrOnlineController extends DrBaseController {
             modelMap.put("inspector", inspector);
             modelMap.put("drOnline", inspector.getDrOnline());
 
-            List<DrOnlinePost> postViews = drOnlinePostService.getNeedRecommend(inspector);
-            modelMap.put("postViews", postViews);
+            List<DrOnlinePost> posts = drOnlinePostService.getNeedRecommend(inspector);
+            modelMap.put("posts", posts);
             Map<Integer, List<DrOnlineCandidate>> candidateMap =  drOnlineCandidateService.findAll(onlineId);
             modelMap.put("candidateMap", candidateMap);
 
@@ -220,9 +220,9 @@ public class UserDrOnlineController extends DrBaseController {
     }
 
     // 处理-保存/提交推荐数据
-    @RequestMapping(value = "/doTempSave", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public Map tempSaveSurvey(boolean isMobile, boolean isSubmit, HttpServletRequest request) throws Exception {
+    public Map submit(boolean isMobile, boolean isSubmit, HttpServletRequest request) throws Exception {
 
         DrOnlineInspector inspector = DrHelper.getSessionInspector(request);
         int inspectorId = inspector.getId();
@@ -239,13 +239,16 @@ public class UserDrOnlineController extends DrBaseController {
         realnameSetMap.clear();
 
         // 推荐结果数据
-        List<DrOnlinePost> postViews = drOnlinePostService.getNeedRecommend(inspector);
+        List<DrOnlinePost> posts = drOnlinePostService.getNeedRecommend(inspector);
         Map<Integer, List<DrOnlineCandidate>> candidateListMap =  drOnlineCandidateService.findAll(onlineId);
 
-        for (DrOnlinePost post : postViews) {
+        for (DrOnlinePost post : posts) {
 
             int postId = post.getId();
+            int headCount = post.getHeadCount();
+            int minCount = post.getMinCount();
             List<DrOnlineCandidate> candidateList = candidateListMap.get(postId);
+            int recommendCount = 0; // 已选“同意”或已填推荐人姓名的数量
 
             // 有候选人的推荐结果
             for (DrOnlineCandidate candidate : candidateList) {
@@ -254,9 +257,6 @@ public class UserDrOnlineController extends DrBaseController {
                 String radioName = postId + "_" + userId;
                 String value = request.getParameter(radioName);
                 Byte radioValue = (value==null)?null:Byte.valueOf(value);
-                if(isSubmit && radioValue==null){
-                    return failed("存在未完成推荐的职务（{0}）。", post.getName());
-                }
 
                 if(radioValue!=null) {
 
@@ -267,27 +267,24 @@ public class UserDrOnlineController extends DrBaseController {
 
                     candidateMap.put(radioName, radioValue);
 
-                    if(radioValue!=DrConstants.RESULT_STATUS_AGREE){
+                    if(radioValue==DrConstants.RESULT_STATUS_AGREE){
+                        recommendCount ++;
+                    }else{
 
-                        String otherRealname = request.getParameter(radioName+"_realname");
-                        /*if(isSubmit && StringUtils.isBlank(otherRealname)){
-                            return failed("存在未完成推荐的职务（{0}）。", post.getName());
-                        }*/
-                        if(otherRealname!=null) { // 不同意或弃权时，可另选推荐人，也可不选
+                        String otherRealname = StringUtil.trimAll(request.getParameter(radioName+"_realname"));
+                        if(StringUtils.isNotBlank(otherRealname)) { // 不同意或弃权时，可另选推荐人，也可不选
                             otherMap.put(radioName, otherRealname);
+                            recommendCount ++;
                         }
                     }
                 }
             }
 
             // 无候选人的推荐结果
-            for (int i = candidateList.size()+1; i <= post.getCompetitiveNum(); i++) {
+            for (int i = candidateList.size()+1; i <= post.getHeadCount(); i++) {
 
                 String radioName = postId + "_realname_" + i;
                 String realname = StringUtil.trimAll(request.getParameter(radioName));
-                if(isSubmit && StringUtils.isBlank(realname)){
-                    return failed("存在未完成推荐的职务（{0}）。", post.getName());
-                }
 
                 if(StringUtils.isNotBlank(realname)) {
                     Set<String> realnameSet = realnameSetMap.get(postId);
@@ -300,6 +297,16 @@ public class UserDrOnlineController extends DrBaseController {
                         return failed("推荐人姓名不能相同（{0}）。", post.getName());
                     }
                     realnameSet.add(realname);
+                    recommendCount ++;
+                }
+            }
+
+            if(isSubmit) {
+                if (recommendCount < minCount) {
+                    return failed("{0}最小推荐人数为{1}人", post.getName(), minCount);
+                }
+                if (recommendCount > headCount) {
+                    return failed("{0}最多推荐人数为{1}人", post.getName(), headCount);
                 }
             }
         }

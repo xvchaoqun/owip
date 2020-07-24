@@ -253,7 +253,7 @@ public class DrExportService extends DrBaseMapper {
                 cellStyle = cell.getCellStyle();
                 str = cell.getStringCellValue()
                         .replace("post", postView.getName())
-                        .replace("headcount", postView.getCompetitiveNum() + "");
+                        .replace("headcount", postView.getHeadCount() + "");
             }else {
                 //合并单元格
                 CellRangeAddress cra = new CellRangeAddress(rowCount - 1,rowCount - 1,0,2);
@@ -262,7 +262,7 @@ public class DrExportService extends DrBaseMapper {
                     cell = row.getCell(i);
                     cell.setCellStyle(cellStyle);
                 }
-                str = "推荐职务：" + postView.getName() + "（" + postView.getCompetitiveNum() + "名）";
+                str = "推荐职务：" + postView.getName() + "（" + postView.getHeadCount() + "名）";
             }
             cell.setCellValue(str);
             //设置每一个岗位的第二行

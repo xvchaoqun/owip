@@ -50,12 +50,10 @@
 	line-height:70px;
 	margin: 0;
 }
-
 .login_body .logo img{
 	max-width: 400px;
 	max-height: 70px;
 }
-
 .login_top .txt
 {
 	height:70px;
@@ -67,7 +65,6 @@
 	margin-left: 30px;
 }
 
-
 .login_bg_mid
 {
 	background-color:rgba(0,0,0,0);/*透明*/
@@ -75,7 +72,6 @@
 	margin-bottom: 0px;
 	background-repeat: no-repeat;
 }
-
 .login_bg_mid_div
 {
 	float: right;
@@ -92,61 +88,39 @@
 	text-align:center;
 }
 
-.m_dr h1[id],h2[id]{
-	padding-top:95px;
-	margin-top:-95px;
-}
-.m_dr #survey th{
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	width: 50%;
-	height: 50px;
-}
-.m_dr #survey td{
-	margin: 0px;
-	padding: 0px;
-	text-align: center;
-	width: 50%;
-	height: 50px;
-}
-.m_dr #survey table{
-	background-color: white;
-	border: 1px black;
-}
-.m_dr .changePasswd .td1{
-	width: 100%;
-	text-align: right;
-}
-.m_dr .postName{
-	font-size: 17px;
+.navbar-header .nav {
+            top: 35px;
+            position: relative;
 }
 
-.component .filler {
-	font-family: "Blokk", Arial, sans-serif;
-	color: #d3d3d3;
+.navbar-header .nav a {
+	color: white;
 }
-table {
-	border-collapse: collapse;
-	margin-bottom: 3em;
-	/*  width: 100%; */
-	background: #fff;
+
+.navbar-header .nav > li > a:hover {
+	color: #0d43fa;
 }
-td, th {
-	/* padding: 0.75em 1.5em; */
-	text-align: left;
+
+#candidateForm .table td, #candidateForm .table th {
+	vertical-align: middle;
 }
-td.err {
-	background-color: #e992b9;
-	color: #fff;
-	font-size: 0.75em;
+
+#candidateForm td.post-name {
+	text-align: left !important;
+	font-size: x-large;
+	background-color: #d9edf7;
+}
+
+#candidateForm td.realname {
 	text-align: center;
-	line-height: 1;
+	font-weight: bolder;
+	font-size: larger;
+	width: 250px;
 }
 
-td.user-name {
-	text-transform: capitalize;
-}
+#candidateForm tr.other .realname {
+	font-weight: inherit;
 
+}
 
 

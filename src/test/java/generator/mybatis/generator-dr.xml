@@ -73,9 +73,7 @@
         <table tableName="dr_online_post" domainObjectName="dr.DrOnlinePost" mapperName="dr.DrOnlinePostMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="dr_online_post_view" domainObjectName="dr.DrOnlinePostView" mapperName="dr.DrOnlinePostViewMapper">
-            <columnOverride column="exist_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+
         <!--<table tableName="dr_online_result" domainObjectName="dr.DrOnlineResult" mapperName="dr.DrOnlineResultMapper">
         </table>-->
 

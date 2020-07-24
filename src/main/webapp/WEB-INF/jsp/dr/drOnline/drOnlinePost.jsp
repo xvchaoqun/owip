@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/dr/drOnlinePost_data?callback=?&cls=2&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
                 { label: '职务名称',name: 'name', width: 350, frozen: true, align:'left'},
-                { label: '最多推荐<br/>人数',name: 'competitiveNum',width:75},
+                { label: '最多推荐<br/>人数',name: 'headCount',width:75},
                 { label: '推荐类型',name: 'drOnline.type', frozen: true, width: 105, formatter: $.jgrid.formatter.MetaType},
                 { label: '关联岗位',name: 'unitPost.name', width: 350, align:'left'},
                 { label: '岗位编码',name: 'unitPost.code', width: 120},

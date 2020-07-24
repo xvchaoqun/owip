@@ -39,16 +39,17 @@ pageEncoding="UTF-8" %>
                 { label: '推荐职务',name: 'name', width: 250, align:'left', frozen: true},
                 { label:'排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url:'${ctx}/dr/drOnlinePost_changeOrder'},frozen:true },
-                { label: '最多推荐<br/>人数',name: 'competitiveNum',width:70, frozen: true},
+                { label: '最多推荐<br/>人数',name: 'headCount',width:70, frozen: true},
+                { label: '最少推荐<br/>人数',name: 'minCount',width:70, frozen: true},
                 { label: '候选人',name: 'users', formatter: function (cellvalue, options, rowObject) {
                     var count = 0;
                     if($.trim(rowObject.candidates)!=''){
                         count = $.trim(rowObject.candidates).split(',').length;
                     }
-                    var str ='<button class="jqOpenViewBtn btn btn-info btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-edit"></i>编辑({1})</button>'
+                    var str ='<button class="jqOpenViewBtn btn btn-primary btn-xs" data-url="${ctx}/dr/drOnlineCandidate_page?postId={0}"><i class="fa fa-users"></i> 查看({1})</button>'
                         .format(rowObject.id, count);
                     return str;
-                    }, width: 90,frozen: true},
+                    }, width: 90},
                 { label: '关联岗位',name: 'unitPost.name', width: 180, align:'left'},
                 { label: '岗位编码',name: 'unitPost.code', width: 120},
                 { label: '岗位级别',name: 'unitPost.adminLevel', width: 90, formatter: $.jgrid.formatter.MetaType},

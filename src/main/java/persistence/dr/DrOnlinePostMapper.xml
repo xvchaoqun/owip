@@ -6,10 +6,9 @@
     <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="online_id" jdbcType="INTEGER" property="onlineId" />
-    <result column="has_candidate" jdbcType="BIT" property="hasCandidate" />
     <result column="candidates" jdbcType="VARCHAR" property="candidates" />
-    <result column="has_competitive" jdbcType="BIT" property="hasCompetitive" />
-    <result column="competitive_num" jdbcType="INTEGER" property="competitiveNum" />
+    <result column="head_count" jdbcType="INTEGER" property="headCount" />
+    <result column="min_count" jdbcType="INTEGER" property="minCount" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -72,8 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_post_id, name, online_id, has_candidate, candidates, has_competitive, competitive_num, 
-    sort_order, remark
+    id, unit_post_id, name, online_id, candidates, head_count, min_count, sort_order, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.dr.DrOnlinePostExample" resultMap="BaseResultMap">
     select
@@ -110,13 +109,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into dr_online_post (unit_post_id, name, online_id, 
-      has_candidate, candidates, has_competitive, 
-      competitive_num, sort_order, remark
-      )
+      candidates, head_count, min_count, 
+      sort_order, remark)
     values (#{unitPostId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{onlineId,jdbcType=INTEGER}, 
-      #{hasCandidate,jdbcType=BIT}, #{candidates,jdbcType=VARCHAR}, #{hasCompetitive,jdbcType=BIT}, 
-      #{competitiveNum,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{candidates,jdbcType=VARCHAR}, #{headCount,jdbcType=INTEGER}, #{minCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.dr.DrOnlinePost">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -133,17 +130,14 @@
       <if test="onlineId != null">
         online_id,
       </if>
-      <if test="hasCandidate != null">
-        has_candidate,
-      </if>
       <if test="candidates != null">
         candidates,
       </if>
-      <if test="hasCompetitive != null">
-        has_competitive,
+      <if test="headCount != null">
+        head_count,
       </if>
-      <if test="competitiveNum != null">
-        competitive_num,
+      <if test="minCount != null">
+        min_count,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -162,17 +156,14 @@
       <if test="onlineId != null">
         #{onlineId,jdbcType=INTEGER},
       </if>
-      <if test="hasCandidate != null">
-        #{hasCandidate,jdbcType=BIT},
-      </if>
       <if test="candidates != null">
         #{candidates,jdbcType=VARCHAR},
       </if>
-      <if test="hasCompetitive != null">
-        #{hasCompetitive,jdbcType=BIT},
+      <if test="headCount != null">
+        #{headCount,jdbcType=INTEGER},
       </if>
-      <if test="competitiveNum != null">
-        #{competitiveNum,jdbcType=INTEGER},
+      <if test="minCount != null">
+        #{minCount,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -203,17 +194,14 @@
       <if test="record.onlineId != null">
         online_id = #{record.onlineId,jdbcType=INTEGER},
       </if>
-      <if test="record.hasCandidate != null">
-        has_candidate = #{record.hasCandidate,jdbcType=BIT},
-      </if>
       <if test="record.candidates != null">
         candidates = #{record.candidates,jdbcType=VARCHAR},
       </if>
-      <if test="record.hasCompetitive != null">
-        has_competitive = #{record.hasCompetitive,jdbcType=BIT},
+      <if test="record.headCount != null">
+        head_count = #{record.headCount,jdbcType=INTEGER},
       </if>
-      <if test="record.competitiveNum != null">
-        competitive_num = #{record.competitiveNum,jdbcType=INTEGER},
+      <if test="record.minCount != null">
+        min_count = #{record.minCount,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -232,10 +220,9 @@
       unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       online_id = #{record.onlineId,jdbcType=INTEGER},
-      has_candidate = #{record.hasCandidate,jdbcType=BIT},
       candidates = #{record.candidates,jdbcType=VARCHAR},
-      has_competitive = #{record.hasCompetitive,jdbcType=BIT},
-      competitive_num = #{record.competitiveNum,jdbcType=INTEGER},
+      head_count = #{record.headCount,jdbcType=INTEGER},
+      min_count = #{record.minCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -254,17 +241,14 @@
       <if test="onlineId != null">
         online_id = #{onlineId,jdbcType=INTEGER},
       </if>
-      <if test="hasCandidate != null">
-        has_candidate = #{hasCandidate,jdbcType=BIT},
-      </if>
       <if test="candidates != null">
         candidates = #{candidates,jdbcType=VARCHAR},
       </if>
-      <if test="hasCompetitive != null">
-        has_competitive = #{hasCompetitive,jdbcType=BIT},
+      <if test="headCount != null">
+        head_count = #{headCount,jdbcType=INTEGER},
       </if>
-      <if test="competitiveNum != null">
-        competitive_num = #{competitiveNum,jdbcType=INTEGER},
+      <if test="minCount != null">
+        min_count = #{minCount,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -280,10 +264,9 @@
     set unit_post_id = #{unitPostId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       online_id = #{onlineId,jdbcType=INTEGER},
-      has_candidate = #{hasCandidate,jdbcType=BIT},
       candidates = #{candidates,jdbcType=VARCHAR},
-      has_competitive = #{hasCompetitive,jdbcType=BIT},
-      competitive_num = #{competitiveNum,jdbcType=INTEGER},
+      head_count = #{headCount,jdbcType=INTEGER},
+      min_count = #{minCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

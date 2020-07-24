@@ -2,7 +2,6 @@ package service.dr;
 
 import domain.dr.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sys.utils.NumberUtils;
@@ -11,9 +10,6 @@ import java.util.*;
 
 @Service
 public class DrOnlinePostService extends DrBaseMapper {
-
-    @Autowired
-    private DrOnlineCandidateService drOnlineCandidateService;
 
     @Transactional
     public void insertSelective(DrOnlinePost record){
@@ -152,7 +148,7 @@ public class DrOnlinePostService extends DrBaseMapper {
 
             Set<Integer> candidateIds = NumberUtils.toIntSet(post.getCandidates(), ",");
 
-            return candidateIds.size() < post.getCompetitiveNum();
+            return candidateIds.size() < post.getHeadCount();
         }
 
         return false;
@@ -163,7 +159,7 @@ public class DrOnlinePostService extends DrBaseMapper {
     public void updateCandidates(Integer postId){
 
         DrOnlineCandidateExample example = new DrOnlineCandidateExample();
-        DrOnlineCandidateExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
+        example.createCriteria().andPostIdEqualTo(postId);
         example.setOrderByClause(" sort_order desc");
         List<DrOnlineCandidate> records = drOnlineCandidateMapper.selectByExample(example);
 
@@ -178,7 +174,6 @@ public class DrOnlinePostService extends DrBaseMapper {
 
         DrOnlinePost post = new DrOnlinePost();
         post.setId(postId);
-        post.setHasCandidate(null != candidates);
         post.setCandidates(candidates);
         updateByPrimaryKeySelective(post);
     }

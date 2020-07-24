@@ -28,13 +28,11 @@ public class DrOnlinePost implements Serializable {
 
     private Integer onlineId;
 
-    private Boolean hasCandidate;
-
     private String candidates;
 
-    private Boolean hasCompetitive;
+    private Integer headCount;
 
-    private Integer competitiveNum;
+    private Integer minCount;
 
     private Integer sortOrder;
 
@@ -74,14 +72,6 @@ public class DrOnlinePost implements Serializable {
         this.onlineId = onlineId;
     }
 
-    public Boolean getHasCandidate() {
-        return hasCandidate;
-    }
-
-    public void setHasCandidate(Boolean hasCandidate) {
-        this.hasCandidate = hasCandidate;
-    }
-
     public String getCandidates() {
         return candidates;
     }
@@ -90,20 +80,20 @@ public class DrOnlinePost implements Serializable {
         this.candidates = candidates == null ? null : candidates.trim();
     }
 
-    public Boolean getHasCompetitive() {
-        return hasCompetitive;
+    public Integer getHeadCount() {
+        return headCount;
     }
 
-    public void setHasCompetitive(Boolean hasCompetitive) {
-        this.hasCompetitive = hasCompetitive;
+    public void setHeadCount(Integer headCount) {
+        this.headCount = headCount;
     }
 
-    public Integer getCompetitiveNum() {
-        return competitiveNum;
+    public Integer getMinCount() {
+        return minCount;
     }
 
-    public void setCompetitiveNum(Integer competitiveNum) {
-        this.competitiveNum = competitiveNum;
+    public void setMinCount(Integer minCount) {
+        this.minCount = minCount;
     }
 
     public Integer getSortOrder() {
