@@ -1,4 +1,4 @@
-package controller.oa;
+package persistence.oa.common;
 
 public class TaskUser {
 

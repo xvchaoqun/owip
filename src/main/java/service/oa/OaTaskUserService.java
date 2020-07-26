@@ -14,7 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import persistence.oa.common.IOaTaskUserMapper;
+import persistence.oa.common.IOaTaskMapper;
 import service.global.CacheHelper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -38,7 +38,7 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private IOaTaskUserMapper iOaTaskUserMapper;
+    private IOaTaskMapper iOaTaskMapper;
     @Autowired
     private CacheHelper cacheHelper;
 
@@ -500,12 +500,12 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
     @Cacheable(value = "OaTaskUserCount", key = "#userId")
     public int getTaskUserCount(Integer userId){
 
-        return iOaTaskUserMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
+        return iOaTaskMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
     }
 
     @CachePut(value = "OaTaskUserCount", key = "#userId")
     public int updateTaskUserCount(Integer userId){
 
-        return iOaTaskUserMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
+        return iOaTaskMapper.countTask(OaConstants.OA_TASK_STATUS_PUBLISH,userId);
     }
 }

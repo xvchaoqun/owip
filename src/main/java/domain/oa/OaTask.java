@@ -1,11 +1,19 @@
 package domain.oa;
 
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class OaTask implements Serializable {
+
+     public SysUserView getUser(){
+
+        return CmTag.getUserById(userId);
+    }
+
     private Integer id;
 
     private Integer userId;
@@ -28,6 +36,14 @@ public class OaTask implements Serializable {
     private String msg;
 
     private Byte status;
+
+    private Integer fileCount;
+
+    private Integer userCount;
+
+    private Integer reportCount;
+
+    private Integer finishCount;
 
     private Boolean isPublish;
 
@@ -127,6 +143,38 @@ public class OaTask implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getFileCount() {
+        return fileCount;
+    }
+
+    public void setFileCount(Integer fileCount) {
+        this.fileCount = fileCount;
+    }
+
+    public Integer getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(Integer userCount) {
+        this.userCount = userCount;
+    }
+
+    public Integer getReportCount() {
+        return reportCount;
+    }
+
+    public void setReportCount(Integer reportCount) {
+        this.reportCount = reportCount;
+    }
+
+    public Integer getFinishCount() {
+        return finishCount;
+    }
+
+    public void setFinishCount(Integer finishCount) {
+        this.finishCount = finishCount;
     }
 
     public Boolean getIsPublish() {

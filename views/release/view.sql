@@ -414,7 +414,7 @@ where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmp
 ) t, pmd_order po_check WHERE  po_check.member_id=t.member_id and po_check.is_success=1 ;
 
 
-DROP VIEW IF EXISTS `oa_task_view`;
+/*DROP VIEW IF EXISTS `oa_task_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
 AS select ot.*, count(distinct otf.id) as file_count,
 -- 任务对象数量
@@ -423,7 +423,7 @@ count(distinct otu.id) as user_count,
 count(distinct otu2.id) as finish_count from oa_task ot
 left join oa_task_file otf on otf.task_id=ot.id
 left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0
-left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id;
+left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id;*/
 
 DROP VIEW IF EXISTS `oa_task_user_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS

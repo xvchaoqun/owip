@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.oa.OaTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.oa.*;
+import persistence.oa.common.IOaTaskMapper;
 import service.CoreBaseMapper;
 import shiro.ShiroHelper;
 import sys.utils.NumberUtils;
@@ -19,8 +20,6 @@ public class OaBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected OaTaskMapper oaTaskMapper;
     @Autowired(required = false)
-    protected OaTaskViewMapper oaTaskViewMapper;
-    @Autowired(required = false)
     protected OaTaskFileMapper oaTaskFileMapper;
     @Autowired(required = false)
     protected OaTaskMsgMapper oaTaskMsgMapper;
@@ -32,6 +31,8 @@ public class OaBaseMapper extends CoreBaseMapper {
     protected OaTaskUserViewMapper oaTaskUserViewMapper;
     @Autowired(required = false)
     protected OaTaskUserFileMapper oaTaskUserFileMapper;
+    @Autowired(required = false)
+    protected IOaTaskMapper iOaTaskMapper;
 
     // 检查操作权限
     public void checkAuth(Integer taskId) {

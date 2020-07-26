@@ -1,4 +1,45 @@
 
+
+update sys_resource set name='管理所有任务权限', permission='oaTaskShowAll:*', type='function', parent_id=561,
+                        parent_ids='0/1/560/561/', is_leaf=1 where permission='oaTaskAdmin:*';
+
+update sys_resource set name='任务管理' where permission='oaTask:*';
+
+ALTER TABLE `oa_task`
+	ADD COLUMN `user_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务对象数量' AFTER `status`;
+ALTER TABLE `oa_task`
+	ADD COLUMN `file_count` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务附件数量' AFTER `status`,
+	CHANGE COLUMN `user_count` `user_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '任务对象人数' AFTER `file_count`,
+	ADD COLUMN `finish_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '任务对象完成人数' AFTER `user_count`;
+ALTER TABLE `oa_task`
+	ADD COLUMN `report_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已报送人数' AFTER `user_count`;
+
+update oa_task ot,
+(select ot.id, count(distinct otf.id) as file_count,
+-- 任务对象数量
+count(distinct otu.id) as user_count,
+-- 已报送数
+count(distinct otu3.id) as report_count,
+-- 已完成数
+count(distinct otu2.id) as finish_count from oa_task ot
+left join oa_task_file otf on otf.task_id=ot.id
+left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0
+left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1
+left join oa_task_user otu3 on otu3.task_id = ot.id and otu3.is_delete=0 and otu2.status in (0, 1)
+group by ot.id) tmp
+set ot.file_count=tmp.file_count, ot.user_count=tmp.user_count, ot.finish_count=tmp.finish_count where ot.id=tmp.id;
+
+-- 删除相关类
+drop view oa_task_view;
+-- 删除 controller.oa.TaskUser， persistence.oa.common.IOaTaskUserMapper
+
+update oa_task_admin ta, sys_user u set u.role_ids=concat(u.role_ids,
+  (select id from sys_role where code='role_oa_admin'), ',') where ta.user_id=u.id;
+-- select u.id, u.realname, u.code, u.role_ids, ta.show_all from oa_task_admin ta, sys_user_view u where ta.user_id=u.id;
+-- 删除相关类
+drop table oa_task_admin;
+
+
 2020.7.22
 北化工 -- 北师大
 

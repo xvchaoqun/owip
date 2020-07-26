@@ -13,6 +13,10 @@
     <result column="contact" jdbcType="VARCHAR" property="contact" />
     <result column="msg" jdbcType="VARCHAR" property="msg" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="file_count" jdbcType="INTEGER" property="fileCount" />
+    <result column="user_count" jdbcType="INTEGER" property="userCount" />
+    <result column="report_count" jdbcType="INTEGER" property="reportCount" />
+    <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
     <result column="is_publish" jdbcType="BIT" property="isPublish" />
     <result column="pub_date" jdbcType="DATE" property="pubDate" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
@@ -79,7 +83,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, user_ids, type, name, content, deadline, user_file_count, contact, msg, 
-    status, is_publish, pub_date, is_delete, create_time, ip
+    status, file_count, user_count, report_count, finish_count, is_publish, pub_date, 
+    is_delete, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskExample" resultMap="BaseResultMap">
     select
@@ -118,15 +123,17 @@
     insert into oa_task (user_id, user_ids, type, 
       name, content, deadline, 
       user_file_count, contact, msg, 
-      status, is_publish, pub_date, 
-      is_delete, create_time, ip
-      )
+      status, file_count, user_count, 
+      report_count, finish_count, is_publish, 
+      pub_date, is_delete, create_time, 
+      ip)
     values (#{userId,jdbcType=INTEGER}, #{userIds,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{deadline,jdbcType=TIMESTAMP}, 
       #{userFileCount,jdbcType=INTEGER}, #{contact,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{isPublish,jdbcType=BIT}, #{pubDate,jdbcType=DATE}, 
-      #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
-      )
+      #{status,jdbcType=TINYINT}, #{fileCount,jdbcType=INTEGER}, #{userCount,jdbcType=INTEGER}, 
+      #{reportCount,jdbcType=INTEGER}, #{finishCount,jdbcType=INTEGER}, #{isPublish,jdbcType=BIT}, 
+      #{pubDate,jdbcType=DATE}, #{isDelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTask">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -163,6 +170,18 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="fileCount != null">
+        file_count,
+      </if>
+      <if test="userCount != null">
+        user_count,
+      </if>
+      <if test="reportCount != null">
+        report_count,
+      </if>
+      <if test="finishCount != null">
+        finish_count,
       </if>
       <if test="isPublish != null">
         is_publish,
@@ -210,6 +229,18 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="fileCount != null">
+        #{fileCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCount != null">
+        #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="reportCount != null">
+        #{reportCount,jdbcType=INTEGER},
+      </if>
+      <if test="finishCount != null">
+        #{finishCount,jdbcType=INTEGER},
       </if>
       <if test="isPublish != null">
         #{isPublish,jdbcType=BIT},
@@ -270,6 +301,18 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.fileCount != null">
+        file_count = #{record.fileCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCount != null">
+        user_count = #{record.userCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportCount != null">
+        report_count = #{record.reportCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishCount != null">
+        finish_count = #{record.finishCount,jdbcType=INTEGER},
+      </if>
       <if test="record.isPublish != null">
         is_publish = #{record.isPublish,jdbcType=BIT},
       </if>
@@ -303,6 +346,10 @@
       contact = #{record.contact,jdbcType=VARCHAR},
       msg = #{record.msg,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
+      file_count = #{record.fileCount,jdbcType=INTEGER},
+      user_count = #{record.userCount,jdbcType=INTEGER},
+      report_count = #{record.reportCount,jdbcType=INTEGER},
+      finish_count = #{record.finishCount,jdbcType=INTEGER},
       is_publish = #{record.isPublish,jdbcType=BIT},
       pub_date = #{record.pubDate,jdbcType=DATE},
       is_delete = #{record.isDelete,jdbcType=BIT},
@@ -345,6 +392,18 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="fileCount != null">
+        file_count = #{fileCount,jdbcType=INTEGER},
+      </if>
+      <if test="userCount != null">
+        user_count = #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="reportCount != null">
+        report_count = #{reportCount,jdbcType=INTEGER},
+      </if>
+      <if test="finishCount != null">
+        finish_count = #{finishCount,jdbcType=INTEGER},
+      </if>
       <if test="isPublish != null">
         is_publish = #{isPublish,jdbcType=BIT},
       </if>
@@ -375,6 +434,10 @@
       contact = #{contact,jdbcType=VARCHAR},
       msg = #{msg,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
+      file_count = #{fileCount,jdbcType=INTEGER},
+      user_count = #{userCount,jdbcType=INTEGER},
+      report_count = #{reportCount,jdbcType=INTEGER},
+      finish_count = #{finishCount,jdbcType=INTEGER},
       is_publish = #{isPublish,jdbcType=BIT},
       pub_date = #{pubDate,jdbcType=DATE},
       is_delete = #{isDelete,jdbcType=BIT},

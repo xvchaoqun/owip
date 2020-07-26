@@ -322,6 +322,11 @@ public class OaTaskExample {
             return (Criteria) this;
         }
 
+        public Criteria listCreateOrShareTasks(int userId) {
+            addCriterion("(user_id=" + userId + " or find_in_set(" + userId + ", user_ids))");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;
@@ -839,6 +844,246 @@ public class OaTaskExample {
 
         public Criteria andStatusNotBetween(Byte value1, Byte value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountIsNull() {
+            addCriterion("file_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountIsNotNull() {
+            addCriterion("file_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountEqualTo(Integer value) {
+            addCriterion("file_count =", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotEqualTo(Integer value) {
+            addCriterion("file_count <>", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountGreaterThan(Integer value) {
+            addCriterion("file_count >", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("file_count >=", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountLessThan(Integer value) {
+            addCriterion("file_count <", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountLessThanOrEqualTo(Integer value) {
+            addCriterion("file_count <=", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountIn(List<Integer> values) {
+            addCriterion("file_count in", values, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotIn(List<Integer> values) {
+            addCriterion("file_count not in", values, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountBetween(Integer value1, Integer value2) {
+            addCriterion("file_count between", value1, value2, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("file_count not between", value1, value2, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountIsNull() {
+            addCriterion("user_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountIsNotNull() {
+            addCriterion("user_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountEqualTo(Integer value) {
+            addCriterion("user_count =", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountNotEqualTo(Integer value) {
+            addCriterion("user_count <>", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountGreaterThan(Integer value) {
+            addCriterion("user_count >", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_count >=", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountLessThan(Integer value) {
+            addCriterion("user_count <", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountLessThanOrEqualTo(Integer value) {
+            addCriterion("user_count <=", value, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountIn(List<Integer> values) {
+            addCriterion("user_count in", values, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountNotIn(List<Integer> values) {
+            addCriterion("user_count not in", values, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountBetween(Integer value1, Integer value2) {
+            addCriterion("user_count between", value1, value2, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_count not between", value1, value2, "userCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountIsNull() {
+            addCriterion("report_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountIsNotNull() {
+            addCriterion("report_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountEqualTo(Integer value) {
+            addCriterion("report_count =", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountNotEqualTo(Integer value) {
+            addCriterion("report_count <>", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountGreaterThan(Integer value) {
+            addCriterion("report_count >", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("report_count >=", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountLessThan(Integer value) {
+            addCriterion("report_count <", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountLessThanOrEqualTo(Integer value) {
+            addCriterion("report_count <=", value, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountIn(List<Integer> values) {
+            addCriterion("report_count in", values, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountNotIn(List<Integer> values) {
+            addCriterion("report_count not in", values, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountBetween(Integer value1, Integer value2) {
+            addCriterion("report_count between", value1, value2, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("report_count not between", value1, value2, "reportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIsNull() {
+            addCriterion("finish_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIsNotNull() {
+            addCriterion("finish_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountEqualTo(Integer value) {
+            addCriterion("finish_count =", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotEqualTo(Integer value) {
+            addCriterion("finish_count <>", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountGreaterThan(Integer value) {
+            addCriterion("finish_count >", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("finish_count >=", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountLessThan(Integer value) {
+            addCriterion("finish_count <", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountLessThanOrEqualTo(Integer value) {
+            addCriterion("finish_count <=", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIn(List<Integer> values) {
+            addCriterion("finish_count in", values, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotIn(List<Integer> values) {
+            addCriterion("finish_count not in", values, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountBetween(Integer value1, Integer value2) {
+            addCriterion("finish_count between", value1, value2, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("finish_count not between", value1, value2, "finishCount");
             return (Criteria) this;
         }
 

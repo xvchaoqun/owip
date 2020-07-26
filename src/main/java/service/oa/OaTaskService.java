@@ -1,7 +1,7 @@
 package service.oa;
 
 import controller.global.OpException;
-import controller.oa.TaskUser;
+import persistence.oa.common.TaskUser;
 import domain.oa.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,6 +160,8 @@ public class OaTaskService extends OaBaseMapper {
             oaTaskUserService.refreshTaskUserRole(oaTaskUser.getUserId());
             oaTaskUserService.refreshTaskUserRole(oaTaskUser.getAssignUserId());
         }
+
+        iOaTaskMapper.refreshCount(taskId);
     }
 
     @Transactional

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.oa.common.TaskUser;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -81,8 +82,8 @@ public class OaTaskController extends OaBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        OaTaskViewExample example = new OaTaskViewExample();
-        OaTaskViewExample.Criteria criteria = example.createCriteria()
+        OaTaskExample example = new OaTaskExample();
+        OaTaskExample.Criteria criteria = example.createCriteria()
                 .andIsDeleteEqualTo(false);
         example.setOrderByClause("create_time desc");
 
@@ -114,12 +115,12 @@ public class OaTaskController extends OaBaseController {
             criteria.andNameLike(SqlUtils.like(name));
         }
 
-        long count = oaTaskViewMapper.countByExample(example);
+        long count = oaTaskMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<OaTaskView> records = oaTaskViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<OaTask> records = oaTaskMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -230,8 +231,9 @@ public class OaTaskController extends OaBaseController {
 
             oaTaskFileMapper.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_OA, "添加协同办公任务附件：%s", record.getFileName()));
-
         }
+
+        iOaTaskMapper.refreshCount(taskId);
 
         return success(FormUtils.SUCCESS);
     }
@@ -252,11 +254,12 @@ public class OaTaskController extends OaBaseController {
     public Map do_oaTaskFile_del(HttpServletRequest request, Integer id) {
 
         OaTaskFile oaTaskFile = oaTaskFileMapper.selectByPrimaryKey(id);
+        int taskId = oaTaskFile.getTaskId();
 
-        OaTask oaTask = oaTaskMapper.selectByPrimaryKey(oaTaskFile.getTaskId());
-        oaTaskService.checkAuth(oaTask.getId());
-
+        oaTaskService.checkAuth(taskId);
         oaTaskFileMapper.deleteByPrimaryKey(id);
+        iOaTaskMapper.refreshCount(taskId);
+
         logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));
 
         return success(FormUtils.SUCCESS);
