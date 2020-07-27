@@ -92,7 +92,7 @@ public class CrsTemplateController extends CrsBaseController {
     public Map do_crsTemplate_au(CrsTemplate record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
         if (id == null) {
             crsTemplateService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CRS, "添加招聘条件通用模板：%s", record.getId()));

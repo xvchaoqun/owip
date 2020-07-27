@@ -58,7 +58,7 @@
                 <div style="width:70%; margin:0 auto;">
 
                     <div class="modal-body" style="text-align: left;word-wrap:break-word">
-                            ${drOnline.notice}
+                            ${cm:htmlUnescape(drOnline.notice)}
                     </div>
                 </div>
 

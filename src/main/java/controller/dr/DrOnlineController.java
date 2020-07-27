@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.DrConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -238,9 +237,9 @@ public class DrOnlineController extends DrBaseController {
         DrOnline record = new DrOnline();
         record.setId(id);
         if (isMobile == 1){
-            record.setMobileNotice(HtmlUtils.htmlUnescape(notice));
+            record.setMobileNotice(notice);
         }else {
-            record.setNotice(HtmlUtils.htmlUnescape(notice));
+            record.setNotice(notice);
         }
 
         drOnlineService.updateByPrimaryKeySelective(record);
@@ -274,7 +273,7 @@ public class DrOnlineController extends DrBaseController {
         DrOnline record = new DrOnline();
         record.setId(id);
         if (null != inspectorNotice){
-            record.setInspectorNotice(HtmlUtils.htmlUnescape(inspectorNotice));
+            record.setInspectorNotice(inspectorNotice);
         }
 
         drOnlineService.updateByPrimaryKeySelective(record);

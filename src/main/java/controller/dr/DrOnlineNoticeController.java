@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -99,7 +98,7 @@ public class DrOnlineNoticeController extends DrBaseController {
     public Map do_drOnlineNotice_au(DrOnlineNotice record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
 
         if (id == null) {
             
