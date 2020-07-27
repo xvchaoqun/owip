@@ -19,7 +19,7 @@
         </button>
     </div>
     <div class="bg-grey" style="text-indent: 2em;padding: 10px;">
-        ${unitFunction.content}
+        ${cm:htmlUnescape(unitFunction.content)}
         <c:if test="${empty unitFunction.content}">
             暂无职能内容。
         </c:if>

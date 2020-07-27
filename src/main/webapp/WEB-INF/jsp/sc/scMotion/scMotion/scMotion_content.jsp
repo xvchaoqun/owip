@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>工作方案</h3>
 </div>
 <div class="modal-body">
-    ${scMotion.content}
+    ${cm:htmlUnescape(scMotion.content)}
 </div>
 <div class="modal-footer"><a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>

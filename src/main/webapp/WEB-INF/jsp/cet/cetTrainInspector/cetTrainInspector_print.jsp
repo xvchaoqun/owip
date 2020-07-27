@@ -36,7 +36,7 @@ table tr td.title{
 <table style="width: 580px;float: left;margin: 10px;padding-right:22px; <c:if test='${(vs.index+1)%2==1}'> padding-right:21px; border-right: 1px dashed;</c:if>">
 	<tr>
 		<td colspan="3">
-			${cetTrain.evaNote}
+			${cm:htmlUnescape(cetTrain.evaNote)}
 		</td>
 	</tr>
 	<tr>

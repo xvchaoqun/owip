@@ -1581,8 +1581,9 @@ if ($.jgrid) {
         NoMultiSpace: function (cellvalue, options, rowObject) {
             if ($.trim(cellvalue) == '') return '--'
             // console.log(cellvalue)
-            return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
-            //return cellvalue.NoMultiSpace();
+            // xss
+            //return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
+            return cellvalue.NoMultiSpace();
         },
         htmlencodeWithNoSpace: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '--'

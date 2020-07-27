@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -135,7 +137,7 @@ public class ScMotionController extends ScBaseController {
 
         Integer id = record.getId();
 
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
         if (id == null) {
             record.setRecordUserId(ShiroHelper.getCurrentUserId());
             scMotionService.insertSelective(record);

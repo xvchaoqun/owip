@@ -14,7 +14,7 @@
 	<table style="width: 1100px;padding-left: 80px;padding-right: 80px;font-size: 20pt">
 		<tr>
 			<td colspan="2">
-				${cetTrain.evaNote}
+				${cm:htmlUnescape(cetTrain.evaNote)}
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 	<table style="width: 1100px;padding-left: 80px;padding-right: 80px;font-size: 20pt">
 		<tr>
 			<td colspan="2">
-				${cetTrain.evaNote}
+				${cm:htmlUnescape(cetTrain.evaNote)}
 			</td>
 		</tr>
 		<tr>

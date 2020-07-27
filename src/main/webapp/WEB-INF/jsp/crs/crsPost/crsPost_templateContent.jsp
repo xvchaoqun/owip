@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
     <c:if test="${param.type==CRS_TEMPLATE_TYPE_MEETINGNOTICE}">
     <c:set var="keWidth" value="473px"/>
     </c:if>
-    var templateMap = ${cm:toJSONObject(templateMap)}
+    var templates = ${cm:toJSONObject(templates)}
     var ke = KindEditor.create('#contentId', {
         allowFileManager: true,
         uploadJson: '${ctx}/ke/upload_json',
@@ -53,7 +53,7 @@ pageEncoding="UTF-8"%>
     $("#templateContentForm select[name=templateId]").on("change",function(){
         var templateId = $(this).val();
         if(templateId>0) {
-            ke.html(KindEditor.unescape(templateMap[templateId].content));
+            ke.html(templates[templateId]);
             ke.readonly();
         }else{
             ke.readonly(false);

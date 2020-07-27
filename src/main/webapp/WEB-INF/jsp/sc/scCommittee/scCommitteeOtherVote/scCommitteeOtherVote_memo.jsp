@@ -6,7 +6,7 @@
   <h3>表决情况</h3>
 </div>
 <div class="modal-body">
-  ${scCommitteeOtherVote.memo}
+  ${cm:htmlUnescape(scCommitteeOtherVote.memo)}
 </div>
 <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>

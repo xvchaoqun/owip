@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div style="width: ${empty param.width?'900':param.width}px">
-  ${htmlFragment.content}
+  ${cm:htmlUnescape(htmlFragment.content)}
 </div>

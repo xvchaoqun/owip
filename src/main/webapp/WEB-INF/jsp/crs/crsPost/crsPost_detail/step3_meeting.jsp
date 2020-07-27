@@ -177,7 +177,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main" id="meetingNotice-content" style="min-height: 570px">
-                    ${crsPost.meetingNotice}
+                    ${cm:htmlUnescape(crsPost.meetingNotice)}
                     <c:if test="${empty crsPost.meetingNotice}">
                         <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_MEETINGNOTICE}"/>
                     </c:if>

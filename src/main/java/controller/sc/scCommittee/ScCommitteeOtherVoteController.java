@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -101,7 +100,7 @@ public class ScCommitteeOtherVoteController extends ScBaseController {
     public Map do_scCommitteeOtherVote_au(ScCommitteeOtherVote record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setMemo(HtmlUtils.htmlUnescape(record.getMemo()));
+        record.setMemo(record.getMemo());
         if (id == null) {
             scCommitteeOtherVoteService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加其他事项表决"));

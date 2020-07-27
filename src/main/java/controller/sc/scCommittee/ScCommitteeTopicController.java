@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -137,7 +136,7 @@ public class ScCommitteeTopicController extends ScBaseController {
         record.setHasVote(BooleanUtils.isTrue(record.getHasVote()));
         record.setHasOtherVote(BooleanUtils.isTrue(record.getHasOtherVote()));
 
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
         record.setVoteFilePath(uploadPdf(_voteFilePath, "scCommitteeTopic-vote"));
         if (id == null) {
             if (record.getSeq() == null)

@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -509,7 +508,7 @@ public class UnitPostController extends BaseController {
 
         record.setIsPrincipal(BooleanUtils.isTrue(record.getIsPrincipal()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
-        record.setName(HtmlUtils.htmlUnescape(record.getName()));
+        record.setName(record.getName());
 
         CadrePost cadrePost=new CadrePost();
         cadrePost.setCadreId(cadreId);

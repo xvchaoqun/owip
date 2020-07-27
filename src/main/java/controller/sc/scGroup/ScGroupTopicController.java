@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
@@ -153,8 +152,8 @@ public class ScGroupTopicController extends ScBaseController {
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
-        record.setMemo(HtmlUtils.htmlUnescape(record.getMemo()));
+        record.setContent(record.getContent());
+        record.setMemo(record.getMemo());
 
         List<String> filePaths = new ArrayList<>();
         for (MultipartFile file : files) {

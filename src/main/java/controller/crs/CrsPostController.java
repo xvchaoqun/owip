@@ -233,6 +233,13 @@ public class CrsPostController extends CrsBaseController {
             Map<Integer, CrsTemplate> templateMap
                     = crsTemplateService.findAll(type);
             modelMap.put("templateMap", templateMap);
+
+            Map<Integer, String> templates = new HashMap<>();
+            for (Map.Entry<Integer, CrsTemplate> entry : templateMap.entrySet()) {
+                templates.put(entry.getKey(), HtmlUtils.htmlUnescape(entry.getValue().getContent()));
+            }
+
+            modelMap.put("templates", templates);
         }
         return "crs/crsPost/crsPost_templateContent";
     }
@@ -241,8 +248,6 @@ public class CrsPostController extends CrsBaseController {
     @RequestMapping(value = "/crsPost_templateContent", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_templateContent(Integer id, byte type, String content) {
-
-        content = HtmlUtils.htmlUnescape(content);
 
         CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
@@ -279,8 +284,6 @@ public class CrsPostController extends CrsBaseController {
     @RequestMapping(value = "/crsPost_meetingSummary", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_meetingSummary(Integer id, String meetingSummary) {
-
-        meetingSummary = HtmlUtils.htmlUnescape(meetingSummary);
 
         CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);

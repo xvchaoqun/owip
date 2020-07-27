@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -141,7 +140,7 @@ public class UnitFunctionController extends BaseController {
                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
-        record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
+        record.setContent(record.getContent());
 
         if(_file!=null && !_file.isEmpty()) {
             String pdfFilePath = upload(_file, "unitFunction");

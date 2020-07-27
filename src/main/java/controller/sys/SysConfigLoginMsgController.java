@@ -11,7 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
@@ -53,7 +52,7 @@ public class SysConfigLoginMsgController extends BaseController {
     public Map do_sysConfigLoginMsg_au(SysConfigLoginMsg record) {
 
         record.setCreateTime(new Date());
-        record.setLoginMsg(HtmlUtils.htmlUnescape(record.getLoginMsg()));
+        record.setLoginMsg(record.getLoginMsg());
 
         if(record.getId()==null) {
             sysConfigLoginMsgMapper.insertSelective(record);

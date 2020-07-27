@@ -1,5 +1,6 @@
 package controller.global;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import interceptor.SignParamsException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -60,10 +61,11 @@ public class ExceptionHandlerController {
     public Map resolveDataIntegrityViolationException(HttpServletRequest request, Exception ex) {
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("success", false);
 
         if (ex.getCause() instanceof SQLIntegrityConstraintViolationException) {
 
-            resultMap.put("success", false);
+
             String message = ex.getCause().getMessage();
             if (StringUtils.contains(message, "Duplicate")) {
 
@@ -86,9 +88,13 @@ public class ExceptionHandlerController {
                 resultMap.put("msg", "数据关联错误，请稍后重试");
                 logger.error(getMsg(request, ex), ex);
             }
+        } else if (ex.getCause() instanceof MysqlDataTruncation) {
+
+            resultMap.put("msg", "字段长度超出范围，请修改后重试");
+            logger.error(getMsg(request, ex), ex);
+
         } else if (ex.getCause() instanceof SQLException) {
 
-            resultMap.put("success", false);
             resultMap.put("msg", "数据请求错误，请稍后重试");
             logger.error(getMsg(request, ex), ex);
         }

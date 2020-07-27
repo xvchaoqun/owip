@@ -24,7 +24,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" id="requirement-content" style="min-height: 570px">
-            ${crsPost.requirement}
+            ${cm:htmlUnescape(crsPost.requirement)}
             <c:if test="${fn:trim(crsPost.requirement)==''}">
                 <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_BASE}"/>
             </c:if>

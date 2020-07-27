@@ -26,7 +26,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main" id="qualification-content" style="min-height: 570px">
-            ${crsPost.qualification}
+            ${cm:htmlUnescape(crsPost.qualification)}
             <c:if test="${empty crsPost.qualification}">
                 <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_POST}"/>
             </c:if>

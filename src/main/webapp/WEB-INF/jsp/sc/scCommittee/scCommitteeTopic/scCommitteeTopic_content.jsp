@@ -22,7 +22,7 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main" style="height:600px;overflow-y: scroll">
-                            ${scCommitteeTopic.content}
+                            ${cm:htmlUnescape(scCommitteeTopic.content)}
                         </div>
 
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main" style="height:600px;overflow-y: scroll">
-                            ${scCommitteeTopic.memo}
+                            ${cm:htmlUnescape(scCommitteeTopic.memo)}
                         </div>
                     </div>
                 </div>

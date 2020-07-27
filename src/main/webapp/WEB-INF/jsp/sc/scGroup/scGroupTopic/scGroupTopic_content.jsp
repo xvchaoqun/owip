@@ -54,7 +54,7 @@
 							<div class="col"><h4 class="header"><i class="fa fa-hand-o-right"></i> 推荐拟任人选：</h4><p>${candidateUser.realname}</p></div>
 						</c:when>
 					</c:choose>
-					${scGroupTopic.content}
+					${cm:htmlUnescape(scGroupTopic.content)}
 				</div>
 				<c:if test="${not empty scGroupTopic.filePath}">
 				<div class="well" style="margin-bottom: 0px;">
@@ -77,7 +77,7 @@
 			</div>
 			<div class="widget-body">
 				<div class="widget-main" style="height:600px;overflow-y: scroll">
-					${scGroupTopic.memo}
+					${cm:htmlUnescape(scGroupTopic.memo)}
 				</div>
 			</div>
 		</div>
