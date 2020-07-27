@@ -1,4 +1,6 @@
 
+-- 更新Utils
+
 2020.7.27
 
 update sys_resource set name='管理所有任务权限', permission='oaTaskShowAll:*', type='function', parent_id=561,
@@ -69,6 +71,11 @@ AUTO_INCREMENT=30
 
 ALTER TABLE `cet_project`
 	ADD COLUMN `file_count` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '课件数量' AFTER `quit_count`;
+
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `obj_count` `obj_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '参训人员数量， 选择或导入参训人时更新' AFTER `other_trainee_type`,
+	CHANGE COLUMN `quit_count` `quit_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '已退出参选人员数量' AFTER `obj_count`,
+	CHANGE COLUMN `file_count` `file_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '课件数量' AFTER `quit_count`;
 
 
 2020.7.22

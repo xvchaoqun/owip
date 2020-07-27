@@ -88,14 +88,14 @@
         <a href="javascript:;" class="loadPage"
            data-load-el="#detail-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&isQuit=0'><i
-                class="fa fa-users"></i> 培训对象(${cetProject.objCount-cetProject.quitCount})
+                class="fa fa-users"></i> 培训对象(${cm:trimToZero(cetProject.objCount-cetProject.quitCount)})
         </a>
     </li>
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#detail-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&isQuit=1'><i
-                class="fa fa-power-off"></i> 退出培训人员(${cetProject.quitCount})
+                class="fa fa-power-off"></i> 退出培训人员(${cm:trimToZero(cetProject.quitCount)})
         </a>
     </li>
 </ul>

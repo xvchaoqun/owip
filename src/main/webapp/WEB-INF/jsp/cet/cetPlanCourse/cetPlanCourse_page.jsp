@@ -52,7 +52,7 @@
     </div>
 </div>
 <script>
-    var objCount = ${cetProject.objCount};
+    var objCount = ${cm:trimToZero(cetProject.objCount)};
     var projectId = ${cetProject.id};
     $("#jqGrid2").jqGrid({
         rownumbers:true,

@@ -84,7 +84,7 @@
                 </dd>
             </form>
             <div class="msg">
-                ${_sysConfig.loginMsg}
+                ${cm:htmlUnescape(_sysConfig.loginMsg)}
             </div>
         </div>
         <div class="login-layout" id="reg">

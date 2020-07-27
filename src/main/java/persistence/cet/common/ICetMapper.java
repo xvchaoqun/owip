@@ -40,9 +40,9 @@ public interface ICetMapper {
     public List<Map> projectObj_typeCount(@Param("projectId") int projectId, @Param("isQuit") boolean isQuit);
 
     // 刷新课件数量
-    @Update("update cet_project p, " +
+    @Update("update cet_project p left join " +
             "(select project_id, count(*) as file_count from cet_project_file where project_id=#{projectId} group by project_id) tmp " +
-            "set p.file_count=tmp.file_count where p.id=tmp.project_id and p.id=#{projectId}")
+            "on p.id=tmp.project_id set p.file_count=tmp.file_count where p.id=#{projectId}")
     int refreshFileCount(@Param("projectId") Integer projectId);
 
     // 获取个人的进入年度学习档案的所有年度

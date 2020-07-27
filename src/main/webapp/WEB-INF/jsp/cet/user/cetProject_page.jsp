@@ -80,7 +80,7 @@ pageEncoding="UTF-8" %>
                     if(rowObject.fileCount<=0) return '--'
                     return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}&view=1" data-width="800"' +
                         'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
-                        .format(rowObject.id, rowObject.fileCount)
+                        .format(rowObject.id, Math.trimToZero(rowObject.fileCount))
                 }},
             {
                 label: '培训方案', width: 90,formatter: function (cellvalue, options, rowObject) {
