@@ -75,6 +75,8 @@ public class CetBaseController extends CetBaseMapper implements HttpResponseMeth
     @Autowired
     protected CetProjectService cetProjectService;
     @Autowired
+    protected CetProjectFileService cetProjectFileService;
+    @Autowired
     protected CetProjectObjService cetProjectObjService;
     @Autowired
     protected CetDiscussService cetDiscussService;

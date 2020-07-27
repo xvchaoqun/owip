@@ -3,12 +3,12 @@
 DROP TABLE IF EXISTS `cet_project_file`;
 CREATE TABLE IF NOT EXISTS `cet_project_file` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `project_id` int(10) unsigned NOT NULL COMMENT '所属培训班',
+  `project_id` int(10) unsigned NOT NULL COMMENT '所属培训班id',
   `file_name` varchar(200) NOT NULL COMMENT '培训课件名称',
   `file_path` varchar(200) DEFAULT NULL COMMENT '课件， pdf或word',
   `sort_order` int(10) unsigned DEFAULT NULL COMMENT '排序，每个培训班内部的排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='培训课件（专题培训）';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='培训课件';
 
 -- 2020.6.29 ly
 ALTER TABLE `cet_project_type`
