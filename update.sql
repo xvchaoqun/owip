@@ -86,17 +86,31 @@ ALTER TABLE `cet_project`
 2020.7.22
 北化工
 
+ALTER TABLE `crp_record`
+	ADD COLUMN `is_add_form` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否存入干部简历' AFTER `type`;
+
+UPDATE `crp_record` SET `is_add_form`=1;
+
+
+ALTER TABLE `oa_task_user_file`
+	CHANGE COLUMN `file_name` `file_name` VARCHAR(300) NULL DEFAULT NULL AFTER `user_id`;
+
+update sys_resource set url='/m/cadreList?type=1', permission='m:cadreList' where permission='m:cadreHistory:*';
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
+ `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (967, 1, '校领导信息', '', 'url', 'fa fa-street-view', '/m/cadreList?type=2', 692, '0/692/', 1, 'm:cadreList:leader', 4, NULL, NULL, 1, 1851);
+
 -- 更新utils
 
-ALTER TABLE `dr_online_inspector_log`
+/*ALTER TABLE `dr_online_inspector_log`
 	ADD COLUMN `post_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '岗位筛选' AFTER `type_id`;
 
 ALTER TABLE `dr_online_candidate`
-	CHANGE COLUMN `candidate` `realname` VARCHAR(50) NOT NULL COMMENT '更改后的候选人姓名' AFTER `user_id`,
+	add COLUMN `realname` VARCHAR(50) NOT NULL COMMENT '更改后的候选人姓名' AFTER `user_id`,
 	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL COMMENT '排序' AFTER `realname`;
 
 ALTER TABLE `dr_online_post`
-	CHANGE COLUMN `candidates` `candidates` VARCHAR(500) NULL DEFAULT NULL COMMENT '候选人id，逗号分割' AFTER `has_candidate`;
+	add COLUMN  `candidates` VARCHAR(500) NULL DEFAULT NULL COMMENT '候选人id，逗号分割' AFTER `has_candidate`;
 
 ALTER TABLE `dr_online_result`
 	CHANGE COLUMN `candidate` `realname` VARCHAR(200) NOT NULL COMMENT '候选人姓名' AFTER `user_id`;
@@ -141,7 +155,7 @@ ALTER TABLE `dr_online_result`
 	ADD CONSTRAINT `FK_dr_online_result_dr_online_inspector` FOREIGN KEY (`inspector_id`) REFERENCES `dr_online_inspector` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `dr_online_inspector`
-	ADD CONSTRAINT `FK_dr_online_inspector_dr_online_inspector_log` FOREIGN KEY (`log_id`) REFERENCES `dr_online_inspector_log` (`id`) ON DELETE CASCADE;
+	ADD CONSTRAINT `FK_dr_online_inspector_dr_online_inspector_log` FOREIGN KEY (`log_id`) REFERENCES `dr_online_inspector_log` (`id`) ON DELETE CASCADE;*/
 
 update  sys_property set code='dr_site_bg' where code='drLoginBg';
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
@@ -149,15 +163,6 @@ VALUES ('dr_site_name', '民主推荐用户端名称', '线上民主推荐系统
 
 -- 更新录入样表
 
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (895, 0, '线上民主推荐', '', 'menu', '', NULL, 890, '0/1/339/890/', 0, 'drOnline:list', 2, NULL, NULL, 1, 700);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2527, 0, '单个岗位推荐', '', 'url', '', '/dr/drOnline', 895, '0/1/339/890/895/', 0, 'drOnline:*', NULL, NULL, NULL, 1, 500);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2528, 0, '推荐职务及资格条件', '', 'function', '', '/dr/drOnlinePost', 2527, '0/1/339/890/895/2527/', 1, 'drOnlinePost:*', NULL, NULL, NULL, 1, NULL);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2529, 0, '推荐结果', '', 'function', '', '/dr/drOnlineResult', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineResult:*', NULL, NULL, NULL, 1, NULL);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2530, 0, '线上推荐参数', '', 'url', '', '/dr/drOnlineParam', 896, '0/1/339/890/896/', 0, 'drOnlineParam:menu', NULL, NULL, NULL, 1, 300);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2531, 0, '推荐人身份类型', '', 'function', '', '/dr/drOnlineInspectorType', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineInspectorType:*', NULL, NULL, NULL, 1, NULL);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2532, 0, '线上民主推荐情况模板', '', 'function', '', '/dr/drOnlineNotice', 2530, '0/1/339/890/896/2530/', 1, 'drOnlineNotice:*', NULL, NULL, NULL, 1, NULL);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2533, 0, '参评人导出记录', '', 'function', '', '/dr/drOnlineInspectorLog', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspectorLog:*', NULL, NULL, NULL, 1, NULL);
--- REPLACE INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (2534, 0, '参评人', '', 'function', '', '/dr/drOnlineInspector', 2527, '0/1/339/890/895/2527/', 1, 'drOnlineInspector:*', NULL, NULL, NULL, 1, NULL);
 UPDATE sys_resource set url='/metaClass_type_list?cls=mc_dr_type',permission='mc_dr_type:*' WHERE id=897;
 
 delete from sys_resource where permission='drOnline:*';
@@ -182,36 +187,21 @@ REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_a
 REPLACE INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (82, '二次会议推荐', 'mt_qnuxk8', NULL, NULL, '', 3, 1);
 */
 
-ALTER TABLE `dr_online_post`
-	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
-	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
-drop view if exists dr_online_post_view;
 
 -- 更新 ow_party_member_group_view
 -- 更新 ow_party_member_view
 
+/*
+ALTER TABLE `dr_online_post`
+	CHANGE COLUMN `unit_post_id` `unit_post_id` INT(10) NULL COMMENT '推荐职务，关联岗位ID' AFTER `id`,
+	ADD COLUMN `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '职务名称' AFTER `unit_post_id`;
+drop view if exists dr_online_post_view;
 ALTER TABLE `dr_online_post`
 	CHANGE COLUMN `competitive_num` `head_count` INT(10) UNSIGNED NOT NULL COMMENT '候选人数量或推荐人数' AFTER `candidates`,
 	ADD COLUMN `min_count` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最少推荐人数' AFTER `head_count`,
 	DROP COLUMN `has_candidate`,
 	DROP COLUMN `has_competitive`;
-
-2020.7.20
-
-ALTER TABLE `crp_record`
-	ADD COLUMN `is_add_form` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否存入干部简历' AFTER `type`;
-
-UPDATE `crp_record` SET `is_add_form`=1;
-
-
-ALTER TABLE `oa_task_user_file`
-	CHANGE COLUMN `file_name` `file_name` VARCHAR(300) NULL DEFAULT NULL AFTER `user_id`;
-
-update sys_resource set url='/m/cadreList?type=1', permission='m:cadreList' where permission='m:cadreHistory:*';
-
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`,
- `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (967, 1, '校领导信息', '', 'url', 'fa fa-street-view', '/m/cadreList?type=2', 692, '0/692/', 1, 'm:cadreList:leader', 4, NULL, NULL, 1, 1851);
-
+*/
 
 2020.7.17
 西工大

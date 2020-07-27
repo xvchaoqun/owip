@@ -189,7 +189,7 @@
         <div class="footer-inner">
             <div class="footer-content">
             <span class="bigger-120">
-                ${_sysConfig.siteCopyright}
+                ${cm:htmlUnescape(_sysConfig.siteCopyright)}
             </span>
             </div>
         </div>

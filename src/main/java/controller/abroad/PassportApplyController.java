@@ -110,12 +110,12 @@ public class PassportApplyController extends AbroadBaseController {
             Integer cadreId, ModelMap modelMap) {
 
         // 判断下是否上传了签名 和联系电话
-        String sign = loginUser.getSign();
+        /*String sign = loginUser.getSign();
         if (StringUtils.isBlank(sign)
                 || FileUtils.exists(springProps.uploadPath + sign) == false
                 || StringUtils.isBlank(loginUser.getMobile())) {
             return "abroad/passportApply/passportApply_sign";
-        }
+        }*/
 
         modelMap.put("status", status);
 
