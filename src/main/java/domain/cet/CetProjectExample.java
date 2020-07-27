@@ -573,6 +573,66 @@ public class CetProjectExample {
             return (Criteria) this;
         }
 
+        public Criteria andFileCountIsNull() {
+            addCriterion("file_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountIsNotNull() {
+            addCriterion("file_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountEqualTo(Integer value) {
+            addCriterion("file_count =", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotEqualTo(Integer value) {
+            addCriterion("file_count <>", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountGreaterThan(Integer value) {
+            addCriterion("file_count >", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("file_count >=", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountLessThan(Integer value) {
+            addCriterion("file_count <", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountLessThanOrEqualTo(Integer value) {
+            addCriterion("file_count <=", value, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountIn(List<Integer> values) {
+            addCriterion("file_count in", values, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotIn(List<Integer> values) {
+            addCriterion("file_count not in", values, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountBetween(Integer value1, Integer value2) {
+            addCriterion("file_count between", value1, value2, "fileCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("file_count not between", value1, value2, "fileCount");
+            return (Criteria) this;
+        }
+
         public Criteria andStartDateIsNull() {
             addCriterion("start_date is null");
             return (Criteria) this;

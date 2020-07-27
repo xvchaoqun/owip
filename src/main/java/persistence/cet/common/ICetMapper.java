@@ -34,11 +34,16 @@ public interface ICetMapper {
             "set p.quit_count=tmp.quit_count where p.id=tmp.project_id and p.id=#{projectId}")
     int refreshQuitCount(@Param("projectId") Integer projectId);
 
-
     // 按类别读取参训人数量
     @Select("select trainee_type_id, count(*) as num from cet_project_obj " +
             "where project_id=#{projectId} and is_quit=#{isQuit} group by trainee_type_id ")
     public List<Map> projectObj_typeCount(@Param("projectId") int projectId, @Param("isQuit") boolean isQuit);
+
+    // 刷新课件数量
+    @Update("update cet_project p, " +
+            "(select project_id, count(*) as file_count from cet_project_file where project_id=#{projectId} group by project_id) tmp " +
+            "set p.file_count=tmp.file_count where p.id=tmp.project_id and p.id=#{projectId}")
+    int refreshFileCount(@Param("projectId") Integer projectId);
 
     // 获取个人的进入年度学习档案的所有年度
     @Select("select year from cet_annual_obj where user_id=#{userId} order by year desc")

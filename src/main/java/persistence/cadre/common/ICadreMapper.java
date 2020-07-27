@@ -236,7 +236,7 @@ public interface ICadreMapper {
 
     //清空临时表
     @Update("truncate table tmp_sort_cadre")
-    public void empetTem();
+    public void emptyTmpSort();
 
     //根据单位顺序、行政级别顺序，插入临时数据库
     public int batchSortByAdminLevel(@Param("status")int status);
@@ -245,7 +245,7 @@ public interface ICadreMapper {
     public int batchSortByUnit(@Param("status")int status);
 
     //更新临时表的排序字段,并根据临时表的排序更新干部库的排序
-    public void updateCadreByTem(@Param("count")int count);
+    public void updateCadreByTmpSort(@Param("count")int count);
 }
 
 

@@ -451,7 +451,7 @@
         where c.status=#{status} order by u.sort_order asc, up.sort_order asc;
     </insert>
 
-    <update id="updateCadreByTem" parameterType="map">
+    <update id="updateCadreByTmpSort" parameterType="map">
         update tmp_sort_cadre set sort_order = (#{count}+1)-id;
         update cadre c, tmp_sort_cadre t set c.sort_order=t.sort_order where c.user_id=t.user_id;
     </update>

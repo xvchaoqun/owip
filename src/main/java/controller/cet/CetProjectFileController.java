@@ -3,6 +3,7 @@ package controller.cet;
 import domain.cet.CetProjectFile;
 import domain.cet.CetProjectFileExample;
 import domain.cet.CetProjectFileExample.Criteria;
+import domain.cet.CetProjectObj;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
@@ -31,10 +33,19 @@ public class CetProjectFileController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/cetProjectFile")
-    public String cetProjectFile(Integer projectId,
+    public String cetProjectFile(int projectId,
                                  Integer pageSize,
                                  Integer pageNo,
                                  ModelMap modelMap){
+
+        if(!ShiroHelper.isPermitted("cetProject:edit")){
+
+            int userId = ShiroHelper.getCurrentUserId();
+            CetProjectObj cetProjectObj = cetProjectObjService.get(userId, projectId);
+            if(cetProjectObj==null){
+                return null; // 无权限查看
+            }
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -45,12 +56,9 @@ public class CetProjectFileController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetProjectFileExample example = new CetProjectFileExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
         example.setOrderByClause("sort_order desc");
 
-        if (projectId!=null) {
-            criteria.andProjectIdEqualTo(projectId);
-        }
 
         long count = cetProjectFileMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

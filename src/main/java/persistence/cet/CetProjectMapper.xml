@@ -9,6 +9,7 @@
     <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
     <result column="obj_count" jdbcType="INTEGER" property="objCount" />
     <result column="quit_count" jdbcType="INTEGER" property="quitCount" />
+    <result column="file_count" jdbcType="INTEGER" property="fileCount" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
@@ -16,7 +17,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="is_valid" jdbcType="BIT" property="isValid" />
     <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
-    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="category" jdbcType="CHAR" property="category" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
@@ -86,10 +87,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, start_date, 
-    end_date, open_time, open_address, name, is_valid, project_type_id, category, file_name, 
-    pdf_file_path, word_file_path, period, require_period, remark, create_time, has_archive, 
-    is_deleted
+    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, file_count, 
+    start_date, end_date, open_time, open_address, name, is_valid, project_type_id, category, 
+    file_name, pdf_file_path, word_file_path, period, require_period, remark, create_time, 
+    has_archive, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -127,20 +128,22 @@
     </selectKey>
     insert into cet_project (type, year, trainee_type_ids, 
       other_trainee_type, obj_count, quit_count, 
-      start_date, end_date, open_time, 
-      open_address, name, is_valid, 
-      project_type_id, category, file_name, 
-      pdf_file_path, word_file_path, period, 
-      require_period, remark, create_time, 
-      has_archive, is_deleted)
+      file_count, start_date, end_date, 
+      open_time, open_address, name, 
+      is_valid, project_type_id, category, 
+      file_name, pdf_file_path, word_file_path, 
+      period, require_period, remark, 
+      create_time, has_archive, is_deleted
+      )
     values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR}, 
       #{otherTraineeType,jdbcType=VARCHAR}, #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, 
-      #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, 
-      #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
-      #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{hasArchive,jdbcType=BIT}, #{isDeleted,jdbcType=BIT})
+      #{fileCount,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=BIT}, #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=CHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
+      #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{hasArchive,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -165,6 +168,9 @@
       </if>
       <if test="quitCount != null">
         quit_count,
+      </if>
+      <if test="fileCount != null">
+        file_count,
       </if>
       <if test="startDate != null">
         start_date,
@@ -237,6 +243,9 @@
       <if test="quitCount != null">
         #{quitCount,jdbcType=INTEGER},
       </if>
+      <if test="fileCount != null">
+        #{fileCount,jdbcType=INTEGER},
+      </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
       </if>
@@ -259,7 +268,7 @@
         #{projectTypeId,jdbcType=INTEGER},
       </if>
       <if test="category != null">
-        #{category,jdbcType=VARCHAR},
+        #{category,jdbcType=CHAR},
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
@@ -320,6 +329,9 @@
       <if test="record.quitCount != null">
         quit_count = #{record.quitCount,jdbcType=INTEGER},
       </if>
+      <if test="record.fileCount != null">
+        file_count = #{record.fileCount,jdbcType=INTEGER},
+      </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
       </if>
@@ -342,7 +354,7 @@
         project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
       </if>
       <if test="record.category != null">
-        category = #{record.category,jdbcType=VARCHAR},
+        category = #{record.category,jdbcType=CHAR},
       </if>
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
@@ -385,6 +397,7 @@
       other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
       obj_count = #{record.objCount,jdbcType=INTEGER},
       quit_count = #{record.quitCount,jdbcType=INTEGER},
+      file_count = #{record.fileCount,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       open_time = #{record.openTime,jdbcType=TIMESTAMP},
@@ -392,7 +405,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       is_valid = #{record.isValid,jdbcType=BIT},
       project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
-      category = #{record.category,jdbcType=VARCHAR},
+      category = #{record.category,jdbcType=CHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
@@ -427,6 +440,9 @@
       <if test="quitCount != null">
         quit_count = #{quitCount,jdbcType=INTEGER},
       </if>
+      <if test="fileCount != null">
+        file_count = #{fileCount,jdbcType=INTEGER},
+      </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
       </if>
@@ -449,7 +465,7 @@
         project_type_id = #{projectTypeId,jdbcType=INTEGER},
       </if>
       <if test="category != null">
-        category = #{category,jdbcType=VARCHAR},
+        category = #{category,jdbcType=CHAR},
       </if>
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
@@ -489,6 +505,7 @@
       other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
       obj_count = #{objCount,jdbcType=INTEGER},
       quit_count = #{quitCount,jdbcType=INTEGER},
+      file_count = #{fileCount,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       open_time = #{openTime,jdbcType=TIMESTAMP},
@@ -496,7 +513,7 @@
       name = #{name,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=BIT},
       project_type_id = #{projectTypeId,jdbcType=INTEGER},
-      category = #{category,jdbcType=VARCHAR},
+      category = #{category,jdbcType=CHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
       pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},

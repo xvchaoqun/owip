@@ -201,21 +201,21 @@
                                                 <li>
                                                     <a href="javascript:;" class="popupBtn"
                                                        data-url="${ctx}/cadre_batchSort?status=${status}">
-                                                        <i class="fa fa-file-excel-o"></i> 批量排序</a>
+                                                        <i class="fa fa-file-excel-o"></i> 批量导入排序</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
-                                                    <a href="javascript:;" class="jqRunBtn" data-need-ids="false" data-title="按行政级别排序(升序)"
-                                                       data-msg="点击确定后，原有排序会被清除，重新按照单位、行政级别进行重新排序"
+                                                    <a href="javascript:;" class="jqRunBtn" data-need-ids="false"
+                                                       data-msg="点击确定后，将按照单位、行政级别顺序进行排序<div class='red bolder'>（此操作无法逆转，请谨慎操作）</div>"
                                                        data-url="${ctx}/batchSortByAdminLevel?status=${status}">
-                                                        <i class="fa fa-file-excel-o"></i> 按行政级别排序</a>
+                                                        <i class="fa fa-file-excel-o"></i> 按单位及行政级别排序</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>
-                                                    <a href="javascript:;" class="jqRunBtn" data-need-ids="false" data-title="按岗位顺序排序(升序)"
-                                                       data-msg="点击确定后，原有排序会被清除，重新按照按照单位、岗位顺序进行重新排序"
+                                                    <a href="javascript:;" class="jqRunBtn" data-need-ids="false"
+                                                       data-msg="点击确定后，将按照单位、岗位顺序进行排序<div class='red bolder'>（此操作无法逆转，请谨慎操作）</div>"
                                                        data-url="${ctx}/batchSortByUnit?status=${status}">
-                                                        <i class="fa fa-file-excel-o"></i> 按岗位顺序排序</a>
+                                                        <i class="fa fa-file-excel-o"></i> 按单位及岗位排序</a>
                                                 </li>
                                                 <li role="separator" class="divider"></li>
                                                 <li>

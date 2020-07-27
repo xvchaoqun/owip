@@ -39,6 +39,8 @@ public class CetProject implements Serializable {
 
     private Integer quitCount;
 
+    private Integer fileCount;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
@@ -131,6 +133,14 @@ public class CetProject implements Serializable {
 
     public void setQuitCount(Integer quitCount) {
         this.quitCount = quitCount;
+    }
+
+    public Integer getFileCount() {
+        return fileCount;
+    }
+
+    public void setFileCount(Integer fileCount) {
+        this.fileCount = fileCount;
     }
 
     public Date getStartDate() {

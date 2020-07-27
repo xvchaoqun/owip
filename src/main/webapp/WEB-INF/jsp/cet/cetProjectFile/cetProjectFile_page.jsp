@@ -19,13 +19,13 @@
                         <form class="form-horizontal no-footer" action="${ctx}/cet/cetProjectFile_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="projectId" value="${param.projectId}">
                             <div class="form-group">
-                                <label class="col-xs-4 control-label"> 培训课件名称</label>
+                                <label class="col-xs-4 control-label"> 课件名称</label>
                                 <div class="col-xs-6 label-text">
                                     <input class="form-control" type="text" name="fileName">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-4 control-label"><span class="star">*</span> 上传电子培训课件</label>
+                                <label class="col-xs-4 control-label"><span class="star">*</span> 培训课件</label>
                                 <div class="col-xs-6" id="hasFile">
                                     <input class="form-control" type="file" name="_file"/>
                                 </div>
@@ -59,7 +59,7 @@
             <table class="table table-striped table-bordered table-center">
                 <thead>
                 <tr>
-                    <th>培训课件名称</th>
+                    <th>课件名称</th>
                     <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
@@ -95,14 +95,16 @@
                                             data-url='${ctx}/pdf_preview?type=url&path=${cm:encodeURI(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>
-                                    <button class='downloadBtn btn btn-xs btn-success'
+                                    <button class='downloadBtn btn btn-xs btn-success' data-type="download"
                                             data-url='${ctx}/attach_download?path=${cm:encodeURI(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}'>
                                         <i class="fa fa-download"></i>
                                         下载</button>
                                 </c:if>
                                 <c:if test="${param.view!=1}">
                                     <shiro:hasPermission name="cetProject:del">
-                                        <button class="delBtn btn btn-danger btn-xs" data-id="${cetProjectFile.id}">
+                                        <button class="delBtn btn btn-danger btn-xs"
+                                                data-callback="_reloadProjectList"
+                                                data-id="${cetProjectFile.id}">
                                             <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </shiro:hasPermission>
@@ -132,6 +134,9 @@
     $("#cpfReset").on("click", function () {
         $("#modalForm .remove").click();
     })
+    function _reloadProjectList(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
 
     $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
@@ -149,7 +154,9 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        pop_reload();
+                        pop_reload(function(){
+                            _reloadProjectList();
+                        });
                     }
                     $btn.button('reset');
                 }
@@ -157,8 +164,8 @@
         }
     });
     $.fileInput($('input[type=file]'),{
-        no_file: '请上传pdf或word文件...',
-        allowExt: ['pdf', 'doc', 'docx'],
-        allowMime: ['application/pdf', 'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+        no_file: '请上传pdf文件...',
+        allowExt: ['pdf'],
+        allowMime: ['application/pdf']
     });
 </script>

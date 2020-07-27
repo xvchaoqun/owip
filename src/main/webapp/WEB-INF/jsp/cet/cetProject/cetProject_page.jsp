@@ -161,6 +161,11 @@ pageEncoding="UTF-8" %>
                         return $.jgrid.formatter.MetaType(category);
                     })).join("，")
                 }},
+            {label: '培训课件', name: '_file', formatter: function (cellvalue, options, rowObject) {
+                    return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}" data-width="800"' +
+                        'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
+                        .format(rowObject.id, rowObject.fileCount)
+                }},
             {
                 label: '培训方案', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
@@ -184,11 +189,7 @@ pageEncoding="UTF-8" %>
                 return ret;
             }
             },
-            {label: '培训课件', name: '_file', width: 80, formatter: function (cellvalue, options, rowObject) {
-                    return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}" data-width="800"' +
-                        'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
-                        .format(rowObject.id)
-                }},
+
             { label: '总学时',name: 'period'},
             { label: '是否计入<br/>年度学习任务', name: 'isValid', formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">是</span>', off:'<span class="red bolder">否</span>'}},
             { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {

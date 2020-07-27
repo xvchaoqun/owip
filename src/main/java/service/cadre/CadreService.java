@@ -623,17 +623,17 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
     public void batchSortByAdminLevel(byte status){
 
         //清空临时表
-        iCadreMapper.empetTem();
+        iCadreMapper.emptyTmpSort();
         int count = iCadreMapper.batchSortByAdminLevel(status);
-        iCadreMapper.updateCadreByTem(count);
+        iCadreMapper.updateCadreByTmpSort(count);
     }
 
     @Transactional
     public void batchSortByUnit(byte status){
 
         //清空临时表
-        iCadreMapper.empetTem();
+        iCadreMapper.emptyTmpSort();
         int count = iCadreMapper.batchSortByUnit(status);
-        iCadreMapper.updateCadreByTem(count);
+        iCadreMapper.updateCadreByTmpSort(count);
     }
 }
