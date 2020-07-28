@@ -1,7 +1,8 @@
 package controller.dr;
 
-import domain.dr.DrOnline;
+import domain.dr.DrOnlineInspectorType;
 import domain.dr.DrOnlinePost;
+import domain.unit.Unit;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -19,13 +20,11 @@ import persistence.dr.common.DrFinalResult;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
+import sys.utils.StringUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/dr/drOnline")
@@ -36,15 +35,31 @@ public class DrOnlineResultController extends DrBaseController {
     @RequiresPermissions("drOnlineResult:list")
     @RequestMapping("/drOnlineResult")
     public String drOnlineResult(Integer onlineId,
-                                 @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
+                                 @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
                                  ModelMap modelMap) {
 
+        List<Integer> unitIds = iDrMapper.selectUnitIds(onlineId);
+        if (unitIds != null && unitIds.size() > 0){
+            List<Unit> unitList = new ArrayList<>();
+            for (Integer unitId : unitIds) {
+                unitList.add(unitMapper.selectByPrimaryKey(unitId));
+            }
+            modelMap.put("unitList", unitList);
+        }
+
+        List<Integer> inspectorTypeIds = iDrMapper.selectTypeIds(onlineId);
+        List<DrOnlineInspectorType> inspectorTypes = new ArrayList<>();
+        if (inspectorTypeIds != null && inspectorTypeIds.size() > 0){
+            for (Integer inspectorTypeId : inspectorTypeIds) {
+                inspectorTypes.add(drOnlineInspectorTypeMapper.selectByPrimaryKey(inspectorTypeId));
+            }
+            modelMap.put("inspectorTypes", inspectorTypes);
+        }
+        if (typeIds != null){
+            modelMap.put("selectTypeIds", Arrays.asList(typeIds));
+        }
         List<DrOnlinePost>  drOnlinePosts = drOnlinePostService.getAllByOnlineId(onlineId);
         modelMap.put("drOnlinePosts", drOnlinePosts);
-
-        DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
-        modelMap.put("drOnline", drOnline);
-        modelMap.put("typeIds", typeIds);
 
         return "dr/drOnline/drOnlineResult/drOnlineResult_page";
     }
@@ -56,19 +71,17 @@ public class DrOnlineResultController extends DrBaseController {
                                     Integer onlineId,
                                     String _typeIds,
                                     Integer postId,
-                                    @RequestParam(required = false, value = "typeIds[]") String[] typeIds,
+                                    Integer unitId,
+                                    @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
                                     String realname,//推荐人选
-                                    Integer scoreRate,//得票比率
                                     @RequestParam(required = false, defaultValue = "0") int export,
-                                    @RequestParam(required = false, value = "ids[]") Integer[] candidateIds, // 导出的记录
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         List<Integer> typeIdlist = new ArrayList<>();
         if (null != typeIds && typeIds.length > 0) {
-            for (String str : typeIds) {
-                typeIdlist.add(Integer.valueOf(str));
+            for (Integer typeId : typeIds) {
+                typeIdlist.add(typeId);
             }
-            modelMap.put("typeIds", typeIdlist);
         }
         if (StringUtils.isBlank(realname)){
             realname = null;
@@ -84,25 +97,26 @@ public class DrOnlineResultController extends DrBaseController {
 
 
         if (export == 1) {
-            List<Integer> typesFilter = new ArrayList<>();
+            List<Integer> typesFilter = new ArrayList<Integer>();
+            _typeIds = _typeIds.replaceAll("(\\[)|(\\])", "");
             if (StringUtils.isNotBlank(_typeIds)) {
-                for (String typeId : _typeIds.split(",")) {
-                    typesFilter.add(Integer.valueOf(typeId));
+                List<String> _typesFilter = Arrays.asList(_typeIds.split(","));
+                if (_typesFilter != null && _typesFilter.size() > 0) {
+                    for (String typeId : _typesFilter) {
+                        typesFilter.add(Integer.valueOf(StringUtil.trim(typeId)));
+                    }
                 }
             }
-            DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
-            Byte status = drOnline.getStatus();
-
-            drExportService.exportOnlineResult(typesFilter, onlineId, response);
-
+            List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typesFilter, postId, onlineId, realname, unitId, new RowBounds());
+            drExportService.exportOnlineResult(onlineId, drFinalResults, response);
             return;
         }
-        long count = iDrMapper.countResult(typeIdlist, postId, onlineId, realname, scoreRate);
+        long count = iDrMapper.countResult(typeIdlist, postId, onlineId, realname, unitId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postId, onlineId, realname, scoreRate,
+        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postId, onlineId, realname, unitId,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

@@ -31,16 +31,22 @@ public interface IDrMapper {
                                    @Param("postId") Integer postId,
                                    @Param("onlineId")Integer onlineId,
                                    @Param("realname")String realname,
-                                   @Param("scoreRate")Integer scoreRate,
+                                   @Param("unitId")Integer unitId,
                                    RowBounds rowBounds);
     int countResult(@Param("typeIds") List<Integer> typeIds,
                     @Param("postId") Integer postId,
                     @Param("onlineId")Integer onlineId,
                     @Param("realname")String realname,
-                    @Param("scoreRate")Integer scoreRate);
+                    @Param("unitId")Integer unitId);
 
     @Update("update dr_online_inspector_log l," +
             "(select sum(if(status!=1, 1, 0)) total_count, sum(if(status=2, 1, 0)) finish_count from dr_online_inspector where log_id=#{logId}) tmp " +
             "set l.total_count=tmp.total_count, l.finish_count=tmp.finish_count where l.id=#{logId}")
     void refreshInspectorLogCount(@Param("logId") int logId);
+
+    @Select("select distinct(inspector_type_id) from dr_online_result where online_id=#{onlineId}")
+    List<Integer>  selectTypeIds(@Param("onlineId")Integer onlineId);
+
+    @Select("select distinct(i.unit_id) from dr_online_result r, dr_online_inspector i where r.inspector_id=i.id and r.online_id=#{onlineId}")
+    List<Integer>  selectUnitIds(@Param("onlineId")Integer onlineId);
 }

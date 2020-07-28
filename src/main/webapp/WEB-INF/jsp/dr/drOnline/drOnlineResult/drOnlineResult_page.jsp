@@ -14,12 +14,13 @@ pageEncoding="UTF-8" %>
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
-                <c:set var="_query" value="${not empty param.unitName || not empty param.postId || not empty param.realname
-                 || not empty param.scoreRate}"/>
+                <c:set var="_query" value="${not empty param.unitId || not empty param.postId || not empty param.typeIds|| not empty param.realname}"/>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="drOnlineResult:edit">
                         <button id="exportResult" class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                data-url="${ctx}/dr/drOnline/drOnlineResult_data?onlineId=${param.onlineId}"
+                                data-url="${ctx}/dr/drOnline/drOnlineResult_data?onlineId=${param.onlineId}&_typeIds=${selectTypeIds}"
+
+                                data-querystr="&postId=${param.postId}&realname=${param.realname}&unitId=${param.unitId}&scoreRate=${param.scoreRate}"
                                 data-rel="tooltip" data-placement="top" title="导出统计结果">
                             <i class="fa fa-download"></i> 导出</button>
                     </shiro:hasPermission>
@@ -43,11 +44,33 @@ pageEncoding="UTF-8" %>
                                     <div class="input-group">
                                         <select data-width="230" name="postId" data-rel="select2" data data-placeholder="请选择">
                                             <option></option>
-                                           <c:forEach items="${drOnlinePosts}" var="drOnlinePost">
-                                               <option value="${drOnlinePost.id}">${drOnlinePost.name}</option>
-                                           </c:forEach>
+                                            <c:forEach items="${drOnlinePosts}" var="drOnlinePost">
+                                                <option value="${drOnlinePost.id}">${drOnlinePost.name}</option>
+                                            </c:forEach>
                                         </select>
                                         <script>         $("#searchForm2 select[name=postId]").val('${param.postId}');     </script>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>参评人所属单位</label>
+                                    <div class="input-group">
+                                        <select data-width="230" name="unitId" data-rel="select2" data data-placeholder="请选择">
+                                            <option></option>
+                                            <c:forEach items="${unitList}" var="unit">
+                                                <option value="${unit.id}">${unit.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <script>         $("#searchForm2 select[name=unitId]").val('${param.unitId}');     </script>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>参评人身份类型</label>
+                                    <div class="input-group">
+                                        <select class="multiselect" multiple="" name="typeIds">
+                                            <c:forEach items="${inspectorTypes}" var="inspectorType">
+                                                <option value="${inspectorType.id}">${inspectorType.type}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -97,4 +120,7 @@ pageEncoding="UTF-8" %>
     $('#searchForm2 [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
+
+    $.register.multiselect($('#searchForm2 select[name=typeIds]'), ${cm:toJSONArray(selectTypeIds)});
+
 </script>

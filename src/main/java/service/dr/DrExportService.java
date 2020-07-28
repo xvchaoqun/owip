@@ -17,11 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DrExportService extends DrBaseMapper {
@@ -187,12 +183,14 @@ public class DrExportService extends DrBaseMapper {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-     // 导出线上民主推荐结果，按照各个岗位导出，模板中需要多预留一行
-    public void exportOnlineResult(List<Integer> typeIds, Integer onlineId, HttpServletResponse response) throws IOException {
-
+     // 导出线上民主推荐结果，按岗位导出，模板中预留一行
+     public void exportOnlineResult(Integer onlineId, List<DrFinalResult> drFinalResults, HttpServletResponse response) throws IOException {
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
-        List<Integer> postIds = drOnlineResultService.getPostId(typeIds, onlineId);
-        Map<Integer, List<String>> candidateMap = drOnlineResultService.findCandidate(typeIds, onlineId);
+        Set<Integer> postIds = new HashSet<>();
+         for (DrFinalResult drFinalResult : drFinalResults) {
+             postIds.add(drFinalResult.getPostId());
+         }
+        Map<Integer, List<DrFinalResult>> resultMap = drOnlineResultService.getResult(drFinalResults, postIds);
 
         InputStream is = new FileInputStream(ResourceUtils
                 .getFile("classpath:xlsx/dr/dr_online_template.xlsx"));
@@ -212,28 +210,21 @@ public class DrExportService extends DrBaseMapper {
 
         if (postIds.size() == 0){
 
-            row = sheet.getRow(1);
+            row = sheet.getRow(2);
             cell = row.getCell(0);
             str = cell.getStringCellValue()
                     .replace("post", "无")
                     .replace("headcount", "0");
             cell.setCellValue(str);
 
-            row = sheet.getRow(2);
-            cell = row.getCell(0);
-            str = cell.getStringCellValue()
-                    .replace("pubcount", "0")
-                    .replace("finishcount", "0");
-            cell.setCellValue(str);
-
-            String fileName = String.format("线上民主推荐（%s）", drOnline.getCode());
+            String fileName = String.format("线上民主推荐结果（%s）", drOnline.getCode());
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return;
         }
 
         //进行row扩充
-        int startRow = 4;
-        int rowInsert = iDrMapper.countResult(typeIds, null, onlineId, null, null) + (postIds.size() - 1) * 4;
+        int startRow = 3;
+        int rowInsert = drFinalResults.size() + (postIds.size() - 1) * 3;
         ExcelUtils.insertRow(wb, sheet, startRow, rowInsert - 1);
         String[] tableHead = {"序号", "推荐人选", "票数","备注"};
         //获得单元格样式
@@ -241,15 +232,14 @@ public class DrExportService extends DrBaseMapper {
         XSSFRow _row = sheet.getRow(3);
         XSSFCellStyle cellStyle1 = _row.getCell(0).getCellStyle();
 
-        int rowCount = 1;//记录行数
+        int rowCount = 2;//记录行数
         for (Integer postId : postIds){
             //设置模板中每一个职务的第一行
             DrOnlinePost postView = drOnlinePostService.getPost(postId);
-            //List<DrOnlineCandidate> candidates = candidateMap.get(postId);
-            List<String> candidates = candidateMap.get(postId);
+            List<DrFinalResult> _drFinalResults = resultMap.get(postId);
             row = sheet.getRow(rowCount++);//1
             cell = row.getCell(0);
-            if (rowCount <= 2) {
+            if (rowCount <= 3) {
                 cellStyle = cell.getCellStyle();
                 str = cell.getStringCellValue()
                         .replace("post", postView.getName())
@@ -265,15 +255,8 @@ public class DrExportService extends DrBaseMapper {
                 str = "推荐职务：" + postView.getName() + "（" + postView.getHeadCount() + "名）";
             }
             cell.setCellValue(str);
-            //设置每一个岗位的第二行
-            if (candidates.size() == 0) {//参评人为空
-                row = sheet.getRow(rowCount++);//2
-                cell = row.getCell(0);
-                str = cell.getStringCellValue()
-                        .replace("pubcount", "0")
-                        .replace("finishcount", "0");
-                cell.setCellValue(str);
-
+            //设置每一个岗位的表头
+            if (_drFinalResults.size() == 0) {//参评人为空
                 //插入表头
                 row = sheet.getRow(rowCount++);
                 for(int i = 0; i < tableHead.length; i++){
@@ -282,9 +265,6 @@ public class DrExportService extends DrBaseMapper {
                     cell.setCellValue(tableHead[i]);
                 }
             }else {
-                DrFinalResult _view = drOnlineResultService.findCount(onlineId, postId, null, typeIds);
-                row = sheet.getRow(rowCount++);//2
-                cell = row.getCell(0);
 
                 row = sheet.getRow(rowCount++);
                 for(int i = 0; i < tableHead.length; i++){
@@ -295,12 +275,7 @@ public class DrExportService extends DrBaseMapper {
 
                 //处理得票
                 int i = 0;
-                for (String record : candidates) {
-                    DrFinalResult _result = drOnlineResultService.findCount(onlineId, postId, record, typeIds);
-                    DecimalFormat df = new DecimalFormat("0.00");
-                    /*Double options = Double.valueOf(_result.getOptions());
-                    Double finishCounts = Double.valueOf(_result.getFinishCounts());
-                    String rate = df.format(options/finishCounts*100) + "%";*/
+                for (DrFinalResult record : _drFinalResults) {
 
                     row = sheet.getRow(rowCount++);
                     int column = 0;
@@ -310,20 +285,16 @@ public class DrExportService extends DrBaseMapper {
 
                     // 推荐人选
                     cell = row.getCell(column++);
-                    cell.setCellValue(record);
+                    cell.setCellValue(record.getRealname());
 
                     // 票数
                     cell = row.getCell(column++);
-                    cell.setCellValue(_result.getBallot());
-
-                    //得票比率
-                    //cell = row.getCell(column);
-                    //cell.setCellValue(rate);
+                    cell.setCellValue(record.getBallot());
                 }
             }
             rowCount++;
         }
-        String fileName = String.format("线上民主推荐（%s）", drOnline.getCode());
+        String fileName = String.format("线上民主推荐结果（%s）", drOnline.getCode());
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

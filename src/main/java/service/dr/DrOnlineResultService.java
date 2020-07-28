@@ -1,8 +1,10 @@
 package service.dr;
 
 import controller.global.OpException;
-import domain.dr.*;
-import org.apache.ibatis.session.RowBounds;
+import domain.dr.DrOnlineCandidate;
+import domain.dr.DrOnlineInspector;
+import domain.dr.DrOnlineResult;
+import domain.dr.DrOnlineResultExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,55 +124,20 @@ public class DrOnlineResultService extends DrBaseMapper {
         iDrMapper.refreshInspectorLogCount(inspector.getLogId());
     }
 
-    //结果中包含几个岗位
-    public List<Integer> getPostId(List<Integer> typeIds, Integer onlineId){
+    //<postId, DrFinalResult>
+    public Map<Integer ,List<DrFinalResult>> getResult(List<DrFinalResult> drFinalResults, Set<Integer> postIds){
 
-        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null, null, new RowBounds((1 - 1) * 20, 20));
-        List<Integer> postIds = new ArrayList<>();
-        for (DrFinalResult record : drFinalResults){
-            if (!postIds.contains(record.getPostId()))
-                postIds.add(record.getPostId());
-        }
-        return postIds;
-    }
-
-    public DrFinalResult findCount(Integer onlineId, Integer postId, String realname, List<Integer> typeIds){
-
-        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
-        for (DrFinalResult drFinalResult : drFinalResults){
-            if (postId == drFinalResult.getPostId()){
-                if (null != realname) {
-                    if (drFinalResult.getRealname().equals(realname))
-                        return drFinalResult;
-                    else
-                        continue;
-                }
-                return drFinalResult;
-            }
-        }
-
-        return null;
-    }
-
-    //<postId, candidateStr>
-    public Map<Integer ,List<String>> findCandidate(List<Integer> typeIds, Integer onlineId){
-
-        List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIds, null, onlineId, null,null, new RowBounds((1 - 1) * 20, 20));
-        DrOnlinePostExample postExample = new DrOnlinePostExample();
-        postExample.createCriteria().andOnlineIdEqualTo(onlineId);
-        List<DrOnlinePost> posts = drOnlinePostMapper.selectByExample(postExample);
-
-        Map<Integer ,List<String>> record = new HashMap<>();
-
-        for (DrOnlinePost post : posts){
-            List<String> candidates = new ArrayList<>();
-            for (DrFinalResult result : drFinalResults){
-                if (result.getPostId().equals(post.getId())){
-                    candidates.add(result.getRealname());
+        Map<Integer ,List<DrFinalResult>> record = new HashMap<>();
+        for (Integer postId : postIds) {
+            List<DrFinalResult> _drFinalResults = new ArrayList<>();
+            for (DrFinalResult drFinalResult : drFinalResults) {
+                if (drFinalResult.getPostId() == postId){
+                    _drFinalResults.add(drFinalResult);
                 }
             }
-            record.put(post.getId(), candidates);
+            record.put(postId, _drFinalResults);
         }
+
         return record;
     }
 }

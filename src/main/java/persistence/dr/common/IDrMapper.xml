@@ -46,23 +46,33 @@
         <if test="postId != null">
             and r.post_id = #{postId}
         </if>
+        <if test="typeIds != null and typeIds.size > 0">
+            and r.inspector_type_id in
+            <foreach collection="typeIds" open="(" close = ")" item = "typeId" separator=",">
+                #{typeId}
+            </foreach>
+        </if>
+        <if test="unitId != null">
+            and i.unit_id = #{unitId}
+        </if>
     </sql>
 
     <!--所有的统计结果/参评人过滤-->
     <select id="selectResultList" parameterType="map" resultType="persistence.dr.common.DrFinalResult">
         select r.online_id as onlineId, r.post_id as postId, p.name as postName,  r.realname, count(*) ballot
-        from dr_online_result r, dr_online_post p, unit_post up
+        from dr_online_result r, dr_online_post p, unit_post up, dr_online_inspector i
         <where>
-            r.post_id=p.id and p.unit_post_id=up.id
+            r.post_id=p.id and p.unit_post_id=up.id and r.inspector_id=i.id
             <include refid="selectResultList_where"/>
         </where>
         group by r.post_id, r.realname order by p.sort_order desc, count(*) desc
     </select>
     <select id="countResult" parameterType="map" resultType="java.lang.Integer" >
-        select count(*) from (select * from dr_online_result r
+        select count(*) from (select r.* from dr_online_result r, dr_online_inspector i
         <where>
-          <include refid="selectResultList_where"/>
+            r.inspector_id=i.id
+            <include refid="selectResultList_where"/>
         </where>
-        group by post_id, realname)tmp
+        group by r.post_id, r.realname)tmp
     </select>
 </mapper>
