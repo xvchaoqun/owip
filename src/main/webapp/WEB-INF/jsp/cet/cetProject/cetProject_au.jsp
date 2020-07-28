@@ -72,13 +72,13 @@
                                     <div class="input-group">
                                     <input required class="form-control date-picker" name="startDate"
                                            type="text" style="width: 90px;float: left"
-                                           data-date-format="yyyy-mm-dd"
-                                           value="${cm:formatDate(cetProject.startDate,'yyyy-MM-dd')}"/>
+                                           data-date-format="yyyy.mm.dd"
+                                           value="${cm:formatDate(cetProject.startDate,'yyyy.MM.dd')}"/>
                                     <div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
                                     <input required class="form-control date-picker" name="endDate"
                                            type="text" style="width: 90px;float: left"
-                                           data-date-format="yyyy-mm-dd"
-                                           value="${cm:formatDate(cetProject.endDate,'yyyy-MM-dd')}"/>
+                                           data-date-format="yyyy.mm.dd"
+                                           value="${cm:formatDate(cetProject.endDate,'yyyy.MM.dd')}"/>
                                         </div>
                                 </div>
                             </div>
@@ -154,18 +154,19 @@
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>总学时</label>
                                 <div class="col-xs-8">
-                                    <input required class="form-control period"  style="width: 80px"
+                                    <input required class="form-control period"  style="width: 80px" maxlength="5"
                                            type="text" name="period" value="${cetProject.period}">
                                 </div>
                             </div>
-                            <%--<div class="form-group">
-                                <label class="col-xs-3 control-label"><span class="star">*</span>达到结业要求的学时数</label>
-                                <div class="col-xs-6">
-                                        <input required class="form-control period" type="text" name="requirePeriod" value="${cetProject.requirePeriod}">
-                                </div>
-                            </div>--%>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label" style="margin-top: -15px">是否计入<br/>年度学习任务</label>
+                                <label class="col-xs-5 control-label">达到结业要求的学时数</label>
+                                <div class="col-xs-6">
+                                        <input class="form-control period" type="text"
+                                               name="requirePeriod" value="${cetProject.requirePeriod}" maxlength="5" style="width: 80px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-5 control-label">是否计入年度学习任务</label>
                                 <div class="col-xs-6">
                                     <input type="checkbox" class="big" name="isValid" ${(empty cetProject || cetProject.isValid)?"checked":""}/>
                                 </div>
@@ -263,10 +264,10 @@
                 success:function(ret){
                     if(ret.success){
 
-                        SysMsg.success("提交成功。",function(){
+                        /*SysMsg.success("提交成功。",function(){
                             $.hideView();
-                        })
-                        //$("#modal").modal('hide');
+                        })*/
+                        $.hideView();
                         //$("#jqGrid").trigger("reloadGrid");
                     }else{
                         $btn.button('reset');

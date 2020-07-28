@@ -2,7 +2,9 @@ package persistence.dr.common;
 
 import domain.dr.DrMember;
 import domain.dr.DrOfflineView;
+import domain.dr.DrOnlineInspectorType;
 import domain.dr.DrOnlineResult;
+import domain.unit.Unit;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -44,9 +46,15 @@ public interface IDrMapper {
             "set l.total_count=tmp.total_count, l.finish_count=tmp.finish_count where l.id=#{logId}")
     void refreshInspectorLogCount(@Param("logId") int logId);
 
-    @Select("select distinct(inspector_type_id) from dr_online_result where online_id=#{onlineId}")
-    List<Integer>  selectTypeIds(@Param("onlineId")Integer onlineId);
+    // 参评人身份列表
+    @ResultMap("persistence.dr.DrOnlineInspectorTypeMapper.BaseResultMap")
+    @Select("select distinct t.* from dr_online_inspector_log l, dr_online_inspector_type t " +
+            "where l.type_id=t.id and l.online_id=#{onlineId} order by l.id desc")
+    List<DrOnlineInspectorType>  getInspectorTypes(@Param("onlineId")Integer onlineId);
 
-    @Select("select distinct(i.unit_id) from dr_online_result r, dr_online_inspector i where r.inspector_id=i.id and r.online_id=#{onlineId}")
-    List<Integer>  selectUnitIds(@Param("onlineId")Integer onlineId);
+    // 参评人所在单位列表
+    @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
+    @Select("select distinct u.* from dr_online_inspector_log l, unit u " +
+            "where l.unit_id=u.id and l.online_id=#{onlineId} order by l.id desc")
+    List<Unit>  getInspectorUnits(@Param("onlineId")Integer onlineId);
 }

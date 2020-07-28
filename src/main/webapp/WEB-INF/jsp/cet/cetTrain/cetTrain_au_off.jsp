@@ -30,8 +30,8 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input  class="form-control date-picker required" name="startDate"
-                            type="text" data-date-format="yyyy-mm-dd"
-                            value="${cm:formatDate(cetTrain.startDate, "yyyy-MM-dd")}"/>
+                            type="text" data-date-format="yyyy.mm.dd"
+                            value="${cm:formatDate(cetTrain.startDate, "yyyy.MM.dd")}"/>
                     <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                     </span>
@@ -44,8 +44,8 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control date-picker required" name="endDate"
-                           type="text" data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(cetTrain.endDate, "yyyy-MM-dd")}"/>
+                           type="text" data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(cetTrain.endDate, "yyyy.MM.dd")}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>

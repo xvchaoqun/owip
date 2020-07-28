@@ -17,8 +17,8 @@ pageEncoding="UTF-8"%>
 					<div class="input-group">
 						<input required class="form-control date-picker" name="foundDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${cm:formatDate(cetCourse.foundDate,'yyyy-MM-dd')}"/>
+							   data-date-format="yyyy.mm.dd"
+							   value="${cm:formatDate(cetCourse.foundDate,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>

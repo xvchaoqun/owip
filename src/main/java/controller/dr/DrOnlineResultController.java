@@ -20,7 +20,7 @@ import persistence.dr.common.DrFinalResult;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
-import sys.utils.StringUtil;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -38,23 +38,12 @@ public class DrOnlineResultController extends DrBaseController {
                                  @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
                                  ModelMap modelMap) {
 
-        List<Integer> unitIds = iDrMapper.selectUnitIds(onlineId);
-        if (unitIds != null && unitIds.size() > 0){
-            List<Unit> unitList = new ArrayList<>();
-            for (Integer unitId : unitIds) {
-                unitList.add(unitMapper.selectByPrimaryKey(unitId));
-            }
-            modelMap.put("unitList", unitList);
-        }
+        List<Unit> unitList = iDrMapper.getInspectorUnits(onlineId);
+        modelMap.put("unitList", unitList);
 
-        List<Integer> inspectorTypeIds = iDrMapper.selectTypeIds(onlineId);
-        List<DrOnlineInspectorType> inspectorTypes = new ArrayList<>();
-        if (inspectorTypeIds != null && inspectorTypeIds.size() > 0){
-            for (Integer inspectorTypeId : inspectorTypeIds) {
-                inspectorTypes.add(drOnlineInspectorTypeMapper.selectByPrimaryKey(inspectorTypeId));
-            }
-            modelMap.put("inspectorTypes", inspectorTypes);
-        }
+        List<DrOnlineInspectorType> inspectorTypes = iDrMapper.getInspectorTypes(onlineId);
+        modelMap.put("inspectorTypes", inspectorTypes);
+
         if (typeIds != null){
             modelMap.put("selectTypeIds", Arrays.asList(typeIds));
         }
@@ -69,22 +58,21 @@ public class DrOnlineResultController extends DrBaseController {
     @ResponseBody
     public void drOnlineResult_data(HttpServletResponse response,
                                     Integer onlineId,
-                                    String _typeIds,
                                     Integer postId,
                                     Integer unitId,
                                     @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
-                                    String realname,//推荐人选
+                                    String realname, //推荐人选姓名
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) throws IOException {
 
         List<Integer> typeIdlist = new ArrayList<>();
         if (null != typeIds && typeIds.length > 0) {
-            for (Integer typeId : typeIds) {
-                typeIdlist.add(typeId);
-            }
+            typeIdlist = Arrays.asList(typeIds);
         }
-        if (StringUtils.isBlank(realname)){
-            realname = null;
+
+        realname = StringUtils.trimToNull(realname);
+        if (realname!=null){
+            realname = SqlUtils.like(realname);
         }
 
         if (null == pageSize) {
@@ -95,19 +83,9 @@ public class DrOnlineResultController extends DrBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-
         if (export == 1) {
-            List<Integer> typesFilter = new ArrayList<Integer>();
-            _typeIds = _typeIds.replaceAll("(\\[)|(\\])", "");
-            if (StringUtils.isNotBlank(_typeIds)) {
-                List<String> _typesFilter = Arrays.asList(_typeIds.split(","));
-                if (_typesFilter != null && _typesFilter.size() > 0) {
-                    for (String typeId : _typesFilter) {
-                        typesFilter.add(Integer.valueOf(StringUtil.trim(typeId)));
-                    }
-                }
-            }
-            List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typesFilter, postId, onlineId, realname, unitId, new RowBounds());
+
+            List<DrFinalResult> drFinalResults = iDrMapper.selectResultList(typeIdlist, postId, onlineId, realname, unitId, new RowBounds());
             drExportService.exportOnlineResult(onlineId, drFinalResults, response);
             return;
         }
@@ -130,14 +108,6 @@ public class DrOnlineResultController extends DrBaseController {
         //baseMixins.put(drOnlineResult.class, drOnlineResultMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
-
-    @RequiresPermissions("drOnlineResult:list")
-    @RequestMapping("/drOnlineResult_filter")
-    public String drOnlineResult_filter(ModelMap modelMap,
-                                      HttpServletResponse response) throws IOException {
-
-        return "/dr/drOnline/drOnlineResult/drOnlineResult_filter";
     }
 
     @RequestMapping("/unitPost_selects")

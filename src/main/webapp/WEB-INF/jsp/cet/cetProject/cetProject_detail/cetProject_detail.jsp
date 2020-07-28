@@ -10,7 +10,7 @@
 
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            ${cetProject.name}（${cm:formatDate(cetProject.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProject.endDate, "yyyy-MM-dd")}）
+            ${cetProject.name}（${cm:formatDate(cetProject.startDate, "yyyy.MM.dd")} ~ ${cm:formatDate(cetProject.endDate, "yyyy.MM.dd")}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
@@ -31,12 +31,6 @@
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetProject_detail_begin?projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-history bigger-120"></i> 开班仪式和通知</a>
-                </li>
-                <li>
-                    <a href="javascript:;" class="loadPage"
-                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetProject_detail_setting?projectId=${param.projectId}">
-                        <i class="green ace-icon fa fa-history bigger-120"></i> 参数设置</a>
                 </li>
             </ul>
         </div>

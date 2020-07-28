@@ -62,7 +62,7 @@ public class CetCourse implements Serializable {
 
     private Integer num;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date foundDate;
 
     private String name;

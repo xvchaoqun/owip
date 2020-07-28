@@ -22,11 +22,11 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>开课日期</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group" style="width: 130px">
 						<input required class="form-control date-picker" name="startDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${cm:formatDate(cetTrain.startDate,'yyyy-MM-dd')}"/>
+							   data-date-format="yyyy.mm.dd"
+							   value="${cm:formatDate(cetTrain.startDate,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>
@@ -35,11 +35,11 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>结课日期</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group" style="width: 130px">
 						<input required class="form-control date-picker" name="endDate"
 							   type="text"
-							   data-date-format="yyyy-mm-dd"
-							   value="${cm:formatDate(cetTrain.endDate,'yyyy-MM-dd')}"/>
+							   data-date-format="yyyy.mm.dd"
+							   value="${cm:formatDate(cetTrain.endDate,'yyyy.MM.dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>

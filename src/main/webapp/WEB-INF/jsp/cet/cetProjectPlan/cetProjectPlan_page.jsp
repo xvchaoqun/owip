@@ -23,42 +23,7 @@
             <i class="fa fa-trash"></i> 彻底删除
         </button>
     </shiro:hasPermission>
-    <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-            data-url="${ctx}/cet/cetProjectPlan_data"
-            data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-        <i class="fa fa-download"></i> 导出
-    </button>--%>
 </div>
-<%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-    <div class="widget-header">
-        <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
-
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-            </a>
-        </div>
-    </div>
-    <div class="widget-body">
-        <div class="widget-main no-padding">
-            <form class="form-inline search-form" id="searchForm">
-                <div class="form-group">
-                    <label>培训形式</label>
-                    <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                           placeholder="请输入培训形式">
-                </div>
-                <div class="clearfix form-actions center">
-                    <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                    <c:if test="${_query}">&nbsp;
-                        <button type="button" class="reloadBtn btn btn-warning btn-sm">
-                            <i class="fa fa-reply"></i> 重置
-                        </button>
-                    </c:if>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>--%>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
 <div id="jqGridPager2"></div>
@@ -74,14 +39,14 @@
                         .format(rowObject.id);
             }},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
+                return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy.MM.dd"), $.date(rowObject.endDate, "yyyy.MM.dd"))
             }, frozen: true},
             {label: '培训形式', name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CET_PROJECT_PLAN_TYPE_MAP[cellvalue];
             }, frozen: true},
             {label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 var btnStr = "添加";
-                var btnCss = "btn-success";
+                var btnCss = "btn-info";
                 var iCss = "fa-plus";
                 if (rowObject.hasSummary){
                     btnStr = "查看";

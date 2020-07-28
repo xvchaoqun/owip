@@ -68,12 +68,12 @@
 
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
-                data-msg="确定自动结业？（根据已设置的达到结业要求的学时数和学员已完成学时数自动计算）"
+                data-msg="确定自动结业？（根据已设置的“达到结业要求的学时数”和学员已完成学时数自动计算）"
                 data-grid-id="#jqGrid2"
                 data-callback="_detailReload"
                 class="confirm btn btn-success btn-sm">
             <i class="prompt fa fa-question-circle"
-               data-prompt="针对当前列表中所有的人员，系统根据已设置的达到结业要求的学时数和学员已完成学时数进行自动计算"></i> 自动结业
+               data-prompt="针对当前列表中所有的人员，系统根据已设置的“达到结业要求的学时数”和学员已完成学时数进行自动计算"></i> 自动结业
         </button>
 
         <button data-url="${ctx}/cet/cetProjectObj_forceGraduate"

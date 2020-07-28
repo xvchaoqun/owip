@@ -11,7 +11,7 @@
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
                     ${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
-                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}，${cetProject.name}）
+                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy.MM.dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy.MM.dd")}，${cetProject.name}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
@@ -66,57 +66,8 @@
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 彻底删除
                 </button>
-                <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>--%>
             </div>
-            <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>
 
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
-                            <input type="hidden" name="cls" value="${cls}">
-                            <div class="form-group">
-                                <label>年度</label>
-                                <input class="form-control search-query" name="year" type="text"
-                                       value="${param.year}"
-                                       placeholder="请输入">
-                            </div>
-                            <div class="form-group">
-                                <label>编号</label>
-                                <input class="form-control search-query" name="num" type="text"
-                                       value="${param.num}"
-                                       placeholder="请输入编号">
-                            </div>
-                            <div class="form-group">
-                                <label>培训班名称</label>
-                                <input class="form-control search-query" name="name" type="text"
-                                       value="${param.name}"
-                                       placeholder="请输入培训班名称">
-                            </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
-                                    查找</a>
-
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-querystr="cls=${cls}">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>--%>
             <div class="space-4"></div>
             <table id="jqGrid2" class="jqGrid2 table-striped"></table>
             <div id="jqGridPager2"></div>

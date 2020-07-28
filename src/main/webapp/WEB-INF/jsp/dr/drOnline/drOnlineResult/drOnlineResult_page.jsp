@@ -18,9 +18,8 @@ pageEncoding="UTF-8" %>
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="drOnlineResult:edit">
                         <button id="exportResult" class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                data-url="${ctx}/dr/drOnline/drOnlineResult_data?onlineId=${param.onlineId}&_typeIds=${selectTypeIds}"
-
-                                data-querystr="&postId=${param.postId}&realname=${param.realname}&unitId=${param.unitId}&scoreRate=${param.scoreRate}"
+                                data-url="${ctx}/dr/drOnline/drOnlineResult_data"
+                                data-search-form-id="#searchForm2"
                                 data-rel="tooltip" data-placement="top" title="导出统计结果">
                             <i class="fa fa-download"></i> 导出</button>
                     </shiro:hasPermission>

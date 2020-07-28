@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="${ctx}/extend/css/browsers.css">
     <c:if test="${param.type=='unsupport'}">
         <!--[if gte IE 9]> -->
-        <script type="text/javascript">location.href = "${ctx}/";</script>
+        <script type="text/javascript">location.href = "${ctx}${empty param.url?'/':param.url}";</script>
         <!-- <![endif]-->
     </c:if>
 </head>
 <body>
-<div id="container">
+<div id="container" style="text-align: center">
     <h1>为了您流畅使用本系统，建议安装IE9以上的浏览器或以下现代浏览器</h1>
     <table class="browsers">
         <tr>

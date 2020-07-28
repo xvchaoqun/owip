@@ -15,13 +15,13 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-6">
 				<input required class="form-control date-picker" name="startDate"
 					   type="text" style="width: 120px;float: left"
-					   data-date-format="yyyy-mm-dd"
-					   value="${cm:formatDate(cetProjectPlan.startDate,'yyyy-MM-dd')}"/>
+					   data-date-format="yyyy.mm.dd"
+					   value="${cm:formatDate(cetProjectPlan.startDate,'yyyy.MM.dd')}"/>
 				<div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
 				<input required class="form-control date-picker" name="endDate"
 					   type="text" style="width: 120px;float: left"
-					   data-date-format="yyyy-mm-dd"
-					   value="${cm:formatDate(cetProjectPlan.endDate,'yyyy-MM-dd')}"/>
+					   data-date-format="yyyy.mm.dd"
+					   value="${cm:formatDate(cetProjectPlan.endDate,'yyyy.MM.dd')}"/>
 			</div>
 		</div>
 			<div class="form-group">

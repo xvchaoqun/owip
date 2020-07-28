@@ -46,6 +46,7 @@
     <div id="jqGridPager_popup"></div>
 </div>
 <div class="modal-footer">
+    <div class="note">注：如果课程不存在或信息有误，请在[课程中心-线下课程/线上课程/实践教学]中维护</div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input id="selectBtn" type="button" class="btn btn-primary" value="添加"/>
 </div>

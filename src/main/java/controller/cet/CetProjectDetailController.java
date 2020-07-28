@@ -30,7 +30,6 @@ import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -106,35 +105,6 @@ public class CetProjectDetailController extends CetBaseController {
         modelMap.put("cls", cls);
 
         return "cet/cetProject/cetProject_detail/cetProject_detail_obj";
-    }
-
-    @RequiresPermissions("cetProject:edit")
-    @RequestMapping("/cetProject_detail_setting")
-    public String cetProject_detail_setting(int projectId, ModelMap modelMap) {
-
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-        modelMap.put("cetProject", cetProject);
-
-        return "cet/cetProject/cetProject_detail/cetProject_detail_setting";
-    }
-
-    @RequiresPermissions("cetProject:edit")
-    @RequestMapping(value = "/cetProject_detail_setting", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetProject_detail_setting(int projectId, BigDecimal requirePeriod) {
-
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-
-        CetProject record = new CetProject();
-        record.setId(projectId);
-        record.setRequirePeriod(requirePeriod);
-
-        cetProjectMapper.updateByPrimaryKeySelective(record);
-
-        logger.info(addLog(LogConstants.LOG_CET, "更新专题培训参数设置：%s~%s",
-                cetProject.getName(), requirePeriod));
-
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetProject:edit")

@@ -8,6 +8,9 @@
     <title>${_p_drSiteName}</title>
     <t:link href="/css/main.css"/>
     <t:link href="/css/dr.css"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript">location.href = "${ctx}/page/browsers.jsp?type=unsupport&url=/dr/login";</script>
+    <![endif]-->
 </head>
 <body class="login_body">
 <form id="login-form" method="post" action="${ctx}/user/dr/login" autocomplete="off" disableautocomplete>

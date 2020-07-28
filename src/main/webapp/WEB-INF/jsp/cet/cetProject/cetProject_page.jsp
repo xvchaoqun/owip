@@ -144,9 +144,9 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id);
             }, frozen: true},
 
-            { label: '年度',name: 'year', frozen: true},
+            { label: '年度',name: 'year', width: 60, frozen: true},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
+                return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy.MM.dd"), $.date(rowObject.endDate, "yyyy.MM.dd"))
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 400, align:'left'},
             {
@@ -190,7 +190,10 @@ pageEncoding="UTF-8" %>
             }
             },
 
-            { label: '总学时',name: 'period'},
+            { label: '总学时/<br/>结业学时', width: 90,name: 'period', formatter: function (cellvalue, options, rowObject) {
+
+                return rowObject.period + "/" + (rowObject.requirePeriod>0?rowObject.requirePeriod:"--");
+            }},
             { label: '是否计入<br/>年度学习任务', name: 'isValid', formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">是</span>', off:'<span class="red bolder">否</span>'}},
             { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {
 

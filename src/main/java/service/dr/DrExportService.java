@@ -185,6 +185,7 @@ public class DrExportService extends DrBaseMapper {
 
      // 导出线上民主推荐结果，按岗位导出，模板中预留一行
      public void exportOnlineResult(Integer onlineId, List<DrFinalResult> drFinalResults, HttpServletResponse response) throws IOException {
+
         DrOnline drOnline = drOnlineMapper.selectByPrimaryKey(onlineId);
         Set<Integer> postIds = new HashSet<>();
          for (DrFinalResult drFinalResult : drFinalResults) {
