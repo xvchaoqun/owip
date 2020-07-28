@@ -271,9 +271,12 @@ public class UserDrOnlineController extends DrBaseController {
                         recommendCount ++;
                     }else{
 
-                        String otherRealname = StringUtil.trimAll(request.getParameter(radioName+"_realname"));
-                        if(StringUtils.isNotBlank(otherRealname)) { // 不同意或弃权时，可另选推荐人，也可不选
-                            otherMap.put(radioName, otherRealname);
+                        String realname = StringUtil.trimAll(request.getParameter(radioName+"_realname"));
+                        if(StringUtils.equalsAny(realname, "无", "没有")){
+                            realname = null;
+                        }
+                        if(StringUtils.isNotBlank(realname)) { // 不同意或弃权时，可另选推荐人，也可不选
+                            otherMap.put(radioName, realname);
                             recommendCount ++;
                         }
                     }
@@ -285,7 +288,9 @@ public class UserDrOnlineController extends DrBaseController {
 
                 String radioName = postId + "_realname_" + i;
                 String realname = StringUtil.trimAll(request.getParameter(radioName));
-
+                if(StringUtils.equalsAny(realname, "无", "没有")){
+                    realname = null;
+                }
                 if(StringUtils.isNotBlank(realname)) {
                     Set<String> realnameSet = realnameSetMap.get(postId);
                     if(realnameSet==null){
