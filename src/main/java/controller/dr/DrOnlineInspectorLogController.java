@@ -51,7 +51,6 @@ public class DrOnlineInspectorLogController extends DrBaseController {
     @RequiresPermissions("drOnlineInspectorLog:list")
     @RequestMapping("/drOnlineInspectorLog")
     public String drOnlineInspectorLog(Integer typeId,
-                                       Integer onlineId,
                                        ModelMap modelMap,
                                        Integer unitId,
                                        HttpServletRequest request) {
@@ -63,8 +62,6 @@ public class DrOnlineInspectorLogController extends DrBaseController {
             Unit unit = unitMapper.selectByPrimaryKey(unitId);
             modelMap.put("unit", unit);
         }
-
-        modelMap.put("onlineId", onlineId);
 
         return "dr/drOnline/drOnlineInspectorLog/drOnlineInspectorLog_page";
     }
@@ -91,7 +88,7 @@ public class DrOnlineInspectorLogController extends DrBaseController {
 
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
         Criteria criteria = example.createCriteria().andOnlineIdEqualTo(onlineId);
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("unit_id desc,type_id desc");
 
         if (id!=null) {
             criteria.andIdEqualTo(id);

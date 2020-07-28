@@ -8,11 +8,21 @@
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" data-target="#inspectorLog-content">
+                <li class="active">
+                    <a href="javascript:;" data-url="${ctx}/dr/drOnlineInspectorLog?onlineId=${param.onlineId}">参评人账号生成记录</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-url="${ctx}/dr/drOnlineInspector?onlineId=${param.onlineId}">参评人账号汇总</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
-            <div class="tab-content padding-8">
-                <c:import url="/dr/drOnlineInspectorLog?onlineId=${onlineId}&${cm:encodeQueryString(pageContext.request.queryString)}"/>
+            <div class="tab-content padding-8" id="inspectorLog-content">
+                <c:import url="/dr/drOnlineInspectorLog?onlineId=${param.onlineId}&${cm:encodeQueryString(pageContext.request.queryString)}"/>
             </div>
         </div>
     </div>

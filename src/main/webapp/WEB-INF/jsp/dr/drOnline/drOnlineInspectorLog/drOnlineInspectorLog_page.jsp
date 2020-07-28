@@ -1,25 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div>
-            <c:set var="_query" value="${not empty param.unitName || not empty param.id ||not empty param.typeId ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.id ||not empty param.typeId ||not empty param.unitId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="drOnlineInspectorLog:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/dr/selectUnitIdsAndInspectorTypeIds?onlineId=${onlineId}">
+                            data-url="${ctx}/dr/selectUnitIdsAndInspectorTypeIds?onlineId=${param.onlineId}">
                         <i class="fa fa-plus"></i> 列表生成</button>
                     <button class="popupBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/dr/drOnlineInspectorLog_au?onlineId=${onlineId}"
+                       data-url="${ctx}/dr/drOnlineInspectorLog_au?onlineId=${param.onlineId}"
                        data-grid-id="#jqGrid2"><i class="fa fa-plus"></i>
                         个别生成</button>
-                    <button data-url="${ctx}/dr/drOnlineInspectorLog_selectPost?onlineId=${onlineId}"
+                    <button data-url="${ctx}/dr/drOnlineInspectorLog_selectPost?onlineId=${param.onlineId}"
                             data-grid-id="#jqGrid2"
                             class="jqOpenViewBtn btn btn-warning btn-sm">
                         <i class="fa fa-edit"></i> 限定推荐职务
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${onlineId}"
+                   data-url="${ctx}/dr/drOnlineInspectorLog_data?onlineId=${param.onlineId}"
                         data-grid-id="#jqGrid2"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出参评人账号</button>
@@ -46,7 +45,7 @@ pageEncoding="UTF-8" %>
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm2">
-                            <input type="hidden" name="onlineId" value="${onlineId}"/>
+                            <input type="hidden" name="onlineId" value="${param.onlineId}"/>
                             <div class="form-group">
                                 <label>参评人身份类型</label>
                                 <div class="input-group">
@@ -75,7 +74,7 @@ pageEncoding="UTF-8" %>
                                    data-form="#searchForm2"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId=${onlineId}"
+                                            data-url="${ctx}/dr/drOnlineInspectorLog_menu?onlineId=${param.onlineId}"
                                             data-target="#body-content-view">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -86,9 +85,8 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="52"></table>
+            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="6"></table>
             <div id="jqGridPager2"></div>
-</div>
 <script>
     function _reload() {
         $("#jqGrid2").trigger("reloadGrid");

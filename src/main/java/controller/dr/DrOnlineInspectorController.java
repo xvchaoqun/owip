@@ -36,17 +36,12 @@ public class DrOnlineInspectorController extends DrBaseController {
 
     @RequiresPermissions("drOnlineInspector:list")
     @RequestMapping("/drOnlineInspector")
-    public String drOnlineInspector(Integer onlineId,
-                                    Integer logId,
-                                    Integer typeId,
+    public String drOnlineInspector(Integer typeId,
                                     ModelMap modelMap) {
         if (typeId != null) {
             DrOnlineInspectorType inspectorType = drOnlineInspectorTypeMapper.selectByPrimaryKey(typeId);
             modelMap.put("inspectorType", inspectorType);
         }
-
-        modelMap.put("onlineId", onlineId);
-        modelMap.put("logId", logId);
 
         return "dr/drOnline/drOnlineInspector/drOnlineInspector_page";
     }
@@ -58,7 +53,7 @@ public class DrOnlineInspectorController extends DrBaseController {
                                     Integer typeId,
                                     Integer logId,
                                     Byte status,
-                                    String username,
+                                    String _username,
                                      @RequestParam(required = false, defaultValue = "0") int export,
                                      @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                      Integer pageSize, Integer pageNo)  throws IOException{
@@ -72,17 +67,20 @@ public class DrOnlineInspectorController extends DrBaseController {
         pageNo = Math.max(1, pageNo);
 
         DrOnlineInspectorExample example = new DrOnlineInspectorExample();
-        Criteria criteria = example.createCriteria().andLogIdEqualTo(logId);
-        example.setOrderByClause("id desc");
+        Criteria criteria = example.createCriteria();
+        example.setOrderByClause("unit_id desc,type_id desc");
 
+        if (logId != null){
+            criteria.andLogIdEqualTo(logId);
+        }
         if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
         if (status != null) {
             criteria.andStatusEqualTo(status);
         }
-        if (StringUtils.isNotBlank(username)) {
-            criteria.andUsernameLike(SqlUtils.like(username));
+        if (StringUtils.isNotBlank(_username)) {
+            criteria.andUsernameLike(SqlUtils.like(_username));
         }
 
         if (export == 1) {
