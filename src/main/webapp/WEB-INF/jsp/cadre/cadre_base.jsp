@@ -176,20 +176,20 @@
                             手机号
                         </td>
                         <td style="min-width: 80px">
-                                ${uv.mobile}
+                            <t:mask src="${uv.mobile}" type="mobile"/>
                         </td>
                         <td>
                             办公电话
                         </td>
                         <td style="min-width: 80px">
-                                ${uv.phone}
+                            <t:mask src="${uv.phone}" type="fixedPhone"/>
                         </td>
 
                         <td>
                             电子邮箱
                         </td>
                         <td style="min-width: 80px">
-                                ${uv.email}
+                            <t:mask src="${uv.email}" type="email"/>
                         </td>
                     </tr>
 
