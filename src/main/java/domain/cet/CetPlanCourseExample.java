@@ -1,5 +1,6 @@
 package domain.cet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -282,6 +283,206 @@ public class CetPlanCourseExample {
 
         public Criteria andCourseIdNotBetween(Integer value1, Integer value2) {
             addCriterion("course_id not between", value1, value2, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIsNull() {
+            addCriterion("unit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIsNotNull() {
+            addCriterion("unit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitEqualTo(String value) {
+            addCriterion("unit =", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotEqualTo(String value) {
+            addCriterion("unit <>", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitGreaterThan(String value) {
+            addCriterion("unit >", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitGreaterThanOrEqualTo(String value) {
+            addCriterion("unit >=", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLessThan(String value) {
+            addCriterion("unit <", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLessThanOrEqualTo(String value) {
+            addCriterion("unit <=", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLike(String value) {
+            addCriterion("unit like", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotLike(String value) {
+            addCriterion("unit not like", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIn(List<String> values) {
+            addCriterion("unit in", values, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotIn(List<String> values) {
+            addCriterion("unit not in", values, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitBetween(String value1, String value2) {
+            addCriterion("unit between", value1, value2, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotBetween(String value1, String value2) {
+            addCriterion("unit not between", value1, value2, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIsNull() {
+            addCriterion("period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIsNotNull() {
+            addCriterion("period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodEqualTo(BigDecimal value) {
+            addCriterion("period =", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("period <>", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodGreaterThan(BigDecimal value) {
+            addCriterion("period >", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("period >=", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodLessThan(BigDecimal value) {
+            addCriterion("period <", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("period <=", value, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodIn(List<BigDecimal> values) {
+            addCriterion("period in", values, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("period not in", values, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period between", value1, value2, "period");
+            return (Criteria) this;
+        }
+
+        public Criteria andPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("period not between", value1, value2, "period");
             return (Criteria) this;
         }
 

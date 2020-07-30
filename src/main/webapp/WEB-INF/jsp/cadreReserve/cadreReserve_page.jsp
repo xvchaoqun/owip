@@ -135,9 +135,7 @@
                                     </button>
                                 </c:if>
                             </shiro:lacksPermission>
-                            <%--<a class="jqExportBtn btn btn-success btn-sm"
-                               data-rel="tooltip" data-placement="bottom"
-                               title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>--%>
+
                             <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL}">
                                 <div class="btn-group">
                                 <button data-toggle="dropdown"
@@ -331,7 +329,7 @@
                                         </div>
                                         <div class="clearfix"></div>
                                         <div class="clearfix form-actions center">
-                                            <a class="jqSearchBtn btn btn-default btn-sm"><i
+                                            <a class="jqSearchBtn btn btn-default btn-sm" data-method="POST"><i
                                                     class="fa fa-search"></i> 查找</a>
 
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
@@ -396,7 +394,10 @@
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadreReserve_data?reserveType=${reserveType}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        mtype:'POST',
+        ajaxGridOptions:{traditional:true},
+        postData:${cm:toJSONObject(pageContext.request.parameterMap)},
+        url: '${ctx}/cadreReserve_data?reserveType=${reserveType}&callback=?',
         colModel: [
             {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {

@@ -5,6 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="need_note" jdbcType="BIT" property="needNote" />
@@ -72,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, plan_id, course_id, start_time, end_time, need_note, file_name, file_path, sort_order, 
-    remark
+    id, plan_id, course_id, name, unit, period, start_time, end_time, need_note, file_name, 
+    file_path, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetPlanCourseExample" resultMap="BaseResultMap">
     select
@@ -107,10 +110,12 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetPlanCourse">
     insert into cet_plan_course (id, plan_id, course_id, 
+      name, unit, period, 
       start_time, end_time, need_note, 
       file_name, file_path, sort_order, 
       remark)
     values (#{id,jdbcType=INTEGER}, #{planId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{needNote,jdbcType=BIT}, 
       #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
@@ -126,6 +131,15 @@
       </if>
       <if test="courseId != null">
         course_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="period != null">
+        period,
       </if>
       <if test="startTime != null">
         start_time,
@@ -158,6 +172,15 @@
       </if>
       <if test="courseId != null">
         #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -200,6 +223,15 @@
       <if test="record.courseId != null">
         course_id = #{record.courseId,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -231,6 +263,9 @@
     set id = #{record.id,jdbcType=INTEGER},
       plan_id = #{record.planId,jdbcType=INTEGER},
       course_id = #{record.courseId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      period = #{record.period,jdbcType=DECIMAL},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       need_note = #{record.needNote,jdbcType=BIT},
@@ -250,6 +285,15 @@
       </if>
       <if test="courseId != null">
         course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -279,6 +323,9 @@
     update cet_plan_course
     set plan_id = #{planId,jdbcType=INTEGER},
       course_id = #{courseId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      period = #{period,jdbcType=DECIMAL},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       need_note = #{needNote,jdbcType=BIT},

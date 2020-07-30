@@ -5,6 +5,7 @@ import domain.cadre.CadreAdLog;
 import domain.cadre.CadreAdLogExample;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
+import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -78,7 +79,8 @@ public class CadreAdLogController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 }

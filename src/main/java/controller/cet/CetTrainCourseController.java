@@ -79,8 +79,8 @@ public class CetTrainCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTrainCourseViewExample example = new CetTrainCourseViewExample();
-        CetTrainCourseViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
+        CetTrainCourseExample example = new CetTrainCourseExample();
+        CetTrainCourseExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -98,12 +98,12 @@ public class CetTrainCourseController extends CetBaseController {
             return;
         }
 
-        long count = cetTrainCourseViewMapper.countByExample(example);
+        long count = cetTrainCourseMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTrainCourseView> records = cetTrainCourseViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetTrainCourse> records = cetTrainCourseMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         request.setAttribute("userId", userId);
@@ -407,14 +407,14 @@ public class CetTrainCourseController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetTrainCourse_export(CetTrainCourseViewExample example, HttpServletResponse response) {
+    public void cetTrainCourse_export(CetTrainCourseExample example, HttpServletResponse response) {
 
-        List<CetTrainCourseView> records = cetTrainCourseViewMapper.selectByExample(example);
+        List<CetTrainCourse> records = cetTrainCourseMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"培训班次|200", "课程名称|300", "教师名称", "开始时间|200", "结束时间|200", "选课情况"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetTrainCourseView record = records.get(i);
+            CetTrainCourse record = records.get(i);
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(record.getTrainId());
             CetCourse cetCourse = record.getCetCourse();
             CetExpert cetExpert = cetCourse.getCetExpert();
@@ -432,14 +432,14 @@ public class CetTrainCourseController extends CetBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    public void cetTrainCourse_off_export(CetTrainCourseViewExample example, HttpServletResponse response) {
+    public void cetTrainCourse_off_export(CetTrainCourseExample example, HttpServletResponse response) {
 
-        List<CetTrainCourseView> records = cetTrainCourseViewMapper.selectByExample(example);
+        List<CetTrainCourse> records = cetTrainCourseMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"培训班次|200", "课程名称|300", "教师名称|80", "开始时间|200", "结束时间|200", "评估表|200", "评课情况（已完成/总数）|200"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetTrainCourseView record = records.get(i);
+            CetTrainCourse record = records.get(i);
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(record.getTrainId());
             CetTrainEvaTable trainEvaTable = cetTrainEvaTableMapper.selectByPrimaryKey(record.getEvaTableId());
             String[] values = {
@@ -527,6 +527,7 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_import";
     }
 
+    // 对外培训中导入课程
     @RequiresPermissions("cetTrainCourse:import")
     @RequestMapping(value="/cetTrainCourse_import", method=RequestMethod.POST)
     @ResponseBody
@@ -562,6 +563,7 @@ public class CetTrainCourseController extends CetBaseController {
             record.setStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(2))));
             record.setEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(3))));
 
+            record.setProjectId(null);
             record.setTrainId(trainId);
             records.add(record);
         }

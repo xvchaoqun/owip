@@ -7,7 +7,7 @@ import domain.leader.LeaderUnit;
 import domain.leader.LeaderUnitView;
 import domain.leader.LeaderUnitViewExample;
 import domain.unit.Unit;
-import mixin.CadreMixin;
+import mixin.LeaderMixin;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -107,7 +107,7 @@ public class LeaderUnitController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        baseMixins.put(Cadre.class, CadreMixin.class);
+        baseMixins.put(Cadre.class, LeaderMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }

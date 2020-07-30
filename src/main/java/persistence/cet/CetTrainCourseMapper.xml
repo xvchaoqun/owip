@@ -3,20 +3,29 @@
 <mapper namespace="persistence.cet.CetTrainCourseMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainCourse">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
     <result column="apply_limit" jdbcType="INTEGER" property="applyLimit" />
     <result column="apply_status" jdbcType="TINYINT" property="applyStatus" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
+    <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
+    <result column="eva_finish_count" jdbcType="INTEGER" property="evaFinishCount" />
     <result column="is_global" jdbcType="BIT" property="isGlobal" />
     <result column="eva_table_id" jdbcType="INTEGER" property="evaTableId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="sign_token" jdbcType="VARCHAR" property="signToken" />
     <result column="sign_token_expire" jdbcType="BIGINT" property="signTokenExpire" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainCourse">
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,9 +86,29 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, course_id, name, teacher, apply_limit, apply_status, start_time, end_time, 
+    id, project_id, train_id, is_online, course_id, period, name, teacher, apply_limit, 
+    apply_status, start_time, end_time, selected_count, finish_count, eva_finish_count, 
     is_global, eva_table_id, address, sign_token, sign_token_expire, sort_order
   </sql>
+  <sql id="Blob_Column_List">
+    summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainCourseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -94,9 +123,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from cet_train_course
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -111,18 +142,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTrainCourse">
-    insert into cet_train_course (id, train_id, course_id, 
+    insert into cet_train_course (id, project_id, train_id, 
+      is_online, course_id, period, 
       name, teacher, apply_limit, 
       apply_status, start_time, end_time, 
+      selected_count, finish_count, eva_finish_count, 
       is_global, eva_table_id, address, 
-      sign_token, sign_token_expire, sort_order
-      )
-    values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
+      sign_token, sign_token_expire, sort_order, 
+      summary)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, 
+      #{isOnline,jdbcType=BIT}, #{courseId,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
       #{name,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{applyLimit,jdbcType=INTEGER}, 
       #{applyStatus,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{selectedCount,jdbcType=INTEGER}, #{finishCount,jdbcType=INTEGER}, #{evaFinishCount,jdbcType=INTEGER}, 
       #{isGlobal,jdbcType=BIT}, #{evaTableId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{signToken,jdbcType=VARCHAR}, #{signTokenExpire,jdbcType=BIGINT}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{signToken,jdbcType=VARCHAR}, #{signTokenExpire,jdbcType=BIGINT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{summary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course
@@ -130,11 +165,20 @@
       <if test="id != null">
         id,
       </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
       <if test="trainId != null">
         train_id,
       </if>
+      <if test="isOnline != null">
+        is_online,
+      </if>
       <if test="courseId != null">
         course_id,
+      </if>
+      <if test="period != null">
+        period,
       </if>
       <if test="name != null">
         name,
@@ -154,6 +198,15 @@
       <if test="endTime != null">
         end_time,
       </if>
+      <if test="selectedCount != null">
+        selected_count,
+      </if>
+      <if test="finishCount != null">
+        finish_count,
+      </if>
+      <if test="evaFinishCount != null">
+        eva_finish_count,
+      </if>
       <if test="isGlobal != null">
         is_global,
       </if>
@@ -172,16 +225,28 @@
       <if test="sortOrder != null">
         sort_order,
       </if>
+      <if test="summary != null">
+        summary,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
       <if test="trainId != null">
         #{trainId,jdbcType=INTEGER},
       </if>
+      <if test="isOnline != null">
+        #{isOnline,jdbcType=BIT},
+      </if>
       <if test="courseId != null">
         #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -201,6 +266,15 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="selectedCount != null">
+        #{selectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="finishCount != null">
+        #{finishCount,jdbcType=INTEGER},
+      </if>
+      <if test="evaFinishCount != null">
+        #{evaFinishCount,jdbcType=INTEGER},
+      </if>
       <if test="isGlobal != null">
         #{isGlobal,jdbcType=BIT},
       </if>
@@ -219,6 +293,9 @@
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cet.CetTrainCourseExample" resultType="java.lang.Long">
@@ -233,11 +310,20 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
       <if test="record.trainId != null">
         train_id = #{record.trainId,jdbcType=INTEGER},
       </if>
+      <if test="record.isOnline != null">
+        is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
       <if test="record.courseId != null">
         course_id = #{record.courseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -257,6 +343,15 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.selectedCount != null">
+        selected_count = #{record.selectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishCount != null">
+        finish_count = #{record.finishCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaFinishCount != null">
+        eva_finish_count = #{record.evaFinishCount,jdbcType=INTEGER},
+      </if>
       <if test="record.isGlobal != null">
         is_global = #{record.isGlobal,jdbcType=BIT},
       </if>
@@ -275,7 +370,38 @@
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cet_train_course
+    set id = #{record.id,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      train_id = #{record.trainId,jdbcType=INTEGER},
+      is_online = #{record.isOnline,jdbcType=BIT},
+      course_id = #{record.courseId,jdbcType=INTEGER},
+      period = #{record.period,jdbcType=DECIMAL},
+      name = #{record.name,jdbcType=VARCHAR},
+      teacher = #{record.teacher,jdbcType=VARCHAR},
+      apply_limit = #{record.applyLimit,jdbcType=INTEGER},
+      apply_status = #{record.applyStatus,jdbcType=TINYINT},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      selected_count = #{record.selectedCount,jdbcType=INTEGER},
+      finish_count = #{record.finishCount,jdbcType=INTEGER},
+      eva_finish_count = #{record.evaFinishCount,jdbcType=INTEGER},
+      is_global = #{record.isGlobal,jdbcType=BIT},
+      eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      sign_token = #{record.signToken,jdbcType=VARCHAR},
+      sign_token_expire = #{record.signTokenExpire,jdbcType=BIGINT},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -283,14 +409,20 @@
   <update id="updateByExample" parameterType="map">
     update cet_train_course
     set id = #{record.id,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=INTEGER},
       train_id = #{record.trainId,jdbcType=INTEGER},
+      is_online = #{record.isOnline,jdbcType=BIT},
       course_id = #{record.courseId,jdbcType=INTEGER},
+      period = #{record.period,jdbcType=DECIMAL},
       name = #{record.name,jdbcType=VARCHAR},
       teacher = #{record.teacher,jdbcType=VARCHAR},
       apply_limit = #{record.applyLimit,jdbcType=INTEGER},
       apply_status = #{record.applyStatus,jdbcType=TINYINT},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      selected_count = #{record.selectedCount,jdbcType=INTEGER},
+      finish_count = #{record.finishCount,jdbcType=INTEGER},
+      eva_finish_count = #{record.evaFinishCount,jdbcType=INTEGER},
       is_global = #{record.isGlobal,jdbcType=BIT},
       eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
@@ -304,11 +436,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTrainCourse">
     update cet_train_course
     <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
       <if test="trainId != null">
         train_id = #{trainId,jdbcType=INTEGER},
       </if>
+      <if test="isOnline != null">
+        is_online = #{isOnline,jdbcType=BIT},
+      </if>
       <if test="courseId != null">
         course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -328,6 +469,15 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="selectedCount != null">
+        selected_count = #{selectedCount,jdbcType=INTEGER},
+      </if>
+      <if test="finishCount != null">
+        finish_count = #{finishCount,jdbcType=INTEGER},
+      </if>
+      <if test="evaFinishCount != null">
+        eva_finish_count = #{evaFinishCount,jdbcType=INTEGER},
+      </if>
       <if test="isGlobal != null">
         is_global = #{isGlobal,jdbcType=BIT},
       </if>
@@ -346,19 +496,53 @@
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrainCourse">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetTrainCourse">
     update cet_train_course
-    set train_id = #{trainId,jdbcType=INTEGER},
+    set project_id = #{projectId,jdbcType=INTEGER},
+      train_id = #{trainId,jdbcType=INTEGER},
+      is_online = #{isOnline,jdbcType=BIT},
       course_id = #{courseId,jdbcType=INTEGER},
+      period = #{period,jdbcType=DECIMAL},
       name = #{name,jdbcType=VARCHAR},
       teacher = #{teacher,jdbcType=VARCHAR},
       apply_limit = #{applyLimit,jdbcType=INTEGER},
       apply_status = #{applyStatus,jdbcType=TINYINT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      selected_count = #{selectedCount,jdbcType=INTEGER},
+      finish_count = #{finishCount,jdbcType=INTEGER},
+      eva_finish_count = #{evaFinishCount,jdbcType=INTEGER},
+      is_global = #{isGlobal,jdbcType=BIT},
+      eva_table_id = #{evaTableId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      sign_token = #{signToken,jdbcType=VARCHAR},
+      sign_token_expire = #{signTokenExpire,jdbcType=BIGINT},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrainCourse">
+    update cet_train_course
+    set project_id = #{projectId,jdbcType=INTEGER},
+      train_id = #{trainId,jdbcType=INTEGER},
+      is_online = #{isOnline,jdbcType=BIT},
+      course_id = #{courseId,jdbcType=INTEGER},
+      period = #{period,jdbcType=DECIMAL},
+      name = #{name,jdbcType=VARCHAR},
+      teacher = #{teacher,jdbcType=VARCHAR},
+      apply_limit = #{applyLimit,jdbcType=INTEGER},
+      apply_status = #{applyStatus,jdbcType=TINYINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      selected_count = #{selectedCount,jdbcType=INTEGER},
+      finish_count = #{finishCount,jdbcType=INTEGER},
+      eva_finish_count = #{evaFinishCount,jdbcType=INTEGER},
       is_global = #{isGlobal,jdbcType=BIT},
       eva_table_id = #{evaTableId,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
@@ -367,6 +551,22 @@
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetTrainCourseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

@@ -49,23 +49,11 @@
             批量导入
         </button>
         </c:if>
-        <button data-url="${ctx}/cet/cetProjectObj_quit?projectId=${cetProject.id}&isQuit=1"
-                data-title="退出"
-                data-msg="确定将这{0}个人员转移到“退出培训人员”？"
-                data-grid-id="#jqGrid2"
-                data-callback="_detailReload"
-                class="jqBatchBtn btn btn-warning btn-sm">
-            <i class="fa fa-sign-out"></i> 退出
-        </button>
-
         <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                 data-url="${ctx}/cet/cetProjectObj_shouldFinishPeriod?projectId=${cetProject.id}"
                 data-need-id="false"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             设置应完成学时</button>
-
-
-
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
                 data-msg="确定自动结业？（根据已设置的“达到结业要求的学时数”和学员已完成学时数自动计算）"
@@ -77,10 +65,8 @@
         </button>
 
         <button data-url="${ctx}/cet/cetProjectObj_forceGraduate"
-                data-title="手动结业"
-                data-msg="确定将这{0}个人员手动结业？"
                 data-grid-id="#jqGrid2"
-                class="jqBatchBtn btn btn-warning btn-sm">
+                class="jqOpenViewBatchBtn btn btn-warning btn-sm">
             <i class="prompt fa fa-question-circle"
                data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
@@ -110,6 +96,14 @@
                 data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
     </shiro:hasPermission>
+        <button data-url="${ctx}/cet/cetProjectObj_quit?projectId=${cetProject.id}&isQuit=1"
+            data-title="退出"
+            data-msg="确定将这{0}个人员转移到“退出培训人员”？"
+            data-grid-id="#jqGrid2"
+            data-callback="_detailReload"
+            class="jqBatchBtn btn btn-warning btn-sm">
+        <i class="fa fa-sign-out"></i> 退出
+    </button>
     </c:if>
     <c:if test="${isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
@@ -123,6 +117,13 @@
         </button>
     </shiro:hasPermission>
     </c:if>
+
+    <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                data-grid-id="#jqGrid2"
+                data-url="${ctx}/sysApprovalLog?displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ%>"
+                data-width="850">
+            <i class="fa fa-history"></i> 操作记录
+        </button>
     <shiro:hasPermission name="cetProjectObj:del">
         <button data-url="${ctx}/cet/cetProjectObj_batchDel?projectId=${cetProject.id}"
                 data-title="删除"
@@ -686,21 +687,21 @@
                     })).join("，")
                 }},
             </c:if>
-            <c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
+            <%--<c:if test="${cetTraineeType.code=='t_leader'||cetTraineeType.code=='t_cadre'
             ||cetTraineeType.code=='t_cadre_kj'||cetTraineeType.code=='t_reserve'}">
 
-            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
+            /*{label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
             {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {label: '专业技术职务', name: 'proPost', width: 120},
+            {label: '专业技术职务', name: 'proPost', width: 120},*/
             {
                 label: '任现职时间',
                 name: 'lpWorkTime',
                 formatter: $.jgrid.formatter.date,
                 formatoptions: {newformat: 'Y.m.d'}
             },
-            </c:if>
-            <c:if test="${cetTraineeType.code=='t_party_member'}">
+            </c:if>--%>
+            <%--<c:if test="${cetTraineeType.code=='t_party_member'}">
              {
                 label: '所在党组织',
                 name: 'partyId',
@@ -726,8 +727,8 @@
             }
             },
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            </c:if>
-            <c:if test="${cetTraineeType.code=='t_branch_member'}">
+            </c:if>--%>
+            <%--<c:if test="${cetTraineeType.code=='t_branch_member'}">
              {
                 label: '所在党组织',
                 name: 'partyId',
@@ -739,8 +740,8 @@
             },
             {label: '类别', name: 'branchTypeId', formatter:$.jgrid.formatter.MetaType},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            </c:if>
-            <c:if test="${cetTraineeType.code=='t_organizer'}">
+            </c:if>--%>
+            <%--<c:if test="${cetTraineeType.code=='t_organizer'}">
             { label: '组织员类别', name: 'organizerType', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.OW_ORGANIZER_TYPE_MAP[cellvalue];
             }},
@@ -754,8 +755,8 @@
                 return $.party(rowObject.organizerPartyId);
             }},
             {label: '任职时间', name: 'assignDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m'}},
-            </c:if>
-            <c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'||cetTraineeType.code=='t_grow'}">
+            </c:if>--%>
+            <%--<c:if test="${cetTraineeType.code=='t_candidate'||cetTraineeType.code=='t_activist'||cetTraineeType.code=='t_grow'}">
              {
                 label: '联系党组织',
                 name: 'partyId',
@@ -772,10 +773,10 @@
             <c:if test="${cetTraineeType.code=='t_grow'}">
             {label: '入党时间', name: 'owGrowTime', width: 120, formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
-            </c:if>
+            </c:if>--%>
             <c:if test="${cls==1}">
-            {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
-            {label: '已完成学时数', name: 'finishPeriod', width: 110},
+            {label: '应完成<br/>学时数', name: 'shouldFinishPeriod', width: 80, frozen: true},
+            {label: '已完成<br/>学时数', name: 'finishPeriod', width: 80},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '--';
@@ -801,8 +802,8 @@
             }},
             </c:if>
             </c:if>
-            {label: '联系方式', name: 'mobile', width: 120},
-            {label: '电子邮箱', name: 'email', width: 250}
+            /*{label: '联系方式', name: 'mobile', width: 120},
+            {label: '电子邮箱', name: 'email', width: 250}*/
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);

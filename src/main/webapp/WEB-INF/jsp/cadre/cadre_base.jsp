@@ -114,7 +114,7 @@
                             证件号码
                         </td>
                         <td colspan="${_p_hasPartyModule?'':3}">
-                                ${uv.idcard}
+                            <t:mask src="${uv.idcard}" type="idCard"/>
                         </td>
                     </tr>
                     <tr>

@@ -4,10 +4,7 @@ import controller.BaseController;
 import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadre.*;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.party.BranchMember;
@@ -15,6 +12,9 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
 import freemarker.template.TemplateException;
+import mixin.CadreDispatchMixin;
+import mixin.CadreEduMixin;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -538,7 +538,10 @@ public class CadreController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         if (ShiroHelper.isPermitted("cadre:list")) {
-            JSONUtils.jsonp(resultMap);
+            Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+            baseMixins.put(Dispatch.class, CadreDispatchMixin.class);
+            baseMixins.put(CadreEdu.class, CadreEduMixin.class);
+            JSONUtils.jsonp(resultMap, baseMixins);
         } else {
             // 没有干部管理员的权限，只能看到部分字段
             JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname",

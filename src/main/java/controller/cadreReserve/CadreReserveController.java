@@ -14,6 +14,7 @@ import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import freemarker.template.TemplateException;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -599,7 +600,9 @@ public class CadreReserveController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

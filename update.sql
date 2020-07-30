@@ -1,4 +1,87 @@
 
+ALTER TABLE `cet_train_course`
+	DROP INDEX `train_id_course_id`,
+	DROP INDEX `FK_cet_train_course_cet_course`,
+	DROP FOREIGN KEY `FK_cet_train_course_cet_course`,
+	DROP FOREIGN KEY `FK_cet_train_course_cet_train`;
+
+ALTER TABLE `cet_train_course`
+	ADD CONSTRAINT `FK_cet_train_course_cet_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cet_train_course`
+	ADD COLUMN `project_id` INT(10) UNSIGNED NULL COMMENT '所属培训项目，针对过程培训' AFTER `id`,
+	CHANGE COLUMN `train_id` `train_id` INT(10) UNSIGNED NULL COMMENT '培训班次，过程培训时允许为空' AFTER `project_id`,
+	ADD COLUMN `selected_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '选课人数' AFTER `end_time`,
+	ADD COLUMN `finish_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '签到人数' AFTER `selected_count`,
+	ADD COLUMN `eva_finish_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '测评完成账号数量' AFTER `finish_count`,
+	ADD CONSTRAINT `FK_cet_train_course_cet_project` FOREIGN KEY (`project_id`) REFERENCES `cet_project` (`id`) ON DELETE CASCADE;
+
+-- 删除相关类
+DROP VIEW IF EXISTS `cet_train_course_view`;
+
+
+update cet_train_course ctc
+left join
+(select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course group by train_course_id)tmp on tmp.train_course_id=ctc.id
+set ctc.eva_finish_count=tmp.eva_finish_count;
+
+update cet_train_course ctc
+left join
+(select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count
+from  cet_train_obj group by train_course_id)tmp on tmp.train_course_id=ctc.id
+set ctc.selected_count=tmp.selected_count, ctc.finish_count = tmp.finish_count;
+
+update cet_train_course ctc
+left join
+(select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course group by train_course_id)tmp on tmp.train_course_id=ctc.id
+set ctc.eva_finish_count=tmp.eva_finish_count;
+
+-- 更新  cet_train_course_stat_view
+
+ALTER TABLE `cet_project_plan`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  8 撰写心得体会' AFTER `end_date`,
+	CHANGE COLUMN `period` `period` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '学时，只有type=8时需要手动设定' AFTER `summary`;
+
+ALTER TABLE `cet_train_course`
+	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '学时' AFTER `course_id`;
+ALTER TABLE `cet_plan_course`
+	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '学时' AFTER `course_id`;
+
+ALTER TABLE `cet_train_course`
+	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NULL COMMENT '培训形式，0：线下 1：线上，针对二级党委培训的课程' AFTER `train_id`,
+	CHANGE COLUMN `name` `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '课程名称' AFTER `period`,
+	CHANGE COLUMN `teacher` `teacher` VARCHAR(50) NULL DEFAULT NULL COMMENT '教师名称' AFTER `name`,
+	ADD COLUMN `summary` TEXT NULL COMMENT '课程要点，针对线下和线上课程、二级党委培训' AFTER `teacher`;
+
+update cet_train_course ctc, cet_course cc
+left join cet_expert ce on ce.id=cc.expert_id set ctc.period=cc.period,
+ctc.name=cc.name, ctc.summary=cc.summary, ctc.teacher=ce.realname where ctc.course_id=cc.id;
+
+-- 更新 cet_train_obj_view
+
+ALTER TABLE `cet_plan_course`
+	COMMENT='培训方案包含的培训课程， 针对自主学习、上级网上专题',
+	ADD COLUMN `name` VARCHAR(200) NOT NULL COMMENT '课程名称' AFTER `course_id`,
+	ADD COLUMN `unit` VARCHAR(200) NULL COMMENT '上级单位名称，针对上级网上专题' AFTER `name`;
+
+update cet_plan_course cpc, cet_course cc set cpc.period=cc.period,
+                                              cpc.name=cc.name, cpc.unit=cc.address where cpc.course_id=cc.id;
+
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `period` `period` DECIMAL(10,1) NOT NULL COMMENT '学时' AFTER `url`;
+
+update cet_course cc
+left join
+(select cc.id, cc.type, cc.name, sum(cci.period) as period from cet_course cc left join cet_course_item cci on cci.course_id=cc.id where cc.`type` in(4) and cc.is_deleted=0  group by cc.id) tmp
+on cc.id=tmp.id
+set cc.period=tmp.period where tmp.period is not null;
+
+update cet_plan_course cpc
+left join cet_course cc on cpc.course_id=cc.id
+set cpc.period=cc.period;
+
+-- 更新utils
+
 2020.7.28
 北化工
 

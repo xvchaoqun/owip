@@ -1,12 +1,15 @@
 package service.cet;
 
+import domain.cet.CetCourse;
 import domain.cet.CetCourseItem;
 import domain.cet.CetCourseItemExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.utils.NumberUtils;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,19 +17,38 @@ import java.util.Map;
 @Service
 public class CetCourseItemService extends CetBaseMapper {
 
+    // 更新课程总学时，针对上级网上专题
+    public void refreshCoursePeriod(int courseId){
+
+        BigDecimal period = iCetMapper.getCoursePeriod(courseId);
+
+        CetCourse record = new CetCourse();
+        record.setId(courseId);
+        record.setPeriod(NumberUtils.trimToZero(period));
+
+        cetCourseMapper.updateByPrimaryKeySelective(record);
+    }
+
     @Transactional
     @CacheEvict(value="CetCourseItems", allEntries = true)
     public void insertSelective(CetCourseItem record){
 
         record.setSortOrder(getNextSortOrder("cet_course_item", "course_id="+ record.getCourseId()));
         cetCourseItemMapper.insertSelective(record);
+
+        refreshCoursePeriod(record.getCourseId());
     }
 
     @Transactional
     @CacheEvict(value="CetCourseItems", allEntries = true)
     public void del(Integer id){
 
+        CetCourseItem cetCourseItem = cetCourseItemMapper.selectByPrimaryKey(id);
+        int courseId = cetCourseItem.getCourseId();
+
         cetCourseItemMapper.deleteByPrimaryKey(id);
+
+        refreshCoursePeriod(courseId);
     }
 
     @Transactional

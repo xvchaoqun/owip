@@ -5,6 +5,7 @@ import domain.base.MetaType;
 import domain.party.*;
 import domain.party.BranchMemberExample.Criteria;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -134,7 +135,8 @@ public class BranchMemberController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

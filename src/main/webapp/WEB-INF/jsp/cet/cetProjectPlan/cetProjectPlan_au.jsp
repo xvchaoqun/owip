@@ -13,15 +13,17 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label"><span class="star">*</span>培训时间</label>
 			<div class="col-xs-6">
+				<div class="input-group">
 				<input required class="form-control date-picker" name="startDate"
-					   type="text" style="width: 120px;float: left"
+					   type="text" style="width: 100px;float: left"
 					   data-date-format="yyyy.mm.dd"
 					   value="${cm:formatDate(cetProjectPlan.startDate,'yyyy.MM.dd')}"/>
 				<div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
 				<input required class="form-control date-picker" name="endDate"
-					   type="text" style="width: 120px;float: left"
+					   type="text" style="width: 100px;float: left"
 					   data-date-format="yyyy.mm.dd"
 					   value="${cm:formatDate(cetProjectPlan.endDate,'yyyy.MM.dd')}"/>
+					</div>
 			</div>
 		</div>
 			<div class="form-group">
@@ -42,7 +44,7 @@ pageEncoding="UTF-8"%>
 					</script>
 				</div>
 			</div>
-		<div class="form-group">
+		<div class="form-group" id="periodDiv" style="display: none">
 			<label class="col-xs-3 control-label"><span class="star">*</span>学时</label>
 			<div class="col-xs-6">
 				<input required class="form-control period" type="text" name="period" value="${cetProjectPlan.period}">
@@ -63,6 +65,17 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+	$("#modalForm select[name=type]").change(function () {
+		if($(this).val()=='${CET_PROJECT_PLAN_TYPE_WRITE}'){
+			$("#periodDiv").show();
+			$("#modalForm input[name=period]").prop("required", true)
+		}else{
+			$("#periodDiv").hide();
+			$("#modalForm input[name=period]").prop("required", false)
+		}
+	}).change();
+
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {

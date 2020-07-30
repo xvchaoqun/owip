@@ -1372,7 +1372,7 @@ var _modal_width;
             var $this = $(this);
             return $this.hideLoading();
         },
-        download: function (url, type) { // type：export/download, default：export
+        download: function (url, type, data, method) { // type：export/download, default：export
 
             var $this = $(this);
             var $btn = $this.button('loading');
@@ -1393,6 +1393,8 @@ var _modal_width;
             document.cookie = cookieData;
 
             $.fileDownload(url, {
+                httpMethod:method||"POST",
+                data:data,
                 prepareCallback: function (url) {
                 },
                 successCallback: function (url) {

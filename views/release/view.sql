@@ -48,7 +48,7 @@ select ct.*, cp.year, cpp.project_id from cet_train ct
 left join cet_project_plan cpp on cpp.id=ct.plan_id
 left join cet_project cp on cp.id = cpp.project_id;
 
-DROP VIEW IF EXISTS `cet_train_course_view`;
+/*DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
 select ctc.*,
 -- 选课人数
@@ -61,7 +61,7 @@ from cet_train_course ctc
 left join (select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count
 from  cet_train_obj group by train_course_id) cteec on ctc.id=cteec.train_course_id
 left join (select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course group by train_course_id)
- ctic on ctc.id=ctic.train_course_id;
+ ctic on ctc.id=ctic.train_course_id;*/
 
 DROP VIEW IF EXISTS `cet_train_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_obj_view` AS
@@ -69,7 +69,7 @@ select cto.id as id,cto.train_id, cto.user_id, cto.obj_id, cto.train_course_id a
 cto.can_quit as can_quit,cto.is_finished as is_finished,cto.sign_time as sign_time,cto.sign_out_time as sign_out_time,
 cto.sign_type as sign_type,cto.remark as remark,cto.choose_time as choose_time,cto.choose_user_id as choose_user_id,
 cto.ip as ip,cpo.project_id as project_id,cpo.trainee_type_id as trainee_type_id, ct.plan_id,
-cpo.is_quit, ctc.course_id as course_id,cc.period as period,cp.year as year,uv.code as choose_user_code,uv.realname as choose_user_name
+cpo.is_quit, ctc.course_id as course_id,ctc.period as period,cp.year as year,uv.code as choose_user_code,uv.realname as choose_user_name
 from cet_train_obj cto
 left join cet_train ct on ct.id=cto.train_id
 left join cet_project_plan cpp on ct.plan_id=cpp.id
@@ -103,7 +103,7 @@ group by cti.id ;
 -- 培训班下的每个课程的统计结果（课程得分、已选人数、完成人数、完成测评人数）
 DROP VIEW IF EXISTS `cet_train_course_stat_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_stat_view` AS
-select ctc.*, ct.name as train_name,  round(sum(tmp.total_score)/count(tmp.inspector_id),1) as score from cet_train_course_view ctc
+select ctc.*, ct.name as train_name,  round(sum(tmp.total_score)/count(tmp.inspector_id),1) as score from cet_train_course ctc
 left join cet_train ct on ct.id=ctc.train_id and ct.is_deleted=0
  left join (
  -- 培训班内，每个测评账号对每个课程打分情况

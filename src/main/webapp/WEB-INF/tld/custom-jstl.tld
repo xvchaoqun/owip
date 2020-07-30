@@ -263,6 +263,11 @@
 		<function-signature>java.lang.String toJSONArray(java.util.List, java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>mask</name>
+		<function-class>sys.utils.TagUtils</function-class>
+		<function-signature>java.lang.String mask(java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>getTextFromHTML</name>
 		<function-class>sys.utils.HtmlEscapeUtils</function-class>
 		<function-signature>java.lang.String getTextFromHTML(java.lang.String)</function-signature>

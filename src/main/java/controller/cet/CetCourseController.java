@@ -461,6 +461,9 @@ public class CetCourseController extends CetBaseController {
                     record.setSignTime(new Date());
 
                     cetTrainObjMapper.updateByPrimaryKeySelective(record);
+
+                    // 更新签到人数
+                    iCetMapper.refreshTrainCourseSelectedCount(trainCourseId);
                 }
             }
         }

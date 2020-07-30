@@ -262,7 +262,7 @@ public class SysUserController extends BaseController {
 
         Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
         baseMixins.put(SysUserView.class, SysUserListMixin.class);
-        JSONUtils.jsonp(resultMap);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

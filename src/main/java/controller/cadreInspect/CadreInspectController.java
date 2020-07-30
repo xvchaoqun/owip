@@ -8,6 +8,7 @@ import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -123,7 +124,8 @@ public class CadreInspectController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

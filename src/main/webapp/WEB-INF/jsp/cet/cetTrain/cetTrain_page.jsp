@@ -97,7 +97,7 @@
             }, frozen: true},
             {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
             {label: '可选课人数', name: 'objCount', width: 90},
-            {
+            /*{
                 label: '选课情况',
                 name: '_switchStatus',
                 width: 120,
@@ -111,7 +111,7 @@
 
                     return str;
                 }
-            },
+            },*/
 
             {
                 label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {

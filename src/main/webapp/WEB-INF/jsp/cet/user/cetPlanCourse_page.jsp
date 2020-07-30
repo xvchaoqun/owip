@@ -55,14 +55,13 @@
                 return ($.trim(cellvalue)=='')?"未上传": $.pdfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
-            {label: '编号', name: 'cetCourse.sn'},
-            {label: '名称', name: 'cetCourse.name', width: 450, align: 'left'},
+            {label: '名称', name: 'name', width: 450, align: 'left'},
             {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?view=1&courseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
-                        .format(rowObject.cetCourse.id)
+                        .format(rowObject.courseId)
             }},
-            {label: '学时', name: 'cetCourse.period', width: 70},
+            {label: '学时', name: 'period', width: 70},
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"), $.date(rowObject.endTime, "yyyy-MM-dd HH:mm"))
             }},
@@ -70,14 +69,13 @@
             </c:if>
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SPECIAL}">
 
-            {label: '编号', name: 'cetCourse.sn', frozen: true},
-            {label: '网上专题培训班名称', name: 'cetCourse.name', width: 300, align: 'left', frozen: true},
-            {label: '上级单位名称', name: 'cetCourse.address', width: 300, align: 'left'},
-            {label: '总学时', name: 'cetCourse.totalPeriod', width: 70},
+            {label: '网上专题培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
+            {label: '上级单位名称', name: 'unit', width: 300, align: 'left'},
+            {label: '总学时', name: 'period', width: 70},
             /*{label: '专题班', name: '_items', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button type="button" data-url="${ctx}/cet/cetCourseItem?courseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
-                        .format(rowObject.cetCourse.id)
+                        .format(rowObject.courseId)
             }},*/
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"), $.date(rowObject.endTime, "yyyy-MM-dd HH:mm"))

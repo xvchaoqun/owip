@@ -131,7 +131,6 @@ public class LeaderController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        baseMixins.put(Cadre.class, CadreMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }

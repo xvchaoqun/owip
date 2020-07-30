@@ -1,9 +1,24 @@
 package mixin;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import sys.jackson.SensitiveInfo;
+import sys.jackson.SensitiveType;
 
-@JsonPropertyOrder(value = {"code", "realname", "unit.unitType.name",
-        "unit.name", "title", "adminLevel", "postType", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email"})
+@JsonIgnoreProperties(value = {})
 public class CadreMixin {
 
+    @SensitiveInfo(SensitiveType.MOBILE_PHONE)
+    private String mobile;
+
+    @SensitiveInfo(SensitiveType.ID_CARD)
+    private String idcard;
+
+    @SensitiveInfo(SensitiveType.EMAIL)
+    private String email;
+
+    @SensitiveInfo(SensitiveType.FIXED_PHONE)
+    private String homePhone;
+
+    @SensitiveInfo(SensitiveType.FIXED_PHONE)
+    private String phone;
 }

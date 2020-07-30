@@ -81,7 +81,7 @@ public class CetConstants {
     public final static byte CET_PROJECT_PLAN_TYPE_GROUP = 4;
     public final static byte CET_PROJECT_PLAN_TYPE_PRACTICE = 5;
     public final static byte CET_PROJECT_PLAN_TYPE_SELF = 6;
-    public final static byte CET_PROJECT_PLAN_TYPE_OTHER_UNIT = 7;
+    //public final static byte CET_PROJECT_PLAN_TYPE_OTHER_UNIT = 7;
     public final static byte CET_PROJECT_PLAN_TYPE_WRITE = 8;
     public final static Map<Byte, String> CET_PROJECT_PLAN_TYPE_MAP = new LinkedHashMap();
     static {
@@ -91,7 +91,7 @@ public class CetConstants {
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_GROUP, "分组研讨");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_PRACTICE, "实践教学");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_SELF, "自主学习");
-        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OTHER_UNIT, "其他单位主办");
+        /*CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OTHER_UNIT, "其他单位主办");*/
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_WRITE, "撰写心得体会");
     }
     // 参训人员类型模板

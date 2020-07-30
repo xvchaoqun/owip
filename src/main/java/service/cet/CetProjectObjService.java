@@ -645,15 +645,26 @@ public class CetProjectObjService extends CetBaseMapper {
 
     // 手动结业
     @Transactional
-    public void forceGraduate(Integer[] ids) {
+    public void forceGraduate(Integer[] ids, boolean isGraduate, String remark) {
 
         if (ids == null || ids.length == 0) return;
 
         CetProjectObj record = new CetProjectObj();
-        record.setIsGraduate(true);
+        record.setIsGraduate(isGraduate);
+
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cetProjectObjMapper.updateByExampleSelective(record, example);
+
+        for (Integer id : ids) {
+
+            CetProjectObj obj = cetProjectObjMapper.selectByPrimaryKey(id);
+            sysApprovalLogService.add(obj.getId(), obj.getUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
+                        "更新结业状态："+ (isGraduate?"结业":"未结业"), SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                        remark);
+        }
     }
 
     //批量导入CetProjectObj培训对象

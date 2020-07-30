@@ -9,7 +9,6 @@
             <div class="myTableDiv"
                  data-url-page="${ctx}/leaderInfo"
                  data-url-co="${ctx}/cadre_changeOrder"
-                 data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.title || not empty param.code }"/>
 
@@ -65,7 +64,7 @@
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 批量导入</a>--%>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
-                                <a class="jqExportBtn btn btn-success btn-sm"
+                                <a class="jqExportBtn btn btn-success btn-sm" data-url="${ctx}/cadre_data"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 </shiro:hasPermission>

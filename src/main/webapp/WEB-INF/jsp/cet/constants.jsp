@@ -22,6 +22,7 @@
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SELF%>" var="CET_PROJECT_PLAN_TYPE_SELF"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL%>" var="CET_PROJECT_PLAN_TYPE_SPECIAL"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE%>" var="CET_PROJECT_PLAN_TYPE_PRACTICE"/>
+<c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_WRITE%>" var="CET_PROJECT_PLAN_TYPE_WRITE"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_MAP%>" var="CET_PROJECT_PLAN_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_COURSE_TYPE_OFFLINE%>" var="CET_COURSE_TYPE_OFFLINE"/>

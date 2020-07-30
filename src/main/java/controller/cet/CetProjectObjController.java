@@ -444,13 +444,25 @@ public class CetProjectObjController extends CetBaseController {
 
     // 手动结业
     @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_forceGraduate")
+    public String cetProjectObj_forceGraduate(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (ids.length == 1) {
+            CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(ids[0]);
+            modelMap.put("cetProjectObj", cetProjectObj);
+        }
+
+        return "cet/cetProjectObj/cetProjectObj_forceGraduate";
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_forceGraduate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_forceGraduate(@RequestParam(value = "ids[]", required = false) Integer[] ids,
-                                              HttpServletRequest request) {
+    public Map do_cetProjectObj_forceGraduate(@RequestParam(value = "ids[]") Integer[] ids, Boolean isGraduate, String remark) {
 
-        cetProjectObjService.forceGraduate(ids);
-        logger.info(addLog(LogConstants.LOG_CET, "手动结业： %s", StringUtils.join(ids, ",")));
+        cetProjectObjService.forceGraduate(ids, BooleanUtils.isTrue(isGraduate), remark);
+        logger.info(addLog(LogConstants.LOG_CET, "手动结业： %s, %s",
+                StringUtils.join(ids, ","), isGraduate));
 
         return success(FormUtils.SUCCESS);
     }

@@ -5,6 +5,7 @@ import domain.party.Branch;
 import domain.party.OrgAdmin;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,7 +188,8 @@ public class OrgAdminController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        JSONUtils.jsonp(resultMap);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

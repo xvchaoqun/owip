@@ -253,6 +253,10 @@ $(document).on("click", ".table-actived tr>td", function () {
     $tr.addClass("active");
 });
 
+$(document).on("dblclick", ".mask", (function(){
+    $(this).html($.base64.decode($(this).data("src"))).removeClass("mask");
+}))
+
 $.ajaxSetup({
     cache: false,
     dataFilter: function (data, type) {
@@ -814,6 +818,7 @@ $(document).on("click", " .jqSearchBtn", function () {
     $target.renderUrl({
         maskEl: $this.data("mask-el"),
         url: url,
+        method:$this.data("method")||"GET",
         params: $form.serialize()
     });
 });
@@ -826,11 +831,12 @@ $(document).on("click", ".jqExportBtn", function (e) {
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
-    var idsName = $(this).data("ids-name") || 'ids[]';
-    var _export = $(this).data("export") || '1';
-    var type = $(this).data("type") || 'export';
+    var idsName = $this.data("ids-name") || 'ids[]';
+    var _export = $this.data("export") || '1';
+    var type = $this.data("type") || 'export';
+    var method = $this.data("method");
 
-    var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
+    var url = $this.data("url") || $this.closest(".myTableDiv").data("url-export");
     var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
@@ -838,9 +844,9 @@ $(document).on("click", ".jqExportBtn", function (e) {
     var searchFormId = $this.data("search-form-id") || "#searchForm";
 
     url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export="+ _export +"&"+
-        encodeURI(idsName)+"=" + ids + "&" + $(searchFormId).serialize();
+        encodeURI(idsName)+"=" + ids;
 
-    $this.download(url, type);
+    $this.download(url, type, $(searchFormId).serialize(), method);
 
     e.stopPropagation();
     return false;

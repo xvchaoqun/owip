@@ -123,7 +123,7 @@ public class CetTrainObjService extends CetBaseMapper {
         int userId = ShiroHelper.getCurrentUserId();
 
         List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(trainId, userId);
-        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, userId);
+        List<CetTrainCourse> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, userId);
 
         modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
         modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);
@@ -214,6 +214,9 @@ public class CetTrainObjService extends CetBaseMapper {
                     remark+"("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         }
+
+        // 更新选课人数
+        iCetMapper.refreshTrainCourseSelectedCount(trainCourseId);
     }
 
     // 签到/还原
@@ -261,6 +264,8 @@ public class CetTrainObjService extends CetBaseMapper {
                     (sign ? "签到" : "还原") + "("+cetTrainCourse.getName()+")",
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, cetTrainCourse.getName());
         }
+        // 更新签到人数
+        iCetMapper.refreshTrainCourseSelectedCount(trainCourseId);
     }
 
     // 批量签到
@@ -312,6 +317,9 @@ public class CetTrainObjService extends CetBaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                     "签到(导入)("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
         }
+
+        // 更新签到人数
+        iCetMapper.refreshTrainCourseSelectedCount(trainCourseId);
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", success);

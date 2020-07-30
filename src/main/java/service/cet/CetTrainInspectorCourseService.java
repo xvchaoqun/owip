@@ -29,7 +29,8 @@ public class CetTrainInspectorCourseService extends CetBaseMapper {
     public void doEva(int id, String feedback){
 
         CetTrainInspectorCourse tic = cetTrainInspectorCourseMapper.selectByPrimaryKey(id);
-        CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(tic.getTrainCourseId());
+        int trainCourseId = tic.getTrainCourseId();
+        CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         TrainTempData tempdata = getTempdata(tic.getTempdata());
         Map<Integer, CetTrainEvaResult> trainEvaResultMap = tempdata.getTrainEvaResultMap();
 
@@ -58,6 +59,9 @@ public class CetTrainInspectorCourseService extends CetBaseMapper {
             record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
             cetTrainInspectorCourseMapper.updateByPrimaryKeySelective(record);
         }
+
+        // 更新测评完成账号数量
+        iCetMapper.refreshTrainCourseEvaCount(trainCourseId);
     }
 
     public int getFinishCourseNum(int inspectorId){

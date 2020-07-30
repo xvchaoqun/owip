@@ -113,7 +113,7 @@
       },
       </c:if>
       {label: ' 上级单位名称', name: 'address', width: 300, align: 'left'},
-      {label: '总学时', name: 'totalPeriod', width: 80},
+      {label: '总学时', name: 'period', width: 80},
       {label: '专题班', name: '_items', width: 80, formatter: function (cellvalue, options, rowObject) {
           return ('<button type="button" data-url="${ctx}/cet/cetCourseItem?courseId={0}" ' +
           'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')

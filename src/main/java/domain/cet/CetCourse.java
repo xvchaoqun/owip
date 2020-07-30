@@ -38,22 +38,6 @@ public class CetCourse implements Serializable {
         return cetExpertMapper.selectByPrimaryKey(expertId);
     }
 
-    public BigDecimal getTotalPeriod(){
-
-        if(type==CetConstants.CET_COURSE_TYPE_SPECIAL){
-            BigDecimal totalPeriod = BigDecimal.valueOf(0);
-            CetCourseItemService cetCourseItemService = CmTag.getBean(CetCourseItemService.class);
-            Map<Integer, CetCourseItem> cetCourseItemMap = cetCourseItemService.findAll(id);
-            for (CetCourseItem cetCourseItem : cetCourseItemMap.values()) {
-
-                totalPeriod = totalPeriod.add(cetCourseItem.getPeriod());
-            }
-
-            return totalPeriod;
-        }
-        return null;
-    }
-
     private Integer id;
 
     private Integer year;

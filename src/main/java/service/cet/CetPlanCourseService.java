@@ -1,9 +1,6 @@
 package service.cet;
 
-import domain.cet.CetPlanCourse;
-import domain.cet.CetPlanCourseExample;
-import domain.cet.CetPlanCourseObj;
-import domain.cet.CetPlanCourseObjExample;
+import domain.cet.*;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,8 @@ public class CetPlanCourseService extends CetBaseMapper {
 
     @Autowired
     private CetPlanCourseObjService cetPlanCourseObjService;
+    @Autowired
+    private CetCourseService cetCourseService;
 
     public CetPlanCourse get(int trainId, int courseId){
 
@@ -81,17 +80,27 @@ public class CetPlanCourseService extends CetBaseMapper {
     public void selectCourses(int planId, Integer[] courseIds) {
 
         if(courseIds==null || courseIds.length==0) return;
-        for (Integer courseId : courseIds) {
 
-            CetPlanCourse cetPlanCourse = get(planId, courseId);
-            if(cetPlanCourse!=null) continue;
+        for (int courseId : courseIds) {
+
+            CetCourse cetCourse = cetCourseService.get(courseId);
 
             CetPlanCourse record = new CetPlanCourse();
             record.setPlanId(planId);
             record.setCourseId(courseId);
+            record.setPeriod(cetCourse.getPeriod());
+            record.setName(cetCourse.getName());
+            record.setUnit(cetCourse.getAddress()); // 针对上级网上专题
 
-            record.setSortOrder(getNextSortOrder("cet_plan_course", "plan_id="+planId));
-            cetPlanCourseMapper.insertSelective(record);
+            CetPlanCourse cetPlanCourse = get(planId, courseId);
+            if(cetPlanCourse!=null){
+
+                record.setId(cetPlanCourse.getId());
+                cetPlanCourseMapper.updateByPrimaryKeySelective(record);
+            }else {
+                record.setSortOrder(getNextSortOrder("cet_plan_course", "plan_id=" + planId));
+                cetPlanCourseMapper.insertSelective(record);
+            }
         }
     }
 

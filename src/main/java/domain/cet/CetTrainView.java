@@ -31,12 +31,6 @@ public class CetTrainView implements Serializable {
         return (int)cetProjectObjMapper.countByExample(example);
     }
 
-    public int getTraineeCount(){
-
-        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
-        return iCetMapper.traineeCount(id);
-    }
-
     public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }

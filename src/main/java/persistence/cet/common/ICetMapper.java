@@ -162,15 +162,30 @@ public interface ICetMapper {
     public List<ICetTrainCourse> selectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
 
     // 学员未选课程
-    @ResultMap("persistence.cet.CetTrainCourseViewMapper.BaseResultMap")
-    @Select("select * from cet_train_course_view ctc where ctc.train_id=#{trainId} and " +
+    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
+    @Select("select * from cet_train_course ctc where ctc.train_id=#{trainId} and " +
             " not exists(select 1 from cet_train_obj cto where cto.train_course_id=ctc.id " +
             "and cto.train_id=#{trainId} and cto.user_id=#{userId}) order by ctc.sort_order asc")
-    public List<CetTrainCourseView> unSelectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
+    public List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
 
     // 已选课学员
     @Select("select user_id from cet_train_obj_view where train_course_id=#{trainCourseId} order by choose_time asc")
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
+
+    // 更新培训课程 已选课人数 和 签到人数
+    @Update("update cet_train_course ctc " +
+            "left join " +
+            "(select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count " +
+            "from  cet_train_obj group by train_course_id)tmp on tmp.train_course_id=ctc.id " +
+            "set ctc.selected_count=tmp.selected_count, ctc.finish_count = tmp.finish_count where ctc.id=#{trainCourseId}")
+    public int refreshTrainCourseSelectedCount(@Param("trainCourseId") Integer trainCourseId);
+
+    // 更新培训课程 已评课人数
+    @Update("update cet_train_course ctc left join " +
+            "(select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course " +
+            "group by train_course_id)tmp on tmp.train_course_id=ctc.id " +
+            "set ctc.eva_finish_count=tmp.eva_finish_count where ctc.id=#{trainCourseId}")
+    public int refreshTrainCourseEvaCount(@Param("trainCourseId") Integer trainCourseId);
 
     // 培训班已选课学员数量
     @Select("select count(distinct user_id) from cet_train_obj where train_id=#{trainId}")
@@ -310,6 +325,11 @@ public interface ICetMapper {
             "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
     public BigDecimal getSpecialPlanFinishPeriod(@Param("planId") int planId,
                                              @Param("objId") int objId);
+
+    // 获取课程总学时，针对上级网上专题
+    @Select("select sum(cci.period) from cet_course cc " +
+            "left join cet_course_item cci on cci.course_id=cc.id where cc.id=#{courseId}")
+    public BigDecimal getCoursePeriod(@Param("courseId") int courseId);
 
     // 获取培训对象在每年或某培训项目中的培训方案中的已完成学时（针对上级网上专题）
     public BigDecimal getSpecialFinishPeriod(@Param("type") byte planType,

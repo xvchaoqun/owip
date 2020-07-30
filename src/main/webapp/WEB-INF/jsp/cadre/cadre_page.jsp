@@ -470,7 +470,7 @@
                                             <div class="clearfix"></div>
 
                                             <div class="clearfix form-actions center">
-                                                <a class="jqSearchBtn btn btn-default btn-sm"><i
+                                                <a class="jqSearchBtn btn btn-default btn-sm" data-method="POST"><i
                                                         class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                                     <button type="button" class="reloadBtn btn btn-warning btn-sm"
@@ -532,7 +532,10 @@
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        mtype:'POST',
+        ajaxGridOptions:{traditional:true},
+        postData:${cm:toJSONObject(pageContext.request.parameterMap)},
+        url: '${ctx}/cadre_data?callback=?',
         colModel: ${(status==CADRE_STATUS_CJ||status==CADRE_STATUS_KJ)
         ?(cm:isPermitted("cadre:list")?"colModels.cadre":"colModels.cadre2")
         :(cm:isPermitted("cadre:list")?"colModels.cadreLeave":"colModels.cadreLeave2")}

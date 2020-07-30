@@ -6,6 +6,7 @@ import sys.helper.CetHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetTrainCourse implements Serializable {
@@ -24,9 +25,15 @@ public class CetTrainCourse implements Serializable {
 
     private Integer id;
 
+    private Integer projectId;
+
     private Integer trainId;
 
+    private Boolean isOnline;
+
     private Integer courseId;
+
+    private BigDecimal period;
 
     private String name;
 
@@ -42,6 +49,12 @@ public class CetTrainCourse implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
+    private Integer selectedCount;
+
+    private Integer finishCount;
+
+    private Integer evaFinishCount;
+
     private Boolean isGlobal;
 
     private Integer evaTableId;
@@ -54,6 +67,8 @@ public class CetTrainCourse implements Serializable {
 
     private Integer sortOrder;
 
+    private String summary;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -64,6 +79,14 @@ public class CetTrainCourse implements Serializable {
         this.id = id;
     }
 
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
     public Integer getTrainId() {
         return trainId;
     }
@@ -72,12 +95,28 @@ public class CetTrainCourse implements Serializable {
         this.trainId = trainId;
     }
 
+    public Boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
+    }
+
     public Integer getCourseId() {
         return courseId;
     }
 
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
+    }
+
+    public BigDecimal getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(BigDecimal period) {
+        this.period = period;
     }
 
     public String getName() {
@@ -128,6 +167,30 @@ public class CetTrainCourse implements Serializable {
         this.endTime = endTime;
     }
 
+    public Integer getSelectedCount() {
+        return selectedCount;
+    }
+
+    public void setSelectedCount(Integer selectedCount) {
+        this.selectedCount = selectedCount;
+    }
+
+    public Integer getFinishCount() {
+        return finishCount;
+    }
+
+    public void setFinishCount(Integer finishCount) {
+        this.finishCount = finishCount;
+    }
+
+    public Integer getEvaFinishCount() {
+        return evaFinishCount;
+    }
+
+    public void setEvaFinishCount(Integer evaFinishCount) {
+        this.evaFinishCount = evaFinishCount;
+    }
+
     public Boolean getIsGlobal() {
         return isGlobal;
     }
@@ -174,5 +237,13 @@ public class CetTrainCourse implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 }

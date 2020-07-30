@@ -9,6 +9,7 @@ import sys.utils.ContextHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +56,12 @@ public class CetPlanCourse implements Serializable {
 
     private Integer courseId;
 
+    private String name;
+
+    private String unit;
+
+    private BigDecimal period;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
@@ -95,6 +102,30 @@ public class CetPlanCourse implements Serializable {
 
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public BigDecimal getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(BigDecimal period) {
+        this.period = period;
     }
 
     public Date getStartTime() {

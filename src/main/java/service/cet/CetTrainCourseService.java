@@ -78,6 +78,7 @@ public class CetTrainCourseService extends CetBaseMapper {
     @CacheEvict(value = "CetTrainCourses", allEntries = true)
     public void updateByPrimaryKeySelective(CetTrainCourse record) {
 
+        record.setProjectId(null);
         record.setTrainId(null);
         cetTrainCourseMapper.updateByPrimaryKeySelective(record);
         if(record.getApplyLimit()==null){
@@ -137,23 +138,39 @@ public class CetTrainCourseService extends CetBaseMapper {
         if (courseIds == null || courseIds.length == 0) return;
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        Boolean isOnCampus = cetTrain.getIsOnCampus();
-        for (Integer courseId : courseIds) {
+        CetProject cetProject = iCetMapper.getCetProject(trainId);
+        Integer projectId = null;
+        if(cetProject!=null){
+            projectId = cetProject.getId();
+        }
 
-            CetTrainCourse cetTrainCourse = get(trainId, courseId);
-            if (cetTrainCourse != null) continue;
+        for (int courseId : courseIds) {
+
+            CetCourse cetCourse = cetCourseService.get(courseId);
 
             CetTrainCourse record = new CetTrainCourse();
+            record.setProjectId(projectId);
             record.setTrainId(trainId);
             record.setCourseId(courseId);
-            if (!isOnCampus) {
-                // 校外培训,同步课程名称和专家姓名
-                CetCourse cetCourse = cetCourseService.get(courseId);
-                record.setName(cetCourse.getName());
-                record.setTeacher(cetCourse.getCetExpert().getRealname());
+            // 以下信息不再随课程变化
+            record.setName(cetCourse.getName());
+            CetExpert cetExpert = cetCourse.getCetExpert();
+            if(cetExpert!=null) {
+                record.setTeacher(cetExpert.getRealname());
             }
-            record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
-            cetTrainCourseMapper.insertSelective(record);
+            record.setPeriod(cetCourse.getPeriod());
+            record.setSummary(cetCourse.getSummary());
+
+            CetTrainCourse cetTrainCourse = get(trainId, courseId);
+            if (cetTrainCourse != null){
+
+                record.setId(cetTrainCourse.getId());
+                cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+            }else {
+
+                record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
+                cetTrainCourseMapper.insertSelective(record);
+            }
         }
     }
 
