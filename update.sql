@@ -86,6 +86,11 @@ set cpc.period=cc.period;
 
 -- 更新utils
 
+ALTER TABLE `sys_property`
+	CHANGE COLUMN `content` `content` TEXT NOT NULL COMMENT '内容' AFTER `name`;
+
+ALTER TABLE `sys_property`
+	CHANGE COLUMN `remark` `remark` TEXT NULL DEFAULT NULL COMMENT '说明' AFTER `sort_order`;
 2020.7.28
 北化工
 

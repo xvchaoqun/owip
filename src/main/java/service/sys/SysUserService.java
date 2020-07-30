@@ -435,18 +435,20 @@ public class SysUserService extends BaseMapper {
 
         SysUser user = users.get(0);
         SysUserInfo sysUserInfo  = sysUserInfoMapper.selectByPrimaryKey(user.getId());
-        if(!isMobile && type==SystemConstants.SYS_ROLE_TYPE_ADD){
-            if (StringUtils.isBlank(sysUserInfo.getResIdsAdd())) return resIds;
-            resIds = sysUserInfo.getResIdsAdd().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
-        }else if(isMobile && type==SystemConstants.SYS_ROLE_TYPE_ADD){
-            if (StringUtils.isBlank(sysUserInfo.getmResIdsAdd())) return resIds;
-            resIds = sysUserInfo.getmResIdsAdd().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
-        }else if(!isMobile && type==SystemConstants.SYS_ROLE_TYPE_MINUS){
-            if (StringUtils.isBlank(sysUserInfo.getResIdsMinus())) return resIds;
-            resIds = sysUserInfo.getResIdsMinus().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
-        }else if(isMobile && type==SystemConstants.SYS_ROLE_TYPE_MINUS){
-            if (StringUtils.isBlank(sysUserInfo.getmResIdsMinus())) return resIds;
-            resIds = sysUserInfo.getmResIdsMinus().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+        if(sysUserInfo!=null) {
+            if (!isMobile && type == SystemConstants.SYS_ROLE_TYPE_ADD) {
+                if (StringUtils.isBlank(sysUserInfo.getResIdsAdd())) return resIds;
+                resIds = sysUserInfo.getResIdsAdd().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+            } else if (isMobile && type == SystemConstants.SYS_ROLE_TYPE_ADD) {
+                if (StringUtils.isBlank(sysUserInfo.getmResIdsAdd())) return resIds;
+                resIds = sysUserInfo.getmResIdsAdd().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+            } else if (!isMobile && type == SystemConstants.SYS_ROLE_TYPE_MINUS) {
+                if (StringUtils.isBlank(sysUserInfo.getResIdsMinus())) return resIds;
+                resIds = sysUserInfo.getResIdsMinus().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+            } else if (isMobile && type == SystemConstants.SYS_ROLE_TYPE_MINUS) {
+                if (StringUtils.isBlank(sysUserInfo.getmResIdsMinus())) return resIds;
+                resIds = sysUserInfo.getmResIdsMinus().split(SystemConstants.USER_ROLEIDS_SEPARTOR);
+            }
         }
 
         return resIds;
