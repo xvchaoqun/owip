@@ -1,4 +1,8 @@
 
+
+20200730
+吉大 -- 北师大
+
 ALTER TABLE `cet_train_course`
 	DROP INDEX `train_id_course_id`,
 	DROP INDEX `FK_cet_train_course_cet_course`,
