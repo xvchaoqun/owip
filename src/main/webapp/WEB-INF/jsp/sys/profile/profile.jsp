@@ -158,7 +158,7 @@
                                             <input name="email" type="email" id="form-field-email" value="${_user.email}"/>
                                             <i class="ace-icon fa fa-envelope"></i>
                                         </span>--%>
-                                        <div class="label-text">${_user.email}</div>
+                                        <div class="label-text"><t:mask src="${_user.email}" type="email"/></div>
                                     </div>
                                 </div>
 
@@ -168,14 +168,14 @@
                                     <label class="col-sm-3 control-label no-padding-right">手机号：</label>
 
                                     <div class="col-sm-9">
-                                        <div class="label-text">${_user.mobile}</div>
+                                        <div class="label-text"><t:mask src="${_user.mobile}" type="mobile"/></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right">办公电话：</label>
 
                                     <div class="col-sm-9">
-                                        <div class="label-text">${_user.phone}</div>
+                                        <div class="label-text"><t:mask src="${_user.phone}" type="fixedPhone"/></div>
                                     </div>
                                 </div>
                             </div>

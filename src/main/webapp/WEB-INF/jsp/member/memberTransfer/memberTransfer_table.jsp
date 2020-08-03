@@ -45,7 +45,7 @@
         身份证号
     </td>
     <td class="bg-left" style="min-width: 80px">
-        ${userBean.idcard}
+        <t:mask src="${userBean.idcard}" type="idCard"/>
     </td>
     <td class="bg-right">
         类别

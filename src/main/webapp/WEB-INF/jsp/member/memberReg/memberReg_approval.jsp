@@ -81,14 +81,14 @@
                                     <div class="profile-info-name"> 身份证号码 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberReg.idcard}</span>
+                                        <span class="editable" ><t:mask src="${memberReg.idcard}" type="idCard"/></span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 手机号码 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${memberReg.phone}</span>
+                                        <span class="editable" ><t:mask src="${memberReg.phone}" type="mobile"/></span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">

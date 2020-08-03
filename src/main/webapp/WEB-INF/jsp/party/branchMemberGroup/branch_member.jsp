@@ -118,8 +118,8 @@
                             </c:if>${user.realname}
                         </td>
                         <td>${cm:formatDate(branchMember.assignDate, "yyyy.MM")}</td>
-                        <td>${branchMember.officePhone}</td>
-                        <td>${branchMember.mobile}</td>
+                        <td><t:mask src="${branchMember.officePhone}" type="fixedPhone"/></td>
+                        <td><t:mask src="${branchMember.mobile}" type="mobile"/></td>
                         <td nowrap>${cm:getMetaType(branchMember.typeId).name}</td>
                         <shiro:hasPermission name="branchMember:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">

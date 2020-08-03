@@ -31,7 +31,7 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${admin.user.realname}</td>
                                 <td>${admin.user.code}</td>
-                                <td>${admin.user.mobile}</td>
+                                <td><t:mask src="${admin.user.mobile}" type="mobile"/></td>
                                 <td title="${admin.unit}">${cm:substr(admin.unit, 0, 15, '...')}</td>
                                 <td>${PCS_ADMIN_TYPE_MAP.get(admin.type)}</td>
                                 <td>

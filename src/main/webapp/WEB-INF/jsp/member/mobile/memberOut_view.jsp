@@ -51,13 +51,13 @@
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 身份证号</div>
                 <div class="profile-info-value td">
-                    <span class="editable">${userBean.idcard}</span>
+                    <span class="editable"><t:mask src="${userBean.idcard}" type="idCard"/></span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name td"> 党员本人联系电话</div>
                 <div class="profile-info-value td">
-                    <span class="editable">${memberOut.phone}</span>
+                    <span class="editable"><t:mask src="${memberOut.phone}" type="mobile"/></span>
                 </div>
             </div>
             <div class="profile-info-row">

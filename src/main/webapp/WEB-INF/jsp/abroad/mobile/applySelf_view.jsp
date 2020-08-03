@@ -110,7 +110,7 @@
 
                 <div class="profile-info-value td">
                   <span class="editable">
-                  <a href='tel:${sysUser.mobile}'>${sysUser.mobile}</a>
+                  <a href='tel:${sysUser.mobile}'><t:mask src="${sysUser.mobile}" type="mobile"/></a>
                   </span>
                 </div>
               </div>

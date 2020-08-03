@@ -46,7 +46,7 @@
                     </td>
                 </c:if>
                 <c:if test="${!cetTrain.evaAnonymous}">
-                    <td>${inspector.mobile}</td>
+                    <td><t:mask src="${inspector.mobile}" type="mobile"/></td>
                     <td>${inspector.realname}</td>
                 </c:if>
 

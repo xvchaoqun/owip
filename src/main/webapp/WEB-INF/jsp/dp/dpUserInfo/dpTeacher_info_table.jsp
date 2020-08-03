@@ -30,7 +30,7 @@
             身份证号
         </td>
         <td class="bg-left" style="min-width: 120px">
-            ${uv.idcard}
+            <t:mask src="${uv.idcard}" type="idCard"/>
         </td>
     </tr>
     <tr>
@@ -99,13 +99,13 @@
             手机号码
         </td>
         <td class="bg-left" colspan="3">
-            ${uv.mobile}
+            <t:mask src="${uv.mobile}" type="mobile"/>
         </td>
         <td class="bg-right">
             邮箱
         </td>
         <td class="bg-left" colspan="3">
-            ${uv.email}
+            <t:mask src="${uv.email}" type="email"/>
         </td>
     </tr>
     </tbody>

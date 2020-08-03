@@ -527,7 +527,7 @@ div.WordSection1
         <td width=259.1 colspan=3 class="resume" style='width:412.85pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-            ${bean.phone}
+            <t:mask src="${bean.phone}" type="fixedPhone"/>
         </td>
         <td width=78 style='width:68.95pt;border-top:none;border-left:solid windowtext 1.0pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -539,7 +539,7 @@ div.WordSection1
         <td width=259.1 colspan=2 class="resume" style='width:412.85pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-            ${bean.email}
+            <t:mask src="${bean.email}" type="email"/>
         </td>
     </tr>
     <tr style='height:32.55pt'>
@@ -553,7 +553,7 @@ div.WordSection1
         <td width=259.1 colspan=3 class="resume" style='width:412.85pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:32.55pt'>
-            ${bean.mobile}
+            <t:mask src="${bean.mobile}" type="mobile"/>
         </td>
         <td width=78 style='width:68.95pt;border-top:none;border-left:solid windowtext 1.0pt;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

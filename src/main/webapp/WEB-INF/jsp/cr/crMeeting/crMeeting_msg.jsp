@@ -49,7 +49,7 @@
                         <tr>
                             <td nowrap>${sysUser.code}</td>
                             <td nowrap>${sysUser.realname}</td>
-                            <td nowrap>${sysUser.mobile}</td>
+                            <td nowrap><t:mask src="${sysUser.mobile}" type="mobile"/></td>
                             <td>${postMap.get(crApplicant.firstPostId).name}</td>
                         </tr>
                     </c:forEach>

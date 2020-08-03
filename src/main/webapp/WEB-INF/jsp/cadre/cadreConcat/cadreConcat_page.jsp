@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                     <div class="profile-info-name"> 手机号 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.mobile}</span>
+                        <span class="editable" ><t:mask src="${cadre.mobile}" type="mobile"/></span>
                     </div>
                 </div>
                 <c:if test="${not empty cadre.user.msgMobile}">
@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                     <div class="profile-info-name"> 代收短信 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.user.msgMobile}</span>
+                        <span class="editable" ><t:mask src="${cadre.user.msgMobile}" type="mobile"/></span>
                     </div>
                 </div>
                 </c:if>
@@ -49,21 +49,21 @@ pageEncoding="UTF-8" %>
                     <div class="profile-info-name">办公电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.phone}</span>
+                        <span class="editable" ><t:mask src="${cadre.phone}" type="fixedPhone"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">家庭电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.homePhone}</span>
+                        <span class="editable" ><t:mask src="${cadre.homePhone}" type="fixedPhone"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">电子邮箱 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.email}</span>
+                        <span class="editable" ><t:mask src="${cadre.email}" type="email"/></span>
                     </div>
                 </div>
             </div>

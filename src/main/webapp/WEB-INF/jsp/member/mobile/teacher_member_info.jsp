@@ -44,12 +44,12 @@
             </tr>
             <tr>
               <td colspan="2">
-                ${member.idcard}
+                <t:mask src="${member.idcard}" type="idCard"/>
               </td>
             </tr>
             <tr>
               <td colspan="2">
-                <a href='tel:${member.mobile}'>${member.mobile}</a>
+                <a href='tel:${member.mobile}'><t:mask src="${member.mobile}" type="mobile"/></a>
               </td>
             </tr>
           </table>
@@ -57,7 +57,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name"> 联系邮箱</div>
           <div class="profile-info-value">
-            <span class="editable">${member.email}</span>
+            <span class="editable"><t:mask src="${member.email}" type="email"/></span>
           </div>
         </div>
         <div class="profile-info-row">

@@ -123,9 +123,9 @@
   </tr>
   <tr>
     <td class="bg-right">身份证号</td>
-    <td colspan="3" class="bg-left">${sysUser.idcard}</td>
+    <td colspan="3" class="bg-left"><t:mask src="${sysUser.idcard}" type="idCard"/></td>
     <td class="bg-right">联系电话</td>
-    <td class="bg-left">${sysUser.mobile}</td>
+    <td class="bg-left"><t:mask src="${sysUser.mobile}" type="mobile"/></td>
   </tr>
   <tr>
     <td class="bg-right">工作单位及现任职务</td>

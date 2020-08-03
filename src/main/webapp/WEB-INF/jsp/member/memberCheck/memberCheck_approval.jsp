@@ -35,13 +35,13 @@
                             <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${original.nativePlace}</td>
                             <td data-code="mobile" class="text-right">手机号</td>
-                            <td class="bg-left">${original.mobile}</td>
+                            <td class="bg-left"><t:mask src="${original.mobile}" type="mobile"/></td>
                             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                                 <td data-code="phone" class="text-right">办公电话</td>
-                                <td class="bg-left">${original.phone}</td>
+                                <td class="bg-left"><t:mask src="${original.phone}" type="fixedPhone"/></td>
                             </c:if>
                             <td data-code="email" class="text-right">邮箱</td>
-                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}">${original.email}</td>
+                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}"><t:mask src="${original.email}" type="email"/></td>
                         </tr>
                         <tr>
                             <td data-code="politicalStatus">政治面貌</td>
@@ -103,13 +103,13 @@
                             <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${memberCheck.nativePlace}</td>
                             <td data-code="mobile" class="text-right">手机号</td>
-                            <td class="bg-left">${memberCheck.mobile}</td>
+                            <td class="bg-left"><t:mask src="${memberCheck.mobile}" type="mobile"/></td>
                             <c:if test="${sysUser.type==USER_TYPE_JZG}">
                                 <td data-code="phone" class="text-right">办公电话</td>
-                                <td class="bg-left">${memberCheck.phone}</td>
+                                <td class="bg-left"><t:mask src="${memberCheck.phone}" type="fixedPhone"/></td>
                             </c:if>
                             <td data-code="email" class="text-right">邮箱</td>
-                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}">${memberCheck.email}</td>
+                            <td class="bg-left" colspan="${sysUser.type==USER_TYPE_JZG?1:3}"><t:mask src="${memberCheck.email}" type="email"/></td>
                         </tr>
                         <tr>
                             <td data-code="politicalStatus">政治面貌</td>

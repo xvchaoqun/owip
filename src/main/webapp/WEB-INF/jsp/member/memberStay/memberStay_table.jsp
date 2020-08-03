@@ -72,7 +72,7 @@
     身份证号
   </td>
   <td class="bg-left" style="min-width: 80px" colspan="3">
-    ${userBean.idcard}
+    <t:mask src="${userBean.idcard}" type="idCard"/>
   </td>
 </tr>
 <tr>
@@ -100,20 +100,20 @@
     手机
   </td>
   <td class="bg-left">
-    ${memberStay.mobile}
+    <t:mask src="${memberStay.mobile}" type="mobile"/>
   </td>
 
   <td class="bg-right">
     家庭电话
   </td>
   <td class="bg-left">
-    ${memberStay.phone}
+    <t:mask src="${memberStay.phone}" type="fixedPhone"/>
   </td>
   <td class="bg-right">
     QQ号
   </td>
   <td class="bg-left">
-    ${memberStay.qq}
+    <t:mask src="${memberStay.qq}" type="fixedPhone"/>
   </td>
 </tr>
 <tr>
@@ -121,7 +121,7 @@
     电子邮箱
   </td>
   <td class="bg-left" colspan="3">
-    ${memberStay.email}
+    <t:mask src="${memberStay.email}" type="email"/>
   </td>
 
   <td class="bg-right">
@@ -179,7 +179,7 @@
     办公电话
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.phone1}
+    <t:mask src="${memberStay.phone1}" type="fixedPhone"/>
   </td>
 </tr>
 <tr>
@@ -187,13 +187,13 @@
     手机号
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.mobile1}
+    <t:mask src="${memberStay.mobile1}" type="mobile"/>
   </td>
   <td class="bg-right">
     电子邮箱
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.email1}
+    <t:mask src="${memberStay.email1}" type="email"/>
   </td>
 </tr>
 <tr>
@@ -224,7 +224,7 @@
     办公电话
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.phone2}
+    <t:mask src="${memberStay.phone2}" type="fixedPhone"/>
   </td>
 </tr>
 <tr>
@@ -232,13 +232,13 @@
     手机号
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.mobile2}
+    <t:mask src="${memberStay.mobile2}" type="mobile"/>
   </td>
   <td class="bg-right">
     电子邮箱
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.email2}
+    <t:mask src="${memberStay.email2}" type="email"/>
   </td>
 </tr>
 <tr>
@@ -312,7 +312,7 @@
     联系人手机
   </td>
   <td class="bg-left" colspan="2">
-      ${memberStay.mobile1}
+      <t:mask src="${memberStay.mobile1}" type="mobile"/>
   </td>
 </tr>
   <tr>
@@ -350,7 +350,7 @@
     </td>
     <td class="bg-left" colspan="2">
       ${cm:getUserById(memberStay.orgBranchAdminId).realname} <br/>
-      ${memberStay.orgBranchAdminPhone}
+      <t:mask src="${memberStay.orgBranchAdminPhone}" type="mobile"/>
     </td>
   </c:if>
 </tr>

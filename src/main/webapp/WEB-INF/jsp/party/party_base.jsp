@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
 							联系电话
 						</td>
 						<td>
-							${party.phone}
+							<t:mask src="${party.phone}" type="fixedPhone"/>
 						</td>
 						<td >
 							传真
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 							邮箱
 						</td>
 						<td>
-							${party.email}
+							<t:mask src="${party.email}" type="email"/>
 						</td>
 						<td >
 							成立时间
@@ -131,8 +131,8 @@ pageEncoding="UTF-8"%>
 							</c:forEach>
 						</td>
 						<td>${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>
-						<td>${partyMember.officePhone}</td>
-						<td>${partyMember.mobile}</td>
+						<td><t:mask src="${partyMember.officePhone}" type="fixedPhone"/></td>
+						<td><t:mask src="${partyMember.mobile}" type="mobile"/></td>
 						<td></td>
 					</tr>
 				</c:forEach>
@@ -173,7 +173,7 @@ pageEncoding="UTF-8"%>
 					<tr>
 						<td>${user.realname}</td>
 						<td>${user.code}</td>
-						<td>${user.mobile}</td>
+						<td><t:mask src="${user.mobile}" type="mobile"/></td>
 						<td class="bg-left">
 							<shiro:hasPermission name="partyMember:del">
 							<a class="confirm btn btn-danger btn-xs"

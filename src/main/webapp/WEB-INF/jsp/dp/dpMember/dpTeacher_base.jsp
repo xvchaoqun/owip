@@ -101,13 +101,13 @@
                         手机号
                     </td>
                     <td class="bg-left">
-                        ${dpMember.mobile}
+                        <t:mask src="${dpMember.mobile}" type="mobile"/>
                     </td>
                     <td class="bg-right">
                         邮箱
                     </td>
                     <td class="bg-left">
-                        ${dpMember.email}
+                        <t:mask src="${dpMember.email}" type="email"/>
                     </td>
                 </tr>
                 <tr>
@@ -127,7 +127,7 @@
                         备注
                     </td>
                     <td class="bg-left" colspan="3">
-                        ${dpMember.mobile}
+                        ${dpMember.remark}
                     </td>
                 </tr>
                 </tbody>

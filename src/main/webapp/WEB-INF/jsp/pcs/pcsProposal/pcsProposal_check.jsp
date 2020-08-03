@@ -20,13 +20,13 @@
                 </tr>
                 <tr>
                     <td>联系电话</td>
-                    <td>${candidate.mobile}</td>
+                    <td><t:mask src="${candidate.mobile}" type="mobile"/></td>
                     <td>工作证号</td>
                     <td>${candidate.code}</td>
                 </tr>
                 <tr>
                     <td>邮 箱</td>
-                    <td>${candidate.email}</td>
+                    <td><t:mask src="${candidate.email}" type="email"/></td>
                     <td>提案日期</td>
                     <td>${cm:formatDate(empty pcsProposal?now:pcsProposal.createTime, "yyyy-MM-dd")}</td>
                 </tr>
@@ -85,8 +85,8 @@
                                     <td>${u.code}</td>
                                     <td>${u.realname}</td>
                                     <td>${u.unitName}</td>
-                                    <td>${u.mobile}</td>
-                                    <td>${u.email}</td>
+                                    <td><t:mask src="${u.mobile}" type="mobile"/></td>
+                                    <td><t:mask src="${u.email}" type="email"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -113,8 +113,8 @@
                                     <td>${u.code}</td>
                                     <td>${u.realname}</td>
                                     <td>${u.unitName}</td>
-                                    <td>${u.mobile}</td>
-                                    <td>${u.email}</td>
+                                    <td><t:mask src="${u.mobile}" type="mobile"/></td>
+                                    <td><t:mask src="${u.email}" type="email"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>

@@ -260,7 +260,7 @@ td.padding10{
             <td class="td1 center bolder">
                     <span>身份证号</span>
             </td><td class="td11 padding10" colspan="7">
-            ${bean.idCard}
+            <t:mask src="${bean.idCard}" type="idCard"/>
         </td><td class="td5 center bolder" colspan="2">
                 <span>户籍地</span>
         </td><td class="td10" colspan="3">
@@ -393,22 +393,22 @@ td.padding10{
             <td class="td1 center bolder">
                     <span>手  机</span>
             </td><td class="td13 padding10" colspan="6">
-            ${bean.mobile}
+            <t:mask src="${bean.mobile}" type="mobile"/>
         </td><td class="td2 center bolder" colspan="2">
                 <span>办公电话</span>
         </td><td class="td14 padding10" colspan="4">
-            ${bean.phone}
+            <t:mask src="${bean.phone}" type="fixedPhone"/>
         </td>
         </tr>
         <tr class="r4">
             <td class="td1 center bolder">
                     <span>电子信箱</span>
             </td><td class="td13 padding10" colspan="6">
-            ${bean.email}
+            <t:mask src="${bean.email}" type="email"/>
         </td><td class="td2 center bolder" colspan="2">
                 <span>家庭电话</span>
         </td><td class="td14 padding10" colspan="4">
-            ${bean.homePhone}
+            <t:mask src="${bean.homePhone}" type="fixedPhone"/>
         </td>
         </tr>
         <tr class="r4">

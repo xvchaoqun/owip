@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
        <tr>
            <td>${applicant.user.realname}</td>
            <td>${applicant.user.code}</td>
-           <td>${applicant.user.mobile}</td>
+           <td><t:mask src="${applicant.user.mobile}" type="mobile"/></td>
        </tr>
        </c:forEach>
        </tbody>

@@ -23,7 +23,7 @@
                 <c:set var="user" value="${cm:getUserById(cetShortMsg.userId)}"/>
                 <tr>
                     <td>${empty user?'-':user.realname}</td>
-                    <td>${cetShortMsg.mobile}</td>
+                    <td><t:mask src="${cetShortMsg.mobile}" type="mobile"/></td>
                     <td title="${cetShortMsg.msg}">${cm:substr(cetShortMsg.msg, 0, 20, '...')}</td>
                     <td>${cm:formatDate(cetShortMsg.sendTime, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td class="${cetShortMsg.success?"text-success":"text-danger"}">${cetShortMsg.success?"发送成功":"发送失败"}</td>

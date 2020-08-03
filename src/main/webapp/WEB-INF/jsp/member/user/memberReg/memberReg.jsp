@@ -50,13 +50,13 @@
                         身份证号码
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${memberReg.idcard}
+                        <t:mask src="${memberReg.idcard}" type="idCard"/>
                     </td>
                     <td class="bg-right">
                         手机号码
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${memberReg.phone}
+                        <t:mask src="${memberReg.phone}" type="mobile"/>
                     </td>
                     <td class="bg-right">
                         状态

@@ -62,7 +62,7 @@
                         <td>所在单位及职务</td>
                         <td style="min-width: 80px">${principal.title}</td>
                         <td>联系方式</td>
-                        <td style="min-width: 80px">${principal.mobile}</td>
+                        <td style="min-width: 80px"><t:mask src="${principal.mobile}" type="mobile"/></td>
                     </tr>
                     <c:forEach items="${viceprincipalList}" var="viceprincipal">
                         <tr>
@@ -71,7 +71,7 @@
                             <td>所在单位及职务</td>
                             <td>${viceprincipal.title}</td>
                             <td>联系方式</td>
-                            <td>${viceprincipal.mobile}</td>
+                            <td><t:mask src="${viceprincipal.mobile}" type="mobile"/></td>
                         </tr>
                     </c:forEach>
                 </tbody>

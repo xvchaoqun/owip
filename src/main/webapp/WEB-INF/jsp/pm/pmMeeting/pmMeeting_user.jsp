@@ -22,7 +22,7 @@
                     <td nowrap >${user.code}</td>
                     <td nowrap >${user.realname}</td>
                     <td nowrap >${user.partyPost}</td>
-                    <td nowrap >${user.mobile}</td>
+                    <td nowrap ><t:mask src="${user.mobile}" type="mobile"/></td>
                 </tr>
             </c:forEach>
             </tbody>

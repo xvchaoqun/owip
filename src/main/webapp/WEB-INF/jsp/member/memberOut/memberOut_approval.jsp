@@ -61,7 +61,7 @@
                                         <div class="profile-info-name"> 党员本人联系电话 </div>
 
                                         <div class="profile-info-value">
-                                            <span class="editable" >${memberOut.phone}</span>
+                                            <span class="editable" ><t:mask src="${memberOut.phone}" type="mobile"/></span>
                                         </div>
                                     </div>
                                 <div class="profile-info-row">

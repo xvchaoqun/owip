@@ -185,7 +185,7 @@
             证件号码
           </td>
           <td>
-            ${uv.idcard}
+            <t:mask src="${uv.idcard}" type="idCard"/>
           </td>
         </tr>
         <tr>

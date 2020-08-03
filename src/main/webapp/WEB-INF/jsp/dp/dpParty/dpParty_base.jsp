@@ -43,13 +43,13 @@ pageEncoding="UTF-8"%>
 							联系电话
 						</td>
 						<td>
-							${dpParty.phone}
+							<t:mask src="${dpParty.phone}" type="mobile"/>
 						</td>
 						<td >
 							邮箱
 						</td>
 						<td>
-							${dpParty.email}
+							<t:mask src="${dpParty.email}" type="email"/>
 						</td>
 						<td >
 							成立时间
@@ -122,8 +122,8 @@ pageEncoding="UTF-8"%>
 							</c:forEach>
 						</td>
 						<td>${cm:formatDate(dpPartyMember.assignDate, "yyyy.MM")}</td>
-						<td>${dpPartyMember.officePhone}</td>
-						<td>${dpPartyMember.mobile}</td>
+						<td><t:mask src="${dpPartyMember.officePhone}" type="fixedPhone"/></td>
+						<td><t:mask src="${dpPartyMember.mobile}" type="mobile"/></td>
 						<td></td>
 					</tr>
 				</c:forEach>
@@ -164,7 +164,7 @@ pageEncoding="UTF-8"%>
 					<tr>
 						<td>${user.realname}</td>
 						<td>${user.code}</td>
-						<td>${user.mobile}</td>
+						<td><t:mask src="${user.mobile}" type="mobile"/></td>
 						<td class="bg-left">
 							<shiro:hasPermission name="dpPartyMember:del">
 							<a class="confirm btn btn-danger btn-xs"

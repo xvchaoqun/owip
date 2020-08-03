@@ -35,7 +35,7 @@
     <div class="profile-info-name td"> 身份证号 </div>
 
     <div class="profile-info-value td">
-      <span class="editable">${_user.idcard}</span>
+      <span class="editable"><t:mask src="${_user.idcard}" type="idCard"/></span>
     </div>
   </div>
 
@@ -43,7 +43,7 @@
     <div class="profile-info-name td"> 联系电话 </div>
 
     <div class="profile-info-value td">
-      <span class="editable">${_user.mobile}</span>
+      <span class="editable"><t:mask src="${_user.mobile}" type="mobile"/></span>
     </div>
   </div>
 </div>

@@ -30,7 +30,7 @@
             身份证号
         </td>
         <td class="bg-left" style="min-width: 120px">
-            ${uv.idcard}
+            <t:mask src="${uv.idcard}" type="idCard"/>
         </td>
     </tr>
     <tr>

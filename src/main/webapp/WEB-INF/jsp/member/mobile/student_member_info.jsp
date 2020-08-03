@@ -44,7 +44,7 @@
             </tr>
             <tr>
               <td colspan="2">
-                ${member.idcard}
+                <t:mask src="${member.idcard}" type="idCard"/>
               </td>
             </tr>
             <tr>

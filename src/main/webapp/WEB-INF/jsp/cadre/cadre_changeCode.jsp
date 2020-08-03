@@ -18,7 +18,7 @@
 		<div class="form-group">
 			<label class="col-xs-3 control-label">当前工号</label>
 			<div class="col-xs-6 label-text">
-				${sysUser.code}<br/>（身份证号码：${sysUser.idcard}）
+				${sysUser.code}<br/>（身份证号码：<t:mask src="${sysUser.idcard}" type="idCard"/>）
 			</div>
 		</div>
 

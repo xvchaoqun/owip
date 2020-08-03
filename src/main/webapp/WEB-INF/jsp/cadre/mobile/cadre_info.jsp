@@ -111,7 +111,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${uv.idcard}
+              <t:mask src="${uv.idcard}" type="idCard"/>
             </span>
           </div>
         </div>
@@ -174,7 +174,7 @@
           <div class="profile-info-name td"> 手机号</div>
           <div class="profile-info-value td">
             <span class="editable">
-              <a href='tel:${uv.mobile}'>${uv.mobile}</a>
+              <a href='tel:${uv.mobile}'><t:mask src="${uv.mobile}" type="mobile"/></a>
             </span>
           </div>
         </div>
@@ -182,7 +182,7 @@
           <div class="profile-info-name td"> 邮箱</div>
           <div class="profile-info-value td">
             <span class="editable">
-               <a href='mailto:${uv.email}'>${uv.email}</a>
+               <a href='mailto:${uv.email}'><t:mask src="${uv.email}" type="email"/></a>
             </span>
           </div>
         </div>

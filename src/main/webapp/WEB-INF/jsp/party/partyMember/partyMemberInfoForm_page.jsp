@@ -374,7 +374,7 @@ div.WordSection2
   <td width=471 colspan=5 style='width:353.4pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 0cm 0cm 4.25pt;height:35.45pt'>
-  <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b>${bean.mobile}</b></p>
+  <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b><t:mask src="${bean.mobile}" type="mobile"/></b></p>
   </td>
 </tr>
  <tr style='page-break-inside:avoid;height:356.65pt'>

@@ -394,10 +394,10 @@
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.5pt;
   padding:0cm 0cm 0cm 4.25pt;height:35.45pt'>
 <c:if test="${bean.cadre}">
-    <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b>${bean.mobile}</b></p>
+    <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b><t:mask src="${bean.mobile}" type="mobile"/></b></p>
 </c:if>
 <c:if test="${!bean.cadre}">
- <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b>${uv.mobile}</b></p>
+ <p class=MsoNormal style='line-height:15.0pt'><a name="RMZW_18"></a><b><t:mask src="${uv.mobile}" type="mobile"/></b></p>
 </c:if>
    </td>
   </tr>

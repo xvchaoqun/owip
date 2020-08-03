@@ -56,7 +56,7 @@
                         <td nowrap>
                            ${user.realname}（${user.code}）
                         </td>
-                        <td nowrap>${user.mobile}</td>
+                        <td nowrap><t:mask src="${user.mobile}" type="mobile"/></td>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                     <button class="delBtn btn btn-danger btn-xs" data-id="${receiver.id}">

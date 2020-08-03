@@ -23,7 +23,7 @@
                 <c:set var="user" value="${cm:getUserById(crsShortMsg.userId)}"/>
                 <tr>
                     <td>${user.realname}</td>
-                    <td>${user.mobile}</td>
+                    <td><t:mask src="${user.mobile}" type="mobile"/></td>
                     <td title="${crsShortMsg.msg}">${cm:substr(crsShortMsg.msg, 0, 20, '...')}</td>
                     <td>${cm:formatDate(crsShortMsg.sendTime, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td class="${crsShortMsg.success?"text-success":"text-danger"}">${crsShortMsg.success?"发送成功":"发送失败"}</td>

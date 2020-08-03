@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 							联系电话
 						</td>
 						<td>
-							${branch.phone}
+							<t:mask src="${branch.phone}" type="fixedPhone"/>
 						</td>
 						<td >
 							传真
@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
 							邮箱
 						</td>
 						<td>
-							${branch.email}
+							<t:mask src="${branch.email}" type="email"/>
 						</td>
 						<td >
 							成立时间

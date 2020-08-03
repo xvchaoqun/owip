@@ -105,11 +105,11 @@
                                 </tr>
                                 <tr>
                                     <td>办公电话</td>
-                                    <td>${bean.phone}</td>
+                                    <td><t:mask src="${bean.phone}" type="fixedPhone"/></td>
                                     <td>手 机</td>
-                                    <td>${bean.mobile}</td>
+                                    <td><t:mask src="${bean.mobile}" type="mobile"/></td>
                                     <td>电子邮箱</td>
-                                    <td>${bean.email}</td>
+                                    <td><t:mask src="${bean.email}" type="email"/></td>
                                 </tr>
                                 <tr>
                                     <td><span class="star">*</span>岗位志愿</td>

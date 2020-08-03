@@ -48,21 +48,21 @@
                     <div class="profile-info-name"> 身份证</div>
 
                     <div class="profile-info-value">
-                        <span class="editable">${sysUser.idcard}</span>
+                        <span class="editable"><t:mask src="${sysUser.idcard}" type="idCard"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name"> 手机</div>
 
                     <div class="profile-info-value">
-                        <span class="editable">${sysUser.mobile}</span>
+                        <span class="editable"><t:mask src="${sysUser.mobile}" type="mobile"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">邮箱</div>
 
                     <div class="profile-info-value">
-                        <span class="editable">${sysUser.email}</span>
+                        <span class="editable"><t:mask src="${sysUser.email}" type="email"/></span>
                     </div>
                 </div>
                 <div class="profile-info-row">
