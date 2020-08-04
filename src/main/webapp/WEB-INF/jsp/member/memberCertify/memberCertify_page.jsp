@@ -108,7 +108,7 @@ pageEncoding="UTF-8" %>
                                             data-grid-id="#jqGrid"
                                             data-querystr="&cls=${cls}"
                                             class="jqOpenViewBatchBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-reply-all"></i> 批量打回
+                                        <i class="fa fa-reply-all"></i> 批量退回
                                     </button>
                                 </c:if>
                                 <c:if test="${cls!=3&&cls!=7||(cls==7&&cm:hasRole(ROLE_ODADMIN))}">

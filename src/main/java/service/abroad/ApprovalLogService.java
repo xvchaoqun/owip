@@ -205,10 +205,10 @@ public class ApprovalLogService extends AbroadBaseMapper {
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
             record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-            if (!pass) { // 不通过，打回申请
+            if (!pass) { // 不通过，退回申请
                 ApplySelf applySelf = new ApplySelf();
                 applySelf.setId(applySelfId);
-                applySelf.setStatus(false); // 打回
+                applySelf.setStatus(false); // 退回
                 applySelf.setApprovalRemark(remark);
 
                 //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。

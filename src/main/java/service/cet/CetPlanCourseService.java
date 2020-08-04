@@ -52,27 +52,29 @@ public class CetPlanCourseService extends CetBaseMapper {
 
         record.setSortOrder(getNextSortOrder("cet_plan_course", "plan_id="+ record.getPlanId()));
         cetPlanCourseMapper.insertSelective(record);
+
+        iCetMapper.updatePlanCourseTotalPeriod(record.getPlanId());
     }
 
     @Transactional
-    public void del(Integer id){
-
-        cetPlanCourseMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(int planId, Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
         CetPlanCourseExample example = new CetPlanCourseExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andPlanIdEqualTo(planId).andIdIn(Arrays.asList(ids));
         cetPlanCourseMapper.deleteByExample(example);
+
+        iCetMapper.updatePlanCourseTotalPeriod(planId);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CetPlanCourse record){
-        return cetPlanCourseMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(CetPlanCourse record){
+
+        CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(record.getId());
+        cetPlanCourseMapper.updateByPrimaryKeySelective(record);
+
+        iCetMapper.updatePlanCourseTotalPeriod(cetPlanCourse.getPlanId());
     }
 
     // 添加课程
@@ -102,6 +104,8 @@ public class CetPlanCourseService extends CetBaseMapper {
                 cetPlanCourseMapper.insertSelective(record);
             }
         }
+
+        iCetMapper.updatePlanCourseTotalPeriod(planId);
     }
 
     // 选择学员/取消选择

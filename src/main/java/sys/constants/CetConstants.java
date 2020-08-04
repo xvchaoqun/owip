@@ -68,10 +68,14 @@ public class CetConstants {
     // 培训类型， 1 专题培训 2 日常培训
     public final static byte CET_PROJECT_TYPE_SPECIAL = 1;
     public final static byte CET_PROJECT_TYPE_DAILY = 2;
+    public final static byte CET_PROJECT_TYPE_PARTY_SPECIAL = 3;
+    public final static byte CET_PROJECT_TYPE_PARTY_DAILY = 4;
     public static Map<Byte, String> CET_PROJECT_TYPE_MAP = new LinkedHashMap<Byte, String>();
     static {
-        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_SPECIAL, "专题培训");
-        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_DAILY, "日常培训");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_SPECIAL, "专题培训(党校)");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_DAILY, "日常培训(党校)");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_PARTY_SPECIAL, "专题培训(二级党委)");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_PARTY_DAILY, "日常培训(二级党委)");
     }
 
     // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
@@ -125,23 +129,6 @@ public class CetConstants {
         CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_SPECIAL, "网上专题培训班");
     }
 
-    // 培训班 选课状态，0 根据选课时间而定 1 正在选课、2 选课结束、3 暂停选课 4 未启动选课
-    public final static byte CET_TRAIN_ENROLL_STATUS_DEFAULT = 0;
-    public final static byte CET_TRAIN_ENROLL_STATUS_OPEN = 1;
-    public final static byte CET_TRAIN_ENROLL_STATUS_CLOSED = 2;
-    public final static byte CET_TRAIN_ENROLL_STATUS_PAUSE = 3;
-    public final static byte CET_TRAIN_ENROLL_STATUS_NOT_BEGIN = 4;
-    public static Map<Byte, String> CET_TRAIN_ENROLL_STATUS_MAP = new LinkedHashMap<Byte, String>();
-
-    static {
-
-        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_DEFAULT, "根据选课时间而定");
-        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_OPEN, "正在选课");
-        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_CLOSED, "选课结束");
-        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_PAUSE, "暂停选课");
-        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_NOT_BEGIN, "未启动选课");
-    }
-
     // 培训课程 选课/退课状态，0：由培训班的选课时间决定  1： 已关闭选课  2： 已关闭退课  3： 已关闭选课和退课
     public final static byte CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT = 0;
     public final static byte CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY = 1;
@@ -151,7 +138,7 @@ public class CetConstants {
 
     static {
 
-        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT, "根据选课开关而定");
+        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT, "与选课时间一致");
         CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY, "单独关闭选课");
         CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT, "单独关闭退课");
         CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL, "关闭选课和退课");
@@ -237,7 +224,7 @@ public class CetConstants {
         CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_OW, "组织部填写");
     }
 
-    // 二级党委培训 审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（打回） 4 已删除
+    // 二级党委培训 审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（退回） 4 已删除
     public final static byte CET_UNIT_PROJECT_STATUS_UNREPORT = 0;
     public final static byte CET_UNIT_PROJECT_STATUS_REPORT = 1;
     public final static byte CET_UNIT_PROJECT_STATUS_PASS = 2;
@@ -253,7 +240,22 @@ public class CetConstants {
         CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_UNPASS, "审批不通过");
         CET_UNIT_PROJECT_STATUS_MAP.put(CET_UNIT_PROJECT_STATUS_DELETE, "已删除");
     }
-    
+
+    // 过程培训 审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（退回）
+    public final static byte CET_PROJECT_STATUS_UNREPORT = 0;
+    public final static byte CET_PROJECT_STATUS_REPORT = 1;
+    public final static byte CET_PROJECT_STATUS_PASS = 2;
+    public final static byte CET_PROJECT_STATUS_UNPASS = 3;
+    public static Map<Byte, String> CET_PROJECT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_UNREPORT, "未报送");
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_REPORT, "已报送");
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_PASS, "审批通过");
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_UNPASS, "审批不通过");
+    }
+
     // 培训类型（用于年度学习档案统计）
     public final static byte CET_TYPE_SPECIAL = 1; // CET_PROJECT_TYPE_SPECIAL
     public final static byte CET_TYPE_DAILY = 2; // CET_PROJECT_TYPE_DAILY
@@ -270,12 +272,10 @@ public class CetConstants {
         CET_TYPE_MAP.put(CET_TYPE_PARTY_DAILY, "二级党委日常培训");
     }
 
-    // 培训记录来源类别（用于年度学习档案统计），1 党校专题培训  2 党校日常培训 3 二级党委专题培训 4 上级调训
-    // 5 二级党委日常培训 6 党校其他培训 7 二级党委其他培训
+    // 培训记录来源类别（用于年度学习档案统计），1 上级调训  2 过程培训 3 二级党校历史培训
     public final static byte CET_SOURCE_TYPE_UPPER = 1; // 上级调训 cet_upper_train
-    public final static byte CET_SOURCE_TYPE_PROJECT = 2;  // 党校过程培训  cet_project_obj
+    public final static byte CET_SOURCE_TYPE_PROJECT = 2;  // 过程培训  cet_project_obj
     public final static byte CET_SOURCE_TYPE_UNIT = 3; // 二级党校历史培训 cet_unit_train
-    public final static byte CET_SOURCE_TYPE_UNIT_PROJECT = 4; // 二级党校过程培训
 
     // 培训记录转移类型  1 ： 党校其他培训  2：二级党委培训
     public final static byte CET_TYPE_T_PARTY_SCHOOL = 1;

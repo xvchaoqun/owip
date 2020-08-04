@@ -671,7 +671,7 @@ public class MemberApplyService extends MemberBaseMapper {
                 EnterApply enterApply = new EnterApply();
                 enterApply.setId(_enterApply.getId());
                 enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
-                enterApply.setRemark("系统打回");
+                enterApply.setRemark("系统退回");
                 enterApply.setBackTime(new Date());
                 enterApplyMapper.updateByPrimaryKeySelective(enterApply);
             }
@@ -679,7 +679,7 @@ public class MemberApplyService extends MemberBaseMapper {
             MemberApply record = new MemberApply();
             record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
             record.setPassTime(new Date());// 用"通过时间"记录处理时间
-            record.setRemark("系统打回");
+            record.setRemark("系统退回");
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId);
             Assert.isTrue(memberApplyMapper.updateByExampleSelective(record, example) > 0, "db update failed");
@@ -690,7 +690,7 @@ public class MemberApplyService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "撤回",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
-                    "删除党员时，同时打回党员发展信息");
+                    "删除党员时，同时退回党员发展信息");
         }
     }
 
@@ -836,18 +836,18 @@ public class MemberApplyService extends MemberBaseMapper {
                 Member record = new Member();
                 record.setUserId(userId);
                 record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
-                memberService.updateByPrimaryKeySelective(record, "在党员发展中，打回至预备党员初始状态");
+                memberService.updateByPrimaryKeySelective(record, "在党员发展中，退回至预备党员初始状态");
             }else if(stage<OwConstants.OW_APPLY_STAGE_GROW){
-                // 由正式党员或预备党员打回至预备党员之前的阶段，需要删除党员信息
+                // 由正式党员或预备党员退回至预备党员之前的阶段，需要删除党员信息
                 memberService.batchDel(new Integer[]{userId}, false);
             }
         }
 
         switch (stage) {
-            case OwConstants.OW_APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
+            case OwConstants.OW_APPLY_STAGE_GROW: // 党员(正式或预备)退回至预备党员初始状态
                 iMemberMapper.memberApplyBackToGrow(userId);
                 break;
-            case OwConstants.OW_APPLY_STAGE_DRAW:  // 当前状态为领取志愿书，打回领取志愿书初始状态
+            case OwConstants.OW_APPLY_STAGE_DRAW:  // 当前状态为领取志愿书，退回领取志愿书初始状态
                 iMemberMapper.memberApplyBackToDraw(userId);
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= OwConstants.OW_APPLY_STAGE_DRAW)
@@ -864,7 +864,7 @@ public class MemberApplyService extends MemberBaseMapper {
                 break;
             case OwConstants.OW_APPLY_STAGE_DENY:
                 iMemberMapper.memberApplyBackToInit(userId);
-                enterApplyService.applyBack(userId, "打回申请", OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApplyService.applyBack(userId, "退回申请", OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 break;
         }
     }

@@ -22,8 +22,7 @@
                            <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-content-view"  data-callback="$.menu.liSelected" </c:if>
                            data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&trainCourseId=${tc.id}&detail=${param.detail}">
                             <i class="fa fa-signal"></i>
-                        ${tc.isGlobal?(cetTrain.isOnCampus?tc.cetCourse.name:tc.name)
-                        :(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher)}
+                        ${tc.isGlobal?tc.name:tc.teacher}
                         </a>
                     </li>
                 </c:forEach>
@@ -47,8 +46,8 @@
                         <tbody>
                         <c:forEach items="${trainCourses}" var="tc">
                             <tr>
-                                <td nowrap style="text-align: left">${cetTrain.isOnCampus?tc.cetCourse.name:tc.name}</td>
-                                <td>${tc.isGlobal?'-':(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher)}</td>
+                                <td nowrap style="text-align: left">${tc.name}</td>
+                                <td>${tc.isGlobal?'-':tc.teacher}</td>
                                 <fmt:formatNumber var="_score" type="number" value="${courseScoreMap.get(tc.id)}" maxFractionDigits="1"/>
                                 <td>${_score}</td>
                                 <td style="text-align: left">

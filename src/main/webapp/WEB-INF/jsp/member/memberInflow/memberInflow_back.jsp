@@ -5,19 +5,19 @@
 <c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>打回申请</h3>
+    <h3>退回申请</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberInflow_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">打回申请记录</label>
+            <label class="col-xs-3 control-label">退回申请记录</label>
             <div class="col-xs-6 label-text">
                 ${fn:length(fn:split(param['ids[]'],","))} 条
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">打回至状态</label>
+            <label class="col-xs-3 control-label">退回至状态</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <select name="status" data-rel="select2">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>打回原因</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>退回原因</label>
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
             </div>

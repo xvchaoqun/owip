@@ -42,9 +42,7 @@
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
-                                    <div class="cmd">cat /data/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10
-                                        'ERROR'
-                                    </div>
+                                    <div class="cmd">cat /data/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10 'ERROR'</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
                                 <div class="sample">
@@ -133,7 +131,7 @@
         })
         return false;
     });
-    var websocket = new WebSocket('ws://'+ location.host +'/log');
+    var websocket = new WebSocket('wss://'+ location.host +'/log');
     websocket.onmessage = function (event) {
         $("div", $logContainer).append(("<span class='{0}'>" + event.data + "</span>")
             .format(event.data.indexOf('WARING')!=-1?'bg-warning':(event.data.indexOf('ERROR')!=-1?'bg-danger':'')));

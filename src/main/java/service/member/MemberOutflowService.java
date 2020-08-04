@@ -187,7 +187,7 @@ public class MemberOutflowService extends MemberBaseMapper {
     public void deny(int userId){
 
         MemberOutflow memberOutflow = get(userId);
-        if(memberOutflow.getStatus()== MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY) // 终审操作前，可以不通过（即打回）
+        if(memberOutflow.getStatus()== MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY) // 终审操作前，可以不通过（即退回）
             throw new OpException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
@@ -325,11 +325,11 @@ public class MemberOutflowService extends MemberBaseMapper {
         for (int userId : userIds) {
 
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
-            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
+            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有退回的权限
                 if(!PartyHelper.hasPartyAuth(loginUserId, memberOutflow.getPartyId()))
                     throw new UnauthorizedException();
             }
-            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以打回
+            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以退回
                 if(!PartyHelper.hasBranchAuth(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId()))
                     throw new UnauthorizedException();
             }
@@ -338,12 +338,12 @@ public class MemberOutflowService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberOutflow memberOutflow, byte status, int loginUserId, String reason){
 
         byte _status = memberOutflow.getStatus();
         if(_status==MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY){
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if(status>_status || status<MemberConstants.MEMBER_OUTFLOW_STATUS_BACK ){
             throw new OpException("参数有误。");

@@ -3,8 +3,6 @@ package controller.cet;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
 import domain.cet.CetTrainExample.Criteria;
-import domain.cet.CetTrainView;
-import domain.cet.CetTrainViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -59,8 +57,8 @@ public class CetTrainController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTrainViewExample example = new CetTrainViewExample();
-        CetTrainViewExample.Criteria criteria = example.createCriteria()
+        CetTrainExample example = new CetTrainExample();
+        CetTrainExample.Criteria criteria = example.createCriteria()
                 .andIsOnCampusEqualTo(isOnCampus);
         example.setOrderByClause("create_time desc");
 
@@ -79,12 +77,12 @@ public class CetTrainController extends CetBaseController {
             return;
         }
 
-        long count = cetTrainViewMapper.countByExample(example);
+        long count = cetTrainMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTrainView> records= cetTrainViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetTrain> records= cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -120,7 +118,7 @@ public class CetTrainController extends CetBaseController {
             logger.info(addLog(LogConstants.LOG_CET, "添加培训班：%s", record.getId()));
         } else {
 
-            cetTrainService.updateBase(record);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "更新培训班：%s", record.getId()));
         }
 
@@ -266,25 +264,27 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:del")
     @RequestMapping(value = "/cetTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetTrain_batchDel(HttpServletRequest request,
+                                 Integer planId,
+                                 @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cetTrainService.batchDel(ids);
+            cetTrainService.batchDel(ids, planId);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetTrain_export(CetTrainViewExample example, HttpServletResponse response) {
+    public void cetTrain_export(CetTrainExample example, HttpServletResponse response) {
 
-        List<CetTrainView> records = cetTrainViewMapper.selectByExample(example);
+        List<CetTrain> records = cetTrainMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"名称|100","简介|200","开始日期|100","结束日期|100","备注|100","创建时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetTrainView record = records.get(i);
+            CetTrain record = records.get(i);
             String[] values = {
                     record.getName(),
                     record.getSummary(),

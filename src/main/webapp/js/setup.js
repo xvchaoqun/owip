@@ -257,6 +257,7 @@ $(document).on("dblclick", ".mask", (function(){
     $(this).html($.base64.decode($(this).data("src"))).removeClass("mask");
 }))
 
+var _no_login = false;
 $.ajaxSetup({
     cache: false,
     dataFilter: function (data, type) {
@@ -272,8 +273,9 @@ $.ajaxSetup({
         if (ret.success==undefined || ret.success) return data;
 
         if (ret.msg == "login") {
-
+            if(_no_login) return data; // 防止弹出2个登录超时提示框
             if(_hasLoginPage) {
+                _no_login = true;
                 SysMsg.info("登录超时或账号已在别处登录，请您重新登录", "登录超时", function () {
                     location.reload();
                 });

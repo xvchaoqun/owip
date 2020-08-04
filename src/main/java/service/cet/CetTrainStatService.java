@@ -116,16 +116,8 @@ public class CetTrainStatService extends CetBaseMapper {
         Double score = (Double) statCourseMap.get("score");
 
         int inspectorCount = inspectorTotalScoreMap.size();
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(cetTrainCourse.getTrainId());
 
-        String sheetName = null;
-        if(cetTrain.getIsOnCampus()){
-            CetCourse cetCourse = cetTrainCourse.getCetCourse();
-            sheetName = cetTrainCourse.getIsGlobal() ? cetCourse.getName()
-                    : cetCourse.getCetExpert().getRealname();
-        }else{
-            sheetName = cetTrainCourse.getIsGlobal() ? cetTrainCourse.getName() : cetTrainCourse.getTeacher();
-        }
+        String sheetName = cetTrainCourse.getIsGlobal() ? cetTrainCourse.getName() : cetTrainCourse.getTeacher();
 
         // excel sheetName 不能相同
         int numberOfSheets = wb.getNumberOfSheets();

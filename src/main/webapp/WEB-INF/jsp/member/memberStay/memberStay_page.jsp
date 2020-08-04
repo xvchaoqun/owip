@@ -607,7 +607,7 @@
     </c:if>
     <c:if test="${cls==1||cls==11||cls==2||cls==21||cls==3||cls==31}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
-        caption: "批量打回申请",
+        caption: "批量退回申请",
         btnbase: "btn btn-danger btn-xs",
         buttonicon: "fa fa-reply-all",
         onClickButton: function () {

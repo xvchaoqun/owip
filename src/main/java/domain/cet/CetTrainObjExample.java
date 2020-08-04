@@ -165,66 +165,6 @@ public class CetTrainObjExample {
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIsNull() {
-            addCriterion("train_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdIsNotNull() {
-            addCriterion("train_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdEqualTo(Integer value) {
-            addCriterion("train_id =", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdNotEqualTo(Integer value) {
-            addCriterion("train_id <>", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdGreaterThan(Integer value) {
-            addCriterion("train_id >", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("train_id >=", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdLessThan(Integer value) {
-            addCriterion("train_id <", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdLessThanOrEqualTo(Integer value) {
-            addCriterion("train_id <=", value, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdIn(List<Integer> values) {
-            addCriterion("train_id in", values, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdNotIn(List<Integer> values) {
-            addCriterion("train_id not in", values, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdBetween(Integer value1, Integer value2) {
-            addCriterion("train_id between", value1, value2, "trainId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTrainIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("train_id not between", value1, value2, "trainId");
-            return (Criteria) this;
-        }
-
         public Criteria andObjIdIsNull() {
             addCriterion("obj_id is null");
             return (Criteria) this;

@@ -22,7 +22,12 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $.fileInput($('#modalForm input[type=file]'))
+    $.fileInput($("#modalForm input[name=_file]"),{
+        no_file:'请选择pdf或word文件',
+        allowExt: ['pdf', 'doc', 'docx'],
+        allowMime: ['application/pdf','application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    });
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {

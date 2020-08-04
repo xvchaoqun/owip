@@ -52,7 +52,6 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        SysMsg.success("课程添加成功。");
                     }
                 }
             });

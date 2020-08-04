@@ -179,7 +179,7 @@ public class TestController extends BaseController {
         return FormUtils.SUCCESS;
     }
 */
-    //@RequestMapping(value = "/report2", method = RequestMethod.GET)
+    //@RequestMapping(value = "/report2")
     public String report2(Integer type, Model model) throws IOException {
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();

@@ -383,7 +383,7 @@ public class MemberInController extends MemberBaseController {
 
         memberInService.memberIn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回组织关系转入申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委退回组织关系转入申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

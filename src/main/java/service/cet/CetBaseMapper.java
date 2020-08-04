@@ -79,8 +79,6 @@ public class CetBaseMapper extends CoreBaseMapper {
     @Autowired(required = false)
     protected CetTrainMapper cetTrainMapper;
     @Autowired(required = false)
-    protected CetTrainViewMapper cetTrainViewMapper;
-    @Autowired(required = false)
     protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired(required = false)
     protected CetTrainCourseFileMapper cetTrainCourseFileMapper;

@@ -451,7 +451,7 @@ public class CetCourseController extends CetBaseController {
         if(trainCourseId!=null){
             Integer userId = ShiroHelper.getCurrentUserId();
             if(userId!=null) {
-                CetTrainObjView cetTrainObjView = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
+                CetTrainObjView cetTrainObjView = cetTrainObjService.get(userId, trainCourseId);
 
                 if(cetTrainObjView!=null && BooleanUtils.isNotTrue(cetTrainObjView.getIsFinished())){
 

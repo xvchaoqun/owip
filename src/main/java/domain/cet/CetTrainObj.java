@@ -6,8 +6,6 @@ import java.util.Date;
 public class CetTrainObj implements Serializable {
     private Integer id;
 
-    private Integer trainId;
-
     private Integer objId;
 
     private Integer userId;
@@ -40,14 +38,6 @@ public class CetTrainObj implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getTrainId() {
-        return trainId;
-    }
-
-    public void setTrainId(Integer trainId) {
-        this.trainId = trainId;
     }
 
     public Integer getObjId() {

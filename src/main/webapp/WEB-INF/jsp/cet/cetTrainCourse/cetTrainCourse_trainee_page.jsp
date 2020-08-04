@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3 style="margin: 0">签到页面-${cetTrainCourse.cetCourse.name}
+    <h3 style="margin: 0">签到页面-${cetTrainCourse.name}
         (<a href="${ctx}/attach?code=sample_cet_sign_import" target="_blank">下载导入样表.xlsx</a>)
     </h3>
 </div>

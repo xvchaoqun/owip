@@ -556,8 +556,6 @@
     })
     traineeTypeChange();
 
-    $.fileInput($('#modalForm input[type=file]'))
-
     <c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_OW&&cetUpperTrain==null}">
         owAuType_hide();
         $("input[name=auType]", "#modalForm").on("click", function () {

@@ -37,12 +37,10 @@ public class CetTraineeController extends CetBaseController {
 
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee")
-    public String cetTrainee(int trainId, Integer traineeTypeId,
+    public String cetTrainee(Integer trainId, int projectId, Integer traineeTypeId,
                              Integer userId,
                              ModelMap modelMap) {
 
-        CetProject cetProject = iCetMapper.getCetProject(trainId);
-        Integer projectId = cetProject.getId();
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
@@ -66,15 +64,12 @@ public class CetTraineeController extends CetBaseController {
             modelMap.put("sysUser", CmTag.getUserById(userId));
         }
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
-
-        Map<Integer, Object> yearPeriodMap = cetTrainService.traineeYearPeriodMap(trainId);
-        modelMap.put("yearPeriodMap", yearPeriodMap);
-
         // 培训班下的课程总数
         CetTrainCourseExample example = new CetTrainCourseExample();
-        example.createCriteria().andTrainIdEqualTo(trainId);
+        CetTrainCourseExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
+        if(trainId!=null){
+            criteria.andTrainIdEqualTo(trainId);
+        }
         modelMap.put("courseCount", cetTrainCourseMapper.countByExample(example));
 
         return "cet/cetTrainee/cetTrainee_page";
@@ -83,7 +78,7 @@ public class CetTraineeController extends CetBaseController {
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee_data")
     public void cetTrainee_data(HttpServletResponse response,
-                                int trainId,
+                                Integer trainId, int projectId,
                                 int traineeTypeId,
                                 Integer userId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
@@ -100,8 +95,12 @@ public class CetTraineeController extends CetBaseController {
 
         CetTraineeViewExample example = new CetTraineeViewExample();
         CetTraineeViewExample.Criteria criteria =
-                example.createCriteria().andTrainIdEqualTo(trainId)
+                example.createCriteria().andProjectIdEqualTo(projectId)
                         .andTraineeTypeIdEqualTo(traineeTypeId);
+
+        if(trainId!=null){
+            criteria.andTrainIdEqualTo(trainId);
+        }
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

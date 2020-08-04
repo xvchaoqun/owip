@@ -4,11 +4,15 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetProject">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="cet_party_id" jdbcType="INTEGER" property="cetPartyId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="trainee_type_ids" jdbcType="VARCHAR" property="traineeTypeIds" />
     <result column="other_trainee_type" jdbcType="VARCHAR" property="otherTraineeType" />
     <result column="obj_count" jdbcType="INTEGER" property="objCount" />
     <result column="quit_count" jdbcType="INTEGER" property="quitCount" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="file_count" jdbcType="INTEGER" property="fileCount" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -27,6 +31,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="has_archive" jdbcType="BIT" property="hasArchive" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,10 +93,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, trainee_type_ids, other_trainee_type, obj_count, quit_count, file_count, 
-    start_date, end_date, open_time, open_address, name, is_valid, project_type_id, category, 
-    file_name, pdf_file_path, word_file_path, period, require_period, remark, create_time, 
-    has_archive, is_deleted
+    id, type, cet_party_id, unit_id, year, trainee_type_ids, other_trainee_type, obj_count, 
+    quit_count, start_time, end_time, file_count, start_date, end_date, open_time, open_address, 
+    name, is_valid, project_type_id, category, file_name, pdf_file_path, word_file_path, 
+    period, require_period, remark, create_time, has_archive, is_deleted, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -126,23 +132,27 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_project (type, year, trainee_type_ids, 
-      other_trainee_type, obj_count, quit_count, 
-      file_count, start_date, end_date, 
-      open_time, open_address, name, 
-      is_valid, project_type_id, category, 
-      file_name, pdf_file_path, word_file_path, 
-      period, require_period, remark, 
-      create_time, has_archive, is_deleted
+    insert into cet_project (type, cet_party_id, unit_id, 
+      year, trainee_type_ids, other_trainee_type, 
+      obj_count, quit_count, start_time, 
+      end_time, file_count, start_date, 
+      end_date, open_time, open_address, 
+      name, is_valid, project_type_id, 
+      category, file_name, pdf_file_path, 
+      word_file_path, period, require_period, 
+      remark, create_time, has_archive, 
+      is_deleted, status, back_reason
       )
-    values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR}, 
-      #{otherTraineeType,jdbcType=VARCHAR}, #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER}, 
-      #{fileCount,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{isValid,jdbcType=BIT}, #{projectTypeId,jdbcType=INTEGER}, #{category,jdbcType=CHAR}, 
-      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
-      #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{hasArchive,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}
+    values (#{type,jdbcType=TINYINT}, #{cetPartyId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{year,jdbcType=INTEGER}, #{traineeTypeIds,jdbcType=VARCHAR}, #{otherTraineeType,jdbcType=VARCHAR}, 
+      #{objCount,jdbcType=INTEGER}, #{quitCount,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{fileCount,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT}, #{projectTypeId,jdbcType=INTEGER}, 
+      #{category,jdbcType=CHAR}, #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, 
+      #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{hasArchive,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
@@ -153,6 +163,12 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="type != null">
         type,
+      </if>
+      <if test="cetPartyId != null">
+        cet_party_id,
+      </if>
+      <if test="unitId != null">
+        unit_id,
       </if>
       <if test="year != null">
         year,
@@ -168,6 +184,12 @@
       </if>
       <if test="quitCount != null">
         quit_count,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
       </if>
       <if test="fileCount != null">
         file_count,
@@ -223,10 +245,22 @@
       <if test="isDeleted != null">
         is_deleted,
       </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="backReason != null">
+        back_reason,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="cetPartyId != null">
+        #{cetPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
@@ -242,6 +276,12 @@
       </if>
       <if test="quitCount != null">
         #{quitCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fileCount != null">
         #{fileCount,jdbcType=INTEGER},
@@ -297,6 +337,12 @@
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        #{backReason,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cet.CetProjectExample" resultType="java.lang.Long">
@@ -314,6 +360,12 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.cetPartyId != null">
+        cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
@@ -328,6 +380,12 @@
       </if>
       <if test="record.quitCount != null">
         quit_count = #{record.quitCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.fileCount != null">
         file_count = #{record.fileCount,jdbcType=INTEGER},
@@ -383,6 +441,12 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.backReason != null">
+        back_reason = #{record.backReason,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -392,11 +456,15 @@
     update cet_project
     set id = #{record.id,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      cet_party_id = #{record.cetPartyId,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       trainee_type_ids = #{record.traineeTypeIds,jdbcType=VARCHAR},
       other_trainee_type = #{record.otherTraineeType,jdbcType=VARCHAR},
       obj_count = #{record.objCount,jdbcType=INTEGER},
       quit_count = #{record.quitCount,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
       file_count = #{record.fileCount,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
@@ -414,7 +482,9 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       has_archive = #{record.hasArchive,jdbcType=BIT},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      status = #{record.status,jdbcType=TINYINT},
+      back_reason = #{record.backReason,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -424,6 +494,12 @@
     <set>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="cetPartyId != null">
+        cet_party_id = #{cetPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
       </if>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
@@ -439,6 +515,12 @@
       </if>
       <if test="quitCount != null">
         quit_count = #{quitCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fileCount != null">
         file_count = #{fileCount,jdbcType=INTEGER},
@@ -494,17 +576,27 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        back_reason = #{backReason,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetProject">
     update cet_project
     set type = #{type,jdbcType=TINYINT},
+      cet_party_id = #{cetPartyId,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
       trainee_type_ids = #{traineeTypeIds,jdbcType=VARCHAR},
       other_trainee_type = #{otherTraineeType,jdbcType=VARCHAR},
       obj_count = #{objCount,jdbcType=INTEGER},
       quit_count = #{quitCount,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
       file_count = #{fileCount,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
@@ -522,7 +614,9 @@
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       has_archive = #{hasArchive,jdbcType=BIT},
-      is_deleted = #{isDeleted,jdbcType=BIT}
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      status = #{status,jdbcType=TINYINT},
+      back_reason = #{backReason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">

@@ -39,7 +39,7 @@ public class MemberOutReportController extends MemberBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     // 介绍信套打
-    @RequestMapping(value = "/letter_fill_print", method = RequestMethod.GET)
+    @RequestMapping(value = "/letter_fill_print")
     public String letter_fill_print(@CurrentUser SysUserView loginUser,
                                     HttpServletRequest request, HttpServletResponse response,
                                 @RequestParam(value = "ids[]") Integer[] ids,
@@ -106,7 +106,7 @@ public class MemberOutReportController extends MemberBaseController {
     }
 
     // 介绍信打印
-    @RequestMapping(value = "/letter_print", method = RequestMethod.GET)
+    @RequestMapping(value = "/letter_print")
     public String letter_print(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
                                @RequestParam(value = "ids[]") Integer[] ids,

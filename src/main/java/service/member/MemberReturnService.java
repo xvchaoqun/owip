@@ -291,12 +291,12 @@ public class MemberReturnService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberReturn memberReturn, byte status, int loginUserId, String reason){
 
         byte _status = memberReturn.getStatus();
         if(_status==MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY){
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if(status>_status || status<MemberConstants.MEMBER_RETURN_STATUS_DENY ){
             throw new OpException("参数有误。");
@@ -305,7 +305,7 @@ public class MemberReturnService extends MemberBaseMapper {
         Integer id = memberReturn.getId();
         Integer userId = memberReturn.getUserId();
 
-        if(status==MemberConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台打回申请，需要重置入口提交状态
+        if(status==MemberConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台退回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply != null) {

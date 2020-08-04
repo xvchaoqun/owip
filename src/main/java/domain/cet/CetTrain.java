@@ -1,7 +1,6 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import sys.constants.CetConstants;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -9,13 +8,25 @@ import java.util.Date;
 
 public class CetTrain implements Serializable {
 
-    public Boolean getAutoSwitch() {
-        return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
-    }
+     // 判断选课是否正在进行
+    public static boolean getIsApplyOpen(Date startTime, Date endTime) {
 
-    public Byte getSwitchStatus() {
+        Date now = new Date();
+        if (startTime != null && endTime != null) {
 
-        return BaseCetTrain.getSwitchStatus(enrollStatus, startTime, endTime);
+            return now.after(startTime) && now.before(endTime);
+
+        } else if (startTime != null) {
+
+            return startTime.before(now);
+
+        } else if (endTime != null) {
+
+            return now.before(endTime);
+
+        }
+
+        return false;
     }
 
     private Integer id;
@@ -39,8 +50,6 @@ public class CetTrain implements Serializable {
     private Date startTime;
 
     private Date endTime;
-
-    private Byte enrollStatus;
 
     private Integer evaCount;
 
@@ -140,14 +149,6 @@ public class CetTrain implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public Byte getEnrollStatus() {
-        return enrollStatus;
-    }
-
-    public void setEnrollStatus(Byte enrollStatus) {
-        this.enrollStatus = enrollStatus;
     }
 
     public Integer getEvaCount() {

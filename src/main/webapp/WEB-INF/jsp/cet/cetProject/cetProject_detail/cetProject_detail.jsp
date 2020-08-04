@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -20,6 +21,8 @@
                        data-url="${ctx}/cet/cetProject_detail_obj?cls=1&projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 培训对象及学习情况</a>
                 </li>
+                <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
+                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
                 <li class="${param.cls==2?'active':''}">
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
@@ -32,18 +35,35 @@
                        data-url="${ctx}/cet/cetProject_detail_begin?projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-history bigger-120"></i> 开班仪式和通知</a>
                 </li>
+                </c:if>
+                <c:if test="${cetProject.type== CET_PROJECT_TYPE_PARTY_SPECIAL
+                || cetProject.type== CET_PROJECT_TYPE_PARTY_DAILY}">
+                <li class="${param.cls==2?'active':''}">
+                    <a href="javascript:;" class="loadPage"
+                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
+                       data-url="${ctx}/cet/cetTrainCourse?projectId=${param.projectId}">
+                        <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程及选课签到情况</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="loadPage"
+                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
+                       data-url="${ctx}/cet/cetTrain_detail/time?projectId=${param.projectId}">
+                        <i class="green ace-icon fa fa-history bigger-120"></i> 选课时间管理</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="loadPage"
+                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
+                       data-url="${ctx}/cet/cetTrainee?projectId=${param.projectId}">
+                        <i class="green ace-icon fa fa-users bigger-120"></i> 学员学习情况汇总</a>
+                </li>
+                </c:if>
             </ul>
         </div>
     </div>
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="tab-content padding-4" id="detail-content">
-                <c:if test="${param.cls==1}">
-                <c:import url="${ctx}/cet/cetProject_detail_obj"/>
-               </c:if>
-                <c:if test="${param.cls==2}">
-                <c:import url="${ctx}/cet/cetProjectPlan"/>
-               </c:if>
+
             </div>
         </div>
     </div>
@@ -53,4 +73,5 @@
     function _detailReload(){
         $("#detail-ul li.active .loadPage").click()
     }
+    _detailReload();
 </script>

@@ -752,66 +752,6 @@ public class CetTrainExample {
             return (Criteria) this;
         }
 
-        public Criteria andEnrollStatusIsNull() {
-            addCriterion("enroll_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusIsNotNull() {
-            addCriterion("enroll_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusEqualTo(Byte value) {
-            addCriterion("enroll_status =", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusNotEqualTo(Byte value) {
-            addCriterion("enroll_status <>", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusGreaterThan(Byte value) {
-            addCriterion("enroll_status >", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("enroll_status >=", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusLessThan(Byte value) {
-            addCriterion("enroll_status <", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("enroll_status <=", value, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusIn(List<Byte> values) {
-            addCriterion("enroll_status in", values, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusNotIn(List<Byte> values) {
-            addCriterion("enroll_status not in", values, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusBetween(Byte value1, Byte value2) {
-            addCriterion("enroll_status between", value1, value2, "enrollStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnrollStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("enroll_status not between", value1, value2, "enrollStatus");
-            return (Criteria) this;
-        }
-
         public Criteria andEvaCountIsNull() {
             addCriterion("eva_count is null");
             return (Criteria) this;

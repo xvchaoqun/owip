@@ -25,33 +25,33 @@
         colModel:[
             {
                 label: '课程名称',
-                name: 'cetCourse.name',
+                name: 'name',
                 width: 300,
                 align: 'left', frozen:true
             },
-            {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
-            {label: '学时', name: 'cetCourse.period', width: 70},
+            {label: '主讲人', name: 'teacher', frozen:true},
+            {label: '学时', name: 'period', width: 70},
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTrainObjView==undefined) return '--'
-                return rowObject.cetTrainObjView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.cetTrainObjView.isFinished?"text-success bolder":"text-default"):
-                        ("<span class='{0} bolder'>必选</span>").format(rowObject.cetTrainObjView.isFinished?"text-success":"text-danger");
+                if(rowObject.trainObj==undefined) return '--'
+                return rowObject.trainObj.canQuit?("<span class='{0}'>可选</span>").format(rowObject.trainObj.isFinished?"text-success bolder":"text-default"):
+                        ("<span class='{0} bolder'>必选</span>").format(rowObject.trainObj.isFinished?"text-success":"text-danger");
             }},
-            { label: '选课时间',name: 'cetTrainObjView.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTrainObjView==undefined) return '--'
-                return rowObject.cetTrainObjView.chooseTime;
+            { label: '选课时间',name: 'trainObj.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.trainObj==undefined) return '--'
+                return rowObject.trainObj.chooseTime;
             }},
-            { label: '选课操作人',name: 'cetTrainObjView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+            { label: '选课操作人',name: 'trainObj.chooseUserId', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return cellvalue=='${sysUser.id}'?'本人':rowObject.cetTrainObjView.chooseUserName;
+                return cellvalue=='${sysUser.id}'?'本人':rowObject.trainObj.chooseUserName;
             }},
             { label: '签到情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTrainObjView==undefined) return '--'
-                return rowObject.cetTrainObjView.isFinished?("<span class='text-success'>按时签到</span>")
+                if(rowObject.trainObj==undefined) return '--'
+                return rowObject.trainObj.isFinished?("<span class='text-success'>按时签到</span>")
                         :("<span class='text-danger'>未签到</span>");
             }},
             { label: '完成学时数',name: '_finish', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetTrainObjView==undefined) return '--'
-                return rowObject.cetTrainObjView.isFinished?rowObject.cetCourse.period:'0';
+                if(rowObject.trainObj==undefined) return '--'
+                return rowObject.trainObj.isFinished?rowObject.period:'0';
             }}
         ]
     }).jqGrid("setFrozenColumns");

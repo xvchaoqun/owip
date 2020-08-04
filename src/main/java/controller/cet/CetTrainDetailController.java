@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -187,10 +186,22 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/time")
-    public String time(int trainId, ModelMap modelMap) {
+    public String time(Integer trainId, Integer projectId, ModelMap modelMap) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
+        Date startTime;
+        Date endTime;
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            startTime = cetTrain.getStartTime();
+            endTime = cetTrain.getEndTime();
+        }else{
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            startTime = cetProject.getStartTime();
+            endTime = cetProject.getEndTime();
+        }
+
+        modelMap.put("startTime", startTime);
+        modelMap.put("endTime", endTime);
 
         return "cet/cetTrain/cetTrain_detail/time";
     }
@@ -198,43 +209,34 @@ public class CetTrainDetailController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_detail/time", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_time(int trainId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
+    public Map do_time(Integer trainId, Integer projectId , @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endTime,
                              HttpServletRequest request) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            CetTrain record = new CetTrain();
+            record.setId(trainId);
+            record.setStartTime(startTime);
+            record.setEndTime(endTime);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
 
-        CetTrain record = new CetTrain();
-        record.setId(trainId);
-        record.setStartTime(startTime);
-        record.setEndTime(endTime);
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训班[{%s}]选课时间：%s~%s",
+                    cetTrain.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
+                    DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
+        }else{
 
-        cetTrainService.updateBase(record);
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            CetProject record = new CetProject();
+            record.setId(projectId);
+            record.setStartTime(startTime);
+            record.setEndTime(endTime);
+            cetProjectMapper.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(LogConstants.LOG_CET, "更新培训班[{%s}]报名时间：%s~%s",
-                cetTrain.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
-                DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail/enrollStatus", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_enrollStatus(int trainId,
-                             byte enrollStatus, // 开启、关闭、暂停报名
-                             HttpServletRequest request) {
-
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-
-        CetTrain record = new CetTrain();
-        record.setId(trainId);
-        record.setEnrollStatus(enrollStatus);
-
-        cetTrainService.updateBase(record);
-
-        logger.info(addLog(LogConstants.LOG_CET, "更新培训班[{%s}]报名开关：%s",
-                cetTrain.getName(), CetConstants.CET_TRAIN_ENROLL_STATUS_MAP.get(enrollStatus)));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训项目[{%s}]选课时间：%s~%s",
+                    cetProject.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
+                    DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
+        }
 
         return success(FormUtils.SUCCESS);
     }

@@ -40,31 +40,54 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse")
-    public String cetTrainCourse(@RequestParam(defaultValue = "1") Integer cls,
+    public String cetTrainCourse(@RequestParam(defaultValue = "1") Integer cls,  // cls=2 课程评估表
                                  @RequestParam(defaultValue = "1")Boolean isOnCampus,
-                                 int trainId, ModelMap modelMap) {
+                                 Integer projectId, Integer trainId, ModelMap modelMap) {
 
-        CetTrainView cetTrain = cetTrainService.getView(trainId);
-        modelMap.put("cetTrain", cetTrain);
-        Integer planId = cetTrain.getPlanId();
-        if(planId!=null) {
-            CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
-            modelMap.put("cetProjectPlan", cetProjectPlan);
+        Date startTime;
+        Date endTime;
+
+        CetProject cetProject;
+        if(projectId!=null){ // 二级党委培训
+
+            cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            startTime = cetProject.getStartTime();
+            endTime = cetProject.getEndTime();
+        }else if(trainId!=null) { // 党校培训
+
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            startTime = cetTrain.getStartTime();
+            endTime = cetTrain.getEndTime();
+            modelMap.put("cetTrain", cetTrain);
+            Integer planId = cetTrain.getPlanId();
+            if (planId != null) {
+                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                modelMap.put("cetProjectPlan", cetProjectPlan);
+            }
+
+            cetProject = iCetMapper.getCetProject(trainId);
+        }else{
+            return null;
         }
 
         if(isOnCampus) {
 
+            modelMap.put("startTime", startTime);
+            modelMap.put("endTime", endTime);
+
+            modelMap.put("cetProject", cetProject);
             modelMap.put("cls", cls);
+            return "cet/cetTrainCourse/cetTrainCourse_page";
         }
 
-        return isOnCampus?"cet/cetTrainCourse/cetTrainCourse_page":"cet/cetTrainCourse/cetTrainCourse_off_page";
+        return "cet/cetTrainCourse/cetTrainCourse_off_page";
     }
 
     @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse_data")
     public void cetTrainCourse_data(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1")Boolean isOnCampus,
-                                 int trainId, String name,
+                                 Integer projectId, Integer trainId, String name,
                                     Integer userId, // 学习详情 页面
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -80,9 +103,18 @@ public class CetTrainCourseController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetTrainCourseExample example = new CetTrainCourseExample();
-        CetTrainCourseExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
+        CetTrainCourseExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
+        if(projectId!=null) { // 二级党委培训
+
+            criteria.andProjectIdEqualTo(projectId);
+
+        }else if(trainId!=null) { // 党校培训
+            criteria.andTrainIdEqualTo(trainId);
+        }else{
+            criteria.andIdIsNull();
+        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike(SqlUtils.like(name));
         }
@@ -209,31 +241,6 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_selectObjs";
     }
 
-    /*@RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping("/cetTrainCourse_selectObjs_tree")
-    @ResponseBody
-    public Map cetTrainCourse_selectObjs_tree(int trainCourseId) throws IOException {
-
-        TreeNode tree = cetTrainCourseService.selectObjs_tree(trainCourseId);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping(value = "/cetTrainCourse_selectObjs", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrainCourse_selectObjs(int trainCourseId,
-                                                @RequestParam(required = false, value = "userIds[]") Integer[] userIds,
-                                                HttpServletRequest request) {
-
-        cetTrainCourseService.selectObjs(trainCourseId, userIds);
-        logger.info(addLog(LogConstants.LOG_CET, "设置参训人员：%s, %s",trainCourseId, StringUtils.join(userIds, ",")));
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
     // 参训人列表（签到列表）
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_trainee")
@@ -297,21 +304,55 @@ public class CetTrainCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping(value = "/cetTrainCourse_info", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrainCourse_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourse_info(CetTrainCourse record, HttpServletRequest request) {
+    public Map do_cetTrainCourse_au(CetTrainCourse record, HttpServletRequest request) {
 
-        cetTrainCourseService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(LogConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
+        if(record.getId()!=null) {
+
+            cetTrainCourseService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
+        }else{
+
+            cetTrainCourseService.insertSelective(record);
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训班课程信息：%s", record.getId()));
+        }
+
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping("/cetTrainCourse_info")
-    public String cetTrainCourse_info(int trainCourseId, ModelMap modelMap) {
+    @RequestMapping("/cetTrainCourse_au")
+    public String cetTrainCourse_au(Integer trainCourseId,
+                                    Integer projectId,
+                                    Integer trainId,
+                                    ModelMap modelMap) {
 
-        modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
-        return "cet/cetTrainCourse/cetTrainCourse_info";
+        if(trainCourseId!=null) {
+
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+            modelMap.put("cetTrainCourse", cetTrainCourse);
+
+            projectId = cetTrainCourse.getProjectId();
+            trainId = cetTrainCourse.getTrainId();
+            if (trainId != null) {
+
+                CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+                Integer planId = cetTrain.getPlanId();
+                if (planId != null) {
+                    CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                    modelMap.put("cetProjectPlan", cetProjectPlan);
+                }
+            }
+        }
+
+        modelMap.put("projectId", projectId);
+        modelMap.put("trainId", trainId);
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+
+        return "cet/cetTrainCourse/cetTrainCourse_au";
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
@@ -387,10 +428,11 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetTrainCourse:del")
     @RequestMapping(value = "/cetTrainCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTrainCourse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetTrainCourse_batchDel(HttpServletRequest request, Integer projectId, Integer trainId,
+                                       @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            cetTrainCourseService.batchDel(ids);
+            cetTrainCourseService.batchDel(ids, projectId, trainId);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除培训课程：%s", StringUtils.join(ids, ",")));
         }
 
@@ -416,12 +458,10 @@ public class CetTrainCourseController extends CetBaseController {
         for (int i = 0; i < rownum; i++) {
             CetTrainCourse record = records.get(i);
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(record.getTrainId());
-            CetCourse cetCourse = record.getCetCourse();
-            CetExpert cetExpert = cetCourse.getCetExpert();
             String[] values = {
                     cetTrain.getName(),
-                    cetCourse.getName(),
-                    cetExpert.getRealname(),
+                    record.getName(),
+                    record.getTeacher(),
                     DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD_HH_MM),
                     DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD_HH_MM),
                     record.getSelectedCount()+""
@@ -459,9 +499,9 @@ public class CetTrainCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping(value = "/cetTrainCourse_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrainCourse_off_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourse_au(CetTrainCourse record, HttpServletRequest request) {
+    public Map do_cetTrainCourse_off_au(CetTrainCourse record, HttpServletRequest request) {
 
         Integer id = record.getId();
         record.setIsGlobal(BooleanUtils.isTrue(record.getIsGlobal()));
@@ -485,8 +525,8 @@ public class CetTrainCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping("/cetTrainCourse_au")
-    public String cetTrainCourse_au(Integer id, Integer trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrainCourse_off_au")
+    public String cetTrainCourse_off_au(Integer id, Integer trainId, ModelMap modelMap) {
 
         if (id != null) {
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(id);
@@ -496,7 +536,7 @@ public class CetTrainCourseController extends CetBaseController {
         }
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 
-        return "cet/cetTrainCourse/cetTrainCourse_au";
+        return "cet/cetTrainCourse/cetTrainCourse_off_au";
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
@@ -568,7 +608,7 @@ public class CetTrainCourseController extends CetBaseController {
             records.add(record);
         }
 
-        int addCount = cetTrainCourseService.batchImport(records);
+        int addCount = cetTrainCourseService.offTrainCourseBatchImport(records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", addCount);

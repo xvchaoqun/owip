@@ -281,7 +281,7 @@ public class MemberQuitController extends MemberBaseController {
 
         memberQuitService.memberQuit_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回减员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委退回减员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

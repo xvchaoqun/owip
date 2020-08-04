@@ -35,7 +35,7 @@ public class MemberStayReportController extends MemberBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     // 出国暂留
-    @RequestMapping(value = "/member_stay", method = RequestMethod.GET)
+    @RequestMapping(value = "/member_stay")
     public String member_stay(@CurrentUser SysUserView loginUser, HttpServletRequest request,
                               byte type,
                               @RequestParam(value = "ids[]") Integer[] ids,

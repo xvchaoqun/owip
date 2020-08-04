@@ -198,26 +198,15 @@ public class CetProjectPlanController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProjectPlan:del")
-    @RequestMapping(value = "/cetProjectPlan_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetProjectPlan_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetProjectPlanService.del(id);
-            logger.info(addLog(LogConstants.LOG_CET, "删除培训方案：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetProjectPlan:del")
     @RequestMapping(value = "/cetProjectPlan_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetProjectPlan_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetProjectPlan_batchDel(HttpServletRequest request,
+                                       int projectId,
+                                       @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cetProjectPlanService.batchDel(ids);
+            cetProjectPlanService.batchDel(projectId, ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除培训方案：%s", StringUtils.join(ids, ",")));
         }
 

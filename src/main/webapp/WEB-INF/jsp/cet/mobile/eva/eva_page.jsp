@@ -3,7 +3,7 @@
 
 <ul class="preview title nav nav-tabs tab-color-blue background-blue"
     style="padding: 10px;margin-bottom: 10px!important; font-size: larger;font-weight: bolder">
-    ${empty tc.name?tc.cetCourse.name:tc.name}
+    ${tc.name}
 </ul>
 <div class="tabbable">
     <ul class="nav nav-tabs" id="myTab">

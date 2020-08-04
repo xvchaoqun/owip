@@ -66,7 +66,6 @@
 
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    var yearPeriodMap = ${cm:toJSONObject(yearPeriodMap)};
     var courseCount = ${courseCount};
     $(".typeCheckbox").click(function () {
         var $input = $("input", $(this));
@@ -84,8 +83,8 @@
         colModel: [
             { label: '学习详情',name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
                   return ('<button class="popupBtn btn btn-success btn-xs" data-width="1100" ' +
-                  'data-url="${ctx}/cet/cetTrainee_detail?userId={0}&trainId={1}"><i class="fa fa-search"></i> 查看</button>')
-                          .format(rowObject.userId, rowObject.trainId);
+                  'data-url="${ctx}/cet/cetTrainee_detail?userId={0}&projectId=${param.projectId}&trainId=${param.trainId}"><i class="fa fa-search"></i> 查看</button>')
+                          .format(rowObject.userId);
               }, frozen: true},
               { label: '选课情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
                   if(courseCount==0) return '--'
@@ -100,11 +99,7 @@
               {label: '姓名', name: 'obj.user.realname', width: 120, frozen: true},
               {label: '时任单位及职务', name: 'obj.title', align: 'left', width: 350},
               {label: '时任职务属性', name: 'obj.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-                { label: '本年度参加培训情况',name: 'courseCount', width: 150, formatter: function (cellvalue, options, rowObject) {
-
-                  var yearPeriod = yearPeriodMap[rowObject.userId];
-                  return yearPeriod==undefined?'-':yearPeriod;
-              }},{name:"objId", hidden:true, key:true}
+                 {name:"objId", hidden:true, key:true}
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');

@@ -630,7 +630,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
     @Transactional
     public void memberApply_back(Integer[] userIds,
                                  byte stage, String reason, int loginUserId,
-                                 // 如果已领志愿书编码，需要确认打回后编码如何处理（作废或重新使用）
+                                 // 如果已领志愿书编码，需要确认退回后编码如何处理（作废或重新使用）
                                  Boolean applySnReuse){
 
         for (int userId : userIds) {
@@ -641,10 +641,10 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
             byte _stage = memberApply.getStage();
             if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_DENY || stage==OwConstants.OW_APPLY_STAGE_PASS){
-                throw new OpException("打回状态有误。");
+                throw new OpException("退回状态有误。");
             }
             String applySnOp = "";
-            // 打回领取志愿书或领取志愿书之前，需要清除志愿书编码
+            // 退回领取志愿书或领取志愿书之前，需要清除志愿书编码
             if(_stage>=OwConstants.OW_APPLY_STAGE_DRAW && stage <= OwConstants.OW_APPLY_STAGE_DRAW){
 
                 applySnService.clearAssign(userId, BooleanUtils.isTrue(applySnReuse));
@@ -667,7 +667,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
     //移除记录（只允许移除未发展的）
     @Transactional
     public void memberApply_remove(Integer[] userIds, boolean isRemove, String reason,
-                                   // 如果已领志愿书编码，需要确认打回后编码如何处理（作废或重新使用）
+                                   // 如果已领志愿书编码，需要确认退回后编码如何处理（作废或重新使用）
                                  Boolean applySnReuse) {
 
         int loginUserId = ShiroHelper.getCurrentUserId();

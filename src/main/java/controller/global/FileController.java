@@ -52,9 +52,9 @@ public class FileController extends BaseController {
         path = HtmlUtils.htmlUnescape(path);
         filename = HtmlUtils.htmlUnescape(filename);
 
-        if(!FileUtils.exists(springProps.uploadPath, path)){
+        /*if(!FileUtils.exists(springProps.uploadPath, path)){
             throw new OpException("文件不存在："+ path);
-        }
+        }*/
         //DownloadUtils.addFileDownloadCookieHeader(response);
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }

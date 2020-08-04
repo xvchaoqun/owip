@@ -36,7 +36,7 @@
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
-                    <button data-url="${ctx}/cet/cetDiscuss_batchDel"
+                    <button data-url="${ctx}/cet/cetDiscuss_batchDel?planId=${param.planId}"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid2"

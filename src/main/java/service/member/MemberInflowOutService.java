@@ -157,7 +157,7 @@ public class MemberInflowOutService extends MemberBaseMapper {
         record.setIsBack(false);
         memberInflowService.updateByPrimaryKeySelective(record);
 
-        // 清空是否打回状态
+        // 清空是否退回状态
         iMemberMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId());
 
         applyApprovalLogService.add(memberInflow.getId(),
@@ -194,7 +194,7 @@ public class MemberInflowOutService extends MemberBaseMapper {
         }
 
         if(reset) {
-            // 清空是否打回状态
+            // 清空是否退回状态
             iMemberMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
 
             record.setOutStatus(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
@@ -292,12 +292,12 @@ public class MemberInflowOutService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberInflow memberInflow, byte status, int loginUserId, String reason){
 
         byte _status = memberInflow.getOutStatus();
         if(_status==MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY){
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if(status>_status || status<MemberConstants.MEMBER_INFLOW_OUT_STATUS_BACK ){
             throw new OpException("参数有误。");

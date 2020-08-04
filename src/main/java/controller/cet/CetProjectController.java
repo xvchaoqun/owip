@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -35,9 +36,9 @@ public class CetProjectController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetProject:list")
-    @RequestMapping("/refreshObjFinishPeriod")
+    @RequestMapping("/archiveProjectObj")
     @ResponseBody
-    public Map refreshObjFinishPeriod( int projectId, int objId, ModelMap modelMap) {
+    public Map archiveProjectObj( int projectId, int objId, ModelMap modelMap) {
 
         cetProjectObjService.archiveProjectObj(projectId, objId);
         
@@ -45,9 +46,9 @@ public class CetProjectController extends CetBaseController {
     }
     
     @RequiresPermissions("cetProject:list")
-    @RequestMapping("/refreshAllObjsFinishPeriod")
+    @RequestMapping("/archiveProject")
     @ResponseBody
-    public Map refreshAllObjsFinishPeriod( int projectId, ModelMap modelMap) {
+    public Map archiveProject( int projectId, ModelMap modelMap) {
 
         cetProjectObjService.archiveProject(projectId);
         
@@ -57,10 +58,11 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
     public String cetProject(@RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
-                             Byte type,
+                             byte type,
                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("type", type);
 
         Map<Integer, CetProjectType> cetProjectTypeMap = cetProjectTypeService.findAll(type);
         modelMap.put("cetProjectTypeMap", cetProjectTypeMap);
@@ -72,7 +74,7 @@ public class CetProjectController extends CetBaseController {
     @RequestMapping("/cetProject_data")
     public void cetProject_data(HttpServletResponse response,
                                 @RequestParam(defaultValue = "1") Integer cls, // 1：正常  2： 已删除
-                                Byte type,
+                                byte type,
                                 Integer year,
                                 String name,
                                 Integer projectTypeId,
@@ -187,12 +189,12 @@ public class CetProjectController extends CetBaseController {
         record.setIsValid(BooleanUtils.isTrue(record.getIsValid()));
         if (id == null) {
             cetProjectService.insertSelective(record, traineeTypeIdList);
-            logger.info(addLog(LogConstants.LOG_CET, "添加专题培训：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训项目：%s", record.getId()));
         } else {
             // 不改变培训类型
             record.setType(null);
             cetProjectService.updateWithTraineeTypes(record, traineeTypeIdList);
-            logger.info(addLog(LogConstants.LOG_CET, "更新专题培训：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训项目：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -251,7 +253,7 @@ public class CetProjectController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetProjectService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CET, "批量删除专题培训：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训项目：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -271,60 +273,14 @@ public class CetProjectController extends CetBaseController {
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYYMMDD_DOT),
                     record.getName(),
                     cetProjectTypeMapper.selectByPrimaryKey(record.getProjectTypeId()).getName(),
-                    record.getPeriod() + "",
+                    record.getPeriod()==null?"--":(""+record.getPeriod()),
                     record.getObjCount() + "",
                     record.getIsValid() ? "是" : "否",
                     record.getRemark()
             };
             valuesList.add(values);
         }
-        String fileName = "党校培训-" + (type == 1 ? "专题培训_" : "日常培训_") + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = CetConstants.CET_PROJECT_TYPE_MAP.get(type);
         ExportHelper.export(titles, valuesList, fileName, response);
     }
-
- /*   @RequestMapping("/cetProject_selects")
-    @ResponseBody
-    public Map cetProject_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CetProjectExample example = new CetProjectExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
-        example.setOrderByClause("sort_order desc");
-
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr.trim()+"%");
-        }
-
-        long count = cetProjectMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
-
-            pageNo = Math.max(1, pageNo-1);
-        }
-        List<CetProject> cetProjects = cetProjectMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-
-        List options = new ArrayList<>();
-        if(null != cetProjects && cetProjects.size()>0){
-
-            for(CetProject cetProject:cetProjects){
-
-                Map<String, Object> option = new HashMap<>();
-                option.put("text", cetProject.getName());
-                option.put("id", cetProject.getId() + "");
-
-                options.add(option);
-            }
-        }
-
-        Map resultMap = success();
-        resultMap.put("totalCount", count);
-        resultMap.put("options", options);
-        return resultMap;
-    }*/
 }

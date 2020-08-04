@@ -204,10 +204,10 @@ public class ClaApprovalLogService extends ClaBaseMapper {
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
             record.setOdType(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-            if (!pass) { // 不通过，打回申请
+            if (!pass) { // 不通过，退回申请
                 ClaApply apply = new ClaApply();
                 apply.setId(applyId);
-                apply.setStatus(false); // 打回
+                apply.setStatus(false); // 退回
                 apply.setApprovalRemark(remark);
 
                 //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。

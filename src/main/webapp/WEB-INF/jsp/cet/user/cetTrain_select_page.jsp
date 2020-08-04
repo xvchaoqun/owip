@@ -59,10 +59,7 @@
             }},
             {label: '选课截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                if(rowObject.enrollStatus==${CET_TRAIN_ENROLL_STATUS_DEFAULT}){
-                    return $.date(cellvalue, "yyyy-MM-dd HH:mm");
-                }
-                return '--'
+                return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
             /*{label: '参训人员类型', name: 'traineeTypes', width:200},*/
             {label: '所属专题培训/年度培训', name: '_project', formatter: function (cellvalue, options, rowObject) {

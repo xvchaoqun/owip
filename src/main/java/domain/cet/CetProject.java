@@ -1,6 +1,7 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import persistence.cet.CetPartyMapper;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -25,9 +26,40 @@ public class CetProject implements Serializable {
         return cetProjectObjService.get(userId, id);
     }
 
+    public CetParty getCetParty(){
+
+        if(cetPartyId==null) return null;
+        return CmTag.getBean(CetPartyMapper.class).selectByPrimaryKey(cetPartyId);
+    }
+
+    // 判断选课是否正在进行
+    public static boolean getIsApplyOpen(Date startTime, Date endTime) {
+
+        Date now = new Date();
+        if (startTime != null && endTime != null) {
+
+            return now.after(startTime) && now.before(endTime);
+
+        } else if (startTime != null) {
+
+            return startTime.before(now);
+
+        } else if (endTime != null) {
+
+            return now.before(endTime);
+
+        }
+
+        return false;
+    }
+
     private Integer id;
 
     private Byte type;
+
+    private Integer cetPartyId;
+
+    private Integer unitId;
 
     private Integer year;
 
@@ -38,6 +70,10 @@ public class CetProject implements Serializable {
     private Integer objCount;
 
     private Integer quitCount;
+
+    private Date startTime;
+
+    private Date endTime;
 
     private Integer fileCount;
 
@@ -77,6 +113,10 @@ public class CetProject implements Serializable {
 
     private Boolean isDeleted;
 
+    private Byte status;
+
+    private String backReason;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -93,6 +133,22 @@ public class CetProject implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getCetPartyId() {
+        return cetPartyId;
+    }
+
+    public void setCetPartyId(Integer cetPartyId) {
+        this.cetPartyId = cetPartyId;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 
     public Integer getYear() {
@@ -133,6 +189,22 @@ public class CetProject implements Serializable {
 
     public void setQuitCount(Integer quitCount) {
         this.quitCount = quitCount;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getFileCount() {
@@ -277,5 +349,21 @@ public class CetProject implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public String getBackReason() {
+        return backReason;
+    }
+
+    public void setBackReason(String backReason) {
+        this.backReason = backReason == null ? null : backReason.trim();
     }
 }

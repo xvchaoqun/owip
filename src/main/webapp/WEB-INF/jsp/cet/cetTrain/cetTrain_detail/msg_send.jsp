@@ -56,7 +56,7 @@
                 <li>
                     包含课程：<br/>
                     <c:forEach items="${todayTrainCourseList}" var="tc">
-                        《${tc.cetCourse.name}》, ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")} ~ ${cm:formatDate(tc.endTime, "yyyy-MM-dd HH:mm")}
+                        《${tc.name}》, ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")} ~ ${cm:formatDate(tc.endTime, "yyyy-MM-dd HH:mm")}
                         <br/>
                     </c:forEach>
                 </li>

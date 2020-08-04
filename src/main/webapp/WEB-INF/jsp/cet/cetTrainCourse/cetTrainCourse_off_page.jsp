@@ -23,9 +23,9 @@
             <div class="tab-content padding-8">
                 <shiro:hasPermission name="cetTrainCourse:edit">
                     <a class="popupBtn btn btn-info btn-sm"
-                       data-url="${ctx}/cet/cetTrainCourse_au?trainId=${cetTrain.id}"><i class="fa fa-plus"></i> 添加</a>
+                       data-url="${ctx}/cet/cetTrainCourse_off_au?trainId=${cetTrain.id}"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetTrainCourse_au"
+                       data-url="${ctx}/cet/cetTrainCourse_off_au"
                        data-grid-id="#jqGrid2"
                        ><i class="fa fa-edit"></i>
                         修改</a>

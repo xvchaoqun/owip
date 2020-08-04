@@ -131,24 +131,24 @@ public class MemberQuitService extends MemberBaseMapper {
         return (memberApplies.size()==0)?null:memberApplies.get(0);
     }
 
-    // 不通过（打回上一级）
+    // 不通过（退回上一级）
     @Transactional
     public void deny(int[] userIds, byte type, String reason, int loginUserId){
 
         for (int userId : userIds) {
             byte status = -1;
             MemberQuit memberQuit = null;
-            if (type == 1) {// 支部打回
+            if (type == 1) {// 支部退回
                 VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(userId);
                 memberQuit = verifyAuth.entity;
                 status = MemberConstants.MEMBER_QUIT_STATUS_BACK;
             }
-            if (type == 2) {// 分党委打回
+            if (type == 2) {// 分党委退回
                 VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(userId);
                 memberQuit = verifyAuth.entity;
                 status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
-            if (type == 3) { // 组织部打回
+            if (type == 3) { // 组织部退回
                 SecurityUtils.getSubject().checkPermission(SystemConstants.PERMISSION_PARTYVIEWALL);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
                 status = MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
@@ -301,12 +301,12 @@ public class MemberQuitService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberQuit memberQuit, byte status, int loginUserId, String reason){
 
         byte _status = memberQuit.getStatus();
         if(_status==MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY){
-            throw new OpException("党员已经出党，不可以打回。");
+            throw new OpException("党员已经出党，不可以退回。");
         }
         if(status>_status || status<MemberConstants.MEMBER_QUIT_STATUS_BACK ){
             throw new OpException("参数有误。");

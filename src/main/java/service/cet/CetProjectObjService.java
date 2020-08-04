@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.cet.CetProjectObjPlanMapper;
 import persistence.member.MemberApplyMapper;
 import persistence.party.OrganizerGroupMapper;
 import persistence.party.OrganizerGroupUserMapper;
@@ -27,7 +26,6 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -66,9 +64,9 @@ public class CetProjectObjService extends CetBaseMapper {
 
         CetProjectObjExample example = new CetProjectObjExample();
         example.createCriteria().andUserIdEqualTo(userId).andProjectIdEqualTo(projectId);
-        List<CetProjectObj> cetTrainees = cetProjectObjMapper.selectByExample(example);
+        List<CetProjectObj> records = cetProjectObjMapper.selectByExample(example);
 
-        return cetTrainees.size() > 0 ? cetTrainees.get(0) : null;
+        return records.size() > 0 ? records.get(0) : null;
     }
 
     // 删除心得体会
@@ -384,7 +382,7 @@ public class CetProjectObjService extends CetBaseMapper {
                                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                                 "改为可选[管理员]("+cetTrainCourse.getName()+")",
                                 SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                                cetTrainCourse.getCetCourse().getName());
+                                cetTrainCourse.getName());
                     } else if (opType == 4) { // 必选->退课
 
                         cetTrainObjService.applyItem(userId, trainCourseId, false, true, true, "设为可选[管理员]");
@@ -412,7 +410,7 @@ public class CetProjectObjService extends CetBaseMapper {
                                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_OBJ,
                                 "改为必选[管理员]("+cetTrainCourse.getName()+")", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                                cetTrainCourse.getCetCourse().getName());
+                                cetTrainCourse.getName());
                     }
                 }
             }
@@ -465,7 +463,6 @@ public class CetProjectObjService extends CetBaseMapper {
     // 获取培训对象在一个培训方案中已完成的学时（非实时）
     public BigDecimal getPlanFinishPeriod(int planId, int objId) {
 
-        CetProjectObjPlanMapper cetProjectObjPlanMapper = CmTag.getBean(CetProjectObjPlanMapper.class);
         CetProjectObjPlanExample example = new CetProjectObjPlanExample();
         example.createCriteria().andPlanIdEqualTo(planId).andObjIdEqualTo(objId);
         List<CetProjectObjPlan> cetProjectObjPlans = cetProjectObjPlanMapper
@@ -481,7 +478,7 @@ public class CetProjectObjService extends CetBaseMapper {
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
-                return iCetMapper.getProjectPlanFinishPeriod(planId, objId);
+                return iCetMapper.getTrainObjFinishPeriod(planId, objId);
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
                 return iCetMapper.getSelfFinishPeriod(planId, objId);
@@ -504,8 +501,8 @@ public class CetProjectObjService extends CetBaseMapper {
     public Map<Integer, BigDecimal> getRealObjFinishPeriodMap(int projectId, int objId) {
 
         Map<Integer, BigDecimal> periodMap = new LinkedHashMap<>();
-        Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
 
+        Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
         BigDecimal finishPeriod = BigDecimal.ZERO;
         for (CetProjectPlan cetProjectPlan : cetProjectPlanMap.values()) {
 
@@ -516,6 +513,10 @@ public class CetProjectObjService extends CetBaseMapper {
             if (planFinishPeriod != null) {
                 finishPeriod = finishPeriod.add(planFinishPeriod);
             }
+        }
+
+        if(cetProjectPlanMap.size()==0) { // 无培训方案的总学时，针对二级党委培训
+            finishPeriod = iCetMapper.getTrainObjFinishPeriod(null, objId);
         }
         periodMap.put(0, finishPeriod); // 汇总
 

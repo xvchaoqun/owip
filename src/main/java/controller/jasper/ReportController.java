@@ -27,7 +27,7 @@ public class ReportController extends BaseController {
      * @param model
      * @return
      */
-    /*@RequestMapping(value = "/report", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/report")
     public String report(Model model) throws IOException, DocumentException {
         // 报表数据源
         JRDataSource jrDataSource = new JRBeanCollectionDataSource(JavaBeanPerson.getList());

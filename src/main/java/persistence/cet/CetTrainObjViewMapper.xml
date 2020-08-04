@@ -3,23 +3,23 @@
 <mapper namespace="persistence.cet.CetTrainObjViewMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainObjView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="train_id" jdbcType="INTEGER" property="trainId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_out_time" jdbcType="TIMESTAMP" property="signOutTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
     <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
-    <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
+    <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
@@ -56,9 +56,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, obj_id, train_course_id, can_quit, is_finished, sign_time, 
-    sign_out_time, sign_type, remark, choose_time, choose_user_id, ip, project_id, trainee_type_id, 
-    plan_id, is_quit, course_id, period, year, choose_user_code, choose_user_name
+    id, obj_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
+    sign_type, choose_time, choose_user_id, ip, remark, project_id, trainee_type_id, 
+    is_quit, plan_id, train_id, course_id, period, year, choose_user_code, choose_user_name
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainObjViewExample" resultMap="BaseResultMap">
     select

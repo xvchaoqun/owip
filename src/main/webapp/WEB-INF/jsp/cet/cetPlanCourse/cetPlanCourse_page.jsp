@@ -31,7 +31,7 @@
                         data-width="1200"
                         data-url="${ctx}/cet/cetPlanCourse_selectCourses?planId=${cetProjectPlan.id}"><i
                         class="fa fa-plus"></i> 添加课程</button>
-                <button data-url="${ctx}/cet/cetPlanCourse_batchDel"
+                <button data-url="${ctx}/cet/cetPlanCourse_batchDel?planId=${cetProjectPlan.id}"
                         data-title="彻底删除"
                         data-msg="确定彻底删除这{0}条数据？（该课程下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
                         data-grid-id="#jqGrid2"

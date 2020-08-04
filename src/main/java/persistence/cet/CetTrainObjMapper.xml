@@ -3,7 +3,6 @@
 <mapper namespace="persistence.cet.CetTrainObjMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainObj">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
@@ -76,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, obj_id, user_id, train_course_id, can_quit, is_finished, sign_time, 
-    sign_out_time, sign_type, choose_time, choose_user_id, ip, remark
+    id, obj_id, user_id, train_course_id, can_quit, is_finished, sign_time, sign_out_time, 
+    sign_type, choose_time, choose_user_id, ip, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainObjExample" resultMap="BaseResultMap">
     select
@@ -113,16 +112,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cet_train_obj (train_id, obj_id, user_id, 
-      train_course_id, can_quit, is_finished, 
-      sign_time, sign_out_time, sign_type, 
-      choose_time, choose_user_id, ip, 
-      remark)
-    values (#{trainId,jdbcType=INTEGER}, #{objId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{trainCourseId,jdbcType=INTEGER}, #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, 
-      #{signTime,jdbcType=TIMESTAMP}, #{signOutTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, 
-      #{chooseTime,jdbcType=TIMESTAMP}, #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into cet_train_obj (obj_id, user_id, train_course_id, 
+      can_quit, is_finished, sign_time, 
+      sign_out_time, sign_type, choose_time, 
+      choose_user_id, ip, remark
+      )
+    values (#{objId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
+      #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{signOutTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, #{chooseTime,jdbcType=TIMESTAMP}, 
+      #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrainObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -130,9 +129,6 @@
     </selectKey>
     insert into cet_train_obj
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="trainId != null">
-        train_id,
-      </if>
       <if test="objId != null">
         obj_id,
       </if>
@@ -171,9 +167,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="trainId != null">
-        #{trainId,jdbcType=INTEGER},
-      </if>
       <if test="objId != null">
         #{objId,jdbcType=INTEGER},
       </if>
@@ -224,9 +217,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.trainId != null">
-        train_id = #{record.trainId,jdbcType=INTEGER},
-      </if>
       <if test="record.objId != null">
         obj_id = #{record.objId,jdbcType=INTEGER},
       </if>
@@ -271,7 +261,6 @@
   <update id="updateByExample" parameterType="map">
     update cet_train_obj
     set id = #{record.id,jdbcType=INTEGER},
-      train_id = #{record.trainId,jdbcType=INTEGER},
       obj_id = #{record.objId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
@@ -291,9 +280,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTrainObj">
     update cet_train_obj
     <set>
-      <if test="trainId != null">
-        train_id = #{trainId,jdbcType=INTEGER},
-      </if>
       <if test="objId != null">
         obj_id = #{objId,jdbcType=INTEGER},
       </if>
@@ -335,8 +321,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrainObj">
     update cet_train_obj
-    set train_id = #{trainId,jdbcType=INTEGER},
-      obj_id = #{objId,jdbcType=INTEGER},
+    set obj_id = #{objId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       train_course_id = #{trainCourseId,jdbcType=INTEGER},
       can_quit = #{canQuit,jdbcType=BIT},

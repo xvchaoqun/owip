@@ -71,10 +71,7 @@ public class CetShortMsgService extends CetBaseMapper {
         String startTime = DateUtils.formatDate(cetTrainCourse.getStartTime(), "MM月dd日 HH:mm");
         String address = cetTrainCourse.getAddress();
         int trainId = cetTrainCourse.getTrainId();
-
-        CetCourse cetCourse = cetTrainCourse.getCetCourse();
-        if(cetCourse==null) return false;
-        String courseName = cetCourse.getName();
+        String courseName = cetTrainCourse.getName();
 
         String msg = MessageFormat.format(tpl.getContent(),
                 courseName, startTime, address);

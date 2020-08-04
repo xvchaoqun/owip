@@ -9,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shiro.ShiroHelper;
+import sys.constants.CetConstants;
+import sys.constants.RoleConstants;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +26,13 @@ public class CetProjectService extends CetBaseMapper {
     public void insertSelective(CetProject record, List<Integer> traineeTypeIdList){
 
         record.setCreateTime(new Date());
+
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)){
+            record.setStatus(CetConstants.CET_PROJECT_STATUS_PASS);
+        }else{
+            record.setStatus(CetConstants.CET_PROJECT_STATUS_UNREPORT);
+        }
+
         cetProjectMapper.insertSelective(record);
 
         updateTrainTypes(record.getId(), traineeTypeIdList);
@@ -40,11 +50,6 @@ public class CetProjectService extends CetBaseMapper {
         cetProjectMapper.updateByExampleSelective(record, example);
     }
 
-    @Transactional
-    public int updateByPrimaryKeySelective(CetProject record){
-
-        return cetProjectMapper.updateByPrimaryKeySelective(record);
-    }
 
     @Transactional
     public void updateWithTraineeTypes(CetProject record, List<Integer> traineeTypeIdList){

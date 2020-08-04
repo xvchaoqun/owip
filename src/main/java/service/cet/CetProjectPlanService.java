@@ -36,20 +36,15 @@ public class CetProjectPlanService extends CetBaseMapper {
 
     @Transactional
     @CacheEvict(value="CetProjectPlans", allEntries = true)
-    public void del(Integer id){
-
-        cetProjectPlanMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    @CacheEvict(value="CetProjectPlans", allEntries = true)
-    public void batchDel(Integer[] ids){
+    public void batchDel(int projectId, Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
         CetProjectPlanExample example = new CetProjectPlanExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andProjectIdEqualTo(projectId).andIdIn(Arrays.asList(ids));
         cetProjectPlanMapper.deleteByExample(example);
+
+        iCetMapper.updateProjectTotalPeriodByPlan(projectId);
     }
 
     @Transactional

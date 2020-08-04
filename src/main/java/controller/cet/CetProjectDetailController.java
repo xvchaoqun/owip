@@ -72,12 +72,14 @@ public class CetProjectDetailController extends CetBaseController {
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
             modelMap.put("cetTrainCourse", cetTrainCourse);
             Integer trainId = cetTrainCourse.getTrainId();
-            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-            modelMap.put("cetTrain", cetTrain);
-            Integer planId = cetTrain.getPlanId();
-            if(planId!=null){
-                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
-                modelMap.put("cetProjectPlan", cetProjectPlan);
+            if(trainId!=null) {
+                CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+                modelMap.put("cetTrain", cetTrain);
+                Integer planId = cetTrain.getPlanId();
+                if (planId != null) {
+                    CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                    modelMap.put("cetProjectPlan", cetProjectPlan);
+                }
             }
 
         }else if(planCourseId!=null){

@@ -299,7 +299,7 @@ public class MemberInflowOutController extends MemberBaseController {
 
         memberInflowOutService.memberInflowOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委退回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflowOut:edit")

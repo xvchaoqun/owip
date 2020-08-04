@@ -239,26 +239,14 @@ public class CetPlanCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProjectPlan:del")
-    @RequestMapping(value = "/cetPlanCourse_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetPlanCourse_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetPlanCourseService.del(id);
-            logger.info(addLog(LogConstants.LOG_CET, "删除培训方案包含的培训课程：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetProjectPlan:del")
     @RequestMapping(value = "/cetPlanCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetPlanCourse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetPlanCourse_batchDel(HttpServletRequest request, int planId,
+                                      @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cetPlanCourseService.batchDel(ids);
+            cetPlanCourseService.batchDel(planId, ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除培训方案包含的培训课程：%s", StringUtils.join(ids, ",")));
         }
 

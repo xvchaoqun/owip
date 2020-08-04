@@ -5,19 +5,19 @@ pageEncoding="UTF-8"%>
 <c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>打回申请</h3>
+    <h3>退回申请</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberTransfer_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">打回申请记录</label>
+            <label class="col-xs-3 control-label">退回申请记录</label>
             <div class="col-xs-6 label-text">
                 ${fn:length(fn:split(param['ids[]'],","))} 条
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">打回至状态</label>
+				<label class="col-xs-3 control-label">退回至状态</label>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <select name="status" data-rel="select2">
@@ -28,11 +28,11 @@ pageEncoding="UTF-8"%>
                             </c:forEach>
                         </select>
                     </div>
-                    <span class="help-block">注：如果需要打回给本人，请选择“${MEMBER_TRANSFER_STATUS_MAP.get(MEMBER_TRANSFER_STATUS_BACK)}”</span>
+                    <span class="help-block">注：如果需要退回给本人，请选择“${MEMBER_TRANSFER_STATUS_MAP.get(MEMBER_TRANSFER_STATUS_BACK)}”</span>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>打回原因</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>退回原因</label>
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
             </div>

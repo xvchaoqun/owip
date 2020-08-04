@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h4>选择参训人员（${cetTrainCourse.cetCourse.name}）</h4>
+  <h4>选择参训人员（${cetTrainCourse.name}）</h4>
 </div>
 <div class="modal-body">
   <form class="form-horizontal"  action="${ctx}/cet/cetTrainCourse_selectObjs" autocomplete="off" disableautocomplete id="modalForm" method="post">

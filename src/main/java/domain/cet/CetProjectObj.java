@@ -51,7 +51,7 @@ public class CetProjectObj implements Serializable {
         if (trainCourseId != null) {
             // 培训班选课页面
             CetTrainObjService cetTrainObjService = CmTag.getBean(CetTrainObjService.class);
-            CetTrainObjView ctc = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
+            CetTrainObjView ctc = cetTrainObjService.get(userId, trainCourseId);
 
             if (ctc != null) {
                 resultMap.put("canQuit", ctc.getCanQuit());

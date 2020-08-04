@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3 style="margin: 0">添加课程（${cetTrain.name}）</h3>
+    <h3 style="margin: 0">从课程中心选择课程（${cetTrain.name}）</h3>
 </div>
 <div class="modal-body popup-jqgrid" style="padding-top: 0">
     <form class="form-inline search-form" id="searchForm_popup" style="padding-bottom: 0">
@@ -87,7 +87,6 @@
             if(ret.success){
                 $("#modal").modal('hide');
                 $("#jqGrid2").trigger("reloadGrid");
-                //SysMsg.success("课程添加成功。");
             }
         });
     });

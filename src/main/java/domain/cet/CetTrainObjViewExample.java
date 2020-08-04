@@ -166,63 +166,63 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIsNull() {
-            addCriterion("train_id is null");
+        public Criteria andObjIdIsNull() {
+            addCriterion("obj_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIsNotNull() {
-            addCriterion("train_id is not null");
+        public Criteria andObjIdIsNotNull() {
+            addCriterion("obj_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdEqualTo(Integer value) {
-            addCriterion("train_id =", value, "trainId");
+        public Criteria andObjIdEqualTo(Integer value) {
+            addCriterion("obj_id =", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotEqualTo(Integer value) {
-            addCriterion("train_id <>", value, "trainId");
+        public Criteria andObjIdNotEqualTo(Integer value) {
+            addCriterion("obj_id <>", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdGreaterThan(Integer value) {
-            addCriterion("train_id >", value, "trainId");
+        public Criteria andObjIdGreaterThan(Integer value) {
+            addCriterion("obj_id >", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("train_id >=", value, "trainId");
+        public Criteria andObjIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("obj_id >=", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdLessThan(Integer value) {
-            addCriterion("train_id <", value, "trainId");
+        public Criteria andObjIdLessThan(Integer value) {
+            addCriterion("obj_id <", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdLessThanOrEqualTo(Integer value) {
-            addCriterion("train_id <=", value, "trainId");
+        public Criteria andObjIdLessThanOrEqualTo(Integer value) {
+            addCriterion("obj_id <=", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIn(List<Integer> values) {
-            addCriterion("train_id in", values, "trainId");
+        public Criteria andObjIdIn(List<Integer> values) {
+            addCriterion("obj_id in", values, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotIn(List<Integer> values) {
-            addCriterion("train_id not in", values, "trainId");
+        public Criteria andObjIdNotIn(List<Integer> values) {
+            addCriterion("obj_id not in", values, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdBetween(Integer value1, Integer value2) {
-            addCriterion("train_id between", value1, value2, "trainId");
+        public Criteria andObjIdBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id between", value1, value2, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("train_id not between", value1, value2, "trainId");
+        public Criteria andObjIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id not between", value1, value2, "objId");
             return (Criteria) this;
         }
 
@@ -283,66 +283,6 @@ public class CetTrainObjViewExample {
 
         public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdIsNull() {
-            addCriterion("obj_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdIsNotNull() {
-            addCriterion("obj_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdEqualTo(Integer value) {
-            addCriterion("obj_id =", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdNotEqualTo(Integer value) {
-            addCriterion("obj_id <>", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdGreaterThan(Integer value) {
-            addCriterion("obj_id >", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("obj_id >=", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdLessThan(Integer value) {
-            addCriterion("obj_id <", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdLessThanOrEqualTo(Integer value) {
-            addCriterion("obj_id <=", value, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdIn(List<Integer> values) {
-            addCriterion("obj_id in", values, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdNotIn(List<Integer> values) {
-            addCriterion("obj_id not in", values, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdBetween(Integer value1, Integer value2) {
-            addCriterion("obj_id between", value1, value2, "objId");
-            return (Criteria) this;
-        }
-
-        public Criteria andObjIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("obj_id not between", value1, value2, "objId");
             return (Criteria) this;
         }
 
@@ -706,76 +646,6 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andRemarkIsNull() {
-            addCriterion("remark is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIsNotNull() {
-            addCriterion("remark is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkEqualTo(String value) {
-            addCriterion("remark =", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotEqualTo(String value) {
-            addCriterion("remark <>", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThan(String value) {
-            addCriterion("remark >", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
-            addCriterion("remark >=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThan(String value) {
-            addCriterion("remark <", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLessThanOrEqualTo(String value) {
-            addCriterion("remark <=", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkLike(String value) {
-            addCriterion("remark like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotLike(String value) {
-            addCriterion("remark not like", value, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkIn(List<String> values) {
-            addCriterion("remark in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotIn(List<String> values) {
-            addCriterion("remark not in", values, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkBetween(String value1, String value2) {
-            addCriterion("remark between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
-        public Criteria andRemarkNotBetween(String value1, String value2) {
-            addCriterion("remark not between", value1, value2, "remark");
-            return (Criteria) this;
-        }
-
         public Criteria andChooseTimeIsNull() {
             addCriterion("choose_time is null");
             return (Criteria) this;
@@ -966,6 +836,76 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
         public Criteria andProjectIdIsNull() {
             addCriterion("project_id is null");
             return (Criteria) this;
@@ -1086,6 +1026,66 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsQuitIsNull() {
+            addCriterion("is_quit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIsNotNull() {
+            addCriterion("is_quit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitEqualTo(Boolean value) {
+            addCriterion("is_quit =", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotEqualTo(Boolean value) {
+            addCriterion("is_quit <>", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThan(Boolean value) {
+            addCriterion("is_quit >", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit >=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThan(Boolean value) {
+            addCriterion("is_quit <", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit <=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIn(List<Boolean> values) {
+            addCriterion("is_quit in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotIn(List<Boolean> values) {
+            addCriterion("is_quit not in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit not between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
         public Criteria andPlanIdIsNull() {
             addCriterion("plan_id is null");
             return (Criteria) this;
@@ -1146,63 +1146,63 @@ public class CetTrainObjViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitIsNull() {
-            addCriterion("is_quit is null");
+        public Criteria andTrainIdIsNull() {
+            addCriterion("train_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitIsNotNull() {
-            addCriterion("is_quit is not null");
+        public Criteria andTrainIdIsNotNull() {
+            addCriterion("train_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitEqualTo(Boolean value) {
-            addCriterion("is_quit =", value, "isQuit");
+        public Criteria andTrainIdEqualTo(Integer value) {
+            addCriterion("train_id =", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitNotEqualTo(Boolean value) {
-            addCriterion("is_quit <>", value, "isQuit");
+        public Criteria andTrainIdNotEqualTo(Integer value) {
+            addCriterion("train_id <>", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitGreaterThan(Boolean value) {
-            addCriterion("is_quit >", value, "isQuit");
+        public Criteria andTrainIdGreaterThan(Integer value) {
+            addCriterion("train_id >", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_quit >=", value, "isQuit");
+        public Criteria andTrainIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("train_id >=", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitLessThan(Boolean value) {
-            addCriterion("is_quit <", value, "isQuit");
+        public Criteria andTrainIdLessThan(Integer value) {
+            addCriterion("train_id <", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_quit <=", value, "isQuit");
+        public Criteria andTrainIdLessThanOrEqualTo(Integer value) {
+            addCriterion("train_id <=", value, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitIn(List<Boolean> values) {
-            addCriterion("is_quit in", values, "isQuit");
+        public Criteria andTrainIdIn(List<Integer> values) {
+            addCriterion("train_id in", values, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitNotIn(List<Boolean> values) {
-            addCriterion("is_quit not in", values, "isQuit");
+        public Criteria andTrainIdNotIn(List<Integer> values) {
+            addCriterion("train_id not in", values, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_quit between", value1, value2, "isQuit");
+        public Criteria andTrainIdBetween(Integer value1, Integer value2) {
+            addCriterion("train_id between", value1, value2, "trainId");
             return (Criteria) this;
         }
 
-        public Criteria andIsQuitNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_quit not between", value1, value2, "isQuit");
+        public Criteria andTrainIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("train_id not between", value1, value2, "trainId");
             return (Criteria) this;
         }
 

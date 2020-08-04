@@ -29,7 +29,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_SUPER}">
-                <button data-url="${ctx}/cet/refreshAllObjsFinishPeriod"
+                <button data-url="${ctx}/cet/archiveProject"
                         data-title="归档培训学时"
                         data-msg="确定统计并归档该培训班中所有学员最新的培训学时？"
                         data-grid-id="#jqGrid"
@@ -155,6 +155,11 @@ pageEncoding="UTF-8" %>
                 if(cetProjectTypeMap[cellvalue]==undefined) return '--'
                 return cetProjectTypeMap[cellvalue].name
             }},
+            <c:if test="${type== CET_PROJECT_TYPE_PARTY_SPECIAL
+                                    || type== CET_PROJECT_TYPE_PARTY_DAILY}">
+            { label: '培训班主办方',name: 'cetParty.name', align:'left', width: 310},
+            { label: '主办单位',name: 'unitId', width: 150, align:'left', formatter: $.jgrid.formatter.unit},
+            </c:if>
             {label: '培训内容分类', name: 'category', align:'left', width: 180, formatter: function (cellvalue, options, rowObject) {
                     if($.trim(cellvalue)=='') return '--'
                     return ($.map(cellvalue.split(","), function(category){
@@ -192,14 +197,17 @@ pageEncoding="UTF-8" %>
 
             { label: '总学时/<br/>结业学时', width: 90,name: 'period', formatter: function (cellvalue, options, rowObject) {
 
-                return rowObject.period + "/" + (rowObject.requirePeriod>0?rowObject.requirePeriod:"--");
+                return (rowObject.period>0?rowObject.period:"--")
+                    + "/" + (rowObject.requirePeriod>0?rowObject.requirePeriod:"--");
             }},
             { label: '是否计入<br/>年度学习任务', name: 'isValid', formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">是</span>', off:'<span class="red bolder">否</span>'}},
             { label: '参训人数',name: 'objCount', formatter: function (cellvalue, options, rowObject) {
 
                 return Math.trimToZero(rowObject.objCount)-Math.trimToZero(rowObject.quitCount);
             }},
+            <shiro:hasRole name="${ROLE_SUPER}">
             { label: '归档状态', name: 'hasArchive', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">已归档</span>', off:'<span class="red bolder">未归档</span>'}},
+            </shiro:hasRole>
             { label: '备注',name: 'remark', width: 300}
         ]
     }).jqGrid("setFrozenColumns");

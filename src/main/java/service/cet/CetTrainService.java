@@ -2,32 +2,18 @@ package service.cet;
 
 import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
-import domain.cet.CetTrainView;
-import domain.cet.CetTrainViewExample;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sys.constants.CetConstants;
 
 import java.util.*;
 
 @Service
 public class CetTrainService extends CetBaseMapper {
 
-    public CetTrainView getView(int trainId){
-
-        CetTrainViewExample example = new CetTrainViewExample();
-        example.createCriteria().andIdEqualTo(trainId);
-        List<CetTrainView> cetTrainViews = cetTrainViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-
-        return cetTrainViews.size()==1?cetTrainViews.get(0):null;
-    }
-
     @Transactional
     public void insertSelective(CetTrain record){
 
-        record.setEnrollStatus(CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT);
         record.setIsDeleted(false);
         record.setCreateTime(new Date());
         cetTrainMapper.insertSelective(record);
@@ -35,19 +21,20 @@ public class CetTrainService extends CetBaseMapper {
 
     // 彻底删除
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, Integer planId){
 
         if(ids==null || ids.length==0) return;
 
         CetTrainExample example = new CetTrainExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        CetTrainExample.Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids));
+        if(planId!=null){
+            criteria.andPlanIdEqualTo(planId);
+        }
         cetTrainMapper.deleteByExample(example);
-    }
 
-    @Transactional
-    public void updateBase(CetTrain record){
-
-        cetTrainMapper.updateByPrimaryKeySelective(record);
+        if(planId!=null){
+            iCetMapper.updateTrainCourseTotalPeriod(planId);
+        }
     }
 
     // 每个参训人员的年度参加培训情况（年度参加培训的总学时数）

@@ -19,7 +19,7 @@
             <div id="codeSign">
         <c:if test="${cls==1}">
             <div style="position: absolute;left:-500px">
-            <h2 style="padding-bottom: 15px;">【${cetTrainCourse.cetCourse.name}】签到</h2>
+            <h2 style="padding-bottom: 15px;">【${cetTrainCourse.name}】签到</h2>
             <p>
             <label>参训人学工号：</label>
             <input oninput="changed()" type="text" name="codeSignIn" style="width: 300px;;height: 30px;">
@@ -28,7 +28,7 @@
         </c:if>
         <c:if test="${cls==0}">
             <div style="position: absolute;left:-500px">
-            <h2 style="padding-bottom: 15px;">【${cetTrainCourse.cetCourse.name}】签退</h2>
+            <h2 style="padding-bottom: 15px;">【${cetTrainCourse.name}】签退</h2>
             <p>
             <label class="control-label">参训人学工号：</label>
             <input oninput="changed()" type="text" name="codeSignOut" style="width: 300px;;height: 30px;">

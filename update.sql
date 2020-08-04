@@ -1,4 +1,51 @@
 
+ALTER TABLE `cet_project`
+	COMMENT='培训项目，包含专题培训和年度培训',
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 日常培训 3 二级党委专题培训 4 二级党委日常培训' AFTER `id`;
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (968, 0, '专题培训', '', 'url', '', '/cet/cetProject?type=3', 869, '0/1/384/869/', 1, 'cetProject:list3', NULL, NULL, NULL, 1, 500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (969, 0, '日常培训', '', 'url', '', '/cet/cetProject?type=4', 869, '0/1/384/869/', 1, 'cetProject:list4', NULL, NULL, NULL, 1, 400);
+
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除，0 正常 1 已删除' AFTER `has_archive`,
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '审批状态，0 待报送 1 已报送 2 审批通过 3 审批未通过（退回）' AFTER `is_deleted`,
+	ADD COLUMN `back_reason` VARCHAR(200) NULL DEFAULT NULL COMMENT '退回原因' AFTER `status`;
+
+update cet_project set status=2;
+
+update sys_resource set name='培训班类型（党校、二级党委培训）' where permission='cetProjectType:list';
+
+-- 删除相关类
+DROP VIEW IF EXISTS `cet_train_view`;
+
+update cet_train_course ctc
+left join cet_course cc on ctc.course_id=cc.id set ctc.is_online=1 where cc.`type`=1;
+update cet_train_course ctc
+left join cet_course cc on ctc.course_id=cc.id set ctc.address=cc.address where cc.`type`=3 and ctc.address is null;
+
+ALTER TABLE `cet_train_obj`
+	CHANGE COLUMN `train_id` `train_id` INT(10) UNSIGNED NULL COMMENT '所属培训班，二级党委培训时为空' AFTER `id`,
+	ADD CONSTRAINT `FK_cet_train_obj_cet_project_obj` FOREIGN KEY (`obj_id`) REFERENCES `cet_project_obj` (`id`) ON DELETE CASCADE;
+ALTER TABLE `cet_train_obj`
+	DROP COLUMN `train_id`;
+
+-- 更新 cet_train_obj_view ， cet_trainee_view
+
+ALTER TABLE `cet_train`
+	DROP COLUMN `enroll_status`;
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `quit_count` `quit_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '已退出参训人员数量' AFTER `obj_count`,
+	ADD COLUMN `start_time` DATETIME NULL DEFAULT NULL COMMENT '选课开启时间，针对二级党委培训' AFTER `quit_count`,
+	ADD COLUMN `end_time` DATETIME NULL DEFAULT NULL COMMENT '选课关闭时间' AFTER `start_time`;
+
+update cet_project set period=null;
+update cet_project cp , (select project_id,sum(period) period from cet_project_plan group by project_id) tmp
+set cp.period=tmp.period where cp.id=tmp.project_id;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `cet_party_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方，从二级党委中选择，针对二级党委培训' AFTER `type`,
+	ADD COLUMN `unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方，从设置了单位管理员的单位中选择，针对二级党委培训' AFTER `cet_party_id`;
+
 
 20200730
 吉大 -- 北师大
@@ -52,7 +99,7 @@ ALTER TABLE `cet_plan_course`
 	ADD COLUMN `period` DECIMAL(10,1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '学时' AFTER `course_id`;
 
 ALTER TABLE `cet_train_course`
-	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NULL COMMENT '培训形式，0：线下 1：线上，针对二级党委培训的课程' AFTER `train_id`,
+	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NULL COMMENT '培训形式，0：线下 1：线上，针对过程培训的课程' AFTER `train_id`,
 	CHANGE COLUMN `name` `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '课程名称' AFTER `period`,
 	CHANGE COLUMN `teacher` `teacher` VARCHAR(50) NULL DEFAULT NULL COMMENT '教师名称' AFTER `name`,
 	ADD COLUMN `summary` TEXT NULL COMMENT '课程要点，针对线下和线上课程、二级党委培训' AFTER `teacher`;

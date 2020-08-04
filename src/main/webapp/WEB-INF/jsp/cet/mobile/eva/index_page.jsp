@@ -25,7 +25,7 @@
                                     <table class="course-list" style="width: 100%">
                                     <tr>
                                         <td class="name ${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH?'finish':''}">
-                                            ${cetTrain.isOnCampus?tc.cetCourse.name:tc.name}
+                                            ${tc.name}
                                         </td>
                                         <td class="status">
                                             <c:if test="${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH}">
@@ -54,7 +54,7 @@
                                                     ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")}
                                                         </c:if>
                                                 <c:if test="${!tc.isGlobal}">
-                                                    ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher, 0, 20, '')}&nbsp;&nbsp;<c:if test="${not empty tc.startTime}"> ${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}</c:if>
+                                                    ${cm:substr(tc.teacher, 0, 20, '')}&nbsp;&nbsp;<c:if test="${not empty tc.startTime}"> ${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}</c:if>
                                                 &nbsp;&nbsp;${cm:formatDate(tc.startTime, "yyyy-MM-dd")}
                                                 </c:if>
                                         </span>

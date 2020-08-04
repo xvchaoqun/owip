@@ -227,7 +227,7 @@ public class CetTrainObjController extends CetBaseController {
             return failed("学工号"+ code +"不存在。");
         }
 
-        CetTrainObjView cetTrainObjView = cetTrainObjService.getCetTrainObjView(uv.getId(), id);
+        CetTrainObjView cetTrainObjView = cetTrainObjService.get(uv.getId(), id);
         if(cetTrainObjView==null){
             return failed(String.format("参训学员（工号：%s）不存在。", code));
         }

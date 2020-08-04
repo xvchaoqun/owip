@@ -19,7 +19,7 @@
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetTrainCourse?trainId=${param.trainId}">
-                        <i class="green ace-icon fa fa-list bigger-120"></i> 课程及选课和学习情况</a>
+                        <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程及选课签到情况</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"

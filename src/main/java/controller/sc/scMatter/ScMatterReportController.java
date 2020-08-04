@@ -38,7 +38,7 @@ public class ScMatterReportController extends ScBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequestMapping(value = "/scMatterAccess_report", method = RequestMethod.GET)
+    @RequestMapping(value = "/scMatterAccess_report")
     public String scMatterAccess_report(int id,
                       @RequestParam(defaultValue = "pdf") String format,
                       @RequestParam(defaultValue = "0") int export,

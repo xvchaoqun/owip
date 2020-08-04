@@ -7,13 +7,20 @@
     <div class="widget-header">
         <c:if test="${cls==2}">
         <h4 class="widget-title lighter smaller">
+            <c:if test="${not empty cetTrainCourse.trainId}">
             <a href="javascript:;" class="openView btn btn-xs btn-success"
                     data-url="${ctx}/cet/cetTrain_detail?trainId=${cetTrainCourse.trainId}">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
+                </c:if>
+            <c:if test="${empty cetTrainCourse.trainId}">
+            <a href="javascript:;" class="openView btn btn-xs btn-success"
+               data-url="${ctx}/cet/cetProject_detail?cls=2&projectId=${cetProject.id}">
+                <i class="ace-icon fa fa-backward"></i> 返回</a>
+            </c:if>
         </h4>
          <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-           ${cetTrainCourse.cetCourse.name}（${cetTrain.name}，${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
+           ${cetTrainCourse.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
@@ -31,7 +38,7 @@
                 返回</a>
         </h4>
          <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            ${cetPlanCourse.cetCourse.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
+            ${cetPlanCourse.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">

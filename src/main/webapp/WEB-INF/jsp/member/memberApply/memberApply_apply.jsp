@@ -256,7 +256,7 @@
             <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                     data-url="${ctx}/memberApply_back"
                     data-querystr="stage=${stage}">
-                <i class="fa fa-reply-all"></i> 打回申请（批量）
+                <i class="fa fa-reply-all"></i> 退回申请（批量）
             </button>
         </c:if>
         <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<OW_APPLY_STAGE_GROW}">

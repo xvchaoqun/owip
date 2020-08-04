@@ -30,12 +30,12 @@
                         <table class="course">
                             <tr>
                                 <td colspan="2"class="name">
-                                  <i class="message-star ace-icon fa fa-star-o light-green"></i>${tc.cetCourse.name}
+                                  <i class="message-star ace-icon fa fa-star-o light-green"></i>${tc.name}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="info">
-                                        ${tc.cetCourse.cetExpert.realname}
+                                        ${tc.teacher}
                                     <c:if test="${not empty tc.startTime}">
                                         (${cm:formatDate(tc.startTime, "MM-dd HH:mm")} ~ ${cm:formatDate(tc.endTime, "MM-dd HH:mm")} )
                                     </c:if>
@@ -44,12 +44,12 @@
                                     <c:choose>
                                         <c:when test="${tc.applyLimit>0 && tc.selectedCount>tc.applyLimit}">报名已满</c:when>
                                         <c:when test="${!cm:compareDate(tc.startTime, now)}">已开课</c:when>
-                                        <c:when test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">未开启选课</c:when>
+                                        <c:when test="${!cetTrain.isApplyOpen}">不在选课时间范围</c:when>
                                         <c:when test="${tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY
                                         || tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}">已关闭选课</c:when>
                                         <c:otherwise>
                                             <button type="button"
-                                                    data-msg="${tc.cetCourse.name}"
+                                                    data-msg="${tc.name}"
                                                     data-title="确认选课"
                                                     data-url="${ctx}/m/cet/cetTrain_apply_item?isApply=1&trainCourseId=${tc.id}"
                                                     data-callback="_reload"
@@ -60,7 +60,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="info">学时：${cm:stripTrailingZeros(tc.cetCourse.period)} <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE && fn:length(tc.address)>0 }">（${tc.address}）</c:if></td>
+                                <td class="info">学时：${cm:stripTrailingZeros(tc.period)} <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE && fn:length(tc.address)>0 }">（${tc.address}）</c:if></td>
                             </tr>
                         </table>
                     </c:forEach>
@@ -77,12 +77,12 @@
                         <table class="course">
                             <tr>
                                 <td colspan="2"class="name">
-                                    <i class="message-star ace-icon fa fa-star orange"></i>${tc.cetCourse.name}
+                                    <i class="message-star ace-icon fa fa-star orange"></i>${tc.name}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="info">
-                                        ${tc.cetCourse.cetExpert.realname}
+                                        ${tc.teacher}
                                     <c:if test="${not empty tc.startTime}">
                                         (${cm:formatDate(tc.startTime, "MM-dd HH:mm")}~${cm:formatDate(tc.endTime, "MM-dd HH:mm")} )
                                     </c:if>
@@ -93,12 +93,12 @@
                                         <c:when test="${tc.isFinished}">已完成</c:when>
                                         <c:when test="${!tc.canQuit}">必修</c:when>
                                         <c:when test="${!cm:compareDate(tc.startTime, now)}">已开课</c:when>
-                                        <c:when test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">已关闭选课</c:when>
+                                        <c:when test="${!cetTrain.isApplyOpen}">不在选课时间范围</c:when>
                                         <c:when test="${tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY
                                         || tc.applyStatus==CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}">已关闭选课</c:when>
                                         <c:otherwise>
                                             <button type="button"
-                                                    data-msg="${tc.cetCourse.name}"
+                                                    data-msg="${tc.name}"
                                                     data-title="确认退课"
                                                     data-url="${ctx}/m/cet/cetTrain_apply_item?isApply=0&trainCourseId=${tc.id}"
                                                     data-callback="_reload"
@@ -109,7 +109,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="info">学时：${cm:stripTrailingZeros(tc.cetCourse.period)} <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE && fn:length(tc.address)>0 }">（${tc.address}）</c:if></td>
+                                <td class="info">学时：${cm:stripTrailingZeros(tc.period)} <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE && fn:length(tc.address)>0 }">（${tc.address}）</c:if></td>
                             </tr>
                         </table>
                     </c:forEach>

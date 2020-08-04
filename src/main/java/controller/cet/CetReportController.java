@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
@@ -38,7 +37,7 @@ public class CetReportController extends CetBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     // 结业证书
-    @RequestMapping(value = "/cet_cert", method = RequestMethod.GET)
+    @RequestMapping(value = "/cet_cert")
     public String cet_cert(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
                                Byte sourceType,

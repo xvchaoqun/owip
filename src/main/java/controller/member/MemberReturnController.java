@@ -362,7 +362,7 @@ public class MemberReturnController extends MemberBaseController {
 
         memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委退回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     

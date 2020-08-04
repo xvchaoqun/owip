@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
         <ul>
         <li>移除操作会保留用户的发展身份；</li>
         <li>移除后，将转移到【已移除的申请】列表中；</li>
-        <li>如果需要撤销用户的发展身份，请使用打回功能（打回至申请阶段 → 不通过审批）。</li>
+        <li>如果需要撤销用户的发展身份，请使用退回功能（退回至申请阶段 → 不通过审批）。</li>
             </ul>
     </div>
     <input type="submit" class="btn btn-primary" value="确定"/>

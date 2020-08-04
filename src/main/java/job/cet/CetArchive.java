@@ -16,6 +16,7 @@ import persistence.cet.common.ICetMapper;
 import service.cet.CetAnnualObjService;
 import service.cet.CetProjectObjService;
 import service.cet.CetRecordService;
+import sys.constants.CetConstants;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class CetArchive implements Job {
         try {
             CetProjectExample example = new CetProjectExample();
             example.createCriteria().andIsDeletedEqualTo(false)
+                    .andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_PASS)
                     .andHasArchiveEqualTo(false);
             List<CetProject> cetProjects = cetProjectMapper.selectByExample(example);
             for (CetProject cetProject : cetProjects) {

@@ -38,7 +38,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label"><span class="star">*</span>实践教学地点</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="address" value="${cetCourse.address}">
+					<textarea required class="form-control limited" maxlength="100"
+							  name="address">${cetCourse.address}</textarea>
 				</div>
 			</div>
 

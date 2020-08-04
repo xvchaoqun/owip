@@ -1,13 +1,13 @@
 package persistence.cet.common;
 
 import domain.cet.CetProject;
-import domain.cet.CetTrainView;
+import domain.cet.CetTrain;
 import sys.tags.CmTag;
 
 /**
  * Created by lm on 2018/3/14.
  */
-public class ICetTrain extends CetTrainView {
+public class ICetTrain extends CetTrain {
 
     public CetProject getCetProject(){
         ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);

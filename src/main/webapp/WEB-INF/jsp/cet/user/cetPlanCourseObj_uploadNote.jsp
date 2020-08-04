@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class=" col-xs-4 control-label">课程名称</label>
             <div class="col-xs-6 label-text">
-                ${cetPlanCourse.cetCourse.name}
+                ${cetPlanCourse.name}
             </div>
         </div>
         <div class="form-group">

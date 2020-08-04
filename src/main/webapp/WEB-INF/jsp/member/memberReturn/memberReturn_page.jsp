@@ -366,7 +366,7 @@
     });
 
     $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"批量打回申请",
+        caption:"批量退回申请",
         btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){

@@ -278,6 +278,12 @@ public class CetRecordService extends CetBaseMapper {
         if(p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY){
 
             type = CetConstants.CET_TYPE_DAILY;
+        }else if(p.getType()==CetConstants.CET_PROJECT_TYPE_PARTY_SPECIAL){
+
+            type = CetConstants.CET_TYPE_PARTY_SPECIAL;
+        }else if(p.getType()==CetConstants.CET_PROJECT_TYPE_PARTY_DAILY){
+
+            type = CetConstants.CET_TYPE_PARTY_DAILY;
         }
 
         // 已退出培训不计入
@@ -314,17 +320,31 @@ public class CetRecordService extends CetBaseMapper {
         r.setType(type);
         r.setSourceType(sourceType);
         r.setSourceId(projectObjId);
-        r.setOrganizer("党委组织部");
+
+        if(p.getType()==CetConstants.CET_PROJECT_TYPE_SPECIAL
+                || p.getType()==CetConstants.CET_PROJECT_TYPE_DAILY) {
+
+            r.setOrganizer("党委组织部");
+
+            // 党校网络培训
+            BigDecimal planFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                    .getPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, null, projectId));
+            BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper
+                    .getSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, null, projectId));
+            BigDecimal onlinePeriod = planFinishPeriod.add(specialFinishPeriod);
+
+            r.setOnlinePeriod(onlinePeriod);
+
+        }else{
+            CetParty cetParty = p.getCetParty();
+            String organizer = (cetParty==null)?"":cetParty.getName();
+            r.setOrganizer(organizer);
+
+            BigDecimal onlinePeriod = NumberUtils.trimToZero(iCetMapper.getOnlineFinishPeriod(userId, projectId));
+            r.setOnlinePeriod(onlinePeriod);
+        }
+
         r.setPeriod(finishPeriod);
-
-        // 党校网络培训
-        BigDecimal planFinishPeriod = NumberUtils.trimToZero(iCetMapper
-                .getPlanFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE, userId, null, projectId));
-        BigDecimal specialFinishPeriod = NumberUtils.trimToZero(iCetMapper
-                .getSpecialFinishPeriod(CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL, userId, null, projectId));
-        BigDecimal onlinePeriod = planFinishPeriod.add(specialFinishPeriod);
-
-        r.setOnlinePeriod(onlinePeriod);
 
         r.setShouldFinishPeriod(o.getShouldFinishPeriod());
         r.setIsGraduate(o.getIsGraduate());

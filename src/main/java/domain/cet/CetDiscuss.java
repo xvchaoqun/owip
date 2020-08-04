@@ -12,10 +12,10 @@ public class CetDiscuss implements Serializable {
 
     private Integer planId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date startDate;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date endDate;
 
     private String name;

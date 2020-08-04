@@ -198,8 +198,8 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训地点</label>
                     <div class="col-xs-6">
-                        <input required class="form-control" type="text" name="address"
-                               value="${cetUnitProject.address}">
+                        <textarea required class="form-control limited" maxlength="100"
+							  name="address">${cetUnitProject.address}</textarea>
                     </div>
                 </div>
                 <shiro:hasRole name="${ROLE_CET_ADMIN}">

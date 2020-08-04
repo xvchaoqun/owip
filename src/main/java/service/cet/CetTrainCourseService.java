@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sys.constants.CetConstants;
 
 import java.util.*;
 
@@ -57,32 +58,72 @@ public class CetTrainCourseService extends CetBaseMapper {
     @CacheEvict(value = "CetTrainCourses", key = "#record.trainId")
     public void insertSelective(CetTrainCourse record) {
 
-        record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
+        Integer trainId = record.getTrainId();
+        Integer projectId = record.getProjectId();
+        String whereSql = null;
+        if(trainId==null){
+            whereSql = "project_id=" + projectId;
+        }else{
+            whereSql = "train_id=" + trainId;
+        }
+
+        record.setSortOrder(getNextSortOrder("cet_train_course", whereSql));
         cetTrainCourseMapper.insertSelective(record);
+
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            if (cetTrain.getPlanId() != null) {
+                iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
+            }
+        }else if(projectId!=null){
+            iCetMapper.updateProjectTotalPeriodByCourse(projectId);
+        }
     }
 
 
     @Transactional
     @CacheEvict(value = "CetTrainCourses", allEntries = true)
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, Integer projectId, Integer trainId) {
 
         if (ids == null || ids.length == 0) return;
 
         CetTrainCourseExample example = new CetTrainCourseExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-
+        CetTrainCourseExample.Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids));
+        if(trainId!=null){
+            criteria.andTrainIdEqualTo(trainId);
+        }else if(projectId!=null){
+            criteria.andProjectIdEqualTo(projectId);
+        }
         cetTrainCourseMapper.deleteByExample(example);
+
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            if (cetTrain.getPlanId() != null) {
+                iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
+            }
+        }else if(projectId!=null){
+            iCetMapper.updateProjectTotalPeriodByCourse(projectId);
+        }
     }
 
     @Transactional
     @CacheEvict(value = "CetTrainCourses", allEntries = true)
     public void updateByPrimaryKeySelective(CetTrainCourse record) {
 
-        record.setProjectId(null);
-        record.setTrainId(null);
         cetTrainCourseMapper.updateByPrimaryKeySelective(record);
         if(record.getApplyLimit()==null){
             commonMapper.excuteSql("update cet_train_course set apply_limit=null where id=" + record.getId());
+        }
+
+        Integer trainId = record.getTrainId();
+        Integer projectId = record.getProjectId();
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            if (cetTrain.getPlanId() != null) {
+                iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
+            }
+        }else if(projectId!=null){
+            iCetMapper.updateProjectTotalPeriodByCourse(projectId);
         }
     }
 
@@ -128,16 +169,26 @@ public class CetTrainCourseService extends CetBaseMapper {
     public void changeOrder(int id, int addNum) {
 
         CetTrainCourse entity = cetTrainCourseMapper.selectByPrimaryKey(id);
-        changeOrder("cet_train_course", "train_id=" + entity.getTrainId(), ORDER_BY_ASC, id, addNum);
+
+        Integer trainId = entity.getTrainId();
+        Integer projectId = entity.getProjectId();
+        String whereSql = null;
+        if(trainId==null){
+            whereSql = "project_id=" + projectId;
+        }else{
+            whereSql = "train_id=" + trainId;
+        }
+
+        changeOrder("cet_train_course", whereSql, ORDER_BY_ASC, id, addNum);
     }
 
     // 添加课程
     @Transactional
+    @CacheEvict(value = "CetTrainCourses", allEntries = true)
     public void selectCourses(int trainId, Integer[] courseIds) {
 
         if (courseIds == null || courseIds.length == 0) return;
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         CetProject cetProject = iCetMapper.getCetProject(trainId);
         Integer projectId = null;
         if(cetProject!=null){
@@ -159,18 +210,26 @@ public class CetTrainCourseService extends CetBaseMapper {
                 record.setTeacher(cetExpert.getRealname());
             }
             record.setPeriod(cetCourse.getPeriod());
+            record.setAddress(cetCourse.getAddress());
             record.setSummary(cetCourse.getSummary());
+            record.setIsOnline(cetCourse.getType()==CetConstants.CET_COURSE_TYPE_ONLINE);
 
             CetTrainCourse cetTrainCourse = get(trainId, courseId);
             if (cetTrainCourse != null){
 
                 record.setId(cetTrainCourse.getId());
                 cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+
             }else {
 
-                record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
+                record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + trainId));
                 cetTrainCourseMapper.insertSelective(record);
             }
+        }
+
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        if(cetTrain.getPlanId() !=null) {
+            iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
         }
     }
 
@@ -224,14 +283,17 @@ public class CetTrainCourseService extends CetBaseMapper {
         return 0;
     }
 
+    // 对外培训中导入课程
     @Transactional
     @CacheEvict(value = "CetTrainCourses", key = "#trainId")
-    public int batchImport(List<CetTrainCourse> records) {
+    public int offTrainCourseBatchImport(List<CetTrainCourse> records) {
 
         int addCount = 0;
         for (CetTrainCourse record : records) {
 
-            insertSelective(record);
+            record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
+            cetTrainCourseMapper.insertSelective(record);
+
             addCount++;
         }
 

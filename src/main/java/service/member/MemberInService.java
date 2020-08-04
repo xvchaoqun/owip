@@ -320,11 +320,11 @@ public class MemberInService extends MemberBaseMapper {
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
             int userId = memberIn.getUserId();
 
-            // 检查是否已经后台添加成了党员，如果是，则提示打回申请
+            // 检查是否已经后台添加成了党员，如果是，则提示退回申请
             Member member = memberService.get(userId);
             if(member!=null && member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = CmTag.getUserById(userId);
-                throw new OpException(uv.getRealname() + "已经是党员，请打回该转入申请。");
+                throw new OpException(uv.getRealname() + "已经是党员，请退回该转入申请。");
             }
 
             if(type==1) {
@@ -372,12 +372,12 @@ public class MemberInService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberIn memberIn, byte status, int loginUserId, String reason){
 
         byte _status = memberIn.getStatus();
         if(_status==MemberConstants.MEMBER_IN_STATUS_OW_VERIFY){
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if(status>_status || status<MemberConstants.MEMBER_IN_STATUS_BACK ){
             throw new OpException("参数有误。");
@@ -386,7 +386,7 @@ public class MemberInService extends MemberBaseMapper {
         Integer id = memberIn.getId();
         Integer userId = memberIn.getUserId();
 
-        if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
+        if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台退回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.checkCurrentApply(userId,
                     OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);

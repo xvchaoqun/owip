@@ -356,7 +356,7 @@ public class CetUpperTrainController extends CetBaseController {
 
             if (oldRecord != null && oldRecord.getStatus() != null
                     && oldRecord.getStatus() == CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS) {
-                // 打回后重新提交
+                // 退回后重新提交
                 record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
             } else {
                 record.setStatus(null);

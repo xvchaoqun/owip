@@ -1,26 +1,33 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import service.cet.CetCourseService;
+import service.cet.CetTrainObjService;
 import sys.helper.CetHelper;
 import sys.tags.CmTag;
+import sys.utils.ContextHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetTrainCourse implements Serializable {
 
-    public CetCourse getCetCourse(){
-
-        if(courseId==null) return null;
-        CetCourseService cetCourseService = CmTag.getBean(CetCourseService.class);
-        return cetCourseService.get(courseId);
-    }
     public CetTrainEvaTable getTrainEvaTable(){
 
         if(evaTableId==null) return null;
         return CetHelper.getCetTrainEvaTable(evaTableId);
+    }
+
+    public CetTrainObjView getTrainObj(){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if(request==null) return null;
+        Integer userId = (Integer) request.getAttribute("userId");
+        if(userId==null) return null;
+
+        CetTrainObjService cetTrainObjService = CmTag.getBean(CetTrainObjService.class);
+        return cetTrainObjService.get(userId, id);
     }
 
     private Integer id;

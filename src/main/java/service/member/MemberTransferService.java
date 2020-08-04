@@ -342,12 +342,12 @@ public class MemberTransferService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private  void back(MemberTransfer memberTransfer, byte status, int loginUserId, String reason){
 
         byte _status = memberTransfer.getStatus();
         if(_status==MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if(status > _status || status<MemberConstants.MEMBER_TRANSFER_STATUS_BACK ){
             throw new OpException("参数有误。");

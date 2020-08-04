@@ -26,7 +26,7 @@
 <c:if test="${not empty cetTrainCourse}">
 <div class="container">
     <div class="jumbotron">
-        <h2 style="padding-bottom: 15px;">【${cetTrainCourse.cetCourse.name}】</h2>
+        <h2 style="padding-bottom: 15px;">【${cetTrainCourse.name}】</h2>
         <%--<p>连接读卡器 安装驱动 调整安全设置 点击开始读卡</p>--%>
         <p>
             <input class="btn btn-primary btn-lg" id="btnStart" type="button" value="开始读卡" name="btnStart"

@@ -73,7 +73,6 @@
             if(ret.success){
                 $("#modal").modal('hide');
                 $("#jqGrid2").trigger("reloadGrid");
-                SysMsg.success("课程添加成功。");
             }
         });
     });

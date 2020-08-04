@@ -421,7 +421,7 @@ public class MemberStayService extends MemberBaseMapper {
             }
 
             if (partyService.isDirectBranch(memberStay.getPartyId())
-                    && status == MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) { // 分党委打回至直属党支部，需要直接打回支部审核模块
+                    && status == MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) { // 分党委退回至直属党支部，需要直接退回支部审核模块
                 status = MemberConstants.MEMBER_STAY_STATUS_APPLY;
             }
 
@@ -429,13 +429,13 @@ public class MemberStayService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private void back(MemberStay memberStay, byte status, int loginUserId, String reason) {
 
         byte _status = memberStay.getStatus();
         if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY
                 ||_status == MemberConstants.MEMBER_STAY_STATUS_ARCHIVE) {
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if (status > _status || status < MemberConstants.MEMBER_STAY_STATUS_BACK) {
             throw new OpException("参数有误。");

@@ -378,7 +378,7 @@
         </c:if>
         <c:if test="${cls==1}">
         $("#jqGrid").navButtonAdd('#jqGridPager',{
-            caption:"批量打回申请",
+            caption:"批量退回申请",
             btnbase:"btn btn-danger btn-xs",
             buttonicon:"fa fa-reply-all",
             onClickButton: function(){
@@ -400,7 +400,7 @@
         <c:if test="${cls==4}">
         <shiro:hasRole name="${ROLE_ODADMIN}">
         $("#jqGrid").navButtonAdd('#jqGridPager',{
-            caption:"批量打回申请",
+            caption:"批量退回申请",
             btnbase:"btn btn-danger btn-xs",
             buttonicon:"fa fa-reply-all",
             onClickButton: function(){

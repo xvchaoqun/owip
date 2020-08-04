@@ -106,6 +106,34 @@
                                     </script>
                                 </div>
                             </div>
+                            <c:if test="${type== CET_PROJECT_TYPE_PARTY_SPECIAL
+                                    || type== CET_PROJECT_TYPE_PARTY_DAILY}">
+                             <div class="form-group">
+                                <label class="col-xs-3 control-label"><span class="star">*</span>培训班主办方</label>
+                                <div class="col-xs-8">
+                                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                                             data-width="308" name="cetPartyId" data-placeholder="请选择二级党委">
+                                        <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
+                                    </select>
+                                    <script>
+                                        $.register.del_select($("#modalForm select[name=cetPartyId]"))
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label"><span class="star">*</span>主办单位</label>
+                                <div class="col-xs-8">
+                                    <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                             data-width="308" data-placeholder="请选择单位">
+                                        <option value="${unit.id}"
+                                                delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                                    </select>
+                                    <script>
+                                        $.register.del_select($("#modalForm select[name=unitId]"))
+                                    </script>
+                                </div>
+                            </div>
+                            </c:if>
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">培训内容分类</label>
                                 <div class="col-xs-9">
@@ -151,13 +179,13 @@
                                     <input class="form-control" type="file" name="_wordFilePath"/>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <%--<div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>总学时</label>
                                 <div class="col-xs-8">
                                     <input required class="form-control period"  style="width: 80px" maxlength="5"
                                            type="text" name="period" value="${cetProject.period}">
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">达到结业要求的学时数</label>
                                 <div class="col-xs-6">
@@ -165,12 +193,14 @@
                                                name="requirePeriod" value="${cetProject.requirePeriod}" maxlength="5" style="width: 80px">
                                 </div>
                             </div>
+                            <shiro:hasRole name="${ROLE_CET_ADMIN}">
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">是否计入年度学习任务</label>
                                 <div class="col-xs-6">
                                     <input type="checkbox" class="big" name="isValid" ${(empty cetProject || cetProject.isValid)?"checked":""}/>
                                 </div>
                             </div>
+                            </shiro:hasRole>
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">备注</label>
                                 <div class="col-xs-8">

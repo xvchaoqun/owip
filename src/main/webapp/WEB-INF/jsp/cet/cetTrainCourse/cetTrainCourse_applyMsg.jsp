@@ -13,7 +13,7 @@
             <label class="col-xs-3 control-label">实践教学名称</label>
             <div class="col-xs-8 label-text">
                 <c:forEach var="cetTrainCourse" items="${cetTrainCourses}" varStatus="vs">
-                    ${cetTrainCourse.cetCourse.name}
+                    ${cetTrainCourse.name}
                     <c:if test="${!vs.last}">
                         <br/>
                     </c:if>

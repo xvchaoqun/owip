@@ -2,14 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.cet.common.ICetMapper">
 
-    <!--批量删除已删除的培训记录-->
+    <!--批量删除已删除的培训记录（包含未通过审批的培训项目）-->
     <delete id="removeDeletedCetRecords" parameterType="Integer">
         update cet_record set is_deleted=1 where source_id not in(select id from cet_upper_train where is_deleted=0) and source_type = 1;
         update cet_record set is_deleted=1 where source_id not in(select id from cet_unit_train where status=0) and source_type = 3;
         update cet_record set is_deleted=1 where source_id
         not in(select po.id from cet_project_obj po
-          left join cet_project p on po.project_id=p.id where p.is_deleted=0 and po.is_quit=0) and source_type = 2;
+          left join cet_project p on po.project_id=p.id where p.is_deleted=0 and p.status=2 and po.is_quit=0) and source_type = 2;
     </delete>
+
+    <sql id="sql_updateProjectPeriod">
+        update cet_project cp
+            left join
+            (select project_id, sum(period) as period from cet_project_plan
+            where project_id=(select project_id from cet_project_plan where id=#{planId})) tmp on cp.id=tmp.project_id
+            set cp.period = tmp.period where cp.id=tmp.project_id;
+    </sql>
+    <update id="updatePlanCourseTotalPeriod" parameterType="Integer">
+        update cet_project_plan set period=(select sum(period) from cet_plan_course where plan_id=#{planId}) where id=#{planId};
+        <include refid="sql_updateProjectPeriod"/>
+    </update>
+    <update id="updateTrainCourseTotalPeriod" parameterType="Integer">
+        update cet_project_plan set period=(select sum(ctc.period) from cet_train_course ctc, cet_train ct where ctc.train_id=ct.id and ct.plan_id=#{planId}) where id=#{planId};
+        <include refid="sql_updateProjectPeriod"/>
+    </update>
+    <update id="updateDiscussTotalPeriod" parameterType="Integer">
+        update cet_project_plan set period=(select sum(period) from cet_discuss where plan_id=#{planId}) where id=#{planId};
+        <include refid="sql_updateProjectPeriod"/>
+    </update>
+
+    <update id="updateProjectTotalPeriodByPlan" parameterType="Integer">
+        update cet_project cp
+            left join
+            (select project_id, sum(period) as period from cet_project_plan where project_id=#{projectId}) tmp on cp.id=tmp.project_id
+            set cp.period = tmp.period where cp.id=#{projectId}
+    </update>
+
+    <update id="updateProjectTotalPeriodByCourse" parameterType="Integer">
+        update cet_project cp
+            left join
+            (select project_id, sum(period) as period from cet_train_course where project_id=#{projectId}) tmp on cp.id=tmp.project_id
+            set cp.period = tmp.period where cp.id=#{projectId}
+    </update>
 
     <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"
                extends="persistence.cet.CetTrainCourseMapper.BaseResultMap">
@@ -26,7 +60,7 @@
     </resultMap>
 
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
-               extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
+               extends="persistence.cet.CetTrainMapper.BaseResultMap">
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
     </resultMap>
@@ -72,6 +106,16 @@
               and is_valid=1
     </select>
 
+    <select id="getTrainObjFinishPeriod" parameterType="map" resultType="DECIMAL">
+        select sum(if(ctov.is_finished, ctov.period, 0)) from cet_train_obj_view ctov
+            LEFT JOIN cet_project cp ON ctov.project_id=cp.id
+            where cp.is_valid=1
+              <if test="planId!=null">
+              and ctov.plan_id=#{planId}
+              </if>
+              and ctov.obj_id=#{objId}
+    </select>
+
     <!-- // 获取培训对象在每年或某个培训项目中的培训方案中的已完成学时（针对线下培训、线上培训和实践教学）-->
     <select id="getPlanFinishPeriod" parameterType="map" resultType="DECIMAL">
         select sum(if(ctov.is_finished, ctov.period, 0)) from cet_train_obj_view ctov
@@ -86,6 +130,13 @@
                 </if>
                 and cp.is_valid=1 and cpp.type=${type} and ctov.user_id=#{userId}
             </where>
+    </select>
+
+    <select id="getOnlineFinishPeriod" parameterType="map" resultType="DECIMAL">
+        select sum(ctc.period) from cet_train_obj cto
+            left join cet_train_course ctc on cto.train_course_id=ctc.id
+            where cto.is_finished=1 and ctc.is_online=1
+            and  ctc.project_id=#{projectId} and cto.user_id=#{userId}
     </select>
 
     <!-- 获取培训对象在每年或某培训项目中的培训方案中的已完成学时（针对上级网上专题）-->
@@ -117,17 +168,19 @@
     <!-- 查询参训人的可选课的培训班列表 -->
     <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
         select ct.*, cto.user_id, count(cto.id) as course_count
-        from cet_train_view ct
+        from cet_train ct
           left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
-          left join cet_project_obj o on ct.project_id= o.project_id and o.user_id=#{userId}
+          left join cet_project_plan cpp on cpp.id=ct.plan_id
+          left join cet_project_obj o on cpp.project_id= o.project_id and o.user_id=#{userId}
         <include refid="searchTrains"/>
         group by cto.user_id
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id) from cet_train_view ct
+        select count(ct.id) from cet_train ct
           left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
-          left join cet_project_obj o on ct.project_id= o.project_id and o.user_id=#{userId}
+          left join cet_project_plan cpp on cpp.id=ct.plan_id
+          left join cet_project_obj o on cpp.project_id= o.project_id and o.user_id=#{userId}
         <include refid="searchTrains"/>
     </select>
 

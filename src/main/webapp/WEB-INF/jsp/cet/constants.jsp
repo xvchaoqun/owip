@@ -9,7 +9,6 @@
 <c:set value="${_pMap['cet_support_cert']=='true'}" var="_p_cetSupportCert"/>
 
 <c:set value="<%=CetConstants.CET_TYPE_MAP%>" var="CET_TYPE_MAP"/>
-<c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_OW%>" var="CET_DISCUSS_UNIT_TYPE_OW"/>
 <c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_UNIT%>" var="CET_DISCUSS_UNIT_TYPE_UNIT"/>
@@ -33,13 +32,6 @@
 <c:set value="<%=CetConstants.CET_COURSE_TYPE_MAP%>" var="CET_COURSE_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_TRAINEE_TYPE_TEMPLATE_MAP%>" var="CET_TRAINEE_TYPE_TEMPLATE_MAP"/>
-
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT%>" var="CET_TRAIN_ENROLL_STATUS_DEFAULT"/>
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN%>" var="CET_TRAIN_ENROLL_STATUS_OPEN"/>
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_CLOSED%>" var="CET_TRAIN_ENROLL_STATUS_CLOSED"/>
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_PAUSE%>" var="CET_TRAIN_ENROLL_STATUS_PAUSE"/>
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN%>" var="CET_TRAIN_ENROLL_STATUS_NOT_BEGIN"/>
-<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_MAP%>" var="CET_TRAIN_ENROLL_STATUS_MAP"/>
 
 <c:set value="<%=CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL%>" var="CET_TRAINEE_SIGN_TYPE_MANUAL"/>
 
@@ -74,7 +66,11 @@
 <c:set var="CET_UPPER_TRAIN_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_OW%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_ABROAD" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_ABROAD%>"/>
 <c:set var="CET_UPPER_TRAIN_TYPE_SCHOOL" value="<%=CetConstants.CET_UPPER_TRAIN_TYPE_SCHOOL%>"/>
+
+<c:set var="CET_PROJECT_TYPE_MAP" value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>"/>
 <c:set var="CET_PROJECT_TYPE_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>"/>
 <c:set var="CET_PROJECT_TYPE_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>"/>
+<c:set var="CET_PROJECT_TYPE_PARTY_SPECIAL" value="<%=CetConstants.CET_PROJECT_TYPE_PARTY_SPECIAL%>"/>
+<c:set var="CET_PROJECT_TYPE_PARTY_DAILY" value="<%=CetConstants.CET_PROJECT_TYPE_PARTY_DAILY%>"/>
 
 <c:set var="CET_TYPE_UPPER" value="<%=CetConstants.CET_TYPE_UPPER%>"/>

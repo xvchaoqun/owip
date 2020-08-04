@@ -15,7 +15,7 @@
         </button>
     </shiro:hasPermission>
     <shiro:hasPermission name="cetProjectPlan:del">
-        <button data-url="${ctx}/cet/cetProjectPlan_batchDel"
+        <button data-url="${ctx}/cet/cetProjectPlan_batchDel?projectId=${param.projectId}"
                 data-title="彻底删除"
                 data-msg="确定彻底删除这{0}条数据？（该培训方案下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
                 data-grid-id="#jqGrid2"

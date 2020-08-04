@@ -144,7 +144,8 @@ public class CetExportService extends CetBaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
         
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-        String courseName = HtmlUtils.htmlUnescape(cetTrainCourse.getCetCourse().getName());
+        int projectId = cetTrainCourse.getProjectId();
+        String courseName = HtmlUtils.htmlUnescape(cetTrainCourse.getName());
         
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -161,9 +162,9 @@ public class CetExportService extends CetBaseMapper {
             
             Integer userId = applyUserIds.get(i);
             SysUserView uv = sysUserService.findById(userId);
-            CadreView cv = cadreService.dbFindByUserId(userId);
-            
-            CetTrainObjView teev = cetTrainObjService.getCetTrainObjView(userId, trainCourseId);
+            CetProjectObj cetProjectObj = cetProjectObjService.get(userId, projectId);
+
+            CetTrainObjView teev = cetTrainObjService.get(userId, trainCourseId);
             int column = 0;
             row = sheet.getRow(startRow++);
             // 序号
@@ -180,7 +181,7 @@ public class CetExportService extends CetBaseMapper {
             
             // 所在单位及职务
             cell = row.getCell(column++);
-            cell.setCellValue(cv == null ? "" : StringUtils.trimToEmpty(cv.getTitle()));
+            cell.setCellValue(cetProjectObj.getTitle());
             
             // 手机号码
             cell = row.getCell(column++);

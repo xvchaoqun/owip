@@ -36,28 +36,28 @@ public class CetDiscussService extends CetBaseMapper {
 
         record.setSortOrder(getNextSortOrder("cet_discuss", "plan_id="+record.getPlanId()));
         cetDiscussMapper.insertSelective(record);
+
+        iCetMapper.updateDiscussTotalPeriod(record.getPlanId());
     }
 
     @Transactional
-    public void del(Integer id){
-
-        cetDiscussMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(int planId, Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
         CetDiscussExample example = new CetDiscussExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andPlanIdEqualTo(planId).andIdIn(Arrays.asList(ids));
         cetDiscussMapper.deleteByExample(example);
+
+        iCetMapper.updateDiscussTotalPeriod(planId);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CetDiscuss record){
+    public void updateByPrimaryKeySelective(CetDiscuss record){
 
-        return cetDiscussMapper.updateByPrimaryKeySelective(record);
+        cetDiscussMapper.updateByPrimaryKeySelective(record);
+
+        iCetMapper.updateDiscussTotalPeriod(record.getPlanId());
     }
 
     /**

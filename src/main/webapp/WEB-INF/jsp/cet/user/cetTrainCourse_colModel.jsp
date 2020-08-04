@@ -21,9 +21,9 @@
       }
       return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={1}&_={2}" '
       +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
-              .format(rowObject.cetCourse.id, rowObject.id, new Date().getTime());
+              .format(rowObject.courseId, rowObject.id, new Date().getTime());
 
-      /*return $.iframePreview(rowObject.cetCourse.name, '${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}', "播放");*/
+      /*return $.iframePreview(rowObject.name, '${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}', "播放");*/
     }},
     </c:if>
     {label: '学时', name: 'cetCourse.period', width: 60},
@@ -44,9 +44,9 @@
     <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE}">
     {label: '上课地点', name: 'address', width: 200, align:'left'},
     </c:if>
-    {label: '主讲人', name: 'cetCourse.cetExpert.realname', width: 90},
-    {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 200, align: 'left'},
-    {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 200, align: 'left'},
+    {label: '主讲人', name: 'teacher', width: 90},
+    /*{label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 200, align: 'left'},
+    {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 200, align: 'left'},*/
     /*{label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},*/
   ]
   </c:if>

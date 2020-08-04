@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">课程名称</label>
             <div class="col-xs-8 label-text">
-                ${cetTrainCourse.cetCourse.name}
+                ${cetTrainCourse.name}
             </div>
         </div>
         <div class="form-group">

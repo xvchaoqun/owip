@@ -59,7 +59,7 @@
                     </button>
                 </shiro:hasPermission>
 
-                <button data-url="${ctx}/cet/cetTrain_batchDel"
+                <button data-url="${ctx}/cet/cetTrain_batchDel?planId=${param.planId}"
                         data-title="彻底删除"
                         data-msg="确定彻底删除这{0}条数据？（该培训班下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
                         data-grid-id="#jqGrid2"
@@ -97,22 +97,6 @@
             }, frozen: true},
             {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
             {label: '可选课人数', name: 'objCount', width: 90},
-            /*{
-                label: '选课情况',
-                name: '_switchStatus',
-                width: 120,
-                formatter: function (cellvalue, options, rowObject) {
-
-                    var str = _cMap.CET_TRAIN_ENROLL_STATUS_MAP[rowObject.switchStatus] +
-                            "(" + Math.trimToZero(rowObject.traineeCount) + ")"
-                    if (rowObject.switchStatus ==${CET_TRAIN_ENROLL_STATUS_OPEN}){
-                        str = '<span class="text-success bolder">' + str + '</span>'
-                    }
-
-                    return str;
-                }
-            },*/
-
             {
                 label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 var btnStr = "添加";
@@ -129,10 +113,6 @@
                         .format(rowObject.id, btnStr, btnCss, iCss);
             }, frozen: true
             },
-           /* {label: '参训人员类型', name: 'traineeTypes', width: 220, align: 'left'},*/
-            /*{label: '开班时间', name: 'openTime', width: 150, formatter: $.jgrid.formatter.date,
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
-            {label: '开班地点', name: 'openAddress', width: 220, align: 'left'},*/
             {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '备注', name: 'remark', width: 300}, {hidden: true, name: 'pubStatus'},

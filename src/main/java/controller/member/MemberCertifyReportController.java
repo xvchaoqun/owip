@@ -31,7 +31,7 @@ public class MemberCertifyReportController extends MemberBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     // 打印组织关系介绍信
-    @RequestMapping(value = "/member_certify", method = RequestMethod.GET)
+    @RequestMapping(value = "/member_certify")
     public String member_certify(@CurrentUser SysUserView loginUser,
                                HttpServletRequest request, HttpServletResponse response,
                                @RequestParam(value = "ids[]") Integer[] ids,

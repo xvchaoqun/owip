@@ -278,7 +278,7 @@ public class MemberOutService extends MemberBaseMapper {
         MemberOut record = new MemberOut();
         record.setId(id);
         record.setUserId(userId);
-        record.setReason("组织部打回");
+        record.setReason("组织部退回");
         record.setStatus(MemberConstants.MEMBER_OUT_STATUS_ABOLISH);
         updateByPrimaryKeySelective(record);
 
@@ -288,7 +288,7 @@ public class MemberOutService extends MemberBaseMapper {
                 memberOut.getPartyId(), memberOut.getBranchId(), userId,
                 ShiroHelper.getCurrentUserId(), (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
                         OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部打回已完成的审批"));
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部退回已完成的审批"));
     }
 
     // 归档之前已完成转出的记录（如果存在），用于：1、转出时保证当前只有一条记录处于未归档状态 2、再次转入时归档转出记录
@@ -422,12 +422,12 @@ public class MemberOutService extends MemberBaseMapper {
         }
     }
 
-    // 单条记录打回至某一状态
+    // 单条记录退回至某一状态
     private void back(MemberOut memberOut, byte status, int loginUserId, String reason) {
 
         byte _status = memberOut.getStatus();
         if (_status == MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
-            throw new OpException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以退回。");
         }
         if (status > _status || status < MemberConstants.MEMBER_OUT_STATUS_BACK) {
             throw new OpException("参数有误。");

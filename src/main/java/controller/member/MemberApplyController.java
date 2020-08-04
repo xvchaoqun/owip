@@ -822,7 +822,7 @@ public class MemberApplyController extends MemberBaseController {
             MemberApply memberApply = verifyAuth.entity;
 
             if (memberApply.getApplyTime() == null) {
-                return failed(memberApply.getUser().getRealname() + "的提交书面申请书时间为空，请修改或打回。");
+                return failed(memberApply.getUser().getRealname() + "的提交书面申请书时间为空，请修改或退回。");
             }
 
             memberApply.setActiveTime(activeTime);
@@ -1056,7 +1056,7 @@ public class MemberApplyController extends MemberBaseController {
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId(), applySnReuse);
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "打回党员发展申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "退回党员发展申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

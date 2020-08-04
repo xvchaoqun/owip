@@ -15,11 +15,9 @@ public class CetTrainObjView implements Serializable {
 
     private Integer id;
 
-    private Integer trainId;
+    private Integer objId;
 
     private Integer userId;
-
-    private Integer objId;
 
     private Integer trainCourseId;
 
@@ -33,21 +31,23 @@ public class CetTrainObjView implements Serializable {
 
     private Byte signType;
 
-    private String remark;
-
     private Date chooseTime;
 
     private Integer chooseUserId;
 
     private String ip;
 
+    private String remark;
+
     private Integer projectId;
 
     private Integer traineeTypeId;
 
+    private Boolean isQuit;
+
     private Integer planId;
 
-    private Boolean isQuit;
+    private Integer trainId;
 
     private Integer courseId;
 
@@ -69,12 +69,12 @@ public class CetTrainObjView implements Serializable {
         this.id = id;
     }
 
-    public Integer getTrainId() {
-        return trainId;
+    public Integer getObjId() {
+        return objId;
     }
 
-    public void setTrainId(Integer trainId) {
-        this.trainId = trainId;
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Integer getUserId() {
@@ -83,14 +83,6 @@ public class CetTrainObjView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getObjId() {
-        return objId;
-    }
-
-    public void setObjId(Integer objId) {
-        this.objId = objId;
     }
 
     public Integer getTrainCourseId() {
@@ -141,14 +133,6 @@ public class CetTrainObjView implements Serializable {
         this.signType = signType;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
     public Date getChooseTime() {
         return chooseTime;
     }
@@ -173,6 +157,14 @@ public class CetTrainObjView implements Serializable {
         this.ip = ip == null ? null : ip.trim();
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
     public Integer getProjectId() {
         return projectId;
     }
@@ -189,6 +181,14 @@ public class CetTrainObjView implements Serializable {
         this.traineeTypeId = traineeTypeId;
     }
 
+    public Boolean getIsQuit() {
+        return isQuit;
+    }
+
+    public void setIsQuit(Boolean isQuit) {
+        this.isQuit = isQuit;
+    }
+
     public Integer getPlanId() {
         return planId;
     }
@@ -197,12 +197,12 @@ public class CetTrainObjView implements Serializable {
         this.planId = planId;
     }
 
-    public Boolean getIsQuit() {
-        return isQuit;
+    public Integer getTrainId() {
+        return trainId;
     }
 
-    public void setIsQuit(Boolean isQuit) {
-        this.isQuit = isQuit;
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
     }
 
     public Integer getCourseId() {

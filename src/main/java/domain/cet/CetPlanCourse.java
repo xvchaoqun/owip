@@ -1,7 +1,6 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import service.cet.CetCourseService;
 import service.cet.CetPlanCourseObjService;
 import service.cet.CetPlanCourseService;
 import sys.tags.CmTag;
@@ -16,13 +15,8 @@ import java.util.Map;
 
 public class CetPlanCourse implements Serializable {
 
-    public CetCourse getCetCourse(){
 
-        if(courseId==null) return null;
-        CetCourseService cetCourseService = CmTag.getBean(CetCourseService.class);
-        return cetCourseService.get(courseId);
-    }
-
+    // 选课学员数量
     public Long getSelectedCount(){
 
         CetPlanCourseService cetPlanCourseService = CmTag.getBean(CetPlanCourseService.class);

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=CetConstants.CET_PROJECT_TYPE_SPECIAL%>" var="CET_PROJECT_TYPE_SPECIAL"/>
-<c:set value="<%=CetConstants.CET_PROJECT_TYPE_DAILY%>" var="CET_PROJECT_TYPE_DAILY"/>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -13,12 +12,11 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.name || not empty param.code}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="<c:if test="${type==CET_PROJECT_TYPE_SPECIAL}">active</c:if>">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${CET_PROJECT_TYPE_SPECIAL}"><i class="fa fa-dot-circle-o"></i> 专题培训</a>
-                        </li>
-                        <li class="<c:if test="${type==CET_PROJECT_TYPE_DAILY}">active</c:if>">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${CET_PROJECT_TYPE_DAILY}"><i class="fa fa-circle-o"></i> 日常培训</a>
-                        </li>
+                        <c:forEach var="entity" items="${CET_PROJECT_TYPE_MAP}">
+                            <li class="<c:if test="${type==entity.key}">active</c:if>">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetProjectType?type=${entity.key}"><i class="fa fa-list"></i> ${entity.value}</a>
+                            </li>
+                        </c:forEach>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active multi-row-head-table">

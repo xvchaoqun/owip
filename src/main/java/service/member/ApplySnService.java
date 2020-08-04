@@ -80,7 +80,7 @@ public class ApplySnService extends MemberBaseMapper implements HttpResponseMeth
 
     }
 
-    // 组织部打回领取志愿书，或从领取志愿书中进行移除操作，则清除已分配的志愿书编码
+    // 组织部退回领取志愿书，或从领取志愿书中进行移除操作，则清除已分配的志愿书编码
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void clearAssign(int userId, boolean applySnReuse) {

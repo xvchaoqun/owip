@@ -7,20 +7,20 @@ pageEncoding="UTF-8"%>
 <c:set var="OW_APPLY_STAGE_POSITIVE" value="<%=OwConstants.OW_APPLY_STAGE_POSITIVE%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>打回申请</h3>
+    <h3>退回申请</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/memberApply_back" autocomplete="off" disableautocomplete id="modalForm" method="post">
 
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">打回申请记录</label>
+            <label class="col-xs-3 control-label">退回申请记录</label>
             <div class="col-xs-8 label-text">
                 ${fn:length(fn:split(param['ids[]'],","))} 条
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">打回至状态</label>
+            <label class="col-xs-3 control-label">退回至状态</label>
             <div class="col-xs-8">
                 <select name="stage" data-rel="select2">
                     <c:forEach var="_stage" items="${cm:inverseMap(OW_APPLY_STAGE_MAP)}">
@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
                         </c:if>
                     </c:forEach>
                 </select>
-                <span class="help-block">注：将打回至所选阶段的初始状态</span>
+                <span class="help-block">注：将退回至所选阶段的初始状态</span>
             </div>
         </div>
         <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW}">
@@ -51,12 +51,12 @@ pageEncoding="UTF-8"%>
                         </label>
                     </div>
                 </div>
-                <span class="help-block">注：此选项仅对打回至“预备党员”之前的阶段，且已分配志愿书编码的申请有效</span>
+                <span class="help-block">注：此选项仅对退回至“预备党员”之前的阶段，且已分配志愿书编码的申请有效</span>
             </div>
         </div>
         </c:if>
         <div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>打回原因</label>
+            <label class="col-xs-3 control-label"><span class="star">*</span>退回原因</label>
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text" name="reason" rows="5"></textarea>
             </div>
@@ -65,7 +65,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <c:if test="${param.stage>OW_APPLY_STAGE_DRAW}">
-        <div class="note">注：如果打回至“预备党员”之前的阶段，系统将删除该党员的相关信息，无法恢复，请谨慎操作！</div>
+        <div class="note">注：如果退回至“预备党员”之前的阶段，系统将删除该党员的相关信息，无法恢复，请谨慎操作！</div>
     </c:if>
  <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>

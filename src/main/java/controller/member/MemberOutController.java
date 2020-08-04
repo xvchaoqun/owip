@@ -462,7 +462,7 @@ public class MemberOutController extends MemberBaseController {
 
         memberOutService.memberOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委打回组织关系转出申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_MEMBER, "分党委退回组织关系转出申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -505,7 +505,7 @@ public class MemberOutController extends MemberBaseController {
             MemberOut memberOut = memberOutService.getLatest(record.getUserId());
             if (memberOut != null) {
                 if (memberOut.getStatus() < MemberConstants.MEMBER_OUT_STATUS_APPLY) {
-                    // 保证打回或撤销的，可以重新提交
+                    // 保证退回或撤销的，可以重新提交
                     id = memberOut.getId();
                     record.setId(id);
                 } else if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_APPLY

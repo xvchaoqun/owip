@@ -40,7 +40,7 @@
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
                 data-grid-id="#jqGrid2"
                 data-url="${ctx}/cet/cetProjectObj_au?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
-            <i class="fa fa-plus"></i> 修改
+            <i class="fa fa-edit"></i> 修改
         </button>
         <c:if test="${cls==1}">
         <button class="popupBtn btn btn-info btn-sm tooltip-info"
@@ -71,7 +71,7 @@
                data-prompt="选择某一个参训人员，进行手动结业/取消结业"></i> 手动结业
         </button>
         <shiro:hasRole name="${ROLE_SUPER}">
-         <button data-url="${ctx}/cet/refreshObjFinishPeriod?projectId=${cetProject.id}"
+         <button data-url="${ctx}/cet/archiveProjectObj?projectId=${cetProject.id}"
                 data-title="归档培训学时"
                 data-msg="确定统计并归档该学员最新的培训学时？"
                 data-grid-id="#jqGrid2"
@@ -92,9 +92,12 @@
                 class="jqItemBtn btn btn-warning btn-sm">
             <i class="fa fa-refresh"></i> 同步学员信息
         </button>--%>
+        <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
+                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
         <button class="downloadBtn btn btn-success btn-sm"
                 data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="prompt fa fa-question-circle" data-prompt="导出列表中所有的人员"></i> 导出学时情况</button>
+        </c:if>
     </shiro:hasPermission>
         <button data-url="${ctx}/cet/cetProjectObj_quit?projectId=${cetProject.id}&isQuit=1"
             data-title="退出"
@@ -527,7 +530,7 @@
     </div>
 </div>
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${(cls==2||cls==3)?0:20}"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${(cls==2||cls==3)?0:25}"></table>
 <div id="jqGridPager2"></div>
 <script>
     function _callback2(){
@@ -796,7 +799,7 @@
                 if(!rowObject.isGraduate) return '--'
                 return $.button.modal({
                             style:"btn-success",
-                            url:"${ctx}/report/cet_cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&ids[]="+rowObject.id,
+                            url:"${ctx}/cet/cert?sourceType=<%=CetConstants.CET_SOURCE_TYPE_PROJECT%>&format=image&ids[]="+rowObject.id,
                             icon:"fa-search",
                             label:"查看", attr:"data-width='850'"})
             }},

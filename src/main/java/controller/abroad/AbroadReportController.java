@@ -42,7 +42,7 @@ public class AbroadReportController extends AbroadBaseController {
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     // 确认取消集中管理
-    @RequestMapping(value = "/cancel", method = RequestMethod.GET)
+    @RequestMapping(value = "/cancel")
     public String cancel(Integer id,
                          @RequestParam(defaultValue = "image") String format,
                          Model model) throws IOException {
@@ -111,7 +111,7 @@ public class AbroadReportController extends AbroadBaseController {
     }
 
     // 领取证件？
-    @RequestMapping(value = "/passportSign", method = RequestMethod.GET)
+    @RequestMapping(value = "/passportSign")
     public String passportSign(Integer classId, Integer userId, Integer id,
                                @RequestParam(defaultValue = "image") String format,
                                Model model) throws IOException {
@@ -188,7 +188,7 @@ public class AbroadReportController extends AbroadBaseController {
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
-    @RequestMapping(value = "/passportApply", method = RequestMethod.GET)
+    @RequestMapping(value = "/passportApply")
     public String passportApply(Integer classId, Integer userId,
                                 Integer id,
                                 @RequestParam(defaultValue = "image") String format,
@@ -265,7 +265,7 @@ public class AbroadReportController extends AbroadBaseController {
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
-    @RequestMapping(value = "/abroad_draw_proof", method = RequestMethod.GET)
+    @RequestMapping(value = "/abroad_draw_proof")
     public String abroad_draw_proof(@CurrentUser SysUserView loginUser,
                                     @RequestParam(value = "ids[]") Integer[] ids,
                                     Integer type,
