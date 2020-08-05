@@ -36,17 +36,20 @@
 
                     var ret = "-";
                     var pdfFilePath = rowObject.addFile;
+                    var fileType = 1;
                     if(rowObject.type==<%=ScConstants.SC_BORDER_ITEM_TYPE_CHANGE%>){
                         pdfFilePath = rowObject.changeFile;
+                        fileType = 2;
                     }else if(rowObject.type==<%=ScConstants.SC_BORDER_ITEM_TYPE_DELETE%>){
                           pdfFilePath = rowObject.deleteFile;
+                        fileType = 3;
                     }
 
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                 .format(encodeURI(pdfFilePath), '报备表')
-                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
-                                .format(encodeURI(pdfFilePath),  '报备表');
+                            + '&nbsp;<button data-url="${ctx}/sc/scBorder_download?id={0}&type={1}&filename={2}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                .format(rowObject.id, fileType, '报备表'/*encodeURI(pdfFilePath),  */);
                     }
                     return ret;
                 }
@@ -55,10 +58,10 @@
                 label: '电子报备', name: 'recordFile', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                     var ret = "-";
-                    var pdfFilePath = rowObject.recordFile;
+                    /*var pdfFilePath = rowObject.recordFile;*/
                     if ($.trim(pdfFilePath) != '') {
-                        ret = '<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
-                                .format(encodeURI(pdfFilePath),  '电子报备');
+                        ret = '<button data-url="${ctx}/sc/scBorder_download?id={0}&fileType=4&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                                .format(rowObject.id, '电子报备'/*encodeURI(pdfFilePath),*/  );
                     }
                     return ret;
                 }

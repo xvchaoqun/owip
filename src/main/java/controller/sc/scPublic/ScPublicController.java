@@ -367,4 +367,23 @@ public class ScPublicController extends ScBaseController {
         resultMap.put("options", options);
         return resultMap;
     }*/
+
+    @RequiresPermissions("scPublic:list")
+    @RequestMapping("/scPublic_download")
+    public void scPublic_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScPublic scPublic = scPublicMapper.selectByPrimaryKey(id);
+
+        String path = "";
+        String filename = "";
+        if (scPublic != null) {
+            filename = scPublic.getCode();
+            if (fileType == 1){
+                path = scPublic.getPdfFilePath();
+            }else if (fileType == 2) {
+                path = scPublic.getWordFilePath();
+            }
+        }
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

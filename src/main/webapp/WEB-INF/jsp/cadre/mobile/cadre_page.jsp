@@ -30,6 +30,14 @@
                                 style="margin-left: 37px;"/></button>
                     </div>
                 </div>
+
+                <div class="col-sm-8 infobox-container">
+                    <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                         data-url="${ctx}/m/cadre_advanced_search">
+                        <button class="btn btn-primary btn-block" style=><i class="fa fa-arrow-right"></i> 高级查询<span
+                                style="margin-left: 37px;"/></button>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="body-content-view"<%-- style="overflow-y: hidden"--%>>

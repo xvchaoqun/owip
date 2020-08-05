@@ -20,16 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import service.sc.scMatter.ScMatterCheckUser;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -264,5 +262,19 @@ public class ScMatterCheckController extends ScBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("scMatterCheck:list")
+    @RequestMapping("/scMatterCheck_download")
+    public void scMatterCheck_download(Integer id, Integer index, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScMatterCheck scMatterCheck = scMatterCheckMapper.selectByPrimaryKey(id);
+        String[] files = StringUtils.split(scMatterCheck.getFiles(),"<><>");
+
+        String file = files[index];
+        String path = StringUtils.split(file,"^^^^")[1];
+        String filename = StringUtils.split(file,"^^^^")[0];
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

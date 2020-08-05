@@ -24,7 +24,7 @@
           <tr>
             <th>工号</th>
             <th>姓名</th>
-            <th>离任后所在单位及职务</th>
+            <th>${param.type == 1?"":"离任后"}所在单位及职务</th>
           </tr>
           </thead>
           <tbody>
@@ -32,7 +32,6 @@
             <tr>
               <td>${cadre.code}</td>
               <td>
-                <c:set var="backTo" value="${ctx}/m/cadre_compare_result?cadreIds[]=${param['cadreIds[]']}"/>
                 <a href="javascript:;" class="openView" data-open-by="page" data-url="${ctx}/m/cadre_info?cadreId=${cadre.id}">
                     ${cadre.realname}
                 </a>
@@ -44,7 +43,7 @@
         </table>
       </div>
       <div class="message-footer clearfix">
-        <wo:page commonList="${commonList}" uri="${ctx}/m/cadreInfo_page?realnameOrCode=${param.realnameOrCode}"
+        <wo:page commonList="${commonList}" uri="${ctx}/m/cadreList_page?type=${param.type}&realnameOrCode=${param.realnameOrCode}"
                  target="#page-content" model="4"/>
       </div>
     </div>
@@ -84,6 +83,6 @@
     });
 
   function search(realnameOrCode) {
-    $("#page-content").load("${ctx}/m/cadreInfo_page?realnameOrCode="+realnameOrCode);
+    $("#page-content").load("${ctx}/m/cadreList_page?type=${param.type}&realnameOrCode="+realnameOrCode);
   }
 </script>

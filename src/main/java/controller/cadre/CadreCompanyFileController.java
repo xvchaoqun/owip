@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -195,5 +192,21 @@ public class CadreCompanyFileController extends BaseController {
         }
         String fileName = "干部兼职管理文件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("cadreCompany:list")
+    @RequestMapping("/cadreCompanyFile_download")
+    public void cadreCompanyList_download(int id, Integer type, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        CadreCompanyFile cadreCompanyFile = cadreCompanyFileMapper.selectByPrimaryKey(id);
+        String path;
+        if (type == 1){
+            path = cadreCompanyFile.getDwf().getPdfFilePath();
+        }else {
+            path = cadreCompanyFile.getDwf().getWordFilePath();
+        }
+        String filename = cadreCompanyFile.getDwf().getFileName() + path.substring(path.indexOf("."));
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

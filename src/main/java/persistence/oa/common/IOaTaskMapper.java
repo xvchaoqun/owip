@@ -21,11 +21,11 @@ public interface IOaTaskMapper {
 
     @Update("update oa_task ot, " +
             "(select ot.id, count(distinct otf.id) as file_count, " +
-            "-- 任务对象数量 " +
+            //"-- 任务对象数量 " +
             "count(distinct otu.id) as user_count, " +
-            "-- 已报送数 " +
+            //"-- 已报送数 " +
             "count(distinct otu3.id) as report_count," +
-            "-- 已完成数 " +
+            //"-- 已完成数 " +
             "count(distinct otu2.id) as finish_count from oa_task ot " +
             "left join oa_task_file otf on otf.task_id=ot.id " +
             "left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0 " +

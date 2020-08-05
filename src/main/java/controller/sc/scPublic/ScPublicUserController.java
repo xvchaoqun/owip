@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -209,5 +206,31 @@ public class ScPublicUserController extends ScBaseController {
         }
         String fileName = "干部任前公示对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("scPublicUser:list")
+    @RequestMapping("/scPublicUser_download")
+    public void scPublicUser_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScPublicUserViewExample example = new ScPublicUserViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<ScPublicUserView> scPublicUserViews = scPublicUserViewMapper.selectByExample(example);
+
+        String path = "";
+        String filename = "";
+
+        if (scPublicUserViews != null && scPublicUserViews.size()>0){
+
+            ScPublicUserView scPublicUserView = scPublicUserViews.get(0);
+            filename = scPublicUserView.getCode();
+
+            if (fileType == 1){
+                path = scPublicUserView.getPdfFilePath();
+            }else if (fileType == 2) {
+                path = scPublicUserView.getWordFilePath();
+            }
+        }
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

@@ -298,4 +298,23 @@ public class ScCommitteeController extends ScBaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+    @RequiresPermissions("scCommittee:list")
+    @RequestMapping("/scCommittee_download")
+    public void scCommittee_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScCommitteeViewExample example = new ScCommitteeViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<ScCommitteeView> scCommitteeViews = scCommitteeViewMapper.selectByExample(example);
+
+        String path = "";
+        String filename = "";
+        if (scCommitteeViews != null && scCommitteeViews.size()>0){
+
+            ScCommitteeView scCommitteeView = scCommitteeViews.get(0);
+            path = scCommitteeView.getPptFile();
+            filename = scCommitteeView.getCode() + "(上会PPT)";
+        }
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

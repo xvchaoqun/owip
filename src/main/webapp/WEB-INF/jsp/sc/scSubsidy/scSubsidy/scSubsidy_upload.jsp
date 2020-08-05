@@ -23,7 +23,8 @@
                     </div>
                     <div class="buttons pull-right" style="right:15px;">
                         <c:if test="${not empty file}">
-                        <button style="margin-right: 15px;" type="button" data-url="${ctx}/attach_download?path=${cm:encodeURI(file)}&filename=${cm:encodeURI(code)}"
+                        <button style="margin-right: 15px;" type="button"
+                                data-url="${ctx}/sc/scSubsidy_download?fileType=${param.fileType}&id=${scSubsidy.id}"
                                 class="downloadBtn btn btn-xs btn-warning">
                             <i class="ace-icon fa fa-download"></i>
                             下载

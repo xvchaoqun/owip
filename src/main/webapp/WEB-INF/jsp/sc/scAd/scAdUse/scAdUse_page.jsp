@@ -133,8 +133,8 @@
                     str += $.pdfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
                                     '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
                             + ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
-                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
-                                    .format(rowObject.signFilePath, "干部任免审批表归档扫描件("+ rowObject.realname+")")
+                            'data-url="${ctx}/sc/scAdUse_down?id={0}"><i class="fa fa-download"></i> 下载</button>')
+                                    .format(rowObject.id)
                 }
                 return str;
             }},

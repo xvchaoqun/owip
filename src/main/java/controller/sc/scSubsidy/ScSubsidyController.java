@@ -27,6 +27,7 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -268,5 +269,16 @@ public class ScSubsidyController extends ScBaseController {
         }
         String fileName = "干部津贴变动_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("scSubsidy:list")
+    @RequestMapping("/scSubsidy_download")
+    public void scSubsidy_download(Integer fileType, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScSubsidy scSubsidy = scSubsidyMapper.selectByPrimaryKey(id);
+        String path = fileType == 1? scSubsidy.getHrFilePath() : scSubsidy.getFeFilePath();
+        String filename = fileType == 1? scSubsidy.getHrCode() : scSubsidy.getFeCode();
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

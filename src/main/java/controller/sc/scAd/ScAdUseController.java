@@ -254,4 +254,15 @@ public class ScAdUseController extends ScBaseController {
         String fileName = "干部任免审批表_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
+
+    @RequiresPermissions("scAdUse:list")
+    @RequestMapping("/scAdUse_down")
+    public void scAdUse_download(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(id);
+        String path = scAdUse.getSignFilePath();
+        String filename = "干部任免审批表归档扫描件("+ scAdUse.getCadre().getRealname()+")";
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

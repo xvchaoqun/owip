@@ -361,4 +361,23 @@ public class ScAdArchiveController extends ScBaseController {
         String fileName = "干部任免审批表_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
+
+    @RequiresPermissions("scAdArchive:list")
+    @RequestMapping("/scAdArchive_down")
+    public void scAdArchive_down(Integer id, Byte type, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScAdArchiveViewExample example = new ScAdArchiveViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        ScAdArchiveView scAdArchiveView = scAdArchiveViewMapper.selectByExample(example).get(0);
+        String path = "";
+        String filename = "";
+        if (type == 1) {
+            path = scAdArchiveView.getSignFilePath();
+            filename = "干部任免审批表归档扫描件(" + scAdArchiveView.getRealname() + ")";
+        }else if (type == 2) {
+            path = scAdArchiveView.getCisSignFilePath();
+            filename = "干部考察报告归档扫描件("+ scAdArchiveView.getRealname() +")";
+        }
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

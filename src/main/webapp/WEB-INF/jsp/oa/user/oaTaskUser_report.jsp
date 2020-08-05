@@ -28,7 +28,7 @@
                         <td colspan="3">
                             <c:forEach var="file" items="${oaTaskFiles}">
                                 <div>
-                                    <a href="${ctx}/attach_download?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}">${file.fileName}</a>
+                                    <a href="${ctx}/oa/oaTask_download?taskId=${oaTask.id}&taskFileId=${file.id}">${file.fileName}</a>
                                 </div>
                             </c:forEach>
                         </td>

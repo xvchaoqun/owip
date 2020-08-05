@@ -118,9 +118,9 @@
 
             {label: '议题word版', name: 'wordFilePath', width: 105, formatter: function (cellvalue, options, rowObject) {
                 if($.isBlank(cellvalue)) return '--'
-                var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"));
-                return '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'
-                        .format(encodeURI(rowObject.wordFilePath), encodeURI(_num));
+                /*var _num = "干部小组会〔{0}〕号".format($.date(rowObject.holdDate, "yyyyMMdd"));*/
+                return '&nbsp;<button data-url="${ctx}/sc/scGroup_download?id={0}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'
+                        .format(rowObject.id/*encodeURI(rowObject.wordFilePath), encodeURI(_num)*/);
             }},
             {
                 label: '参会人', name: '_participant', width: 90, formatter: function (cellvalue, options, rowObject) {

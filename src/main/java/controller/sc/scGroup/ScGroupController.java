@@ -236,4 +236,20 @@ public class ScGroupController extends ScBaseController {
         resultMap.put("tree", tree);
         return resultMap;
     }
+
+    @RequiresPermissions("scGroup:list")
+    @RequestMapping("/scGroup_download")
+    public void scGroup_download(Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScGroup scGroup = scGroupMapper.selectByPrimaryKey(id);
+
+        String path = "";
+        String filename = "";
+        if (scGroup != null){
+            path = scGroup.getWordFilePath();
+            filename = "干部小组会〔"+ DateUtils.formatDate(scGroup.getHoldDate(),"yyyyMMdd") +"〕号";
+        }
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
+import sys.constants.CgConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -270,5 +271,15 @@ public class CgRuleController extends CgBaseController {
         cgRule.setId(id);
         cgRuleService.updateByPrimaryKeySelective(cgRule);
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cgRule:edit")
+    @RequestMapping("/cgRule_download")
+    public void cgRule_download(Integer id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        CgRule cgRule = cgRuleMapper.selectByPrimaryKey(id);
+        String path = cgRule.getFilePath();
+        String filename = CgConstants.CG_RULE_TYPE_MAP.get(cgRule.getType());
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

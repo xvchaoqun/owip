@@ -353,4 +353,26 @@ public class ScDispatchController extends ScBaseController {
         ExportHelper.output(wb, fileName + ".xlsx", response);
         return null;
     }*/
+
+    @RequiresPermissions("scDispatch:list")
+    @RequestMapping("/scDispatch_download")
+    public void scDispatch_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScDispatchViewExample example = new ScDispatchViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<ScDispatchView> scDispatchViews = scDispatchViewMapper.selectByExample(example);
+
+        String path = "";
+        String filename = "";
+        if (scDispatchViews != null) {
+            ScDispatchView scDispatchView = scDispatchViews.get(0);
+            filename = scDispatchView.getDispatchCode() + "-文件签发稿";
+            if (fileType == 1){
+                path = scDispatchView.getFilePath();
+            }else if (fileType == 2) {
+                path = scDispatchView.getWordFilePath();
+            }
+        }
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
 }

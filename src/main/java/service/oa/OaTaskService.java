@@ -252,4 +252,35 @@ public class OaTaskService extends OaBaseMapper {
             sysUserService.addRole(userId, RoleConstants.ROLE_OA_ADMIN);
         }
     }
+
+    public List<Integer> getAdminAnduserId(Integer taskId){
+
+        OaTaskUserViewExample example = new OaTaskUserViewExample();
+        example.createCriteria().andTaskIdEqualTo(taskId)
+                .andTaskIsDeleteEqualTo(false).andTaskIsPublishEqualTo(true);
+
+        List<Integer> userIdList = new ArrayList<>();
+        List<OaTaskUserView> oaTaskUserViews = oaTaskUserViewMapper.selectByExample(example);
+
+        for (OaTaskUserView oaTaskUserView : oaTaskUserViews) {
+
+            if (oaTaskUserView.getUserId() != null) {//任务对象
+                userIdList.add(oaTaskUserView.getUserId());
+            }
+            if (oaTaskUserView.getAssignUserId() != null) {//被指定负责人
+                userIdList.add(oaTaskUserView.getAssignUserId());
+            }
+            if (oaTaskUserView.getTaskUserId() != null) {//创建人
+                userIdList.add(oaTaskUserView.getTaskUserId());
+            }
+            String userIds = oaTaskUserView.getTaskUserIds();
+            if (StringUtils.isNotBlank(userIds)) {//共享任务人
+
+                for (String userId : userIds.split(",")) {
+                    userIdList.add(Integer.parseInt(userId));
+                }
+            }
+        }
+        return userIdList;
+    }
 }

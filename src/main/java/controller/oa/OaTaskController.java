@@ -13,6 +13,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -575,5 +576,21 @@ public class OaTaskController extends OaBaseController {
         resultMap.put("options", options);
 
         return resultMap;
+    }
+
+    @RequestMapping("/oaTask_download")
+    public void oaTask_download(Integer taskId, Integer taskFileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        List<Integer> userIds = oaTaskService.getAdminAnduserId(taskId);
+        Integer userId = ShiroHelper.getCurrentUserId();
+
+        if (!ShiroHelper.isPermitted("oaTaskShowAll:*") && !userIds.contains(userId)){
+            throw new UnauthorizedException("没有权限访问。");
+        }
+
+        OaTaskFile oaTaskFile = oaTaskFileMapper.selectByPrimaryKey(taskFileId);
+        String path = oaTaskFile.getFilePath();
+        String filename = oaTaskFile.getFileName();
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

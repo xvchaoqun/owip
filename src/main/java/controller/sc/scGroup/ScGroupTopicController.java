@@ -25,10 +25,7 @@ import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.SqlUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -410,5 +407,18 @@ public class ScGroupTopicController extends ScBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("scGroupTopic:list")
+    @RequestMapping("/scGroupTopic_download")
+    public void scGroupTopic_download(Integer id,Integer index, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        ScGroupTopic scGroupTopic = scGroupTopicMapper.selectByPrimaryKey(id);
+
+        String[] paths = StringUtils.split(scGroupTopic.getFilePath(),",");
+        String path = paths[index];
+        String filename = "附件"+ (index+1);
+
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

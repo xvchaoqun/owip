@@ -1,31 +1,44 @@
 package controller.cadre.mobile;
 
 import controller.BaseController;
+import controller.analysis.CadreCategorySearchBean;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
+import domain.unit.Unit;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import persistence.cadre.common.ICadreWorkMapper;
 import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/m")
 public class MobileCadreSearchController extends BaseController {
 
+	@Autowired
+	private ICadreWorkMapper iCadreWorkMapper;
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequiresPermissions("m:cadre:list")
@@ -189,5 +202,336 @@ public class MobileCadreSearchController extends BaseController {
 		modelMap.put("realnameOrCode",realnameOrCode);
 
 		return "cadre/mobile/cadreList_page";
+	}
+
+	@RequiresPermissions("m:cadre:list")
+	@RequestMapping("/cadre_advanced_search")
+	public String cadre_advanced_search(Integer cadreId,ModelMap modelMap) {
+
+		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+
+		if (cadreId != null) {
+			CadreView cadre = iCadreMapper.getCadre(cadreId);
+			modelMap.put("cadre", cadre);
+		}
+
+		Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+		Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+		Map<Integer, Unit> unitMap = unitService.findAll();
+		for (Unit unit : unitMap.values()) {
+
+			Integer unitTypeId = unit.getTypeId();
+			if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+				List<Integer> units = historyUnitListMap.get(unitTypeId);
+				if (units == null) {
+					units = new ArrayList<>();
+					historyUnitListMap.put(unitTypeId, units);
+				}
+				units.add(unit.getId());
+			}else {
+				List<Integer> units = unitListMap.get(unitTypeId);
+				if (units == null) {
+					units = new ArrayList<>();
+					unitListMap.put(unitTypeId, units);
+				}
+				units.add(unit.getId());
+			}
+		}
+		modelMap.put("unitListMap", unitListMap);
+		modelMap.put("historyUnitListMap", historyUnitListMap);
+
+		modelMap.put("proPosts", iPropertyMapper.teacherProPosts());
+		modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
+		modelMap.put("staffTypes", iPropertyMapper.staffTypes());
+		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+
+		return "cadre/mobile/cadre_advanced_search";
+	}
+
+	@RequiresPermissions("m:cadre:list")
+	@RequestMapping("/cadre_advanced_search_result")
+	public String cadre_advanced_search_result(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_CJ + "") Byte status,
+											   Integer cadreId,
+											   Byte gender,
+											   Integer startAge,
+											   Integer endAge,
+											   Integer startDpAge, // 党龄
+											   Integer endDpAge, // 党龄
+											   Integer startNowPostAge,
+											   Integer endNowPostAge,
+											   Integer startNowLevelAge,
+											   Integer endNowLevelAge,
+											   Integer[] workTypes,
+											   Boolean andWorkTypes,
+											   String major, // 所学专业
+											   Boolean isPrincipal, // 是否正职
+											   Boolean isDouble, // 是否双肩挑
+											   Boolean hasCrp, // 是否有干部挂职经历
+											   Boolean hasAbroadEdu, // 是否有国外学习经历
+											   Boolean isDep,
+											   Byte degreeType,
+											   Integer state,
+											   String title,
+											   Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
+											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date startBirth,
+											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date endBirth,
+											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date startCadreGrowTime,
+											   @DateTimeFormat(pattern = "YYYY-MM-dd")Date endCadreGrowTime,
+											   @RequestParam(required = false, value = "nation") String[] nation,
+											   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
+											   @RequestParam(required = false, value = "unitIds") Integer[] unitIds, // 所在单位
+											   @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+											   @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
+											   @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
+											   @RequestParam(required = false, value = "postTypes") Integer[] postTypes, // 职务属性
+											   @RequestParam(required = false, value = "proPosts") String[] proPosts, // 专业技术职务
+											   @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
+											   @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
+											   @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
+											   @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
+											   @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+											   //是否为保留待遇干部信息，指第一主职无关联岗位的干部
+											   @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
+											   //是否聘任制干部，指无行政级别的干部
+											   @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
+											   Integer pageSize, Integer pageNo,ModelMap modelMap) {
+
+		if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREARCHIVE)) {
+			throw new UnauthorizedException("没有权限访问");
+		}
+
+		if (null == pageSize) {
+			pageSize = 11;
+		}
+		if (null == pageNo) {
+			pageNo = 1;
+		}
+		pageNo = Math.max(1, pageNo);
+
+		CadreViewExample example = new CadreViewExample();
+		example.setOrderByClause("sort_order desc");
+		CadreViewExample.Criteria criteria = example.createCriteria()/*.andStatusEqualTo(status)*/;
+
+		String searchStr = "&pageSize=" + pageSize;
+		if (cadreId != null) {//
+			criteria.andIdEqualTo(cadreId);
+			searchStr += "&cadreId="+cadreId;
+		}
+		if (gender != null) {
+			criteria.andGenderEqualTo(gender);
+			searchStr += "&gender="+gender;
+		}
+		if (dpTypes != null) {
+			criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
+			searchStr += "&dpTypes="+StringUtils.join(dpTypes,",");
+		}
+		if (staffTypes != null) {
+			criteria.andStaffTypeIn(Arrays.asList(staffTypes));
+			searchStr += "&staffTypes="+StringUtils.join(staffTypes,",");
+		}
+		if (nation != null) {
+			Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_nation");
+			Set<String> nations = metaTypeMap.values()
+					.stream().map(MetaType::getName).collect(Collectors.toSet());
+
+			criteria.andNationIn(Arrays.asList(nation), nations);
+
+			searchStr += "&nation="+ StringUtils.join(nation,",");
+		}
+		if (StringUtils.isNotBlank(title)) {
+			criteria.andTitleLike(SqlUtils.trimLike(title));
+			searchStr += "&title="+title;
+		}
+		if (labels != null) {
+			criteria.andLabelsContain(new HashSet<>(Arrays.asList(labels)));
+			searchStr += "&labels="+StringUtils.join(labels,",");
+		}
+		if (state != null) {
+			criteria.andStateEqualTo(state);
+			searchStr += "&state="+state;
+		}
+		if (authorizedTypes != null) {
+			criteria.andAuthorizedTypeIn(Arrays.asList(authorizedTypes));
+			searchStr += "&authorizedTypes="+StringUtils.join(authorizedTypes,",");
+		}
+		if (unitTypes != null) {
+			criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
+			searchStr += "&unitTypes="+StringUtils.join(unitTypes,",");
+		}
+		if (startBirth != null) {
+			criteria.andBirthGreaterThanOrEqualTo(startBirth);
+			searchStr += "&startBirth="+ DateUtils.formatDate(startBirth,DateUtils.YYYY_MM_DD);
+		}
+		if (endBirth != null) {
+			criteria.andBirthLessThanOrEqualTo(endBirth);
+			searchStr += "&endBirth="+ DateUtils.formatDate(endBirth,DateUtils.YYYY_MM_DD);
+		}
+		if (startCadreGrowTime != null) {
+			criteria.andGrowTimeGreaterThanOrEqualTo(startCadreGrowTime);
+			searchStr += "&startCadreGrowTime="+ DateUtils.formatDate(startCadreGrowTime,DateUtils.YYYY_MM_DD);
+		}
+		if (endCadreGrowTime != null) {
+			criteria.andGrowTimeLessThanOrEqualTo(endCadreGrowTime);
+			searchStr += "&endCadreGrowTime="+ DateUtils.formatDate(endCadreGrowTime,DateUtils.YYYY_MM_DD);
+		}
+		if (unitIds != null) {
+			criteria.andUnitIdIn(Arrays.asList(unitIds));
+			searchStr += "&unitIds="+StringUtils.join(unitIds,",");
+		}
+		if (startAge != null) {
+			Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge);
+			Date brith_end=DateUtils.getLastDayOfMonth(brith);
+			criteria.andBirthLessThanOrEqualTo(brith_end);
+			searchStr += "&startAge="+startAge;
+		}
+		if (endAge != null) {
+			Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1));
+			Date brith_start=DateUtils.getFirstDayOfMonth(brith);
+			criteria.andBirthGreaterThanOrEqualTo(brith_start);
+			searchStr += "&endAge="+endAge;
+		}
+		if (startDpAge != null) {
+			criteria.andGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startDpAge));
+			searchStr += "&startDpAge="+startDpAge;
+		}
+		if (endDpAge != null) {
+			criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endDpAge + 1)));
+			searchStr += "&endDpAge="+endDpAge;
+		}
+		if (adminLevels != null) {
+			criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+			searchStr += "&adminLevels="+StringUtils.join(adminLevels,",");
+		}
+		if (maxEdus != null) {
+			if(new HashSet<>(Arrays.asList(maxEdus)).contains(-1)){
+				criteria.andEduIdIsNull();
+			}else {
+				criteria.andEduIdIn(Arrays.asList(maxEdus));
+			}
+			searchStr += "&maxEdus="+StringUtils.join(maxEdus,",");
+		}
+		if(degreeType!=null){
+			if(degreeType==-1){
+				criteria.andDegreeTypeIsNull();
+			}else{
+				criteria.andDegreeTypeEqualTo(degreeType);
+			}
+			searchStr += "&degreeType="+degreeType;
+		}
+		if(StringUtils.isNotBlank(major)){
+			criteria.andMajorLike(SqlUtils.like(major));
+			searchStr += "&major="+major;
+		}
+		if (postTypes != null) {
+			criteria.andPostTypeIn(Arrays.asList(postTypes));
+			searchStr += "&postTypes="+StringUtils.join(postTypes,",");
+		}
+		if (startNowPostAge != null) {
+			criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+			searchStr += "&startNowPostAge="+startNowPostAge;
+		}
+		if (endNowPostAge != null) {
+			criteria.andCadrePostYearLessThanOrEqualTo(endNowPostAge);
+			searchStr += "&endNowPostAge="+endNowPostAge;
+		}
+		if (proPosts != null) {
+			List<String> _proPosts = new ArrayList<String>(Arrays.asList(proPosts));
+			if (_proPosts.contains("0")) {
+				_proPosts.remove("0");
+				criteria.andProPostIsNullOrIn(_proPosts);
+			}else {
+				criteria.andProPostIn(_proPosts);
+			}
+			searchStr += "&proPosts="+StringUtils.join(proPosts,",");
+		}
+		if (proPostLevels != null) {
+			criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+			searchStr += "&proPostLevels="+StringUtils.join(proPostLevels,",");
+		}
+		if (firstUnitPost != null) {
+			if(firstUnitPost==-1){ // 缺第一主职
+				criteria.andMainCadrePostIdIsNull();
+			}else if (firstUnitPost==1){ // 第一主职已关联岗位
+				criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNotNull();
+			}else if (firstUnitPost==0){ // 第一主职没关联岗位
+				criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
+			}
+			searchStr += "&firstUnitPost="+firstUnitPost;
+		}
+		if (isPrincipal != null) {
+			criteria.andIsPrincipalEqualTo(isPrincipal);
+			searchStr += "&isPrincipal="+(BooleanUtils.isTrue(isPrincipal)?"1":"0");
+		}
+		if (startNowLevelAge != null) {
+			criteria.andAdminLevelYearGreaterThanOrEqualTo(startNowLevelAge);
+			searchStr += "&startNowLevelAge="+startNowLevelAge;
+		}
+		if (endNowLevelAge != null) {
+			criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);
+			searchStr += "&endNowLevelAge="+endNowLevelAge;
+		}
+		if (isDouble != null) {
+			criteria.andIsDoubleEqualTo(isDouble);
+			searchStr += "&isDouble="+(BooleanUtils.isTrue(isDouble)?"1":"0");
+		}
+		if (workTypes != null){
+			List<Integer> cadreIds = iCadreWorkMapper.getCadreIdsOfWorkTypes(Arrays.asList(workTypes),
+					BooleanUtils.isTrue(andWorkTypes));
+			if(cadreIds.size()==0){
+				criteria.andIdIsNull();
+			}else {
+				criteria.andIdIn(cadreIds);
+			}
+			searchStr += "&workTypes="+StringUtils.join(workTypes,",");
+			searchStr += "&andWorkTypes="+(BooleanUtils.isTrue(andWorkTypes)?"1":"0");
+		}
+		if (leaderTypes != null) {
+			criteria.andLeaderTypeIn(Arrays.asList(leaderTypes));
+			searchStr += "&leaderTypes="+StringUtils.join(leaderTypes,",");
+		}
+		if(isDep!=null){
+			criteria.andIsDepEqualTo(isDep);
+			searchStr += "&isDep="+(BooleanUtils.isTrue(isDep)?"1":"0");
+		}
+		if (hasCrp != null) {
+			criteria.andHasCrpEqualTo(hasCrp);
+			searchStr += "&hasCrp="+(BooleanUtils.isTrue(hasCrp)?"1":"0");
+		}
+		if(hasAbroadEdu!=null){
+
+			CadreCategorySearchBean searchBean = new CadreCategorySearchBean();
+			searchBean.setCadreStatus(status);
+			List<Integer> cadreIds = iCadreMapper.selectCadreIdListByEdu(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
+
+			if(hasAbroadEdu){
+				criteria.andIdIn(cadreIds);
+			}else{
+				criteria.andIdNotIn(cadreIds);
+			}
+			searchStr += "&hasAbroadEdu="+(BooleanUtils.isTrue(hasAbroadEdu)?"1":"0");
+		}
+		/*if (isEngage) {
+			Integer adminLevel = CmTag.getMetaTypeByCode("mt_admin_level_none").getId();
+			criteria.andAdminLevelEqualTo(adminLevel);
+		}
+
+		if (isKeepSalary) { // 保留待遇干部，即第一主职已关联岗位
+			criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
+		}
+		*/
+
+		long count = cadreViewMapper.countByExample(example);
+		if ((pageNo - 1) * pageSize >= count) {
+
+			pageNo = Math.max(1, pageNo - 1);
+		}
+		List<CadreView> Cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+		CommonList commonList = new CommonList(count, pageNo, pageSize);
+		commonList.setSearchStr(searchStr);
+		modelMap.put("cadres", Cadres);
+		modelMap.put("commonList",commonList);
+
+		return "cadre/mobile/cadre_advanced_search_result";
 	}
 }

@@ -61,8 +61,8 @@
             {label: '上会PPT', name: 'pptFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.pptFile==undefined) return '--';
                 return ('&nbsp;<button class="downloadBtn btn btn-warning btn-xs" ' +
-                'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
-                        .format(rowObject.pptFile, rowObject.code+"(上会PPT)")
+                'data-url="${ctx}/sc/scCommittee_download?id={0}"><i class="fa fa-download"></i> 下载</button>')
+                        .format(rowObject.id/*rowObject.pptFile, rowObject.code+"(上会PPT)"*/)
             }},
             {
                 label: '查看<br/>讨论议题', width: 80, formatter: function (cellvalue, options, rowObject) {
