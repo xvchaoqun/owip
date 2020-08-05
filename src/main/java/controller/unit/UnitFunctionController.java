@@ -226,8 +226,8 @@ public class UnitFunctionController extends BaseController {
         if (unitFunctions != null && unitFunctions.size() > 0) {
             Unit unit = unitMapper.selectByPrimaryKey(unitId);
             UnitFunction unitFunction = unitFunctions.get(0);
-            String path = HtmlUtils.htmlUnescape(unitFunction.getFilePath());
-            String filename = HtmlUtils.htmlUnescape(unit.getName() + "单位职能" + DateUtils.formatDate(unitFunction.getConfirmTime(), "yyyyMMdd") + ".pdf");
+            String path = unitFunction.getFilePath();
+            String filename = unit.getName() + "单位职能" + DateUtils.formatDate(unitFunction.getConfirmTime(), "yyyyMMdd") + ".pdf";
 
             DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
         }

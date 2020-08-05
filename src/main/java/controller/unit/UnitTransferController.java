@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -318,11 +317,11 @@ public class UnitTransferController extends BaseController {
             String path = "";
             String filename = "";
             if (isPpt) {
-                path = HtmlUtils.htmlEscape(dispatch.getPpt());
-                filename = HtmlUtils.htmlEscape(dispatch.getPptName());
+                path = dispatch.getPpt();
+                filename = dispatch.getPptName();
             }else {
-                path =  HtmlUtils.htmlUnescape(dispatch.getFile());
-                filename = HtmlUtils.htmlUnescape(dispatch.getFileName());
+                path =  dispatch.getFile();
+                filename = dispatch.getFileName();
             }
             DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
         }
