@@ -17,9 +17,9 @@ public class MobileCetCourseController extends CetBaseController {
 
     @RequiresPermissions("m:cetTrainList:*")
     @RequestMapping("/courseList_page")
-    public String courseList_page(int trainId, ModelMap modelMap) throws IOException {
+    public String courseList_page(Integer trainId, Integer projectId, ModelMap modelMap) throws IOException {
 
-        cetTrainObjService.trainDetail(trainId, modelMap);
+        cetTrainObjService.trainDetail(trainId, projectId, modelMap);
 
         return "cet/mobile/courseList_page";
     }

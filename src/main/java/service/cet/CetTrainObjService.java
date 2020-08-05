@@ -16,6 +16,7 @@ import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 
 import java.util.*;
 
@@ -85,11 +86,11 @@ public class CetTrainObjService extends CetBaseMapper {
         boolean applyOpen = false;
         if (trainId != null) {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-            applyOpen = cetTrain.getIsApplyOpen(cetTrain.getStartTime(), cetTrain.getEndTime());
+            applyOpen = cetTrain.getIsApplyOpen();
 
         } else {
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
-            applyOpen = cetProject.getIsApplyOpen(cetProject.getStartTime(), cetProject.getEndTime());
+            applyOpen = cetProject.getIsApplyOpen();
         }
 
         if (!applyOpen) {
@@ -98,20 +99,31 @@ public class CetTrainObjService extends CetBaseMapper {
     }
 
     // 参训人课程列表（用于网页、手机选课页面）
-    public void trainDetail(int trainId, ModelMap modelMap) {
+    public void trainDetail(Integer trainId, Integer projectId, ModelMap modelMap) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
-        Integer planId = cetTrain.getPlanId();
-        CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
-        modelMap.put("cetProjectPlan", cetProjectPlan);
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
-        modelMap.put("cetProject", cetProject);
+        if(trainId!=null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            modelMap.put("cetTrain", cetTrain);
+            modelMap.put("isFinished", cetTrain.getIsFinished());
+            modelMap.put("isApplyOpen", cetTrain.getIsApplyOpen());
+
+            Integer planId = cetTrain.getPlanId();
+            CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+            modelMap.put("cetProjectPlan", cetProjectPlan);
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
+            modelMap.put("cetProject", cetProject);
+
+        }else{
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            modelMap.put("cetProject", cetProject);
+            modelMap.put("isFinished", DateUtils.compareDate(new Date(), cetProject.getEndDate()));
+            modelMap.put("isApplyOpen", cetProject.getIsApplyOpen());
+        }
 
         int userId = ShiroHelper.getCurrentUserId();
 
-        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(trainId, userId);
-        List<CetTrainCourse> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, userId);
+        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(trainId, projectId, userId);
+        List<CetTrainCourse> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, projectId, userId);
 
         modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
         modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);

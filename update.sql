@@ -47,6 +47,22 @@ ALTER TABLE `cet_project`
 	ADD COLUMN `unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训班主办方，从设置了单位管理员的单位中选择，针对二级党委培训' AFTER `cet_party_id`;
 
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`,
+                            `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`,
+                            `available`, `sort_order`)
+VALUES (970, 0, '二级党委培训信息', '', 'menu', '', NULL, 714, '0/1/714/', 1, 'userCetProject:party', NULL, NULL, NULL, 1, 560);
+
+UPDATE `sys_resource` SET name='其他培训',  `parent_id`='970', `parent_ids`='0/1/970/' where permission='userCetUnitTrain:*';
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (971, 0, '专题培训', '', 'url', '', '/user/cet/cetProject?type=3', 970, '0/1/714/970/', 1, 'userCetProject:list3', NULL, NULL, NULL, 1, 800);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
+                            `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`,
+                            `count_cache_roles`, `available`, `sort_order`) VALUES (972, 0, '日常培训', '', 'url', '', '/user/cet/cetProject?type=4', 970, '0/1/714/970/', 1, 'userCetProject:list4', NULL, NULL, NULL, 1, 700);
+
+-- 更新 role_teacher 培训权限
+
+
 20200730
 吉大 -- 北师大
 

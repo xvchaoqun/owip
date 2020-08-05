@@ -6,6 +6,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.cet.common.ICetProject;
 import persistence.cet.common.ICetTrain;
 import shiro.ShiroHelper;
 
@@ -34,8 +35,13 @@ public class MobileCetTrainController extends CetBaseController {
                                  Integer pageNo, HttpServletRequest request, ModelMap modelMap) throws IOException {
 
         int userId = ShiroHelper.getCurrentUserId();
-        List<ICetTrain> trains = iCetMapper.selectUserCetTrainList(userId, null, false, new RowBounds());
+        List<ICetTrain> trains = iCetMapper.selectUserCetTrainList(userId, new RowBounds());
         modelMap.put("trains", trains);
+        List<ICetProject> projects = iCetMapper.selectUserCetProjectList(userId, new RowBounds());
+        modelMap.put("projects", projects);
+
+        modelMap.put("trainCount", trains.size());
+        modelMap.put("projectCount", projects.size());
 
         return "cet/mobile/trainList_page";
     }

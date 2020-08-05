@@ -28,7 +28,12 @@
                     </h4>
                 </c:if>
                 <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    <c:if test="${not empty cetTrain}">
                     ${cetTrain.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
+                    </c:if>
+                    <c:if test="${empty cetTrain}">
+                        ${cetProject.name}
+                    </c:if>
                 </span>
             </div>
             <div class="widget-body rownumbers">
@@ -80,19 +85,19 @@
         datatype: "local",
         data: selectedCetTrainCourses,
         colModel: [
-           <c:if test="${!cetTrain.isFinished}">
+           <c:if test="${!isFinished}">
             {
                 label: '退课', name: '_unApply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
                 if(rowObject.isFinished || !rowObject.canQuit) return '--'
 
                 if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
-                    return "-"
+                    return "--"
                 }
-                <c:if test="${!cetTrain.isApplyOpen}">
+                <c:if test="${!isApplyOpen}">
                 return '--'
                 </c:if>
-                <c:if test="${cetTrain.isApplyOpen}">
+                <c:if test="${isApplyOpen}">
                 if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT}
                 || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
                     return '--'
@@ -128,7 +133,7 @@
         datatype: "local",
         data: unSelectedCetTrainCourses,
         colModel: [
-            <c:if test="${!cetTrain.isFinished}">
+            <c:if test="${!isFinished}">
             {
                 label: '选课', name: '_apply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
@@ -139,10 +144,10 @@
                 if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
                     return "--"
                 }
-                <c:if test="${!cetTrain.isApplyOpen}">
+                <c:if test="${!isApplyOpen}">
                 return '--'
                 </c:if>
-                <c:if test="${cetTrain.isApplyOpen}">
+                <c:if test="${isApplyOpen}">
                 if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY}
                         || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
                     return '--'
@@ -163,14 +168,6 @@
 
     function _applyReload(btn){
 
-        var isApply = $(btn).data("apply");
-        var courseCount = selectedCetTrainCourses.length;
-        if(!isApply && courseCount==1){
-            SysMsg.info("您已将所选课程全部退出，不再参加此次培训。如果需要重新选课，请在“培训班次”菜单中选课。",function(){
-                $.hideView();
-            });
-        }else{
-            $.openView("${ctx}/user/cet/cetTrain_detail?cls=${param.cls}&trainId=${cetTrain.id}")
-        }
+        $.openView("${ctx}/user/cet/cetTrain_detail?cls=${param.cls}&projectId=${cetProject.id}&trainId=${cetTrain.id}")
     }
 </script>

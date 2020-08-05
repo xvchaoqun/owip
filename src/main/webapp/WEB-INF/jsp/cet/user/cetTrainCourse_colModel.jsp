@@ -2,12 +2,11 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <script>
-  <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE || param.planType==CET_PROJECT_PLAN_TYPE_ONLINE}">
+  <c:if test="${empty param.planType || param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE || param.planType==CET_PROJECT_PLAN_TYPE_ONLINE}">
   var colModel = [
-    /*{label: '课程编号', name: 'cetCourse.sn', frozen:true},*/
     {
       label: '课程名称',
-      name: 'cetCourse.name',
+      name: 'name',
       width: 400,
       align: 'left', frozen:true
     },
@@ -26,7 +25,7 @@
       /*return $.iframePreview(rowObject.name, '${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}', "播放");*/
     }},
     </c:if>
-    {label: '学时', name: 'cetCourse.period', width: 60},
+    {label: '学时', name: 'period', width: 60},
     {
       label: '开始时间',
       name: 'startTime',
@@ -41,21 +40,17 @@
       if(cellvalue==undefined) return '--'
       return $.date(cellvalue, "yyyy-MM-dd HH:mm");
     }},
-    <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+    <c:if test="${empty param.planType || param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE}">
     {label: '上课地点', name: 'address', width: 200, align:'left'},
     </c:if>
-    {label: '主讲人', name: 'teacher', width: 90},
-    /*{label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 200, align: 'left'},
-    {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 200, align: 'left'},*/
-    /*{label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},*/
+    {label: '主讲人', name: 'teacher', width: 90}
   ]
   </c:if>
   <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_PRACTICE}">
   var colModel = [
-    {label: '编号', name: 'cetCourse.sn', frozen:true},
-    {label: '实践教学名称', name: 'cetCourse.name', width: 300, align: 'left'},
-    {label: '实践教学地点', name: 'cetCourse.address', width: 300, align: 'left'},
-    {label: '学时', name: 'cetCourse.period', width: 70},
+    {label: '实践教学名称', name: 'name', width: 300, align: 'left'},
+    {label: '实践教学地点', name: 'address', width: 300, align: 'left'},
+    {label: '学时', name: 'period', width: 70},
     {
       label: '开始时间',
       name: 'startTime',

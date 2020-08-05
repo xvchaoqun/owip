@@ -40,7 +40,6 @@
                     </div>
                 </div>
                 <div class="modal-footer center" style="margin-top: 22px;">
-                    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
                     <input type="submit" class="btn btn-primary" value="确定"/>
                 </div>
             </form>

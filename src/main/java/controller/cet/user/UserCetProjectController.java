@@ -61,12 +61,12 @@ public class UserCetProjectController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        long count = iCetMapper.countUserCetProjectList(userId, type, year, name);
+        long count = iCetMapper.countCetProjectList(userId, type, year, name);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetProject> records= iCetMapper.selectUserCetProjectList(userId, type, year, name,
+        List<CetProject> records= iCetMapper.selectCetProjectList(userId, type, year, name,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

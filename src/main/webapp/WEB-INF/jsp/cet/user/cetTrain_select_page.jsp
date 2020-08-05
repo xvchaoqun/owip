@@ -4,8 +4,15 @@
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv">
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li  class="<c:if test="${cls==1}">active</c:if>">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetTrain_select?cls=1"><i class="fa fa-list"></i> 党校培训（${trainCount}）</a>
+                </li>
+                <li  class="<c:if test="${cls==2}">active</c:if>">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/user/cet/cetTrain_select?cls=2"><i class="fa fa-list-ol"></i> 二级党委培训（${projectCount}）</a>
+                </li>
+            </ul>
             <div class="tabbable">
                 <div class="tab-content">
                     <div class="tab-pane in active rownumbers">
@@ -32,7 +39,8 @@
     // 查看详情和报名、 年度、 编号、 培训班名称、 培训主题、 参训人员类型、 开课日期、 结课日期、 选课截止时间
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/user/cet/cetTrain_select_data?callback=?&isFinished=${isFinished?1:0}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        <c:if test="${cls==1}">
+        url: '${ctx}/user/cet/cetTrain_select_data?callback=?&userId=${_user.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '查看详情和报名', name: '_applyDetail', formatter: function (cellvalue, options, rowObject) {
 
@@ -40,14 +48,9 @@
                         'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&trainId={0}"><i class="fa fa-sign-in"></i> 进入</button>')
                         .format(rowObject.id, rowObject.courseCount>0?'btn-primary':'btn-success')
             }, width: 125, frozen: true},
-            {label: '已选课数', name: 'courseCount', formatter: function (cellvalue, options, rowObject) {
-                return cellvalue>0?cellvalue:'-'
-            }, width: 90, frozen: true},
-            {
-                label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.isFinished ? '已结课' : '未结课';
+            {label: '已选课数', name: 'courseCount', width: 90, formatter: function (cellvalue, options, rowObject) {
+                return cellvalue>0?cellvalue:'--'
             }, frozen: true},
-            {label: '年度', name: 'year', width:'60', frozen: true},
             {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
             {label: '培训班名称', name: 'name', width:350, align:'left'},
@@ -61,15 +64,48 @@
                 if(cellvalue==undefined) return '--'
                 return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
-            /*{label: '参训人员类型', name: 'traineeTypes', width:200},*/
             {label: '所属专题培训/年度培训', name: '_project', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cetProject==undefined) return '--'
+                if(rowObject.projectId==undefined) return '--'
                 return ('<a href="javascript:;" class="openView" ' +
                 'data-url="${ctx}/user/cet/cetProjectPlan?projectId={0}">{1}</a>')
-                        .format(rowObject.cetProject.id, rowObject.cetProject.name)
+                        .format(rowObject.projectId, rowObject.projectName)
             }, width:400, align:'left'}
         ]
+        </c:if>
+        <c:if test="${cls==2}">
+        url: '${ctx}/user/cet/cetProject_select_data?callback=?&userId=${_user.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '查看详情和报名', name: '_applyDetail', formatter: function (cellvalue, options, rowObject) {
+
+                return ('<button class="openView btn {1} btn-xs" ' +
+                        'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&projectId={0}"><i class="fa fa-sign-in"></i> 进入</button>')
+                        .format(rowObject.id, rowObject.courseCount>0?'btn-primary':'btn-success')
+            }, width: 125, frozen: true},
+            {label: '已选课数', name: 'courseCount', width: 90, formatter: function (cellvalue, options, rowObject) {
+                return cellvalue>0?cellvalue:'--'
+            }, frozen: true},
+            {label: '开课日期', name: 'startDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '结课日期', name: 'endDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+            {label: '培训班名称', name: 'name', width:350, align:'left'},
+            {
+                label: '培训方案', width: 90,formatter: function (cellvalue, options, rowObject) {
+                var pdfFilePath = rowObject.pdfFilePath;
+                if ($.trim(pdfFilePath) != '') {
+                    var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
+                    return ('<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}" '+
+                            'title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
+                            .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                }
+
+                return '--';
+            }},
+            {label: '选课截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '--'
+                return $.date(cellvalue, "yyyy-MM-dd HH:mm");
+            }}
+        ]
+        </c:if>
     }).jqGrid("setFrozenColumns");
-    $.initNavGrid("jqGrid", "jqGridPager");
+    //$.initNavGrid("jqGrid", "jqGridPager");
     $(window).triggerHandler('resize.jqGrid');
 </script>

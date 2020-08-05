@@ -59,12 +59,6 @@
         <result column="is_finished" jdbcType="BIT" property="isFinished" />
     </resultMap>
 
-    <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
-               extends="persistence.cet.CetTrainMapper.BaseResultMap">
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
-        <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
-    </resultMap>
-
     <sql id="selectUserList_where">
         <where>
             u.id=o.user_id and o.project_id=#{projectId}
@@ -159,29 +153,83 @@
             </where>
     </select>
 
-    <sql id="searchTrains">
-        where o.is_quit=0 and ct.is_deleted=0 and (ct.enroll_status=1 or (ct.enroll_status=0 and now() between start_time and end_time))
-        <if test="isFinished!=null">
-            and ct.is_finished = #{isFinished}
-        </if>
+    <sql id="searchUserSelectTrains">
+        left join cet_project_plan cpp on cpp.id=ct.plan_id
+        left join cet_project_obj o on o.project_id=cpp.project_id
+        left join cet_project cp on cp.id=cpp.project_id
+        where cp.is_deleted=0 and o.user_id=#{userId} and o.is_quit=0 and ct.is_deleted=0
+        and ct.is_finished = 0 and now() between ct.start_time and ct.end_time
+        order by ct.start_date desc
     </sql>
-    <!-- 查询参训人的可选课的培训班列表 -->
+    <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
+               extends="persistence.cet.CetTrainMapper.BaseResultMap">
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="project_id" jdbcType="INTEGER" property="projectId"/>
+        <result column="project_name" jdbcType="INTEGER" property="projectName"/>
+    </resultMap>
+    <!-- 查询参训人的可选课的党校培训班列表 -->
     <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
-        select ct.*, cto.user_id, count(cto.id) as course_count
+        select ct.*, o.user_id, cpp.project_id, cp.name as project_name
         from cet_train ct
-          left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
-          left join cet_project_plan cpp on cpp.id=ct.plan_id
-          left join cet_project_obj o on cpp.project_id= o.project_id and o.user_id=#{userId}
-        <include refid="searchTrains"/>
-        group by cto.user_id
-        order by ct.create_time desc
+        <include refid="searchUserSelectTrains"/>
     </select>
     <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
         select count(ct.id) from cet_train ct
-          left join cet_train_obj cto on ct.id=cto.train_id and cto.user_id=#{userId}
-          left join cet_project_plan cpp on cpp.id=ct.plan_id
-          left join cet_project_obj o on cpp.project_id= o.project_id and o.user_id=#{userId}
-        <include refid="searchTrains"/>
+        <include refid="searchUserSelectTrains"/>
+    </select>
+
+    <sql id="searchUserSelectProjects">
+        left join cet_project_obj o on o.project_id=cp.id
+        where cp.is_deleted=0 and cp.type in(3, 4) and o.user_id=#{userId} and o.is_quit=0
+        order by cp.start_date desc
+    </sql>
+    <resultMap id="ProjectBaseResultMap" type="persistence.cet.common.ICetProject"
+               extends="persistence.cet.CetProjectMapper.BaseResultMap">
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <!-- 查询参训人的可选课的二级党委培训班列表 -->
+    <select id="selectUserCetProjectList" resultMap="ProjectBaseResultMap" parameterType="map">
+        select cp.*, o.user_id from cet_project cp
+        <include refid="searchUserSelectProjects"/>
+    </select>
+    <select id="countUserCetProjectList" parameterType="map" resultType="java.lang.Integer">
+        select count(cp.id) from cet_project cp
+        <include refid="searchUserSelectProjects"/>
+    </select>
+
+    <select id="selectedCetTrainCourses" resultMap="ICetTrainCourseBaseResultMap" parameterType="map">
+        select ctc.*, cto.can_quit, cto.is_finished from cet_train_obj cto, cet_train_course ctc
+        <where>
+            <if test="projectId!=null">
+                and ctc.project_id=#{projectId}
+            </if>
+            <if test="trainId!=null">
+                and ctc.train_id=#{trainId}
+            </if>
+            and cto.user_id=#{userId} and cto.train_course_id=ctc.id
+        </where>
+          order by ctc.sort_order asc
+    </select>
+
+    <select id="unSelectedCetTrainCourses" resultMap="persistence.cet.CetTrainCourseMapper.BaseResultMap" parameterType="map">
+        select * from cet_train_course ctc
+        <where>
+            <if test="projectId!=null">
+                and ctc.project_id=#{projectId}
+            </if>
+            <if test="trainId!=null">
+                and ctc.train_id=#{trainId}
+            </if>
+             and not exists (select 1 from cet_train_obj cto where cto.train_course_id=ctc.id
+             <if test="projectId!=null">
+                and ctc.project_id=#{projectId}
+            </if>
+            <if test="trainId!=null">
+                and ctc.train_id=#{trainId}
+            </if>
+             and cto.user_id=#{userId})
+        </where>
+        order by ctc.sort_order asc
     </select>
 
     <!--学员的培训项目列表 -->
@@ -196,12 +244,12 @@
             </if>
         </where>
     </sql>
-    <select id="selectUserCetProjectList" resultMap="persistence.cet.CetProjectMapper.BaseResultMap" parameterType="map">
+    <select id="selectCetProjectList" resultMap="persistence.cet.CetProjectMapper.BaseResultMap" parameterType="map">
         select cp.* from cet_project cp, cet_project_obj cpo
         <include refid="searchUserCetProject"/>
         order by cp.year desc, cp.id desc
     </select>
-    <select id="countUserCetProjectList" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCetProjectList" parameterType="map" resultType="java.lang.Integer">
         select count(cp.id) from cet_project cp, cet_project_obj cpo
         <include refid="searchUserCetProject"/>
     </select>

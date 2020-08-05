@@ -1,7 +1,8 @@
 package persistence.cet.common;
 
-import domain.cet.CetProject;
 import domain.cet.CetTrain;
+import domain.cet.CetTrainObjViewExample;
+import persistence.cet.CetTrainObjViewMapper;
 import sys.tags.CmTag;
 
 /**
@@ -9,14 +10,22 @@ import sys.tags.CmTag;
  */
 public class ICetTrain extends CetTrain {
 
-    public CetProject getCetProject(){
-        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
-        return iCetMapper.getCetProject(getId());
+    // 已选课数
+    public long getCourseCount(){
+
+        if(userId==null) return 0;
+
+        CetTrainObjViewMapper cetTrainObjViewMapper = CmTag.getBean(CetTrainObjViewMapper.class);
+
+        CetTrainObjViewExample example = new CetTrainObjViewExample();
+        example.createCriteria().andTrainIdEqualTo(getId()).andUserIdEqualTo(userId);
+
+        return cetTrainObjViewMapper.countByExample(example);
     }
 
     private Integer userId;
-    // 已选课数量
-    private Integer courseCount;
+    private Integer projectId;
+    private String projectName;
 
     public Integer getUserId() {
         return userId;
@@ -27,12 +36,21 @@ public class ICetTrain extends CetTrain {
         return this;
     }
 
-    public Integer getCourseCount() {
-        return courseCount;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public ICetTrain setCourseCount(Integer courseCount) {
-        this.courseCount = courseCount;
+    public ICetTrain setProjectId(Integer projectId) {
+        this.projectId = projectId;
+        return this;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public ICetTrain setProjectName(String projectName) {
+        this.projectName = projectName;
         return this;
     }
 }

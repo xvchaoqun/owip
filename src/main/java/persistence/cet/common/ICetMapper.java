@@ -135,38 +135,32 @@ public interface ICetMapper {
     List<Integer> getCetProjectHasApplyUserIds(@Param("projectId") Integer projectId);
 
     // 学员的培训列表
-    List<CetProject> selectUserCetProjectList(@Param("userId") Integer userId,
+    List<CetProject> selectCetProjectList(@Param("userId") Integer userId,
                                                      @Param("projectType") byte projectType,
                                                      @Param("year") Integer year,
                                                      @Param("name") String name, RowBounds rowBounds);
 
-    int countUserCetProjectList(@Param("userId") Integer userId,
+    int countCetProjectList(@Param("userId") Integer userId,
                                        @Param("projectType") byte projectType,
                                        @Param("year") Integer year,
                                        @Param("name") String name);
 
-    // 学员的可选课的培训班列表
-    List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId,
-                                                  @Param("hasSelected") Boolean hasSelected,
-                                                  @Param("isFinished") Boolean isFinished,
-                                                  RowBounds rowBounds);
+    // 学员的可选课的党校培训班列表
+    List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId, RowBounds rowBounds);
+    int countUserCetTrainList(@Param("userId") Integer userId);
 
-    int countUserCetTrainList(@Param("userId") Integer userId,
-                                     @Param("hasSelected") Boolean hasSelected,
-                                     @Param("isFinished") Boolean isFinished);
+    // 学员的可选课的二级党委培训班列表
+    List<ICetProject> selectUserCetProjectList(@Param("userId") Integer userId, RowBounds rowBounds);
+    int countUserCetProjectList(@Param("userId") Integer userId);
 
     // 学员已选课程
-    @ResultMap("persistence.cet.common.ICetMapper.ICetTrainCourseBaseResultMap")
-    @Select("select ctc.*, cto.can_quit, cto.is_finished from cet_train_obj cto, cet_train_course ctc " +
-            "where cto.train_id=#{trainId} and cto.user_id=#{userId} and cto.train_course_id=ctc.id order by ctc.sort_order asc")
-    List<ICetTrainCourse> selectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
+    List<ICetTrainCourse> selectedCetTrainCourses(@Param("trainId") Integer trainId,
+                                                  @Param("projectId") Integer projectId,
+                                                  @Param("userId") int userId);
 
     // 学员未选课程
-    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select * from cet_train_course ctc where ctc.train_id=#{trainId} and " +
-            " not exists(select 1 from cet_train_obj cto where cto.train_course_id=ctc.id " +
-            "and cto.train_id=#{trainId} and cto.user_id=#{userId}) order by ctc.sort_order asc")
-    List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId, @Param("userId") Integer userId);
+    List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
+                                                   @Param("projectId") Integer projectId, @Param("userId") int userId);
 
     // 已选课学员
     @Select("select user_id from cet_train_obj_view where train_course_id=#{trainCourseId} order by choose_time asc")

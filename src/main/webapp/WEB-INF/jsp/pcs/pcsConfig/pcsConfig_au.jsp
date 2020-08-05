@@ -9,17 +9,20 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/pcsConfig_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
         <input type="hidden" name="id" value="${pcsConfig.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>党代会名称</label>
+				<label class="col-xs-4 control-label"><span class="star">*</span>届数</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="name" value="${pcsConfig.name}">
+                    <input required class="form-control" type="text" name="name" value="${pcsConfig.name}">
 				</div>
 			</div>
+        <shiro:hasPermission name="pcsAdmin:*">
         <div class="form-group">
             <label class="col-xs-4 control-label">是否当前党代会</label>
             <div class="col-xs-6">
                 <input type="checkbox" class="big" name="isCurrent" ${pcsConfig.isCurrent?"checked":""}/>
             </div>
         </div>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="pcsProposal:menu">
         <div class="form-group">
             <label class="col-xs-4 control-label">提交提案时间</label>
             <div class="col-xs-6">
@@ -51,6 +54,7 @@ pageEncoding="UTF-8"%>
                        name="proposalSupportCount" value="${pcsConfig.proposalSupportCount}">
             </div>
         </div>
+        </shiro:hasPermission>
         <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">

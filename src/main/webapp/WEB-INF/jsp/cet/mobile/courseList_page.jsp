@@ -6,7 +6,7 @@
 </div>
 <div class="alert alert-block alert-success" style="margin-bottom: 5px;font-size: 14px;font-weight: bolder;">
     <i class="ace-icon fa fa-calendar"></i>
-    ${cetTrain.name}
+    ${not empty cetTrain?cetTrain.name:cetProject.name}
 </div>
 <div class="tabbable">
     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">

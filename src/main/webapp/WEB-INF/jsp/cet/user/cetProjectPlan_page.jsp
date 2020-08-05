@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -13,7 +14,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
                 <li class="active">
-                    <a href="javascript:;"><i class="green ace-icon fa fa-list bigger-120"></i> 培训方案</a>
+                    <a href="javascript:;"><i class="green ace-icon fa fa-list bigger-120"></i> 培训情况</a>
                 </li>
             </ul>
         </div>
@@ -93,6 +94,8 @@
         rownumbers:true,
         multiselect:false,
         pager: "jqGridPager2",
+        <c:if test="${cetProject.type== CET_PROJECT_TYPE_SPECIAL
+                || cetProject.type== CET_PROJECT_TYPE_DAILY}">
         url: '${ctx}/user/cet/cetProjectPlan_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '详情',name: '_detail', width: 110, formatter: function (cellvalue, options, rowObject) {
@@ -117,12 +120,12 @@
             {label: '培训形式', name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CET_PROJECT_PLAN_TYPE_MAP[cellvalue];
             }, frozen: true},
-            /*{label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
+            {label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (!rowObject.hasSummary) return '--';
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetProjectPlan_summary?view=1&id={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
-            }},*/
+            }},
             {label: '学时', name: 'period'},
             {label: '完成学时数', name: 'finishPeriod'},
             { label: '学习进度',name: '_finish', width: 120,formatter: function (cellvalue, options, rowObject) {
@@ -143,6 +146,28 @@
                 return '--'
             }}
         ]
+        </c:if>
+        <c:if test="${cetProject.type== CET_PROJECT_TYPE_PARTY_SPECIAL
+                || cetProject.type== CET_PROJECT_TYPE_PARTY_DAILY}">
+        url: '${ctx}/user/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {label: '选课情况', name: '_selected', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return (rowObject.trainObj!=undefined && rowObject.trainObj.id>0)?'已选课':'--'
+            }},
+            {label: '签到情况', name: '_sign', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return (rowObject.trainObj!=undefined && rowObject.trainObj.isFinished)?'已签到':'--'
+            }},
+            {label: '课程名称', name: 'name', width: 300, align: 'left' },
+            {label: '主讲人', name: 'teacher'},
+            { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
+            {label: '学时', name: 'period', width: 70},
+            {label: '开始时间', name: 'startTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
+            {label: '结束时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
+            {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isOnline? '--':$.trim(cellvalue)
+            }}
+        ]
+        </c:if>
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");

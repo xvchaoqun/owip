@@ -33,7 +33,7 @@ public class CetProject implements Serializable {
     }
 
     // 判断选课是否正在进行
-    public static boolean getIsApplyOpen(Date startTime, Date endTime) {
+    public boolean getIsApplyOpen() {
 
         Date now = new Date();
         if (startTime != null && endTime != null) {

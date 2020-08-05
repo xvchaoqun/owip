@@ -75,13 +75,6 @@ pageEncoding="UTF-8" %>
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 400, align:'left', frozen: true},
-            {label: '培训课件', name: '_file', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                    if(rowObject.fileCount<=0) return '--'
-                    return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}&view=1" data-width="800"' +
-                        'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
-                        .format(rowObject.id, Math.trimToZero(rowObject.fileCount))
-                }},
             {
                 label: '培训方案', width: 90,formatter: function (cellvalue, options, rowObject) {
                 var pdfFilePath = rowObject.pdfFilePath;
@@ -94,7 +87,13 @@ pageEncoding="UTF-8" %>
 
                 return '--';
             }},
+            {label: '培训课件', name: '_file', width: 80, formatter: function (cellvalue, options, rowObject) {
 
+                    if(rowObject.fileCount<=0) return '--'
+                    return ('<button data-url="${ctx}/cet/cetProjectFile?projectId={0}&view=1" data-width="800"' +
+                        'class="popupBtn btn btn-xs btn-primary"><i class="ace-icon fa fa-files-o"></i> 查看({1})</button>')
+                        .format(rowObject.id, Math.trimToZero(rowObject.fileCount))
+                }},
             { label: '总学时',name: 'period'},
             { label: '应完成学时数',name: 'obj.shouldFinishPeriod', width: 110,formatter: function (cellvalue, options, rowObject) {
                 if(Math.trimToZero(cellvalue)==0) return '--'

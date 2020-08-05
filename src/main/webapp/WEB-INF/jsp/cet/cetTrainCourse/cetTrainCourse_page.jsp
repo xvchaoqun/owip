@@ -108,15 +108,8 @@
                 return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
             }, width: 130, frozen:true},
             </c:if>
-            <c:if test="${empty cetProjectPlan}">
-            { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
-            </c:if>
-            {
-                label: '课程名称',
-                name: 'name',
-                width: 300,
-                align: 'left'
-            },
+
+            {label: '课程名称', name: 'name', width: 300, align: 'left' },
 
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
             {label: '播放', name: 'duration', width: 60, formatter: function (cellvalue, options, rowObject){
@@ -133,24 +126,15 @@
             },
             </c:if>
             {label: '主讲人', name: 'teacher'},
+             <c:if test="${empty cetProjectPlan}">
+            { label: '培训形式', name: 'isOnline', width: 90, formatter:$.jgrid.formatter.TRUEFALSE, formatoptions:{on:'<span class="green bolder">线上培训</span>', off:'线下培训'}},
+            </c:if>
             <c:if test="${cls==1}">
             {label: '学时', name: 'period', width: 70},
             </c:if>
             {label: '选课人数上限', name: 'applyLimit'},
-            {
-                label: '开始时间',
-                name: 'startTime',
-                width: 150,
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
-            },
-            {
-                label: '结束时间',
-                name: 'endTime',
-                width: 150,
-                formatter: $.jgrid.formatter.date,
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
-            },
+            {label: '开始时间', name: 'startTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
+            {label: '结束时间', name: 'endTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
            <c:if test="${cetProjectPlan.type!=CET_PROJECT_PLAN_TYPE_ONLINE}">
            <c:if test="${cls==1}">
             {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
