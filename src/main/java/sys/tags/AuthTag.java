@@ -81,6 +81,12 @@ public class AuthTag {
         return sign(res, null, permissions, null, null);
     }
 
+    // 资源使用人
+    public static String sign(String res, Integer userId) {
+
+        return sign(res, userId, null, null, null);
+    }
+
     // 资源使用人 & 资源权限
     public static String sign(String res, Integer userId, String permissions) {
 
