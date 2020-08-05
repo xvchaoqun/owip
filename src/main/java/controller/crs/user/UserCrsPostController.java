@@ -7,6 +7,7 @@ import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DownloadUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -186,6 +188,19 @@ public class UserCrsPostController extends CrsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequestMapping("/crsPost_download_ppt")
+    public void crsPost_download_ppt(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+
+        if(id!=null){
+            CrsApplicant crsApplicant=crsApplicantMapper.selectByPrimaryKey(id);
+
+            if(!ShiroHelper.isPermitted("crsPost:edit")
+                    ||crsApplicant.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){   //管理员干部本人下载个人PPT
+                throw new UnauthorizedException();
+            }
+            DownloadUtils.download(request, response, springProps.uploadPath + crsApplicant.getPpt(),crsApplicant.getPptName());
+        }
+    }
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping("/crsPost")
     public String crsPost_page(ModelMap modelMap) {

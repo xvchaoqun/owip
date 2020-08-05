@@ -15,6 +15,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -546,5 +547,19 @@ public class PmMeeting2Controller extends PmBaseController {
         resultMap.put("total", records.size());
 
         return resultMap;
+    }
+
+    @RequestMapping("/pmMeeting2_download")
+    public void pmMeeting2_download(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+
+        if(id!=null){
+            PmMeeting2 pmMeeting2= pmMeeting2Mapper.selectByPrimaryKey(id);
+
+            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId(),pmMeeting2.getBranchId())){
+                throw new UnauthorizedException();
+            }
+
+            DownloadUtils.download(request, response, springProps.uploadPath + pmMeeting2.getFilePath(), pmMeeting2.getFileName());
+        }
     }
 }

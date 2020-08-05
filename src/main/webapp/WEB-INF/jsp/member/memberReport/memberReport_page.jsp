@@ -166,14 +166,14 @@
                             .format(rowObject.id);
                     if (rowObject.status == '<%=OwConstants.OW_REPORT_STATUS_UNREPORT%>') {
                         return '<button class="downloadBtn btn btn-info btn-xs" ' +
-                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>'
-                                .format(cellvalue, "述职报告(" + rowObject.user.realname + ")")+'&nbsp'+'<button class="popupBtn btn btn-xs btn-primary"' +
+                            'data-url="${ctx}/member/memberReport_download?id={0}&filename={1}&type=1"><i class="fa fa-download"></i> 下载</button>'
+                                .format(rowObject.id, "述职报告(" + rowObject.user.realname + ")")+'&nbsp'+'<button class="popupBtn btn btn-xs btn-primary"' +
                         'data-url="${ctx}/member/memberReport_file?id={0}"><i class="fa fa-edit"> 修改</i></button>'.format(rowObject.id);
                     }
                     if (rowObject.status == '<%=OwConstants.OW_REPORT_STATUS_REPORT%>') {
                         return '<button class="downloadBtn btn btn-info btn-xs" ' +
-                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>'
-                                .format(cellvalue, "述职报告(" + rowObject.user.realname + ")");
+                            'data-url="${ctx}/member/memberReport_download?id={0}&filename={1}&type=1"><i class="fa fa-download"></i> 下载</button>'
+                                .format(rowObject.id, "述职报告(" + rowObject.user.realname + ")");
                     }
                 }
             },
@@ -197,8 +197,8 @@
                 label: '考核结果文件', name: 'evaFile', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '--'
                     return '<button class="downloadBtn btn btn-info btn-xs" ' +
-                        'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>'
-                            .format(cellvalue, "考核结果(" + rowObject.user.realname + ")")
+                        'data-url="${ctx}/member/memberReport_download?id={0}&filename={1}&type=2"><i class="fa fa-download"></i> 下载</button>'
+                            .format(rowObject.id, "考核结果(" + rowObject.user.realname + ")")
                 }
             },
             {label: '备注', name: 'remark', width: 300, align: 'left'},

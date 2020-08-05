@@ -15,6 +15,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -168,6 +169,27 @@ public class PartyReportController extends BaseController {
             modelMap.put("partyReport", partyReport);
         }
         return "party/partyReport/partyReport_file";
+    }
+    @RequestMapping("/partyReport_download")
+    public void partyReport_download(HttpServletRequest request, Integer id,Byte type, String filename,HttpServletResponse response) throws IOException {
+
+        if (id != null) {
+            String path=null;
+            PartyReport partyReport = partyReportMapper.selectByPrimaryKey(id);
+
+            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),partyReport.getPartyId(),partyReport.getBranchId())){
+                throw new UnauthorizedException();
+            }
+
+            if(type==1){
+                path=partyReport.getReportFile();
+
+            }else{
+                path=partyReport.getEvaFile();
+            }
+            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
+        }
+
     }
     @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_del", method = RequestMethod.POST)
@@ -400,4 +422,6 @@ public class PartyReportController extends BaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+
 }

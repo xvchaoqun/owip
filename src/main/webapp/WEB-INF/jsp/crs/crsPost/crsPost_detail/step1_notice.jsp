@@ -11,7 +11,7 @@
                    data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
                 &nbsp;
                 <a href="javascript:;" class="downloadBtn btn btn-primary btn-xs"
-                   data-url="${ctx}/attach_download?path=${cm:encodeURI(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"
+                   data-url="${ctx}/crsPost_downloadNotice?id=${crsPost.id}"
                    ><i class="fa fa-download"></i> 下载</a>
             </c:if>
             <div class="pull-right" style="margin-right: 10px">

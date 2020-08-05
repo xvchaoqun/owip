@@ -27,7 +27,9 @@
         <a href="javascript:;" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
-            <span class="badge badge-danger">${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))?cacheCount:''}</span>
+            <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
+                <span class="badge badge-danger">${cacheCount}</span>
+            </c:if>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
@@ -44,7 +46,9 @@
             </c:if>
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>
-                <span class="badge badge-warning">${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))?cacheCount:''}</span>
+                <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
+                    <span class="badge badge-warning">${cacheCount}</span>
+                </c:if>
             </a>
             <b class="arrow"></b>
         </li>

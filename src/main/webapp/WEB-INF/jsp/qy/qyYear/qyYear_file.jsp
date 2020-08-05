@@ -74,7 +74,7 @@
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                                            data-url="${ctx}/attach_download?path=${cm:encodeURI(qyYear.planPdf)}">
+                                            data-url="${ctx}/qyYear_download?id=${param.yearId}&type=${param.type}&fileType=1">
                                         <i class="fa fa-download"></i> 下载</button>
 
                                     <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=1"
@@ -93,7 +93,7 @@
                             <td nowrap>
 
                                    <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                                           data-url="${ctx}/attach_download?path=${cm:encodeURI(qyYear.planWord)}">
+                                           data-url="${ctx}/qyYear_download?id=${param.yearId}&type=${param.type}&fileType=2">
                                        <i class="fa fa-download"></i> 下载</button>
                                    <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=2"
                                         data-title="删除"
@@ -133,7 +133,7 @@
                                     <i class="fa fa-search"></i>
                                     预览</button>
                                 <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                                        data-url="${ctx}/attach_download?path=${cm:encodeURI(qyYear.resultPdf)}">
+                                        data-url="${ctx}/qyYear_download?id=${param.yearId}&type=${param.type}&fileType=1">
                                     <i class="fa fa-download"></i> 下载</button>
 
                                 <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=1"
@@ -150,7 +150,7 @@
                             <td nowrap>${qyYear.resultWordName}</td>
                             <td nowrap>
                                 <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                                                data-url="${ctx}/attach_download?path=${cm:encodeURI(qyYear.resultWord)}">
+                                                data-url="${ctx}/qyYear_download?id=${param.yearId}&type=${param.type}&fileType=2">
                                             <i class="fa fa-download"></i> 下载</button>
                                 <button data-url="${ctx}/qyYear_delFile?id=${param.yearId}&type=${param.type}&fileType=2"
                                                 data-title="删除"

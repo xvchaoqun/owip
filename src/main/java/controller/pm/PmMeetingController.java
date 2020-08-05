@@ -416,6 +416,21 @@ public class PmMeetingController extends PmBaseController {
         return resultMap;
     }
 
+    @RequestMapping("/pmMeeting_download")
+    public void pmMeeting_download(HttpServletRequest request, Integer fileId, HttpServletResponse response) throws IOException {
+
+        if(fileId!=null){
+            PmMeetingFile  pmMeetingFile=pmMeetingFileMapper.selectByPrimaryKey(fileId);
+            PmMeeting pmMeeting= pmMeetingMapper.selectByPrimaryKey(pmMeetingFile.getMeetingId());
+
+            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pmMeeting.getPartyId(),pmMeeting.getBranchId())){
+                throw new UnauthorizedException();
+            }
+
+            DownloadUtils.download(request, response, springProps.uploadPath + pmMeetingFile.getFilePath(), pmMeetingFile.getFileName());
+        }
+    }
+
     private Map<String, Object> importMeeting(List<Map<Integer, String>> xlsRows,
                                                   Map<String, Party> runPartyMap,
                                                   Map<String, Branch> runBranchMap,

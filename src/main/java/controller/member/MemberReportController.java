@@ -18,6 +18,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,6 +193,29 @@ public class MemberReportController extends MemberBaseController {
         }
         return "member/memberReport/memberReport_file";
     }
+
+    @RequestMapping("/memberReport_download")
+    public void memberReport_download(HttpServletRequest request, Integer id,Byte type, String filename,HttpServletResponse response) throws IOException {
+
+        if (id != null) {
+            String path=null;
+            MemberReport memberReport = memberReportMapper.selectByPrimaryKey(id);
+
+            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),memberReport.getPartyId(),memberReport.getBranchId())){
+                throw new UnauthorizedException();
+            }
+
+            if(type==1){
+                path=memberReport.getReportFile();
+
+            }else{
+                path=memberReport.getEvaFile();
+            }
+            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
+        }
+
+    }
+
     @RequiresPermissions("memberReport:edit")
     @RequestMapping(value = "/memberReport_del", method = RequestMethod.POST)
     @ResponseBody

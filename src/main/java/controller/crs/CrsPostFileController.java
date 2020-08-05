@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -175,6 +173,20 @@ public class CrsPostFileController extends CrsBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("records", records);
         return resultMap;
+    }
+
+    @RequiresPermissions("crsPostFile:list")
+    @RequestMapping("/crsPostFile_download")
+    public void crsPostFile_download(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+
+        /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)) {
+            throw new UnauthorizedException();
+        }*/
+        if (id != null) {
+            CrsPostFile crsPostFile = crsPostFileMapper.selectByPrimaryKey(id);
+            DownloadUtils.download(request, response, springProps.uploadPath + crsPostFile.getFile(),crsPostFile.getFileName());
+        }
+
     }
 
     @RequiresPermissions("crsPostFile:edit")
