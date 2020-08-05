@@ -189,9 +189,8 @@ public class UserCrsPostController extends CrsBaseController {
     }
 
     @RequestMapping("/crsPost_download_ppt")
-    public void crsPost_download_ppt(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+    public void crsPost_download_ppt(HttpServletRequest request, int id, HttpServletResponse response) throws IOException {
 
-        if(id!=null){
             CrsApplicant crsApplicant=crsApplicantMapper.selectByPrimaryKey(id);
 
             if(!ShiroHelper.isPermitted("crsPost:edit")
@@ -199,7 +198,6 @@ public class UserCrsPostController extends CrsBaseController {
                 throw new UnauthorizedException();
             }
             DownloadUtils.download(request, response, springProps.uploadPath + crsApplicant.getPpt(),crsApplicant.getPptName());
-        }
     }
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping("/crsPost")

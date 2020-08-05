@@ -417,9 +417,8 @@ public class PmMeetingController extends PmBaseController {
     }
 
     @RequestMapping("/pmMeeting_download")
-    public void pmMeeting_download(HttpServletRequest request, Integer fileId, HttpServletResponse response) throws IOException {
+    public void pmMeeting_download(HttpServletRequest request, int fileId, HttpServletResponse response) throws IOException {
 
-        if(fileId!=null){
             PmMeetingFile  pmMeetingFile=pmMeetingFileMapper.selectByPrimaryKey(fileId);
             PmMeeting pmMeeting= pmMeetingMapper.selectByPrimaryKey(pmMeetingFile.getMeetingId());
 
@@ -428,7 +427,6 @@ public class PmMeetingController extends PmBaseController {
             }
 
             DownloadUtils.download(request, response, springProps.uploadPath + pmMeetingFile.getFilePath(), pmMeetingFile.getFileName());
-        }
     }
 
     private Map<String, Object> importMeeting(List<Map<Integer, String>> xlsRows,

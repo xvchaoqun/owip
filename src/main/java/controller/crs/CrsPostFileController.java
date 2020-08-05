@@ -177,16 +177,13 @@ public class CrsPostFileController extends CrsBaseController {
 
     @RequiresPermissions("crsPostFile:list")
     @RequestMapping("/crsPostFile_download")
-    public void crsPostFile_download(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+    public void crsPostFile_download(HttpServletRequest request, int id, HttpServletResponse response) throws IOException {
 
         /*if (!ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)) {
             throw new UnauthorizedException();
         }*/
-        if (id != null) {
             CrsPostFile crsPostFile = crsPostFileMapper.selectByPrimaryKey(id);
             DownloadUtils.download(request, response, springProps.uploadPath + crsPostFile.getFile(),crsPostFile.getFileName());
-        }
-
     }
 
     @RequiresPermissions("crsPostFile:edit")

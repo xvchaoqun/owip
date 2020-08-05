@@ -550,9 +550,8 @@ public class PmMeeting2Controller extends PmBaseController {
     }
 
     @RequestMapping("/pmMeeting2_download")
-    public void pmMeeting2_download(HttpServletRequest request, Integer id, HttpServletResponse response) throws IOException {
+    public void pmMeeting2_download(HttpServletRequest request, int id, HttpServletResponse response) throws IOException {
 
-        if(id!=null){
             PmMeeting2 pmMeeting2= pmMeeting2Mapper.selectByPrimaryKey(id);
 
             if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId(),pmMeeting2.getBranchId())){
@@ -560,6 +559,5 @@ public class PmMeeting2Controller extends PmBaseController {
             }
 
             DownloadUtils.download(request, response, springProps.uploadPath + pmMeeting2.getFilePath(), pmMeeting2.getFileName());
-        }
     }
 }

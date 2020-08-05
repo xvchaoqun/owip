@@ -167,12 +167,12 @@ public class QyYearController extends QyBaseController {
     }
 
     @RequestMapping("/qyYear_download")
-    public void qyYear_download(HttpServletRequest request, Integer id,Byte type, Byte fileType, HttpServletResponse response) throws IOException {
+    public void qyYear_download(HttpServletRequest request, int id,byte type, byte fileType, HttpServletResponse response) throws IOException {
 
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_ADMIN)) {
-            throw new UnauthorizedException();
-        }
-        if(id!=null){
+            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_ADMIN)) {
+                throw new UnauthorizedException();
+            }
+
             String path=null;
             String filename=null;
             QyYear qyYear = qyYearMapper.selectByPrimaryKey(id);
@@ -195,8 +195,6 @@ public class QyYearController extends QyBaseController {
             }
 
             DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
-        }
-
     }
 
     @RequiresPermissions("qyReward:edit")

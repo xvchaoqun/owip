@@ -171,9 +171,8 @@ public class PartyReportController extends BaseController {
         return "party/partyReport/partyReport_file";
     }
     @RequestMapping("/partyReport_download")
-    public void partyReport_download(HttpServletRequest request, Integer id,Byte type, String filename,HttpServletResponse response) throws IOException {
+    public void partyReport_download(HttpServletRequest request, int id,byte type, String filename,HttpServletResponse response) throws IOException {
 
-        if (id != null) {
             String path=null;
             PartyReport partyReport = partyReportMapper.selectByPrimaryKey(id);
 
@@ -188,8 +187,6 @@ public class PartyReportController extends BaseController {
                 path=partyReport.getEvaFile();
             }
             DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
-        }
-
     }
     @RequiresPermissions("partyReport:edit")
     @RequestMapping(value = "/partyReport_del", method = RequestMethod.POST)

@@ -195,9 +195,8 @@ public class MemberReportController extends MemberBaseController {
     }
 
     @RequestMapping("/memberReport_download")
-    public void memberReport_download(HttpServletRequest request, Integer id,Byte type, String filename,HttpServletResponse response) throws IOException {
+    public void memberReport_download(HttpServletRequest request, int id,byte type, String filename,HttpServletResponse response) throws IOException {
 
-        if (id != null) {
             String path=null;
             MemberReport memberReport = memberReportMapper.selectByPrimaryKey(id);
 
@@ -211,9 +210,8 @@ public class MemberReportController extends MemberBaseController {
             }else{
                 path=memberReport.getEvaFile();
             }
-            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
-        }
 
+            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
     }
 
     @RequiresPermissions("memberReport:edit")
