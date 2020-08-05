@@ -56,7 +56,7 @@
         </div>
 
         <div class="select">
-            <input style="width: 300px" type="text" name="title" placeholder="请输入所在单位及职务">
+            <input style="width: 300px" type="text" name="title" placeholder="请输入所在单位及职务" value="${param.title}">
         </div>
 
         <c:if test="${cm:getMetaTypes('mc_cadre_label').size()>0}">
@@ -99,14 +99,14 @@
 
         <label>请选择出生日期范围</label>
         <div class="select">
-            <input style="width: 140px" type="date" name="startBirth"/> 至
-            <input style="width: 140px" type="date" name="endBirth"/>
+            <input style="width: 140px" type="date" name="startBirth" value="${param.startBirth}"/> 至
+            <input style="width: 140px" type="date" name="endBirth" value="${param.endBirth}"/>
         </div>
 
         <label>请选择党派加入时间范围</label>
         <div class="select">
-            <input style="width: 140px;" type="date" name="startCadreGrowTime"/> 至
-            <input style="width: 140px;" type="date" name="endCadreGrowTime"/>
+            <input style="width: 140px;" type="date" name="startCadreGrowTime" value="${param.startCadreGrowTime}"/> 至
+            <input style="width: 140px;" type="date" name="endCadreGrowTime" value="${param.endCadreGrowTime}"/>
         </div>
 
         <div class="select">
@@ -123,13 +123,17 @@
         </div>
 
         <div class="select">
-            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')" name="startAge" placeholder="请输入年龄"> 至
-            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')" name="endAge" placeholder="请输入年龄">
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="startAge" placeholder="请输入年龄" value="${param.startAge}"> 至
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="endAge" placeholder="请输入年龄" value="${param.endAge}">
         </div>
 
         <div class="select">
-            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')" name="startDpAge" placeholder="请输入党龄"> 至
-            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')" name="endDpAge" placeholder="请输入党龄">
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="startDpAge" placeholder="请输入党龄" value="${param.startDpAge}"> 至
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="endDpAge" placeholder="请输入党龄" value="${param.endDpAge}">
         </div>
 
         <div class="select">
@@ -153,10 +157,13 @@
                 </c:forEach>
                 <option value="-1">无</option>
             </select>
+            <script type="text/javascript">
+                $("#searchForm select[name=degreeType]").val(${param.degreeType});
+            </script>
         </div>
 
         <div class="select">
-            <input style="width: 300px;" type="text" name="major" placeholder="请输入所学专业">
+            <input style="width: 300px;" type="text" name="major" value="${param.major}" placeholder="请输入所学专业">
         </div>
 
         <div class="select">
@@ -166,8 +173,10 @@
         </div>
 
         <div class="select">
-            <input style="width: 140px;" type="text" name="startNowPostAge" placeholder="请输入现职务始任年限"> 至
-            <input style="width: 140px;" type="text" name="endNowPostAge" placeholder="请输入现职务始任年限">
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="startNowPostAge" value="${param.startNowPostAge}" placeholder="请输入现职务始任年限"> 至
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="endNowPostAge" value="${param.endNowPostAge}"placeholder="请输入现职务始任年限">
         </div>
 
         <div class="select">
@@ -200,6 +209,9 @@
                         <option value="-1">缺第一主职</option>
                     </shiro:hasRole>
                 </select>
+                <script type="text/javascript">
+                    $("#searchForm select[name=firstUnitPost]").val(${param.firstUnitPost});
+                </script>
             </div>
         </shiro:hasRole>
 
@@ -210,11 +222,16 @@
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select>
+            <script type="text/javascript">
+                $("#searchForm select[name=isPrincipal]").val(${param.isPrincipal});
+            </script>
         </div>
 
         <div class="select">
-            <input style="width: 140px;" type="text" name="startNowLevelAge" placeholder="现职级始任年限"> 至
-            <input style="width: 140px;" type="text" name="endNowLevelAge" placeholder="现职级始任年限">
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="startNowLevelAge" placeholder="现职级始任年限" value="${param.startNowLevelAge}"> 至
+            <input style="width: 140px;" type="tel" oninput="value=value.replace(/[^\d]/g,'')"
+                   name="endNowLevelAge" placeholder="现职级始任年限" value="${param.endNowLevelAge}">
         </div>
 
         <div class="select">
@@ -224,6 +241,9 @@
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select>
+            <script type="text/javascript">
+                $("#searchForm select[name=isDouble]").val(${param.isDouble});
+            </script>
         </div>
 
         <label>
@@ -251,6 +271,9 @@
                 <option value="1">院系干部</option>
                 <option value="0">机关干部</option>
             </select>
+            <script type="text/javascript">
+                $("#searchForm select[name=isDep]").val(${param.isDep});
+            </script>
         </div>
 
         <div class="select">
@@ -272,12 +295,20 @@
                 <option value="1">有</option>
                 <option value="0">无</option>
             </select>
+            <script type="text/javascript">
+                $("#searchForm select[name=hasAbroadEdu]").val(${param.hasAbroadEdu});
+            </script>
         </div>
     </form>
+    <button id="compare" class="btn btn-success btn-sm">
+        <i class="ace-icon fa fa-search"></i> 查询
+    </button>
+    <button class="openView btn btn-warning btn-sm"
+            data-url="${ctx}/m/cadre_advanced_search" data-open-by="page">
+        <i class="ace-icon fa fa-reply"></i> 重置
+    </button>
 </div>
-<button id="compare" class="btn btn-success btn-block">
-    <i class="ace-icon fa fa-exchange"></i> 确认
-</button>
+
 <style>
     .select {
         padding-bottom: 20px;
@@ -292,37 +323,52 @@
     }
 </style>
 <script>
-    $.register.user_select($('select[name=cadreId]'), {
-        allowClear: false,
-        templateResult: $.register.formatState,
-        templateSelection: $.register.formatState
-    });
+    $.register.user_select($('select[name=cadreId]'));
     $('#searchForm [data-rel="select2"]').select2();
 
-    $(document).ready(function () {
-        $('.multiselect').multiselect({
+    multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
+    multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNation)});
+    multiselect($('#searchForm select[name=staffTypes]'), ${cm:toJSONArray(selectStaffTypes)});
+    multiselect($('#searchForm select[name=labels]'), ${cm:toJSONArray(selectLabels)});
+    multiselect($('#searchForm select[name=authorizedTypes]'), ${cm:toJSONArray(selectAuthorizedTypes)});
+    multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true,
+        collapsed: true,
+        selectAllJustVisible: false
+    });
+    multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
+    multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});
+    multiselect($('#searchForm select[name=postTypes]'), ${cm:toJSONArray(selectPostTypes)});
+    multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
+    multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
+    multiselect($('#searchForm select[name=workTypes]'), ${cm:toJSONArray(selectWorkTypes)});
+    multiselect($('#searchForm select[name=leaderTypes]'), ${cm:toJSONArray(selectLeaderTypes)});
+
+
+
+    function multiselect($select, selected, params) {
+        var $select = $select.multiselect($.extend({
             enableFiltering: true,
             buttonClass: 'btn btn-primary',
             filterPlaceholder: '查找',
+            nonSelectedText: '请选择',
             nSelectedText: '已选择',
             includeSelectAllOption: true,
             collapseOptGroupsByDefault: true,
             selectAllText: '全选/取消全选',
             allSelectedText: '全部已选择',
             maxHeight: 300,
-            buttonWidth: 300,
-            //多选分组
-            enableClickableOptGroups: true,
-            enableCollapsibleOptGroups: true,
-            collapsed: true,
-            selectAllJustVisible: false
-        });
-    });
+            buttonWidth:300,}, params));
 
-    //$("#searchForm select[name=dpTypes]").multiselect('dataprovider','${cm:toJSONArray(dpTypes)}');
+        if (selected != undefined && selected instanceof Array && selected.length > 0) {
+            $select.multiselect('select', selected);
+        }
+        return $select;
+    }
 
     $("#compare").click(function () {
-
         $.openView("${ctx}/m/cadre_advanced_search_result?" + $("#searchForm").serialize());
     });
 </script>

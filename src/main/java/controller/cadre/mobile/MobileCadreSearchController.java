@@ -206,7 +206,23 @@ public class MobileCadreSearchController extends BaseController {
 
 	@RequiresPermissions("m:cadre:list")
 	@RequestMapping("/cadre_advanced_search")
-	public String cadre_advanced_search(Integer cadreId,ModelMap modelMap) {
+	public String cadre_advanced_search(Integer cadreId,
+										@RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
+										@RequestParam(required = false, value = "nation") String[] nation,
+										@RequestParam(required = false, value = "staffTypes") String[] staffTypes,
+										@RequestParam(required = false, value = "labels") Integer[] labels,
+										@RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
+										@RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+										@RequestParam(required = false, value = "unitIds") Integer[] unitIds,
+										@RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+										@RequestParam(required = false, value = "maxEdus") Integer[] maxEdus,
+										@RequestParam(required = false, value = "postTypes") Integer[] postTypes,
+										@RequestParam(required = false, value = "proPosts") String[] proPosts,
+										@RequestParam(required = false, value = "proPostLevels") String[] proPostLevels,
+										@RequestParam(required = false, value = "workTypes") Integer[] workTypes,
+										@RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes,
+
+										ModelMap modelMap) {
 
 		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
 
@@ -244,6 +260,49 @@ public class MobileCadreSearchController extends BaseController {
 		modelMap.put("proPostLevels", iPropertyMapper.teacherProPostLevels());
 		modelMap.put("staffTypes", iPropertyMapper.staffTypes());
 		modelMap.put("authorizedTypes", iPropertyMapper.authorizedTypes());
+
+		if (dpTypes != null) {
+			modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
+		}
+		if (nation != null) {
+			modelMap.put("selectNation",Arrays.asList(nation));
+		}
+		if (staffTypes != null) {
+			modelMap.put("selectStaffTypes",Arrays.asList(staffTypes));
+		}
+		if (labels != null) {
+			modelMap.put("selectLabels",Arrays.asList(labels));
+		}
+		if (authorizedTypes != null) {
+			modelMap.put("selectAuthorizedTypes", Arrays.asList(authorizedTypes));
+		}
+		if (unitTypes != null) {
+			modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+		}
+		if (unitIds != null) {
+			modelMap.put("selectUnitIds",Arrays.asList(unitIds));
+		}
+		if (adminLevels != null) {
+			modelMap.put("selectAdminLevels",Arrays.asList(adminLevels));
+		}
+		if (maxEdus != null) {
+			modelMap.put("selectMaxEdus",Arrays.asList(maxEdus));
+		}
+		if (postTypes != null) {
+			modelMap.put("selectPostTypes",Arrays.asList(postTypes));
+		}
+		if (proPosts != null) {
+			modelMap.put("selectProPosts",Arrays.asList(proPosts));
+		}
+		if (proPostLevels != null) {
+			 modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
+		}
+		if (workTypes != null) {
+			modelMap.put("selectWorkTypes",Arrays.asList(workTypes));
+		}
+		if (leaderTypes != null) {
+			modelMap.put("selectLeaderTypes",Arrays.asList(leaderTypes));
+		}
 
 		return "cadre/mobile/cadre_advanced_search";
 	}
@@ -288,8 +347,8 @@ public class MobileCadreSearchController extends BaseController {
 											   @RequestParam(required = false, value = "proPostLevels") String[] proPostLevels, // 职称级别
 											   @RequestParam(required = false, value = "leaderTypes") Byte[] leaderTypes, // 是否班子负责人
 											   @RequestParam(required = false, value = "labels") Integer[] labels, // 标签
-											   @RequestParam(required = false, value = "staffTypes") String[] staffTypes, // 标签
-											   @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes, // 标签
+											   @RequestParam(required = false, value = "staffTypes") String[] staffTypes,
+											   @RequestParam(required = false, value = "authorizedTypes") String[] authorizedTypes,
 											   //是否为保留待遇干部信息，指第一主职无关联岗位的干部
 											   @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
 											   //是否聘任制干部，指无行政级别的干部
@@ -323,7 +382,7 @@ public class MobileCadreSearchController extends BaseController {
 		}
 		if (dpTypes != null) {
 			criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
-			searchStr += "&dpTypes="+StringUtils.join(dpTypes,",");
+			searchStr += "&dpTypes="+ StringUtils.join(dpTypes,",");
 		}
 		if (staffTypes != null) {
 			criteria.andStaffTypeIn(Arrays.asList(staffTypes));
