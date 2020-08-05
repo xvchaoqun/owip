@@ -1,6 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
+import domain.unit.Unit;
 import domain.unit.UnitFunction;
 import domain.unit.UnitFunctionExample;
 import domain.unit.UnitFunctionExample.Criteria;
@@ -18,12 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -211,5 +210,26 @@ public class UnitFunctionController extends BaseController {
         }
         String fileName = "单位职能_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("unit:list")
+    @RequestMapping("/unitFunction_attachDownload")
+    public void unitFunction_attachDownload(HttpServletRequest request,
+                                  Integer id,
+                                  Integer unitId,
+                                  HttpServletResponse response) throws IOException {
+
+        UnitFunctionExample example = new UnitFunctionExample();
+        example.createCriteria().andIdEqualTo(id).andUnitIdEqualTo(unitId);
+        List<UnitFunction> unitFunctions = unitFunctionMapper.selectByExample(example);
+
+        if (unitFunctions != null && unitFunctions.size() > 0) {
+            Unit unit = unitMapper.selectByPrimaryKey(unitId);
+            UnitFunction unitFunction = unitFunctions.get(0);
+            String path = HtmlUtils.htmlUnescape(unitFunction.getFilePath());
+            String filename = HtmlUtils.htmlUnescape(unit.getName() + "单位职能" + DateUtils.formatDate(unitFunction.getConfirmTime(), "yyyyMMdd") + ".pdf");
+
+            DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+        }
     }
 }

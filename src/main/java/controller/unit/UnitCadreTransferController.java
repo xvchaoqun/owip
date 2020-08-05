@@ -1,6 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
+import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.unit.UnitCadreTransfer;
 import domain.unit.UnitCadreTransferExample;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -339,5 +341,28 @@ public class UnitCadreTransferController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("unitTransfer:list")
+    @RequestMapping("/unitCadreTransfer/dispatchDownload")
+    public void dispatch_download(HttpServletRequest request,
+                                  Integer id,
+                                  boolean isPpt,
+                                  HttpServletResponse response) throws IOException {
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+
+        if (dispatch != null) {
+            String path = "";
+            String filename = "";
+            if (isPpt) {
+                path = HtmlUtils.htmlEscape(dispatch.getPpt());
+                filename = HtmlUtils.htmlEscape(dispatch.getPptName());
+            }else {
+                path = HtmlUtils.htmlUnescape(dispatch.getFile());
+                filename = HtmlUtils.htmlUnescape(dispatch.getFileName());
+            }
+            DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+        }
     }
 }

@@ -29,7 +29,7 @@
     <div style="border:1px dashed;min-height: 100px;max-height: 900px;overflow-y: auto">
         <div class="buttons" style="position: sticky; top: 18px; margin-left: 800px;">
             <a href="javascript:void(0)"
-               data-url="${ctx}/attach_download?path=${unitFunction.filePath}&filename=${unit.name}单位职能(${cm:formatDate(unitFunction.confirmTime, "yyyyMMdd")}).pdf"
+               data-url="${ctx}/unitFunction_attachDownload?id=${unitFunction.id}&unitId=${unitFunction.unitId}"
                title="下载文件"
                data-type="download"
                class="downloadBtn btn btn-xs btn-warning">
