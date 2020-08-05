@@ -44,6 +44,7 @@ import sys.constants.SystemConstants;
 import sys.freemarker.TableNameMethod;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -831,6 +832,7 @@ public class SysUserController extends BaseController {
         Map<String, Object> resultMap = success();
         resultMap.put("file", savePath);
         resultMap.put("filename", xlsx.getOriginalFilename());
+        resultMap.put("sign", AuthTag.sign(savePath, "sysUser:filterExport"));
 
         return resultMap;
     }

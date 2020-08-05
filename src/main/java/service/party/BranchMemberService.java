@@ -127,7 +127,7 @@ public class BranchMemberService extends BaseMapper {
     }
 
     // 判断是否有支部管理的权限（包含组织部管理员、分党委管理员、支部管理员）
-    public boolean hasAdminAuth(Integer userId, Integer partyId, Integer branchId) {
+    public boolean hasAdminAuth(int userId, int partyId, Integer branchId) {
 
         if (ShiroHelper.isPermitted(SystemConstants.PERMISSION_PARTYVIEWALL)
                 || partyMemberService.isPresentAdmin(userId, partyId))

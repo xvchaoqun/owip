@@ -34,6 +34,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -615,14 +616,14 @@ public class BranchController extends BaseController {
     }
 
     // 抽取党支部编码，根据党支部名称导出带编码的列表
-    @RequiresPermissions("branch:edit")
+    @RequiresPermissions("branch:codeExport")
     @RequestMapping("/branchPbCodeExport")
     public String branchPbCodeExport(ModelMap modelMap) {
 
         return "party/branch/branch_pb_export";
     }
 
-    @RequiresPermissions("branch:edit")
+    @RequiresPermissions("branch:codeExport")
     @RequestMapping(value = "/branchPbCodeExport", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branchPbCodeExport(
@@ -686,7 +687,7 @@ public class BranchController extends BaseController {
             }
         }
 
-        String savePath = FILE_SEPARATOR + "_filterExport"
+        String savePath = FILE_SEPARATOR + "_branchCodeExport"
                 + FILE_SEPARATOR + DateUtils.formatDate(new Date(), DateUtils.YYYYMMDD) + ".xlsx";
         FileUtils.mkdirs(springProps.uploadPath + savePath, true);
 
@@ -695,6 +696,7 @@ public class BranchController extends BaseController {
         Map<String, Object> resultMap = success();
         resultMap.put("file", savePath);
         resultMap.put("filename", xlsx.getOriginalFilename());
+        resultMap.put("sign", AuthTag.sign(savePath, "branch:codeExport"));
 
         return resultMap;
     }

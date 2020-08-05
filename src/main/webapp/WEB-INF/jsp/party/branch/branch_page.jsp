@@ -80,12 +80,14 @@
                                data-querystr="exportType=groupMember"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出党小组成员</a>
                         </li>
+                        <shiro:hasPermission name="branch:codeExport">
                         <li role="separator" class="divider"></li>
                         <li>
                             <a class="popupBtn"
                                data-url="${ctx}/branchPbCodeExport"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 抽取党支部编号</a>
                         </li>
+                        </shiro:hasPermission>
                     </ul>
                 </div>
 

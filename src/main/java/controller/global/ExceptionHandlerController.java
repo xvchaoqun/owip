@@ -142,6 +142,17 @@ public class ExceptionHandlerController {
         return mav;
     }
 
+    @ExceptionHandler(NoAuthException.class)
+    public void resolveNoAuthException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+
+        logger.warn(getMsg(request, ex), ex);
+
+		response.setCharacterEncoding("UTF-8");
+		response.setHeader("Content-Type", "text/html; charset=UTF-8");
+
+        response.getWriter().write(StringUtils.defaultIfBlank(ex.getMessage(), "无权限访问"));
+    }
+
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseBody
     public ModelAndView resolveUnauthorizedException(HttpServletRequest request, Exception ex) {

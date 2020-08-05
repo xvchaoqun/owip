@@ -15,6 +15,7 @@ import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.*;
@@ -52,10 +53,20 @@ public class FileController extends BaseController {
         path = HtmlUtils.htmlUnescape(path);
         filename = HtmlUtils.htmlUnescape(filename);
 
-        /*if(!FileUtils.exists(springProps.uploadPath, path)){
-            throw new OpException("文件不存在："+ path);
-        }*/
-        //DownloadUtils.addFileDownloadCookieHeader(response);
+        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+    }
+
+    // 携带签名校验参数的资源下载方法
+    @RequestMapping(value = "/res_download")
+    public void res_download(HttpServletRequest request,
+                         String path, String filename, String sign,
+                         HttpServletResponse response) throws IOException {
+
+        path = HtmlUtils.htmlUnescape(path);
+        filename = HtmlUtils.htmlUnescape(filename);
+
+        AuthTag.check(path, sign);
+
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 
