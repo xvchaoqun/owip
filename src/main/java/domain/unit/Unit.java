@@ -27,7 +27,7 @@ public class Unit implements Serializable {
 
     private Integer dispatchUnitId;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date workTime;
 
     private String url;

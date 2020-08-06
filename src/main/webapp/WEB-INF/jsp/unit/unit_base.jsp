@@ -64,7 +64,7 @@
                         成立时间
                     </td>
                     <td>
-                        ${cm:formatDate(unit.workTime, "yyyy-MM-dd")}
+                        ${cm:formatDate(unit.workTime, "yyyy.MM.dd")}
                     </td>
                 </tr>
                 <tr>

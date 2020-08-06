@@ -75,6 +75,12 @@ public class AuthTag {
         throw new NoAuthException();
     }
 
+    // 无权限
+    public static String sign(String res) {
+
+        return sign(res, null, null, null, null);
+    }
+
     // 资源权限
     public static String sign(String res, String permissions) {
 

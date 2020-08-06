@@ -17,8 +17,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <div class="input-group">
                         <input  class="form-control date-picker" name="workTime"
-                               type="text" data-date-format="yyyy-mm-dd"
-                               value="${cm:formatDate(unit.workTime, "yyyy-MM-dd")}"/>
+                               type="text" data-date-format="yyyy.mm.dd"
+                               value="${cm:formatDate(unit.workTime, "yyyy.MM.dd")}"/>
                         <span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>

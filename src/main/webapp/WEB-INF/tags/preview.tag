@@ -21,7 +21,7 @@
         </c:if>
         <c:if test="${!isImage}">
             <a class="downloadBtn" data-type="download" href="javascript:;"
-                               data-url="${ctx}/attach_download?path=${cm:encodeURI(filePath)}&filename=${fileName}">${empty label?"下载":label}</a>
+                               data-url="${ctx}/res_download?path=${cm:encodeURI(filePath)}&filename=${fileName}&sign=${cm:sign(filePath)}">${empty label?"下载":label}</a>
         </c:if>
     </c:if>
 </c:if>

@@ -318,27 +318,34 @@
 		<function-signature>java.lang.Boolean userIsPermitted(java.lang.Integer,java.lang.String)</function-signature>
 	</function>
 
-	<!-- 资源权限 -->
+	<!-- 无权限签名 -->
 	<function>
 		<name>sign</name>
+		<function-class>sys.tags.AuthTag</function-class>
+		<function-signature>java.lang.String sign(java.lang.String)</function-signature>
+	</function>
+
+	<!-- 资源权限 -->
+	<function>
+		<name>sign1</name>
 		<function-class>sys.tags.AuthTag</function-class>
 		<function-signature>java.lang.String sign(java.lang.String,java.lang.String)</function-signature>
 	</function>
 	<!-- 资源使用人 & 资源权限 -->
 	<function>
-		<name>sign1</name>
+		<name>sign2</name>
 		<function-class>sys.tags.AuthTag</function-class>
 		<function-signature>java.lang.String sign(java.lang.String,java.lang.Integer,java.lang.String)</function-signature>
 	</function>
 	<!-- 资源权限判断方法 -->
 	<function>
-		<name>sign2</name>
+		<name>sign3</name>
 		<function-class>sys.tags.AuthTag</function-class>
 		<function-signature>java.lang.String sign(java.lang.String,java.lang.String,java.lang.String)</function-signature>
 	</function>
 	<!-- 资源使用人 & 资源权限 & 资源权限判断方法 -->
 	<function>
-		<name>sign3</name>
+		<name>sign4</name>
 		<function-class>sys.tags.AuthTag</function-class>
 		<function-signature>java.lang.String sign(java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String)</function-signature>
 	</function>
