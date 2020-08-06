@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.tags.UserResBean;
+import sys.tags.UserTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.*;
@@ -128,7 +130,7 @@ public class ScGroupController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
+        resultMap.put("filePath", UserTag.sign(savePath));
 
         return resultMap;
     }
@@ -141,6 +143,11 @@ public class ScGroupController extends ScBaseController {
                              MultipartFile _logFile,
                              @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
                              HttpServletRequest request) throws IOException, InterruptedException {
+
+        if(record.getFilePath()!=null) {
+            UserResBean resBean = UserTag.decode(record.getFilePath());
+            record.setFilePath(resBean.getRes());
+        }
 
         Integer id = record.getId();
 

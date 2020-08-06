@@ -219,31 +219,4 @@ public class ScBorderController extends ScBaseController {
         String fileName = "出入境备案_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
-
-    @RequiresPermissions("scBorder:list")
-    @RequestMapping("/scBorder_download")
-    public void scBorder_download(Integer id, Integer fileType, String filename, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScBorderViewExample example = new ScBorderViewExample();
-        example.createCriteria().andIdEqualTo(id);
-        List<ScBorderView> scBorderViews = scBorderViewMapper.selectByExample(example);
-
-        String path = "";
-        if (scBorderViews != null && scBorderViews.size()>0){
-
-            ScBorderView scBorderView = scBorderViews.get(0);
-
-            if (fileType == 1){
-                path = scBorderView.getAddFile();
-            }else if (fileType == 2) {
-                path = scBorderView.getChangeFile();
-            }else if (fileType == 3) {
-                path = scBorderView.getDeleteFile();
-            }else if (fileType == 4) {
-                path = scBorderView.getRecordFile();
-            }
-        }
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-    }
 }

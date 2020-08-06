@@ -1,5 +1,6 @@
 package domain.sc.scBorder;
 
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -17,10 +18,13 @@ public class ScBorderView implements Serializable {
 
     private Date recordDate;
 
+    @SignRes
     private String addFile;
 
+    @SignRes
     private String changeFile;
 
+    @SignRes
     private String deleteFile;
 
     private String recordFile;
