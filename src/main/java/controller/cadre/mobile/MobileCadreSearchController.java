@@ -369,10 +369,11 @@ public class MobileCadreSearchController extends BaseController {
 
 		CadreViewExample example = new CadreViewExample();
 		example.setOrderByClause("sort_order desc");
-		CadreViewExample.Criteria criteria = example.createCriteria()/*.andStatusEqualTo(status)*/;
+		CadreViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
 
 		String searchStr = "&pageSize=" + pageSize;
-		if (cadreId != null) {//
+		searchStr += "&status="+status;
+		if (cadreId != null) {
 			criteria.andIdEqualTo(cadreId);
 			searchStr += "&cadreId="+cadreId;
 		}

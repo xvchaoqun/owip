@@ -33,11 +33,20 @@
 
                 <div class="col-sm-8 infobox-container">
                     <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
-                         data-url="${ctx}/m/cadre_advanced_search">
-                        <button class="btn btn-primary btn-block" style=><i class="fa fa-arrow-right"></i> 高级查询<span
+                         data-url="${ctx}/m/cadre_advanced_search?status=${CADRE_STATUS_CJ}">
+                        <button class="btn btn-primary btn-block" style=><i class="fa fa-arrow-right"></i> 高级查询(处级)<span
                                 style="margin-left: 37px;"/></button>
                     </div>
                 </div>
+                <c:if test="${_p_hasKjCadre}">
+                    <div class="col-sm-8 infobox-container">
+                        <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                             data-url="${ctx}/m/cadre_advanced_search?status=${CADRE_STATUS_KJ}">
+                            <button class="btn btn-success btn-block" style=><i class="fa fa-arrow-right"></i> 高级查询(科级)<span
+                                    style="margin-left: 37px;"/></button>
+                        </div>
+                    </div>
+                </c:if>
             </div>
         </div>
         <div id="body-content-view"<%-- style="overflow-y: hidden"--%>>
