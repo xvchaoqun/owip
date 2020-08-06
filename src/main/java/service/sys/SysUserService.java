@@ -6,6 +6,7 @@ import domain.cadre.CadreViewExample;
 import domain.pcs.PcsAdmin;
 import domain.sys.*;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -100,6 +101,54 @@ public class SysUserService extends BaseMapper {
             throw new OpException("角色[{0}]不存在，请联系管理员。", roleStr);
         }
         return SystemConstants.USER_ROLEIDS_SEPARTOR + sysRole.getId() + SystemConstants.USER_ROLEIDS_SEPARTOR;
+    }
+
+    @Transactional
+    public void batchImport(Map<SysUserView, TeacherInfo> records) throws ReflectiveOperationException {
+
+        for (Map.Entry<SysUserView, TeacherInfo> entry: records.entrySet()){
+
+            SysUserView record = entry.getKey();
+            TeacherInfo teacherInfo = entry.getValue();
+
+            SysUser user = new SysUser();
+            SysUserInfo userInfo = new SysUserInfo();
+            PropertyUtils.copyProperties(user, record);
+            PropertyUtils.copyProperties(userInfo, record);
+
+            Integer userId = record.getUserId();
+            if (userId == null) {
+                user.setRoleIds(buildRoleIds(RoleConstants.ROLE_GUEST));
+                sysUserMapper.insertSelective(user);
+                userId = user.getId();
+
+                userInfo.setUserId(userId);
+                sysUserInfoMapper.insertSelective(userInfo);
+            }else {
+                sysUserMapper.updateByPrimaryKeySelective(user);
+                sysUserInfoMapper.updateByPrimaryKeySelective(userInfo);
+            }
+
+            if (record.getType() == SystemConstants.USER_TYPE_JZG) {
+
+                addRole(userId, RoleConstants.ROLE_TEACHER);
+                if (teacherInfo.getUserId() == null) {
+                    teacherInfo.setUserId(userId);
+                    teacherInfo.setIsRetire(false);
+                    teacherInfoMapper.insertSelective(teacherInfo);
+                } else {
+                    TeacherInfoExample example = new TeacherInfoExample();
+                    example.createCriteria().andUserIdEqualTo(userId);
+                    teacherInfoMapper.updateByExampleSelective(teacherInfo, example);
+                }
+            }else {
+                if (findRoles(user.getUsername()).contains(RoleConstants.ROLE_TEACHER)){
+                    delRole(userId, RoleConstants.ROLE_TEACHER);
+                }
+            }
+
+            cacheHelper.clearUserCache(user);
+        }
     }
 
     @Transactional
@@ -769,7 +818,6 @@ public class SysUserService extends BaseMapper {
                                               @RequestParam(required = false, defaultValue = "0")Byte type, //类别 教职工、本科生、研究生  0： 混合
                                               String birthKey) {
 
-        String code = null;
         List<String> codeList = new ArrayList<>();
         Map<String, List<String>> codeMap = new HashMap<>();
         if (roleType == 1) {
@@ -785,9 +833,7 @@ public class SysUserService extends BaseMapper {
             }
             example.setOrderByClause("code desc");
             List<CadreView> cvs = cadreViewMapper.selectByExample(example);
-            if (cvs.size() != 0) {
-                code = cvs.get(0).getCode();
-            } else if (cvs.size() > 1) {
+            if (cvs.size() >= 1) {
                 for (CadreView cv : cvs) {
                     if (null != birthKey) {
                         if (birthKey.equals(DateUtils.formatDate(cv.getBirth(), "yyyyMM"))) {
@@ -818,53 +864,52 @@ public class SysUserService extends BaseMapper {
             List<SysUserView> uvs = sysUserViewMapper.selectByExample(example);
 
             if (uvs.size() == 1) {
-                code = uvs.get(0).getCode();
+                codeList.add(uvs.get(0).getCode());
             } else if (uvs.size() > 1) {
 
                 SysUserView firstUv = uvs.get(0);
                 byte _type = firstUv.getType();
                 if (_type == SystemConstants.USER_TYPE_YJS) {
-                    boolean flag = false;
+                    boolean flag = false;//当账号类型为博士时，flag=true，保证code不会再被硕士类型的账号赋值
                     for (SysUserView uv : uvs) {
-                        String _stuType = studentInfoMapper.selectByPrimaryKey(uv.getId()).getType();
-                        if (StringUtils.isNotBlank(_stuType) && _stuType.contains("硕士")) {
-                            if (!flag) {
+
+                        String code = uv.getCode();
+                        StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(uv.getId());
+                        if (!flag && studentInfo != null) {
+                            String _stuType = studentInfo.getType();
+                            if (_stuType.contains("硕士")) {
+                               code = uv.getCode();
+                            } else if (_stuType.contains("博士")) {
+                                flag = true;
                                 code = uv.getCode();
                             }
-                        }else if (StringUtils.isNotBlank(_stuType) && _stuType.contains("博士")) {
-                            flag = true;
-                            code = uv.getCode();
                         }
-                        codeList.add(uv.getCode());
-                    }
-                }else {
-                    int _typeNum = 0; // 第一个账号类别对应的账号数量
-                    for (SysUserView uv : uvs) {
-                        if (_type == uv.getType()) _typeNum++;
                         if (null != birthKey) {
                             if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
-                                codeList.add(uv.getCode());
-                                continue;
+                                codeList.add(0, code);
+                            }
+                        }else {
+                            codeList.add(code);
+                        }
+                    }
+                }else {
+                    //本科生和教职工没有细分，所以属于同一类
+                    for (SysUserView uv : uvs) {
+                        if (null != birthKey) {
+                            if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
+                                codeList.add(0, uv.getCode());
                             }
                         } else {
                             codeList.add(uv.getCode());
                         }
                     }
-
-                    if (colType == 0 && _typeNum == 1) {
-                        // 按身份证查找时，如果排第一的账号类型对应的账号数量只有一个，则认为是他当前使用的账号
-                        code = firstUv.getCode();
-                    }
                 }
             }
         }
 
-        if(code==null && codeList.size()>0){
+        if(codeList.size() > 0){
 
-            code = codeList.get(0);
-        }
-        if(code != null) {
-            codeMap.put(code, codeList);
+            codeMap.put(codeList.get(0), codeList);
         }
 
         return codeMap;
