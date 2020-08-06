@@ -84,8 +84,8 @@
                 var str = "";
                 if(rowObject.filePath!=undefined){
                     str += ("<button class='downloadBtn btn btn-xs btn-success' " +
-                    "data-url='${ctx}/attach_download?path={0}&filename={1}'>"+
-                            "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName)
+                    "data-url='${ctx}/res_download?path={0}&filename={1}&sign={2}'>"+
+                            "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName, rowObject.sign)
                 }
                 return '--';
             }},

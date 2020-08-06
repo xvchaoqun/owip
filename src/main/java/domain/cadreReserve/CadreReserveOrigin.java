@@ -5,6 +5,7 @@ import domain.cis.CisInspectObj;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cis.CisInspectObjMapper;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -12,6 +13,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class CadreReserveOrigin implements Serializable {
+
+    public String getPdfSign(){
+
+        return AuthTag.sign(pdfFilePath);
+    }
+
+    public String getWordSign(){
+
+        return AuthTag.sign(wordFilePath);
+    }
 
     // 干部考察材料编号
     public String getSn(){

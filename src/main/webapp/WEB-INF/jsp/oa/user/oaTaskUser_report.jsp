@@ -59,7 +59,7 @@
                         <td colspan="3">
                             <c:forEach var="file" items="${oaTaskUserFiles}">
                                 <div class="file">
-                                    <a href="${ctx}/attach_download?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}"
+                                    <a href="${ctx}/res_download?path=${cm:encodeURI(file.filePath)}&filename=${cm:encodeURI(file.fileName)}&sign=${cm:sign(file.filePath)}"
                                        title="${file.fileName}">${cm:cnsubstr(file.fileName, 40, '...')}</a>
                                     <c:if test="${oaTaskUser.status!=OA_TASK_USER_STATUS_PASS}">
                                         <a href="javascript:;" class="confirm"

@@ -27,8 +27,8 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${vs.count}</td>
                                 <td>${template.name}</td>
-                                <td><a href="${ctx}/attach_download?path=${cm:encodeURI(template.filePath)}
-                                &filename=${cm:encodeURI(template.fileName)}">下载</a></td>
+                                <td><a href="${ctx}/res_download?path=${cm:encodeURI(template.filePath)}
+                                &filename=${cm:encodeURI(template.fileName)}&sign=${cm:sign(template.filePath)}">下载</a></td>
                                 <td>
                                         <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs"
                                            data-url="${ctx}/pcsPrFile_au?templateId=${template.id}&id=${file.id}"><i class="fa fa-upload"></i> ${not empty file?"重新上传":"上传材料"}</a>

@@ -3,6 +3,7 @@ package domain.cet;
 import org.springframework.format.annotation.DateTimeFormat;
 import service.cet.CetPlanCourseObjService;
 import service.cet.CetPlanCourseService;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -15,6 +16,9 @@ import java.util.Map;
 
 public class CetPlanCourse implements Serializable {
 
+    public String getSign(){
+        return AuthTag.sign(filePath);
+    }
 
     // 选课学员数量
     public Long getSelectedCount(){

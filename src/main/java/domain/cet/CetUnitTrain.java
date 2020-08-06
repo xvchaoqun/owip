@@ -4,6 +4,7 @@ import domain.sys.SysUserView;
 import persistence.cet.CetUnitProjectMapper;
 import service.cet.CetRecordService;
 import sys.constants.CetConstants;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -11,6 +12,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetUnitTrain implements Serializable {
+
+    public String getPdfSign(){
+
+        return AuthTag.sign(pdfNote);
+    }
+
+    public String getWordSign(){
+
+        return AuthTag.sign(wordNote);
+    }
 
     public Short getNo(){
 

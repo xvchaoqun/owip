@@ -3,6 +3,7 @@ package domain.dispatch;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import service.SpringProps;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.PdfUtils;
@@ -11,6 +12,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class DispatchWorkFile implements Serializable {
+
+    public String getPdfSign(){
+        return AuthTag.sign(pdfFilePath);
+    }
+    public String getWordSign(){
+        return AuthTag.sign(wordFilePath);
+    }
 
     public int getPages(){
 

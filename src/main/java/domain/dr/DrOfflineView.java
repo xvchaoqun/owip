@@ -3,6 +3,7 @@ package domain.dr;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrMemberMapper;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -12,6 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 public class DrOfflineView implements Serializable {
+
+    public String getSign(){
+        return AuthTag.sign(ballotSample);
+    }
 
     public String getSrCode(){
         return "纪实〔"+srSeq+"〕号";

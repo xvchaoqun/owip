@@ -96,7 +96,7 @@
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class='downloadBtn btn btn-xs btn-success' data-type="download"
-                                            data-url='${ctx}/attach_download?path=${cm:encodeURI(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}'>
+                                            data-url='${ctx}/res_download?path=${cm:encodeURI(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}&sign=${cm:sign(cetProjectFile.filePath)}'>
                                         <i class="fa fa-download"></i>
                                         下载</button>
                                 </c:if>

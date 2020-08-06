@@ -1,9 +1,16 @@
 package domain.crs;
 
+import sys.tags.AuthTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CrsApplicantStatView implements Serializable {
+
+    public String getSign(){
+        return AuthTag.sign(ppt);
+    }
+
     private Integer id;
 
     private Integer userId;

@@ -1,9 +1,15 @@
 package domain.crs;
 
+import sys.tags.AuthTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CrsCandidateView implements Serializable {
+    public String getSign(){
+        return AuthTag.sign(ppt);
+    }
+
     private Integer candidateId;
 
     private Boolean isFirst;

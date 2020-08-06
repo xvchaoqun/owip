@@ -93,8 +93,8 @@
             {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {
                 if(_applyStatus(rowObject)!='参加招聘会') return "-";
                 if(rowObject.ppt==undefined) return '--'
-                return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
-                        .format(rowObject.ppt, rowObject.pptName)
+                return '<a href="${ctx}/res_download?path={0}&filename={1}&sign={2}">下载</a>'
+                        .format(rowObject.ppt, rowObject.pptName, rowObject.sign)
             }}
         ]
     });

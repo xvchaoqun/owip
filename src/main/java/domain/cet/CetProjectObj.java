@@ -7,6 +7,7 @@ import service.cet.CetPlanCourseObjService;
 import service.cet.CetRecordService;
 import service.cet.CetTrainObjService;
 import sys.constants.CetConstants;
+import sys.tags.AuthTag;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -19,6 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 public class CetProjectObj implements Serializable {
+
+    public String getSign(){
+
+        return AuthTag.sign(writeFilePath);
+    }
 
     public Short getNo(){
 
