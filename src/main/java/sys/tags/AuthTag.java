@@ -1,6 +1,7 @@
 package sys.tags;
 
 import controller.global.NoAuthException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,15 +44,15 @@ public class AuthTag {
         String permissions = authBean.getPermissions();
 
         if (StringUtils.isNotBlank(permissions)
-                && ShiroHelper.isPermittedAny(permissions.split(","))) {
+                && !ShiroHelper.isPermittedAny(permissions.split(","))) {
 
-            return ; // 拥有资源使用权限
+            throw new NoAuthException(); // 无资源使用权限
         }
 
         if (authBean.getAuthUserId() != null
-                && authBean.getAuthUserId().intValue() == currentUserId) {
+                && authBean.getAuthUserId().intValue() != currentUserId) {
 
-            return ; // 资源使用人
+            throw new NoAuthException(); // 非资源使用人
         }
 
         // 资源权限方法判断
@@ -60,9 +61,9 @@ public class AuthTag {
             try {
                 Method method = AuthMethod.class.getDeclaredMethod(StringUtils.trim(authBean.getMethod()), String.class);
 
-                if((boolean)method.invoke(null, StringUtils.trim(authBean.getParams()))){
+                if(BooleanUtils.isNotTrue((Boolean) method.invoke(null, StringUtils.trim(authBean.getParams())))){
 
-                    return;
+                    throw new NoAuthException(); // 资源权限方法校验未通过
                 }
 
             } catch (Exception e) {
@@ -71,8 +72,6 @@ public class AuthTag {
                 throw new NoAuthException();
             }
         }
-
-        throw new NoAuthException();
     }
 
     // 无权限
