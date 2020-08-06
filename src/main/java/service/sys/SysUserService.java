@@ -858,7 +858,14 @@ public class SysUserService extends BaseMapper {
                 }
             }
         }
-        codeMap.put(code, codeList);
+
+        if(code==null && codeList.size()>0){
+
+            code = codeList.get(0);
+        }
+        if(code != null) {
+            codeMap.put(code, codeList);
+        }
 
         return codeMap;
     }
