@@ -112,7 +112,7 @@
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class='downloadBtn btn btn-xs btn-success'
-                                            data-url='${ctx}/res_download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}&sign=${cm:sign(cetCourseFile.filePath)}'>
+                                            data-url='${ctx}/attach_download?path=${cm:sign(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
                                         <i class="fa fa-download"></i>
                                         下载</button>
                                     </c:if>

@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                 { label: '取值',name: 'content', width:380, align:'left', formatter:function(cellvalue, options, rowObject){
 
                     if(rowObject.type==<%=SystemConstants.SYS_PROPERTY_TYPE_PIC%>){
-                        return $.imgPreview(cellvalue, rowObject.name + ".jpg", '查看');
+                        return $.imgPreview(rowObject.signContent, rowObject.name + ".jpg", '查看');
                     }
                     return $.jgrid.formatter.htmlencodeWithNoSpace(cellvalue);
                 }},

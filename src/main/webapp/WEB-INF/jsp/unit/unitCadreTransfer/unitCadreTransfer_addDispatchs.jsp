@@ -53,7 +53,7 @@ pageEncoding="UTF-8" %>
                             <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                             <td nowrap><c:if test="${not empty dispatch.fileName}">
                                 <a href="javascript:;" data-type="download"
-                                       data-url="${ctx}/unitCadreTransfer/dispatchDownload?id=${dispatch.id}&isPppt=0"
+                                       data-url="${ctx}/attach_download?path=${cm:sign(dispatch.file)}&filename=${dispatch.fileName}"
                                                 class="downloadBtn">下载</a>
                                 <a href="javascript:void(0)" class="openUrl"
                                    data-url="${ctx}/pdf_preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}">预览</a>
@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <c:if test="${not empty dispatch.pptName}">
                                     <a href="javascript:;" data-type="download"
-                                       data-url="${ctx}/unitCadreTransfer/dispatchDownload?id=${dispatch.id}&isPppt=1"
+                                       data-url="${ctx}/attach_download?path=${cm:sign(dispatch.ppt)}&filename=${dispatch.pptName}"
                                                 class="downloadBtn">下载</a>
                                 <a href="javascript:void(0)" class="openUrl"
                                    data-url="${ctx}/pdf_preview?type=url&path=${cm:encodeURI(dispatch.ppt)}&filename=${dispatch.pptName}">预览</a>

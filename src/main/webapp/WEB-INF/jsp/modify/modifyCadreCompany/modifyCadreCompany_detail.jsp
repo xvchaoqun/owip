@@ -68,7 +68,7 @@
                     <td class="bg-left">${cm:formatDate(modify.approvalDate,'yyyy-MM-dd')}</td>
                     <td data-code="approvalFile">批复文件</td>
                     <td class="bg-left">
-                        <a href="${ctx}/res_download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}&sign=${cm:sign(modify.approvalFile)}">${modify.approvalFilename}</a>
+                        <a href="${ctx}/attach_download?path=${cm:sign(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
                     </td>
                     <td data-code="hasPay">是否取酬</td>
                     <td class="bg-left">${modify.hasPay?"是":"否"}</td>

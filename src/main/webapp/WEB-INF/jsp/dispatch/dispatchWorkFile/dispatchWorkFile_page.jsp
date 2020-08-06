@@ -165,15 +165,15 @@
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
                     ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary" data-width="900"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/res_download?path={0}&filename={1}&sign={2}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
-                                    .format(encodeURI(pdfFilePath), encodeURI(fileName),rowObject.pdfSign);
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                    .format(pdfFilePath, encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
                     var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                    ret += '&nbsp;<button data-url="${ctx}/res_download?path={0}&filename={1}&sign={2}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
-                            .format(encodeURI(wordFilePath), encodeURI(fileName),rowObject.wordSign);
+                    ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                            .format(wordFilePath, encodeURI(fileName));
                 }
                 return ret;
             }

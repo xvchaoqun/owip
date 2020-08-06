@@ -74,8 +74,8 @@
                 success: function (ret) {
                     if(ret.success){
 
-                        var url = ("${ctx}/res_download?path={0}&filename={1}&sign={2}")
-                            .format(ret.file, ret.filename, ret.sign)
+                        var url = ("${ctx}/attach_download?path={0}&filename={1}")
+                            .format(ret.file, ret.filename)
                         //console.log("url=" + url)
                         $btn.download(url);
                     }else{

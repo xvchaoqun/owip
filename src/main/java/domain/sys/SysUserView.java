@@ -1,6 +1,7 @@
 package domain.sys;
 
 import sys.constants.SystemConstants;
+import sys.jackson.SignRes;
 import sys.utils.NumberUtils;
 
 import java.io.Serializable;
@@ -53,6 +54,7 @@ public class SysUserView implements Serializable {
 
     private Date birth;
 
+    @SignRes
     private String avatar;
 
     private Date avatarUploadTime;

@@ -10,6 +10,7 @@ import persistence.cadre.CadreMapper;
 import persistence.cadre.common.ICadreMapper;
 import sys.constants.AbroadConstants;
 import sys.helper.AbroadHelper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -84,6 +85,7 @@ public class Passport implements Serializable {
 
     private Integer safeBoxId;
 
+    @SignRes
     private String pic;
 
     private Boolean isLent;

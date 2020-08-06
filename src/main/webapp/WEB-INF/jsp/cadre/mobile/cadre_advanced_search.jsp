@@ -6,6 +6,7 @@
 </div>
 <div class="center">
     <form id="searchForm">
+        <input type="hidden" name="status" value="${param.status}" />
         <div class="select">
             <select data-rel="select2-aj1ax"
                     data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_CJ},${CADRE_STATUS_CJ_LEAVE},${CADRE_STATUS_KJ},${CADRE_STATUS_KJ_LEAVE}"
@@ -304,7 +305,7 @@
         <i class="ace-icon fa fa-search"></i> 查询
     </button>
     <button class="openView btn btn-warning btn-sm"
-            data-url="${ctx}/m/cadre_advanced_search" data-open-by="page">
+            data-url="${ctx}/m/cadre_advanced_search?status=${param.status}" data-open-by="page">
         <i class="ace-icon fa fa-reply"></i> 重置
     </button>
 </div>

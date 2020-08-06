@@ -2,6 +2,7 @@ package domain.sc.scMatter;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -36,7 +37,9 @@ public class ScMatterAccess implements Serializable {
 
     private String receiver;
 
+    @SignRes
     private String receivePdf;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date returnDate;
 

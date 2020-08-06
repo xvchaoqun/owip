@@ -4,6 +4,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -72,6 +73,7 @@ public class PmMeeting2 implements Serializable {
 
     private String fileName;
 
+    @SignRes
     private String filePath;
 
     private String remark;

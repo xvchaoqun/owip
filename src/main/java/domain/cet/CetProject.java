@@ -3,7 +3,7 @@ package domain.cet;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetPartyMapper;
 import service.cet.CetProjectObjService;
-import sys.tags.AuthTag;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
@@ -14,16 +14,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetProject implements Serializable {
-
-    public String getPdfSign(){
-
-        return AuthTag.sign(pdfFilePath);
-    }
-
-    public String getWordSign(){
-
-        return AuthTag.sign(wordFilePath);
-    }
 
     public CetProjectObj getObj(){
 
@@ -108,8 +98,10 @@ public class CetProject implements Serializable {
 
     private String fileName;
 
+    @SignRes
     private String pdfFilePath;
 
+    @SignRes
     private String wordFilePath;
 
     private BigDecimal period;

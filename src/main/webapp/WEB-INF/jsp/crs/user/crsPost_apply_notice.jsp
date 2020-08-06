@@ -39,7 +39,7 @@
                                             <div class="form-group">
                                                 <div class="col-xs-offset-3 col-xs-6">
                                                     <c:if test="${not empty crsApplicant.ppt}">
-                                                        <a href="${ctx}/user/crsPost_download_ppt?id=${crsApplicant.id}">（下载已上传PPT）</a>
+                                                        <a href="${ctx}/attach_download?path=${cm:sign(crsApplicant.ppt)}&filename=${crsApplicant.pptName}">（下载已上传PPT）</a>
                                                     </c:if>
                                                 </div>
                                             </div>

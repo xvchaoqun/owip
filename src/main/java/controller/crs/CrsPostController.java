@@ -223,16 +223,6 @@ public class CrsPostController extends CrsBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("crsPost:list")
-    @RequestMapping("/crsPost_downloadNotice")
-    public void crsPost_downloadNotice(HttpServletRequest request, int id, HttpServletResponse response) throws IOException {
-
-            CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
-            String path=crsPost.getNotice();
-            String filename="招聘公告（"+crsPost.getName()+"）";
-
-            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
-    }
     @RequiresPermissions("crsPost:edit")
     @RequestMapping("/crsPost_templateContent")
     public String crsPost_templateContent(Integer id, byte type, ModelMap modelMap) {

@@ -26,7 +26,7 @@
           <table class="table table-center avatar" style="margin-bottom: 0px;">
             <tr>
               <td rowspan="6" class="avatar">
-                <img src="${ctx}/m/avatar?path=${cm:encodeURI(uv.avatar)}&_t=<%=new Date().getTime()%>" class="avatar">
+                <img src="${ctx}/m/avatar?path=${cm:sign(uv.avatar)}&_t=<%=new Date().getTime()%>" class="avatar">
               </td>
             </tr>
             <tr>

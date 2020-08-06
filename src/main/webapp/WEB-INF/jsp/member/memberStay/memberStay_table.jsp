@@ -37,7 +37,7 @@
   </td>
   <td  rowspan="5" style="text-align: center;vertical-align: middle;
 				 background-color: #fff;width: 143px;" class="avatar">
-    <img src="${ctx}/avatar?path=${cm:encodeURI(userBean.avatar)}" alt="免冠照片"  class="avatar">
+    <img src="${ctx}/avatar?path=${cm:sign(userBean.avatar)}" alt="免冠照片"  class="avatar">
   </td>
 </tr>
 <tr>
@@ -255,7 +255,7 @@
   </td>
   <td class="bg-left" colspan="5">
     <c:if test="${not empty memberStay.letter}">
-    <a class="various" title="接收函/邀请函"  data-path="${cm:encodeURI(memberStay.letter)}" data-fancybox-type="image" href="${ctx}/pic?path=${memberStay.letter}">
+    <a class="various" title="接收函/邀请函"  data-path="${cm:sign(memberStay.letter)}" data-fancybox-type="image" href="${ctx}/pic?path=${memberStay.letter}">
       查看
     </a>
     </c:if>
@@ -329,7 +329,7 @@
     </td>
     <td class="bg-left" colspan="5">
       <c:if test="${not empty memberStay.letter}">
-        <a class="various" title="户档暂留证明"  data-path="${cm:encodeURI(memberStay.letter)}" data-fancybox-type="image" href="${ctx}/pic?path=${memberStay.letter}">
+        <a class="various" title="户档暂留证明"  data-path="${cm:sign(memberStay.letter)}" data-fancybox-type="image" href="${ctx}/pic?path=${memberStay.letter}">
           查看
         </a>
       </c:if>

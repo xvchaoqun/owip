@@ -2,6 +2,7 @@ package domain.party;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -33,6 +34,7 @@ public class PartyReward implements Serializable {
 
     private String unit;
 
+    @SignRes
     private String proof;
 
     private String proofFilename;

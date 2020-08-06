@@ -94,7 +94,7 @@
               <td>${passportDraw.costSource}</td>
               <td>
                 <c:forEach items="${passportDraw.files}" var="file" varStatus="vs">
-                  <a class="various" rel="group${passportDraw.id}" title="${file.fileName}" data-title-id="${file.id}" data-path="${cm:encodeURI(file.filePath)}"
+                  <a class="various" rel="group${passportDraw.id}" title="${file.fileName}" data-title-id="${file.id}" data-path="${cm:sign(file.filePath)}"
                      data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(file.filePath)}">批件${vs.count}</a>
                   ${!vs.last?"、":""}
                 </c:forEach>

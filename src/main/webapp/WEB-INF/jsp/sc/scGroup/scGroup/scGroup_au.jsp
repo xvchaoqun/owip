@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scGroup.filePath}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scGroup.filePath)}"/>
                     </div>
                 </div>
             </div>
@@ -179,7 +179,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.filePath);
 
                         $("#modalForm input[name=filePath]").val(ret.filePath);
                     } else {

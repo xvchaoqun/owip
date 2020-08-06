@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-4" style="width:170px">
                                         <%--<input type="file" name="_avatar"/>--%>
-                                        <img src="${ctx}/avatar?path=${cm:encodeURI(_user.avatar)}" style="width: 120px">
+                                        <img src="${ctx}/avatar?path=${cm:sign(_user.avatar)}" style="width: 120px">
                                     </div>
                                     <div class="vspace-12-sm"></div>
 
@@ -255,30 +255,6 @@
     </div>
 </div>
 <script>
-    /*$.fileInput($('#user-profile input[type=file]'), {
-        style: 'well',
-        btn_choose: '更换头像',
-        btn_change: null,
-        no_icon: 'ace-icon fa fa-picture-o',
-        thumbnail: 'large',
-        droppable: true,
-        previewWidth: 143,
-        previewHeight: 198,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    });
-     $('#user-profile input[type=file]').ace_file_input('show_file_list', [{
-     type: 'image',
-     name: '${ctx}/avatar?path=${_user.avatar}'
-     }]);
-    $('#user-profile input[type=file]').find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/avatar?path=${_user.avatar}'
-        }]);
-    })*/
-
     $.register.date($('.date-picker'), {defaultViewDate: {year: 1980}})
     $("#user-profile form").validate({
         submitHandler: function (form) {

@@ -223,12 +223,12 @@
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
         $("#_avatar").ace_file_input('show_file_list', [{
             type: 'image',
-            name: '${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}'
+            name: '${ctx}/avatar?path=${cm:sign(memberCheck.avatar)}'
         }]);
     });
     $("#_avatar").ace_file_input('show_file_list', [{
         type: 'image',
-        name: '${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}'
+        name: '${ctx}/avatar?path=${cm:sign(memberCheck.avatar)}'
     }]);
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'), {endDate: '${_today}'});

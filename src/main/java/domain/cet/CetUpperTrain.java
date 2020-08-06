@@ -5,7 +5,7 @@ import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
 import service.cet.CetRecordService;
 import sys.constants.CetConstants;
-import sys.tags.AuthTag;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -14,14 +14,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetUpperTrain implements Serializable {
-
-    public String getPdfSign(){
-        return AuthTag.sign(pdfNote);
-    }
-
-    public String getWordSign(){
-        return AuthTag.sign(wordNote);
-    }
 
     public Short getNo(){
 
@@ -92,8 +84,10 @@ public class CetUpperTrain implements Serializable {
 
     private String agency;
 
+    @SignRes
     private String wordNote;
 
+    @SignRes
     private String pdfNote;
 
     private Boolean isGraduate;

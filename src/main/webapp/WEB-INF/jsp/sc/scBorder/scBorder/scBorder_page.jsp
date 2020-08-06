@@ -100,7 +100,7 @@
                     var pdfFilePath = rowObject.addFile;
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                .format(encodeURI(pdfFilePath), '新增表')
+                                .format(pdfFilePath, '新增表')
                             + '&nbsp;<button data-url="${ctx}/sc/scBorder_download?id={0}&fileType=1&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(rowObject.id, '新增表'/*encodeURI(pdfFilePath),  */);
                     }
@@ -114,7 +114,7 @@
                     var pdfFilePath = rowObject.changeFile;
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                .format(encodeURI(pdfFilePath), '新增表')
+                                .format(pdfFilePath, '新增表')
                             + '&nbsp;<button data-url="${ctx}/sc/scBorder_download?id={0}&fileType=2&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(rowObject.id, '新增表'/*encodeURI(pdfFilePath),  */);
                     }
@@ -128,7 +128,7 @@
                     var pdfFilePath = rowObject.deleteFile;
                     if ($.trim(pdfFilePath) != '') {
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                .format(encodeURI(pdfFilePath), '新增表')
+                                .format(pdfFilePath, '新增表')
                             + '&nbsp;<button data-url="${ctx}/sc/scBorder_download?id={0}&fileType=3&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                 .format(rowObject.id, '新增表'/*encodeURI(pdfFilePath),  */);
                     }

@@ -548,16 +548,4 @@ public class PmMeeting2Controller extends PmBaseController {
 
         return resultMap;
     }
-
-    @RequestMapping("/pmMeeting2_download")
-    public void pmMeeting2_download(HttpServletRequest request, int id, HttpServletResponse response) throws IOException {
-
-            PmMeeting2 pmMeeting2= pmMeeting2Mapper.selectByPrimaryKey(id);
-
-            if(!PartyHelper.hasBranchAuth(ShiroHelper.getCurrentUserId(),pmMeeting2.getPartyId(),pmMeeting2.getBranchId())){
-                throw new UnauthorizedException();
-            }
-
-            DownloadUtils.download(request, response, springProps.uploadPath + pmMeeting2.getFilePath(), pmMeeting2.getFileName());
-    }
 }

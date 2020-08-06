@@ -252,7 +252,7 @@
                             </c:if>
 
                             <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"
-                               data-url="${ctx}/pmMeeting2_download?id=${pmMeeting2.id}"
+                               data-url="${ctx}/attach_download?path=${cm:sign(pmMeeting2.filePath)}&filename=${pmMeeting2.fileName}"
                                class="downloadBtn">下载)</a>
                        </c:if>
                     </td>

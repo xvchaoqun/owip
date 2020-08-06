@@ -44,13 +44,13 @@
                     if(fileName.toLowerCase().endWith(".pdf")){
                         return '<a href="${ctx}/pdf?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
-                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/pmMeeting2_download?id={0}" class="downloadBtn"> 下载</a>'
-                                .format(rowObject.id);
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(cellvalue, encodeURI(rowObject.fileName));
                     }else {
                         return '<a href="${ctx}/pic?path={0}" target="_blank">预览</a>'
                                 .format(encodeURI(cellvalue))
-                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/pmMeeting2_download?id={0}" class="downloadBtn"> 下载</a>'
-                                .format(rowObject.id);
+                            + '<a href="javascript:;" data-type="download" data-url="${ctx}/attach_download?path={0}&filename={1}" class="downloadBtn"> 下载</a>'
+                                .format(cellvalue, encodeURI(rowObject.fileName));
                     }
                 }
             },

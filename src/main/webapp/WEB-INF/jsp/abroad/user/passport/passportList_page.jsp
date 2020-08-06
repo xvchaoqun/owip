@@ -45,7 +45,7 @@
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">
-                                                    <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                    <a class="various" title="${passport.code}.jpg" data-path="${cm:sign(passport.pic)}"
                                                        data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
                                                     </c:if>
                                                 </td>
@@ -101,7 +101,7 @@
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">
-                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:sign(passport.pic)}"
                                                            data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
                                                     </c:if>
                                                 </td>
@@ -169,7 +169,7 @@
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">
-                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:sign(passport.pic)}"
                                                            data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
                                                     </c:if>
                                                 </td>

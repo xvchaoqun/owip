@@ -22,7 +22,7 @@
                     <td nowrap width="80" align="center">
                         <div class="hidden-sm hidden-xs action-buttons">
                             <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                                    data-url="${ctx}/res_download?path=${cm:encodeURI(opAttatch.filePath)}&filename=${opAttatch.fileName}&sign=${opAttatch.filePath}">
+                                    data-url="${ctx}/attach_download?path=${cm:sign(opAttatch.filePath)}&filename=${opAttatch.fileName}">
                                 <i class="fa fa-download"></i> 下载</button>
                         </div>
                     </td>

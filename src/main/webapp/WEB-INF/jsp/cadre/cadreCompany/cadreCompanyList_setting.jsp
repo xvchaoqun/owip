@@ -63,19 +63,19 @@ pageEncoding="UTF-8" %>
                     var ret = "-";
                     var pdfFilePath = rowObject.dwf.pdfFilePath;
                     if ($.trim(pdfFilePath) != '') {
-                        var fileName = (rowObject.dwf.fileName || rowObject.dwf.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
+                        var fileName = (rowObject.dwf.fileName || rowObject.dwf.id)+".pdf";
                         //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
                         ret = '<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/cadreCompanyFile_download?id={0}&type=1" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
-                                .format(rowObject.id);
+                                .format(pdfFilePath, encodeURI(fileName))
+                            + '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载PDF文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                .format(pdfFilePath, encodeURI(fileName));
                     }
                     var wordFilePath = rowObject.dwf.wordFilePath;
                     if ($.trim(wordFilePath) != '') {
 
-                        var fileName = (rowObject.dwf.fileName || rowObject.dwf.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                        ret += '&nbsp;<button data-url="${ctx}/cadreCompanyFile_download?id={0}&type=2"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
-                            .format(rowObject.id);
+                        var fileName = (rowObject.dwf.fileName || rowObject.dwf.id) + ".docx";
+                        ret += '&nbsp;<button data-url="${ctx}/attach_download?path={0}&filename={1}"  title="下载WORD文件" class="downloadBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                            .format(wordFilePath, encodeURI(fileName));
                     }
                     return ret;
                 }

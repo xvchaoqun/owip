@@ -6,7 +6,6 @@ import domain.qy.QyYearExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -164,37 +164,6 @@ public class QyYearController extends QyBaseController {
                 qyYearService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(LogConstants.LOG_QY, "上传附件：%s", record.getId()));
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequestMapping("/qyYear_download")
-    public void qyYear_download(HttpServletRequest request, int id,byte type, byte fileType, HttpServletResponse response) throws IOException {
-
-            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_ADMIN)) {
-                throw new UnauthorizedException();
-            }
-
-            String path=null;
-            String filename=null;
-            QyYear qyYear = qyYearMapper.selectByPrimaryKey(id);
-
-            if(type==1&&fileType==1){
-                path=qyYear.getPlanPdf();
-                filename=qyYear.getPlanPdfName();
-
-            }else if(type==1&&fileType==2){
-                path=qyYear.getPlanWord();
-                filename=qyYear.getPlanWordName();
-
-            }else if(type==2&&fileType==1){
-                path=qyYear.getResultPdf();
-                filename=qyYear.getResultPdfName();
-
-            }else if(type==2&&fileType==2){
-                path=qyYear.getResultWord();
-                filename=qyYear.getResultWordName();
-            }
-
-            DownloadUtils.download(request, response, springProps.uploadPath + path,filename);
     }
 
     @RequiresPermissions("qyReward:edit")
