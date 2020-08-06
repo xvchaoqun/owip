@@ -1,7 +1,6 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.unit.UnitCadreTransfer;
 import domain.unit.UnitCadreTransferExample;
@@ -340,28 +339,5 @@ public class UnitCadreTransferController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
-    }
-
-    @RequiresPermissions("unitTransfer:list")
-    @RequestMapping("/unitCadreTransfer/dispatchDownload")
-    public void dispatch_download(HttpServletRequest request,
-                                  Integer id,
-                                  boolean isPpt,
-                                  HttpServletResponse response) throws IOException {
-
-        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-
-        if (dispatch != null) {
-            String path = "";
-            String filename = "";
-            if (isPpt) {
-                path = dispatch.getPpt();
-                filename = dispatch.getPptName();
-            }else {
-                path = dispatch.getFile();
-                filename = dispatch.getFileName();
-            }
-            DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-        }
     }
 }

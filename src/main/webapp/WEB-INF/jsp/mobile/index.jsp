@@ -45,7 +45,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/m/avatar?path=${cm:encodeURI(_user.avatar)}&m=1" width="90" alt="头像" />
+								<img class="nav-user-photo" src="${ctx}/m/avatar?path=${cm:sign(_user.avatar)}&m=1" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>

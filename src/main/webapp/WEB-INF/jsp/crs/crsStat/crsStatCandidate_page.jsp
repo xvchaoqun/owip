@@ -193,8 +193,8 @@
         }},
         {label: '应聘PPT', name: 'ppt', formatter: function (cellvalue, options, rowObject) {
             if(rowObject.ppt==undefined) return '--'
-            return '<a href="${ctx}/res_download?path={0}&filename={1}&sign={2}">下载</a>'
-                    .format(rowObject.ppt, rowObject.pptName, rowObject.sign)
+            return '<a href="${ctx}/attach_download?path={0}&filename={1}">下载</a>'
+                    .format(rowObject.ppt, rowObject.pptName)
         }},
         {label: '是否为现任干部', name: 'status', width: 180, formatter: function (cellvalue, options, rowObject) {
             return cellvalue==${CADRE_STATUS_CJ}?"是":"否"

@@ -313,12 +313,12 @@
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
         $("#_avatar").ace_file_input('show_file_list', [{
             type: 'image',
-            name: '${ctx}/avatar?path=${cm:encodeURI(ui.avatar)}'
+            name: '${ctx}/avatar?path=${cm:sign(ui.avatar)}'
         }]);
     });
     $("#_avatar").ace_file_input('show_file_list', [{
         type: 'image',
-        name: '${ctx}/avatar?path=${cm:encodeURI(ui.avatar)}'
+        name: '${ctx}/avatar?path=${cm:sign(ui.avatar)}'
     }]);
 
       $.fileInput($('#_sign'),{

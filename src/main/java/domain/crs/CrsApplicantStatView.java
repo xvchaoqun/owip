@@ -1,15 +1,11 @@
 package domain.crs;
 
-import sys.tags.AuthTag;
+import sys.jackson.SignRes;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CrsApplicantStatView implements Serializable {
-
-    public String getSign(){
-        return AuthTag.sign(ppt);
-    }
 
     private Integer id;
 
@@ -21,6 +17,7 @@ public class CrsApplicantStatView implements Serializable {
 
     private String pptName;
 
+    @SignRes
     private String ppt;
 
     private Date enrollTime;

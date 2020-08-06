@@ -10,7 +10,6 @@
 <t:link href="${ctx}/mobile/css/main.css"/>
 <t:link href="${ctx}/mobile/css/extend.css"/>
 <t:link href="${ctx}/mobile/css/setup.css"/>
-<t:link href="${ctx}/assets/css/bootstrap-multiselect.css"></t:link>
 <style>${_pMap['globalCss']}</style>
 <title>${_sysConfig.mobileTitle}</title>
 <script src="${ctx}/assets/js/ace-extra.js"></script>
@@ -25,4 +24,3 @@
 <t:script src="/js/metadata.js"/>
 <t:script src="/js/jquery.extend.js"/>
 <t:script src="/mobile/js/setup.js"/>
-<t:script src="/assets/js/bootstrap-multiselect.js"/>

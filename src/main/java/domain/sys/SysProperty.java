@@ -1,8 +1,20 @@
 package domain.sys;
 
+import sys.constants.SystemConstants;
+import sys.tags.UserTag;
+
 import java.io.Serializable;
 
 public class SysProperty implements Serializable {
+
+    public String getSignContent(){
+
+        if(type== SystemConstants.SYS_PROPERTY_TYPE_PIC && content!=null){
+            return UserTag.sign(content);
+        }
+        return null;
+    }
+
     private Integer id;
 
     private String code;

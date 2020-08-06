@@ -1,7 +1,10 @@
 package domain.modify;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
+import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
+import sys.tags.UserTag;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +14,24 @@ public class ModifyBaseItem implements Serializable {
     public SysUserView getCheckUser(){
         return CmTag.getUserById(checkUserId);
     }
-    
+
+    public String getSignOrginalValue(){
+        if(type== ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE && orginalValue!=null){
+            return UserTag.sign(orginalValue);
+        }
+        return null;
+    }
+
+    public String getSignModifyValue(){
+        if((StringUtils.equals(code, "avatar")
+                || type== ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE)
+                && modifyValue!=null){
+
+            return UserTag.sign(modifyValue);
+        }
+        return null;
+    }
+
     private Integer id;
 
     private Integer applyId;

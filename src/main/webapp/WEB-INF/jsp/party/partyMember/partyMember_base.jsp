@@ -38,7 +38,7 @@
                     <tr>
                         <td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-                            <img src="${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>"
+                            <img src="${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>"
                                  class="avatar">
                         </td>
 
@@ -881,12 +881,12 @@
             //$('#user-profile input[type=file]').ace_file_input('reset_input');
             $("#_avatar").ace_file_input('show_file_list', [{
                 type: 'image',
-                name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>'
+                name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
             }]);
         });
         $("#_avatar").ace_file_input('show_file_list', [{
             type: 'image',
-            name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>'
+            name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&t=<%=new Date().getTime()%>'
         }]);
 
         $("#submitBtn").click(function () {

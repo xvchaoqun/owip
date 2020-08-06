@@ -47,7 +47,7 @@
                                         <td  style="text-align: left">${template.name}</td>
                                         <c:if test="${empty param.partyId}">
                                             <td>
-                                                <a href="${ctx}/res_download?path=${cm:encodeURI(template.filePath)}&filename=${cm:encodeURI(template.fileName)}&sign=${cm:sign(template.filePath)}">下载</a>
+                                                <a href="${ctx}/attach_download?path=${cm:sign(template.filePath)}&filename=${cm:encodeURI(template.fileName)}">下载</a>
                                             </td>
                                             <td>
                                                 <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs ${allowModify?"":"disabled"}"

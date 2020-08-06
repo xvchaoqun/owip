@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 /**
  * 权限方法定义后，需要重启应用（jrebel热加载无效）
  *
- * 生成签名方法：AuthTag.sign(资源, 方法名, 方法参数)
+ * 生成签名方法：UserTag.sign(资源, 方法名, 方法参数)
  *
- * eg. AuthTag.sign(filepath, "cadre_file", "cadre_edu&12")
+ * eg. UserTag.sign(filepath, "cadre_file", "cadre_edu&12")
  */
 public class AuthMethod {
 

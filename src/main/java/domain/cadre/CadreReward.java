@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ public class CadreReward implements Serializable {
 
     private String unit;
 
+    @SignRes
     private String proof;
 
     private String proofFilename;

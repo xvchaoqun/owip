@@ -1241,7 +1241,7 @@ var _modal_width;
                 hrefLabel = hrefLabel || filename;
 
                 return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="{3}/pic?path={0}&_={4}">{2}</a>'
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, new Date().getTime());
+                    .format(filepath, encodeURI(filename), hrefLabel, ctx, new Date().getTime());
             }
             if (filepath == '') return '--';
             return $.trim(filename);
@@ -1265,7 +1265,7 @@ var _modal_width;
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
                 return '<a href="javascript:void(0)" class="{4}" data-url="{3}/pdf_preview?path={0}&filename={1}&type={5}">{2}</a>'
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
+                    .format(filepath, encodeURI(filename), hrefLabel, ctx, cls, type || '');
             }
             return $.trim(plainText);
         },
@@ -1277,7 +1277,7 @@ var _modal_width;
             if (filepath != '') {
                 hrefLabel = hrefLabel || filename;
                 return ('<a href="{3}/{1}.pdf?path={0}" target="_blank">{2}</a>')
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
+                    .format(filepath, encodeURI(filename), hrefLabel, ctx);
             }
             return '--';
         },
@@ -1291,7 +1291,7 @@ var _modal_width;
                 hrefLabel = hrefLabel || filename;
                 return ('<a href="javascript:void(0)" class="downloadBtn" data-type="{4}" ' +
                     'data-url="{3}/attach_download?path={0}&filename={1}">{2}</a>')
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, type);
+                    .format(filepath, encodeURI(filename), hrefLabel, ctx, type);
             }
             return '--';
         },

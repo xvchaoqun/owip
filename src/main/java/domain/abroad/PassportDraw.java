@@ -1,15 +1,13 @@
 package domain.abroad;
 
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
-import persistence.cadre.CadreMapper;
-import persistence.cadre.CadreViewMapper;
 import persistence.cadre.common.ICadreMapper;
 import sys.constants.AbroadConstants;
 import sys.helper.AbroadHelper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -140,6 +138,7 @@ public class PassportDraw implements Serializable {
 
     private String returnRemark;
 
+    @SignRes
     private String useRecord;
 
     private Boolean jobCertify;

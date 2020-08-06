@@ -15,7 +15,8 @@ import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.tags.AuthTag;
+import sys.tags.UserResBean;
+import sys.tags.UserTag;
 import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.*;
@@ -47,27 +48,17 @@ public class FileController extends BaseController {
                 attachFile.getFilename() + attachFile.getExt());
     }
 
-    @RequestMapping(value = "/attach_download")
-    public void attach_download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
-
-        path = HtmlUtils.htmlUnescape(path);
-        filename = HtmlUtils.htmlUnescape(filename);
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-    }
-
     // 携带签名校验参数的资源下载方法
-    @RequestMapping(value = "/res_download")
-    public void res_download(HttpServletRequest request,
-                         String path, String filename, String sign,
+    @RequestMapping(value = "/attach_download")
+    public void attach_download(HttpServletRequest request,
+                         String path, String filename,
                          HttpServletResponse response) throws IOException {
 
-        path = HtmlUtils.htmlUnescape(path);
         filename = HtmlUtils.htmlUnescape(filename);
 
-        AuthTag.check(path, sign);
+        UserResBean res = UserTag.verifyRes(path);
 
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
+        DownloadUtils.download(request, response, springProps.uploadPath + res.getRes(), filename);
     }
 
     @RequestMapping("/pdf_preview")
@@ -90,7 +81,12 @@ public class FileController extends BaseController {
                 path = attachFile.getPath();
                 filename = attachFile.getFilename();
             }
+        }else{
+
+            UserResBean res = UserTag.verifyRes(path);
+            path = res.getRes();
         }
+
         modelMap.put("path", path);
         modelMap.put("filename", filename);
 
@@ -150,24 +146,6 @@ public class FileController extends BaseController {
                           HttpServletResponse response) throws IOException, InterruptedException {
 
        displayPdfImage(path, BooleanUtils.isTrue(flush), r, pageNo, response);
-    }
-
-    // swf内容
-    @RequestMapping("/swf")
-    public void swf(String path, HttpServletResponse response) throws IOException {
-
-        String filePath = springProps.uploadPath + FileUtils.getFileName(path) + ".swf";
-
-        byte[] bytes = FileUtils.getBytes(filePath);
-        if (bytes == null) return;
-
-        response.reset();
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
     }
 
     // 图片

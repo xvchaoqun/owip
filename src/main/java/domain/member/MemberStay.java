@@ -2,6 +2,7 @@ package domain.member;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -80,6 +81,7 @@ public class MemberStay implements Serializable {
 
     private String email2;
 
+    @SignRes
     private String letter;
 
     private String country;

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
+import sys.tags.UserResBean;
+import sys.tags.UserTag;
 import sys.utils.*;
 
 import javax.imageio.ImageIO;
@@ -36,14 +38,23 @@ public class AvatarController extends BaseController {
     // 头像
     @GetMapping(value="/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public byte[] show_avatar(String path,
+    public byte[] avatar(String path,
                               // m=1 移动端
                               @RequestParam(defaultValue = "0", required = false)boolean m ) throws IOException {
 
-        String _path = springProps.avatarFolder + path;
-        if(StringUtils.isBlank(path) || !FileUtils.exists(_path)){
-            _path = ConfigUtil.defaultHomePath() + FILE_SEPARATOR
-                            + "img"+ FILE_SEPARATOR +"default.png";
+        String defaultAvatar = ConfigUtil.defaultHomePath() + FILE_SEPARATOR + "img"+ FILE_SEPARATOR +"default.png";
+        String _path = null;
+        if(StringUtils.isBlank(path)){
+             _path = defaultAvatar;
+        }else {
+
+            UserResBean res = UserTag.verifyRes(path);
+            path = res.getRes();
+            _path = springProps.avatarFolder + path;
+
+            if(StringUtils.isBlank(path) || !FileUtils.exists(_path)){
+               _path = defaultAvatar;
+            }
         }
 
         if(!m){
@@ -74,7 +85,7 @@ public class AvatarController extends BaseController {
     @RequiresPermissions("avatar:import")
     @RequestMapping("/avatar/process")
     @ResponseBody
-    public Map avatar(String ext){  // ext: 图片存放路径，在头像基础目录之下
+    public Map avatarProcess(String ext){  // ext: 图片存放路径，在头像基础目录之下
 
         String extPath = "";
         if(StringUtils.isNotBlank(ext)){
@@ -152,10 +163,8 @@ public class AvatarController extends BaseController {
     @RequestMapping(value = "/avatar_download")
     public void avatar_download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
 
-        if(!FileUtils.exists(springProps.avatarFolder, path)){
-            throw new OpException("文件不存在："+ path);
-        }
+        UserResBean res = UserTag.verifyRes(path);
 
-        DownloadUtils.download(request, response, springProps.avatarFolder + path, filename);
+        DownloadUtils.download(request, response, springProps.avatarFolder + res.getRes(), filename);
     }
 }

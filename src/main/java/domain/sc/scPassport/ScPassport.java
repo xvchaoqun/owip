@@ -3,6 +3,7 @@ package domain.sc.scPassport;
 import domain.abroad.SafeBox;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.helper.AbroadHelper;
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class ScPassport implements Serializable {
 
     private String code;
 
+    @SignRes
     private String pic;
 
     private String authority;

@@ -5,7 +5,7 @@
     <tr>
         <td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-            <img src="${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}" class="avatar">
+            <img src="${ctx}/avatar?path=${cm:sign(uv.avatar)}" class="avatar">
         </td>
         <td class="bg-right">
             姓名

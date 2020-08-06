@@ -147,8 +147,8 @@ pageEncoding="UTF-8" %>
                         var str= '--'
                         if(hasUpload){
                             str = ('<button class="downloadBtn btn btn-xs btn-success" ' +
-                             'data-url="${ctx}/res_download?path={0}&filename={1}&sign={2}"><i class="fa fa-download"></i> 下载</button>')
-                                .format(rowObject.ballotSample, "推荐票样", rowObject.sign)
+                             'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                                .format(rowObject.ballotSample, "推荐票样")
                         }
                         return str;
                 }},

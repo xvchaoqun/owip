@@ -1,5 +1,7 @@
 package domain.cla;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class ClaApplyModify implements Serializable {
 
     private String peerStaff;
 
+    @SignRes
     private String modifyProof;
 
     private String modifyProofFileName;

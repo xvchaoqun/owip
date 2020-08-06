@@ -89,7 +89,7 @@ pageEncoding="UTF-8"%>
                                     allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
                                 })
                                 $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
-                                    name: '${ctx}/avatar?path=${cm:encodeURI(record.modifyValue)}'}]);
+                                    name: '${ctx}/avatar?path=${cm:sign(record.modifyValue)}'}]);
                             </script>
                         </c:when>
                     </c:choose>

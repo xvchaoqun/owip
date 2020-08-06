@@ -1,5 +1,6 @@
 package domain.party;
 
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -24,10 +25,12 @@ public class PartyReport implements Serializable {
 
     private String branchName;
 
+    @SignRes
     private String reportFile;
 
     private Byte evaResult;
 
+    @SignRes
     private String evaFile;
 
     private String remark;

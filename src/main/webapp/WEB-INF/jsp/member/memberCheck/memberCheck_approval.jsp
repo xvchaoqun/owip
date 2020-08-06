@@ -30,7 +30,7 @@
                         <tr>
                             <td rowspan="5" style="text-align: center;vertical-align: middle;
                                      width: 50px;background-color: #fff;">
-                                <img src="${ctx}/avatar?path=${cm:encodeURI(original.avatar)}" class="avatar">
+                                <img src="${ctx}/avatar?path=${cm:sign(original.avatar)}" class="avatar">
                             </td>
                             <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${original.nativePlace}</td>
@@ -98,7 +98,7 @@
                         <tr>
                             <td rowspan="5" style="text-align: center;vertical-align: middle;
                                      width: 50px;background-color: #fff;">
-                                <img src="${ctx}/avatar?path=${cm:encodeURI(memberCheck.avatar)}" class="avatar">
+                                <img src="${ctx}/avatar?path=${cm:sign(memberCheck.avatar)}" class="avatar">
                             </td>
                             <td data-code="nativePlace" class="text-right">籍贯</td>
                             <td class="bg-left">${memberCheck.nativePlace}</td>

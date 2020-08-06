@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +16,7 @@ public class CadrePaper implements Serializable {
 
     private String press;
 
+    @SignRes
     private String filePath;
 
     private String fileName;

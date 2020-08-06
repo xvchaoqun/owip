@@ -53,7 +53,7 @@
                             <div class="image">
                                 <input type="checkbox" value="${image.id}">
                                 <a class="various" rel="group" title="${cm:encodeURI(image.fileName)}"
-                                   data-path="${cm:encodeURI(image.file)}"
+                                   data-path="${cm:sign(image.file)}"
                                    data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(image.file)}">
                                     <img src="${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(image.file))}"></a>
                                 <a class="confirm del"
@@ -68,7 +68,7 @@
                         <c:forEach items="${audios}" var="audio" varStatus="vs">
                             <div class="audio">
                                 <input type="checkbox" value="${audio.id}">
-                                <a href="${ctx}/crsPostFile_download?id=${audio.id}">
+                                <a href="${ctx}/attach_download?path=${cm:sign(audio.file)}&filename=${cm:encodeURI(image.fileName)}">
                                     <i class="fa fa-download"></i> 音频${vs.count}</a>
                                 <a class="confirm del"
                                    data-url="${ctx}/crsPostFile_del?id=${audio.id}"
@@ -152,7 +152,7 @@
 <script type="text/template" id="audio-tpl">
     <div class="audio">
         <input type="checkbox" value="{{=record.id}}">
-    <a href="${ctx}/crsPostFile_download?id=${audio.id}">
+    <a href="${ctx}/attach_download?path={{=record.file}}&filename={{=record.fileName}}">
        <i class="fa fa-download"></i> {{=name}}</a>
         <a class="confirm del"
            data-url="${ctx}/crsPostFile_del?id={{=record.id}}"

@@ -141,7 +141,7 @@
                                     <label class="col-xs-6 control-label">${empty memberStay.letter?'<span class="star">*</span>':''}接收函/邀请函<c:if
                                             test="${not empty memberStay.letter}">
                                         <a class="various" title="接收函/邀请函"
-                                           data-path="${cm:encodeURI(memberStay.letter)}"
+                                           data-path="${cm:sign(memberStay.letter)}"
                                            data-fancybox-type="image"
                                            href="${ctx}/pic?path=${memberStay.letter}">(查看)</a>
                                     </c:if>
@@ -470,7 +470,7 @@
                                     <label class="col-xs-6 control-label">户档暂留证明<c:if
                                             test="${not empty memberStay.letter}">
                                         <a class="various" title="户档暂留证明"
-                                           data-path="${cm:encodeURI(memberStay.letter)}"
+                                           data-path="${cm:sign(memberStay.letter)}"
                                            data-fancybox-type="image"
                                            href="${ctx}/pic?path=${memberStay.letter}">(查看)</a>
                                     </c:if>

@@ -629,8 +629,8 @@
                 var writeFilePath = rowObject.writeFilePath;
                 if ($.trim(writeFilePath) != '') {
                     //console.log(fileName + " =" + writeFilePath.substr(writeFilePath.indexOf(".")))
-                    return '<button data-url="${ctx}/res_download?path={0}&filename={1}&sign={2}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
-                                    .format(encodeURI(writeFilePath), encodeURI(fileName),rowObject.sign);
+                    return '<button data-url="${ctx}/attach_download?path={0}&filename={1}" title="下载文件" class="downloadBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                                    .format(writeFilePath, encodeURI(fileName));
                 }else{
                    return "未上传"
                 }

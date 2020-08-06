@@ -2,6 +2,7 @@ package domain.abroad;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -59,6 +60,7 @@ public class ApplySelfModify implements Serializable {
 
     private String needPassports;
 
+    @SignRes
     private String modifyProof;
 
     private String modifyProofFileName;

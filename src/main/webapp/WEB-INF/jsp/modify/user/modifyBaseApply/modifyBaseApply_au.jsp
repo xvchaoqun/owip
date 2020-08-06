@@ -56,9 +56,9 @@
     })
     $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}'}]);
+        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}'}]);
     });
-    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&_=<%=new Date().getTime()%>'}]);
+    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:sign(uv.avatar)}&_=<%=new Date().getTime()%>'}]);
 
     <c:if test="${not empty mbis}">
     var mbis = ${cm:toJSONArray(mbis)};
@@ -67,7 +67,7 @@
         if(mbi.code=='avatar'){
             $("#_avatarTitle").addClass("text-danger bolder");
             $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
-                name: '${ctx}/avatar?path={0}'.format(encodeURI(mbi.modifyValue))}]);
+                name: '${ctx}/avatar?path={0}'.format(mbi.signModifyValue)}]);
         }else {
             var $item = $("[data-code='{0}'][data-table='{1}']".format(mbi.code, mbi.tableName));
             $item.val(mbi.modifyValue);

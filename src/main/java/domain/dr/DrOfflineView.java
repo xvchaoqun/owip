@@ -3,8 +3,9 @@ package domain.dr;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrMemberMapper;
-import sys.tags.AuthTag;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
+import sys.tags.UserTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -13,10 +14,6 @@ import java.util.Date;
 import java.util.List;
 
 public class DrOfflineView implements Serializable {
-
-    public String getSign(){
-        return AuthTag.sign(ballotSample);
-    }
 
     public String getSrCode(){
         return "纪实〔"+srSeq+"〕号";
@@ -66,6 +63,7 @@ public class DrOfflineView implements Serializable {
 
     private String members;
 
+    @SignRes
     private String ballotSample;
 
     private Integer headcount;

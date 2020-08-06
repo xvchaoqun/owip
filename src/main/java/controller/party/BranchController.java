@@ -34,7 +34,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tags.AuthTag;
+import sys.tags.UserTag;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -694,9 +694,8 @@ public class BranchController extends BaseController {
         ExportHelper.save(workbook, springProps.uploadPath + savePath);
 
         Map<String, Object> resultMap = success();
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserTag.sign(savePath));
         resultMap.put("filename", xlsx.getOriginalFilename());
-        resultMap.put("sign", AuthTag.sign(savePath, "branch:codeExport"));
 
         return resultMap;
     }

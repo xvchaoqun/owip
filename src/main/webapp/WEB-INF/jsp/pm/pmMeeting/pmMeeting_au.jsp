@@ -342,7 +342,7 @@
                             <div id="file${file.id}" class="file row well well-sm"
                                  style="padding: 0;margin-bottom: 8px;width: 150px;margin-left: 1px;">
                                 <div style="padding-left:10px;width: 80px;float: left;">
-                                    <a href="${ctx}/pmMeeting_download?fileId=${file.id}">${vs.count}、附件</a>
+                                    <a href="${ctx}/attach_download?path=${cm:sign(file.filePath)}&filename=${file.fileName}">${vs.count}、附件</a>
                                 </div>
                                 <c:if test="${edit}">
                                     <div style="width:60px;float: left"><a href="javascript:;" onclick="_delFile(${file.id}, '附件')">删除</a>

@@ -1,6 +1,7 @@
 package domain.sys;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class SysUserInfo implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date birth;
 
+    @SignRes
     private String avatar;
 
     private Date avatarUploadTime;

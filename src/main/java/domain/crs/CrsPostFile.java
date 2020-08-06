@@ -1,5 +1,7 @@
 package domain.crs;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class CrsPostFile implements Serializable {
 
     private String fileName;
 
+    @SignRes
     private String file;
 
     private Byte type;

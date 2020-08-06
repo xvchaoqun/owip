@@ -1,6 +1,7 @@
 package domain.member;
 
 import domain.sys.SysUserView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -79,6 +80,7 @@ public class MemberStayView implements Serializable {
 
     private String email2;
 
+    @SignRes
     private String letter;
 
     private String country;

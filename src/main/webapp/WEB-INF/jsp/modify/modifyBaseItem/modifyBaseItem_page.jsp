@@ -70,7 +70,7 @@
                 if(rowObject.type=='${MODIFY_BASE_ITEM_TYPE_IMAGE}'){
 
                     return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/avatar?path={0}"> <img class="avatar" src="${ctx}/avatar?path={0}"/></a>'
-                            .format(encodeURI(cellvalue), "原头像");
+                            .format(rowObject.signOrginalValue, "原头像");
                 }else if(rowObject.code=='health'){
                    return $.jgrid.formatter.MetaType(cellvalue, options, rowObject);
                 }else if(rowObject.code=='political_status'){
@@ -84,7 +84,7 @@
 
                 if(cellvalue==undefined) return '--';
                 if(rowObject.type=='${MODIFY_BASE_ITEM_TYPE_IMAGE}'){
-                    var path = '${ctx}/avatar?path={0}&_='.format(encodeURI(cellvalue)) + new Date().getTime();
+                    var path = '${ctx}/avatar?path={0}&_='.format(rowObject.signModifyValue) + new Date().getTime();
                     return '<a class="various" title="{1}" data-fancybox-type="image" href="{0}"><img class="avatar" src="{0}"/></a>'
                             .format(path, "新头像");
                 }else if(rowObject.code=='health'){
