@@ -349,7 +349,7 @@
                 console.log(input)
                 return $(input).data("name");
             })
-            console.log("syncNames="+ syncNames.join(","))
+            //console.log("syncNames="+ syncNames.join(","))
             $(form).ajaxSubmit({
                 data:{syncNames:syncNames.join(",")},
                 success: function (ret) {

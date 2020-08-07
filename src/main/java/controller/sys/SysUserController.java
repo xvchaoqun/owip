@@ -11,6 +11,7 @@ import interceptor.SortParam;
 import mixin.MixinUtils;
 import mixin.SysUserListMixin;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -760,7 +761,7 @@ public class SysUserController extends BaseController {
             throw new OpException("“依据字段所在列数”和“出生日期所在列数”不能相同！");
         }
 
-        int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum(); // 列数
+        int cellNum = firstRow.getLastCellNum() - firstRow.getFirstCellNum() + 1; // 只能得到第一层的列数
 
         for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
 
@@ -790,9 +791,9 @@ public class SysUserController extends BaseController {
             String code = null;
             List<String> codeList = new ArrayList<>();
             Map<String, List<String>> codeMap = sysUserService.getCodes(roleType, colType, key, type, birthKey);
-            code = codeMap.keySet().iterator().next();
-            if (StringUtils.isBlank(code))
+            if (codeMap.size() == 0)
                 continue;
+            code = codeMap.keySet().iterator().next();
             codeList = codeMap.get(code);
 
             // 每一行插入的位置
@@ -815,7 +816,7 @@ public class SysUserController extends BaseController {
                 if (rowAddCol < cellNum) {
                     rowAddCol = cellNum;
                 } else {
-                    rowAddCol = rowAddCol + 1;
+                    ++rowAddCol;
                 }
 
                 cell = row.createCell(rowAddCol);
@@ -941,5 +942,109 @@ public class SysUserController extends BaseController {
 
         String fileName = "系统账号信息";
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 批量导入/更新系统账号信息
+    @RequiresPermissions("sysUser:edit")
+    @RequestMapping("/sysUser_batchImport")
+    public String sysUser_batchImport() {
+
+        return "sys/sysUser/sysUser_batchImport";
+    }
+
+    @RequiresPermissions("sysUser:edit")
+    @RequestMapping(value = "/sysUser_batchImport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sysUser_batchImport(HttpServletRequest request) throws InvalidFormatException, IOException, ReflectiveOperationException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        Map<SysUserView, TeacherInfo> records = new HashMap<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+            row++;
+
+            String userCode = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                continue; // 学工号为空则忽略行
+            }
+            String type = StringUtils.trimToNull(xlsRow.get(1));
+            byte _type = 0;
+            if (StringUtils.isNotBlank(type)){
+                for (Map.Entry<Byte, String> entry : SystemConstants.USER_TYPE_MAP.entrySet()) {
+                    if (StringUtils.equals(type, entry.getValue())) {
+                        _type = entry.getKey();
+                    }
+                }
+                if (_type == 0){
+                    throw new OpException("第{0}行账号类别[{1}]不存在", row, type);
+                }
+            }else {
+                throw new OpException("第{0}行账号类别为空", row);
+            }
+
+            String passwd = StringUtils.trimToNull(xlsRow.get(2));
+
+            //判断账号存在，先用账号判断，再用学工号判断
+            SysUserView uv = sysUserService.findByUsername(userCode);
+            if (uv == null) {
+                uv = sysUserService.findByCode(userCode);
+                if (uv == null) {
+                    //创建账号
+                    uv = new SysUserView();
+                    uv.setUsername(userCode);
+                    uv.setCode(userCode);
+                    uv.setCreateTime(new Date());
+                    uv.setSource(SystemConstants.USER_SOURCE_REG);
+
+                    if (StringUtils.isBlank(passwd))
+                        passwd = RandomStringUtils.randomNumeric(6);
+                }
+            }
+
+            if (StringUtils.isNotBlank(passwd)){
+                SaltPassword encrypt = passwordHelper.encryptByRandomSalt(passwd);
+                uv.setSalt(encrypt.getSalt());
+                uv.setPasswd(encrypt.getPassword());
+            }
+            uv.setType(_type);//账号类别
+
+            uv.setRealname(StringUtils.trimToNull(xlsRow.get(3)));
+            uv.setGender((byte) (StringUtils.equals(StringUtils.trimToNull(xlsRow.get(4)), "男") ? 1 : 2));
+            uv.setBirth(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(5))));
+            uv.setIdcard(StringUtils.trimToNull(xlsRow.get(6)));
+            uv.setNation(StringUtils.trimToNull(xlsRow.get(7)));
+            uv.setNativePlace(StringUtils.trimToNull(xlsRow.get(8)));
+            uv.setHomeplace(StringUtils.trimToNull(xlsRow.get(9)));
+            uv.setHousehold(StringUtils.trimToNull(xlsRow.get(10)));
+            uv.setMobile(StringUtils.trimToNull(xlsRow.get(13)));
+            uv.setEmail(StringUtils.trimToNull(xlsRow.get(14)));
+            uv.setPhone(StringUtils.trimToNull(xlsRow.get(15)));
+            uv.setUnit(StringUtils.trimToNull(xlsRow.get(16)));
+
+            TeacherInfo teacherInfo = new TeacherInfo();
+            if(uv.getType() == SystemConstants.USER_TYPE_JZG) {
+                if (uv.getId() != null){
+                    teacherInfo.setUserId(uv.getId());
+                }
+                teacherInfo.setProPost(StringUtils.trimToNull(xlsRow.get(11)));
+                teacherInfo.setProPostLevel(StringUtils.trimToNull(xlsRow.get(12)));
+            }
+
+            records.put(uv,teacherInfo);
+        }
+
+        sysUserService.batchImport(records);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "导入系统账号数目：%s", records.size()));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("total", records.size());
+        return resultMap;
     }
 }
