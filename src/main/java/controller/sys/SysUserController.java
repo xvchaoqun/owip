@@ -811,7 +811,7 @@ public class SysUserController extends BaseController {
                 cell.setCellValue(StringUtils.trimToEmpty(code));
             }
 
-            if (codeList.size() > 0) {
+            if (codeList.size() > 1) {
 
                 if (rowAddCol < cellNum) {
                     rowAddCol = cellNum;

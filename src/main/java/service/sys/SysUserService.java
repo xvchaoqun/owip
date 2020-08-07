@@ -893,7 +893,7 @@ public class SysUserService extends BaseMapper {
                         }
                     }
                 }else {
-                    //本科生和教职工没有细分，所以属于同一类
+                    //本科生和教职工没有细分，所以直接读取
                     for (SysUserView uv : uvs) {
                         if (null != birthKey) {
                             if (birthKey.equals(DateUtils.formatDate(uv.getBirth(), "yyyyMM"))) {
