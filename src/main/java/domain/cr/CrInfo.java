@@ -1,6 +1,7 @@
 package domain.cr;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class CrInfo implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date addDate;
 
+    @SignRes
     private String notice;
 
     private Integer postNum;
