@@ -40,7 +40,7 @@
             <c:set value="${cetCodeSignLoginUrl}/m/cet_eva/login" var="cetCodeSignLoginUrl"/>
                 <c:set var="loginUrl" value="${cetCodeSignLoginUrl}?id=${cetTrainCourse.id}" scope="request"></c:set>
                 <p><label>扫描二维码进行账号绑定</label></p>
-                <img src="${ctx}/qrcode?content=${cm:encodeURI(requestScope.loginUrl)}" style="width: 200px; height:200px;margin: 20px"/>
+                <img src="${ctx}/qrcode?content=${cm:sign(requestScope.loginUrl)}" style="width: 200px; height:200px;margin: 20px"/>
                 </td>
                 <td>
         <div style="width: 500px;max-height: 400px;overflow-y: auto">

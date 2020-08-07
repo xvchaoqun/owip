@@ -8,7 +8,7 @@
         <h4 class="widget-title">
             <c:if test="${not empty crsPost.notice}">
                 <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info btn-xs"
-                   data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
+                   data-url="${ctx}/pdf?path=${cm:sign(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
                 &nbsp;
                 <a href="javascript:;" class="downloadBtn btn btn-primary btn-xs"
                    data-url="${ctx}/attach_download?path=${cm:sign(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"

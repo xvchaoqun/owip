@@ -143,7 +143,7 @@
                                         <a class="various" title="接收函/邀请函"
                                            data-path="${cm:sign(memberStay.letter)}"
                                            data-fancybox-type="image"
-                                           href="${ctx}/pic?path=${memberStay.letter}">(查看)</a>
+                                           href="${ctx}/pic?path=${cm:sign(memberStay.letter)}">(查看)</a>
                                     </c:if>
                                     </label>
 
@@ -472,7 +472,7 @@
                                         <a class="various" title="户档暂留证明"
                                            data-path="${cm:sign(memberStay.letter)}"
                                            data-fancybox-type="image"
-                                           href="${ctx}/pic?path=${memberStay.letter}">(查看)</a>
+                                           href="${ctx}/pic?path=${cm:sign(memberStay.letter)}">(查看)</a>
                                     </c:if>
                                     </label>
 

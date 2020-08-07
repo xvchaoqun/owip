@@ -24,10 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.util.HtmlUtils;
 import persistence.dispatch.DispatchCadreMapper;
 import persistence.dispatch.DispatchMapper;
 import persistence.dispatch.DispatchUnitMapper;
-import persistence.sys.HtmlFragmentMapper;
 import service.base.ContentTplService;
 import service.base.LayerTypeService;
 import service.base.MetaClassService;
@@ -46,6 +46,7 @@ import service.ps.PsInfoService;
 import service.sys.*;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
@@ -63,7 +64,6 @@ public class CmTag {
     public static ApplicationContext context = ApplicationContextSupport.getContext();
     static CacheService cacheService = context.getBean(CacheService.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
-    static HtmlFragmentMapper htmlFragmentMapper = context.getBean(HtmlFragmentMapper.class);
     static ContentTplService contentTplService = context.getBean(ContentTplService.class);
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
     static SysPropertyService sysPropertyService = context.getBean(SysPropertyService.class);
@@ -210,17 +210,27 @@ public class CmTag {
 
     public static ContentTpl getContentTpl(String code) {
 
-        return contentTplService.codeKeyMap().get(code);
+        ContentTpl contentTpl = contentTplService.codeKeyMap().get(code);
+        if(contentTpl!=null) {
+
+            byte contentType = contentTpl.getContentType();
+            if (contentType == ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML) {
+                contentTpl.setContent(HtmlUtils.htmlUnescape(contentTpl.getContent()));
+            }
+        }
+
+        return contentTpl;
     }
 
+    // 仅供jstl标签调用
     public static HtmlFragment getHtmlFragment(String code) {
 
-        return htmlFragmentService.codeKeyMap().get(code);
-    }
+        HtmlFragment htmlFragment = htmlFragmentService.codeKeyMap().get(code);
 
-    public static HtmlFragment getHtmlFragment(Integer id) {
-
-        return htmlFragmentMapper.selectByPrimaryKey(id);
+        if(htmlFragment!=null){
+            htmlFragment.setContent(HtmlUtils.htmlUnescape(htmlFragment.getContent()));
+        }
+        return htmlFragment;
     }
 
     public static List<SysResource> getSysResourcePath(Integer id, Boolean isMobile) {

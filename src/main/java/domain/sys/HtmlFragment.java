@@ -1,5 +1,6 @@
 package domain.sys;
 
+import persistence.sys.HtmlFragmentMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -21,8 +22,12 @@ public class HtmlFragment implements Serializable {
         return serialVersionUID;
     }
     public HtmlFragment getParent(){
-        if(fid!=null && fid>0)
-            return CmTag.getHtmlFragment(fid);
+
+        if(fid!=null && fid>0){
+
+            HtmlFragmentMapper htmlFragmentMapper = CmTag.getBean(HtmlFragmentMapper.class);
+            return htmlFragmentMapper.selectByPrimaryKey(fid);
+        }
         return null;
     }
 

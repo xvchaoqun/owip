@@ -25,7 +25,7 @@
 </div>
 <div class="modal-body" style="background-color: grey;padding: 0">
     <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
-    <img data-src="${ctx}/pdf_image?path=${path}&pageNo=${pageNo}"
+    <img data-src="${ctx}/pdf_image?path=${cm:sign(path)}&pageNo=${pageNo}"
          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)"
          style="width: 100%;padding-bottom: 5px;">
     </c:forEach>
@@ -33,7 +33,7 @@
 <div class="modal-footer">
     <c:if test="${!np}">
         <a href="javascript:;" data-dismiss="modal" class="printBtn btn btn-info"
-           data-url="${ctx}/pdf?path=${cm:encodeURI(pdfPath)}"><i class="fa fa-print"></i> 打印</a>
+           data-url="${ctx}/pdf?path=${cm:sign(pdfPath)}"><i class="fa fa-print"></i> 打印</a>
     </c:if>
     <c:if test="${!nd}">
         <a href="javascript:;" data-url="${ctx}/attach_download?path=${cm:sign(path)}&filename=${filename}"

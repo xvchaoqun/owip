@@ -21,7 +21,7 @@
 			<td></td>
 			<td align="left">
 				<c:set var="loginUrl" value="${cetInspectorLoginUrl}?trainId=${cetTrain.id}" scope="request"></c:set>
-				<img src="${ctx}/qrcode?content=${cm:encodeURI(requestScope.loginUrl)}" style="width: 400px;margin: 20px"/>
+				<img src="${ctx}/qrcode?content=${cm:sign(requestScope.loginUrl)}" style="width: 400px;margin: 20px"/>
 				<%
 					//System.out.println(request.getAttribute("loginUrl"));
 				%>
@@ -48,7 +48,7 @@
 			<td align="left">
 				<c:set var="loginUrl" value="${cetInspectorLoginUrl}?trainId=${cetTrain.id}"></c:set>
 				<%--${loginUrl}--%>
-				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}"  style="width: 400px;margin: 20px"/>
+				<img src="${ctx}/qrcode?content=${cm:sign(loginUrl)}"  style="width: 400px;margin: 20px"/>
 			</td>
 		</tr>
 		<tr>

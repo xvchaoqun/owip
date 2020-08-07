@@ -52,7 +52,7 @@
                                                                     title="图片${picIdx.count}" data-path="${cm:sign(pic)}"
                                                                     data-fancybox-type="image" href="${ctx}/pic?path=${cm:sign(pic)}">
                                                                      <img alt="Image ${picIdx.count}" width="36"
-                                                                         src="${ctx}/pic?path=${cm:getShortPic(pic)}"/>
+                                                                         src="${ctx}/pic?path=${cm:sign(cm:getShortPic(pic))}"/>
                                                                  </a>
                                                             </c:forEach>
                                                             &nbsp;

@@ -45,7 +45,7 @@ import sys.constants.SystemConstants;
 import sys.freemarker.TableNameMethod;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
-import sys.tags.UserTag;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -831,7 +831,7 @@ public class SysUserController extends BaseController {
         ExportHelper.save(workbook, springProps.uploadPath + savePath);
 
         Map<String, Object> resultMap = success();
-        resultMap.put("file", UserTag.sign(savePath));
+        resultMap.put("file", UserResUtils.sign(savePath));
         resultMap.put("filename", xlsx.getOriginalFilename());
 
         return resultMap;

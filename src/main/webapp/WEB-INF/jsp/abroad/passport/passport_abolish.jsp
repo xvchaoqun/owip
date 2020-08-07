@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>取消集中管理</h3>
+    <h3>手动取消集中管理</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/abroad/passport_abolish" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -24,17 +24,24 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <div class="text-primary bolder text-left">
-        其他取消集中管理情况说明：<br/>
+        系统自动取消集中管理情况说明：<br/>
         <ul>
             <li>
                  一、证件过期。系统每天会进行证件过期扫描，过期的证件将自动转移到取消集中管理证件库；
             </li>
+            <shiro:hasPermission name="passportDraw:list">
             <li>
-                二、干部离任。在系统中进行干部离任操作时，该干部相关的集中管理证件会自动转移至取消集中管理证件库：<br/>
+                二、干部离任。在系统中进行干部离任操作后的次日，该干部相关的集中管理证件会自动转移至取消集中管理证件库：<br/>
                  1、如果证件为“未借出”，则转移到“取消集中管理（未确认）”。<br/>
                  2、如果证件“已借出”，则转移到“取消集中管理证件（已确认）”中，最后一个字段“状态”为“免职前已领取”。<br/>
                  同时借出记录的“实交组织部日期”为“已免职”。
             </li>
+            </shiro:hasPermission>
+            <shiro:lacksPermission name="passportDraw:list">
+            <li>
+                二、干部离任。在系统中进行干部离任操作后的次日，该干部相关的集中管理证件会自动转移至取消集中管理证件库（未确认）；
+            </li>
+            </shiro:lacksPermission>
         </ul>
     </div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>

@@ -1,4 +1,4 @@
-package sys.tags;
+package sys.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
  *
  * eg. UserTag.sign(filepath, "cadre_file", "cadre_edu&12")
  */
-public class AuthMethod {
+public class UserResMethod {
 
-    private static Logger logger = LoggerFactory.getLogger(AuthMethod.class);
+    private static Logger logger = LoggerFactory.getLogger(UserResMethod.class);
 
     // 方法参数必须为String，返回类型必须为boolean
     public static boolean cadre_file(String params){

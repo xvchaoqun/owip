@@ -130,11 +130,11 @@
             width: 150,
             formatter: function (cellvalue, options, rowObject) {
                 var filesArray = [];
-                if (cellvalue != undefined) {
-                    var filePaths = cellvalue.split(",");
-                    filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证书{1}</a>'.format(encodeURI(filePaths[0]), 1, rowObject.id));
+                if (rowObject.signCertificates != undefined) {
+                    var filePaths = rowObject.signCertificates.split(",");
+                    filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[0], 1, rowObject.id));
                     if (filePaths.length == 2)
-                        filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证书{1}</a>'.format(encodeURI(filePaths[1]), 2, rowObject.id));
+                        filesArray.push('<a class="various" rel="group{2}" title="学历学位证书{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证书{1}</a>'.format(filePaths[1], 2, rowObject.id));
                 }
 
                 return filesArray.join("，");

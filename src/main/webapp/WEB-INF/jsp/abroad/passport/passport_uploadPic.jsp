@@ -172,7 +172,7 @@
         $('input[type=file][name=_pic]').ace_file_input('reset_input');
     })*/
     <c:if test="${not empty passport.pic}">
-    $('input[type=file][name=_pic]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/pic?path=${cm:encodeURI(passport.pic)}&_=<%=new Date().getTime()%>'}]);
+    $('input[type=file][name=_pic]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/pic?path=${cm:sign(passport.pic)}&_=<%=new Date().getTime()%>'}]);
     </c:if>
     $("input[type=submit]").click(function(){
         $("#modalForm").submit();return false;

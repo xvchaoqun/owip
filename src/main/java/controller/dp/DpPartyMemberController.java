@@ -323,7 +323,7 @@ public class DpPartyMemberController extends DpBaseController {
         if (ids != null) {
 
             dpPartyMemberService.del(ids);
-            logger.info(log( LogConstants.LOG_DPPARTY, "删除民主党派委员：{0}", ids));
+            logger.info(log( LogConstants.LOG_DPPARTY, "删除民主党派委员：{0}", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

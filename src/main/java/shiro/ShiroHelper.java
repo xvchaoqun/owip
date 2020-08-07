@@ -3,7 +3,9 @@ package shiro;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
@@ -15,6 +17,7 @@ import sys.shiro.BaseShiroHelper;
 import sys.shiro.IncorrectCaptchaException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.*;
 
@@ -186,5 +189,17 @@ public class ShiroHelper extends BaseShiroHelper{
 
         request.getSession().removeAttribute(
                 com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+    }
+
+    // 登出当前账号并清除session cache
+    public static void logoutAndRemoveSessionCache(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        String sessionId = session.getId();
+        //System.out.println(sessionDAO.getActiveSessionsCache().keys());
+        SecurityUtils.getSubject().logout();
+
+		((EnterpriseCacheSessionDAO)sessionDAO).getActiveSessionsCache().remove(sessionId);
+        // System.out.println(sessionDAO.getActiveSessionsCache().keys());
     }
 }

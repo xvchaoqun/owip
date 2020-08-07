@@ -12,7 +12,6 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -34,7 +33,6 @@ import sys.utils.HttpRequestDeviceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by fafa on 2016/6/9.
@@ -49,8 +47,6 @@ public class CasController extends BaseController {
     private SysUserService sysUserService;
     @Autowired
     private SysLoginLogService sysLoginLogService;
-    @Autowired
-    private EnterpriseCacheSessionDAO sessionDAO;
     @Autowired
     private ShortMsgService shortMsgService;
 
@@ -75,20 +71,9 @@ public class CasController extends BaseController {
 
         String _switchUser = ShiroHelper.getCurrentUsername();
 
-        logoutAndRemoveSessionCache(request);
+        ShiroHelper.logoutAndRemoveSessionCache(request);
 
         return directLogin(username, SystemConstants.LOGIN_TYPE_SWITCH, request, response, _switchUser);
-    }
-
-    // 登出当前账号并清除session cache
-    private void logoutAndRemoveSessionCache(HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-        String sessionId = session.getId();
-        //System.out.println(sessionDAO.getActiveSessionsCache().keys());
-        SecurityUtils.getSubject().logout();
-        sessionDAO.getActiveSessionsCache().remove(sessionId);
-        // System.out.println(sessionDAO.getActiveSessionsCache().keys());
     }
 
     // 切换回主账号
@@ -96,14 +81,16 @@ public class CasController extends BaseController {
     public String sysLogin_switch_back(HttpServletRequest request, HttpServletResponse response) {
 
         String switchUser = (String) request.getSession().getAttribute("_switchUser");
-        if (StringUtils.isBlank(switchUser))
-            throw new UnauthorizedException();
+        if (StringUtils.isBlank(switchUser)){
+
+            return redirect("/", response);
+        }
 
         // 防止被切换的账号登录时，踢出主账号 (但不能避免切换回来之前，被踢出)
         Cache<Object, Object> cache = cacheManager.getCache("shiro-kickout-session");
         cache.remove(ShiroHelper.getCurrentUsername());
 
-        logoutAndRemoveSessionCache(request);
+        ShiroHelper.logoutAndRemoveSessionCache(request);
 
         return directLogin(switchUser, SystemConstants.LOGIN_TYPE_SWITCH, request, response, null);
     }

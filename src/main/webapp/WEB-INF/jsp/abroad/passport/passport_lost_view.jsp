@@ -24,7 +24,7 @@
     <div class="tab-content">
         <div class="tab-pane in active">
             <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 595px">
-                <img src="${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}" style="max-width: 595px"/>
+                <img src="${ctx}/pic?path=${cm:sign(passport.lostProof)}" style="max-width: 595px"/>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
 
 <script>
     $("#print_proof").click(function () {
-        $.print('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
+        $.print('${ctx}/pic?path=${cm:sign(passport.lostProof)}');
     });
     $("#updateProof").click(function(){
         $.loadModal("${ctx}/abroad/updateLostProof?id=${passport.id}")

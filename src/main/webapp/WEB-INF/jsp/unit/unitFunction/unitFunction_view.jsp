@@ -37,7 +37,7 @@
             </a>
         </div>
         <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
-            <img data-src="${ctx}/pdf_image?path=${unitFunction.filePath}&pageNo=${pageNo}" src="${ctx}/img/px.png"
+            <img data-src="${ctx}/pdf_image?path=${cm:sign(unitFunction.filePath)}&pageNo=${pageNo}" src="${ctx}/img/px.png"
                  onload="lzld(this)" style="width: 875px">
         </c:forEach>
     </div>

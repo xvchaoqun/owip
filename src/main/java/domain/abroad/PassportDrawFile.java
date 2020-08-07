@@ -1,5 +1,7 @@
 package domain.abroad;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class PassportDrawFile implements Serializable {
 
     private String fileName;
 
+    @SignRes
     private String filePath;
 
     private Date createTime;

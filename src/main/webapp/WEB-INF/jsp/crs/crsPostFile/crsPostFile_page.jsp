@@ -54,8 +54,8 @@
                                 <input type="checkbox" value="${image.id}">
                                 <a class="various" rel="group" title="${cm:encodeURI(image.fileName)}"
                                    data-path="${cm:sign(image.file)}"
-                                   data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(image.file)}">
-                                    <img src="${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(image.file))}"></a>
+                                   data-fancybox-type="image" href="${ctx}/pic?path=${cm:sign(image.file)}">
+                                    <img src="${ctx}/pic?path=${cm:sign(cm:getShortPic(image.file))}"></a>
                                 <a class="confirm del"
                                    data-url="${ctx}/crsPostFile_del?id=${image.id}"
                                    data-msg="确定删除该图片？"

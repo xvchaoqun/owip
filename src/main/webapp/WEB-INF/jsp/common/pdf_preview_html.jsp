@@ -13,7 +13,7 @@
 </c:if>
 <c:if test="${exists}">
     <c:forEach begin="1" end="${cm:getPages(_fullPath)}" var="pageNo">
-    <img data-src="${ctx}/pdf_image?path=${pdfPath}&pageNo=${pageNo}"
+    <img data-src="${ctx}/pdf_image?path=${cm:sign(pdfPath)}&pageNo=${pageNo}"
          src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzld(this)" style="width: 700px">
     </c:forEach>
 </c:if>

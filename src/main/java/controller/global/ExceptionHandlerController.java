@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-import shiro.ShiroHelper;
+import sys.HttpResponseMethod;
 import sys.constants.SystemConstants;
-import sys.utils.*;
+import sys.spring.IllegalUserResException;
+import sys.utils.FormUtils;
+import sys.utils.HttpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,13 +38,7 @@ public class ExceptionHandlerController {
 
     public String getMsg(HttpServletRequest request, Exception ex) {
 
-        //logger.error("异常", ex);
-        String username = ShiroHelper.getCurrentUsername();
-        return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                username, ex.getMessage(), request.getRequestURI(),
-                request.getMethod(),
-                JSONUtils.toString(request.getParameterMap(), false),
-                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request));
+        return HttpResponseMethod.accessLog(request, ex.getMessage());
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -142,8 +139,8 @@ public class ExceptionHandlerController {
         return mav;
     }
 
-    @ExceptionHandler(NoAuthException.class)
-    public void resolveNoAuthException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+    @ExceptionHandler(IllegalUserResException.class)
+    public void resolveIllegalUserResException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
 
         logger.warn(getMsg(request, ex), ex);
 

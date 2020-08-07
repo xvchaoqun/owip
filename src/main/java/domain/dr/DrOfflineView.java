@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import persistence.dr.DrMemberMapper;
 import sys.jackson.SignRes;
 import sys.tags.CmTag;
-import sys.tags.UserTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;

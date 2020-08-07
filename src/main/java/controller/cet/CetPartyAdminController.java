@@ -1,6 +1,7 @@
 package controller.cet;
 
 import domain.cet.CetPartyAdmin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,7 @@ public class CetPartyAdminController extends CetBaseController{
     public Map cetParty_sync(@RequestParam(required = false, value = "ids[]" ) Integer[] ids) {
 
         cetPartyService.batchSync(ids);
-        logger.info(addLog(LogConstants.LOG_CET, "同步分党委管理员为二级党委培训管理员，%s", ids));
+        logger.info(addLog(LogConstants.LOG_CET, "同步分党委管理员为二级党委培训管理员，%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }

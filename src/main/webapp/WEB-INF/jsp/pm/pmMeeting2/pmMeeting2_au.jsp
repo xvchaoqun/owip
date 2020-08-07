@@ -244,11 +244,11 @@
                         <c:if test="${not empty pmMeeting2.filePath}">
 
                             <c:if test="${fn:endsWith(fn:toLowerCase(pmMeeting2.filePath), '.pdf')}">
-                                <a href="${ctx}/pdf?path=${cm:encodeURI(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
+                                <a href="${ctx}/pdf?path=${cm:sign(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
                             </c:if>
 
                             <c:if test="${!fn:endsWith(fn:toLowerCase(pmMeeting2.filePath), '.pdf')}">
-                                <a href="${ctx}/pic?path=${cm:encodeURI(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
+                                <a href="${ctx}/pic?path=${cm:sign(pmMeeting2.filePath)}" target="_blank" style="font-size: 14px;font-weight: normal">(预览</a>
                             </c:if>
 
                             <a href="javascript:;" data-type="download" style="font-size: 14px;font-weight: normal"

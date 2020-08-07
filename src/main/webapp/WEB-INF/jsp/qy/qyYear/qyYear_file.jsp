@@ -70,7 +70,7 @@
                             <td nowrap>
 
                                     <button class='openUrl btn btn-xs btn-primary'
-                                            data-url='${ctx}/${qyYear.planPdfName}.pdf?path=${cm:encodeURI(qyYear.planPdf)}'>
+                                            data-url='${ctx}/${qyYear.planPdfName}.pdf?path=${cm:sign(qyYear.planPdf)}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class="downloadBtn btn btn-xs btn-info" data-type="download"
@@ -129,7 +129,7 @@
                             <td nowrap>${qyYear.resultPdfName}</td>
                             <td nowrap>
                                 <button class='openUrl btn btn-xs btn-primary'
-                                        data-url='${ctx}/${qyYear.resultPdfName}.pdf?path=${cm:encodeURI(qyYear.resultPdf)}'>
+                                        data-url='${ctx}/${qyYear.resultPdfName}.pdf?path=${cm:sign(qyYear.resultPdf)}'>
                                     <i class="fa fa-search"></i>
                                     预览</button>
                                 <button class="downloadBtn btn btn-xs btn-info" data-type="download"

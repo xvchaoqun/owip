@@ -120,7 +120,7 @@
         </div>
         <div>
             <c:set var="content" value="${_p_siteHome}?code=${sysUser.code}"/>
-            <img src="${ctx}/qrcode?content=${cm:encodeURI(content)}&_=<%=new Date().getTime()%>"/>
+            <img src="${ctx}/qrcode?content=${cm:sign(content)}&_=<%=new Date().getTime()%>"/>
         </div>
     </div>
     <shiro:hasPermission name="sysSync:user">

@@ -70,7 +70,7 @@
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <button class="various btn btn-warning btn-xs" title="${cetTrainCourseFile.fileName}" data-path="${cm:sign(cetTrainCourseFile.filePath)}"
                                         data-fancybox-type="image"
-                                        href="${ctx}/pic?path=${cetTrainCourseFile.filePath}"><i class="fa fa-search"></i> 预览</button>
+                                        href="${ctx}/pic?path=${cm:sign(cetTrainCourseFile.filePath)}"><i class="fa fa-search"></i> 预览</button>
                                 <button class='downloadBtn btn btn-xs btn-success'
                                         data-url='${ctx}/attach_download?path=${cm:sign(cetTrainCourseFile.filePath)}&filename=${cetTrainCourseFile.fileName}'>
                                     <i class="fa fa-download"></i>

@@ -134,7 +134,7 @@
         $.print("${ctx}/report/cancel?id=${param.id}&format=pdf");
     });
     $("#print_proof").click(function(){
-        $.print('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
+        $.print('${ctx}/pic?path=${cm:sign(passport.cancelPic)}');
     });
 
     $.fileInput($('input[type=file]'),{

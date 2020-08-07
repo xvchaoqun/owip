@@ -1,7 +1,8 @@
-package sys.tags;
+package sys.spring;
 
-public class AuthBean {
+public class UserRes {
 
+    String res; // 资源
     Integer signUserId; // 资源签名人（当前登录用户ID）
 
     Integer authUserId; // 资源使用人
@@ -9,11 +10,20 @@ public class AuthBean {
     String method; // 资源使用权限方法
     String params; // 资源使用权限方法的参数
 
+    public String getRes() {
+        return res;
+    }
+
+    public UserRes setRes(String res) {
+        this.res = res;
+        return this;
+    }
+
     public Integer getSignUserId() {
         return signUserId;
     }
 
-    public AuthBean setSignUserId(Integer signUserId) {
+    public UserRes setSignUserId(Integer signUserId) {
         this.signUserId = signUserId;
         return this;
     }
@@ -22,7 +32,7 @@ public class AuthBean {
         return authUserId;
     }
 
-    public AuthBean setAuthUserId(Integer authUserId) {
+    public UserRes setAuthUserId(Integer authUserId) {
         this.authUserId = authUserId;
         return this;
     }
@@ -31,7 +41,7 @@ public class AuthBean {
         return permissions;
     }
 
-    public AuthBean setPermissions(String permissions) {
+    public UserRes setPermissions(String permissions) {
         this.permissions = permissions;
         return this;
     }
@@ -40,7 +50,7 @@ public class AuthBean {
         return method;
     }
 
-    public AuthBean setMethod(String method) {
+    public UserRes setMethod(String method) {
         this.method = method;
         return this;
     }
@@ -49,16 +59,16 @@ public class AuthBean {
         return params;
     }
 
-    public AuthBean setParams(String params) {
+    public UserRes setParams(String params) {
         this.params = params;
         return this;
     }
 
     @Override
     public String toString() {
-
-        return "AuthBean{" +
-                "signUserId=" + signUserId +
+        return "UserResBean{" +
+                "res='" + res + '\'' +
+                ", signUserId=" + signUserId +
                 ", authUserId=" + authUserId +
                 ", permissions='" + permissions + '\'' +
                 ", method='" + method + '\'' +

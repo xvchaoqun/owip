@@ -4,7 +4,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
-import sys.tags.UserTag;
+import sys.spring.UserResUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +17,7 @@ public class ModifyBaseItem implements Serializable {
 
     public String getSignOrginalValue(){
         if(type== ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE && orginalValue!=null){
-            return UserTag.sign(orginalValue);
+            return UserResUtils.sign(orginalValue);
         }
         return null;
     }
@@ -27,7 +27,7 @@ public class ModifyBaseItem implements Serializable {
                 || type== ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE)
                 && modifyValue!=null){
 
-            return UserTag.sign(modifyValue);
+            return UserResUtils.sign(modifyValue);
         }
         return null;
     }

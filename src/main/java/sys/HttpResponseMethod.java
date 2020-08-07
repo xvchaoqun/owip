@@ -8,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import service.SpringProps;
 import service.sys.LogService;
+import shiro.ShiroHelper;
 import sys.tags.CmTag;
 import sys.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -259,5 +261,22 @@ public interface HttpResponseMethod {
         LogService logService = CmTag.getBean(LogService.class);
 
         return logService.log(logType, content);
+    }
+
+    public static String accessLog(String msg) {
+
+        HttpServletRequest request = ContextHelper.getRequest();
+
+        return accessLog(request, msg);
+    }
+
+    public static String accessLog(HttpServletRequest request, String msg) {
+
+        String username = ShiroHelper.getCurrentUsername();
+        return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                username, msg, request.getRequestURI(),
+                request.getMethod(),
+                JSONUtils.toString(request.getParameterMap(), false),
+                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request));
     }
 }

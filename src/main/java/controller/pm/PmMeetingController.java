@@ -352,7 +352,7 @@ public class PmMeetingController extends PmBaseController {
 
         pmMeetingService.check(ids,status,isBack,reason);
 
-        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", ids));
+        logger.info(addLog(LogConstants.LOG_PM, "审核三会一课：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }

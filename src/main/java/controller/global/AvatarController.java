@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
-import sys.tags.UserResBean;
-import sys.tags.UserTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.imageio.ImageIO;
@@ -48,8 +48,9 @@ public class AvatarController extends BaseController {
              _path = defaultAvatar;
         }else {
 
-            UserResBean res = UserTag.verifyRes(path);
+            UserRes res = UserResUtils.verify(path);
             path = res.getRes();
+
             _path = springProps.avatarFolder + path;
 
             if(StringUtils.isBlank(path) || !FileUtils.exists(_path)){
@@ -163,7 +164,7 @@ public class AvatarController extends BaseController {
     @RequestMapping(value = "/avatar_download")
     public void avatar_download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
 
-        UserResBean res = UserTag.verifyRes(path);
+        UserRes res = UserResUtils.verify(path);
 
         DownloadUtils.download(request, response, springProps.avatarFolder + res.getRes(), filename);
     }

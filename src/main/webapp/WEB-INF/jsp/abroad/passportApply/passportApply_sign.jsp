@@ -55,10 +55,6 @@
       allowExt: ['jpg', 'jpeg', 'png', 'gif'],
       allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     })
-    /*$('#signForm button[type=reset]').on(ace.click_event, function(){
-      $('input[type=file]').ace_file_input('reset_input');
-    });*/
-  //$('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);
 
   $("#submit").click(function(){
     if($('input[type=file]').val()==''){

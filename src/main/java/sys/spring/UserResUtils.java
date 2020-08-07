@@ -1,11 +1,11 @@
-package sys.tags;
+package sys.spring;
 
-import controller.global.NoAuthException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shiro.ShiroHelper;
+import sys.HttpResponseMethod;
 import sys.security.DES3Utils;
 import sys.utils.Base64Utils;
 import sys.utils.MD5Util;
@@ -13,9 +13,9 @@ import sys.utils.MD5Util;
 import java.lang.reflect.Method;
 
 // 用户资源签名保护
-public class UserTag {
+public class UserResUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(UserTag.class);
+    private static Logger logger = LoggerFactory.getLogger(UserResUtils.class);
 
     private static String DES3_KEY = "3desmust24chars*&^%12@12123";
 
@@ -25,61 +25,61 @@ public class UserTag {
      * @param signRes
      * @return
      */
-    public static UserResBean verifyRes(String signRes) {
+    public static UserRes verify(String signRes) {
 
         if (StringUtils.isBlank(signRes)) {
 
-            throw new NoAuthException();
+            throw new IllegalUserResException();
         }
 
-        UserResBean userResBean = UserTag.decode(signRes);
+        UserRes userRes = UserResUtils.decode(signRes);
         // 验签
-        verifyBean(userResBean);
+        verifyBean(userRes);
 
         // 成功后返回
-        return userResBean;
+        return userRes;
     }
 
-    public static void verifyBean(UserResBean userResBean) {
+    public static void verifyBean(UserRes userRes) {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if (userResBean == null || currentUserId == null
-                || userResBean.getSignUserId() == null
-                || userResBean.getSignUserId().intValue() != currentUserId) {
+        if (userRes == null || currentUserId == null
+                || userRes.getSignUserId() == null
+                || userRes.getSignUserId().intValue() != currentUserId) {
 
             // 非同一个签名用户，不允许访问
-            throw new NoAuthException();
+            throw new IllegalUserResException();
         }
 
-        String permissions = userResBean.getPermissions();
+        String permissions = userRes.getPermissions();
 
         if (StringUtils.isNotBlank(permissions)
                 && !ShiroHelper.isPermittedAny(permissions.split(","))) {
 
-            throw new NoAuthException(); // 无资源使用权限
+            throw new IllegalUserResException(); // 无资源使用权限
         }
 
-        if (userResBean.getAuthUserId() != null
-                && userResBean.getAuthUserId().intValue() != currentUserId) {
+        if (userRes.getAuthUserId() != null
+                && userRes.getAuthUserId().intValue() != currentUserId) {
 
-            throw new NoAuthException(); // 非资源使用人
+            throw new IllegalUserResException(); // 非资源使用人
         }
 
         // 资源权限方法判断
-        if (StringUtils.isNotBlank(userResBean.getMethod())) {
+        if (StringUtils.isNotBlank(userRes.getMethod())) {
 
             try {
-                Method method = AuthMethod.class.getDeclaredMethod(StringUtils.trim(userResBean.getMethod()), String.class);
+                Method method = UserResMethod.class.getDeclaredMethod(StringUtils.trim(userRes.getMethod()), String.class);
 
-                if (BooleanUtils.isNotTrue((Boolean) method.invoke(null, StringUtils.trim(userResBean.getParams())))) {
+                if (BooleanUtils.isNotTrue((Boolean) method.invoke(null, StringUtils.trim(userRes.getParams())))) {
 
-                    throw new NoAuthException(); // 资源权限方法校验未通过
+                    throw new IllegalUserResException(); // 资源权限方法校验未通过
                 }
 
             } catch (Exception e) {
 
-                logger.error("check failed.", e);
-                throw new NoAuthException();
+                logger.error(HttpResponseMethod.accessLog("check failed."), e);
+                throw new IllegalUserResException();
             }
         }
     }
@@ -117,16 +117,15 @@ public class UserTag {
     // 资源使用人 & 资源权限 & 资源权限判断方法
     public static String sign(String res, Integer userId, String permissions, String method, String params) {
 
-        Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if (currentUserId == null) {
+        if (StringUtils.isBlank(res)) {
 
-            logger.error("no login error：" + res);
             return null;
         }
 
-        if (StringUtils.isBlank(res)) {
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
+        if (currentUserId == null) {
 
-            logger.error("res error：" + res);
+            logger.error(HttpResponseMethod.accessLog("no login error：" + res));
             return null;
         }
 
@@ -134,7 +133,7 @@ public class UserTag {
                 || (method != null && method.indexOf("\\|") > 0)
                 || (params != null && params.indexOf("\\|") > 0)) {
 
-            logger.error("参数不能包含|字符：" + permissions + " " + method + " " + params);
+            logger.error(HttpResponseMethod.accessLog("参数不能包含|字符：" + permissions + " " + method + " " + params));
 
             return null;
         }
@@ -144,7 +143,7 @@ public class UserTag {
             base64Res = Base64Utils.encodeStr(StringUtils.trim(res));
         } catch (Exception e) {
 
-            logger.error("base64 error：" + res);
+            logger.error(HttpResponseMethod.accessLog("base64 error：" + res));
             return null;
         }
         return encode(currentUserId,StringUtils.trimToEmpty(base64Res) + "|" + currentUserId
@@ -164,18 +163,18 @@ public class UserTag {
             return DES3Utils.encode(res, key);
         } catch (Exception e) {
 
-            logger.error("encode failed.", e);
+            logger.error(HttpResponseMethod.accessLog("encode failed."), e);
         }
 
         return null;
     }
 
-    public static UserResBean decode(String signRes) {
+    public static UserRes decode(String signRes) {
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         if (currentUserId == null) {
 
-            throw new NoAuthException("未登录");
+            throw new IllegalUserResException("未登录");
         }
 
         String plainText = null;
@@ -191,10 +190,10 @@ public class UserTag {
 
             int len = strs.length;
             if (len == 0) {
-                throw new NoAuthException("签名校验失败");
+                throw new IllegalUserResException("签名校验失败");
             }
 
-            UserResBean bean = new UserResBean();
+            UserRes bean = new UserRes();
 
             if (len > 0) {
                 String base64Res = StringUtils.trimToNull(strs[0]);
@@ -223,8 +222,8 @@ public class UserTag {
 
         } catch (Exception e) {
 
-            logger.error("decode failed.", e);
-            throw new NoAuthException("签名校验失败");
+            logger.error(HttpResponseMethod.accessLog("decode failed."), e);
+            throw new IllegalUserResException("签名校验失败");
         }
     }
 }

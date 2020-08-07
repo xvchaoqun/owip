@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import org.apache.commons.lang3.StringUtils;
-import sys.tags.UserTag;
+import sys.spring.UserResUtils;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class SignResSerialize extends JsonSerializer<String> implements
 
         String signRes = null;
         if (StringUtils.isNotBlank(res)) {
-            signRes = UserTag.sign(res, null, permissions, method, params);
+            signRes = UserResUtils.sign(res, null, permissions, method, params);
         }
 
         jsonGenerator.writeString(signRes);

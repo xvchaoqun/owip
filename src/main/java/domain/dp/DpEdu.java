@@ -1,14 +1,31 @@
 package domain.dp;
 
-import domain.cadre.CadreWork;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.spring.UserResUtils;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class DpEdu implements Serializable {
+
+    public String getSignCertificates(){
+
+        if(StringUtils.isNotBlank(certificate)){
+            List<String> signCertificates = new ArrayList<>();
+            List<String> certificates = Arrays.asList(certificate.split(","));
+            for (String cert : certificates) {
+                signCertificates.add(UserResUtils.sign(cert));
+            }
+            return StringUtils.join(signCertificates, ",");
+        }
+
+        return null;
+    }
 
     private List<DpWork> subDpWorks;
 

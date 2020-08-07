@@ -1,7 +1,7 @@
 package domain.sys;
 
 import sys.constants.SystemConstants;
-import sys.tags.UserTag;
+import sys.spring.UserResUtils;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class SysProperty implements Serializable {
     public String getSignContent(){
 
         if(type== SystemConstants.SYS_PROPERTY_TYPE_PIC && content!=null){
-            return UserTag.sign(content);
+            return UserResUtils.sign(content);
         }
         return null;
     }

@@ -236,7 +236,7 @@
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(sysConfig.logo)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_logoWhite"), {
@@ -250,7 +250,7 @@
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_loginTop"), {
@@ -264,7 +264,7 @@
         previewHeight: 50,
         allowExt: ['jpg'],
         allowMime: ['image/jpg', 'image/jpeg'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_loginBg"), {
@@ -278,7 +278,7 @@
         previewHeight: 200,
         allowExt: ['jpg'],
         allowMime: ['image/jpg', 'image/jpeg'],
-        value: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
     });
     $.fileInput($("#_appleIcon"), {
         style: 'well',
@@ -305,7 +305,7 @@
         previewHeight: 64,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
     });
     $.fileInput($("#_qrLogo"), {
         style: 'well',
@@ -318,7 +318,7 @@
         previewHeight: 90,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:sign(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
     });
 
     var ke = KindEditor.create('#loginMsg', {

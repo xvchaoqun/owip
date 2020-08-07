@@ -15,8 +15,8 @@ import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.tags.UserResBean;
-import sys.tags.UserTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.*;
@@ -56,7 +56,7 @@ public class FileController extends BaseController {
 
         filename = HtmlUtils.htmlUnescape(filename);
 
-        UserResBean res = UserTag.verifyRes(path);
+        UserRes res = UserResUtils.verify(path);
 
         DownloadUtils.download(request, response, springProps.uploadPath + res.getRes(), filename);
     }
@@ -83,7 +83,7 @@ public class FileController extends BaseController {
             }
         }else{
 
-            UserResBean res = UserTag.verifyRes(path);
+            UserRes res = UserResUtils.verify(path);
             path = res.getRes();
         }
 
@@ -102,6 +102,9 @@ public class FileController extends BaseController {
     // pdf内容
     @RequestMapping("/pdf")
     public void pdf(String path, HttpServletResponse response) throws IOException {
+
+        UserRes res = UserResUtils.verify(path);
+        path = res.getRes();
 
         // 强制读取pdf文件（word转pdf的情况）
         path = PdfUtils.forcePdfPath(path);
@@ -123,6 +126,9 @@ public class FileController extends BaseController {
     @RequestMapping("/{fileName}.pdf")
     public void pdfShow(String path, HttpServletResponse response) throws IOException {
 
+        UserRes res = UserResUtils.verify(path);
+        path = res.getRes();
+
         // path的后缀可能为大写的, .PDF
         path = PdfUtils.forcePdfPath(path);
         String filePath = springProps.uploadPath + path;
@@ -143,7 +149,10 @@ public class FileController extends BaseController {
     @RequestMapping("/pdf_image")
     public void pdf_image(String path, Boolean flush, Integer r,
                           Integer pageNo, // 如果传入了页码，则返回该页图片，如果没有，则返回所有页合并后的图片
-                          HttpServletResponse response) throws IOException, InterruptedException {
+                          HttpServletResponse response) throws IOException {
+
+        UserRes res = UserResUtils.verify(path);
+        path = res.getRes();
 
        displayPdfImage(path, BooleanUtils.isTrue(flush), r, pageNo, response);
     }
@@ -152,6 +161,9 @@ public class FileController extends BaseController {
     @RequestMapping("/pic")
     public void pic(String path, Integer w, Integer h,
                     HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        UserRes res = UserResUtils.verify(path);
+        path = res.getRes();
 
         if(w==null && h==null){
             w = 800;
@@ -193,6 +205,7 @@ public class FileController extends BaseController {
     public void sign(Integer userId, HttpServletResponse response) throws IOException {
 
         if(userId==null || ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN)){
+            // 非系统管理员只能查看本人的签名
             userId = ShiroHelper.getCurrentUserId();
         }
         SysUserView uv = CmTag.getUserById(userId);
@@ -204,7 +217,9 @@ public class FileController extends BaseController {
     @RequestMapping("/qrcode")
     public void qrcode(String content, HttpServletResponse response) throws Exception {
 
-        BufferedImage image = QRCodeUtil.createImage(content, CmTag.getImgFolder() + "qr.png", false);
+        UserRes res = UserResUtils.verify(content);
+
+        BufferedImage image = QRCodeUtil.createImage(res.getRes(), CmTag.getImgFolder() + "qr.png", false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "PNG", baos);
         ImageUtils.displayImage(baos.toByteArray(), response);
