@@ -461,30 +461,7 @@
 
     $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
-    $("#upload-file").change(function () {
-        if ($("#upload-file").val() != "") {
-            var $this = $(this);
-            var $form = $this.closest("form");
-            var $btn = $("button", $form).button('loading');
-            var viewHtml = $("#dispatch-file-view").html()
-            $("#dispatch-file-view").html('<img src="${ctx}/img/loading.gif"/>')
-            $form.ajaxSubmit({
-                success: function (ret) {
-                    if (ret.success) {
-                        //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
 
-                        $("#modalForm input[name=filePath]").val(ret.filePath);
-                    } else {
-                        $("#dispatch-file-view").html(viewHtml)
-                    }
-                    $btn.button('reset');
-                    $this.removeAttr("disabled");
-                }
-            });
-            $this.attr("disabled", "disabled");
-        }
-    });
     var selectedUnitIds = [];
     $("#submitBtn").click(function () {
         selectedUnitIds = $.map($('#modalForm select[name=unitIds] option:selected, ' +
