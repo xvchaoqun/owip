@@ -1,5 +1,7 @@
 package domain.sc.scLetter;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ public class ScLetterReplyView implements Serializable {
 
     private Integer num;
 
+    @SignRes
     private String filePath;
 
     private String fileName;
@@ -26,6 +29,7 @@ public class ScLetterReplyView implements Serializable {
 
     private Integer letterNum;
 
+    @SignRes
     private String letterFilePath;
 
     private String letterFileName;

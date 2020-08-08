@@ -82,7 +82,7 @@ pageEncoding="UTF-8" %>
                     var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
                     return ('<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}" '+
                             'title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
-                            .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                            .format(pdfFilePath, encodeURI(fileName));
                 }
 
                 return '--';

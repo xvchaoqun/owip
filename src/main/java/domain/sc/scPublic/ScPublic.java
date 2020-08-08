@@ -4,6 +4,7 @@ import domain.sc.scCommittee.ScCommitteeView;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.sc.IScMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -34,8 +35,10 @@ public class ScPublic implements Serializable {
 
     private Integer num;
 
+    @SignRes
     private String wordFilePath;
 
+    @SignRes
     private String pdfFilePath;
 
     @DateTimeFormat(pattern = DateUtils.YY_MM_DD_HH_MM)

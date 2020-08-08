@@ -4,6 +4,7 @@ import domain.dispatch.DispatchType;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sys.SysUserView;
 import persistence.sc.IScMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -40,10 +41,13 @@ public class ScDispatchView implements Serializable {
 
     private Date pubTime;
 
+    @SignRes
     private String filePath;
 
+    @SignRes
     private String wordFilePath;
 
+    @SignRes
     private String signFilePath;
 
     private String remark;
@@ -52,6 +56,7 @@ public class ScDispatchView implements Serializable {
 
     private Integer dispatchId;
 
+    @SignRes
     private String dispatchFile;
 
     private String dispatchFileName;

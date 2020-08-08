@@ -1,5 +1,6 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class CadreReport implements Serializable {
 
     private Integer cadreId;
 
+    @SignRes
     private String filePath;
 
     private String fileName;

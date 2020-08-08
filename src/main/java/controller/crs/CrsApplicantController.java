@@ -20,6 +20,8 @@ import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -247,7 +249,11 @@ public class CrsApplicantController extends CrsBaseController {
                                          String filePath,
                                          HttpServletRequest request) {
 
-        record.setRecommendPdf(filePath);
+        if(filePath!=null) {
+            UserRes resBean = UserResUtils.decode(filePath);
+            record.setRecommendPdf(resBean.getRes());
+        }
+
         crsApplicantCheckService.recommend(record);
 
         logger.info(addLog(LogConstants.LOG_CRS, "更新岗位报名自荐/推荐：%s", record.getId()));
@@ -270,7 +276,7 @@ public class CrsApplicantController extends CrsBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }

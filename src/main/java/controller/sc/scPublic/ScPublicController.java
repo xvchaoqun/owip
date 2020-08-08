@@ -27,6 +27,8 @@ import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -127,7 +129,7 @@ public class ScPublicController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
+        resultMap.put("filePath", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -141,6 +143,12 @@ public class ScPublicController extends ScBaseController {
                                       Byte export, // 0:预览 1：下载  其他：提交保存
                                       HttpServletRequest request,
                                       HttpServletResponse response, ModelMap modelMap) throws IOException, InterruptedException, TemplateException {
+
+
+        if(record.getPdfFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getPdfFilePath());
+            record.setPdfFilePath(resBean.getRes());
+        }
 
         if (export != null && export == 0) {
 
@@ -367,23 +375,4 @@ public class ScPublicController extends ScBaseController {
         resultMap.put("options", options);
         return resultMap;
     }*/
-
-    @RequiresPermissions("scPublic:list")
-    @RequestMapping("/scPublic_download")
-    public void scPublic_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScPublic scPublic = scPublicMapper.selectByPrimaryKey(id);
-
-        String path = "";
-        String filename = "";
-        if (scPublic != null) {
-            filename = scPublic.getCode();
-            if (fileType == 1){
-                path = scPublic.getPdfFilePath();
-            }else if (fileType == 2) {
-                path = scPublic.getWordFilePath();
-            }
-        }
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-    }
 }

@@ -1,6 +1,7 @@
 package domain.sc.scCommittee;
 
 import domain.sys.SysUserView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class ScCommitteeTopicView implements Serializable {
 
     private Boolean hasOtherVote;
 
+    @SignRes
     private String voteFilePath;
 
     private String remark;
@@ -49,8 +51,10 @@ public class ScCommitteeTopicView implements Serializable {
 
     private String attendUsers;
 
+    @SignRes
     private String filePath;
 
+    @SignRes
     private String logFile;
 
     private static final long serialVersionUID = 1L;

@@ -1,11 +1,14 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreStatHistory implements Serializable {
     private Integer id;
 
+    @SignRes
     private String savePath;
 
     private Byte type;

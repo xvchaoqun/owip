@@ -110,12 +110,12 @@ pageEncoding="UTF-8" %>
                     }},
                 { label: '相关文件',name: 'filePath',formatter: function (cellvalue, options, rowObject) {
 
-                    /*var fileName = rule_type[rowObject.type];*/
+                    var fileName = rule_type[rowObject.type];
                     if (cellvalue==null) return "--";
 
                         return ('<button class="downloadBtn btn btn-xs btn-success" ' +
-                            'data-url="${ctx}/cg/cgRule_download?id={0}"><i class="fa fa-download"></i> 下载</button>')
-                            .format(rowObject.id);
+                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                            .format(cellvalue, fileName);
                     }},
                 { label: '备注',name: 'remark',width:200}
         ]
@@ -139,12 +139,12 @@ pageEncoding="UTF-8" %>
                     }},
                 { label: '相关文件',name: 'filePath',formatter: function (cellvalue, options, rowObject) {
 
-                        /*var fileName = rule_type[rowObject.type];*/
+                        var fileName = rule_type[rowObject.type];
                         if (cellvalue==null) return "--";
 
                         return ('<button class="downloadBtn btn btn-xs btn-success" ' +
-                            'data-url="${ctx}/cg/cgRule_download?id={0}"><i class="fa fa-download"></i> 下载</button>')
-                            .format(rowObject.id);
+                            'data-url="${ctx}/attach_download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                            .format(cellvalue, fileName);
                     }},
                 { label: '备注',name: 'remark',width:200}
         ]

@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 /**
  * 权限方法定义后，需要重启应用（jrebel热加载无效）
  *
- * 生成签名方法：UserTag.sign(资源, 方法名, 方法参数)
+ * 生成签名方法：UserResUtils.sign(资源, 方法名, 方法参数)
  *
- * eg. UserTag.sign(filepath, "cadre_file", "cadre_edu&12")
+ * eg. UserResUtils.sign(filepath, "cadre_file", "cadre_edu&12")
  */
 public class UserResMethod {
 

@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/attach_download?path=${cm:sign(dispatch.file)}&filename=${dispatch.fileName}"
                                                 class="downloadBtn">下载</a>
                                     <a href="javascript:void(0)" class="openUrl"
-                                       data-url="${ctx}/pdf_preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}">预览</a>
+                                       data-url="${ctx}/pdf_preview?type=url&path=${cm:sign(dispatch.file)}&filename=${dispatch.fileName}">预览</a>
                                 </c:if>
                                 </td>
                                 <td nowrap><c:if test="${not empty dispatch.pptName}">
@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/attach_download?path=${cm:sign(dispatch.ppt)}&filename=${dispatch.pptName}"
                                                 class="downloadBtn">下载</a>
                                     <a href="javascript:void(0)" class="openUrl"
-                                       data-url="${ctx}/pdf_preview?type=url&path=${cm:encodeURI(dispatch.ppt)}&filename=${dispatch.pptName}">预览</a>
+                                       data-url="${ctx}/pdf_preview?type=url&path=${cm:sign(dispatch.ppt)}&filename=${dispatch.pptName}">预览</a>
                                 </c:if>
                                 </td>
                         </tr>

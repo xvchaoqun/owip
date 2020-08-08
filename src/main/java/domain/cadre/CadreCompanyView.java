@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class CadreCompanyView implements Serializable {
 
     private Date approvalDate;
 
+    @SignRes
     private String approvalFile;
 
     private String approvalFilename;

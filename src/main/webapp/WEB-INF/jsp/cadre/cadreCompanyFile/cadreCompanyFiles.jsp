@@ -21,7 +21,7 @@
                 <td style="text-align: left">${item.dwf.fileName}</td>
                 <td style="text-align: left">
                     <c:if test="${not empty item.dwf.pdfFilePath}">
-                    <button href="javascript:void(0)" data-url="${ctx}/pdf_preview?type=url&path=${item.dwf.pdfFilePath}&filename=${item.dwf.fileName}"
+                    <button href="javascript:void(0)" data-url="${ctx}/pdf_preview?type=url&path=${cm:sign(item.dwf.pdfFilePath)}&filename=${item.dwf.fileName}"
                             title="PDF文件预览" class="openUrl btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>
 
                     <button data-url="${ctx}/attach_download?path=${cm:sign(item.dwf.pdfFilePath)}&filename=${item.dwf.fileName}" title="下载PDF文件"

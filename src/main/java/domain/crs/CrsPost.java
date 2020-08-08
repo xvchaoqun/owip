@@ -8,6 +8,7 @@ import persistence.sc.IScMapper;
 import persistence.unit.UnitPostMapper;
 import service.crs.CrsApplicantService;
 import sys.constants.CrsConstants;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -109,6 +110,7 @@ public class CrsPost implements Serializable {
 
     private Integer num;
 
+    @SignRes
     private String notice;
 
     private Integer postRequireId;

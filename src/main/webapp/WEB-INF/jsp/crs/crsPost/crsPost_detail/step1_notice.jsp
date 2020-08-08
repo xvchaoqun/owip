@@ -36,7 +36,7 @@
     <div class="widget-body">
         <div class="widget-main">
             <div class="swf-file-view">
-                <c:import url="${ctx}/pdf_preview?type=html&path=${crsPost.notice}"/>
+                <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(crsPost.notice)}"/>
             </div>
         </div>
     </div>
@@ -54,10 +54,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $(".swf-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
-
-                        $("#modalForm input[name=file]").val(ret.file);
-                        $("#modalForm input[name=fileName]").val(ret.fileName);
+                        $(".swf-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
                     }else{
                         $(".swf-file-view").html(preHtml);
                     }

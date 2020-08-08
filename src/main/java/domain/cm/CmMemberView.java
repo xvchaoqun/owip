@@ -1,5 +1,7 @@
 package domain.cm;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,12 +18,14 @@ public class CmMemberView implements Serializable {
 
     private Date postDate;
 
+    @SignRes
     private String postFilePath;
 
     private Boolean isQuit;
 
     private Date quitDate;
 
+    @SignRes
     private String quitFilePath;
 
     private String quitReason;

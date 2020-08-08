@@ -5,6 +5,7 @@ import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import persistence.sc.IScMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -77,6 +78,7 @@ public class ScCommitteeVoteView implements Serializable {
 
     private Integer committeeId;
 
+    @SignRes
     private String voteFilePath;
 
     private Integer recordUserId;
@@ -97,8 +99,10 @@ public class ScCommitteeVoteView implements Serializable {
 
     private String attendUsers;
 
+    @SignRes
     private String filePath;
 
+    @SignRes
     private String logFile;
 
     private Integer dispatchUserId;

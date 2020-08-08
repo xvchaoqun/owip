@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scMatterCheck.checkFile}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scMatterCheck.checkFile)}"/>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scMatterCheck.id}">
-                                <input type="hidden" name="checkFile" value="${scMatterCheck.checkFile}">
+                                <input type="hidden" name="checkFile" value="${cm:sign(scMatterCheck.checkFile)}">
                                 <input type="hidden" name="checkFileName" value="${scMatterCheck.checkFileName}">
 
                                 <div class="form-group">
@@ -273,7 +273,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
 
                         $("#modalForm input[name=checkFile]").val(ret.file);
                         $("#modalForm input[name=checkFileName]").val(ret.fileName);

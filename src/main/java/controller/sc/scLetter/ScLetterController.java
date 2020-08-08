@@ -22,6 +22,8 @@ import service.sc.scLetter.ScLetterUser;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.tags.CmTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -128,7 +130,7 @@ public class ScLetterController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
+        resultMap.put("filePath", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -151,6 +153,12 @@ public class ScLetterController extends ScBaseController {
                               HttpServletRequest request) throws UnsupportedEncodingException {
 
         Integer id = record.getId();
+
+        if(record.getFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getFilePath());
+            record.setFilePath(resBean.getRes());
+        }
+
         List<ScLetterUser> scLetterUsers = GsonUtils.toBeans(users, ScLetterUser.class);
 
         if (id == null) {

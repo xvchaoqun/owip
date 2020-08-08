@@ -20,7 +20,7 @@
                   enctype="multipart/form-data">
               <div class="row">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
-                <input type="hidden" name="filePath" value="${crsApplicant.recommendPdf}">
+                <input type="hidden" name="filePath" value="${cm:sign(crsApplicant.recommendPdf)}">
 
                 <div class="form-group">
                   <label class="col-xs-3 control-label">推荐/自荐</label>
@@ -88,7 +88,7 @@
       <div class="widget-body">
         <div class="widget-main">
           <div id="dispatch-file-view">
-            <c:import url="${ctx}/pdf_preview?type=html&path=${crsApplicant.recommendPdf}"/>
+            <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(crsApplicant.recommendPdf)}"/>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
         success: function (ret) {
           if (ret.success) {
             //console.log(ret)
-            $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
+            $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
 
             $("#modalForm input[name=filePath]").val(ret.file);
             $("#modalForm input[name=fileName]").val(ret.fileName);

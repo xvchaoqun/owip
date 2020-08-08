@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scMatterCheckItem.checkFile}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scMatterCheckItem.checkFile)}"/>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scMatterCheckItem.id}">
-                                <input type="hidden" name="checkFile" value="${scMatterCheckItem.checkFile}">
+                                <input type="hidden" name="checkFile" value="${cm:sign(scMatterCheckItem.checkFile)}">
                                 <h4 class="form-header"><i class="fa fa-caret-right"></i> 核查对象信息</h4>
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">核查对象</label>
@@ -188,7 +188,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
                         $("#modalForm input[name=checkFile]").val(ret.file);
                     } else {
                         $("#dispatch-file-view").html(viewHtml)

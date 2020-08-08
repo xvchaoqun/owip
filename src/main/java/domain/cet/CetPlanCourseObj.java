@@ -1,5 +1,7 @@
 package domain.cet;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class CetPlanCourseObj implements Serializable {
 
     private Integer objId;
 
+    @SignRes
     private String note;
 
     private Integer num;

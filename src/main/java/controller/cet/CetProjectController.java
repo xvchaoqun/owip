@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -163,6 +165,11 @@ public class CetProjectController extends CetBaseController {
 
         Integer id = record.getId();
 
+        if(record.getPdfFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getPdfFilePath());
+            record.setPdfFilePath(resBean.getRes());
+        }
+
         if(record.getStartDate()!=null && record.getEndDate()!=null
                 && record.getStartDate().after(record.getEndDate())){
             return failed("培训时间有误。");
@@ -216,7 +223,7 @@ public class CetProjectController extends CetBaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", FileUtils.getFileName(file.getOriginalFilename()));
-        resultMap.put("pdfFilePath", savePath);
+        resultMap.put("pdfFilePath", UserResUtils.sign(savePath));
 
         return resultMap;
     }

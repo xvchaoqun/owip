@@ -105,7 +105,7 @@
             {label: '招聘公告', name: 'notice', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '--'
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/pdf_preview?path={0}&filename={1}">查看</a>'
-                            .format(encodeURI(rowObject.notice), encodeURI(rowObject.name+"招聘公告.pdf"))
+                            .format(rowObject.notice, encodeURI(rowObject.name+"招聘公告.pdf"))
             }},
             {label: '基本条件', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '--'

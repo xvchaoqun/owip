@@ -31,7 +31,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${cetProject.pdfFilePath}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(cetProject.pdfFilePath)}"/>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                             <input type="hidden" name="id" value="${cetProject.id}">
                             <input type="hidden" name="type" value="${type}">
                             <input type="hidden" name="fileName" value="${cetProject.fileName}">
-                            <input type="hidden" name="pdfFilePath" value="${cetProject.pdfFilePath}">
+                            <input type="hidden" name="pdfFilePath" value="${cm:sign(cetProject.pdfFilePath)}">
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
                                 <div class="col-xs-8">
@@ -248,7 +248,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.pdfFilePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.pdfFilePath);
                         $("#modalForm input[name=fileName]").val(ret.fileName);
                         $("#modalForm input[name=pdfFilePath]").val(ret.pdfFilePath);
                     } else {

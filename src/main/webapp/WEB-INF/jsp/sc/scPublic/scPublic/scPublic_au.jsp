@@ -31,7 +31,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scPublic.pdfFilePath}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scPublic.pdfFilePath)}"/>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                         <form class="form-horizontal" action="${ctx}/sc/scPublic_process"
                               autocomplete="off" disableautocomplete id="modalForm" method="post">
                             <input type="hidden" name="id" value="${scPublic.id}">
-                            <input type="hidden" name="pdfFilePath" value="${scPublic.pdfFilePath}">
+                            <input type="hidden" name="pdfFilePath" value="${cm:sign(scPublic.pdfFilePath)}">
 
                             <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>年度</label>
@@ -209,7 +209,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.filePath);
 
                         $("#modalForm input[name=pdfFilePath]").val(ret.filePath);
                     } else {

@@ -34,7 +34,7 @@
                         'data-url="${ctx}/pdf_preview?path={0}&filename={1}&nd=1&np=1"'
                         +'  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary" data-width="950">' +
                         '<i class="fa fa-search"></i> 查看</button>')
-                                    .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                                    .format(pdfFilePath, encodeURI(fileName));
                 }
                 return ret;
             }}

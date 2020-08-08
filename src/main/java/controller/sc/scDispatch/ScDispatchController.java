@@ -24,6 +24,8 @@ import service.sc.scCommittee.ScCommitteeService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -139,7 +141,7 @@ public class ScDispatchController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
+        resultMap.put("filePath", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -153,6 +155,11 @@ public class ScDispatchController extends ScBaseController {
                                 @RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds,
                                 @RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
                                 HttpServletRequest request) throws IOException, InterruptedException {
+
+        if(record.getFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getFilePath());
+            record.setFilePath(resBean.getRes());
+        }
 
         record.setWordFilePath(upload(_wordFilePath, "scDispatch-word"));
         record.setSignFilePath(uploadPdf(_pdfFilePath, "scDispatch-sign"));
@@ -353,26 +360,4 @@ public class ScDispatchController extends ScBaseController {
         ExportHelper.output(wb, fileName + ".xlsx", response);
         return null;
     }*/
-
-    @RequiresPermissions("scDispatch:list")
-    @RequestMapping("/scDispatch_download")
-    public void scDispatch_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScDispatchViewExample example = new ScDispatchViewExample();
-        example.createCriteria().andIdEqualTo(id);
-        List<ScDispatchView> scDispatchViews = scDispatchViewMapper.selectByExample(example);
-
-        String path = "";
-        String filename = "";
-        if (scDispatchViews != null) {
-            ScDispatchView scDispatchView = scDispatchViews.get(0);
-            filename = scDispatchView.getDispatchCode() + "-文件签发稿";
-            if (fileType == 1){
-                path = scDispatchView.getFilePath();
-            }else if (fileType == 2) {
-                path = scDispatchView.getWordFilePath();
-            }
-        }
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-    }
 }

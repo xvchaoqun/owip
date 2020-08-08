@@ -1,5 +1,7 @@
 package domain.sc.scCommittee;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -30,8 +32,10 @@ public class ScCommitteeOtherVoteView implements Serializable {
 
     private String attendUsers;
 
+    @SignRes
     private String filePath;
 
+    @SignRes
     private String logFile;
 
     private static final long serialVersionUID = 1L;

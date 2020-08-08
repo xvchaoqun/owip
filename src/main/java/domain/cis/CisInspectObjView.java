@@ -10,6 +10,7 @@ import persistence.sc.IScMapper;
 import persistence.sc.scRecord.ScRecordViewMapper;
 import persistence.unit.UnitPostMapper;
 import sys.helper.CisHelper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
@@ -99,6 +100,7 @@ public class CisInspectObjView implements Serializable {
 
     private String summary;
 
+    @SignRes
     private String logFile;
 
     private String report;

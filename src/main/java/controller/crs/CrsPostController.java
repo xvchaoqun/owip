@@ -33,6 +33,7 @@ import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -217,8 +218,7 @@ public class CrsPostController extends CrsBaseController {
         logger.info(addLog(LogConstants.LOG_CRS, "上传招聘公告：%s", id));
 
         Map<String, Object> resultMap = success();
-        resultMap.put("fileName", FileUtils.getFileName(originalFilename));
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }

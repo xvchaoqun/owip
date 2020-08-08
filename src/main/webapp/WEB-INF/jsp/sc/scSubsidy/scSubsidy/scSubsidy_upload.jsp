@@ -23,8 +23,7 @@
                     </div>
                     <div class="buttons pull-right" style="right:15px;">
                         <c:if test="${not empty file}">
-                        <button style="margin-right: 15px;" type="button"
-                                data-url="${ctx}/sc/scSubsidy_download?fileType=${param.fileType}&id=${scSubsidy.id}"
+                        <button style="margin-right: 15px;" type="button" data-url="${ctx}/attach_download?path=${cm:sing(file)}&filename=${cm:encodeURI(code)}"
                                 class="downloadBtn btn btn-xs btn-warning">
                             <i class="ace-icon fa fa-download"></i>
                             下载
@@ -39,7 +38,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${file}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(file)}"/>
                     </div>
                 </div>
             </div>
@@ -60,10 +59,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
-
-                        $("#modalForm input[name=file]").val(ret.file);
-                        $("#modalForm input[name=fileName]").val(ret.fileName);
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
                     }else{
                         $("#dispatch-file-view").html(viewHtml)
                     }

@@ -1,6 +1,7 @@
 package domain.sc.scBorder;
 
 import domain.cadre.CadreView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -38,12 +39,16 @@ public class ScBorderItemView implements Serializable {
 
     private Date recordDate;
 
+    @SignRes
     private String addFile;
 
+    @SignRes
     private String changeFile;
 
+    @SignRes
     private String deleteFile;
 
+    @SignRes
     private String recordFile;
 
     private static final long serialVersionUID = 1L;

@@ -143,6 +143,7 @@ public class PassportDraw implements Serializable {
 
     private Boolean jobCertify;
 
+    @SignRes
     private String attachment;
 
     private String attachmentFilename;

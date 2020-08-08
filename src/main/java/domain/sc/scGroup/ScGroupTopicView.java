@@ -2,6 +2,7 @@ package domain.sc.scGroup;
 
 import domain.sys.SysUserView;
 import service.sc.scGroup.ScGroupService;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -44,8 +45,10 @@ public class ScGroupTopicView implements Serializable {
 
     private Date holdDate;
 
+    @SignRes
     private String groupFilePath;
 
+    @SignRes
     private String logFile;
 
     private String attendUsers;

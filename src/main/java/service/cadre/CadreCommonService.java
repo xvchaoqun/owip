@@ -23,6 +23,7 @@ import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import sys.constants.CadreConstants;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -101,7 +102,7 @@ public class CadreCommonService extends BaseMapper {
             node.noLink = true;
             node.icon = false;
             node.hideCheckbox = false;
-            node.tooltip = dispatch.getFile();
+            node.tooltip = UserResUtils.sign(dispatch.getFile());
             node.select = (cadre.getDispatchCadreId() != null && cadre.getDispatchCadreId().intValue() == dispatchCadre.getId());
 
             root.children.add(node);

@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -231,8 +231,7 @@ public class ScSubsidyController extends ScBaseController {
         }
 
         Map<String, Object> resultMap = success();
-        resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -269,16 +268,5 @@ public class ScSubsidyController extends ScBaseController {
         }
         String fileName = "干部津贴变动_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequiresPermissions("scSubsidy:list")
-    @RequestMapping("/scSubsidy_download")
-    public void scSubsidy_download(Integer fileType, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScSubsidy scSubsidy = scSubsidyMapper.selectByPrimaryKey(id);
-        String path = fileType == 1? scSubsidy.getHrFilePath() : scSubsidy.getFeFilePath();
-        String filename = fileType == 1? scSubsidy.getHrCode() : scSubsidy.getFeCode();
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

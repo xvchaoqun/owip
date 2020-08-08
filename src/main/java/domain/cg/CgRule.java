@@ -2,6 +2,7 @@ package domain.cg;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import service.cg.CgTeamService;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -25,6 +26,7 @@ public class CgRule implements Serializable {
 
     public List<String> getContentList(){return CmTag.getBean(CgTeamService.class).formatContent(content);}
 
+    @SignRes
     private String filePath;
 
     private Integer sortOrder;

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -115,6 +117,11 @@ public class ScMatterAccessController extends ScBaseController {
 
         Integer id = record.getId();
 
+        if(record.getAccessFile()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getAccessFile());
+            record.setAccessFile(resBean.getRes());
+        }
+
         if (id == null) {
             scMatterAccessService.insertSelective(record, matterItemIds);
             logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-调阅记录：%s", record.getId()));
@@ -142,7 +149,7 @@ public class ScMatterAccessController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }

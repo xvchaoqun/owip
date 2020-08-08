@@ -23,6 +23,7 @@ public class ScMatterAccess implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date accessDate;
 
+    @SignRes
     private String accessFile;
 
     private Integer unitId;

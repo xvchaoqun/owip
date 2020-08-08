@@ -1,6 +1,7 @@
 package domain.cis;
 
 import domain.cadre.CadreView;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -20,8 +21,10 @@ public class CisEvaluate implements Serializable {
 
     private Byte type;
 
+    @SignRes
     private String pdfFilePath;
 
+    @SignRes
     private String wordFilePath;
 
     private String fileName;

@@ -3,6 +3,7 @@ package domain.sc.scAd;
 import domain.cadre.CadreView;
 import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -39,6 +40,7 @@ public class ScAdUse implements Serializable {
 
     private String filePath;
 
+    @SignRes
     private String signFilePath;
 
     private String useage;

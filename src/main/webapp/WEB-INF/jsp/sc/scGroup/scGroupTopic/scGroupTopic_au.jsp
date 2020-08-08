@@ -132,7 +132,7 @@
                                                 <c:if test="${not empty scGroupTopic.filePath}">
                                                     已上传附件：
                                                 <c:forEach var="file" items="${fn:split(scGroupTopic.filePath,',')}" varStatus="vs">
-                                                    <a href="${ctx}/sc/scGroupTopic_download?id=${scGroupTopic.id}&index=${vs.index}">附件${vs.count}</a>
+                                                    <a href="${ctx}/attach_download?path=${cm:sign(file)}&filename=附件${vs.count}">附件${vs.count}</a>
                                                     ${vs.last?"":"、"}
                                                 </c:forEach>
                                                 </c:if>

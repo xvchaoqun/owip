@@ -30,7 +30,7 @@
       <div class="widget-body">
         <div class="widget-main">
           <div id="dispatch-file-view">
-            <c:import url="${ctx}/pdf_preview?type=html&path=${crsApplicant.specialPdf}"/>
+            <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(crsApplicant.specialPdf)}"/>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
                   enctype="multipart/form-data">
               <div class="row">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
-                <input type="hidden" name="filePath" value="${crsApplicant.specialPdf}">
+                <input type="hidden" name="filePath" value="${cm:sign(crsApplicant.specialPdf)}">
                 <input type="hidden" name="specialStatus" value="1">
                 <div class="form-group">
                   <label class="col-xs-3 control-label"><span class="star">*</span>备注</label>
@@ -91,7 +91,7 @@
         success: function (ret) {
           if (ret.success) {
             //console.log(ret)
-            $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
+            $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
 
             $("#modalForm input[name=filePath]").val(ret.file);
             //$("#modalForm input[name=fileName]").val(ret.fileName);

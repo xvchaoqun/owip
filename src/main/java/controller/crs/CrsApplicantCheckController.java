@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.utils.ContentTypeUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
@@ -124,6 +126,11 @@ public class CrsApplicantCheckController extends CrsBaseController {
                                        String filePath,
                                        HttpServletRequest request) {
 
+        if(filePath!=null) {
+            UserRes resBean = UserResUtils.decode(filePath);
+            filePath=resBean.getRes();
+        }
+
         boolean specialStatus = BooleanUtils.isTrue(record.getSpecialStatus());
         crsApplicantCheckService.special(record.getId(), specialStatus,
                 filePath, record.getSpecialRemark());
@@ -146,7 +153,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
         String savePath = uploadPdf(file, "crs_applicant_special");
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }

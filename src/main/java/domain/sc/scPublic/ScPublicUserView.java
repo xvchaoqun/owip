@@ -5,6 +5,7 @@ import domain.sc.scCommittee.ScCommitteeView;
 import domain.sc.scRecord.ScRecordView;
 import domain.sys.SysUserView;
 import persistence.sc.IScMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -56,8 +57,10 @@ public class ScPublicUserView implements Serializable {
 
     private Date publicEndDate;
 
+    @SignRes
     private String pdfFilePath;
 
+    @SignRes
     private String wordFilePath;
 
     private Integer recordUserId;

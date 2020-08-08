@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scGroup.id}">
-                                <input type="hidden" name="filePath" value="${scGroup.filePath}">
+                                <input type="hidden" name="filePath" value="${cm:sign(scGroup.filePath)}">
 
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>

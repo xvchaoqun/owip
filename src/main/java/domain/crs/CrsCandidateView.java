@@ -35,6 +35,7 @@ public class CrsCandidateView implements Serializable {
 
     private String recommendCrowd;
 
+    @SignRes
     private String recommendPdf;
 
     private Integer recommendFirstCount;

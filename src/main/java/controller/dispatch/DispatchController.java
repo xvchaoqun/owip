@@ -26,6 +26,8 @@ import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -219,7 +221,7 @@ public class DispatchController extends DispatchBaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -263,7 +265,10 @@ public class DispatchController extends DispatchBaseController {
         }
 
         record.setFileName(StringUtils.trimToNull(fileName));
-        record.setFile(StringUtils.trimToNull(file));
+        if(record.getFile()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getFile());
+            record.setFile(resBean.getRes());
+        }
         
         record.setCategory(StringUtils.join(_category, ","));
         

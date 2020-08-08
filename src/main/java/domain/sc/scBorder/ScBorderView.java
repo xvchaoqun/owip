@@ -27,6 +27,7 @@ public class ScBorderView implements Serializable {
     @SignRes
     private String deleteFile;
 
+    @SignRes
     private String recordFile;
 
     private String remark;

@@ -6,6 +6,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import persistence.sc.IScMapper;
 import persistence.sc.scRecord.ScRecordViewMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.NumberUtils;
 
@@ -61,6 +62,7 @@ public class ScLetterReplyItemView implements Serializable {
 
     private Integer replyNum;
 
+    @SignRes
     private String replyFilePath;
 
     private String replyFileName;
@@ -69,6 +71,7 @@ public class ScLetterReplyItemView implements Serializable {
 
     private Integer letterNum;
 
+    @SignRes
     private String letterFilePath;
 
     private String letterFileName;

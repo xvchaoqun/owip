@@ -1,5 +1,6 @@
 package domain.sc.scCommittee;
 
+import sys.jackson.SignRes;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ public class ScCommitteeView implements Serializable {
 
     private Integer id;
 
+    @SignRes
     private String filePath;
 
     private Integer year;
@@ -23,8 +25,10 @@ public class ScCommitteeView implements Serializable {
 
     private Integer committeeMemberCount;
 
+    @SignRes
     private String logFile;
 
+    @SignRes
     private String pptFile;
 
     private String attendUsers;

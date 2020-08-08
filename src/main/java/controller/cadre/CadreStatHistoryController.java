@@ -19,7 +19,6 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.DownloadUtils;
@@ -151,20 +150,5 @@ public class CadreStatHistoryController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cadreStatHistory:list")
-    @RequestMapping("/cadreStatHistory_download")
-    public void cadreStatHistory_download(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        CadreStatHistory cadreStatHistory = cadreStatHistoryMapper.selectByPrimaryKey(id);
-        String path = cadreStatHistory.getSavePath();
-
-        String schoolName = CmTag.getSysConfig().getSchoolName();
-        String typeName = CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP.get(cadreStatHistory.getType());
-        String dateStr = "("+ DateUtils.formatDate(cadreStatHistory.getStatDate(),DateUtils.YYYYMMDD_DOT)+")";
-        String filename = schoolName + typeName + dateStr + ".xlsx";
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

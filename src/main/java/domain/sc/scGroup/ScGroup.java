@@ -2,6 +2,7 @@ package domain.sc.scGroup;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -14,6 +15,7 @@ public class ScGroup implements Serializable {
 
     private Integer id;
 
+    @SignRes
     private String filePath;
 
     private Integer year;
@@ -23,8 +25,10 @@ public class ScGroup implements Serializable {
 
     private Integer topicNum;
 
+    @SignRes
     private String wordFilePath;
 
+    @SignRes
     private String logFile;
 
     private String attendUsers;

@@ -92,7 +92,7 @@
                                 <c:if test="${not empty cetProjectFile.filePath}">
                                     <button class='openUrl btn btn-xs btn-primary'
                                             title="PDF文件预览"
-                                            data-url='${ctx}/pdf_preview?type=url&path=${cm:encodeURI(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}'>
+                                            data-url='${ctx}/pdf_preview?type=url&path=${cm:sign(cetProjectFile.filePath)}&filename=${cetProjectFile.fileName}'>
                                         <i class="fa fa-search"></i>
                                         预览</button>
                                     <button class='downloadBtn btn btn-xs btn-success' data-type="download"

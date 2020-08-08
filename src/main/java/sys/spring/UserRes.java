@@ -66,7 +66,7 @@ public class UserRes {
 
     @Override
     public String toString() {
-        return "UserResBean{" +
+        return "UserRes{" +
                 "res='" + res + '\'' +
                 ", signUserId=" + signUserId +
                 ", authUserId=" + authUserId +

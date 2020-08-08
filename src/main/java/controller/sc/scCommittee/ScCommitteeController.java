@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -131,7 +133,7 @@ public class ScCommitteeController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("filePath", savePath);
+        resultMap.put("filePath", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -146,6 +148,12 @@ public class ScCommitteeController extends ScBaseController {
                                  HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+
+        if(record.getFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getFilePath());
+            record.setFilePath(resBean.getRes());
+        }
+
         List<ScCommitteeMember> scCommitteeMembers = GsonUtils.toBeans(items, ScCommitteeMember.class);
         record.setLogFile(uploadPdf(_logFile, "scCommittee-log"));
         record.setPptFile(upload(_pptFile, "scCommittee-ppt"));
@@ -297,24 +305,5 @@ public class ScCommitteeController extends ScBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
-    }
-
-    @RequiresPermissions("scCommittee:list")
-    @RequestMapping("/scCommittee_download")
-    public void scCommittee_download(Integer id, Integer fileType, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScCommitteeViewExample example = new ScCommitteeViewExample();
-        example.createCriteria().andIdEqualTo(id);
-        List<ScCommitteeView> scCommitteeViews = scCommitteeViewMapper.selectByExample(example);
-
-        String path = "";
-        String filename = "";
-        if (scCommitteeViews != null && scCommitteeViews.size()>0){
-
-            ScCommitteeView scCommitteeView = scCommitteeViews.get(0);
-            path = scCommitteeView.getPptFile();
-            filename = scCommitteeView.getCode() + "(上会PPT)";
-        }
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

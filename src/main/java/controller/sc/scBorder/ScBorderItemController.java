@@ -1,7 +1,6 @@
 package controller.sc.scBorder;
 
 import controller.sc.ScBaseController;
-import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
 import domain.sc.scBorder.ScBorderItem;
@@ -21,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -265,16 +266,5 @@ public class ScBorderItemController extends ScBaseController {
         }
         String fileName = "报备干部_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
-
-    @RequiresPermissions("scBorder:list")
-    @RequestMapping("/scBorderItem_download")
-    public void scBorderItem_download(Integer dispatchId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        Dispatch dispatch = CmTag.getDispatch(dispatchId);
-        String path = dispatch.getFile();
-        String filename = dispatch.getFileName();
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 }

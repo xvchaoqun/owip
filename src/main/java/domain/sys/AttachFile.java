@@ -1,5 +1,7 @@
 package domain.sys;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class AttachFile implements Serializable {
 
     private Integer userId;
 
+    @SignRes
     private String path;
 
     private String filename;

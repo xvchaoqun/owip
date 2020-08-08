@@ -6,6 +6,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import persistence.sc.IScMapper;
 import persistence.sc.scRecord.ScRecordViewMapper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 import sys.utils.NumberUtils;
 
@@ -53,6 +54,7 @@ public class ScMatterCheckItemView implements Serializable {
 
     private String resultType;
 
+    @SignRes
     private String selfFile;
 
     private Byte confirmType;
@@ -63,12 +65,14 @@ public class ScMatterCheckItemView implements Serializable {
 
     private String handleType;
 
+    @SignRes
     private String checkFile;
 
     private String owHandleType;
 
     private Date owHandleDate;
 
+    @SignRes
     private String owHandleFile;
 
     private Date owAffectDate;

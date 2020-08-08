@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
@@ -131,7 +133,7 @@ public class ScMatterCheckItemController extends ScBaseController {
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", file.getOriginalFilename());
-        resultMap.put("file", savePath);
+        resultMap.put("file", UserResUtils.sign(savePath));
 
         return resultMap;
     }
@@ -144,6 +146,11 @@ public class ScMatterCheckItemController extends ScBaseController {
                                        HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+
+        if(record.getCheckFile()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getCheckFile());
+            record.setCheckFile(resBean.getRes());
+        }
 
         String selfFile = uploadPdf(_selfFile, "scMatterCheckItem-selfFile");
         record.setSelfFile(selfFile);

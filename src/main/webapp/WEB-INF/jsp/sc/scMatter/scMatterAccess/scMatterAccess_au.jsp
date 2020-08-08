@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scMatterAccess.accessFile}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scMatterAccess.accessFile)}"/>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scMatterAccess.id}">
-                                <input type="hidden" name="accessFile" value="${scMatterAccess.accessFile}">
+                                <input type="hidden" name="accessFile" value="${cm:sign(scMatterAccess.accessFile)}">
 
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
@@ -269,7 +269,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.file));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.file);
                         $("#modalForm input[name=accessFile]").val(ret.file);
                     } else {
                         $("#dispatch-file-view").html(viewHtml)

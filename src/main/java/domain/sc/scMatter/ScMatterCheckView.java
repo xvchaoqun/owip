@@ -1,5 +1,7 @@
 package domain.sc.scMatter;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class ScMatterCheckView implements Serializable {
 
     private Date checkDate;
 
+    @SignRes
     private String checkFile;
 
     private String checkFileName;

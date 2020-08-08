@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.sc.scLetter.ScLetterUser;
 import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
+import sys.spring.UserRes;
+import sys.spring.UserResUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -103,6 +105,11 @@ public class ScLetterReplyController extends ScBaseController {
     public Map do_scLetterReply_au(ScLetterReply record,
                                    String items,
                                    HttpServletRequest request) throws UnsupportedEncodingException {
+
+        if(record.getFilePath()!=null) {
+            UserRes resBean = UserResUtils.decode(record.getFilePath());
+            record.setFilePath(resBean.getRes());
+        }
 
         List<ScLetterReplyItem> scLetterReplyItems = GsonUtils.toBeans(items, ScLetterReplyItem.class);
         Integer id = record.getId();

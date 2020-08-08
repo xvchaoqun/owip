@@ -17,7 +17,7 @@
 			<div class="widget-body">
 				<div class="widget-main">
 					<div id="dispatch-file-view">
-						<c:import url="${ctx}/pdf_preview?type=html&path=${scCommittee.filePath}"/>
+						<c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scCommittee.filePath)}"/>
 					</div>
 				</div>
 			</div>

@@ -408,17 +408,4 @@ public class ScGroupTopicController extends ScBaseController {
         resultMap.put("options", options);
         return resultMap;
     }
-
-    @RequiresPermissions("scGroupTopic:list")
-    @RequestMapping("/scGroupTopic_download")
-    public void scGroupTopic_download(Integer id,Integer index, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        ScGroupTopic scGroupTopic = scGroupTopicMapper.selectByPrimaryKey(id);
-
-        String[] paths = StringUtils.split(scGroupTopic.getFilePath(),",");
-        String path = paths[index];
-        String filename = "附件"+ (index+1);
-
-        DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
-    }
 }

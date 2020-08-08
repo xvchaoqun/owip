@@ -91,10 +91,10 @@
                 label: '培训方案', width: 90,formatter: function (cellvalue, options, rowObject) {
                 var pdfFilePath = rowObject.pdfFilePath;
                 if ($.trim(pdfFilePath) != '') {
-                    var fileName = (rowObject.fileName || rowObject.id) + (pdfFilePath.substr(pdfFilePath.indexOf(".")));
+                    var fileName = (rowObject.fileName || rowObject.id) + ".pdf";
                     return ('<button href="javascript:void(0)" data-url="${ctx}/pdf_preview?path={0}&filename={1}" '+
                             'title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
-                            .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                            .format(pdfFilePath, encodeURI(fileName));
                 }
 
                 return '--';

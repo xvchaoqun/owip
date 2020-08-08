@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scLetter.filePath}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scLetter.filePath)}"/>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scLetter.id}">
-                                <input type="hidden" name="filePath" value="${scLetter.filePath}">
+                                <input type="hidden" name="filePath" value="${cm:sign(scLetter.filePath)}">
                                 <input type="hidden" name="fileName" value="${scLetter.fileName}">
 
                                 <div class="form-group">
@@ -259,7 +259,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.filePath);
 
                         $("#modalForm input[name=filePath]").val(ret.filePath);
                         $("#modalForm input[name=fileName]").val(ret.fileName);

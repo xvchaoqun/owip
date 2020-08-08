@@ -1,5 +1,7 @@
 package domain.sc.scAd;
 
+import sys.jackson.SignRes;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,10 +24,12 @@ public class ScAdArchiveView implements Serializable {
 
     private String filePath;
 
+    @SignRes
     private String signFilePath;
 
     private String cisFilePath;
 
+    @SignRes
     private String cisSignFilePath;
 
     private String remark;

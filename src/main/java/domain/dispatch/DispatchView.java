@@ -2,6 +2,7 @@ package domain.dispatch;
 
 import domain.sc.scDispatch.ScDispatchView;
 import service.sc.scDispatch.ScDispatchService;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -50,10 +51,12 @@ public class DispatchView implements Serializable {
 
     private Boolean hasChecked;
 
+    @SignRes
     private String file;
 
     private String fileName;
 
+    @SignRes
     private String ppt;
 
     private String pptName;

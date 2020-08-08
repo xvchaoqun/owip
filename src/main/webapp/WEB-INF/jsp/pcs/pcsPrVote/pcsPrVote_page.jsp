@@ -76,7 +76,7 @@
                                     </td>
                                     <td colspan="3" width="50">选举结果报告单<c:if test="${not empty pcsPrRecommend.reportFilePath}">
                                         (<a href="javascript:void(0)" class="popupBtn"
-                                        data-url="${ctx}/pdf_preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
+                                        data-url="${ctx}/pdf_preview?path=${cm:sign(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
                                     </c:if>：
                                     </td>
                                     <td width="200">

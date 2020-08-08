@@ -30,7 +30,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div id="dispatch-file-view">
-                        <c:import url="${ctx}/pdf_preview?type=html&path=${scCommittee.filePath}"/>
+                        <c:import url="${ctx}/pdf_preview?type=html&path=${cm:sign(scCommittee.filePath)}"/>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                               enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="id" value="${scCommittee.id}">
-                                <input type="hidden" name="filePath" value="${scCommittee.filePath}">
+                                <input type="hidden" name="filePath" value="${cm:sign(scCommittee.filePath)}">
 
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"><span class="star">*</span>年份</label>
@@ -376,7 +376,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //console.log(ret)
-                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + encodeURI(ret.filePath));
+                        $("#dispatch-file-view").load("${ctx}/pdf_preview?type=html&path=" + ret.filePath);
 
                         $("#committeeForm input[name=filePath]").val(ret.filePath);
                     } else {

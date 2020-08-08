@@ -53,7 +53,7 @@
                                 </button>
                             </shiro:hasPermission>
                             <button class="downloadBtn btn btn-xs btn-info" data-type="download"
-                               data-url="${ctx}/oa/oaTask_download?taskId=${oaTask.id}&taskFileId=${oaTaskFile.id}">
+                               data-url="${ctx}/attach_download?path=${cm:sign(oaTaskFile.filePath)}&filename=${oaTaskFile.fileName}">
                                 <i class="fa fa-download"></i> 下载</button>
                         </div>
                     </td>

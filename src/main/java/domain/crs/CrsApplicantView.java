@@ -3,6 +3,7 @@ package domain.crs;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.helper.CrsHelper;
+import sys.jackson.SignRes;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ public class CrsApplicantView implements Serializable {
 
     private Boolean isQuit;
 
+    @SignRes
     private String quitProof;
 
     private Boolean isRecommend;
@@ -46,6 +48,7 @@ public class CrsApplicantView implements Serializable {
 
     private String recommendCrowd;
 
+    @SignRes
     private String recommendPdf;
 
     private Byte infoCheckStatus;

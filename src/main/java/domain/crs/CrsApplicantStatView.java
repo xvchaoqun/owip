@@ -32,6 +32,7 @@ public class CrsApplicantStatView implements Serializable {
 
     private String recommendCrowd;
 
+    @SignRes
     private String recommendPdf;
 
     private Byte infoCheckStatus;
