@@ -211,7 +211,7 @@
     } else {
         $("#tree3").dynatree({
             checkbox: true,
-            setreelectMode: 1,
+            selectMode: 1,
             children: treeNode,
             onSelect: function (select, node) {
                 //node.expand(node.data.isFolder && node.isSelected());
