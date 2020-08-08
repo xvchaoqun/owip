@@ -1,7 +1,5 @@
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
-<%@ page import="sys.tags.CmTag" %>
-<%@ page import="org.apache.commons.codec.binary.Base64" %>
-<%@ page import="sys.utils.Base64Utils" %>
+<%@ page import="sys.security.Base64Utils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <html>
@@ -16,7 +14,7 @@
 
     String str = request.getParameter("str");
     if(StringUtils.isNotBlank(str)){
-       out.write(Base64Utils.encodeStr(str));
+       out.write(Base64Utils.encode(str));
     }
 
 

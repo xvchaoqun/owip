@@ -75,6 +75,9 @@ public class CetTrainCourseService extends CetBaseMapper {
             if (cetTrain.getPlanId() != null) {
                 iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
             }
+
+            iCetMapper.updateTrainCourseNum(trainId);
+
         }else if(projectId!=null){
             iCetMapper.updateProjectTotalPeriodByCourse(projectId);
         }
@@ -101,6 +104,9 @@ public class CetTrainCourseService extends CetBaseMapper {
             if (cetTrain.getPlanId() != null) {
                 iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
             }
+
+            iCetMapper.updateTrainCourseNum(trainId);
+
         }else if(projectId!=null){
             iCetMapper.updateProjectTotalPeriodByCourse(projectId);
         }
@@ -231,6 +237,8 @@ public class CetTrainCourseService extends CetBaseMapper {
         if(cetTrain.getPlanId() !=null) {
             iCetMapper.updateTrainCourseTotalPeriod(cetTrain.getPlanId());
         }
+
+        iCetMapper.updateTrainCourseNum(trainId);
     }
 
     // 关联评估表
@@ -286,7 +294,7 @@ public class CetTrainCourseService extends CetBaseMapper {
     // 对外培训中导入课程
     @Transactional
     @CacheEvict(value = "CetTrainCourses", key = "#trainId")
-    public int offTrainCourseBatchImport(List<CetTrainCourse> records) {
+    public int offTrainCourseBatchImport(int trainId, List<CetTrainCourse> records) {
 
         int addCount = 0;
         for (CetTrainCourse record : records) {
@@ -296,6 +304,8 @@ public class CetTrainCourseService extends CetBaseMapper {
 
             addCount++;
         }
+
+        iCetMapper.updateTrainCourseNum(trainId);
 
         return addCount;
     }

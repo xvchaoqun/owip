@@ -10,7 +10,6 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import persistence.abroad.common.ApprovalResult;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
@@ -47,7 +46,7 @@ public class ApprovalLogService extends AbroadBaseMapper {
             }
         }
         // 如果没有组织部初审，则审批记录肯定为空
-        Assert.isTrue(approvalLogs.size() == 0);
+        //Assert.isTrue(approvalLogs.size() == 0);
         return null;
     }
 

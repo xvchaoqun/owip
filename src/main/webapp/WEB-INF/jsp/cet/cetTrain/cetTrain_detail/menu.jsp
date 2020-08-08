@@ -19,7 +19,7 @@
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetTrainCourse?trainId=${param.trainId}">
-                        <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程及选课签到情况</a>
+                        <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程及选课签到管理</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"
@@ -38,7 +38,7 @@
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${cetProjectPlan.projectId}">
-                        <i class="green ace-icon fa fa-users bigger-120"></i> 学员学习情况汇总</a>
+                        <i class="green ace-icon fa fa-users bigger-120"></i> 学员选课签到情况</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"

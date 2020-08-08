@@ -81,6 +81,8 @@
         rownumbers: true,
         url: '${ctx}/cet/cetTrainee_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '工作证号', name: 'obj.user.code', width: 110, frozen: true},
+              {label: '姓名', name: 'obj.user.realname', width: 120, frozen: true},
             { label: '学习详情',name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
                   return ('<button class="popupBtn btn btn-success btn-xs" data-width="1100" ' +
                   'data-url="${ctx}/cet/cetTrainee_detail?userId={0}&projectId=${param.projectId}&trainId=${param.trainId}"><i class="fa fa-search"></i> 查看</button>')
@@ -95,11 +97,7 @@
                   return '{0}/{1}'.format(rowObject.finishCount, rowObject.courseCount);
               }, frozen: true},
               { label: '完成学时数',name: 'finishPeriod', frozen: true},
-              {label: '工作证号', name: 'obj.user.code', width: 110, frozen: true},
-              {label: '姓名', name: 'obj.user.realname', width: 120, frozen: true},
-              {label: '时任单位及职务', name: 'obj.title', align: 'left', width: 350},
-              {label: '时任职务属性', name: 'obj.postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-                 {name:"objId", hidden:true, key:true}
+
         ]
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');

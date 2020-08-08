@@ -165,12 +165,7 @@
     });
 
     $("#modalForm").validate({
-        messages: {
-            "xlsx": {
-                required: "请选择文件",
-                extension: "请上传 xlsx格式的文件"
-            }
-        },
+
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({

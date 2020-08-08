@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
                                     .format(rowObject.id);
                 else
                     return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/cet/cetTrainCourse?trainId={0}&isOnCampus=0">查看课程（{1}）</a>'
-                            .format(rowObject.id, cellvalue);
+                            .format(rowObject.id, Math.trimToZero(cellvalue));
             }, width: 200},
             {label: '评课说明', name: '_note', formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/cet/cetTrain_evaNote?trainId={0}">编辑</a>'

@@ -507,12 +507,12 @@
 	</function>
 	<function>
 		<name>base64Encode</name>
-		<function-class>sys.utils.Base64Utils</function-class>
-		<function-signature>java.lang.String encodeStr(java.lang.String)</function-signature>
+		<function-class>sys.security.Base64Utils</function-class>
+		<function-signature>java.lang.String encode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>base64Decode</name>
-		<function-class>sys.utils.Base64Utils</function-class>
+		<function-class>sys.security.Base64Utils</function-class>
 		<function-signature>java.lang.String decodeStr(java.lang.String)</function-signature>
 	</function>
 	<function>

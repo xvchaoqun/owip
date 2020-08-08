@@ -90,13 +90,13 @@ public class FileController extends BaseController {
         modelMap.put("path", path);
         modelMap.put("filename", filename);
 
-        if(StringUtils.equals(type, "url")) // 查看swf 页面打开
+        if(StringUtils.equals(type, "url")) // 页面打开
              return "common/pdf_preview_url";
 
         if(StringUtils.equals(type, "html")) // 嵌入页面
             return "common/pdf_preview_html";
 
-        return "common/pdf_preview"; // 查看swf modal
+        return "common/pdf_preview"; // 弹出modal
     }
 
     // pdf内容

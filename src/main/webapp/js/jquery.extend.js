@@ -1189,6 +1189,14 @@ var _modal_width;
             var maxSize = params.maxSize || _uploadMaxSize;
             $files.each(function () {
                 var $file = $(this);
+                var allowExt =  params.allowExt || [];
+                var extension = $file.attr("extension") || "";
+                if($.trim(extension)==''){
+                    params.allowExt = allowExt;
+                }else {
+                    params.allowExt = allowExt.concat(extension.split(","));
+                }
+                //console.log(params.allowExt)
                 $file.ace_file_input($.extend({
                     no_file: '请选择文件 ...',
                     btn_choose: '选择',

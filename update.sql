@@ -62,6 +62,10 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 
 -- 更新 role_teacher 培训权限
 
+ALTER TABLE `cet_train`
+	ADD COLUMN `course_num` INT UNSIGNED NULL DEFAULT 0 COMMENT '课程数量' AFTER `end_time`;
+
+-- 更新utils
 
 20200730
 吉大 -- 北师大

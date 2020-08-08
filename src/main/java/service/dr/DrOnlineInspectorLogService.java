@@ -1,12 +1,14 @@
 package service.dr;
 
-import domain.dr.*;
+import controller.global.OpException;
+import domain.dr.DrOnlineInspector;
+import domain.dr.DrOnlineInspectorLog;
+import domain.dr.DrOnlineInspectorLogExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import sys.constants.DrConstants;
 
 import java.util.*;
@@ -57,7 +59,7 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
     @Transactional
     public Integer generateInspector(Integer inspectorTypeId, Integer unitId, int type, boolean isAppended, Integer count, Integer onlineId) {
 
-        int logId = 0;
+        Integer logId = null;
         Date now = new Date();
         DrOnlineInspectorLogExample example = new DrOnlineInspectorLogExample();
         DrOnlineInspectorLogExample.Criteria criteria = example.createCriteria().andTypeIdEqualTo(inspectorTypeId).andOnlineIdEqualTo(onlineId);
@@ -91,7 +93,9 @@ public class DrOnlineInspectorLogService extends DrBaseMapper {
             }
         }
 
-        Assert.isTrue(logId > 0);
+        if(logId==null){
+            throw new OpException("账号生成失败");
+        }
 
         // 个别生成，非补发时，标记为列表生成
         if(!isAppended && type==2){

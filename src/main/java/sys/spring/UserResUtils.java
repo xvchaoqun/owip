@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
+import sys.security.Base64Utils;
 import sys.security.DES3Utils;
-import sys.utils.Base64Utils;
 import sys.utils.MD5Util;
 
 import java.lang.reflect.Method;
@@ -29,7 +29,7 @@ public class UserResUtils {
 
         if (StringUtils.isBlank(signRes)) {
 
-            throw new IllegalUserResException();
+            return UserRes.EMPTY;
         }
 
         UserRes userRes = UserResUtils.decode(signRes);
@@ -140,12 +140,13 @@ public class UserResUtils {
 
         String base64Res = null;
         try {
-            base64Res = Base64Utils.encodeStr(StringUtils.trim(res));
+            base64Res = Base64Utils.encode(StringUtils.trim(res));
         } catch (Exception e) {
 
             logger.error(HttpResponseMethod.accessLog("base64 error：" + res));
             return null;
         }
+
         return encode(currentUserId,StringUtils.trimToEmpty(base64Res) + "|" + currentUserId
                 + "|" + (userId == null ? "" : userId)
                 + "|" + StringUtils.trimToEmpty(permissions)
@@ -160,7 +161,9 @@ public class UserResUtils {
             String key = MD5Util.md5Hex(currentUserId + DES3_KEY, "utf-8");
             logger.debug("key = " + key);
 
-            return DES3Utils.encode(res, key);
+            String encode = DES3Utils.encodeURLSafe(res, key);
+            logger.debug("UserRes encode=" + encode);
+            return encode;
         } catch (Exception e) {
 
             logger.error(HttpResponseMethod.accessLog("encode failed."), e);
@@ -199,6 +202,8 @@ public class UserResUtils {
                 String base64Res = StringUtils.trimToNull(strs[0]);
                 String res = Base64Utils.decodeStr(base64Res);
                 bean.setRes(res);
+
+                logger.debug("UserRes decode=" + res);
             }
 
             if (len > 1) {
@@ -222,7 +227,7 @@ public class UserResUtils {
 
         } catch (Exception e) {
 
-            logger.error(HttpResponseMethod.accessLog("decode failed."), e);
+            logger.error(HttpResponseMethod.accessLog("decode failed:" + signRes), e);
             throw new IllegalUserResException("签名校验失败");
         }
     }

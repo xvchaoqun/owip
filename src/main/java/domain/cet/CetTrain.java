@@ -51,6 +51,8 @@ public class CetTrain implements Serializable {
 
     private Date endTime;
 
+    private Integer courseNum;
+
     private Integer evaCount;
 
     private Boolean evaAnonymous;
@@ -149,6 +151,14 @@ public class CetTrain implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getCourseNum() {
+        return courseNum;
+    }
+
+    public void setCourseNum(Integer courseNum) {
+        this.courseNum = courseNum;
     }
 
     public Integer getEvaCount() {

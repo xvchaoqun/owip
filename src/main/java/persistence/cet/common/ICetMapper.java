@@ -260,6 +260,12 @@ public interface ICetMapper {
     // 更新培训方案总学时：线下、线上、实践教学 （删除培训班时也调用）
     void updateTrainCourseTotalPeriod(@Param("planId") int planId);
 
+    // 更新培训班课程数量
+    @Update("update cet_train ct left join (select train_id, count(*) num " +
+            "from cet_train_course group by train_id) tmp on tmp.train_id=ct.id " +
+            "set ct.course_num=tmp.num where ct.id=#{trainId}")
+    void updateTrainCourseNum(@Param("trainId") int trainId);
+
     // 获取培训所包含的培训班（在培训方案下面的培训班，针对线下培训、实践教学）
     @ResultMap("persistence.cet.CetTrainMapper.BaseResultMap")
     @Select("select ct.* from cet_train ct, cet_project_plan cpp where  cpp.project_id=#{projectId} and ct.plan_id=cpp.id ")

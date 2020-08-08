@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.sys.SysUserService;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
@@ -21,8 +20,6 @@ import java.util.List;
 public class DpPartyMemberAdminService extends DpBaseMapper {
 
     @Autowired
-    private DpOrgAdminService dpOrgAdminService;
-    @Autowired
     private SysUserService sysUserService;
 
     @Cacheable(value="AdminDpPartyIdList", key="#userId")
@@ -33,9 +30,6 @@ public class DpPartyMemberAdminService extends DpBaseMapper {
 
     @Transactional
     public void toggleAdmin(DpPartyMember dpPartyMember){
-
-        Assert.isTrue(dpPartyMember != null
-                && dpPartyMember.getIsAdmin() != null && dpPartyMember.getGroupId() != null);
 
         DpPartyMember record = new DpPartyMember();
         record.setId(dpPartyMember.getId());

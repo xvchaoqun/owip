@@ -2,13 +2,15 @@ package sys.spring;
 
 public class UserRes {
 
-    String res; // 资源
-    Integer signUserId; // 资源签名人（当前登录用户ID）
+    public static UserRes EMPTY = new UserRes();
 
-    Integer authUserId; // 资源使用人
-    String permissions; // 资源使用权限
-    String method; // 资源使用权限方法
-    String params; // 资源使用权限方法的参数
+    private String res; // 资源
+    private Integer signUserId; // 资源签名人（当前登录用户ID）
+
+    private Integer authUserId; // 资源使用人
+    private String permissions; // 资源使用权限
+    private String method; // 资源使用权限方法
+    private String params; // 资源使用权限方法的参数
 
     public String getRes() {
         return res;

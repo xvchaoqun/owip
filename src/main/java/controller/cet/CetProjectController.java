@@ -239,6 +239,9 @@ public class CetProjectController extends CetBaseController {
             modelMap.put("cetProject", cetProject);
             if(cetProject!=null){
                 _type = cetProject.getType();
+
+                modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetProject.getCetPartyId()));
+                modelMap.put("unit", unitService.findAll().get(cetProject.getUnitId()));
             }
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));

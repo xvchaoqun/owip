@@ -608,7 +608,7 @@ public class CetTrainCourseController extends CetBaseController {
             records.add(record);
         }
 
-        int addCount = cetTrainCourseService.offTrainCourseBatchImport(records);
+        int addCount = cetTrainCourseService.offTrainCourseBatchImport(trainId, records);
         int totalCount = records.size();
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", addCount);

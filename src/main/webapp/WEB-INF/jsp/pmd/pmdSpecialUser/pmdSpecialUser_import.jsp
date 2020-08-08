@@ -29,12 +29,6 @@
 
 		$("#modalForm input[type=submit]").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
-				messages: {
-                    "xlsx": {
-                        required: "请选择文件",
-                        extension: "请上传xlsx格式的文件"
-                    }
-                },
 				submitHandler: function (form) {
 					$(form).ajaxSubmit({
 						dataType:"json",

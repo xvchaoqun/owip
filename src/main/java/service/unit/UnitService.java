@@ -235,7 +235,7 @@ public class UnitService extends BaseMapper {
         return unitMapper.updateByPrimaryKeySelective(record);
     }
 
-    //正在运转和历史单位
+    //正在运转和历史单位（含已删除单位）
     @Cacheable(value = "Unit:ALL")
     public Map<Integer, Unit> findAll() {
 
